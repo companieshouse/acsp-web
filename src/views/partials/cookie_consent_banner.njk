@@ -1,14 +1,16 @@
+{% from "govuk/components/cookie-banner/macro.njk"  import govukCookieBanner %}
+
 {% set html %}
-  <p>We use some essential cookies to make our services work.</p>
-  <p>We'd also like to use analytics cookies so we can understand how you use our services and to make improvements.</p>
+<p>We use some essential cookies to make our services work.</p>
+<p>We'd also like to use analytics cookies so we can understand how you use our services and to make improvements.</p>
 {% endset %}
 
 {% set acceptHtml %}
-  <p>You've accepted analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
+<p>You've accepted analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
 {% endset %}
 
 {% set rejectHtml %}
-  <p>You've rejected analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
+<p>You've rejected analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
 {% endset %}
 
 {{ govukCookieBanner({
@@ -92,7 +94,7 @@
 }) }}
 
 <noscript>
-  {{ govukCookieBanner({
+    {{ govukCookieBanner({
     ariaLabel: "Cookies on Companies House services",
     messages: [
       {
