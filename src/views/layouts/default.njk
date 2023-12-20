@@ -2,7 +2,7 @@
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
 <!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
 
-  {% include "partials/__meta_header.njk" %}
+{% include "partials/__meta_header.njk" %}
 
   <body class="govuk-template__body" >
 
@@ -11,25 +11,18 @@
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
     {% include "partials/__header.njk" %}
 
-    <div class="govuk-width-container ">
+<div class="govuk-width-container ">
+<main class="govuk-main-wrapper " id="main-content">
+<div class="govuk-grid-row">
+{% include "partials/error_summary.njk" %}
+<div class="govuk-grid-column-full" id="main-page-content">
+{% block main_content %}{% endblock %}
+</div>
+</div>
+</main>
+</div>
 
-      <main class="govuk-main-wrapper " id="main-content">
+{% include "partials/__footer.njk" %}
 
-        <div class="govuk-grid-row">
-          {% include "partials/error_summary.njk" %}
-          <div class="govuk-grid-column-one-third">
-            {% include "partials/nav/left.njk" %}
-          </div>
-          <div class="govuk-grid-column-two-thirds" id="main-page-content">
-            {% block main_content %}
-            {% endblock %}
-          </div>
-        </div>
-
-      </main>
-    </div>
-
-    {% include "partials/__footer.njk" %}
-
-  </body>
+</body>
 </html>

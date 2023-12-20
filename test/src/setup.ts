@@ -1,16 +1,4 @@
-import chai from "chai";
-import sinonChai from "sinon-chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiHttp from "chai-http";
-
-chai.use(chaiHttp);
-chai.use(sinonChai);
-chai.use(chaiAsPromised);
-
-// global.Chai = chai;
-// (global as any).expect = chai.expect;
-
-process.env.APP_NAME = "node-web-starter-ts";
+process.env.APP_NAME = "acsp-web";
 process.env.LOG_LEVEL = "info";
 process.env.NODE_ENV = "dev";
 process.env.NODE_PORT = "3000";
