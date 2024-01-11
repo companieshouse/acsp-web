@@ -1,6 +1,6 @@
 import { Request, Response, Router, NextFunction } from "express";
 import { HomeHandler } from "./handlers/index/home";
-import { StopNotRelevantOfficerHandler } from "./handlers/index/stop-not-relevant-officer"; // Import StopNotRelevantOfficerHandler
+import { StopNotRelevantOfficerHandler } from "./handlers/index/stop-not-relevant-officer";
 
 const router: Router = Router();
 const routeViews: string = "router_views/index";
