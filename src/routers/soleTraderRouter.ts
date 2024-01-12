@@ -12,8 +12,13 @@ router.get("/date-of-birth", async (req: Request, res: Response, next: NextFunct
 
 router.post("/date-of-birth", async (req: Request, res: Response, next: NextFunction) => {
     const dateOfBirthHandler = new SoleTraderCaptureDOBHandler();
-    const viewData = await dateOfBirthHandler.execute(req, res, next);
-    res.render(`${routeViews}/capture-date-of-birth`, viewData);
+    const viewData = await dateOfBirthHandler.execute(req, res, next).then(() => {
+        res.status(200);
+        // This value needs updating when the next page is created
+        res.redirect("/");
+    }).catch(e => {
+        res.status(400).render(`${routeViews}/capture-date-of-birth`, e);
+    });
 });
 
 export default router;

@@ -18,16 +18,16 @@ export class SoleTraderCaptureDOBHandler extends GenericHandler {
         logger.info(`${req.method} request for date-of-birth route`);
         try {
             if (req.method !== "POST") {
-                return this.viewData;
+                return Promise.resolve(this.viewData);
             }
             this.viewData.payload = req.body;
             await this.validator.validateInputData(req.body);
             // Save the data here
         } catch (err: any) {
             // Handle exceptions specific to capture-date-of-birth route
-            logger.error(`error inputing date of birth: ${err}`);
+            logger.error("Error inputing date of birth");
             this.viewData.errors = this.processHandlerException(err);
+            return Promise.reject(this.viewData);
         }
-        return this.viewData;
     }
 }
