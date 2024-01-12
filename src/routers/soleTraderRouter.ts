@@ -6,7 +6,13 @@ const routeViews: string = "router_views/sole-trader";
 
 router.get("/date-of-birth", async (req: Request, res: Response, next: NextFunction) => {
     const dateOfBirthHandler = new SoleTraderCaptureDOBHandler();
-    const viewData = await dateOfBirthHandler.execute(req, res);
+    const viewData = await dateOfBirthHandler.execute(req, res, next);
+    res.render(`${routeViews}/capture-date-of-birth`, viewData);
+});
+
+router.post("/date-of-birth", async (req: Request, res: Response, next: NextFunction) => {
+    const dateOfBirthHandler = new SoleTraderCaptureDOBHandler();
+    const viewData = await dateOfBirthHandler.execute(req, res, next);
     res.render(`${routeViews}/capture-date-of-birth`, viewData);
 });
 
