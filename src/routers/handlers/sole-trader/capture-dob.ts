@@ -12,6 +12,7 @@ export class SoleTraderCaptureDOBHandler extends GenericHandler {
         this.validator = new DateOfBirthValidator();
         this.viewData.title =
             "What is your date of birth?";
+        this.viewData.previousPage = "/sole-trader/name";
     }
 
     async execute (req: Request, res: Response, next: NextFunction): Promise<any> {

@@ -46,12 +46,12 @@ const soleTraderErrorManifest = {
             inline: "Date of birth must include a year"
         },
         tooOld: {
-            summary: "Date of birth must be less than 110 years ago",
-            inline: "Date of birth must be less than 110 years ago"
+            summary: "You must be less than 110 years old",
+            inline: "You must be less than 110 years old"
         },
         tooYoung: {
-            summary: "Date of birth must be at least 16 years ago",
-            inline: "Date of birth must be at least 16 years ago"
+            summary: "You must be at least 16 years old",
+            inline: "You must be at least 16 years old"
         }
     }
 };

@@ -15,7 +15,7 @@ router.post("/date-of-birth", async (req: Request, res: Response, next: NextFunc
     const viewData = await dateOfBirthHandler.execute(req, res, next).then(() => {
         res.status(200);
         // This value needs updating when the next page is created
-        res.redirect("/");
+        res.redirect("/sole-trader/nationality");
     }).catch(e => {
         res.status(400).render(`${routeViews}/capture-date-of-birth`, e);
     });
