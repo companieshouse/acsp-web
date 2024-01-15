@@ -30,29 +30,17 @@ export class DateOfBirthValidator extends GenericValidator {
                 this.errors.stack.noData = this.errorManifest.validation.noMonth;
             } else if (payload.dobYear === "") {
                 this.errors.stack.noData = this.errorManifest.validation.noYear;
-            }
-
-            if (!this.isValidMonth(dobMonth)) {
+            } else if (!this.isValidMonth(dobMonth)) {
                 this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            }
-
-            if (!this.isValidYear(dobYear)) {
+            } else if (!this.isValidYear(dobYear)) {
                 this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            }
-
-            if (!this.isValidDay(dobDay, dobMonth, dobYear)) {
+            } else if (!this.isValidDay(dobDay, dobMonth, dobYear)) {
                 this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            }
-
-            if (!this.isNotInFuture(dobDay, dobMonth, dobYear)) {
+            } else if (!this.isNotInFuture(dobDay, dobMonth, dobYear)) {
                 this.errors.stack.dateInFuture = this.errorManifest.validation.dateInFuture;
-            }
-
-            if (!this.isNotTooOld(dobDay, dobMonth, dobYear)) {
+            } else if (!this.isNotTooOld(dobDay, dobMonth, dobYear)) {
                 this.errors.stack.age = this.errorManifest.validation.tooOld;
-            }
-
-            if (!this.isNotTooYoung(dobDay, dobMonth, dobYear)) {
+            } else if (!this.isNotTooYoung(dobDay, dobMonth, dobYear)) {
                 this.errors.stack.age = this.errorManifest.validation.tooYoung;
             }
 
@@ -123,8 +111,8 @@ export class DateOfBirthValidator extends GenericValidator {
         var inputDate = new Date(year, month - 1, day);
         var age = currentDate.getFullYear() - inputDate.getFullYear();
 
-        if (currentDate.getMonth() < inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())) {
-            age--;
+        if (currentDate.getMonth() > inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() > inputDate.getDate())) {
+            age++;
         }
         return age <= 110;
     }
