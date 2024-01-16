@@ -1,4 +1,4 @@
-import { Request, Response, Router, NextFunction } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { HomeHandler } from "./handlers/index/home";
 
 const router: Router = Router();
