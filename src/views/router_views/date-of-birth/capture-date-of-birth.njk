@@ -1,0 +1,41 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="date-of-birth" method="POST">
+        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+        <div class="govuk-form-group">
+            <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                    <h1 class="govuk-fieldset__heading">What is your date of birth?</h1>
+                </legend>
+                <div id="dob-hint" class="govuk-hint">For example, 27 3 1995</div>
+                <div class="govuk-date-input" id="dob">
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-from-group">
+                            <label class="govuk-label govuk-date-input__label" for="dobDay">Day</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" type="number" id="dobDay" name="dobDay" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-from-group">
+                            <label class="govuk-label govuk-date-input__label" for="dobMonth">Month</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-2" type="number" id="dobMonth" name="dobMonth" inputmode="numeric">
+                        </div>
+                    </div>
+                    <div class="govuk-date-input__item">
+                        <div class="govuk-from-group">
+                            <label class="govuk-label govuk-date-input__label" for="dobYear">Year</label>
+                            <input class="govuk-input govuk-date-input__input govuk-input--width-4" type="number" id="dobYear" name="dobYear" inputmode="numeric">
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <button class="govuk-button">Continue</button>
+    </form>
+</main>
+
+    
+{% endblock main_content %}
