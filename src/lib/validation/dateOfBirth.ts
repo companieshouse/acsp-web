@@ -1,5 +1,5 @@
-import soleTraderErrorManifest from "../../../utils/error_manifests/sole-trader";
-import { GenericValidator } from "../../generic";
+import dateOfBirthErrorManifest from "../utils/error_manifests/dateOfBirth";
+import { GenericValidator } from "./generic";
 
 export class DateOfBirthValidator extends GenericValidator {
 
@@ -7,7 +7,7 @@ export class DateOfBirthValidator extends GenericValidator {
 
     constructor (classParam?: string) {
         super();
-        this.errorManifest = soleTraderErrorManifest;
+        this.errorManifest = dateOfBirthErrorManifest;
     }
 
     validateInputData (payload: any): Promise<any> {

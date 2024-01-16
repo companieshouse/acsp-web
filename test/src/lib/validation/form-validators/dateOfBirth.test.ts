@@ -1,4 +1,4 @@
-import { DateOfBirthValidator } from "../../../../../../src/lib/validation/form-validators/sole-trader/date-of-birth";
+import { DateOfBirthValidator } from "../../../../../src/lib/validation/dateOfBirth";
 
 // Given a correct month test should return true.
 describe("Validate month given is valid", () => {

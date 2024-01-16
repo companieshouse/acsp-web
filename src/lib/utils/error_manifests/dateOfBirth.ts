@@ -1,4 +1,4 @@
-const soleTraderErrorManifest = {
+const dateOfBirthErrorManifest = {
     generic: {
         serverError: {
             summary: "There was an error processing your request. Please try again."
@@ -56,4 +56,4 @@ const soleTraderErrorManifest = {
     }
 };
 
-export default soleTraderErrorManifest;
+export default dateOfBirthErrorManifest;

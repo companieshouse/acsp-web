@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import logger from "../../../lib/Logger";
-import { DateOfBirthValidator } from "../../../lib/validation/form-validators/sole-trader/date-of-birth";
+import { DateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { GenericHandler } from "../generic";
 
-export class SoleTraderCaptureDOBHandler extends GenericHandler {
+export class SoleTraderDateOfBirthHandler extends GenericHandler {
 
     validator: DateOfBirthValidator;
 
