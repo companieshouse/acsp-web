@@ -7,7 +7,6 @@ export class StopNotRelevantOfficerHandler extends GenericHandler {
     constructor () {
         super();
         this.viewData.title = "You cannot use this service";
-        this.viewData.sampleKey = "sample value for stop-not-relevant-officer page screen";
     }
 
     async execute (req: Request, response: Response): Promise<Object> {
@@ -22,8 +21,4 @@ export class StopNotRelevantOfficerHandler extends GenericHandler {
         }
     }
 
-    // Additional methods specific to stop-not-relevant-officer route can be added here
-    private stopNotRelevantOfficerMethod (): boolean {
-        return true;
-    }
 }

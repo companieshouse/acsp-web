@@ -1,5 +1,5 @@
 import { Request, Response, Router, NextFunction } from "express";
-import { StopNotRelevantOfficerHandler } from "./handlers/kick-out/stop-not-relevant-officer";
+import { StopNotRelevantOfficerHandler } from "./handlers/kick-out/stopNotRelevantOfficer";
 
 const router: Router = Router();
 const routeViews: string = "router_views/kick-out";
