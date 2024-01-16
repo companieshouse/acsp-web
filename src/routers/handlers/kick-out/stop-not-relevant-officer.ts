@@ -6,7 +6,7 @@ export class StopNotRelevantOfficerHandler extends GenericHandler {
 
     constructor () {
         super();
-        this.viewData.title = "Stop Not Relevant Officer handler for index router";
+        this.viewData.title = "You cannot use this service";
         this.viewData.sampleKey = "sample value for stop-not-relevant-officer page screen";
     }
 
