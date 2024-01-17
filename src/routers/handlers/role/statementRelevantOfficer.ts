@@ -7,22 +7,20 @@ export class StatementRelevantOfficerHandler extends GenericHandler {
     constructor () {
         super();
         this.viewData.title = "What is your role?";
-        this.viewData.sampleKey = "sample value for role page screen";
+
     }
 
-    execute (req: Request, response: Response): Promise<Object> {
-        logger.info(`GET request for to serve role page`);
-        // ...process request here and return data for the view
-        return Promise.resolve(this.viewData);
+    async execute (req: Request, response: Response): Promise<Object> {
+        try {
+            logger.info(`GET request for statement-relevant-officer route`);
+            // ...process request specific to statement-relevant-officer route
+            return Promise.resolve(this.viewData);
+        } catch (err) {
+            // Handle exceptions specific to stop-not-relevant-officer route
+            const errorData = this.processHandlerException(err);
+            return Promise.reject(errorData);
+        }
     }
+}
 
-    // additional support method in handler
-    private supportMethod1 (): boolean {
-        return true;
-    }
-
-    // additional support method in handler
-    protected supportMethod2 (): boolean {
-        return false;
-    }
-};
+export default StatementRelevantOfficerHandler;
