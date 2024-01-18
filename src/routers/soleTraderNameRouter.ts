@@ -12,10 +12,10 @@ router.get("/name", async (req: Request, res: Response, next: NextFunction) => {
 
 router.post("/name", async (req: Request, res: Response, next: NextFunction) => {
     const nameHandler = new SoleTraderNameHandler();
-    const viewData = await nameHandler.execute(req, res, next).then((viewData) => {
+    const viewData = await nameHandler.execute(req, res, next).then(() => {
         return res.redirect("/sole-trader/date-of-birth");
-    }).catch(e => {
-        res.status(400).render(`${routeViews}/capture-name`, e);
+    }).catch(viewData => {
+        res.status(400).render(`${routeViews}/capture-name`, viewData);
     });
 });
 
