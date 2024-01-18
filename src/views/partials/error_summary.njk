@@ -12,7 +12,7 @@
         {% else %}
           {% for key,err in errors %}
             <li>
-              <a href="#err-id-{{ key }}">{{ err.summary }}</a>
+              <a href="#{{ key }}">{{ err.summary }}</a>
             </li>
           {% endfor %}
         {% endif %}

@@ -1,4 +1,4 @@
-import { DateOfBirthValidator } from "../../../../../src/lib/validation/dateOfBirth";
+import { DateOfBirthValidator } from "../../../../src/lib/validation/dateOfBirth";
 
 // Given a correct month test should return true.
 describe("Validate month given is valid", () => {
@@ -15,7 +15,7 @@ describe("Validate month given is valid", () => {
 });
 
 // Given an incorrect month test should return false.
-describe("Validate month given is valid", () => {
+describe("Validate month given is invalid", () => {
     const validator = new DateOfBirthValidator();
 
     it("Should return false if input is an invalid month", () => {

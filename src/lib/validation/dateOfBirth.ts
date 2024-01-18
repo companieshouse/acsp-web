@@ -3,8 +3,6 @@ import { GenericValidator } from "./generic";
 
 export class DateOfBirthValidator extends GenericValidator {
 
-    soleTraderErrorManifest: any;
-
     constructor (classParam?: string) {
         super();
         this.errorManifest = dateOfBirthErrorManifest;
