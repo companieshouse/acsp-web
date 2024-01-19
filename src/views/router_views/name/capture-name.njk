@@ -16,7 +16,7 @@
                                 <span class="govuk-visually-hidden">Error:</span> {{errors.firstName.summary}}
                             </p>
                         {% endif %}
-                        <input class="govuk-input govuk-input--width-20" type="text" id="firstName" name="firstName" value="{{ payload.firstName }}">
+                        <input class="govuk-input govuk-input--width-20 {% if errors.firstName is not undefined %} govuk-input--error {% endif %}" type="text" id="firstName" name="firstName" value="{{ payload.firstName }}">
                     </div>
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" for="middleName">Middle names</label>
@@ -25,7 +25,7 @@
                                 <span class="govuk-visually-hidden">Error:</span> {{errors.middleName.summary}}
                             </p>
                         {% endif %}
-                        <input class="govuk-input govuk-input--width-20" type="text" id="middleName" name="middleName" value="{{ payload.middleName }}">
+                        <input class="govuk-input govuk-input--width-20 {% if errors.middleName is not undefined or errors.firstName.summary == "Enter your full name" %} govuk-input--error {% endif %}" type="text" id="middleName" name="middleName" value="{{ payload.middleName }}">
                     </div>
                     <div class="govuk-form-group">
                         <label class="govuk-label govuk-date-input__label" for="lastName">Last name</label>
@@ -34,7 +34,7 @@
                                 <span class="govuk-visually-hidden">Error:</span> {{errors.lastName.summary}}
                             </p>
                         {% endif %}
-                        <input class="govuk-input govuk-input--width-20" type="text" id="lastName" name="lastName" value="{{ payload.lastName }}">
+                        <input class="govuk-input govuk-input--width-20 {% if errors.lastName is not undefined or errors.firstName.summary == "Enter your full name" %} govuk-input--error {% endif %}" type="text" id="lastName" name="lastName" value="{{ payload.lastName }}">
                     </div>
                 </div>
             </fieldset>
