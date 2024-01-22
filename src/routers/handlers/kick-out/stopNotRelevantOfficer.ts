@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { GenericHandler } from "./../generic";
 import logger from "../../../lib/Logger";
+import { GenericHandler } from "./../generic";
 
 export class StopNotRelevantOfficerHandler extends GenericHandler {
 
     constructor () {
         super();
         this.viewData.title = "You cannot use this service";
+        this.viewData.title = "";
     }
 
     async execute (req: Request, response: Response): Promise<Object> {
