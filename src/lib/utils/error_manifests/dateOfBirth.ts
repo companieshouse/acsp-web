@@ -66,8 +66,8 @@ const dateOfBirthErrorManifest = {
             inline: "Enter a city or town"
         },
         noPostCode: {
-            summary: "Enter a postcode or ZIP",
-            inline: "Enter a postcode or ZIP"
+            summary: "Enter a postcode",
+            inline: "Enter a postcode"
         },
         invalidPropertyDetails: {
             summary: "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
