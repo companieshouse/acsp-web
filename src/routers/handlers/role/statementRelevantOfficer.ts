@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
-import { GenericHandler } from "./../generic";
 import logger from "../../../lib/Logger";
+import { GenericHandler } from "./../generic";
 
 export class StatementRelevantOfficerHandler extends GenericHandler {
 
     constructor () {
         super();
         this.viewData.title = "What is your role?";
+        this.viewData.title = "";
 
     }
 
