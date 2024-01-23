@@ -3,8 +3,6 @@ import { GenericValidator } from "./generic";
 
 export class DateOfBirthValidator extends GenericValidator {
 
-    soleTraderErrorManifest: any;
-
     constructor (classParam?: string) {
         super();
         this.errorManifest = dateOfBirthErrorManifest;
@@ -17,31 +15,35 @@ export class DateOfBirthValidator extends GenericValidator {
             var dobYear = +payload.dobYear;
 
             if (payload.dobDay === "" && payload.dobMonth === "" && payload.dobYear === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noData;
+                this.errors.stack.dobDay = this.errorManifest.validation.noData;
             } else if (payload.dobDay === "" && payload.dobMonth === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noDayMonth;
+                this.errors.stack.dobDay = this.errorManifest.validation.noDayMonth;
             } else if (payload.dobDay === "" && payload.dobYear === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noDayYear;
+                this.errors.stack.dobDay = this.errorManifest.validation.noDayYear;
             } else if (payload.dobMonth === "" && payload.dobYear === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noMonthYear;
+                this.errors.stack.dobMonth = this.errorManifest.validation.noMonthYear;
             } else if (payload.dobDay === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noDay;
+                this.errors.stack.dobDay = this.errorManifest.validation.noDay;
             } else if (payload.dobMonth === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noMonth;
+                this.errors.stack.dobMonth = this.errorManifest.validation.noMonth;
             } else if (payload.dobYear === "") {
-                this.errors.stack.noData = this.errorManifest.validation.noYear;
-            } else if (!this.isValidMonth(dobMonth)) {
-                this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            } else if (!this.isValidYear(dobYear)) {
-                this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            } else if (!this.isValidDay(dobDay, dobMonth, dobYear)) {
-                this.errors.stack.invalidDate = this.errorManifest.validation.invalid;
-            } else if (!this.isNotInFuture(dobDay, dobMonth, dobYear)) {
-                this.errors.stack.dateInFuture = this.errorManifest.validation.dateInFuture;
-            } else if (!this.isNotTooOld(dobDay, dobMonth, dobYear)) {
-                this.errors.stack.age = this.errorManifest.validation.tooOld;
-            } else if (!this.isNotTooYoung(dobDay, dobMonth, dobYear)) {
-                this.errors.stack.age = this.errorManifest.validation.tooYoung;
+                this.errors.stack.dobYear = this.errorManifest.validation.noYear;
+            } else if (!this.isNotTooYoung(dobDay, dobMonth, dobYear) && this.isValidYear(dobYear)) {
+                this.errors.stack.dobDay = this.errorManifest.validation.tooYoung;
+            } else if (!this.isNotInFuture(dobDay, dobMonth, dobYear) && this.isValidYear(dobYear)) {
+                this.errors.stack.dobDay = this.errorManifest.validation.dateInFuture;
+            } else if (!this.isNotTooOld(dobDay, dobMonth, dobYear) && this.isValidYear(dobYear)) {
+                this.errors.stack.dobDay = this.errorManifest.validation.tooOld;
+            }
+
+            if (!this.isValidMonth(dobMonth) && payload.dobMonth !== "") {
+                this.errors.stack.dobMonth = this.errorManifest.validation.invalid;
+            }
+            if (!this.isValidYear(dobYear) && payload.dobYear !== "") {
+                this.errors.stack.dobYear = this.errorManifest.validation.invalid;
+            }
+            if (!this.isValidDay(dobDay, dobMonth, dobYear) && payload.dobDay !== "" && payload.dobMonth !== "" && payload.dobYear !== "") {
+                this.errors.stack.dobDay = this.errorManifest.validation.invalid;
             }
 
             if (!Object.keys(this.errors.stack).length) {
