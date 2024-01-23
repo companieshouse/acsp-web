@@ -3,6 +3,7 @@ import { Application, Request, Response } from "express";
 import indexRouter from "./routers/indexRouter";
 import setorYouWorkIn from "./routers/setorYouWorkInRouter";
 import dateOfBirthRouter from "./routers/soleTraderDateOfBirthRouter";
+import correspondanceAddressManualRouter from "./routers/soleTraderCorrespondanceAddressManualRouter";
 import nameRouter from "./routers/soleTraderNameRouter";
 import whereDoYouLiveRouter from "./routers/soleTraderWhereDoYouLiveRouter";
 import statementRelevantOfficerRouter from "./routers/statementRelevantOfficerRouter";
@@ -15,6 +16,7 @@ const routerDispatch = (app: Application) => {
     app.use(soleTraderRoute, nameRouter);
     app.use(soleTraderRoute, dateOfBirthRouter);
     app.use(soleTraderRoute, whereDoYouLiveRouter);
+    app.use(soleTraderRoute, correspondanceAddressManualRouter);
     app.use("/", statementRelevantOfficerRouter);
     app.use(setorYouWorkIn);
     app.use("*", (req: Request, res: Response) => {

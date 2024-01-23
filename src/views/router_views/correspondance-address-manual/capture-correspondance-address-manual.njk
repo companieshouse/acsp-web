@@ -1,0 +1,105 @@
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+
+<main>
+    <form action="address-correspondance-manual" method="POST">
+      <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+      <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+          <h1 class="govuk-fieldset__heading">
+            What is your correspondance address?
+          </h1>
+        </legend>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressPropertyDetails">
+            Property name or number
+          </label>
+          <div id="addressPropertyDetails-hint" class="govuk-hint">
+              For example, 'The Mill', '116' or 'Flat 37a'
+          </div>
+          {% if errors.addressPropertyDetails is not undefined %}
+             <p id="addressPropertyDetailsError" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{errors.addressPropertyDetails.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds {% if errors.addressPropertyDetails is not undefined %}govuk-input--error{% endif %}"
+          id="addressPropertyDetails" name="addressPropertyDetails" type="text" value="{{payload.addressPropertyDetails}}"  autocomplete="addressPropertyDetails">
+        </div>
+            <div class="govuk-form-group">
+                  <label class="govuk-label" for="addressLine1">
+                    Address line 1
+                  </label>
+                  {% if errors.addressLine1 is not undefined %}
+                     <p id="addressLine1Error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> {{errors.addressLine1.summary}}
+                     </p>
+                  {% endif %}
+                  <input class="govuk-input govuk-!-width-two-thirds  {% if errors.addressLine1 is not undefined %}govuk-input--error{% endif %}"
+                  id="addressLine1" name="addressLine1" type="text" value="{{payload.addressLine1}}" autocomplete="addressLine1">
+                </div>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressLine2">
+            Address line 2 (optional)
+          </label>
+          {% if errors.addressLine2 is not undefined %}
+             <p id="addressLine2Error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{errors.addressLine2.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-two-thirds  {% if errors.addressLine2 is not undefined %}govuk-input--error{% endif %}"
+          id="addressLine2" name="addressLine2" type="text" value="{{payload.addressLine2}}" autocomplete="addressLine2">
+        </div>
+
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressTown">
+            City or town
+          </label>
+          {% if errors.addressTown is not undefined %}
+             <p id="addressTownError" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> {{errors.addressTown.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-one-half {% if errors.addressTown is not undefined %}govuk-input--error{% endif %}"
+          id="addressTown" name="addressTown" type="text" value="{{payload.addressTown}}" autocomplete="addressTown">
+        </div>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressCounty">
+            County or region (optional)
+          </label>
+          {% if errors.addressCounty is not undefined %}
+             <p id="addressCounty" class="govuk-error-message">
+               <span class="govuk-visually-hidden">Error:</span> {{errors.addressCounty.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-one-half {% if errors.addressCounty is not undefined %}govuk-input--error{% endif %}"
+          id="addressCounty" name="addressCounty" type="text" value="{{payload.addressCounty}}" autocomplete="addressCounty" >
+        </div>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressCountry">
+            Country (optional)
+          </label>
+          {% if errors.addressCountry is not undefined %}
+             <p id="addressCountry" class="govuk-error-message">
+               <span class="govuk-visually-hidden">Error:</span> {{errors.addressCountry.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-!-width-one-half {% if errors.addressCountry is not undefined %}govuk-input--error{% endif %}"
+          id="addressCountry" name="addressCountry" type="text" value="{{payload.addressCountry}}" autocomplete="addressCountry">
+        </div>
+        <div class="govuk-form-group">
+          <label class="govuk-label" for="addressPostcode">
+            Postcode
+          </label>
+          {% if errors.addressPostcode is not undefined %}
+             <p id="addressPostcodeError" class="govuk-error-message">
+               <span class="govuk-visually-hidden">Error:</span> {{errors.addressPostcode.summary}}
+             </p>
+          {% endif %}
+          <input class="govuk-input govuk-input--width-10 {% if errors.addressPostcode is not undefined %}govuk-input--error{% endif %}"
+          id="addressPostcode" name="addressPostcode" type="text" value="{{payload.addressPostcode}}" autocomplete="addressPostcode">
+        </div>
+      </fieldset>
+     <button class="govuk-button">Continue</button>
+    </form>
+</main>
+{% endblock main_content %}
