@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Start script for account-validator-web
+# Start script for acsp-web
 
 PORT=3000
 
