@@ -1,31 +1,28 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set errors = pageProperties.errors%}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
 
-<main>
-    <form action="where-do-you-live" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
-        <div class="govuk-form-group {% if errors is not undefined and errors is not null and errors | length %} govuk-form-group--error {% endif %}">
-            <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
-                <h1 class="govuk-heading-l">Where do you live?</h1>
-                <p class="govuk-hint">Start typing a country, then choose from the list.</p>
-                <div class="govuk-form-group">
-                    <div class="govuk-form-group">
-                        {% if errors.country is not undefined %}
-                            <p id="firstNameInputError" class="govuk-error-message">
-                                <span class="govuk-visually-hidden">Error:</span> {{errors.country.summary}}
-                            </p>
-                        {% endif %}
-                        <input class="govuk-input govuk-input--width-20 {% if errors.country is not undefined %} govuk-input--error {% endif %}" type="text" id="country" name="country" value="{{ payload.country }}" onkeyup="searchCountries()">
-                        <ul class="autocomplete__menu autocomplete__menu--inline autocomplete__menu--hidden" id="autocomplete__listbox" role="listbox">
-                        </ul>
-                        <span id="autocomplete-default__assistiveHint" style="display: none;">When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.</span>
-                    </div>
-                </div>
-            </fieldset>
+<div>
+    <form action="where-do-you-live" method="post">
+      <div id="typeahead-form-group" class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="countryInput">Where do you live?</label>
+        </h1>
+        <p class="govuk-hint" id="typeahead-hint">Start typing a country, then choose from the list.</p>
+        {% set dropdownDefaultText = "Select where you live" %}
+        <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
+        <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+        {% set errorMessage = errors %}
+        {% include "../../partials/country-typeahead-input.njk" %}
         </div>
-        <button class="govuk-button">Continue</button>
-    </form>
-</main>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>   
+</div>
 
     
 {% endblock main_content %}

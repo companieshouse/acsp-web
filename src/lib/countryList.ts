@@ -1,4 +1,5 @@
 const countryList = [
+    "United Kingdom",
     "Afghanistan",
     "Aland Islands",
     "Albania",
@@ -239,7 +240,6 @@ const countryList = [
     "Uganda",
     "Ukraine",
     "United Arab Emirates",
-    "United Kingdom",
     "United States",
     "United States Minor Outlying Islands",
     "Uruguay",
@@ -257,3 +257,5 @@ const countryList = [
     "Zambia",
     "Zimbabwe"
 ];
+
+export default countryList;
