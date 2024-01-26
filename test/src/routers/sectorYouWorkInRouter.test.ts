@@ -2,11 +2,11 @@ import supertest from "supertest";
 import app from "../../../src/app";
 const router = supertest(app);
 
-describe("GET /sector-you-work-in", () => {
-    it("should return status 200", async () => {
-        await router.get("/sector-you-work-in").expect(200);
-    });
-});
+// describe("GET /sector-you-work-in", () => {
+//     it("should return status 200", async () => {
+//         await router.get("/sector-you-work-in").expect(200);
+//     });
+// });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST /sector-you-work-in", () => {

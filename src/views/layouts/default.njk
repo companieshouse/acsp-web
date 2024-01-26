@@ -3,6 +3,8 @@
 <!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
 
 {% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
+{% import "add-lang-to-url.njk" as lang2url %}
+
 {% include "partials/__meta_header.njk" %}
 
   <body class="govuk-template__body" >
@@ -11,6 +13,8 @@
 {#    {% include "partials/cookie_consent_banner.njk" %}#}
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
     {% include "partials/__header.njk" %}
+      
+    {% include "locales-banner.njk" %}
 
 <div class="govuk-width-container ">
   <a href="{{ previousPage }}" class="govuk-back-link">Back</a>

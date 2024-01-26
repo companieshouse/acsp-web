@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from "express";
-import nunjucks from "nunjucks";
+import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
@@ -9,7 +9,8 @@ const app = express();
 // const viewPath = path.join(__dirname, "/views");
 app.set("views", [
     path.join(__dirname, "/views"),
-    path.join(__dirname, "/../node_modules/govuk-frontend")
+    path.join(__dirname, "/../node_modules/govuk-frontend"),
+    path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -23,6 +24,7 @@ const njk = new nunjucks.Environment(
 );
 
 njk.express(app);
+// app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "njk");
 
 // Serve static files
