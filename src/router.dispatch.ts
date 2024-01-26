@@ -6,6 +6,7 @@ import nameRouter from "./routers/soleTraderNameRouter";
 import stopNotRelevantOfficerRouter from "./routers/stopNotRelevantOfficerRouter";
 import statementRelevantOfficerRouter from "./routers/statementRelevantOfficerRouter";
 import setorYouWorkIn from "./routers/setorYouWorkInRouter";
+import startPageRouter from "./routers/startPageRouter";
 
 const routerDispatch = (app: Application) => {
     const soleTraderRoute : string = "/sole-trader";
@@ -15,6 +16,7 @@ const routerDispatch = (app: Application) => {
     app.use(soleTraderRoute, dateOfBirthRouter);
     app.use("/", statementRelevantOfficerRouter);
     app.use(setorYouWorkIn);
+    app.use(startPageRouter);
     app.use("*", (req: Request, res: Response) => {
         res.status(404).render("partials/error_400");
     });
