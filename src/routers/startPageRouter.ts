@@ -1,13 +1,10 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { StartPageHandler } from "./handlers/start-page/startPage";
 
 const router: Router = Router();
 const routeViews: string = "router_views/start-page";
 
 router.get("/start-page", async (req: Request, res: Response, next: NextFunction) => {
-    const handler = new StartPageHandler();
-    const viewData = await handler.execute(req, res);
-    res.render(`${routeViews}/start-page`, viewData);
+    res.render(`${routeViews}/start-page`, {title: "Apply to register as a Companies House authorised agent"});
 });
 
 export default router;
