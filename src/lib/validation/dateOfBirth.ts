@@ -8,7 +8,7 @@ export const dateOfBirthValidator = [
     body("dob-day").custom((value, { req }) => validDataChecker(req.body["dob-day"], req.body["dob-month"], req.body["dob-year"]))
 ];
 
-const dateDayChecker = (day: string, month: string, year: string) => {
+export const dateDayChecker = (day: string, month: string, year: string) => {
     if (day.trim() === "" && month.trim() === "" && year.trim() === "") {
         throw new Error(dateOfBirthErrorManifest.validation.noData.summary);
     } else if (day.trim() === "" && month.trim() === "") {
@@ -21,7 +21,7 @@ const dateDayChecker = (day: string, month: string, year: string) => {
     return true;
 };
 
-const dateMonthChecker = (day: string, month: string, year: string) => {
+export const dateMonthChecker = (day: string, month: string, year: string) => {
     if (day.trim() !== "" && month.trim() === "" && year.trim() === "") {
         throw new Error(dateOfBirthErrorManifest.validation.noMonthYear.summary);
     } else if (day.trim() !== "" && month.trim() === "") {
@@ -30,16 +30,16 @@ const dateMonthChecker = (day: string, month: string, year: string) => {
     return true;
 };
 
-const dateYearChecker = (day: string, month: string, year: string) => {
+export const dateYearChecker = (day: string, month: string, year: string) => {
     if (day.trim() !== "" && month.trim() !== "" && year.trim() === "") {
         throw new Error(dateOfBirthErrorManifest.validation.noYear.summary);
     }
     return true;
 };
 
-const validDataChecker = (day: string, month: string, year: string) => {
+export const validDataChecker = (day: string, month: string, year: string) => {
     if (day.trim() !== "" && month.trim() !== "" && year.trim() !== "") {
-        if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isReadDay(+day, +month, +year)) {
+        if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isValidDay(+day, +month, +year)) {
             throw new Error(dateOfBirthErrorManifest.validation.invalid.summary);
         } else if (!isNotInFuture(+day, +month, +year)) {
             throw new Error(dateOfBirthErrorManifest.validation.dateInFuture.summary);
@@ -52,7 +52,7 @@ const validDataChecker = (day: string, month: string, year: string) => {
     return true;
 };
 
-const isReadDay = (day: number, month: number, year: number):boolean => {
+const isValidDay = (day: number, month: number, year: number):boolean => {
     const numbDays = new Date(year, month, 0).getDate();
     if (day >= 1 && day <= numbDays) {
         return true;
