@@ -11,12 +11,12 @@ describe("GET /sole-trader/name", () => {
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST /sole-trader/name", () => {
     it("should return status 302 after redirect", async () => {
-        await router.post("/sole-trader/name").send({ firstName: "John", middleName: "", lastName: "Doe" }).expect(302);
+        await router.post("/sole-trader/name").send({ "first-name": "John", "middle-names": "", "last-name": "Doe" }).expect(302);
     });
 });
 // Test for incorrect form details entered, will return 400.
 describe("POST /sole-trader/name", () => {
     it("should return status 400 after incorrect data entered", async () => {
-        await router.post("/sole-trader/name").send({ firstName: "", middleName: "", lastName: "" }).expect(400);
+        await router.post("/sole-trader/name").send({ "first-name": "", "middle-names": "", "last-name": "" }).expect(400);
     });
 });
