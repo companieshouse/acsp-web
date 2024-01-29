@@ -7,4 +7,7 @@ router.get("/start-page", async (req: Request, res: Response, next: NextFunction
     res.render(`${routeViews}/start-page`, {title: "Apply to register as a Companies House authorised agent"});
 });
 
+router.post("/start-page", async (req: Request, res: Response, next: NextFunction) => {
+        res.redirect("/type-of-acsp");
+});
 export default router;
