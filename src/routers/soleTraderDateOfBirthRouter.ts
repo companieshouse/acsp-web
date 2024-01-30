@@ -20,7 +20,7 @@ router.post("/date-of-birth", dateOfBirthValidator, async (req: Request, res: Re
             res.status(400).render(`${routeViews}/capture-date-of-birth`, {
                 title: "What is your date of Birth?",
                 previousPage: "/sole-trader/name",
-                pageProperties: pageProperties,
+                ...pageProperties,
                 payload: req.body
             });
         } else {
