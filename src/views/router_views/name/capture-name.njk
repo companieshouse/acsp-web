@@ -43,7 +43,7 @@
                 },
                 errorMessage: {
                     text: errors["last-name"].text
-                } if errors["last-name"] | length,
+                } if errors["last-name"] | length or errors["first-name"].text === "Enter your full name",
                 classes: "govuk-input--width-20",
                 id: "last-name",
                 name: "last-name",
