@@ -1,98 +1,37 @@
+import { body } from "express-validator";
 import correspondanceAddressManualErrorManifest from "../utils/error_manifests/correspondanceAddressManual";
-import { GenericValidator } from "./generic";
 
-export class CorrespondanceAddressManualValidator extends GenericValidator {
+const otherAddressDetailsFormat:RegExp = /^[A-Za-z0-9\-',\s]*$/;
+const addressTownFormat:RegExp = /^[A-Za-z0-9\-',\s!]*$/;
+const addressCountyFormat:RegExp = /^[A-Za-z]*$/;
+const addressUKPostcodeFormat:RegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/;
 
-    soleTraderErrorManifest: any;
+const addressPropertyDetailsLength = 200;
+const otherAddressDetailsLength = 50;
 
-    constructor (classParam?: string) {
-        super();
-        this.errorManifest = correspondanceAddressManualErrorManifest;
-    }
+export const correspondanceAddressManualValidator = [
+    body("addressPropertyDetails").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPropertyDetails.summary).bail()
+        .matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidPropertyDetails.summary).bail()
+        .isLength({ min: 1, max: addressPropertyDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidPropertyDetailsLength.summary),
 
-    validateInputData (payload: any): Promise<any> {
-        try {
-            var addressTownFormat = /^[A-Za-z0-9\-',\s!]*$/;
-            var addressCountyFormat = /^[A-Za-z]*$/;
-            var addressUKPostcodeFormat = /^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/;
-            var otherAddressDetailsFormat = /^[A-Za-z0-9\-',\s]*$/;
+    body("addressLine1").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noAddressLine1.summary).bail()
+        .matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine1.summary).bail()
+        .isLength({ min: 1, max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine1Length.summary),
 
-            var addressPropertyDetailsLength = 200;
-            var otherAddressDetailsLength = 50;
+    body("addressLine2").matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine2.summary).bail()
+        .isLength({ max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine2Length.summary),
 
-            if (payload.addressPropertyDetails === "") {
-                this.errors.stack.addressPropertyDetails = this.errorManifest.validation.noPropertyDetails;
-            } else if (!this.isValidFormat(payload.addressPropertyDetails, otherAddressDetailsFormat)) {
-                this.errors.stack.addressPropertyDetails = this.errorManifest.validation.invalidPropertyDetails;
-            } else if (!this.isValidLength(payload.addressPropertyDetails, addressPropertyDetailsLength)) {
-                this.errors.stack.addressPropertyDetails = this.errorManifest.validation.invalidPropertyDetailsLength;
-            }
+    body("addressTown").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noCityOrTown.summary).bail()
+        .matches(addressTownFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTown.summary).bail()
+        .isLength({ min: 1, max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTownLength.summary),
 
-            if (payload.addressLine1 === "") {
-                this.errors.stack.addressLine1 = this.errorManifest.validation.noAddressLine1;
-            } else if (!this.isValidFormat(payload.addressLine1, otherAddressDetailsFormat)) {
-                this.errors.stack.addressLine1 = this.errorManifest.validation.invalidAddressLine1;
-            } else if (!this.isValidLength(payload.addressLine1, otherAddressDetailsLength)) {
-                this.errors.stack.addressLine1 = this.errorManifest.validation.invalidAddressLine1Length;
-            }
+    body("addressCounty").matches(addressCountyFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCounty.summary).bail()
+        .isLength({ max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountyLength.summary),
 
-            if (!this.isValidFormat(payload.addressLine2, otherAddressDetailsFormat)) {
-                this.errors.stack.addressLine2 = this.errorManifest.validation.invalidAddressLine2;
-            } else if (!this.isValidLength(payload.addressLine2, otherAddressDetailsLength)) {
-                this.errors.stack.addressLine2 = this.errorManifest.validation.invalidAddressLine2Length;
-            }
+    body("addressCountry").matches(addressCountyFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountry.summary).bail()
+        .isLength({ max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountryLength.summary),
 
-            if (payload.addressTown === "") {
-                this.errors.stack.addressTown = this.errorManifest.validation.noCityOrTown;
-            } else if (!this.isValidFormat(payload.addressTown, addressTownFormat)) {
-                this.errors.stack.addressTown = this.errorManifest.validation.invalidAddressTown;
-            } else if (!this.isValidLength(payload.addressTown, otherAddressDetailsLength)) {
-                this.errors.stack.addressTown = this.errorManifest.validation.invalidAddressTownLength;
-            }
-
-            if (!this.isValidFormat(payload.addressCounty, addressCountyFormat)) {
-                this.errors.stack.addressCounty = this.errorManifest.validation.invalidAddressCounty;
-            } else if (!this.isValidLength(payload.addressCounty, otherAddressDetailsLength)) {
-                this.errors.stack.addressCounty = this.errorManifest.validation.invalidAddressCountyLength;
-            }
-
-            if (!this.isValidFormat(payload.addressCountry, addressCountyFormat)) {
-                this.errors.stack.addressCountry = this.errorManifest.validation.invalidAddressCountry;
-            } else if (!this.isValidLength(payload.addressCountry, otherAddressDetailsLength)) {
-                this.errors.stack.addressCountry = this.errorManifest.validation.invalidAddressCountryLength;
-            }
-
-            if (payload.addressPostcode === "") {
-                this.errors.stack.addressPostcode = this.errorManifest.validation.noPostCode;
-            } else if (!this.isValidFormat(payload.addressPostcode, addressUKPostcodeFormat)) {
-                this.errors.stack.addressPostcode = this.errorManifest.validation.invalidAddressPostcode;
-            }
-
-            if (!Object.keys(this.errors.stack).length) {
-                return Promise.resolve(true);
-            } else {
-                return Promise.reject(this.errors);
-            }
-
-        } catch (error) {
-            this.errors.stack = this.errorManifest.generic.serverError;
-            return Promise.reject(this.errors);
-        }
-    }
-
-    isValidFormat (addressDetails: string, format: RegExp): boolean {
-        if (addressDetails.match(format)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    isValidLength (addressDetails: string, length: number): boolean {
-        if (addressDetails.length <= length) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-};
+    body("addressPostcode").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPostCode.summary).bail()
+        .matches(addressUKPostcodeFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary).bail()
+        .isLength({ min: 1, max: otherAddressDetailsLength }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary)
+];
