@@ -19,7 +19,7 @@ router.post("/sector-you-work-in", sectorYouWorkInValidator, async (req: Request
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
             res.status(400).render(`${routeViews}/sector-you-work-in`, {
                 title: "Which sector do you work in?",
-                pageProperties
+                ...pageProperties
             });
         } else {
             res.redirect("/sole-trader/nationality");
