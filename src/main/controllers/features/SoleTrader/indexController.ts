@@ -1,17 +1,13 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Request, Response } from "express";
 import { HomeService } from "../../../services/index/homeService";
 import * as config from "../../../config";
-
-// const indexController = Router();
+import path from "path";
 
 export const get = async (req: Request, res: Response) => {
     const handler = new HomeService();
-    const viewData = await handler.execute(req, res);
-    res.render(config.HOME, viewData);
-};
+    console.log("dirname in controller----->", __dirname);
+    console.log("controller----->", path.join(__dirname, config.HOME));
 
-// indexController.get(HOME, async (req: Request, res: Response, next: NextFunction) => {
-//     const handler = new HomeService();
-//     const viewData = await handler.execute(req, res);
-//     res.render('/home', viewData);
-// });
+    const viewData = await handler.execute(req, res);
+    return res.render(config.HOME, viewData);
+};

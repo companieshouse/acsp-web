@@ -1,21 +1,19 @@
-import { Request, Response, Router, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { StatementRelevantOfficerService } from "../../../services/role/statementRelevantOfficerService";
 import { SOLE_TRADER_ROLE } from "../../../config";
 
-const statementRelevantOfficerController = Router();
-
 const handler = new StatementRelevantOfficerService();
 
-statementRelevantOfficerController.get("/statement-relevant-officer", async (req: Request, res: Response, next: NextFunction) => {
+export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const viewData = await handler.execute(req, res);
         res.render(SOLE_TRADER_ROLE, viewData);
     } catch (err) {
         res.status(500).send("Internal Server Error");
     }
-});
+};
 
-statementRelevantOfficerController.post("/statement-relevant-officer", async (req: Request, res: Response, next: NextFunction) => {
+export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const selectedRole = req.body.WhatIsYourRole;
 
@@ -30,6 +28,4 @@ statementRelevantOfficerController.post("/statement-relevant-officer", async (re
     } catch (err) {
         res.status(500).send("Internal Server Error");
     }
-});
-
-export default statementRelevantOfficerController;
+};

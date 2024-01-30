@@ -6,6 +6,7 @@ import app from "./app";
 
 // start the HTTP server
 const httpServer = http.createServer(app);
+app.set("port", process.env.NODE_PORT);
 httpServer.listen(process.env.NODE_PORT, () => {
     console.log(`Server started at: ${process.env.NODE_HOSTNAME}:${process.env.NODE_PORT}`);
 }).on("error", err => {

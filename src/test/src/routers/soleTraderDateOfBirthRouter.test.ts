@@ -1,5 +1,6 @@
 import supertest from "supertest";
 import app from "../../../main/app";
+
 const router = supertest(app);
 
 describe("GET /sole-trader/date-of-birth", () => {

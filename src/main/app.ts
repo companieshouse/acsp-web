@@ -6,22 +6,9 @@ import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
 
 const app = express();
-// set up the template engine
-/* const nunjucksLoaderOpts = {
-    watch: process.env.NUNJUCKS_LOADER_WATCH !== "false",
-    noCache: process.env.NUNJUCKS_LOADER_NO_CACHE !== "true"
-};
 
-const nunjucksEnv = new nunjucks.Environment(
-      new nunjucks.FileSystemLoader(app.get("views"),
-      nunjucksLoaderOpts)); */
-
-const nunjucksEnv = nunjucks.configure([
-    "views",
-    "views/update",
-    "node_modules/govuk-frontend/",
-    "node_modules/govuk-frontend/components"
-], {
+const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
+    path.join(__dirname, "/../../../node_modules/govuk-frontend")], {
     autoescape: true,
     express: app
 });
@@ -31,26 +18,27 @@ nunjucksEnv.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 nunjucksEnv.addGlobal("cdnHost", process.env.CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", process.env.CHS_URL);
 
-// const viewPath = path.join(__dirname, "/views");
-
-// app.set("views", [
-//     path.join(__dirname, "/views"),
-//     path.join(__dirname, "/../node_modules/govuk-frontend")
-// ]);
-
-// njk.express(app);
-// If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
 
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+console.log("dirname-------------->", __dirname);
 app.set("views", path.join(__dirname, "views"));
+console.log("views 1--------------->", app.get("views"));
 app.set("view engine", "njk");
 
+app.set("views", [
+    path.join(__dirname, "views"),
+    path.join(__dirname, "/../../../node_modules/govuk-frontend")
+]);
+
+console.log("views 2--------------->", app.get("views"));
+
+console.log("assets--->", path.join(__dirname, "/../../../assets/public"));
 // Serve static files
-app.use(express.static(path.join(__dirname, "/../assets/public")));
+app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 // app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
 
 // Unhandled errors
