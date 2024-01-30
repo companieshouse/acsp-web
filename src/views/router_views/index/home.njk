@@ -1,11 +1,15 @@
 {% extends "layouts/default.njk" %}
 
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+
 {% block main_content %}
 
 <main class="govuk-main-wrapper" id="main-content" role="main">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <form class="form" action="start-page" method="post">
+      <form class="form" action="type-of-acsp" method="post">
 
         <h1 class="govuk-heading-l">
           Apply to register as a Companies House authorised agent
