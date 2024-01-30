@@ -7,7 +7,9 @@ const router: Router = Router();
 const routeViews: string = "router_views/sector-you-work-in";
 
 router.get("/sector-you-work-in", async (req: Request, res: Response, next: NextFunction) => {
-    res.render(`${routeViews}/sector-you-work-in`);
+    res.render(`${routeViews}/sector-you-work-in`,
+        { title: "Which sector do you work in?" }
+    );
 });
 
 router.post("/sector-you-work-in", sectorYouWorkInValidator, async (req: Request, res: Response, next: NextFunction) => {
