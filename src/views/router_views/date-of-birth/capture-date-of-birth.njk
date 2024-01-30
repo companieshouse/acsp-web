@@ -1,56 +1,71 @@
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
 
-<main>
+{% if errors["dob-day"] %}
+  {% set errorMessageText = errors["dob-day"].text %}
+{% elif errors["dob-month"] %}
+  {% set errorMessageText = errors["dob-month"].text %}
+{% elif errors["dob-year"] %}
+  {% set errorMessageText = errors["dob-year"].text %}
+{% endif %}
+
+<div>
     <form action="date-of-birth" method="POST">
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
-        <div class="govuk-form-group {% if errors is not undefined and errors is not null and errors | length %} govuk-form-group--error {% endif %}">
-            <fieldset class="govuk-fieldset" role="group" aria-describedby="dob-hint">
-                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <h1 class="govuk-fieldset__heading">What is your date of birth?</h1>
-                </legend>
-                <div id="dob-hint" class="govuk-hint">For example, 27 3 1995</div>
-                <div class="govuk-date-input" id="dob">
-                    {% if errors.dobDay is not undefined %}
-                        <p id="dobDayInputError" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> {{errors.dobDay.summary}}
-                        </p>
-                    {% endif %}
-                    {% if errors.dobMonth is not undefined %}
-                        <p id="dobMonthInputError" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> {{errors.dobMonth.summary}}
-                        </p>
-                    {% endif %}
-                    {% if errors.dobYear is not undefined %}
-                        <p id="dobYearInputError" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> {{errors.dobYear.summary}}
-                        </p>
-                    {% endif %}
-                    <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="dobDay">Day</label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-2 {% if errors.dobDay is not undefined %} govuk-input--error {% endif %}" type="number" id="dobDay" name="dobDay" inputmode="numeric" value="{{ payload.dobDay }}">
-                        </div>
-                    </div>
-                    <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="dobMonth">Month</label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-2 {% if errors.dobMonth is not undefined or errors.dobDay.summary == "Enter your date of birth" %} govuk-input--error {% endif %}" type="number" id="dobMonth" name="dobMonth" inputmode="numeric" value="{{ payload.dobMonth }}">
-                        </div>
-                    </div>
-                    <div class="govuk-date-input__item">
-                        <div class="govuk-form-group">
-                            <label class="govuk-label govuk-date-input__label" for="dobYear">Year</label>
-                            <input class="govuk-input govuk-date-input__input govuk-input--width-4 {% if errors.dobYear is not undefined or errors.dobDay.summary == "Enter your date of birth" or errors.dobMonth.summary == "Date of birth must include a month and a year" %} govuk-input--error {% endif %}" type="number" id="dobYear" name="dobYear" inputmode="numeric" value="{{ payload.dobYear }}">
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <button class="govuk-button">Continue</button>
+        {{ govukDateInput({
+            id: "dob",
+            namePrefix: "dob",
+            fieldset: {
+              legend: {
+                text: "What is your date of birth?",
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            hint: {
+              text: "For example, 31 3 1980"
+            },
+            errorMessage: {
+                text: errorMessageText
+            } if errors | length,
+              
+            items: [
+              {
+                name: "day",
+                classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2" ,
+                autocomplete: "bday-day",
+                id: "dob-day",
+                pattern: "[0-9]{1,2}",
+                value: payload["dob-day"]
+              },
+              {
+                name: "month",
+                classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2",
+                autocomplete: "bday-month",
+                id: "dob-month",
+                pattern: "[0-9]{1,2}",
+                value: payload["dob-month"]
+              },
+              {
+                name: "year",
+                classes: "govuk-input--error govuk-input--width-4" if errors  else "govuk-input--width-4",
+                autocomplete: "bday-year",
+                id: "dob-year",
+                pattern: "[0-9]{4}",
+                value: payload["dob-year"]
+              }
+            ]
+          }) }}
+
+          {{ govukButton({
+            text: "Continue"
+          }) }}
     </form>
-</main>
+</div>
 
     
 {% endblock main_content %}
