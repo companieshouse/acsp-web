@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { HomeHandler } from "./handlers/index/home";
 
 const router: Router = Router();
 const routeViews: string = "router_views/index";
 
 router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-    const handler = new HomeHandler();
-    const viewData = await handler.execute(req, res);
-    res.render(`${routeViews}/home`, viewData);
+    res.render(`${routeViews}/home`, {title: "Apply to register as a Companies House authorised agent"});
 });
 
+router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+        res.redirect("/type-of-acsp");
+});
 export default router;
