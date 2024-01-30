@@ -8,7 +8,8 @@ import routerDispatch from "./router.dispatch";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
-    path.join(__dirname, "/../../../node_modules/govuk-frontend")], {
+    path.join(__dirname, "/../../../node_modules/govuk-frontend"),
+    path.join(__dirname, "/../../node_modules/govuk-frontend")], {
     autoescape: true,
     express: app
 });
@@ -28,11 +29,6 @@ console.log("dirname-------------->", __dirname);
 app.set("views", path.join(__dirname, "views"));
 console.log("views 1--------------->", app.get("views"));
 app.set("view engine", "njk");
-
-app.set("views", [
-    path.join(__dirname, "views"),
-    path.join(__dirname, "/../../../node_modules/govuk-frontend")
-]);
 
 console.log("views 2--------------->", app.get("views"));
 
