@@ -1,4 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
+import session from "express-session";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
@@ -37,6 +38,16 @@ njk.addGlobal("chsUrl", process.env.CHS_URL);
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
 
+declare module "express-session" {
+    export interface SessionData {
+      user: { [key: string]: any };
+    }
+  }
+app.use(session({
+    secret: "123456",
+    resave: false,
+    saveUninitialized: true
+}));
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

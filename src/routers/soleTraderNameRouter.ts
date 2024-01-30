@@ -25,7 +25,12 @@ router.post("/name", nameValidator, async (req: Request, res: Response, next: Ne
                 payload: req.body
             });
         } else {
-            res.redirect("/sole-trader/date-of-birth");
+            req.session.user = req.session.user || {};
+            req.session.user.firstName = req.body["first-name"];
+            req.session.user.lastName = req.body["last-name"];
+            req.session.save(() => {
+                res.redirect("/sole-trader/date-of-birth");
+            });
         }
     } catch (error) {
         next(error);

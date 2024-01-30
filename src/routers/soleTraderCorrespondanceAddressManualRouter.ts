@@ -7,9 +7,12 @@ const router: Router = Router();
 const routeViews: string = "router_views/correspondance-address-manual";
 
 router.get("/address-correspondance-manual", async (req: Request, res: Response, next: NextFunction) => {
+    req.session.user = req.session.user || {};
     res.render(`${routeViews}/capture-correspondance-address-manual`, {
         title: "What is your correspondance address?",
-        previousPage: "/sole-trader/address-correspondance-lookup"
+        previousPage: "/sole-trader/address-correspondance-lookup",
+        firstName: req.session.user.firstName,
+        lastName: req.session.user.lastName
     });
 });
 

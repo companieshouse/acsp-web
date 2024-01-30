@@ -6,9 +6,12 @@ const router: Router = Router();
 const routeViews: string = "router_views/date-of-birth";
 
 router.get("/date-of-birth", async (req: Request, res: Response, next: NextFunction) => {
+    req.session.user = req.session.user || {};
     res.render(`${routeViews}/capture-date-of-birth`, {
         title: "What is your date of Birth?",
-        previousPage: "/sole-trader/name"
+        previousPage: "/sole-trader/name",
+        firstName: req.session.user.firstName,
+        lastName: req.session.user.lastName
     });
 });
 
