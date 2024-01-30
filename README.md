@@ -1,4 +1,4 @@
-# your-companies-web
+# acsp-web
 
 This is a web frontend for the Authorized Corporate Service Providers (ACSP). It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts).
 
