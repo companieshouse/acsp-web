@@ -11,7 +11,8 @@ router.get("/sector-you-work-in", async (req: Request, res: Response, next: Next
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(`${routeViews}/sector-you-work-in`, {
-        ...getLocaleInfo(locales, lang)
+        ...getLocaleInfo(locales, lang),
+        currentUrl: "sector-you-work-in"
     });
 });
 
