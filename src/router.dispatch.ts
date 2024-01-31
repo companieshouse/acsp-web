@@ -8,6 +8,7 @@ import nameRouter from "./routers/soleTraderNameRouter";
 import whereDoYouLiveRouter from "./routers/soleTraderWhereDoYouLiveRouter";
 import statementRelevantOfficerRouter from "./routers/statementRelevantOfficerRouter";
 import stopNotRelevantOfficerRouter from "./routers/stopNotRelevantOfficerRouter";
+import nationalityRouter from "./routers/soleTraderNationalityRouter";
 
 const routerDispatch = (app: Application) => {
     const soleTraderRoute : string = "/sole-trader";
@@ -17,6 +18,7 @@ const routerDispatch = (app: Application) => {
     app.use(soleTraderRoute, dateOfBirthRouter);
     app.use(soleTraderRoute, whereDoYouLiveRouter);
     app.use(soleTraderRoute, correspondanceAddressManualRouter);
+    app.use(soleTraderRoute, nationalityRouter);
     app.use("/", statementRelevantOfficerRouter);
     app.use(setorYouWorkIn);
     app.use("*", (req: Request, res: Response) => {

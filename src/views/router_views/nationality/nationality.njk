@@ -1,0 +1,82 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
+{% set errors = pageProperties.errors%}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+
+<div>
+    <form action="nationality" method="post">
+
+        <fieldset class="govuk-fieldset">
+            <div class="govuk-form-group ">
+                <h1 class="govuk-label-wrapper">
+                    <label for="nationalityInput" class="govuk-label govuk-label--l">What is your nationality?</label>
+                </h1>
+                <p class="govuk-hint">Start typing a nationality, then choose from the list.</p>
+                <div id="nationality" class="autocomplete-wrapper govuk-!-width-two-thirds">
+
+
+                {{ govukErrorMessage({
+                  text: errors["nationalityInput"].text
+                }) }}
+
+
+                </div>
+            </div>
+
+            <div id="second-nationality" class="second-nationality">
+                <div class="govuk-form-group ">
+                    <label for="nationalityInputSecond" class="govuk-label">Second nationality (if
+                        relevant)</label>
+                    <p class="govuk-hint">Dual citizenship (also known as dual nationality) is allowed in some
+                        countries. This means you can be a citizen of your own country and another country.</p>
+                    <div id="nationalityTwo" class="autocomplete-wrapper govuk-!-width-two-thirds">
+
+                {{ govukErrorMessage({
+                  text: errors["nationalityInputSecond"].text
+                }) }}
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div id="third-nationality" class="third-nationality">
+                <div class="govuk-form-group ">
+                    <label for="nationalityInputThird" class="govuk-label">Third nationality (if
+                        relevant)</label>
+                    <p class="govuk-hint">Multiple citizenship (also known as multiple nationality) is allowed
+                        in some countries. This means you can be a citizen of your own country and two other
+                        countries.</p>
+                    <div id="nationalityThree" class="autocomplete-wrapper govuk-!-width-two-thirds">
+
+
+
+                {{ govukErrorMessage({
+                  text: errors["nationalityInputThird"].text
+                }) }}
+
+
+                
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+
+        {{ govukButton({
+        text: "Continue"
+        }) }}
+
+    </form>
+    <script type="text/javascript" src="assets/src/js/accessible-autocomplete.min.js"></script>
+    <script type="text/javascript" src="assets/src/js/nationality.js"></script>
+
+</div>
+
+
+{% endblock main_content %}
+
+
+
