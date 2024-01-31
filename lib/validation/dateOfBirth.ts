@@ -38,8 +38,10 @@ export const dateYearChecker = (day: string, month: string, year: string) => {
 };
 
 export const validDataChecker = (day: string, month: string, year: string) => {
-    if (day.trim() !== "" && month.trim() !== "" && year.trim() !== "") {
-        if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isValidDay(+day, +month, +year)) {
+    if (day !== "" && month !== "" && year !== "") {
+        if (!isNumeric(day) || !isNumeric(month) || !isNumeric(year)) {
+            throw new Error(dateOfBirthErrorManifest.validation.nonNumeric.summary);
+        } else if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isValidDay(+day, +month, +year) || day.length > 2 || month.length > 2) {
             throw new Error(dateOfBirthErrorManifest.validation.invalid.summary);
         } else if (!isNotInFuture(+day, +month, +year)) {
             throw new Error(dateOfBirthErrorManifest.validation.dateInFuture.summary);
@@ -90,4 +92,9 @@ const isNotTooOld = (day: number, month: number, year: number): boolean => {
         age++;
     }
     return age <= 110;
+};
+
+const isNumeric = (number: string): boolean => {
+    const regex = /^\d+$/ig;
+    return regex.test(number);
 };
