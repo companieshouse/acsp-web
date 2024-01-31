@@ -8,7 +8,7 @@
     <form action="nationality" method="post">
 
         <fieldset class="govuk-fieldset">
-            <div class="govuk-form-group ">
+            <div class="govuk-form-group">
                 <h1 class="govuk-label-wrapper">
                     <label for="nationalityInput" class="govuk-label govuk-label--l">What is your nationality?</label>
                 </h1>
@@ -16,9 +16,9 @@
                 <div id="nationality" class="autocomplete-wrapper govuk-!-width-two-thirds">
 
 
-                {{ govukErrorMessage({
+                {# {{ govukErrorMessage({
                   text: errors["nationalityInput"].text
-                }) }}
+                }) }} #}
 
 
                 </div>

@@ -1,9 +1,9 @@
 import { body, ValidationChain } from "express-validator";
-import nationalityErrorManifest from "../utils/error_manifests/nationality";
 import nationalityList from "../../lib/nationalityList";
+import nationalityErrorManifest from "../utils/error_manifests/nationality";
 
 export const nationalityValidator: ValidationChain[] = [
-    body("input-autocomplete")
+    body("nationalityInput")
         .isArray({ min: 1 }).withMessage(nationalityErrorManifest.validation.noNationality.summary)
         .custom((value) => {
             // Check if all selected nationalities are valid
@@ -15,7 +15,7 @@ export const nationalityValidator: ValidationChain[] = [
             return true;
         }),
 
-    body("nationalityInputSecond")
+    body("nationalityInputTwo")
         .optional({ nullable: true, checkFalsy: true })
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .custom((value, { req }) => {
@@ -25,7 +25,7 @@ export const nationalityValidator: ValidationChain[] = [
             return true;
         }),
 
-    body("nationalityInputThird")
+    body("nationalityInputThree")
         .optional({ nullable: true, checkFalsy: true })
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .custom((value, { req }) => {
