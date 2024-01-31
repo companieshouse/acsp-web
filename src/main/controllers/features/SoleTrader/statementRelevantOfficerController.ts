@@ -21,7 +21,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.redirect("/how-are-you-aml-supervised");// endpoint name based on prototype
 
         } else if (selectedRole === "someone-else") {
-            res.redirect("/stop-not-relevant-officer");
+            res.redirect("/sole-trader/stop-not-relevant-officer");
         } else {
             res.status(400).send("Invalid role selection");
         }

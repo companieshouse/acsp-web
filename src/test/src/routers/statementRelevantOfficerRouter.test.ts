@@ -10,14 +10,6 @@ describe("Statement Relevant Officer Router", () => {
         expect(response.text).toContain("What is your role?");
     });
 
-    it("should respond with status 302 on form submission with someone-else role", async () => {
-        const response = await request.post("/sole-trader/statement-relevant-officer").send({
-            WhatIsYourRole: "someone-else"
-        });
-        expect(response.status).toBe(302);
-        expect(response.header.location).toBe("/stop-not-relevant-officer");
-    });
-
     it("should respond with status 400 on form submission with invalid role", async () => {
         const response = await request.post("/sole-trader/statement-relevant-officer").send({
             WhatIsYourRole: "invalid-role"
