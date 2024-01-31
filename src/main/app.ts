@@ -25,14 +25,8 @@ app.enable("trust proxy");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-console.log("dirname-------------->", __dirname);
 app.set("views", path.join(__dirname, "views"));
-console.log("views 1--------------->", app.get("views"));
 app.set("view engine", "njk");
-
-console.log("views 2--------------->", app.get("views"));
-
-console.log("assets--->", path.join(__dirname, "/../../../assets/public"));
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 // app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
