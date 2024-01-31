@@ -8,6 +8,7 @@ import { correspondanceAddressManualValidator } from "../../../lib/validation/co
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
+import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
 
 const routes = Router();
 
@@ -25,12 +26,12 @@ routes.post("/sole-trader/statement-relevant-officer", statementRelevantOfficerC
 routes.get("/sole-trader/stop-not-relevant-officer", stopNotRelevantOfficerController.get);
 
 routes.get("/sole-trader/sector-you-work-in", sectorYouWorkInController.get);
-routes.post("/sole-trader/sector-you-work-in", sectorYouWorkInController.post);
+routes.post("/sole-trader/sector-you-work-in", sectorYouWorkInValidator, sectorYouWorkInController.post);
 
 routes.get("/sole-trader/where-do-you-live", soleTraderWhereDoYouLiveController.get);
 routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
-routes.get("/sole-trader/capture-correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
-routes.post("/sole-trader/capture-correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
+routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
 
 export default routes;
