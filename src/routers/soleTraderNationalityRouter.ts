@@ -15,29 +15,29 @@ router.get("/nationality", async (req: Request, res: Response, next: NextFunctio
     });
 });
 
-router.post('/nationality', nationalityValidator, async (req: Request, res: Response, next: NextFunction) => {
-console.log('Form submission data:', req.body);
-  try {
-    const errorList = validationResult(req);
+router.post("/nationality", nationalityValidator, async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Form submission data:", req.body);
+    try {
+        const errorList = validationResult(req);
 
-    if (!errorList.isEmpty()) {
-      const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-      res.status(400).render(`${routeViews}/nationality`, {
-        pageProperties: pageProperties,
-        title: 'What is your nationality?',
-        previousPage: '/sole-trader/where-do-you-live',
-      });//determined from user not in banned list
-    } else {
-      // If validation passes, redirect to the next page
-      res.redirect('/sole-trader/stop-screen-not-a-soletrader');
+        if (!errorList.isEmpty()) {
+            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+            res.status(400).render(`${routeViews}/nationality`, {
+                pageProperties: pageProperties,
+                title: "What is your nationality?",
+                previousPage: "/sole-trader/where-do-you-live"
+            });// determined from user not in banned list
+        } else {
+            // If validation passes, redirect to the next page
+            res.redirect("/sole-trader/stop-screen-not-a-soletrader");
+        }
+    } catch (error) {
+        next(error);
     }
-  } catch (error) {
-    next(error);
-  }
 });
 
 const getPageProperties = (errors?: FormattedValidationErrors) => ({
-  errors,
+    errors
 });
 
 export default router;
