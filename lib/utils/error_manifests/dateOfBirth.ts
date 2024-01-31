@@ -52,6 +52,10 @@ const dateOfBirthErrorManifest = {
         tooYoung: {
             summary: "You must be at least 16 years old",
             inline: "You must be at least 16 years old"
+        },
+        nonNumeric: {
+            summary: "Date of birth must only include numbers",
+            inline: "Date of birth must only include numbers"
         }
     }
 };
