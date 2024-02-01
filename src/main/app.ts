@@ -1,5 +1,5 @@
-import express, { Request, Response, NextFunction } from "express";
-
+import express, { NextFunction, Request, Response } from "express";
+import session from "express-session";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
@@ -20,6 +20,17 @@ nunjucksEnv.addGlobal("cdnHost", process.env.CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", process.env.CHS_URL);
 
 app.enable("trust proxy");
+
+declare module "express-session" {
+    export interface SessionData {
+      user: { [key: string]: any };
+    }
+  }
+app.use(session({
+    secret: "123456",
+    resave: false,
+    saveUninitialized: true
+}));
 
 // parse body into req.body
 app.use(express.json());
