@@ -8,15 +8,35 @@ describe("GET /sole-trader/name", () => {
     });
 });
 
-// Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST /sole-trader/name", () => {
-    it("should return status 302 after redirect", async () => {
-        await router.post("/sole-trader/name").send({ "first-name": "John", "middle-names": "", "last-name": "Doe" }).expect(302);
+    // Test for correct form details entered, will return 302 after redirecting to the next page.
+    it("should redirect with status 302 on successful form submission", async () => {
+        const formData = {
+            "first-name": "John",
+            "middle-names": "",
+            "last-name": "Doe"
+        };
+
+        const response = await router.post("/sole-trader/name").send(formData);
+
+        // Expectations
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe("/sole-trader/date-of-birth");
+        // Add more expectations based on your specific requirements
     });
-});
-// Test for incorrect form details entered, will return 400.
-describe("POST /sole-trader/name", () => {
-    it("should return status 400 after incorrect data entered", async () => {
-        await router.post("/sole-trader/name").send({ "first-name": "", "middle-names": "", "last-name": "" }).expect(400);
+
+    // Test for incorrect form details entered, will return 400.
+    it("should return status 400 for incorrect data entered", async () => {
+        const formData = {
+            "first-name": "",
+            "middle-names": "",
+            "last-name": ""
+        };
+
+        const response = await router.post("/sole-trader/name").send(formData);
+
+        // Expectations
+        expect(response.status).toBe(400); // Expect a validation failure status code
+        // Add more expectations based on your specific requirements
     });
 });
