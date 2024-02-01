@@ -7,7 +7,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
     res.render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
         title: "What is your correspondance address?",
-        previousPage: "/sole-trader/address-correspondance-lookup",
+        previousPage: "/sole-trader/correspondance-address--lookup",
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName
     });
