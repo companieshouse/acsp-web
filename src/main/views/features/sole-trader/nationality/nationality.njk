@@ -15,7 +15,8 @@
                 <p class="govuk-hint" id="typeahead-hint">Start typing a nationality, then choose from the list.</p>
                 <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
                 <div id="nationality" class="autocomplete-wrapper govuk-!-width-two-thirds">
-
+                {% set errorMessage = errors %}
+                
   {{ govukErrorMessage({
                   text: errors["nationalityInput"].text
                 }) }}
@@ -59,7 +60,7 @@
                 }) }}
 
 
-
+                {% include "../../../partials/nationality-typeahead-input.njk" %}
                     </div>
                 </div>
             </div>

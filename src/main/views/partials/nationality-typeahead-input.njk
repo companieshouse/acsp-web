@@ -1,0 +1,37 @@
+<script type="text/javascript" src="{{cdnHost}}/javascripts/app/accessible-autocomplete.min.js"></script>
+<script type="text/javascript" >
+const nationalityList = "{{nationalityList}}"
+
+
+var autocompleteConfig1 = {
+    element: document.querySelector("#nationality"),
+    id: "nationalityInput", // To match it to the existing <label>.
+    source: nationalityList.split(","),
+    name: "nationalityInput"
+};
+
+accessibleAutocomplete(autocompleteConfig1);
+const nationality = document.getElementById("nationality");
+
+// Second Nationality
+var autocompleteConfig2 = {
+    element: document.querySelector("#nationalityTwo"),
+    id: "nationalityInputSecond", // To match it to the existing <label>.
+    source: nationalityList.split(","),
+    name: "nationalityInputSecond"
+};
+
+accessibleAutocomplete(autocompleteConfig2);
+const nationality2 = document.getElementById("nationalityTwo");
+
+// Third Nationality
+var autocompleteConfig3 = {
+    element: document.querySelector("#nationalityThree"),
+    id: "nationalityInputThird", // To match it to the existing <label>.
+    source: nationalityList.split(","),
+    name: "nationalityInputThird"
+};
+
+accessibleAutocomplete(autocompleteConfig3);
+const nationality3 = document.getElementById("nationalityThree");
+</script>

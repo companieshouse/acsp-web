@@ -20,6 +20,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
             res.status(400).render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
+                nationalityList: nationalityList,
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
                 previousPage: "/sole-trader/date-of-birth"
