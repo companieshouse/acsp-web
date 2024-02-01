@@ -1,0 +1,28 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% set errors = pageProperties.errors%}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+
+<div class="govuk-grid-column-two-thirds-from-desktop">
+    <form action="where-do-you-live" method="post">
+      <div id="typeahead-form-group" class="govuk-form-group">
+        <h1 class="govuk-label-wrapper">
+          <label class="govuk-label govuk-label--l" for="countryInput">Where do you live?</label>
+        </h1>
+        <p class="govuk-hint" id="typeahead-hint">Start typing a country, then choose from the list.</p>
+        {% set dropdownDefaultText = "Select where you live" %}
+        <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
+        <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+        {% set errorMessage = errors %}
+        {% include "../../../partials/country-typeahead-input.njk" %}
+        </div>
+
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+
+      </form>   
+</div>
+
+    
+{% endblock main_content %}
