@@ -256,3 +256,21 @@ var autocompleteConfig3 = {
 
 accessibleAutocomplete(autocompleteConfig3);
 const nationality3 = document.getElementById("nationalityThree");
+
+
+       function handleWindowLoadError(id) {
+           window.onload = function () {
+               if (error) {
+                   document.getElementById("typeahead-form-group").className = "govuk-form-group govuk-form-group--error";
+                   const errorHtml = '<p class="govuk-error-message"> <span class="govuk-visually-hidden">Error:</span> ' + error + '</p>'
+                   const element = document.getElementById("typeahead-hint");
+                   element.insertAdjacentHTML("afterend", errorHtml);
+                   document.getElementById(id).classList.add("govuk-input--error");
+               }
+           }
+       }
+
+       // Call the function with different id values
+       handleWindowLoadError("nationalityInput");
+       handleWindowLoadError("nationalityInputSecond");
+       handleWindowLoadError("nationalityInputThird");

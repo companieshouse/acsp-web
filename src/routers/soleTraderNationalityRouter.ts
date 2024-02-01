@@ -25,11 +25,13 @@ router.post("/nationality", nationalityValidator, async (req: Request, res: Resp
             res.status(400).render(`${routeViews}/nationality`, {
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
-                previousPage: "/sole-trader/where-do-you-live"
+                previousPage: "/sole-trader/date-of-birth"
             });// determined from user not in banned list
         } else {
             // If validation passes, redirect to the next page
-            res.redirect("/sole-trader/stop-screen-not-a-soletrader");
+            res.redirect("/sole-trader/where-do-you-live");
+            // if banned user redirect kickoutpage- under construction
+            /* res.redirect("/sole-trader/stop-screen-not-a-soletrader"); */
         }
     } catch (error) {
         next(error);

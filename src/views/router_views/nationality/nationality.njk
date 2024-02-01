@@ -8,33 +8,35 @@
     <form action="nationality" method="post">
 
         <fieldset class="govuk-fieldset">
-            <div class="govuk-form-group">
+            <div id="typeahead-form-group" class="govuk-form-group">
                 <h1 class="govuk-label-wrapper">
                     <label for="nationalityInput" class="govuk-label govuk-label--l">What is your nationality?</label>
                 </h1>
-                <p class="govuk-hint">Start typing a nationality, then choose from the list.</p>
+                <p class="govuk-hint" id="typeahead-hint">Start typing a nationality, then choose from the list.</p>
+                <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
                 <div id="nationality" class="autocomplete-wrapper govuk-!-width-two-thirds">
 
-
-                {# {{ govukErrorMessage({
+  {{ govukErrorMessage({
                   text: errors["nationalityInput"].text
-                }) }} #}
+                }) }}
+
 
 
                 </div>
             </div>
 
             <div id="second-nationality" class="second-nationality">
-                <div class="govuk-form-group ">
+                <div id="typeahead-form-group" class="govuk-form-group ">
                     <label for="nationalityInputSecond" class="govuk-label">Second nationality (if
                         relevant)</label>
-                    <p class="govuk-hint">Dual citizenship (also known as dual nationality) is allowed in some
+                    <p class="govuk-hint" id="typeahead-hint">Dual citizenship (also known as dual nationality) is allowed in some
                         countries. This means you can be a citizen of your own country and another country.</p>
                     <div id="nationalityTwo" class="autocomplete-wrapper govuk-!-width-two-thirds">
 
-                {{ govukErrorMessage({
+     {{ govukErrorMessage({
                   text: errors["nationalityInputSecond"].text
                 }) }}
+
 
 
                     </div>
@@ -42,10 +44,10 @@
 
             </div>
             <div id="third-nationality" class="third-nationality">
-                <div class="govuk-form-group ">
+                <div id="typeahead-form-group" class="govuk-form-group ">
                     <label for="nationalityInputThird" class="govuk-label">Third nationality (if
                         relevant)</label>
-                    <p class="govuk-hint">Multiple citizenship (also known as multiple nationality) is allowed
+                    <p class="govuk-hint" id="typeahead-hint">Multiple citizenship (also known as multiple nationality) is allowed
                         in some countries. This means you can be a citizen of your own country and two other
                         countries.</p>
                     <div id="nationalityThree" class="autocomplete-wrapper govuk-!-width-two-thirds">
@@ -57,7 +59,7 @@
                 }) }}
 
 
-                
+
                     </div>
                 </div>
             </div>
