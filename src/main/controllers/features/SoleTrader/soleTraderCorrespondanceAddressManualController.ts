@@ -6,7 +6,7 @@ import * as config from "../../../config";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
         title: "What is your correspondance address?",
-        previousPage: "/sole-trader/address-correspondance-lookup"
+        previousPage: "/sole-trader/correspondance-address-lookup"
     });
 };
 
@@ -18,12 +18,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             console.log(pageProperties);
             res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
                 title: "What is your correspondance address?",
-                previousPage: "/sole-trader/address-correspondance-lookup",
+                previousPage: "/sole-trader/correspondance-address--lookup",
                 pageProperties: pageProperties,
                 payload: req.body
             });
         } else {
-            res.redirect("/sole-trader/address-correspondance-confirm");
+            res.redirect("/sole-trader/correspondance-address-confirm");
         }
     } catch (error) {
         next(error);

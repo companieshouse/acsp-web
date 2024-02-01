@@ -12,14 +12,14 @@ describe("GET /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 302 after redirect", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
 });
 // Test for no addressPropertyDetails, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressPropertyDetails Format entered, will return 400.
@@ -33,7 +33,7 @@ describe("POST /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4a", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4a", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
@@ -41,43 +41,43 @@ describe("POST /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressLine1 Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr@", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr@", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressLine1 Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
 // Test for no addressLine2, will return 302.
 describe("POST /sole-trader/correspondance-address-manual", () => {
-    it("should return status 400", async () => {
+    it("should return status 302", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
 });
 // Test for incorrect addressLine2 Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "@", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "@", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressLine2 Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
@@ -85,21 +85,21 @@ describe("POST /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressTown Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressTown Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
@@ -107,43 +107,43 @@ describe("POST /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
 });
 // Test for incorrect addressCounty Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmn@", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmno@", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressCounty Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCountry: "lmn", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
 // Test for no addressCountry, will return 302.
 describe("POST /sole-trader/correspondance-address-manual", () => {
-    it("should return status 400", async () => {
+    it("should return status 302", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abc", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
     });
 });
 // Test for incorrect addressCountry Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn@", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmno@", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressCountry Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abc", addressCountry: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 
@@ -151,20 +151,20 @@ describe("POST /sole-trader/correspondance-address-manual", () => {
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abc", addressCountry: "abc", addressPostcode: "" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "" }).expect(400);
     });
 });
 // Test for incorrect addressPostcode Format entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB@" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB@" }).expect(400);
     });
 });
 // Test for incorrect addressPostcode Length entered, will return 400.
 describe("POST /sole-trader/correspondance-address-manual", () => {
     it("should return status 400", async () => {
         await router.post("/sole-trader/correspondance-address-manual")
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abc", addressCountry: "abc", addressPostcode: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A3GB" }).expect(400);
     });
 });
