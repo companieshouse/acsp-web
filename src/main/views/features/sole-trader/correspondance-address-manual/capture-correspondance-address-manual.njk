@@ -7,7 +7,7 @@
 {% block main_content %}
 
 <main>
-    <form action="correspondance-address-manual" method="POST">
+    <form action="address-correspondance-manual" method="POST">
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
           {{ govukFieldset({
@@ -29,7 +29,7 @@
               name: "addressPropertyDetails",
               value: payload["addressPropertyDetails"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressPropertyDetails"].text
               } if errors.addressPropertyDetails            
           }) }}
           {{ govukInput({
@@ -41,7 +41,7 @@
               name: "addressLine1",
               value: payload["addressLine1"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressLine1"].text
               } if errors.addressLine1            
           }) }}
           {{ govukInput({
@@ -53,7 +53,7 @@
               name: "addressLine2",
               value: payload["addressLine2"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressLine2"].text
               } if errors.addressLine2
           }) }}
           {{ govukInput({
@@ -65,7 +65,7 @@
               name: "addressTown",
               value: payload["addressTown"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressTown"].text
               } if errors.addressTown
           }) }}
           {{ govukInput({
@@ -77,7 +77,7 @@
               name: "addressCounty",
               value: payload["addressCounty"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressCounty"].text
               } if errors.addressCounty
           }) }}
           {{ govukInput({
@@ -89,7 +89,7 @@
               name: "addressCountry",
               value: payload["addressCountry"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressCountry"].text
               } if errors.addressCountry
           }) }}
           {{ govukInput({
@@ -101,7 +101,7 @@
               name: "addressPostcode",
               value: payload["addressPostcode"],
               errorMessage: {
-                text: errorMessageText
+                text: errors["addressPostcode"].text
               } if errors.addressPostcode
           }) }}
         </div>

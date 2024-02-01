@@ -31,7 +31,7 @@ routes.post("/sole-trader/sector-you-work-in", sectorYouWorkInValidator, sectorY
 routes.get("/sole-trader/where-do-you-live", soleTraderWhereDoYouLiveController.get);
 routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
-routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
-routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+routes.get("/sole-trader/address-correspondance-manual", soleTraderCorrespondanceAddressManualController.get);
+routes.post("/sole-trader/address-correspondance-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
 
 export default routes;
