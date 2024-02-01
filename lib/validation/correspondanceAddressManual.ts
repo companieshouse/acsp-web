@@ -18,19 +18,20 @@ export const correspondanceAddressManualValidator = [
     body("addressLine2").trim().matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine2.summary).bail()
         .isLength({ max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressLine2Length.summary),
 
-    body("addressTown").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noCityOrTown.summary).bail()
+    body("addressTown").trim().notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noCityOrTown.summary).bail()
         .matches(addressTownFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTown.summary).bail()
         .isLength({ max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTownLength.summary),
 
     body("addressCounty").custom((value, { req }) => addressCountyChecker(req.body.addressCounty)),
     body("addressCountry").custom((value, { req }) => addressCountryChecker(req.body.addressCountry)),
 
-    body("addressPostcode").notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPostCode.summary).bail()
+    body("addressPostcode").trim().notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPostCode.summary).bail()
         .matches(addressUKPostcodeFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary).bail()
         .isLength({ min: 6, max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary)
 ];
 
 export const addressCountyChecker = (addressCounty: string) => {
+    addressCounty = addressCounty.trim();
     if (addressCounty !== "") {
         if (!addressCounty.match(addressCountyFormat)) {
             throw new Error(correspondanceAddressManualErrorManifest.validation.invalidAddressCounty.summary);
@@ -42,6 +43,7 @@ export const addressCountyChecker = (addressCounty: string) => {
 };
 
 export const addressCountryChecker = (addressCountry: string) => {
+    addressCountry = addressCountry.trim();
     if (addressCountry !== "") {
         if (!addressCountry.match(addressCountyFormat)) {
             throw new Error(correspondanceAddressManualErrorManifest.validation.invalidAddressCountry.summary);
