@@ -4,9 +4,12 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+    req.session.user = req.session.user || {};
     res.render(config.SOLE_TRADER_DOB, {
         title: "What is your date of Birth?",
-        previousPage: "/sole-trader/name"
+        previousPage: "/sole-trader/name",
+        firstName: req.session.user.firstName,
+        lastName: req.session.user.lastName
     });
 };
 
