@@ -1,3 +1,4 @@
 {
-    "sectorYouWorkInTitle" : "Which sector do you work in? welsh"
+    "sectorYouWorkInTitle" : "Which sector do you work in? welsh",
+    "error-sectorYouWorkInError" : "Select which sector you work in welsh"
 }

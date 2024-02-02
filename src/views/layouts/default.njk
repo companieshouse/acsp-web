@@ -1,34 +1,32 @@
 <!DOCTYPE html>
 <!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[(if gt IE 8) | (!IE)]><!--><html lang="en" class="govuk-template"><!--<![endif]-->
-
-{% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
-{% import "add-lang-to-url.njk" as lang2url %}
-
-{% include "partials/__meta_header.njk" %}
-
-  <body class="govuk-template__body" >
-
-    <script>document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
-{#    {% include "partials/cookie_consent_banner.njk" %}#}
+<!--[(if gt IE 8) | (!IE)]><!-->
+  <html
+  lang="en" class="govuk-template"> <!--<![endif]-->
+  {% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
+  {% import "add-lang-to-url.njk" as lang2url %}
+  {% include "partials/__meta_header.njk" %}
+  <body class="govuk-template__body">
+    <script>
+      document.body.className = (
+        (document.body.className)
+        ? document.body.className + ' js-enabled'
+        : 'js-enabled');
+    </script>
+    {#    {% include "partials/cookie_consent_banner.njk" %}#}
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
     {% include "partials/__header.njk" %}
-      
-    {% include "locales-banner.njk" %}
-
-<div class="govuk-width-container ">
-  <a href="{{ previousPage }}" class="govuk-back-link">Back</a>
-<main class="govuk-main-wrapper " id="main-content">
-<div class="govuk-grid-row">
-{% include "partials/error_summary.njk" %}
-<div class="govuk-grid-column-full" id="main-page-content">
-{% block main_content %}{% endblock %}
-</div>
-</div>
-</main>
-</div>
-
-{% include "partials/__footer.njk" %}
-
-</body>
-</html>
+    <div class="govuk-width-container ">
+      <a href="{{ previousPage }}" class="govuk-back-link">Back</a>    
+      {% include "locales-banner.njk" %}
+      <main class="govuk-main-wrapper " id="main-content">
+        <div class="govuk-grid-row">
+          {% include "partials/error_summary.njk" %}
+          <div class="govuk-grid-column-full" id="main-page-content"> {% block main_content %}{% endblock %}
+            </div>
+          </div>
+        </main>
+      </div>
+      {% include "partials/__footer.njk" %}
+    </body>
+  </html>

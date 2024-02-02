@@ -3,7 +3,7 @@
 {% block main_content %}
 
 <main>
-    <form action="sector-you-work-in" method="POST">
+    <form action="" method="POST">
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
@@ -69,7 +69,7 @@
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">Continue</button>
+        <button class="govuk-button">{{i18n.Continue}}</button>
     </form>
 </main>
 

@@ -18,12 +18,19 @@ router.get("/sector-you-work-in", async (req: Request, res: Response, next: Next
 
 router.post("/sector-you-work-in", sectorYouWorkInValidator, async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-            res.status(400).render(`${routeViews}/sector-you-work-in`, pageProperties);
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+            res.status(400).render(`${routeViews}/sector-you-work-in`, {
+                ...getLocaleInfo(locales, lang),
+                currentUrl: "sector-you-work-in?lang=cy",
+                ...pageProperties
+            });
         } else {
-            res.redirect("/sole-trader/nationality");
+            const nextPageUrl = addLangToUrl("/sole-trader/capture-date-of-birth", lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);
