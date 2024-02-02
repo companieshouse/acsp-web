@@ -9,9 +9,9 @@ describe("nationalityValidator", () => {
     it("should pass validation with valid input", () => {
     // Set valid input data
         const validInput = {
-            nationalityInput: "British",
-            nationalityInputSecond: "French",
-            nationalityInputThird: "German"
+            nationality_input_0: "British",
+            nationality_input_1: "French",
+            nationality_input_2: "German"
         };
 
         // Validate the input
@@ -27,9 +27,9 @@ describe("nationalityValidator", () => {
     it("should pass validation with valid input", () => {
         // Set valid input data
         const validInput = {
-            nationalityInput: "British",
-            nationalityInputSecond: " ",
-            nationalityInputThird: " "
+            nationality_input_0: "British",
+            nationality_input_1: " ",
+            nationality_input_2: " "
         };
 
         // Validate the input

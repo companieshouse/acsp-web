@@ -6,7 +6,7 @@ import nationalityErrorManifest from "../utils/error_manifests/nationality";
 
 export const nationalityValidator: ValidationChain[] = [
     // Validation for 'nationalityInput'
-    body("nationalityInput")
+    body("nationality_input_0")
         .notEmpty().withMessage(nationalityErrorManifest.validation.noNationality.summary)
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
@@ -14,12 +14,12 @@ export const nationalityValidator: ValidationChain[] = [
         .isLength({ max: 50 }).withMessage(nationalityErrorManifest.validation.charLimit1stNationality.summary),
 
     // Validation for 'nationalityInputSecond'
-    body("nationalityInputSecond")
+    body("nationality_input_1")
         .optional({ nullable: true, checkFalsy: true })
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .custom((value, { req }) => {
             // Check if it's the same as 'nationalityInput'
-            if (value === req.body.nationalityInput && value !== " ") {
+            if (value === req.body.nationality_input_0 && value !== " ") {
                 throw new Error(nationalityErrorManifest.validation.doubleSecondNationality.summary);
             }
             return true;
@@ -29,12 +29,12 @@ export const nationalityValidator: ValidationChain[] = [
         .isLength({ max: 49 }).withMessage(nationalityErrorManifest.validation.charLimit2ndNationality.summary),
 
     // Validation for 'nationalityInputThird'
-    body("nationalityInputThird")
+    body("nationality_input_2")
         .optional({ nullable: true, checkFalsy: true })
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .custom((value, { req }) => {
             // Check if it's the same as 'nationalityInputSecond' or 'nationalityInput'
-            if ((value === req.body.nationalityInputSecond || value === req.body.nationalityInput) && value !== " ") {
+            if ((value === req.body.nationality_input_1 || value === req.body.nationality_input_0) && value !== " ") {
                 throw new Error(nationalityErrorManifest.validation.doubleThirdNationality.summary);
             }
             return true;
