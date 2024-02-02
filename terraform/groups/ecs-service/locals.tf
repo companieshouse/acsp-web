@@ -6,7 +6,7 @@ locals {
   service_name               = "acsp-web"
   container_port             = "3000" # default Node port to match start script
   docker_repo                = "acsp-web"
-  lb_listener_rule_priority  = 18
+  lb_listener_rule_priority  = 16
   lb_listener_paths          = ["/acsp-web/*"]
   healthcheck_path           = "/acsp-web" #healthcheck path for acsp service
   healthcheck_matcher        = "200"
