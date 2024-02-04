@@ -4,14 +4,14 @@ import nationalityErrorManifest from "../utils/error_manifests/nationality";
 
 
 
-export const nationalityValidator: ValidationChain[] = [
+export const nationalityValidator = [
     // Validation for 'nationalityInput'
     body("nationality_input_0")
         .notEmpty().withMessage(nationalityErrorManifest.validation.noNationality.summary)
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .trim()
         .isLength({ max: 50 }).withMessage(nationalityErrorManifest.validation.charLimit1stNationality.summary),
+
 
     // Validation for 'nationalityInputSecond'
     body("nationality_input_1")
@@ -25,7 +25,6 @@ export const nationalityValidator: ValidationChain[] = [
             return true;
         })
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .trim()
         .isLength({ max: 49 }).withMessage(nationalityErrorManifest.validation.charLimit2ndNationality.summary),
 
     // Validation for 'nationalityInputThird'
@@ -40,6 +39,5 @@ export const nationalityValidator: ValidationChain[] = [
             return true;
         })
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .trim()
         .isLength({ max: 48 }).withMessage(nationalityErrorManifest.validation.charLimit3rdNationality.summary)
 ];
