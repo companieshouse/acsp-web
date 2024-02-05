@@ -40,6 +40,6 @@ export const middleNameChecker = (middleName: string) => {
 };
 
 export const isValidName = (name: string): boolean => {
-    const regex = /^[a-zA-Z \-']{1,160}$/ig;
+    const regex = /^[a-zA-Z \-']+$/ig;
     return regex.test(name);
 };
