@@ -1,93 +1,66 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
-{% set errors = pageProperties.errors%}
+{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-
-<div>
-    <form action="nationality" method="post">
-
-        <fieldset class="govuk-fieldset">
-            <div id="typeahead-form-group-0" class="govuk-form-group">
-                <h1 class="govuk-label-wrapper">
-                    <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
-                </h1>
-                <p class="govuk-hint" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
-                <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
-                <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds">
-                {% set errorMessage = errors %}
-
-
-
-
-
-                </div>
-            </div>
-
-            <div id="second-nationality" class="second-nationality">
-                <div id="typeahead-form-group-1" class="govuk-form-group ">
-                    <label for="nationality_input_1" class="govuk-label">Second nationality (if
-                        relevant)</label>
-                    <p class="govuk-hint" id="typeahead-hint-1">Dual citizenship (also known as dual nationality) is allowed in some
-                        countries. This means you can be a citizen of your own country and another country.</p>
-                    <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds">
-
-
-
-
-
-
+    <div>
+        <form action="nationality" method="post">
+            <fieldset class="govuk-fieldset">
+                <div id="typeahead-form-group-0" class="govuk-form-group">
+                    <h1 class="govuk-label-wrapper">
+                        <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
+                    </h1>
+                    <p class="govuk-hint" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
+                    <span class="govuk-caption-l">{{ firstName }}
+                        {{ lastName }}</span>
+                    <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds">
+                        {% set errorMessage = errors %}
                     </div>
                 </div>
-
-            </div>
-            <div id="third-nationality" class="third-nationality">
-                <div id="typeahead-form-group-2" class="govuk-form-group ">
-                    <label for="nationality_input_2" class="govuk-label">Third nationality (if
-                        relevant)</label>
-                    <p class="govuk-hint" id="typeahead-hint-2">Multiple citizenship (also known as multiple nationality) is allowed
-                        in some countries. This means you can be a citizen of your own country and two other
-                        countries.</p>
-                    <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds">
-
-
-
-
-
-                {% include "../../../partials/nationality-typeahead-input.njk" %}
+                <div id="second-nationality" class="second-nationality">
+                    <div id="typeahead-form-group-1" class="govuk-form-group ">
+                        <label for="nationality_input_1" class="govuk-label">Second nationality (if relevant)</label>
+                        <p class="govuk-hint" id="typeahead-hint-1">Dual citizenship (also known as dual nationality) is allowed in some
+                            countries. This means you can be a citizen of your own country and another country.</p>
+                        <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                     </div>
                 </div>
-            </div>
-
-        </fieldset>
-
-
-        {{ govukButton({
+                <div id="third-nationality" class="third-nationality">
+                    <div id="typeahead-form-group-2" class="govuk-form-group ">
+                        <label for="nationality_input_2" class="govuk-label">Third nationality (if relevant)</label>
+                        <p class="govuk-hint" id="typeahead-hint-2">Multiple citizenship (also known as multiple nationality) is allowed in some
+                            countries. This means you can be a citizen of your own country and two other countries.</p>
+                        <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds">
+                            {% include "../../../partials/nationality-typeahead-input.njk" %}
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            {{ govukButton({
         text: "Continue"
         }) }}
-
-    </form>
-
-</div>
-<script>
- // Mimic nunjucks error generation
-for (let i = 0; i < error.length; i++) {
-  const currentErrors = error[i];
-
-  if (currentErrors) {
-    // Add error class to form group
-    document.getElementById("typeahead-form-group-" + i).classList.add("govuk-form-group--error");
-
-    // Add error message
-    const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors + '</p>';
-    const element = document.getElementById("typeahead-hint-" + i);
-    element.insertAdjacentHTML("afterend", errorHtml);
-
-    // Add error class to input
-    document.getElementById("nationality_input_" + i).classList.add("govuk-input--error");
-  }
-}
-</script>
-
+        </form>
+    </div>
+    <script>
+        // Mimic nunjucks error generation
+        for (let i = 0; i < error.length; i++) {
+            const currentErrors = error[i];
+            if (currentErrors) { // Add error class to form group
+                document
+                    .getElementById("typeahead-form-group-" + i)
+                    .classList
+                    .add("govuk-form-group--error");
+                // Add error message
+                const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors +
+                        '</p>';
+                const element = document.getElementById("typeahead-hint-" + i);
+                element.insertAdjacentHTML("afterend", errorHtml);
+                // Add error class to input
+                document
+                    .getElementById("nationality_input_" + i)
+                    .classList
+                    .add("govuk-input--error");
+            }
+        }
+    </script>
 {% endblock main_content %}
-
