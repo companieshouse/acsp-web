@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import session from "express-session";
-import nunjucks from "nunjucks";
+import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
@@ -9,7 +9,7 @@ const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../../../node_modules/govuk-frontend"),
-    path.join(__dirname, "/../../node_modules/govuk-frontend")], {
+    path.join(__dirname, "/../../../node_modules/@companieshouse/ch-node-utils/templates")], {
     autoescape: true,
     express: app
 });

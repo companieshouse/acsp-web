@@ -1,0 +1,10 @@
+{
+    "sectorYouWorkInTitle" : "Which sector do you work in?",
+    "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Auditors, insolvency practitioners, external accountants and tax advisers",
+    "sectorYouWorkInIndependentLegalProfessionalsOption": "Independent legal professionals",
+    "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Trust or company service providers",
+    "sectorYouWorkInCreditInstitutionsOption": "Credit institutions",
+    "sectorYouWorkInFinancialInstitutionsOption": "Financial institutions",
+    "sectorYouWorkInOtherOption": "Other",
+    "error-sectorYouWorkInSelectRadio" : "Select which sector you work in"
+}
