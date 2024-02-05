@@ -15,11 +15,9 @@
                 <p class="govuk-hint" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
                 <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
                 <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds">
-                {% set errorMessage = error %}
+                {% set errorMessage = errors %}
 
-     {{ govukErrorMessage({
-                  text: errors["nationality_input_0"].text
-                }) }}
+
 
 
 
@@ -35,9 +33,7 @@
                     <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds">
 
 
-                {{ govukErrorMessage({
-                  text: errors["nationality_input_1"].text
-                }) }}
+
 
 
 
@@ -55,9 +51,6 @@
                     <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds">
 
 
-                {{ govukErrorMessage({
-                  text: errors["nationality_input_2"].text
-                }) }}
 
 
 
@@ -74,11 +67,27 @@
         }) }}
 
     </form>
-    <script type="text/javascript" src="assets/src/js/accessible-autocomplete.min.js"></script>
-    <script type="text/javascript" src="assets/src/js/nationality.js"></script>
 
 </div>
+<script>
 
+for (let i = 0; i < error.length; i++) {
+  const currentErrors = error[i];
+
+  if (currentErrors) {
+    // Add error class to form group
+    document.getElementById("typeahead-form-group-" + i).classList.add("govuk-form-group--error");
+
+    // Add error message
+    const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors + '</p>';
+    const element = document.getElementById("typeahead-hint-" + i);
+    element.insertAdjacentHTML("afterend", errorHtml);
+
+    // Add error class to input
+    document.getElementById("nationality_input_" + i).classList.add("govuk-input--error");
+  }
+}
+</script>
 
 {% endblock main_content %}
 

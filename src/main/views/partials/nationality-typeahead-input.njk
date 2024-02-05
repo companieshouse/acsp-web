@@ -1,6 +1,12 @@
 <script type="text/javascript" src="{{cdnHost}}/javascripts/app/accessible-autocomplete.min.js"></script>
 <script type="text/javascript">
   const nationalityList = "{{ nationalityList }}"
+  const error = [
+    "{{pageProperties.errors.nationality_input_0.text}}",
+    "{{pageProperties.errors.nationality_input_1.text}}",
+    "{{pageProperties.errors.nationality_input_2.text}}"
+  ];
+
   for (let i = 0; i < nationalityList.length; i++) {
     const autocompleteConfig = {
       element: document.querySelector(`#nationality-${i}`),
