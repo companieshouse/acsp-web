@@ -2,13 +2,15 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController
+    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderCorrespondenceAddressAutoLookupController, soleTraderCorrespodanceAddressDetailsController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
+import { correspondenceAddressAutoLookupValidator } from "../../../lib/validation/correspondenceAddressAutoLookup";
+import { correspondenceAddressListValidator } from "../../../lib/validation/correspondanceAddressList";
 
 const routes = Router();
 
@@ -34,4 +36,9 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
 
+routes.get("/sole-trader/correspondenceAddressAutoLookup", soleTraderCorrespondenceAddressAutoLookupController.get);
+routes.post("/sole-trader/correspondenceAddressAutoLookup", correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
+
+routes.get("/sole-trader/correspondence-address-list", soleTraderCorrespodanceAddressDetailsController.get);
+routes.post("/sole-trader/correspondence-address-list", correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
 export default routes;

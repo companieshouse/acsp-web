@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response, Router } from "express";
+import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
-import * as config from "../../../config";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
-    res.render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
-        title: "What is your correspondance address?",
-        previousPage: "/sole-trader/correspondance-address--lookup",
-        firstName: req.session.user.firstName,
-        lastName: req.session.user.lastName
-    });
+    res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
+        title: "What is your name?",
+        previousPage: "/sole-trader/",
+        addresses: req.session.user.addressList
+    }
+    );
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,14 +19,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-            console.log(pageProperties);
-            res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
+            res.status(400).render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
                 title: "What is your correspondence address?",
-                previousPage: "/sole-trader/correspondance-address--lookup",
+                previousPage: "/sole-trader/auto-lookup-address",
                 pageProperties: pageProperties,
-                payload: req.body,
-                firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                addresses: req.session.user.addressList
             });
         } else {
             res.redirect("/sole-trader/correspondance-address-confirm");

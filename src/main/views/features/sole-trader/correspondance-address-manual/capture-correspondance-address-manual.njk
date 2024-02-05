@@ -16,7 +16,7 @@
              classes: "govuk-fieldset__legend--l",
              isPageHeading: true
              }
-          }) }}  
+          }) }}
           {{ govukInput({
               label: {
                 text: "Property name or number"
@@ -30,7 +30,7 @@
               value: payload["addressPropertyDetails"],
               errorMessage: {
                 text: errors["addressPropertyDetails"].text
-              } if errors.addressPropertyDetails            
+              } if errors.addressPropertyDetails
           }) }}
           {{ govukInput({
               label: {
@@ -42,7 +42,7 @@
               value: payload["addressLine1"],
               errorMessage: {
                 text: errors["addressLine1"].text
-              } if errors.addressLine1            
+              } if errors.addressLine1
           }) }}
           {{ govukInput({
               label: {
@@ -109,5 +109,5 @@
     </form>
 </main>
 
-    
+
 {% endblock main_content %}
