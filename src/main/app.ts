@@ -1,6 +1,6 @@
-import express, { Request, Response, NextFunction } from "express";
-
-import nunjucks from "nunjucks";
+import express, { NextFunction, Request, Response } from "express";
+import session from "express-session";
+import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
@@ -9,7 +9,9 @@ const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../../../node_modules/govuk-frontend"),
-    path.join(__dirname, "/../../node_modules/govuk-frontend")], {
+    path.join(__dirname, "../../node_modules/govuk-frontend"),
+    path.join(__dirname, "../../../node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "../../node_modules/@companieshouse/ch-node-utils/templates")], {
     autoescape: true,
     express: app
 });
@@ -20,6 +22,17 @@ nunjucksEnv.addGlobal("cdnHost", process.env.CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", process.env.CHS_URL);
 
 app.enable("trust proxy");
+
+declare module "express-session" {
+    export interface SessionData {
+      user: { [key: string]: any };
+    }
+  }
+app.use(session({
+    secret: "123456",
+    resave: false,
+    saveUninitialized: true
+}));
 
 // parse body into req.body
 app.use(express.json());

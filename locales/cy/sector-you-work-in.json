@@ -1,0 +1,11 @@
+{
+    "sectorYouWorkInTitle" : "Which sector do you work in? welsh",
+    "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Auditors, insolvency practitioners, external accountants and tax advisers welsh",
+    "sectorYouWorkInIndependentLegalProfessionalsOption": "Independent legal professionals welsh",
+    "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Trust or company service providers welsh",
+    "sectorYouWorkInCreditInstitutionsOption": "Credit institutions welsh",
+    "sectorYouWorkInFinancialInstitutionsOption": "Financial institutions welsh",
+    "sectorYouWorkInOtherOption": "Other welsh",
+   
+    "error-sectorYouWorkInSelectRadio" : "Select which sector you work in welsh"
+}
