@@ -9,13 +9,14 @@ import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive"
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
+import * as urls from "../types/pageURL";
 
 const routes = Router();
 
 routes.get("/", indexController.get);
 
-routes.get("/sole-trader/date-of-birth", soleTraderDateOfBirthController.get);
-routes.post("/sole-trader/date-of-birth", dateOfBirthValidator, soleTraderDateOfBirthController.post);
+routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
+routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);
 
 routes.get("/sole-trader/name", soleTraderNameController.get);
 routes.post("/sole-trader/name", nameValidator, soleTraderNameController.post);
@@ -25,8 +26,8 @@ routes.post("/sole-trader/statement-relevant-officer", statementRelevantOfficerC
 
 routes.get("/sole-trader/stop-not-relevant-officer", stopNotRelevantOfficerController.get);
 
-routes.get("/sole-trader/sector-you-work-in", sectorYouWorkInController.get);
-routes.post("/sole-trader/sector-you-work-in", sectorYouWorkInValidator, sectorYouWorkInController.post);
+routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
+routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, sectorYouWorkInController.post);
 
 routes.get("/sole-trader/where-do-you-live", soleTraderWhereDoYouLiveController.get);
 routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
