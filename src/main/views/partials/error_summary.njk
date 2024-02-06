@@ -1,6 +1,6 @@
 {% if errors and errors.errorList and errors.errorList.length > 0 %}
   {{ govukErrorSummary({
-    titleText: "There is a problem",
+    titleText: i18n.thereIsAProblemError,
     errorList: errors.errorList if errors,
     attributes: {
       "tabindex": "0"
