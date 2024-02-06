@@ -4,7 +4,7 @@ import correspondanceAddressManualErrorManifest from "../utils/error_manifests/c
 const otherAddressDetailsFormat:RegExp = /^[A-Za-z0-9\-',\s]*$/;
 const addressTownFormat:RegExp = /^[A-Za-z0-9\-',\s!]*$/;
 const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\s]*$/;
-const addressUKPostcodeFormat:RegExp = /^([A-Za-z][A-Ha-hJ-Yj-y]?[0-9][A-Za-z0-9]? ?[0-9][A-Za-z]{2}|[Gg][Ii][Rr] ?0[Aa]{2})$/;
+const addressUKPostcodeFormat:RegExp = /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/;
 
 export const correspondanceAddressManualValidator = [
     body("addressPropertyDetails").trim().notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPropertyDetails.summary).bail()
@@ -22,22 +22,13 @@ export const correspondanceAddressManualValidator = [
         .matches(addressTownFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTown.summary).bail()
         .isLength({ max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressTownLength.summary),
 
-    body("addressCounty").custom((value, { req }) => addressCountyAndCountryChecker(req.body.addressCounty, correspondanceAddressManualErrorManifest.validation.invalidAddressCounty.summary, correspondanceAddressManualErrorManifest.validation.invalidAddressCountyLength.summary)),
-    body("addressCountry").custom((value, { req }) => addressCountyAndCountryChecker(req.body.addressCountry, correspondanceAddressManualErrorManifest.validation.invalidAddressCountry.summary, correspondanceAddressManualErrorManifest.validation.invalidAddressCountryLength.summary)),
+    body("addressCounty").trim().matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCounty.summary).bail()
+        .isLength({ max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountyLength.summary),
+
+    body("addressCountry").trim().matches(otherAddressDetailsFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountry.summary).bail()
+        .isLength({ max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressCountryLength.summary),
 
     body("addressPostcode").trim().notEmpty().withMessage(correspondanceAddressManualErrorManifest.validation.noPostCode.summary).bail()
         .matches(addressUKPostcodeFormat).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary).bail()
-        .isLength({ min: 6, max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary)
+        .isLength({ min: 5, max: 50 }).withMessage(correspondanceAddressManualErrorManifest.validation.invalidAddressPostcode.summary)
 ];
-
-export const addressCountyAndCountryChecker = (addressDetail: string, addressFormatError: string, addressLengthError: string) => {
-    addressDetail = addressDetail.trim();
-    if (addressDetail !== "") {
-        if (!addressDetail.match(addressCountyAndCountryFormat)) {
-            throw new Error(addressFormatError);
-        } else if (addressDetail.length < 5 || addressDetail.length > 50) {
-            throw new Error(addressLengthError);
-        }
-    }
-    return true;
-};
