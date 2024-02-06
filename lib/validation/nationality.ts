@@ -1,6 +1,7 @@
-import { body, ValidationChain } from "express-validator";
+import { body } from "express-validator";
 import nationalityList from "../nationalityList";
 import nationalityErrorManifest from "../utils/error_manifests/nationality";
+import * as constants from "../../src/main/common/__utils/constants";
 
 
 
@@ -10,7 +11,7 @@ export const nationalityValidator = [
         .notEmpty().withMessage(nationalityErrorManifest.validation.noNationality.summary)
         .isIn(nationalityList).withMessage(nationalityErrorManifest.validation.invalid.summary)
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .isLength({ max: 50 }).withMessage(nationalityErrorManifest.validation.charLimit1stNationality.summary),
+        .isLength({ max: constants.CHARACTER_LIMIT_50 }).withMessage(nationalityErrorManifest.validation.charLimit1stNationality.summary),
 
 
     // Validation for 'nationalityInputSecond'
@@ -25,7 +26,7 @@ export const nationalityValidator = [
             return true;
         })
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .isLength({ max: 49 }).withMessage(nationalityErrorManifest.validation.charLimit2ndNationality.summary),
+        .isLength({ max: constants.CHARACTER_LIMIT_49 }).withMessage(nationalityErrorManifest.validation.charLimit2ndNationality.summary),
 
     // Validation for 'nationalityInputThird'
     body("nationality_input_2")
@@ -39,5 +40,5 @@ export const nationalityValidator = [
             return true;
         })
         .isString().withMessage(nationalityErrorManifest.validation.invalid.summary)
-        .isLength({ max: 48 }).withMessage(nationalityErrorManifest.validation.charLimit3rdNationality.summary)
+        .isLength({ max: constants.CHARACTER_LIMIT_48 }).withMessage(nationalityErrorManifest.validation.charLimit3rdNationality.summary)
 ];
