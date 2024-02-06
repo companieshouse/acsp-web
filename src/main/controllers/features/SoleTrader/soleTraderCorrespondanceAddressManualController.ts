@@ -29,7 +29,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: req.session.user.lastName
             });
         } else {
-            res.redirect("/sole-trader/correspondance-address-confirm");
+            // Save the correspondence address to session
+            req.session.user.correspondenceAddress = {
+                propertyDetails: req.body.addressPropertyDetails,
+                line1: req.body.addressLine1,
+                line2: req.body.addressLine2,
+                town: req.body.addressTown,
+                county: req.body.addressCounty,
+                country: req.body.addressCountry,
+                postcode: req.body.addressPostcode
+            };
+            req.session.save(() => {
+                res.redirect("/sole-trader/correspondance-address-confirm");
+            });
         }
     } catch (error) {
         next(error);
