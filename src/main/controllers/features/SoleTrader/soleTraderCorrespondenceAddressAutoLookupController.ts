@@ -5,9 +5,7 @@ import * as config from "../../../config";
 import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../utils/properties";
 import { getUKAddressesFromPostcode } from "../../../services/postcode-lockup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
-import { CorrespondenceAddressField, PostcodeField } from "../../../../model/address";
 import { getCountryFromKey } from "../../../../utils/web";
-import session from "express-session";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -27,7 +25,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-            console.log(pageProperties);
             res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                 title: "What is your correspondence address?",
                 previousPage: "/sole-trader/where-do-you-live",
@@ -61,7 +58,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 req.session.user.address = address;
                 req.session.save(() => {
                     res.redirect("/sole-trader/correspondence-address-confirm");
-                    console.log(address);
                 });
 
             } else {
