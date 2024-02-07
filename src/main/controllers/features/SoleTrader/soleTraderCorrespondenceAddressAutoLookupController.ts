@@ -38,8 +38,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             postcode = postcode.replace(/\s/g, "");
             const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
             const correspondencePremise = req.body.premise;
-            console.log(correspondencePremise);
-            console.log(req.body.postCode);
 
             if (correspondencePremise !== "") {
                 let address = {};

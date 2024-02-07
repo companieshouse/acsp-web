@@ -1,10 +1,16 @@
 import { Router } from "express";
 import {
-    indexController, soleTraderDateOfBirthController, soleTraderNameController,
-    statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderCorrespondenceAddressAutoLookupController, soleTraderCorrespodanceAddressDetailsController,
- soleTraderNationalityController
-
+    indexController,
+    soleTraderDateOfBirthController,
+    soleTraderNameController,
+    statementRelevantOfficerController,
+    stopNotRelevantOfficerController,
+    sectorYouWorkInController,
+    soleTraderCorrespondanceAddressManualController,
+    soleTraderWhereDoYouLiveController,
+    soleTraderCorrespondenceAddressAutoLookupController,
+    soleTraderCorrespodanceAddressDetailsController,
+    soleTraderNationalityController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
@@ -17,7 +23,6 @@ import { correspondenceAddressListValidator } from "../../../lib/validation/corr
 
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import * as urls from "../types/pageURL";
-
 
 const routes = Router();
 
@@ -42,7 +47,6 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
-
 
 routes.get("/sole-trader/correspondenceAddressAutoLookup", soleTraderCorrespondenceAddressAutoLookupController.get);
 routes.post("/sole-trader/correspondenceAddressAutoLookup", correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
