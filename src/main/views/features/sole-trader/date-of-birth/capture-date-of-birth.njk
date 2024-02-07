@@ -1,6 +1,5 @@
 {% from "govuk/components/date-input/macro.njk" import govukDateInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "src/main/views/partials/user_name.njk" import userCaption as macros %}
 {% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 
@@ -16,8 +15,7 @@
 
 <div>
     <form action="date-of-birth" method="POST">
-      {{ macros({ firstName: firstName, lastName: lastName }) }}
-
+      {% include "partials/user_name.njk" %}
         {{ govukDateInput({
             id: "dob",
             namePrefix: "dob",
