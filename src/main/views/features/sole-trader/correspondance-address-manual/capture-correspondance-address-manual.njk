@@ -8,7 +8,9 @@
 
 <main>
     <form action="correspondance-address-manual" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{lastName}}</span>
+        <span class="govuk-caption-l" style="max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: normal;">
+          {{firstName}} {{lastName}}
+        </span>
         <div class="govuk-form-group">
           {{ govukFieldset({
              legend: {

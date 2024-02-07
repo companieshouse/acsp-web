@@ -15,7 +15,10 @@
 
 <div>
     <form action="date-of-birth" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{lastName}}</span>
+        <span class="govuk-caption-l" style="max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: normal;">
+          {{firstName}} {{lastName}}
+        </span>
+
         {{ govukDateInput({
             id: "dob",
             namePrefix: "dob",
