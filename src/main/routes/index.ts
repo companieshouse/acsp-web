@@ -12,7 +12,6 @@ import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkI
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import * as urls from "../types/pageURL";
 
-
 const routes = Router();
 
 routes.get("/", indexController.get);
