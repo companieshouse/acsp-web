@@ -18,7 +18,7 @@
     "test": "jest",
     "start": "npm run build && source ./dist/config/.env && node dist/src/main/server.js",
     "start:watch": "nodemon",
-    "sonar": "sonar-scanner"
+    "sonarqube": "sonar-scanner"
   },
   "husky": {
     "hooks": {
