@@ -2,14 +2,16 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController
+    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
+import { nationalityValidator } from "../../../lib/validation/nationality";
 import * as urls from "../types/pageURL";
+
 
 const routes = Router();
 
@@ -34,5 +36,8 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+
+routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
+routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
 
 export default routes;
