@@ -1,18 +1,19 @@
 {
     "correspondenceLookUpAddressTitle" : "What is your correspondence address?",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
-    "correspondenceLookUpAddressPropertyNameInput": "Property name or number",
+    "correspondenceLookUpAddressInputHint1": "Property name or number",
+    "correspondenceLookUpAddressInputHint2": "The Mill', '116' or 'Flat 37a'",
     "correspondenceLookUpAddressFindAddressBtn": "Find address",
     "correspondenceLookUpAddressManuallyBtn": "Enter Address Manually",
     "correspondenceLookUpAddressListTitle": "Select your address",
     "correspondenceLookUpAddresListConfirmBtn": "Confirm and continue",
 
-    "error-noAddress" : "Select the correspondence address",
-    "error-noPostCode" : "Enter a postcode",
-    "error-invalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
-    "error-invalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
+    "error-correspondenceLookUpAddressNoAddress" : "Select the correspondence address",
+    "error-correspondenceLookUpAddressNoPostCode" : "Enter a postcode",
+    "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
+    "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
 
-    "error-noDataSelected" : "We cannot find this postcode. Enter a different one, or enter the address manually"
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "We cannot find this postcode. Enter a different one, or enter the address manually"
 
 
 

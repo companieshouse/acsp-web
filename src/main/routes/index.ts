@@ -48,11 +48,11 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
 
-routes.get("/sole-trader/correspondenceAddressAutoLookup", soleTraderCorrespondenceAddressAutoLookupController.get);
-routes.post("/sole-trader/correspondenceAddressAutoLookup", correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
 
-routes.get("/sole-trader/correspondence-address-list", soleTraderCorrespodanceAddressDetailsController.get);
-routes.post("/sole-trader/correspondence-address-list", correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, soleTraderCorrespodanceAddressDetailsController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
 
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);

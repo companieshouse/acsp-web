@@ -8,22 +8,22 @@
     <main class="govuk-main-wrapper" id="main-content" role="main" role="main">
     <form action="correspondenceAddressAutoLookup" method="POST">
        <span class="govuk-caption-l">{{firstName}} {{lastName}}</span>
-          <h1 class="govuk-heading-l">What is your correspondence address</h1>
+          <h1 class="govuk-heading-l">{{i18n.correspondenceLookUpAddressTitle}}</h1>
          <div class ="govuk-form-group">
 
-              <label class="govuk-label" for="postCode">UK postcode</label>
+              <label class="govuk-label" for="postCode"></label>
               <input class="govuk-input govuk-input--width-10" id="postCode" name="postCode" type="text">
 
-              <label class="govuk-label" for="premise">Property name or number
-                <br class="govuk-secondary-text-colour">For example, 'The Mill', '116' or 'Flat 37a'</br></label>
+              <label class="govuk-label" for="premise">{{i18n.correspondenceLookUpAddressInputHint1}}
+                <br class="govuk-secondary-text-colour">{{i18n.correspondenceLookUpAddressInputHint2}}</br></label>
               <input class="govuk-input govuk-input--width-10" id="premise" name="premise" type="text">
           </div>
 
           <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
-            Find address
+            {{i18n.correspondenceLookUpAddressFindAddressBtn}}
           </button>
 
-           <p><a href="/sole-trader/correspondance-address-manual" class="govuk-link">Enter The address manually</a></p>
+           <p><a href="/sole-trader/correspondance-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
     </form>
     </main>
   </div>

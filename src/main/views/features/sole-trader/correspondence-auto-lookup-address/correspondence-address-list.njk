@@ -29,7 +29,7 @@
                 name: "correspondenceAddress",
                 fieldset: {
                     legend: {
-                        text: "Select your address",
+                        text: i18n.correspondenceLookUpAddressListTitle,
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
@@ -37,9 +37,9 @@
                 items: ITEMS
                 }) }}
         </div>
-        <button class="govuk-button">Confirm and Continue</button>
+        <button class="govuk-button">{{i18n.correspondenceLookUpAddresListConfirmBtn}}</button>
     </form>
-      <p><a href="/sole-trader/correspondance-address-manual" class="govuk-link">Enter The address manually</a></p>
+      <p><a href="/sole-trader/correspondance-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
 </main>
 
     
