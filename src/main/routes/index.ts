@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController
+    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController, heathcheckController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
@@ -38,5 +38,7 @@ routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressM
 
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
+
+routes.get(urls.HEALTHCHECK, heathcheckController.get);
 
 export default routes;
