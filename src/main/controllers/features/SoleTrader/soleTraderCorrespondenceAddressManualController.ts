@@ -6,9 +6,9 @@ import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageU
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
-    res.render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
-        title: "What is your correspondance address?",
-        previousPage: "/sole-trader/correspondance-address--lookup",
+    res.render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
+        title: "What is the correspondence address?",
+        previousPage: "/sole-trader/correspondence-address--lookup",
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName
     });
@@ -20,9 +20,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-            res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
-                title: "What is your correspondence address?",
-                previousPage: "/sole-trader/correspondance-address--lookup",
+            res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
+                title: "What is the correspondence address?",
+                previousPage: "/sole-trader/correspondence-address--lookup",
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: req.session.user.firstName,

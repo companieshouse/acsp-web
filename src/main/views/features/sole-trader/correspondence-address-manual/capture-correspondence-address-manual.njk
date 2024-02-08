@@ -6,12 +6,12 @@
 
 {% block main_content %}
 <main>
-    <form action="correspondance-address-manual" method="POST">
+    <form action="correspondence-address-manual" method="POST">
         {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
           {{ govukFieldset({
              legend: {
-             text: "What is your address?",
+             text: "What is the correspondence address?",
              classes: "govuk-fieldset__legend--l",
              isPageHeading: true
              }  

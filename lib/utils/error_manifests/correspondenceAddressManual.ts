@@ -1,4 +1,4 @@
-const correspondanceAddressManualErrorManifest = {
+const correspondenceAddressManualErrorManifest = {
     generic: {
         serverError: {
             summary: "There was an error processing your request. Please try again."
@@ -81,4 +81,4 @@ const correspondanceAddressManualErrorManifest = {
     }
 };
 
-export default correspondanceAddressManualErrorManifest;
+export default correspondenceAddressManualErrorManifest;
