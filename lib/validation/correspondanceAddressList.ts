@@ -1,6 +1,5 @@
-import {body} from "express-validator";
-import correspondenceAddressListErrorManifest from "../utils/error_manifests/correspondenceAddressList";
+import { body } from "express-validator";
 
 export const correspondenceAddressListValidator = [
-    body("correspondenceAddress", correspondenceAddressListErrorManifest.validation.noData.summary).notEmpty()
+    body("correspondenceAddress", "correspondenceLookUpAddresListNoRadioBtnSelected").notEmpty()
 ];

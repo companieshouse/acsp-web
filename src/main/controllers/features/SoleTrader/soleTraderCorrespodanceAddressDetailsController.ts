@@ -26,7 +26,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),

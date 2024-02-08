@@ -28,11 +28,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
 
     try {
-        const errorList = validationResult(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),

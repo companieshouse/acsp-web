@@ -13,7 +13,7 @@
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes welsh",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh",
 
-    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh"
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address welsh"
 
 
 
