@@ -2,19 +2,22 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController, heathcheckController
+    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
+    soleTraderNationalityController, typeOfBusinessController, heathcheckController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
-import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
+import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
+import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import * as urls from "../types/pageURL";
 
 const routes = Router();
 
-routes.get("/", indexController.get);
+routes.get(urls.START, indexController.get);
+routes.post(urls.START, indexController.post);
 
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
 routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);
@@ -40,5 +43,8 @@ routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
 
 routes.get(urls.HEALTHCHECK, heathcheckController.get);
+
+routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
 export default routes;

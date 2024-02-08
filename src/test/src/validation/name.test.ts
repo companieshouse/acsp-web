@@ -1,5 +1,5 @@
-import nameErrorManifest from "../../../../../lib/utils/error_manifests/name";
-import { firstNameChecker, lastNameChecker, middleNameChecker } from "../../../../../lib/validation/name";
+import nameErrorManifest from "../../../../lib/utils/error_manifests/name";
+import { firstNameChecker, lastNameChecker, middleNameChecker } from "../../../../lib/validation/name";
 
 describe("Missing input validation tests", () => {
     test("Error if name fields are completely empty", async () => {

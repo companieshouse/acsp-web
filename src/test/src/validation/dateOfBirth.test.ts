@@ -1,5 +1,5 @@
-import dateOfBirthErrorManifest from "../../../../../lib/utils/error_manifests/dateOfBirth";
-import { dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } from "../../../../../lib/validation/dateOfBirth";
+import dateOfBirthErrorManifest from "../../../../lib/utils/error_manifests/dateOfBirth";
+import { dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } from "../../../../lib/validation/dateOfBirth";
 
 describe("Missing input validation tests", () => {
     test("Error if date field is completely empty", async () => {
