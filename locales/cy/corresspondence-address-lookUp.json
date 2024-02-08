@@ -1,0 +1,19 @@
+{
+    "correspondenceLookUpAddressTitle" : "What is your correspondence address? welsh",
+    "correspondenceLookUpAddressPostCodeInput": "UK postcode welsh",
+    "correspondenceLookUpAddressPropertyNameInput": "Property name or number welsh",
+    "correspondenceLookUpAddressFindAddressBtn": "Find address welsh",
+    "correspondenceLookUpAddressManuallyBtn": "Enter Address Manually welsh",
+    "correspondenceLookUpAddressListTitle": "Select your address welsh",
+    "correspondenceLookUpAddresListConfirmBtn": "Confirm and continue welsh",
+
+    "error-noAddress" : "Select the correspondence address welsh",
+    "error-noPostCode" : "Enter a postcode welsh",
+    "error-invalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes welsh",
+    "error-invalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh",
+
+    "error-noDataSelected" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh"
+
+
+
+}

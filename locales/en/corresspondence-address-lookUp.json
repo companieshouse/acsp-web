@@ -1,0 +1,19 @@
+{
+    "correspondenceLookUpAddressTitle" : "What is your correspondence address?",
+    "correspondenceLookUpAddressPostCodeInput": "UK postcode",
+    "correspondenceLookUpAddressPropertyNameInput": "Property name or number",
+    "correspondenceLookUpAddressFindAddressBtn": "Find address",
+    "correspondenceLookUpAddressManuallyBtn": "Enter Address Manually",
+    "correspondenceLookUpAddressListTitle": "Select your address",
+    "correspondenceLookUpAddresListConfirmBtn": "Confirm and continue",
+
+    "error-noAddress" : "Select the correspondence address",
+    "error-noPostCode" : "Enter a postcode",
+    "error-invalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
+    "error-invalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
+
+    "error-noDataSelected" : "We cannot find this postcode. Enter a different one, or enter the address manually"
+
+
+
+}

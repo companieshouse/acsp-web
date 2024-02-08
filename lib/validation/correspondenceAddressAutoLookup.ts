@@ -10,5 +10,4 @@ export const correspondenceAddressAutoLookupValidator = [
 
     body("premise").trim().matches(addressDetailsFormat).withMessage(correspondenceAddressAutoLookUpErrorManifest.validation.invalidPropertyDetails.summary).bail(),
 
-
 ];
