@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { validationResult } from "express-validator";
 import nationalityList from "../../../../../lib/nationalityList";
-import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

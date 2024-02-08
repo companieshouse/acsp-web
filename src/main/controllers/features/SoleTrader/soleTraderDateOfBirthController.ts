@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
