@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_TYPE_OFBUSINESS, START, SOLE_TRADER_OTHER_TYPE_OFBUSINESS, SOLE_TRADER_ROLE } from "../../../types/pageURL";
+import { SOLE_TRADER_TYPE_OF_BUSINESS, START, SOLE_TRADER_OTHER_TYPE_OFBUSINESS, SOLE_TRADER_ROLE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -12,7 +12,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(START, lang),
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_TYPE_OFBUSINESS
+        currentUrl: SOLE_TRADER_TYPE_OF_BUSINESS
     });
 };
 
@@ -27,7 +27,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(START, lang),
                 title: "What type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: SOLE_TRADER_TYPE_OFBUSINESS,
+                currentUrl: SOLE_TRADER_TYPE_OF_BUSINESS,
                 ...pageProperties
             });
         } else {

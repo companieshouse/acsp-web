@@ -42,7 +42,7 @@ routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressM
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
 
-routes.get(urls.SOLE_TRADER_TYPE_OFBUSINESS, typeOfBusinessController.get);
-routes.post(urls.SOLE_TRADER_TYPE_OFBUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
+routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
 export default routes;
