@@ -8,7 +8,7 @@
 /Users/shaileshwalke/IdeaProjects/temp/acsp-web/src/main/views/features/sole-trader/correspondance-address-manual/capture-correspondance-address-manual.njk
 <main>
     <form action="correspondance-address-manual" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{lastName}}</span>
+        {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
           {{ govukFieldset({
              legend: {
