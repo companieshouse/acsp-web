@@ -10,8 +10,8 @@ import { correspondanceAddressManualValidator } from "../../../lib/validation/co
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
-import { correspondenceAddressAutoLookupValidator } from "../../../lib/validation/correspondenceAddressAutoLookup";
-import { correspondenceAddressListValidator } from "../../../lib/validation/correspondanceAddressList";
+import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
+import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
