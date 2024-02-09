@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../utils/properties";
 import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
