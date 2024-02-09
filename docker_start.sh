@@ -4,4 +4,4 @@ npm i
 PORT=3000
 
 export NODE_PORT=${PORT}
-exec node /opt/bin/www.js -- ${PORT}
+exec node dist/src/main/server.js -- ${PORT}
