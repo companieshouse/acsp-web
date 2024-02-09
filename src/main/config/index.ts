@@ -9,3 +9,7 @@ export const SOLE_TRADER_SECTOR_YOU_WORK_IN = `${BASE_SOLE_TRADER_URL}/sector-yo
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = `${BASE_SOLE_TRADER_URL}/where-do-you-live/where-do-you-live`;
 export const SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS = `${BASE_SOLE_TRADER_URL}/correspondance-address-manual/capture-correspondance-address-manual`;
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
+export const ACSP_SERVICE_HOST = "localhost";
+export const ACSP_SERVICE_PORT = "18644";
+export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}:${ACSP_SERVICE_PORT}/acsp-api`;
+export const ACSP_SERVICE_TRANSACTION_URI = `${ACSP_SERVICE_BASE}/transactions`;

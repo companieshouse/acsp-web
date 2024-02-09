@@ -4,8 +4,17 @@ import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
+import cookieParser from "cookie-parser";
+import {
+    SessionStore,
+    SessionMiddleware,
+    Session
+} from "@companieshouse/node-session-handler";
+
+import Redis from "ioredis";
 
 const app = express();
+app.use(cookieParser());
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../../../node_modules/govuk-frontend"),
@@ -64,5 +73,16 @@ process.on("unhandledRejection", (err: any) => {
     logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
+
+const cookieConfig = {
+    cookieSecret: "123456789987654321123456789",
+    cookieName: "__ACSPID",
+    cookieDomain: `http://url.local`,
+    cookieSecureFlag: true,
+    cookieTimeToLiveInSeconds: 100
+};
+
+const sessionStore = new SessionStore(new Redis(`redis://localhost:6379`));
+app.use(SessionMiddleware(cookieConfig, sessionStore));
 
 export default app;

@@ -6,5 +6,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    res.redirect("/type-of-acsp");
+    res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
 };
