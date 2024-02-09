@@ -1,3 +1,0 @@
-jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../src/services/api.service");
-jest.mock("../../src/utils/logger");

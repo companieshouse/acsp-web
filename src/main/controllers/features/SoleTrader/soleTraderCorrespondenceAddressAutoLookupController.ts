@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../../../lib/validation/validation";
 import * as config from "../../../config";
 import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../utils/properties";
-import { getUKAddressesFromPostcode } from "../../../services/postcode-lockup-service";
+import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";

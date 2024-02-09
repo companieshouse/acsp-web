@@ -21,7 +21,7 @@ export const getUKAddressesFromPostcode = async (postcodeAddressesLookupURL: str
 
 export const getIsValidUKPostcode = async (postcodeValidationUrl: string, postcode: string): Promise<boolean> => {
     const apiClient: ApiClient = createPublicApiKeyClient();
-    const postcodeLookUpUrl = `${postcodeValidationUrl}/postcode`;
+    const postcodeLookUpUrl = `${postcodeValidationUrl}/ST63LJ`;
     const sdkResponse: boolean = await apiClient.postCodeLookup.isValidUKPostcode(postcodeLookUpUrl, postcode);
     if (!sdkResponse) {
         logger.debug(`Postcode lookup GET request returned no response for postcode ${postcode}`);
