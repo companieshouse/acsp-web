@@ -8,3 +8,4 @@ export * as soleTraderCorrespondanceAddressManualController from "./features/Sol
 export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
 export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
+export * as healthcheckController from "./features/healthcheckController";
