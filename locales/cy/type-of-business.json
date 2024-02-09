@@ -1,0 +1,12 @@
+{
+    "typeOfBusinessTitle" : "What type of business are you registering? welsh",
+    
+    "typeOfBusinessLimitedCompanyOption": "Limited company welsh",
+    "typeOfBusinessLimitedLiabilityPartnershipsOption": "Limited liability partnership (LLP) welsh",
+    "typeOfBusinessLimitedPartnershipOption": "Limited partnership (LP) welsh",
+    "typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption": "Partnership (not registered with Companies House) welsh",
+    "typeOfBusinessSoleTraderOption": "Sole trader welsh",
+    "typeOfBusinessOtherOption": "Other welsh",
+    
+    "error-typeOfBusinessSelectRadio" : "Select what type of business are you registering welsh"
+}

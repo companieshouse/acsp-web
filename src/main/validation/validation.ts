@@ -1,5 +1,5 @@
-import { validationResult, ValidationError } from "express-validator";
-import { getLocalesService } from "../../src/main/utils/localise";
+import { ValidationError } from "express-validator";
+import { getLocalesService } from "../utils/localise";
 
 export type FormattedValidationErrors = {
     [key: string]: {

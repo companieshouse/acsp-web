@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import app from "../../../../main/app";
+import app from "../../../main/app";
 const router = supertest(app);
 
 describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {

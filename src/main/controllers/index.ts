@@ -9,3 +9,5 @@ export * as soleTraderCorrespondenceAddressAutoLookupController from "./features
 export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
 export * as soleTraderCorrespodanceAddressDetailsController from "./features/SoleTrader/soleTraderCorrespodanceAddressDetailsController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
+export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
+export * as healthCheckController from "./healthCheckController";
