@@ -1,0 +1,12 @@
+{
+    "typeOfBusinessTitle" : "What type of business are you registering?",
+    
+    "typeOfBusinessLimitedCompanyOption": "Limited company",
+    "typeOfBusinessLimitedLiabilityPartnershipsOption": "Limited liability partnership (LLP)",
+    "typeOfBusinessLimitedPartnershipOption": "Limited partnership (LP)",
+    "typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption": "Partnership (not registered with Companies House)",
+    "typeOfBusinessSoleTraderOption": "Sole trader",
+    "typeOfBusinessOtherOption": "Other",
+    
+    "error-typeOfBusinessSelectRadio" : "Select what type of business are you registering"
+}
