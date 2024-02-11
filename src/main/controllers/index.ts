@@ -6,7 +6,7 @@ export * as stopNotRelevantOfficerController from "./features/SoleTrader/stopNot
 export * as soleTraderWhereDoYouLiveController from "./features/SoleTrader/soleTraderWhereDoYouLiveController";
 export * as soleTraderCorrespondanceAddressManualController from "./features/SoleTrader/soleTraderCorrespondanceAddressManualController";
 export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
-export * as soleTraderCorrespondanceAddressConfirmController from "./features/SoleTrader/soleTradercorrespondanceAddressConfirmController";
+export * as soleTraderCorrespondenceAddressConfirmController from "./features/SoleTrader/soleTradercorrespondenceAddressConfirmController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
 export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
 export * as healthCheckController from "./healthCheckController";

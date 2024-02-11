@@ -1,0 +1,34 @@
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+
+  <main class="govuk-main-wrapper" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+
+        <form class="form" action="address-correspondence-confirm" method="post">
+
+          {% include "partials/user_name.njk" %}
+
+          <h1 class="govuk-heading-l">{{i18n.correspondenceAddressConfirmTitle}}</h1>
+          <ul class="govuk-list">
+              <li>{{correspondenceAddress.propertyDetails}}</li>
+              <li>{{correspondenceAddress.line1}}</li>
+              <li>{{correspondenceAddress.line2}}</li>
+              <li>{{correspondenceAddress.town}}</li>
+              <li>{{correspondenceAddress.county}}</li>
+              <li>{{correspondenceAddress.country}}</li>
+              <li>{{correspondenceAddress.postcode}}</li>
+          </ul>
+
+          <p class="govuk-body">
+            <a href="correspondance-address-manual" class="govuk-link govuk-link--no-visited-state">{{i18n.EditAddress}}</a>
+          </p>
+          <button class="govuk-button">{{i18n.ConfirmAndContinue}}</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+{% endblock main_content %}
+onfirmAndContinue

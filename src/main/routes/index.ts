@@ -2,8 +2,7 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderCorrespondanceAddressConfirmController
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
+    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderCorrespondenceAddressConfirmController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
@@ -40,8 +39,8 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
 
-routes.get("/sole-trader/correspondance-address-confirm", soleTraderCorrespondanceAddressConfirmController.get);
-routes.post("/sole-trader/correspondance-address-confirm", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressConfirmController.post);
+routes.get(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.get);
+routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.post);
 
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
