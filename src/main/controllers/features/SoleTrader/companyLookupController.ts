@@ -17,6 +17,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
             res.status(400).render(config.SOLE_TRADER_COMPANY_NUMBER, {
                 pageProperties: pageProperties,
+                payload: req.body,
                 title: "What is the company number?",
                 previousPage: "/sole-trader/one-login-enter-password"
             });
