@@ -1,41 +1,54 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% set errors = pageProperties.errors %}
 {% block main_content %}
 
-  {{ govukInput({
-  label: {
-    text: "What is the company number?",
-    classes: "govuk-label--l",
-    isPageHeading: true
-  },
-  classes: "govuk-input--width-10",
-  hint: {
-    text: "A company number is 8 characters long."
-  },
-  id: "company-number",
-  name: "companyNumber",
-  value: payload["company-number"],
-  errorMessage: {
-  text: errors["company-number"].text
-  } if errors.company-number
-}) }}
 
-  <details class="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Help with nationality
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      You can find this by searching for the company on the
-      <br>
-        <a href="https://find-and-update.company-information.service.gov.uk/">
-          Companies House register (opens in new tab)</a>.
+  <form action="company-lookup" method="POST">
+    <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+    <div id="typeahead-form-group-0" class="govuk-form-group">
+
+      {{ govukInput({
+      label: {
+      text: "What is the company number?",
+      classes: "govuk-label--l",
+      isPageHeading: true
+      },
+      classes: "govuk-input--width-10",
+      hint: {
+      text: "A company number is 8 characters long."
+      },
+      id: "company-number",
+      name: "companyNumber",
+      value: payload["company-number"],
+      errorMessage: {
+      text: errors["company-number"].text
+      } if errors
+      
+
+      }) }}
+</div>
+
+<div id="typeahead-form-group-1" class="govuk-form-group">
+
+      <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            Help with nationality
+          </span>
+        </summary>
+        <div class="govuk-details__text">You can find this by searching for the company on the<br>
+            <a href="https://find-and-update.company-information.service.gov.uk/"> Companies House register (opens in new tab)</a>.
+        </div>
+      </details>
       </div>
-    </details>
-    {{ govukButton({
-  text: "Continue"
-}) }}
+       </fieldset>
+        {{ govukButton({
+          text: "Continue"
+        }) }}
+      </div>
+    </form>
   {% endblock %}
