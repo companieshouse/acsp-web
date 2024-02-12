@@ -3,8 +3,9 @@ import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
-    soleTraderNationalityController, typeOfBusinessController, healthCheckController, soleTraderCorrespondenceAddressAutoLookupController,
+    soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController
+
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
@@ -15,6 +16,7 @@ import { correspondenceAddressListValidator } from "../validation/correspondance
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
+import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
 
 const routes = Router();
@@ -30,7 +32,6 @@ routes.post("/sole-trader/name", nameValidator, soleTraderNameController.post);
 
 routes.get("/sole-trader/statement-relevant-officer", statementRelevantOfficerController.get);
 routes.post("/sole-trader/statement-relevant-officer", statementRelevantOfficerController.post);
-
 routes.get("/sole-trader/stop-not-relevant-officer", stopNotRelevantOfficerController.get);
 
 routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
@@ -53,6 +54,9 @@ routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNational
 
 routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
+
+routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 

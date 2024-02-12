@@ -12,3 +12,4 @@ export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS = `${BASE_SOLE_TRADER_URL}/correspo
 export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST = `${BASE_SOLE_TRADER_URL}/correspondence-auto-lookup-address/correspondence-address-list`;
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
 export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
+export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
