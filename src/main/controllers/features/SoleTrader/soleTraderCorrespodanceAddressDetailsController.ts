@@ -10,7 +10,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
-        title: "What is your name?",
+        title: "Select your address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),

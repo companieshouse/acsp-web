@@ -1,4 +1,4 @@
-import { API_URL, CHS_API_KEY } from "../../utils/properties";
+import { API_URL, CHS_API_KEY } from "../../../src/main/utils/properties";
 import { createApiClient } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 

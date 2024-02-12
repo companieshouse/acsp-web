@@ -1,12 +1,12 @@
 /* eslint-disable import/first */
 jest.mock("../../../main/services/api-services");
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../utils/logger");
+jest.mock("../../../main/utils/logger");
 
 import { createPublicApiKeyClient } from "../../../main/services/api-services";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getUKAddressesFromPostcode, getIsValidUKPostcode } from "../../../main/services/postcode-lookup-service";
-import { createAndLogError } from "../../../utils/logger";
+import { createAndLogError } from "../../../main/utils/logger";
 
 const mockResponseBodyOfUKAddress1: UKAddress = ({
     premise: "2",

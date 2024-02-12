@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
-import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../utils/properties";
+import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../main/utils/properties";
 import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
-import { getCountryFromKey } from "../../../../utils/web";
+import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -83,7 +83,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 req.session.user.addressList = addressList;
                 req.session.save(() => {
-                    res.redirect("/sole-trader/correspondence-address-list");
+                    res.redirect(SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
                 });
 
             }
