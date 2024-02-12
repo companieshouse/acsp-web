@@ -1,6 +1,7 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% set errors = pageProperties.errors %}
 {% block main_content %}
 
   {{ govukInput({
