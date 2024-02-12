@@ -1,0 +1,50 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="" method="POST">
+        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.otherTypeOfBusiness if errors,
+                classes: "govuk-radios",
+                id: "other-type-of-business-radios",
+                name: "otherTypeOfBusinessRadio",
+                fieldset: {
+                    legend: {
+                        text: i18n.otherTypeOfBusinessTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "UNINCORPORATED_ENTITY",
+                        text: i18n.otherTypeOfBusinessUnincorporatedEntity,
+                        checked: type-of-business == UNINCORPORATED_ENTITY,
+                        attributes: {
+                            "data-event-id": "unincorporated-entity"
+                        }
+                    },
+                    {
+                        value: "CORPORATE_BODY",
+                        text: i18n.otherTypeOfBusinessCorporateBody,
+                        hint: {
+                            text: "This does not include limited companies or registrable partnerships."
+                        },
+                        checked: type-of-business == CORPORATE_BODY,
+                        attributes: {
+                            "data-event-id": "corporate-body"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.Continue}}</button>
+    </form>
+</main>
+
+
+{% endblock main_content %}
