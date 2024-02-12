@@ -19,6 +19,7 @@ locals {
   s3_config_bucket           = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
   app_environment_filename   = "acsp-web.env"
   vpc_name                   = data.aws_ssm_parameter.secret[format("/%s/%s", local.name_prefix, "vpc-name")].value
+  chs_api_key                = local.service_secrets["chs_api_key"]
 
   # create a map of secret name => secret arn to pass into ecs service module
   # using the trimprefix function to remove the prefixed path from the secret name
@@ -60,7 +61,9 @@ locals {
   ]
 
   # secrets to go in list
-  task_secrets = concat(local.global_secret_list, local.service_secret_list)
+  task_secrets = concat(local.global_secret_list, local.service_secret_list),[
+    { name : "CHS_API_KEY", value : local.chs_api_key },
+  ]
 
   task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map)
 
