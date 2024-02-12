@@ -3,7 +3,9 @@ import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
-    soleTraderNationalityController, typeOfBusinessController, OtherTypeOfBusinessController, healthCheckController
+    soleTraderNationalityController, typeOfBusinessController, OtherTypeOfBusinessController, healthCheckController,
+    soleTraderCorrespondenceAddressConfirmController
+
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
@@ -38,6 +40,9 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+
+routes.get(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.get);
+routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.post);
 
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
