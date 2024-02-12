@@ -3,7 +3,7 @@ import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
-    soleTraderNationalityController, typeOfBusinessController, OtherTypeOfBusinessController, healthCheckController
+    soleTraderNationalityController, typeOfBusinessController, OtherTypeOfBusinessController, healthCheckController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderCorrespondenceAddressConfirmController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController
 } from "../controllers";
