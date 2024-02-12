@@ -5,15 +5,19 @@ import { FormattedValidationErrors, formatValidationError } from "../../../../..
 import * as config from "../../../config";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+    req.session.user = req.session.user || {};
     res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
         nationalityList: nationalityList,
         title: "What is your nationality?",
-        previousPage: "/sole-trader/date-of-birth"
+        previousPage: "/sole-trader/date-of-birth",
+        firstName: req.session.user.firstName,
+        lastName: req.session.user.lastName
+
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("Form submission data:", req.body);
+    req.session.user = req.session.user || {};
     try {
         const errorList = validationResult(req);
 
@@ -23,7 +27,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 nationalityList: nationalityList,
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
-                previousPage: "/sole-trader/date-of-birth"
+                previousPage: "/sole-trader/date-of-birth",
+                firstName: req.session.user.firstName,
+                lastName: req.session.user.lastName
+
             });// determined from user not in banned list
         } else {
             // If validation passes, redirect to the next page

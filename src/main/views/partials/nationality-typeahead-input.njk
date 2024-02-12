@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{{cdnHost}}/javascripts/app/accessible-autocomplete.min.js"></script>
+<script type="text/javascript" src="{{ cdnHost }}/javascripts/app/accessible-autocomplete.min.js"></script>
 <script type="text/javascript">
   const nationalityList = "{{ nationalityList }}"
   const error = ["{{ pageProperties.errors.nationality_input_0.text }}", "{{ pageProperties.errors.nationality_input_1.text }}", "{{ pageProperties.errors.nationality_input_2.text }}"];
@@ -6,10 +6,14 @@
     const autocompleteConfig = {
       element: document.querySelector(`#nationality-${i}`),
       id: `nationality_input_${i}`, // To match it to the existing <label>.
-      source: nationalityList.split(","),
+      source: nationalityList.split(";"),
       name: `nationality_input_${i}`
     };
     accessibleAutocomplete(autocompleteConfig);
     const nationality = document.getElementById(`nationality-${i}`);
   }
 </script>
+<!-- Javascript disabled -->
+<noscript>
+  {% include "./nationality-typeahead-noscript-input.njk" %}
+</noscript>

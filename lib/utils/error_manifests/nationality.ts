@@ -25,18 +25,6 @@ const nationalityErrorManifest = {
         doubleThirdNationality: {
             summary: "Enter a different third nationality",
             inline: "Enter a different third nationality"
-        },
-        charLimit1stNationality: {
-            summary: "Nationality can be no longer than 50 characters",
-            inline: "Nationality can be no longer than 50 characters"
-        },
-        charLimit2ndNationality: {
-            summary: "For technical reasons, we are not able to accept dual nationalities with a total of more than 49 characters",
-            inline: "For technical reasons, we are not able to accept dual nationalities with a total of more than 49 characters"
-        },
-        charLimit3rdNationality: {
-            summary: "For technical reasons, we are not able to accept multiple nationalities with a total of more than 48 characters",
-            inline: "For technical reasons, we are not able to accept multiple nationalities with a total of more than 48 characters"
         }
 
     }
