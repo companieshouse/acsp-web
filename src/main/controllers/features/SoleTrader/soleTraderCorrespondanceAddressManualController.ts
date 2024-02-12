@@ -21,7 +21,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array()));
             res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, {
-                title: "What is your correspondance address?",
+                title: "What is your correspondence address?",
                 previousPage: "/sole-trader/correspondance-address--lookup",
                 pageProperties: pageProperties,
                 payload: req.body,

@@ -3,14 +3,16 @@ import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
-    soleTraderNationalityController, typeOfBusinessController, OtherTypeOfBusinessController, healthCheckController,
-    soleTraderCorrespondenceAddressConfirmController
+    soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController
 
 } from "../controllers";
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
+import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
+import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
@@ -40,6 +42,12 @@ routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTrade
 
 routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
 routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, soleTraderCorrespodanceAddressDetailsController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
 
 routes.get(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.get);
 routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.post);
