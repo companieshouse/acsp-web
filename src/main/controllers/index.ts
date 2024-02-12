@@ -8,6 +8,7 @@ export * as soleTraderCorrespondanceAddressManualController from "./features/Sol
 export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/SoleTrader/soleTraderCorrespondenceAddressAutoLookupController";
 export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
 export * as soleTraderCorrespodanceAddressDetailsController from "./features/SoleTrader/soleTraderCorrespodanceAddressDetailsController";
+export * as soleTraderCorrespondenceAddressConfirmController from "./features/SoleTrader/soleTradercorrespondenceAddressConfirmController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
 export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
 export * as OtherTypeOfBusinessController from "./features/SoleTrader/otherTypeOfBusinessController";
