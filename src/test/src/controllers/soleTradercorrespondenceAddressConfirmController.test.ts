@@ -1,23 +1,24 @@
 import supertest from "supertest";
 import app from "../../../main/app";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../main/types/pageURL";
 const router = supertest(app);
 
 describe("GET /sole-trader/correspondence-address-confirm", () => {
     it("should render the confirmation page with status 200", async () => {
-        await router.get("/sole-trader/correspondence-address-confirm?lang=en").expect(200);
+        await router.get(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).expect(200);
     });
 
     it("should render the confirmation page with user data", async () => {
         const userSession = { firstName: "John", lastName: "Doe", correspondenceAddress: "123 Main St" };
         await router
-            .get("/sole-trader/correspondence-address-confirm?lang=en")
+            .get(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM)
             .set("Cookie", [`userSession=${JSON.stringify(userSession)}`])
             .expect(200);
     });
 });
 
-describe("POST /sole-trader/correspondence-address-confirm", () => {
+describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     it("should redirect to /type-of-acsp with status 302", async () => {
-        await router.post("/sole-trader/correspondence-address-confirm?lang=en").expect(302).expect("Location", "/type-of-acsp");
+        await router.post(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", "/type-of-acsp");
     });
 });

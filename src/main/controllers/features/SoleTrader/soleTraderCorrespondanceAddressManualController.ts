@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -39,7 +40,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 postcode: req.body.addressPostcode
             };
             req.session.save(() => {
-                res.redirect("/sole-trader/correspondance-address-confirm");
+                res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
             });
         }
     } catch (error) {
