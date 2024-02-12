@@ -7,7 +7,7 @@ import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-se
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -65,7 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 }
                 req.session.user.address = address;
                 req.session.save(() => {
-                    res.redirect("/sole-trader/correspondence-address-confirm");
+                    res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
                 });
 
             } else {

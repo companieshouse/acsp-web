@@ -3,7 +3,7 @@ import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../types/pageURL";
+import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addresses: req.session.user.addressList
             });
         } else {
-            res.redirect("/sole-trader/correspondance-address-confirm");
+            res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
         }
     } catch (error) {
         next(error);
