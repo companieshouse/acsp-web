@@ -9,3 +9,4 @@ export const SOLE_TRADER_SECTOR_YOU_WORK_IN = `${BASE_SOLE_TRADER_URL}/sector-yo
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = `${BASE_SOLE_TRADER_URL}/where-do-you-live/where-do-you-live`;
 export const SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS = `${BASE_SOLE_TRADER_URL}/correspondance-address-manual/capture-correspondance-address-manual`;
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
+export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;

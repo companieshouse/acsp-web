@@ -1,4 +1,4 @@
-import { GenericValidator } from "../../../../../lib/validation/generic";
+import { GenericValidator } from "../../../../lib/validation/generic";
 
 describe("Validate email address", () => {
     const validator = new GenericValidator();

@@ -7,3 +7,5 @@ export * as soleTraderWhereDoYouLiveController from "./features/SoleTrader/soleT
 export * as soleTraderCorrespondanceAddressManualController from "./features/SoleTrader/soleTraderCorrespondanceAddressManualController";
 export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
+export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
+export * as healthCheckController from "./healthCheckController";
