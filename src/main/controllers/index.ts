@@ -9,3 +9,4 @@ export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkI
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
 export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
 export * as healthCheckController from "./healthCheckController";
+export * as companyLookupController from "./features/SoleTrader/companyLookupController";

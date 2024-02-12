@@ -3,8 +3,9 @@ import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController,
-    soleTraderNationalityController, typeOfBusinessController, healthCheckController
+    soleTraderNationalityController, typeOfBusinessController, healthCheckController, companyLookupController
 } from "../controllers";
+
 import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
@@ -12,6 +13,7 @@ import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
+import { companyNumberValidator } from "../../../lib/validation/companyLookup";
 import * as urls from "../types/pageURL";
 
 const routes = Router();
@@ -46,5 +48,8 @@ routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get("/sole-trader/company-lookup", companyLookupController.get);
+routes.post("/sole-trader/company-lookup", companyNumberValidator, companyLookupController.post);
 
 export default routes;
