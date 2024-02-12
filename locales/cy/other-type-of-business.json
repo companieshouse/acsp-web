@@ -1,0 +1,7 @@
+{
+    "otherTypeOfBusinessTitle" : "What other type of business are you registering? welsh",
+    "otherTypeOfBusinessUnincorporatedEntity": "Unincorporated entity welsh",
+    "otherTypeOfBusinessCorporateBody": "Corporate body (registered with Companies House) welsh",
+    "otherTypeOfBusinessCorporateBodyHint": "This does not include limited companies or registrable partnerships. welsh",
+    "error-otherTypeOfBusinessSelectRadio" : "Select the type of business you are registering welsh"
+}
