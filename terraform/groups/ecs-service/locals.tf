@@ -61,9 +61,9 @@ locals {
   ]
 
   # secrets to go in list
-  task_secrets = concat(local.global_secret_list, local.service_secret_list),[
+  task_secrets = concat(local.global_secret_list, local.service_secret_list,[
     { name : "CHS_API_KEY", value : local.chs_api_key },
-  ]
+  ])
 
   task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map)
 
