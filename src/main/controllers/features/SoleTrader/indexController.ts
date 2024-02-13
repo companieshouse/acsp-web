@@ -6,17 +6,16 @@ import logger from "../../../../../lib/Logger";
 import { IndexService } from "../../../services/indexService";
 import { getAccessToken } from "../../../common/__utils/session";
 
-
 import {
     SUBMISSION_ID,
     TRANSACTION_CREATE_ERROR
 } from "../../../common/__utils/constants";
 
-//const acspServiceClient : ACSPServiceClient = new ACSPServiceClient("http://localhost:18644/acsp-api");
+// const acspServiceClient : ACSPServiceClient = new ACSPServiceClient("http://localhost:18644/acsp-api");
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session = req.session as any as Session;
-    getAccessToken(session)
+    getAccessToken(session);
 
     const handler = new IndexService();
     try {
