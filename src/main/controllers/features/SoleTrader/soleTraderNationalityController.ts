@@ -11,12 +11,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What is your nationality?",
         previousPage: "/sole-trader/date-of-birth",
         firstName: req.session.user.firstName,
-        lastName: req.session.user.lastName
+        lastName: req.session.user.lastName,
+        nationality_input_0: req.body.nationality_input_0,
+        nationality_input_1: req.body.nationality_input_1,
+        nationality_input_2: req.body.nationality_input_2
 
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("Form submission data:", req.body);
     req.session.user = req.session.user || {};
     try {
         const errorList = validationResult(req);
@@ -29,7 +33,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "What is your nationality?",
                 previousPage: "/sole-trader/date-of-birth",
                 firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                lastName: req.session.user.lastName,
+                nationality_input_0: req.body.nationality_input_0,
+                nationality_input_1: req.body.nationality_input_1,
+                nationality_input_2: req.body.nationality_input_2
 
             });// determined from user not in banned list
         } else {
