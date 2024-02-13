@@ -62,8 +62,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                             country: getCountryFromKey(ukAddress.country)
                         };
                     }
+
+                    // Save the correspondence address to session
+                    req.session.user.correspondenceAddress = {
+                        propertyDetails: ukAddress.premise,
+                        line1: ukAddress.addressLine1,
+                        line2: ukAddress.addressLine2,
+                        town: ukAddress.postTown,
+                        country: getCountryFromKey(ukAddress.country),
+                        postcode: ukAddress.postcode
+                    };
                 }
                 req.session.user.address = address;
+
                 req.session.save(() => {
                     res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
                 });
