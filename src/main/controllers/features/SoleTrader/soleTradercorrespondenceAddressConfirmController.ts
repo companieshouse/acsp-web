@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_CORRESPONDENCE_ADDRESS_MANUAL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -10,7 +10,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const { firstName, lastName, correspondenceAddress } = req.session.user;
 
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
-        previousPage: addLangToUrl(config.SOLE_TRADER_MANUAL_CORRESPONDANCE_ADDRESS, lang),
+        previousPage: addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_MANUAL, lang),
+        editPage: addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_MANUAL, lang),
         title: "Confirm the correspondence address",
         ...getLocaleInfo(locales, lang),
         currentUrl: SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
