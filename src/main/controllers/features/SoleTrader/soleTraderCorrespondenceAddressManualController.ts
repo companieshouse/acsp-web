@@ -26,16 +26,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
+                previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
-                previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 currentUrl: SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
-                pageProperties: pageProperties,
-                payload: req.body,
-                firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                pageProperties: pageProperties
             });
         } else {
             // Save the correspondence address to session

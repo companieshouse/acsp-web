@@ -1,12 +1,12 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
+{% set errors = pageProperties.errors %}
 
 {% block main_content %}
 <main>
-    <form action="correspondence-address-manual" method="POST">
+    <form action="" method="POST">
         {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
           {{ govukFieldset({
