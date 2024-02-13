@@ -18,10 +18,10 @@
           }) }}  
           {{ govukInput({
               label: {
-                text: i18n.correspondenceAddressManualPropertyNameOrNumber
+                text: i18n.addressPropertyDetails
               },
               hint: {
-                text: i18n.correspondenceAddressManualPropertyNameOrNumberHint
+                text: i18n.addressPropertyDetailsHint
               },
               classes: "govuk-!-width-two-thirds",
               id: "addressPropertyDetails",
@@ -33,7 +33,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: i18n.correspondenceAddressManualAddressLine1
+                text: i18n.addressLine1
               },
               classes: "govuk-!-width-two-thirds",
               id: "addressLine1",
@@ -45,7 +45,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "Address line 2 (optional)"
+                text: i18n.addressLine2
               },
               classes: "govuk-!-width-two-thirds",
               id: "addressLine2",
@@ -57,7 +57,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "City or town"
+                text: i18n.addressTown
               },
               classes: "govuk-!-width-one-half",
               id: "addressTown",
@@ -69,7 +69,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "County (optional)"
+                text: i18n.addressCounty
               },
               classes: "govuk-!-width-one-half",
               id: "addressCounty",
@@ -81,7 +81,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "Country"
+                text: i18n.addressCountry
               },
               classes: "govuk-!-width-one-half",
               id: "addressCountry",
@@ -93,7 +93,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "Postcode"
+                text: i18n.addressPostcode
               },
               classes: "govuk-input--width-10",
               id: "addressPostcode",
