@@ -1,4 +1,5 @@
 {% extends "layouts/default.njk" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
 {% set errors = pageProperties.errors %}
 {% block main_content %}
 
@@ -11,19 +12,45 @@
           <h1 class="govuk-heading-l">{{i18n.correspondenceLookUpAddressTitle}}</h1>
          <div class ="govuk-form-group">
 
-              <label class="govuk-label" for="postCode"></label>
-              <input class="govuk-input govuk-input--width-10" id="postCode" name="postCode" type="text">
+         {{ govukInput({
+                label: {
+                    text: "UK postcode"
+                },
+                errorMessage: {
+                    text: errors.postCode.text
+                } if errors.postCode | length,
+                classes: "govuk-input--width-20",
+                id: "postCode",
+                name: "postCode",
+                autocomplete: "postal-code",
+                value: payload.postCode
+            }) }}
 
-              <label class="govuk-label" for="premise">{{i18n.correspondenceLookUpAddressInputHint1}}
-                <br class="govuk-secondary-text-colour">{{i18n.correspondenceLookUpAddressInputHint2}}</br></label>
-              <input class="govuk-input govuk-input--width-10" id="premise" name="premise" type="text">
+
+            {{ govukInput({
+                label: {
+                    text: i18n.correspondenceLookUpAddressInputHint1
+                },
+                errorMessage: {
+                    text: errors.premise.text
+                } if errors.premise | length,
+                classes: "govuk-input--width-20",
+                id: "premise",
+                name: "premise",
+                autocomplete: "street-address",
+                value: payload.premise,
+                hint: {
+                  text: i18n.correspondenceLookUpAddressInputHint2,
+                  classes: "govuk-hint"
+                }
+            }) }}
           </div>
 
           <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
             {{i18n.correspondenceLookUpAddressFindAddressBtn}}
           </button>
 
-           <p><a href="/sole-trader/correspondance-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
+           <p><a href="/sole-trader/correspondence-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
     </form>
     </main>
   </div>
