@@ -11,17 +11,17 @@
         <div class="govuk-form-group">
           {{ govukFieldset({
              legend: {
-             text: "What is the correspondence address?",
+             text: i18n.correspondenceAddressManualTitle,
              classes: "govuk-fieldset__legend--l",
              isPageHeading: true
              }  
           }) }}  
           {{ govukInput({
               label: {
-                text: "Property name or number"
+                text: i18n.correspondenceAddressManualPropertyNameOrNumber
               },
               hint: {
-                text: "For example, 'The Mill', '116' or 'Flat 37a'"
+                text: i18n.correspondenceAddressManualPropertyNameOrNumberHint
               },
               classes: "govuk-!-width-two-thirds",
               id: "addressPropertyDetails",
@@ -33,7 +33,7 @@
           }) }}
           {{ govukInput({
               label: {
-                text: "Address line 1"
+                text: i18n.correspondenceAddressManualAddressLine1
               },
               classes: "govuk-!-width-two-thirds",
               id: "addressLine1",

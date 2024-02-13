@@ -1,0 +1,7 @@
+{
+    "correspondenceAddressManualTitle" : "What is the correspondence address? welsh",
+    "correspondenceAddressManualPropertyNameOrNumber": "Property name or number welsh",
+    "correspondenceAddressManualPropertyNameOrNumberHint": "For example, 'The Mill', '116' or 'Flat 37a' welsh",
+    "correspondenceAddressManualAddressLine1": "Address line 1 welsh",
+    "error-correspondenceAddressManualNoPropertyDetails": "Enter a property name or number welsh"
+}

@@ -8,6 +8,7 @@ import {
 
 } from "../controllers";
 import { correspondenceAddressManualValidator } from "../../../lib/validation/correspondenceAddressManual";
+// import { correspondenceAddressManualValidator } from "../validation/otherTypeOfBusiness";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
@@ -40,8 +41,8 @@ routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, secto
 routes.get("/sole-trader/where-do-you-live", soleTraderWhereDoYouLiveController.get);
 routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
-routes.get("/sole-trader/correspondence-address-manual", soleTraderCorrespondenceAddressManualController.get);
-routes.post("/sole-trader/correspondence-address-manual", correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
+routes.get(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, soleTraderCorrespondenceAddressManualController.get);
+routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
 
 routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
 routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
