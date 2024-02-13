@@ -13,3 +13,12 @@ export const ACSP_SERVICE_HOST = "localhost";
 export const ACSP_SERVICE_PORT = "18644";
 export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}:${ACSP_SERVICE_PORT}/acsp-api`;
 export const ACSP_SERVICE_TRANSACTION_URI = `${ACSP_SERVICE_BASE}/transactions`;
+// export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
+export const API_URL = "http://api.chs.local:4001";
+export const CHS_API_KEY = "2ETU8wNAmUcrwOzHRirRyc35mUk_WFOmQbHE1sLr";
+export const CREATE_DESCRIPTION = "Create an ACSP registration transaction";
+export const REFERENCE = "ACSP Registration";
+export const transactionStatuses = {
+    CLOSED: "closed"
+};
+// export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");

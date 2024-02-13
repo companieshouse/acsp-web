@@ -1,11 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import Axios, { AxiosInstance } from "axios";
+import logger from "../../../lib/Logger";
+import { getAccessToken } from "../common/__utils/session";
 // import {
 //     ACSP_SERVICE_TRANSACTION_URI
 //   } from "../config";
 
 import { Session } from "@companieshouse/node-session-handler";
-import session from "express-session";
 
 export class ACSPServiceClient {
 
@@ -15,17 +16,25 @@ export class ACSPServiceClient {
       this.client = Axios.create({ baseURL });
   }
 
-  getConfig (req: Request) {
+  getConfig (session: Session) {
       return {
           headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${session}`
+              Authorization: `Bearer ${getAccessToken(session)}`
           }
       };
   }
 
   async startTransaction (req: Request, session: Session) {
-      // const response = await.this.client("");
+      try {
+          const config = this.getConfig(session);
+          const authToken = getAccessToken(session);
+          const response = await this.client.post("/transactions", config);
+          logger.info("response");
+      } catch (err : any) {
+          logger.info(err);
+      }
+
   }
 
 }
