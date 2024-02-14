@@ -50,30 +50,35 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondencePremise = req.body.premise;
 
             if (correspondencePremise !== "") {
-                let address = {};
+                let address = {
+                    premise: "",
+                    addressLine1: "",
+                    addressLine2: "",
+                    locality: "",
+                    postalCode: "",
+                    country: ""
+                };
                 for (const ukAddress of ukAddresses) {
-                    if (ukAddress.premise.toUpperCase() === correspondencePremise.toUpperCase()) {
+                    if (ukAddress.premise === correspondencePremise) {
                         address = {
                             premise: ukAddress.premise,
                             addressLine1: ukAddress.addressLine1,
-                            addressLine2: ukAddress.addressLine2,
+                            addressLine2: ukAddress.addressLine2!,
                             locality: ukAddress.postTown,
                             postalCode: ukAddress.postcode,
                             country: getCountryFromKey(ukAddress.country)
                         };
                     }
-
-                    // Save the correspondence address to session
-                    req.session.user.correspondenceAddress = {
-                        propertyDetails: ukAddress.premise,
-                        line1: ukAddress.addressLine1,
-                        line2: ukAddress.addressLine2,
-                        town: ukAddress.postTown,
-                        country: getCountryFromKey(ukAddress.country),
-                        postcode: ukAddress.postcode
-                    };
                 }
-                req.session.user.address = address;
+                // Save the correspondence address to session
+                req.session.user.correspondenceAddress = {
+                    propertyDetails: address.premise,
+                    line1: address.addressLine1,
+                    line2: address.addressLine2,
+                    town: address.locality,
+                    country: address.country,
+                    postcode: address.postalCode
+                };
 
                 req.session.save(() => {
                     res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
@@ -85,6 +90,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 for (const ukAddress of ukAddresses) {
                     const address = {
                         premise: ukAddress.premise,
+                        line1: ukAddress.addressLine1,
+                        line2: ukAddress.addressLine2,
+                        town: ukAddress.postTown,
+                        country: getCountryFromKey(ukAddress.country),
+                        postcode: ukAddress.postcode,
                         formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
                     };
 
