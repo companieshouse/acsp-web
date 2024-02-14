@@ -2,7 +2,7 @@
   "name": "acsp-web",
   "version": "1.0.0",
   "description": "A web application for the Authorized Corporate Service Providers (ACSP)",
-  "main": "dist/src/main/server.js",
+  "main": "dist/server.js",
   "engines": {
     "node": ">=20.0.0",
     "npm": "^10"
@@ -16,7 +16,7 @@
     "lint:fix": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts' --fix",
     "test:coverage": "npm run test -- --coverage",
     "test": "jest",
-    "start": "npm run build && source ./dist/config/.env && node dist/src/main/server.js",
+    "start": "npm run build && source ./dist/config/.env && node dist/server.js",
     "start:watch": "nodemon",
     "sonarqube": "sonar-scanner"
   },
