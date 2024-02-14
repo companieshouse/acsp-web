@@ -7,8 +7,8 @@ import { Session } from "@companieshouse/node-session-handler";
 
 export const userMail = "userWithPermission@ch.gov.uk";
 export const mockNewAccessToken = "HmSD2E5RvLirVF6wIZY7tN2TgOzKwRpffPcTYi50S";
-export const ACCESS_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.AccessToken]: "accessToken" };
-export const REFRESH_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.RefreshToken]: "refreshToken" };
+export const ACCESS_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.AccessToken]: "HmSD2E5RvLirVF6wIZY7tN2TgOzKwRpffPcTYi50S" };
+export const REFRESH_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.RefreshToken]: "HmSD2E5RvLirVF6wIZY7tN2TgOzKwRpffPcTYi50S" };
 
 const SIGN_IN_INFO = {
     [SignInInfoKeys.SignedIn]: 1,
