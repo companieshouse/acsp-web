@@ -36,7 +36,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addresses: req.session.user.addressList
             });
         } else {
-            res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+            const nextPageUrl = addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);
