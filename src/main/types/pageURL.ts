@@ -6,7 +6,7 @@ export const START = "/"; // Domain name will go here
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/sector-you-work-in";
 
-export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_MANUAL = SOLE_TRADER + "/correspondence-address-manual";
+export const SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS = SOLE_TRADER + "/correspondence-address-manual";
 
 export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM = SOLE_TRADER + "/correspondence-address-confirm";
 
