@@ -8,7 +8,7 @@
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
-                errorMessage: errors.otherTypeOfBusiness if errors,
+                errorMessage: errors.otherTypeOfBusinessRadio if errors,
                 classes: "govuk-radios",
                 id: "other-type-of-business-radios",
                 name: "otherTypeOfBusinessRadio",
@@ -16,7 +16,7 @@
                     legend: {
                         text: i18n.otherTypeOfBusinessTitle,
                         isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
+                        classes: "govuk-fieldset__legend--l govuk-!-width-two-thirds"
                     }
                 },
                 items: [
