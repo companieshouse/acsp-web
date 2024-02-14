@@ -11,6 +11,9 @@ clean:
 		rm -rf ./dist
 		rm -f ./build.log
 
+package-install:
+	npm install
+
 .PHONY: build
 build:	
 		npm ci
@@ -45,8 +48,7 @@ endif
 		cp -r ./dist/* $(tmpdir)
 		cp -r ./package.json $(tmpdir)
 		cp -r ./package-lock.json $(tmpdir)
-		cp -r ./.git $(tmpdir)
-		cd $(tmpdir) && export GIT_SSH_COMMAND="ssh" && npm ci --production
+		cd $(tmpdir) && npm install --production
 		rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 		cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 		rm -rf $(tmpdir)
