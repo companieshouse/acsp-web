@@ -7,7 +7,7 @@ import {
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController
 
 } from "../controllers";
-// import { correspondenceAddressManualValidator } from "../../../lib/validation/correspondenceAddressManual";
+
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
