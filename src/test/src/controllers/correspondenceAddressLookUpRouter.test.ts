@@ -18,7 +18,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
         const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe("/sole-trader/correspondence-address-list");
+        expect(response.header.location).toBe("/sole-trader/correspondence-address-list?lang=en");
     });
 
     it("should redirect to confirm page status 302 on successful form submission", async () => {

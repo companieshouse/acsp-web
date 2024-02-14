@@ -19,11 +19,11 @@
 {% endfor %}
 
 <main>
-    <form action="correspondence-address-list" method="POST">
+    <form action="" method="POST">
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
-                errorMessage: errors.sectorYouWorkIn if errors,
+                errorMessage: errors.correspondenceLookUpAddressList if errors,
                 classes: "govuk-radios",
                 id: "correspondence-address-in-radios",
                 name: "correspondenceAddress",

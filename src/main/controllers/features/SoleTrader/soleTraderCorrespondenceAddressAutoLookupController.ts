@@ -94,7 +94,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 req.session.user.addressList = addressList;
                 req.session.save(() => {
-                    res.redirect(SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
+                    const nextPageUrl = addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
+                    res.redirect(nextPageUrl);
                 });
 
             }
