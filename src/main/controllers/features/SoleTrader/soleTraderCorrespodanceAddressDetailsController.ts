@@ -4,6 +4,8 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { getCountryFromKey } from "../../../utils/web";
+import { log } from "console";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -36,8 +38,28 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addresses: req.session.user.addressList
             });
         } else {
-            const nextPageUrl = addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-            res.redirect(nextPageUrl);
+            const addresList = req.session.user.addressList;
+            const selectPremise = req.body.correspondenceAddress;
+
+            for (const ukAddress of addresList) {
+                if (ukAddress.premise.toUpperCase() === selectPremise.toUpperCase()) {
+                    // Save the correspondence address to session
+                    req.session.user.correspondenceAddress = {
+                        propertyDetails: ukAddress.premise,
+                        line1: ukAddress.line1,
+                        line2: ukAddress.line2,
+                        town: ukAddress.town,
+                        country: ukAddress.country,
+                        postcode: ukAddress.postcode
+                    };
+
+                }
+
+            }
+            req.session.save(() => {
+                const nextPageUrl = addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+                res.redirect(nextPageUrl);
+            });
         }
     } catch (error) {
         next(error);
