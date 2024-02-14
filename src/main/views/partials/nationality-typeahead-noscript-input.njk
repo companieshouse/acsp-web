@@ -1,19 +1,41 @@
 {% from "govuk/components/select/macro.njk" import govukSelect %}
+
 <noscript>
   {% set DROPDOWN = [
       { value: '', text: dropdownDefaultText }
     ] %}
+
   {% set dropdownArray = nationalityList.split(";") %}
+
   {% if not dropdownNumber %}
     {% set dropdownNumber = "0" %}
   {% endif %}
+
   {% if not inputClass %}
     {% set inputClass = "govuk-!-width-two-thirds" %}
   {% endif %}
+
+    {% if not dropdownValue %}
+  {% set dropdownValue = payload.nationality_input_ %}
+  {% endif %}
+
   {% for i in dropdownArray %}
     {% set dropdownObject = { value: i, text: i, selected: dropdownValue === i } %}
     {% set DROPDOWN = DROPDOWN.concat(dropdownObject) %}
   {% endfor %}
+
+{% set payloadValue0 = payload['nationality_input_0'] %}
+  {% set payloadValue1 = payload['nationality_input_1'] %}
+  {% set payloadValue2 = payload['nationality_input_2'] %}
+
+  {% if dropdownNumber == "0" %}
+    {% set dropdownValue = payloadValue0 %}
+  {% elif dropdownNumber == "1" %}
+    {% set dropdownValue = payloadValue1 %}
+  {% else %}
+    {% set dropdownValue = payloadValue2 %}
+  {% endif %}
+
   {{ govukSelect({
       errorMessage: errorMessage,
       label: {

@@ -22,6 +22,7 @@
                     <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                     <noscript>
                         {% set dropdownNumber = "0" %}
+                        {% set dropdownValue = payloadValue0 %}
                         {% set errorMessage = dropdownOneError %}
                         {% include "../../../partials/nationality-typeahead-input.njk" %}
                     </noscript>
@@ -35,6 +36,7 @@
                         <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "1" %}
+                            {% set dropdownValue = payloadValue1 %}
                             {% set errorMessage = dropdownTwoError %}
                             {% include "../../../partials/nationality-typeahead-input.njk" %}
                         </noscript>
@@ -48,6 +50,7 @@
                         <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "2" %}
+                            {% set dropdownValue = payloadValue2 %}
                             {% set errorMessage = dropdownThreeError %}
                         </noscript>
                         {% include "../../../partials/nationality-typeahead-input.njk" %}

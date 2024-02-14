@@ -18,6 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
+    console.log("Form submission data:", req.body);
     try {
         const errorList = validationResult(req);
 
