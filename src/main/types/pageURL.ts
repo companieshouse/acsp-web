@@ -2,6 +2,8 @@ const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
 
+const HELP = "/help";
+
 export const START = "/"; // Domain name will go here
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/sector-you-work-in";
@@ -17,6 +19,7 @@ export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS = SOLE_TRADER + "/correspondenceAdd
 export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST = SOLE_TRADER + "/correspondence-address-list";
 
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = SOLE_TRADER + "/where-do-you-live";
+
 export const SOLE_TRADER_ROLE = SOLE_TRADER + "/statement-relevant-officer";
 
 export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
@@ -24,3 +27,5 @@ export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-business";
 
 export const HEALTHCHECK = "/healthcheck";
+
+export const ACCESSIBILITY_STATEMENT = HELP + "/accessibility-statement";

@@ -13,3 +13,4 @@ export * as soleTraderNationalityController from "./features/SoleTrader/soleTrad
 export * as typeOfBusinessController from "./features/SoleTrader/typeOfBusinessController";
 export * as OtherTypeOfBusinessController from "./features/SoleTrader/otherTypeOfBusinessController";
 export * as healthCheckController from "./healthCheckController";
+export * as accessibilityStatementController from "./features/Help/accessibilityStatementController";
