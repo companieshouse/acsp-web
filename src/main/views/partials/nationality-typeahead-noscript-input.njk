@@ -24,17 +24,7 @@
     {% set DROPDOWN = DROPDOWN.concat(dropdownObject) %}
   {% endfor %}
 
-{% set payloadValue0 = payload['nationality_input_0'] %}
-  {% set payloadValue1 = payload['nationality_input_1'] %}
-  {% set payloadValue2 = payload['nationality_input_2'] %}
 
-  {% if dropdownNumber == "0" %}
-    {% set dropdownValue = payloadValue0 %}
-  {% elif dropdownNumber == "1" %}
-    {% set dropdownValue = payloadValue1 %}
-  {% else %}
-    {% set dropdownValue = payloadValue2 %}
-  {% endif %}
 
   {{ govukSelect({
       errorMessage: errorMessage,
