@@ -32,7 +32,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
-                pageProperties: pageProperties
+                pageProperties: pageProperties,
+                payload: req.body,
+                firstName: req.session.user.firstName,
+                lastName: req.session.user.lastName
             });
         } else {
             // Save the correspondence address to session
