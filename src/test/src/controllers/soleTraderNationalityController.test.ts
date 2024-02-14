@@ -79,3 +79,11 @@ describe("POST /sole-trader/nationality", () => {
             .send({ nationality_input_0: "British", nationality_input_1: "Thelenghtofthisentenceisverylongoverthecharacterspecified", nationality_input_2: "British" }).expect(400);
     });
 });
+
+// Test for invalid input
+describe("POST /sole-trader/nationality", () => {
+    it("should return status 400", async () => {
+        await router.post("/sole-trader/nationality")
+            .send({ nationality_input_0: "Italian", nationality_input_1: " ", nationality_input_2: "British" }).expect(400);
+    });
+});

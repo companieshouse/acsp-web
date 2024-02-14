@@ -11,12 +11,14 @@
     <div>
         <form action="nationality" method="post">
             <fieldset class="govuk-fieldset">
-                <div id="typeahead-form-group-0" class="govuk-form-group">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                     <span class="govuk-caption-l">{{ firstName }}
                         {{ lastName }}</span>
-                    <h1 class="govuk-label-wrapper">
+                    <h1 class="govuk-fieldset__heading">
                         <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
                     </h1>
+                </legend>
+                <div id="typeahead-form-group-0" class="govuk-form-group">
                     <p class="govuk-hint-0" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
                     {% if payload.nationality_input_0 | length %}
                         {% set dropdownDefaultText = payload.nationality_input_0 %}
