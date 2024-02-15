@@ -9,8 +9,8 @@ for entry in /opt/*
 do
   echo "$entry"
 done
-echo "now printing dist---------"
-for entry in /opt/dist/*
+echo "now printing src---------"
+for entry in /opt/dist/src/*
 do
   echo "$entry"
 done
