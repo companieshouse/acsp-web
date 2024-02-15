@@ -25,7 +25,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const companyNumber = req.body.companyNumber;
-            const response = await axios.post("/company/{companyNumber}");
+            const response = await axios.post("api/company/{companyNumber}");
+            console.log(response);
             if (response.status === 200) {
                 res.redirect("/sole-trader/confirm-company");
             } else if (response.status === 404) {
