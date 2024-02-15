@@ -1,6 +1,7 @@
 const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
+const LIMITED = "/limited";
 
 export const START = "/"; // Domain name will go here
 
@@ -24,3 +25,7 @@ export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-business";
 
 export const HEALTHCHECK = "/healthcheck";
+
+export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = SOLE_TRADER + "/how-are-you-aml-supervised";
+
+export const WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";

@@ -10,8 +10,8 @@
             {{ govukRadios({
                 errorMessage: errors.sectorYouWorkIn if errors,
                 classes: "govuk-radios",
-                id: "name-registered-with-aml-radios",
-                name: "nameRegisteredWithAml",
+                id: "name-registered-with-aml-body-radios",
+                name: "nameRegisteredWithAmlBody",
                 fieldset: {
                     legend: {
                         text: i18n.nameRegisteredWithAmlBodyTitle,
@@ -22,32 +22,32 @@
                 items: [
                     {
                         value: "NAME_OF_THE_BUSINESS",
-                        text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
-                        checked: sector-you-work-in == AUDITORS_INSOLVENCY_PRACTITIONERS,
+                        text: i18n.nameRegisteredWithAmlBodyNameOfTheBusinessOption,
+                        checked: sector-you-work-in == NAME_OF_THE_BUSINESS,
                         attributes: {
-                            "data-event-id": "auditors-insolvency-practitioners-option"
+                            "data-event-id": "name-of-the-business-option"
                         }
                     },
                     {
-                        value: "INDEPENDENT_LEGAL_PROFESSIONALS",
-                        text: i18n.sectorYouWorkInIndependentLegalProfessionalsOption,
-                        checked: sector-you-work-in == INDEPENDENT_LEGAL_PROFESSIONALS,
+                        value: "YOUR_NAME",
+                        text: i18n.nameRegisteredWithAmlBodyYourNameOption,
+                        checked: sector-you-work-in == YOUR_NAME,
                         attributes: {
-                            "data-event-id": "independent-legal-professionals-option"
+                            "data-event-id": "your-company-option"
                         }
                     },
                     {
-                        value: "TRUST_OR_COMPANY_SERVICE_PROVIDERS",
-                        text: i18n.sectorYouWorkInTrustOrCompanyServiceProvidersOption,
-                        checked: sector-you-work-in == TRUST_OR_COMPANY_SERVICE_PROVIDERS,
+                        value: "BOTH",
+                        text: i18n.nameRegisteredWithAmlBodyBothOption,
+                        checked: sector-you-work-in == BOTH,
                         attributes: {
-                            "data-event-id": "trust-or-company-service-providers-option"
+                            "data-event-id": "both-option"
                         }
                     }
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{i18n.Continue}}</button>
+        <button class="govuk-button">{{i18n.nameRegisteredWithAmlBodyContinueBtn}}</button>
     </form>
 </main>
 

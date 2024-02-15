@@ -14,3 +14,4 @@ export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_SOLE_TRADER_UR
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
 export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
+export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = `${BASE_SOLE_TRADER_URL}/how-are-you-aml-supervised/how-are-you-aml-supervised`;

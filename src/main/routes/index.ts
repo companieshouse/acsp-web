@@ -4,7 +4,7 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, howAreYouAmlSupervisedController
 
 } from "../controllers";
 
@@ -61,6 +61,9 @@ routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBu
 
 routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+
+routes.get(urls.SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, howAreYouAmlSupervisedController.get);
+routes.post(urls.SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, howAreYouAmlSupervisedController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
