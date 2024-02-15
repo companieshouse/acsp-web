@@ -11,5 +11,7 @@ do
 done
 echo "now printing dist---------"
 for entry in /opt/dist/*
-
+do
+  echo "$entry"
+done
 exec node /opt/dist/src/main/server.js -- ${PORT}
