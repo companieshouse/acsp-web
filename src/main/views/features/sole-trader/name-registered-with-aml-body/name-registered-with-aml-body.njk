@@ -1,0 +1,55 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="" method="POST">
+        {% include "partials/user_name.njk" %}
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.sectorYouWorkIn if errors,
+                classes: "govuk-radios",
+                id: "name-registered-with-aml-radios",
+                name: "nameRegisteredWithAml",
+                fieldset: {
+                    legend: {
+                        text: i18n.nameRegisteredWithAmlBodyTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "NAME_OF_THE_BUSINESS",
+                        text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
+                        checked: sector-you-work-in == AUDITORS_INSOLVENCY_PRACTITIONERS,
+                        attributes: {
+                            "data-event-id": "auditors-insolvency-practitioners-option"
+                        }
+                    },
+                    {
+                        value: "INDEPENDENT_LEGAL_PROFESSIONALS",
+                        text: i18n.sectorYouWorkInIndependentLegalProfessionalsOption,
+                        checked: sector-you-work-in == INDEPENDENT_LEGAL_PROFESSIONALS,
+                        attributes: {
+                            "data-event-id": "independent-legal-professionals-option"
+                        }
+                    },
+                    {
+                        value: "TRUST_OR_COMPANY_SERVICE_PROVIDERS",
+                        text: i18n.sectorYouWorkInTrustOrCompanyServiceProvidersOption,
+                        checked: sector-you-work-in == TRUST_OR_COMPANY_SERVICE_PROVIDERS,
+                        attributes: {
+                            "data-event-id": "trust-or-company-service-providers-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.Continue}}</button>
+    </form>
+</main>
+
+    
+{% endblock main_content %}
