@@ -46,6 +46,7 @@ endif
 		$(info Packaging version: $(version))
 		$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
 		cp -r ./dist $(tmpdir)
+		cp -r ./locales $(tmpdir)
 		cp -r ./package.json $(tmpdir)
 		cp -r ./package-lock.json $(tmpdir)
 		cd $(tmpdir) && npm install --production && npm update
