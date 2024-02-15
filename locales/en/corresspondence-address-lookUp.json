@@ -10,7 +10,6 @@
 
     "error-correspondenceLookUpAddressNoAddress" : "Select the correspondence address",
     "error-correspondenceLookUpAddressNoPostCode" : "Enter a postcode",
-    "error-postCodeYouEnterDoesntExist" : "You enter a postcode that doesn't exist",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
 
