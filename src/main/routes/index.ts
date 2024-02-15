@@ -64,6 +64,5 @@ routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
-routes.post(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.post);
 
 export default routes;
