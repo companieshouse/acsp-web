@@ -45,10 +45,10 @@ ifndef version
 endif
 		$(info Packaging version: $(version))
 		$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
-		cp -r ./dist/* $(tmpdir)
+		cp -r ./dist $(tmpdir)
 		cp -r ./package.json $(tmpdir)
 		cp -r ./package-lock.json $(tmpdir)
-		cd $(tmpdir) && npm install --production
+		cd $(tmpdir) && npm install --production && npm update
 		rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 		cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 		rm -rf $(tmpdir)
