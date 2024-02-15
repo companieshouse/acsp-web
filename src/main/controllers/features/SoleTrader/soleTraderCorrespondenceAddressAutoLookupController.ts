@@ -49,7 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
             const correspondencePremise = req.body.premise;
 
-            if (correspondencePremise !== "") {
+            if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
                 let address = {
                     premise: "",
                     addressLine1: "",
