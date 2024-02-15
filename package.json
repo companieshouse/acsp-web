@@ -10,7 +10,7 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build:assets": "gulp build",
-    "build:server": "tsc && cp -r src/main/views dist/src/main && cp -r src/lacales dist/src && cp -r config dist/",
+    "build:server": "tsc && cp -r src/main/views dist/src/main && cp -r src/locales dist/src && cp -r config dist/",
     "build": "npm run build:assets && npm run build:server",
     "lint": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts' --fix",
