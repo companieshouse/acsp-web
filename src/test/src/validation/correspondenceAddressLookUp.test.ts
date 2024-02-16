@@ -11,7 +11,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: ""
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
         expect(response.status).toBe(400);
         expect(response.text).toContain("Enter a postcode");
     });
@@ -22,7 +22,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: "4"
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
         expect(response.status).toBe(400);
         expect(response.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
@@ -33,7 +33,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: "6$££kasu"
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
         expect(response.status).toBe(400);
         expect(response.text).toContain("Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
     });
