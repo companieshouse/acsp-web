@@ -14,12 +14,13 @@ import {
 // const acspServiceClient : ACSPServiceClient = new ACSPServiceClient("http://localhost:18644/acsp-api");
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const session = req.session as any as Session;
-    getAccessToken(session);
+    res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
+};
 
-    const handler = new IndexService();
+export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const indexService = new IndexService();
     try {
-        await handler.createTransaction(session, "");
+        await indexService.createTransaction(req, res, "");
         // .then((transactionId) => {
         //     // get transaction record data
         //     req.session?.setExtraData(SUBMISSION_ID, transactionId);
@@ -28,9 +29,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.status(500).send("Internal Server Error");
         logger.error(TRANSACTION_CREATE_ERROR);
     };
-    res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
-};
-
-export const post = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
 };

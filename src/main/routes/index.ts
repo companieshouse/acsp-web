@@ -11,15 +11,15 @@ import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import * as urls from "../types/pageURL";
-import { authentication } from "../middleware/authentication.middleware";
+import { authenticationMiddleware } from "../middleware/authentication_middleware";
 
 const routes = Router();
 
-routes.get("/", authentication, indexController.get);
-routes.post("/", authentication, indexController.post);
+routes.get("/register-acsp/home", indexController.get);
+routes.post("/register-acsp/home", indexController.post);
 
-routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, authentication, soleTraderDateOfBirthController.get);
-routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, authentication, dateOfBirthValidator, soleTraderDateOfBirthController.post);
+routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
+routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);
 
 routes.get("/sole-trader/name", soleTraderNameController.get);
 routes.post("/sole-trader/name", nameValidator, soleTraderNameController.post);

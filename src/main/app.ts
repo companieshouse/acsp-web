@@ -11,10 +11,13 @@ import {
     Session
 } from "@companieshouse/node-session-handler";
 
+import { authenticationMiddleware } from "./middleware/authentication_middleware";
+import { sessionMiddleware } from "./middleware/session_middleware";
+
 import Redis from "ioredis";
+import { COMPANY_BASE_URL, EMAIL_BASE_URL, HOME_URL, SIGN_OUT_URL } from "./config";
 
 const app = express();
-app.use(cookieParser());
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../../../node_modules/govuk-frontend"),
@@ -74,15 +77,9 @@ process.on("unhandledRejection", (err: any) => {
     process.exit(1);
 });
 
-const cookieConfig = {
-    cookieSecret: "123456789987654321123456789",
-    cookieName: "__ACSPID",
-    cookieDomain: `http://url.local`,
-    cookieSecureFlag: true,
-    cookieTimeToLiveInSeconds: 100
-};
-
-const sessionStore = new SessionStore(new Redis(`redis://localhost:6379`));
-app.use(SessionMiddleware(cookieConfig, sessionStore));
+// Apply middleware
+app.use(cookieParser());
+app.use(`${HOME_URL}*`, sessionMiddleware);
+app.use(`${HOME_URL}*`, authenticationMiddleware);
 
 export default app;
