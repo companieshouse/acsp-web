@@ -19,6 +19,7 @@ import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
+import { howAreYouAmlSupervisedValidator } from "../validation/howAreYouAmlSupervised";
 
 const routes = Router();
 
@@ -63,7 +64,7 @@ routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController
 routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
 
 routes.get(urls.SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, howAreYouAmlSupervisedController.get);
-routes.post(urls.SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, howAreYouAmlSupervisedController.post);
+routes.post(urls.SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, howAreYouAmlSupervisedValidator, howAreYouAmlSupervisedController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 

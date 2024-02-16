@@ -8,38 +8,41 @@
         {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
             {{ govukRadios({
-                errorMessage: errors.sectorYouWorkIn if errors,
+                errorMessage: errors.howAreYouAmlSupervised if errors,
                 classes: "govuk-radios",
-                id: "name-registered-with-aml-body-radios",
-                name: "nameRegisteredWithAmlBody",
+                id: "how-are-you-aml-supervised-radios",
+                name: "howAreYouAmlSupervised",
                 fieldset: {
-                    legend: {
-                        text: i18n.nameRegisteredWithAmlBodyTitle,
+                    legend: {   
+                        text: i18n.howAreYouAmlSupervisedTitle,
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
-                },
+                    },
+                    hint: {
+                         text: i18n.howAreYouAmlSupervisedBody
+                    },
                 items: [
                     {
                         value: "NAME_OF_THE_BUSINESS",
-                        text: i18n.nameRegisteredWithAmlBodyNameOfTheBusinessOption,
-                        checked: sector-you-work-in == NAME_OF_THE_BUSINESS,
+                        text: i18n.nhowAreYouAmlSupervisedNameOfTheBusinessOption,
+                        checked: how-are-you-aml-supervised == NAME_OF_THE_BUSINESS,
                         attributes: {
                             "data-event-id": "name-of-the-business-option"
                         }
                     },
                     {
                         value: "YOUR_NAME",
-                        text: i18n.nameRegisteredWithAmlBodyYourNameOption,
-                        checked: sector-you-work-in == YOUR_NAME,
+                        text: i18n.howAreYouAmlSupervisedYourNameOption,
+                        checked: how-are-you-aml-supervised == YOUR_NAME,
                         attributes: {
                             "data-event-id": "your-company-option"
                         }
                     },
                     {
                         value: "BOTH",
-                        text: i18n.nameRegisteredWithAmlBodyBothOption,
-                        checked: sector-you-work-in == BOTH,
+                        text: i18n.howAreYouAmlSupervisedBothOption,
+                        checked: how-are-you-aml-supervised == BOTH,
                         attributes: {
                             "data-event-id": "both-option"
                         }
@@ -47,7 +50,7 @@
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{i18n.nameRegisteredWithAmlBodyContinueBtn}}</button>
+        <button class="govuk-button">{{i18n.howAreYouAmlSupervisedContinueBtn}}</button>
     </form>
 </main>
 

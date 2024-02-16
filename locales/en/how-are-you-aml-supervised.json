@@ -1,0 +1,10 @@
+{
+    "howAreYouAmlSupervisedTitle" : "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
+    "howAreYouAmlSupervisedBody": "We'll check this matches what the AML supervisory body holds",
+    "nhowAreYouAmlSupervisedNameOfTheBusinessOption": "Name of the business",
+    "howAreYouAmlSupervisedYourNameOption": "Your name",
+    "howAreYouAmlSupervisedBothOption": "Both",
+    "howAreYouAmlSupervisedContinueBtn": "Continue",
+    
+    "error-howAreYouAmlSupervisedSelectRadio" : "Select which name is registered"
+}
