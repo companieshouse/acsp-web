@@ -14,7 +14,7 @@ export const correspondenceAddressAutoLookupValidator = [
             postcode = postcode.replace(/\s/g, "");
             const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
             if (!ukAddresses.length) {
-                throw new Error("postCodeYouEnterDoesntExist");
+                throw new Error("correspondenceLookUpAddressInvalidAddressPostcode");
             }
             return true;
         }),
