@@ -2,8 +2,6 @@ const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
 
-const HELP = "/help";
-
 export const START = "/"; // Domain name will go here
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/sector-you-work-in";
@@ -28,4 +26,4 @@ export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-b
 
 export const HEALTHCHECK = "/healthcheck";
 
-export const ACCESSIBILITY_STATEMENT = HELP + "/accessibility-statement";
+export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
