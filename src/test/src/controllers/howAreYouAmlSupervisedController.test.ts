@@ -9,13 +9,13 @@ describe("GET" + SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, () => {
     });
 });
 
-// Test for correct form details entered, will return 302 after redirecting to the next page.
+// Test when radio btn selected, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, () => {
     it("should return status 302 after redirect", async () => {
         await router.post(SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED).send({ howAreYouAmlSupervised: "NAME_OF_THE_BUSINESS" }).expect(302);
     });
 });
-// Test for incorrect form details entered, will return 400.
+// Test for no radio btn value selected, will return 400.
 describe("POST" + SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED, () => {
     it("should return status 400 after incorrect data entered", async () => {
         await router.post(SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED).send({ howAreYouAmlSupervised: "" }).expect(400);
