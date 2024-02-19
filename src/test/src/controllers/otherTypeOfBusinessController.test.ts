@@ -5,19 +5,19 @@ const router = supertest(app);
 
 describe("GET " + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, () => {
     it("should return status 200", async () => {
-        await router.get(SOLE_TRADER_OTHER_TYPE_OFBUSINESS).expect(200);
+        await router.get("/register-acsp/" + SOLE_TRADER_OTHER_TYPE_OFBUSINESS).expect(200);
     });
 });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST " + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, () => {
     it("should return status 302 after redirect", async () => {
-        await router.post(SOLE_TRADER_OTHER_TYPE_OFBUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" }).expect(302);
+        await router.post("/register-acsp/" + SOLE_TRADER_OTHER_TYPE_OFBUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" }).expect(302);
     });
 });
 // Test for incorrect form details entered, will return 400.
 describe("POST " + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, () => {
     it("should return status 400 after incorrect data entered", async () => {
-        await router.post(SOLE_TRADER_OTHER_TYPE_OFBUSINESS).send({ otherTypeOfBusinessRadio: "" }).expect(400);
+        await router.post("/register-acsp/" + SOLE_TRADER_OTHER_TYPE_OFBUSINESS).send({ otherTypeOfBusinessRadio: "" }).expect(400);
     });
 });

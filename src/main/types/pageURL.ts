@@ -3,6 +3,8 @@ const SEPARATOR = "/";
 const SOLE_TRADER = "/sole-trader";
 const LIMITED = "/limited";
 
+export const BASE_URL = "/register-acsp";
+
 export const START = "/"; // Domain name will go here
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/sector-you-work-in";

@@ -4,7 +4,7 @@ const router = supertest(app);
 
 describe("GET /sole-trader/name", () => {
     it("should return status 200", async () => {
-        await router.get("/sole-trader/name").expect(200);
+        await router.get("/register-acsp/sole-trader/name").expect(200);
     });
 });
 
@@ -16,10 +16,10 @@ describe("POST /sole-trader/name", () => {
             "last-name": "Doe"
         };
 
-        const response = await router.post("/sole-trader/name").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/name").send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe("/sole-trader/date-of-birth");
+        expect(response.header.location).toBe("/register-acsp/sole-trader/date-of-birth");
     });
 
     it("should return status 400 for incorrect data entered", async () => {
@@ -29,7 +29,7 @@ describe("POST /sole-trader/name", () => {
             "last-name": ""
         };
 
-        const response = await router.post("/sole-trader/name").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/name").send(formData);
 
         expect(response.status).toBe(400);
     });

@@ -3,7 +3,7 @@ import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -12,8 +12,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
         title: "Select your address?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
-        previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+        currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         addresses: req.session.user.addressList
     }
     );
@@ -30,8 +30,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
-                previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+                currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
+                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
                 addresses: req.session.user.addressList
             });
@@ -55,7 +55,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             }
             req.session.save(() => {
-                const nextPageUrl = addLangToUrl(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
                 res.redirect(nextPageUrl);
             });
         }

@@ -4,7 +4,7 @@ const router = supertest(app);
 
 describe("GET /sole-trader/correspondenceAddressAutoLookup", () => {
     it("should return status 200", async () => {
-        await router.get("/sole-trader/correspondenceAddressAutoLookup").expect(200);
+        await router.get("/register-acsp/sole-trader/correspondenceAddressAutoLookup").expect(200);
     });
 });
 
@@ -15,10 +15,10 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: ""
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe("/sole-trader/correspondence-address-list?lang=en");
+        expect(response.header.location).toBe("/register-acsp/sole-trader/correspondence-address-list?lang=en");
     });
 
     it("should redirect to confirm page status 302 on successful form submission", async () => {
@@ -27,10 +27,10 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: "6"
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe("/sole-trader/correspondence-address-confirm");
+        expect(response.header.location).toBe("/register-acsp/sole-trader/correspondence-address-confirm");
     });
 
     it("should return status 400 for invalid postcode entered", async () => {
@@ -39,7 +39,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: "6"
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(400);
     });
@@ -50,7 +50,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: "6"
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(400);
     });
@@ -61,7 +61,7 @@ describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
             premise: ""
         };
 
-        const response = await router.post("/sole-trader/correspondenceAddressAutoLookup").send(formData);
+        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
 
         expect(response.status).toBe(400);
     });
