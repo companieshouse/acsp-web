@@ -10,7 +10,7 @@ import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive"
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
-import { nationalityValidator } from "../../../lib/validation/nationality";
+import { nationalityValidator } from "../../main/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import * as urls from "../types/pageURL";
 

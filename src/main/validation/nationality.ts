@@ -1,6 +1,6 @@
 import { body } from "express-validator";
-import nationalityList from "../nationalityList";
-import nationalityErrorManifest from "../utils/error_manifests/nationality";
+import nationalityList from "../../../lib/nationalityList";
+import nationalityErrorManifest from "../../../lib/utils/error_manifests/nationality";
 
 export const nationalityValidator = [
     // Validation for 'nationality_input_0'
