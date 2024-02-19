@@ -72,7 +72,7 @@ describe("POST /sole-trader/nationality", () => {
     });
 });
 
-// Test for invalid iput
+// Test for invalid input
 describe("POST /sole-trader/nationality", () => {
     it("should fail validation with invalid nationality", async () => {
         await router.post("/register-acsp/sole-trader/nationality")
