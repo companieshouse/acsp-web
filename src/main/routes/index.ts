@@ -4,7 +4,7 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, amlInterruptController
 
 } from "../controllers";
 
@@ -67,5 +67,9 @@ routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlControlle
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.LIMITED_AML_INTERRUPT, amlInterruptController.get);
+// routes.post(urls.LIMITED_AML_INTERRUPT, amlInterruptController.post);
+
 
 export default routes;

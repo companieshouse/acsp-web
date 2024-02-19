@@ -25,6 +25,9 @@ export const SOLE_TRADER_ROLE = SOLE_TRADER + "/statement-relevant-officer";
 export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
 
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-business";
+export const LIMITED_AML_INTERRUPT = LIMITED + "/aml-intterupt";
+export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-aml-supervised";
+export const LIMITED_AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
 
 export const HEALTHCHECK = "/healthcheck";
 

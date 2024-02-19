@@ -1,0 +1,22 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+{% set errors = pageProperties.errors %}
+
+{% block main_content %}
+<main>
+    <form action="" method="POST">
+        <div class="govuk-grid-column-two-thirds">
+              <h1 class="govuk-heading-l">{{i18n.amlInterruptTitle}}</h1>
+              <p class="govuk-body">{{i18n.text1}}</p>
+              <p class="govuk-body">{{i18n.text2}}</p>
+              <h2 class="govuk-heading-l">{{i18n.text5}}</h2>
+              <p class="govuk-body">{{i18n.text3}} <a class="govuk-link" href={{amlReg}}> {{i18n.link1}} </a> {{i18n.first}}</p>
+              <p class="govuk-body">{{i18n.text4}} <a class="govuk-link" href={{soleTrader}}> {{i18n.link2}} </a></p>
+        </div>
+    </form>
+</main>
+
+
+{% endblock main_content %}
