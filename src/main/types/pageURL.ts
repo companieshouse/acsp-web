@@ -26,6 +26,6 @@ export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-b
 
 export const HEALTHCHECK = "/healthcheck";
 
-export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-aml-supervised";
+export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
 
-export const WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
+export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
