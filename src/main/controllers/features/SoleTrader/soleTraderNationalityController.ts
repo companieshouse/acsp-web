@@ -3,13 +3,14 @@ import { validationResult } from "express-validator";
 import nationalityList from "../../../../../lib/nationalityList";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
+import { SOLE_TRADER_DATE_OF_BIRTH } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
     res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
         nationalityList: nationalityList,
         title: "What is your nationality?",
-        previousPage: "/sole-trader/date-of-birth",
+        previousPage: SOLE_TRADER_DATE_OF_BIRTH,
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName
 
@@ -27,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 nationalityList: nationalityList,
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
-                previousPage: "/sole-trader/date-of-birth",
+                previousPage: SOLE_TRADER_DATE_OF_BIRTH,
                 payload: req.body,
                 firstName: req.session.user.firstName,
                 lastName: req.session.user.lastName
