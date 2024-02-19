@@ -4,7 +4,7 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController
 
 } from "../controllers";
 
@@ -19,6 +19,7 @@ import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
+import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 
 const routes = Router();
 
@@ -61,6 +62,9 @@ routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBu
 
 routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+
+routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
+routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 

@@ -1,0 +1,10 @@
+{
+    "nameRegisteredWithAmlTitle" : "Which name is registered with your Anti-Money Laundering (AML) supervisory body? welsh",
+    "nameRegisteredWithAmlBody": "We'll check this matches what the AML supervisory body holds welsh",
+    "nameRegisteredWithAmlNameOfTheBusinessOption": "Name of the business welsh",
+    "nameRegisteredWithAmlYourNameOption": "Your name welsh",
+    "nameRegisteredWithAmlBothOption": "Both welsh",
+    "nameRegisteredWithAmlContinueBtn": "Continue welsh",
+   
+    "error-nameRegisteredWithAmlSelectRadio" : "Select which name is registered welsh"
+}

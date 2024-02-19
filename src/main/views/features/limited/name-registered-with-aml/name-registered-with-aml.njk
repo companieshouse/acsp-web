@@ -1,0 +1,58 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="" method="POST">
+        {% include "partials/user_name.njk" %}
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.nameRegisteredWithAml if errors,
+                classes: "govuk-radios",
+                id: "name-registered-with-aml-radios",
+                name: "nameRegisteredWithAml",
+                fieldset: {
+                    legend: {   
+                        text: i18n.nameRegisteredWithAmlTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                    },
+                    hint: {
+                         text: i18n.nameRegisteredWithAmlBody
+                    },
+                items: [
+                    {
+                        value: "NAME_OF_THE_BUSINESS",
+                        text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
+                        checked: name-registered-with-aml == NAME_OF_THE_BUSINESS,
+                        attributes: {
+                            "data-event-id": "name-of-the-business-option"
+                        }
+                    },
+                    {
+                        value: "YOUR_NAME",
+                        text: i18n.nameRegisteredWithAmlYourNameOption,
+                        checked: name-registered-with-aml == YOUR_NAME,
+                        attributes: {
+                            "data-event-id": "your-company-option"
+                        }
+                    },
+                    {
+                        value: "BOTH",
+                        text: i18n.nameRegisteredWithAmlBothOption,
+                        checked: name-registered-with-aml == BOTH,
+                        attributes: {
+                            "data-event-id": "both-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.nameRegisteredWithAmlContinueBtn}}</button>
+    </form>
+</main>
+
+    
+{% endblock main_content %}

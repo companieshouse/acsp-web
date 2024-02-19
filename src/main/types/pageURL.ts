@@ -1,6 +1,7 @@
 const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
+const LIMITED = "/limited";
 
 export const BASE_URL = "/register-acsp";
 
@@ -26,3 +27,7 @@ export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-business";
 
 export const HEALTHCHECK = "/healthcheck";
+
+export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
+
+export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
