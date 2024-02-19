@@ -7,7 +7,7 @@ import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-se
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
@@ -16,8 +16,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
         title: "What is your correspondence address?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
-        previousPage: addLangToUrl(SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
+        currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName
     });
@@ -36,8 +36,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
-                previousPage: addLangToUrl(SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
+                currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: req.session.user.firstName,
@@ -81,7 +81,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 };
 
                 req.session.save(() => {
-                    res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+                    res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
                 });
 
             } else {
@@ -104,7 +104,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 req.session.user.addressList = addressList;
                 req.session.save(() => {
-                    const nextPageUrl = addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
+                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
                     res.redirect(nextPageUrl);
                 });
 

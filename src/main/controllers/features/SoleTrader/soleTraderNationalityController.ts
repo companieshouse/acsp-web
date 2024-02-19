@@ -3,12 +3,13 @@ import { validationResult } from "express-validator";
 import nationalityList from "../../../../../lib/nationalityList";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
+import { BASE_URL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
         nationalityList: nationalityList,
         title: "What is your nationality?",
-        previousPage: "/sole-trader/date-of-birth"
+        previousPage: BASE_URL + "/sole-trader/date-of-birth"
     });
 };
 
@@ -23,13 +24,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 nationalityList: nationalityList,
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
-                previousPage: "/sole-trader/date-of-birth"
+                previousPage: BASE_URL + "/sole-trader/date-of-birth"
             });// determined from user not in banned list
         } else {
             // If validation passes, redirect to the next page
-            res.redirect("/sole-trader/where-do-you-live");
+            res.redirect(BASE_URL + "/sole-trader/where-do-you-live");
             // if banned user redirect kickoutpage- under construction
-            /* res.redirect("/sole-trader/stop-screen-not-a-soletrader"); */
+            /* res.redirect("/register-acsp/sole-trader/stop-screen-not-a-soletrader"); */
         }
     } catch (error) {
         next(error);
