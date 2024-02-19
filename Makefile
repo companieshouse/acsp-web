@@ -11,6 +11,9 @@ clean:
 		rm -rf ./dist
 		rm -f ./build.log
 
+package-install:
+	npm install
+
 .PHONY: build
 build:	
 		npm ci
@@ -42,11 +45,11 @@ ifndef version
 endif
 		$(info Packaging version: $(version))
 		$(eval tmpdir := $(shell mktemp -d build-XXXXXXXXXX))
-		cp -r ./dist/* $(tmpdir)
+		cp -r ./dist $(tmpdir)
+		cp -r ./locales $(tmpdir)
 		cp -r ./package.json $(tmpdir)
 		cp -r ./package-lock.json $(tmpdir)
-		cp ./start.sh $(tmpdir)
-		cd $(tmpdir) && npm ci --omit=dev --ignore-scripts
+		cd $(tmpdir) && npm install --production && npm update
 		rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 		cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 		rm -rf $(tmpdir)

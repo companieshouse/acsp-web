@@ -3,14 +3,14 @@ import { validationResult } from "express-validator";
 import nationalityList from "../../../../../lib/nationalityList";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
-import { SOLE_TRADER_DATE_OF_BIRTH } from "../../../types/pageURL";
+import { SOLE_TRADER_DATE_OF_BIRTH, BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     req.session.user = req.session.user || {};
     res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
         nationalityList: nationalityList,
         title: "What is your nationality?",
-        previousPage: SOLE_TRADER_DATE_OF_BIRTH,
+        previousPage: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
         firstName: req.session.user.firstName,
         lastName: req.session.user.lastName
 
@@ -28,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 nationalityList: nationalityList,
                 pageProperties: pageProperties,
                 title: "What is your nationality?",
-                previousPage: SOLE_TRADER_DATE_OF_BIRTH,
+                previousPage: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
                 payload: req.body,
                 firstName: req.session.user.firstName,
                 lastName: req.session.user.lastName
@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });// determined from user not in banned list
         } else {
             // If validation passes, redirect to the next page
-            res.redirect("/sole-trader/where-do-you-live");
+            res.redirect(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
             // if banned user redirect kickoutpage- under construction
             /* res.redirect("/sole-trader/stop-screen-not-a-soletrader"); */
         }

@@ -8,7 +8,7 @@
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
-                errorMessage: errors.typeOfBusiness if errors,
+                errorMessage: errors.typeOfBusinessRadio if errors,
                 classes: "govuk-radios",
                 id: "type-of-business-radios",
                 name: "typeOfBusinessRadio",
@@ -29,19 +29,19 @@
                         }
                     },
                     {
-                        value: "LIMITED_LIABILITY_PARTNERSHIP",
-                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
-                        checked: type-of-business == LIMITED_LIABILITY_PARTNERSHIP,
-                        attributes: {
-                            "data-event-id": "limited-liability-partnership-option"
-                        }
-                    },
-                    {
                         value: "LIMITED_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedPartnershipOption,
                         checked: type-of-business == LIMITED_PARTNERSHIP,
                         attributes: {
                             "data-event-id": "limited-partnership-option"
+                        }
+                    },
+                    {
+                        value: "LIMITED_LIABILITY_PARTNERSHIP",
+                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
+                        checked: type-of-business == LIMITED_LIABILITY_PARTNERSHIP,
+                        attributes: {
+                            "data-event-id": "limited-liability-partnership-option"
                         }
                     },
                     {

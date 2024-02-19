@@ -3,7 +3,7 @@ import { Application, Request, Response } from "express";
 import routes from "./routes";
 
 const routerDispatch = (app: Application) => {
-    app.use("/", routes);
+    app.use("/register-acsp", routes);
     app.use("*", (req: Request, res: Response) => {
         res.status(404).render("partials/error_400");
     });
