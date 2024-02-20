@@ -5,7 +5,6 @@
 
 <main>
     <form action="" method="POST">
-        {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.nameRegisteredWithAml if errors,
