@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { StatementRelevantOfficerService } from "../../../services/role/statementRelevantOfficerService";
 import * as config from "../../../config";
+import { BASE_URL } from "../../../types/pageURL";
 
 const handler = new StatementRelevantOfficerService();
 
@@ -18,10 +19,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const selectedRole = req.body.WhatIsYourRole;
 
         if (selectedRole === "director" || selectedRole === "general-partner" || selectedRole === "member-of-the-partnership" || selectedRole === "sole-trader") { // selectedRole equal to value base on HTML radio element
-            res.redirect("/how-are-you-aml-supervised");// endpoint name based on prototype
+            res.redirect(BASE_URL + "/how-are-you-aml-supervised");// endpoint name based on prototype
 
         } else if (selectedRole === "someone-else") {
-            res.redirect("/sole-trader/stop-not-relevant-officer");
+            res.redirect(BASE_URL + "/sole-trader/stop-not-relevant-officer");
         } else {
             res.status(400).send("Invalid role selection");
         }
