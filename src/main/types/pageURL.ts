@@ -32,6 +32,4 @@ export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with
 
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
-export const LIMITED_KICK_OUT = LIMITED + "/what-is-your-role";
-
 export const YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT = LIMITED + "/your-business-must-be-aml-registered";
