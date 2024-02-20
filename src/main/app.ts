@@ -4,6 +4,9 @@ import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
+import cookieParser from "cookie-parser";
+import { sessionMiddleware } from "./middleware/session.middleware";
+import { BASE_URL } from "./types/pageURL";
 
 const app = express();
 
@@ -42,6 +45,10 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "njk");
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
+
+// apply middleware
+// app.use(cookieParser());
+// app.use(`${BASE_URL}*`, sessionMiddleware);
 
 // Unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
