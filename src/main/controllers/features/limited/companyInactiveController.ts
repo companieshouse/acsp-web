@@ -6,10 +6,12 @@ import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_COMPANY_INACTIVE, START, BA
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const companyName = "Comany Name";
     res.render(config.LIMITED_COMPANY_INACTIVE, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         startPage: addLangToUrl(BASE_URL, lang),
         title: "Which name is registered with your AML supervisory body?",
+        companyName,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + LIMITED_COMPANY_INACTIVE
     });
