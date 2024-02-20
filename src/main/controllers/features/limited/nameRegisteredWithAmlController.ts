@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_OTHER_TYPE_OFBUSINESS } from "../../../types/pageURL";
+import { SOLE_TRADER_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL, YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT, SOLE_TRADER_OTHER_TYPE_OFBUSINESS } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -22,7 +22,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedOption = req.body.nameRegisteredWithAml;
-        console.log(selectedOption);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
@@ -34,7 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang);
-            const nextPageUrlForBoth = addLangToUrl(BASE_URL + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, lang);
+            const nextPageUrlForBoth = addLangToUrl(BASE_URL + YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT, lang);
             // res.redirect(nextPageUrl);
             switch (selectedOption) {
             case "YOUR_NAME":
