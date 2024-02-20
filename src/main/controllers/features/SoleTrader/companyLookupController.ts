@@ -3,44 +3,40 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import axios from "axios";
+import { ACSPServiceClient } from "../../../clients/ASCPServiceClient";
 
-export const get = async (req: Request, res: Response, next: NextFunction) => {
+const acspServiceClientOne = new ACSPServiceClient("http://localhost:18642/acsp-api");
+
+export const get = async (req: Request, res: Response) => {
     res.render(config.SOLE_TRADER_COMPANY_NUMBER, {
         title: "What is the company number?",
         previousPage: "/sole-trader/one-login-enter-password"
     });
 };
 
-export const post = async (req: Request, res: Response, next: NextFunction) => {
-    console.log("Data:", req.body.companyNumber);
+export const post = async (req: Request, res: Response) => {
     try {
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            const pageProperties = getPageProperties(formatValidationError(errors.array()));
             res.status(400).render(config.SOLE_TRADER_COMPANY_NUMBER, {
-                pageProperties: pageProperties,
+                pageProperties,
                 payload: req.body,
                 title: "What is the company number?",
                 previousPage: "/sole-trader/one-login-enter-password"
             });
         } else {
-            const companyNumber = req.body.companyNumber;
-            const response = await axios.post("api/company/{companyNumber}");
-            console.log(response);
-            if (response.status === 200) {
-                res.redirect("/sole-trader/confirm-company");
-            } else if (response.status === 404) {
-            // const pageProperties = getPageProperties({ companyNumber: "Company number does not exist" });
-                res.status(400).render(config.SOLE_TRADER_COMPANY_NUMBER, {
-                // pageProperties: pageProperties,
-                    payload: req.body,
-                    title: "What is the company number?",
-                    previousPage: "/sole-trader/one-login-enter-password"
-                });
-            }
+            const { companyNumber } = req.body;
+            await acspServiceClientOne.getCompany(companyNumber);
+            res.redirect("/sole-trader/date-of-birth");
         }
     } catch (error) {
-        next(error);
+        res.status(404).render(config.SOLE_TRADER_COMPANY_NUMBER, {
+            // pageProperties: getPageProperties({ companyNumber: 'An error occurred while checking company existence' }),
+            payload: req.body,
+            title: "What is the company number?",
+            previousPage: "/sole-trader/one-login-enter-password"
+        });
     }
 };
 
