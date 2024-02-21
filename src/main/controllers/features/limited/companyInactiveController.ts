@@ -6,7 +6,7 @@ import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_COMPANY_INACTIVE, START, BA
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const companyName = "Comany Name";
+    const companyName = "MORRIS ACCOUNTING LTD";
     res.render(config.LIMITED_COMPANY_INACTIVE, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         startPage: addLangToUrl(BASE_URL, lang),

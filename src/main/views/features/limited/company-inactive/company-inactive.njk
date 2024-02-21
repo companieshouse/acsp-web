@@ -6,7 +6,7 @@
       <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">{{i18n.companyInactiveTitle}}</h1>
         <p class="govuk-body">
-         {{i18n.canNotRegister}}{{companyName}}{{i18n.anAuthorised}}
+        {{i18n.canNotRegister | replace('{companyName}', companyName)}}
         </p>
         <p class="govuk-body">
           {{i18n.toRegister}} <a class="govuk-link" href={{startPage}}>{{i18n.startAgain}}</a>
