@@ -15,3 +15,4 @@ export * as OtherTypeOfBusinessController from "./features/SoleTrader/otherTypeO
 export * as healthCheckController from "./healthCheckController";
 export * as nameRegisteredWithAmlController from "./features/limited/nameRegisteredWithAmlController";
 export * as businessMustbeAmlRegisteredController from "./features/Limited/businessMustbeAmlRegisteredController";
+export * as companyInactiveController from "./features/limited/companyInactiveController";
