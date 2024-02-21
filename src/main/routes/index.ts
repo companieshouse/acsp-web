@@ -20,7 +20,7 @@ import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
-import { companyNumberValidator } from "../../../lib/validation/companyLookup";
+import { companyNumberValidator } from "../validation/companyLookup";
 import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 
@@ -63,8 +63,8 @@ routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNational
 routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
-routes.get("/sole-trader/company-lookup", companyLookupController.get);
-routes.post("/sole-trader/company-lookup", companyNumberValidator, companyLookupController.post);
+routes.get(urls.LIMITED_COMPANY_NUMBER, companyLookupController.get);
+routes.post(urls.LIMITED_COMPANY_NUMBER, companyNumberValidator, companyLookupController.post);
 
 routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
