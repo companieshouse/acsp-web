@@ -17,7 +17,8 @@ export class ACSPServiceClient {
         try {
             const response = await this.client.get(`/company/${companyNumber}`);
             logger.info(response.data);
-            return response.data;
+            const errore = response.data = "Errore";
+            return errore;
         } catch (err: any) {
             logger.error(err);
             throw err;
