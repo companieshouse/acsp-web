@@ -3,9 +3,8 @@
 
 {% block main_content %}
 
-<main>
+<div class="govuk-grid-column-two-thirds-from-desktop">
     <form action="" method="POST">
-        {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.nameRegisteredWithAml if errors,
@@ -52,7 +51,7 @@
         </div>
         <button class="govuk-button">{{i18n.nameRegisteredWithAmlContinueBtn}}</button>
     </form>
-</main>
+</div>
 
     
 {% endblock main_content %}

@@ -1,0 +1,11 @@
+{
+  "amlInterruptTitle": "Your business must be registered with an AML supervisory body",
+  "text1": "To confirm your anti-money laundering (AML) registration, we need to check the name of your business is the same as the one your supervisory body holds.",
+  "text2": "If the AML registration is in your name, the details will not match and we will reject your application.",
+  "text5": "What to do next",
+  "text3": "To register your business as an authorised agent, you'll need to",
+  "link1": "register the business with an AML supervisory body",
+  "first": "first.",
+  "text4": "Or, to register yourself as an authorised agent, you can",
+  "link2": "apply as a sole trader."
+}
