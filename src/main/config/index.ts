@@ -1,5 +1,6 @@
 const BASE_VIEWS_URL = "../views/features";
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
+const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
 export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
 export const SOLE_TRADER_DOB = `${BASE_SOLE_TRADER_URL}/date-of-birth/capture-date-of-birth`;
 export const SOLE_TRADER_NAME = `${BASE_SOLE_TRADER_URL}/name/capture-name`;
@@ -15,3 +16,5 @@ export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nat
 export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
 export const SOLE_TRADER_COMPANY_NUMBER = `${BASE_SOLE_TRADER_URL}/company-number/company-lookup`;
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
+export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
+export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = `${BASE_LIMITED_TRADER_URL}/business-mustbe-aml-registered/business-mustbe-aml-registered`;

@@ -4,7 +4,9 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, companyLookupController
+    companyLookupController,
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
+
 
 } from "../controllers";
 
@@ -20,6 +22,7 @@ import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import { companyNumberValidator } from "../../../lib/validation/companyLookup";
 import * as urls from "../types/pageURL";
+import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 
 const routes = Router();
 
@@ -60,9 +63,18 @@ routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNational
 routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
-routes.get(urls.HEALTHCHECK, healthCheckController.get);
-
 routes.get("/sole-trader/company-lookup", companyLookupController.get);
 routes.post("/sole-trader/company-lookup", companyNumberValidator, companyLookupController.post);
+
+routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+
+routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
+routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
+
+routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
+
 
 export default routes;
