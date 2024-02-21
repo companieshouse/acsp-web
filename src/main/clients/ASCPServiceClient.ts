@@ -17,11 +17,18 @@ export class ACSPServiceClient {
         try {
             const response = await this.client.get(`/company/${companyNumber}`);
             logger.info(response.data);
-            const errore = response.data = "Errore";
-            return errore;
-        } catch (err: any) {
-            logger.error(err);
-            throw err;
+            return response.data;
+        } catch (err:any) {
+            if (err.response && err.response.status === 404) {
+                // Override the default error message from backend - Request failed with status code 404 to customErrorMessage
+                const customErrorMessage = "Enter a valid company number";
+                logger.error(customErrorMessage);
+                throw new Error(customErrorMessage);
+            } else {
+                logger.error(err);
+                throw err;
+            }
         }
     }
+
 }

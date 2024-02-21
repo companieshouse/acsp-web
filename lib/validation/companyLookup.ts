@@ -11,7 +11,8 @@ export const companyNumberValidator = [
                 .custom(async (value: string) => {
                             // Check if company number exists
                             const acspServiceClient = new ACSPServiceClient("http://localhost:18642/acsp-api");
-                            const companyExists = await acspServiceClient.getCompany(value);
+                            const companyExists = await acspServiceClient.getCompany(value)
+                            console.log(companyExists);
                             if (!companyExists) {
                                 throw new Error("Error"); //add write error
                         }
