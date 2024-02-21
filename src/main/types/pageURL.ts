@@ -26,10 +26,13 @@ export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
 
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = SOLE_TRADER + "/other-type-of-business";
 
+export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-aml-supervised";
+
 export const HEALTHCHECK = "/healthcheck";
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
-
+export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = LIMITED + "/your-business-must-be-aml-registered";
+export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
 export const YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT = LIMITED + "/your-business-must-be-aml-registered";
