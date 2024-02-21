@@ -1,30 +1,28 @@
-{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/input/macro.njk"           import govukInput %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
 
-<main>
+<main class="govuk-main-wrapper">
     <form action="name" method="POST">
         <div class="govuk-form-group">
-            <h1 class="govuk-heading-l">What is your name?</h1>
-        
+            <h1 class="govuk-heading-l">{{i18n.whatIsTheBusinessnNameTitle}}</h1>
+            
             {{ govukInput({
-                label: {
-                    text: "Last name"
+                errorMessage: errors.whatIsTheBusinessnName if errors,
+                classes: "govuk-input",
+                hint: {
+                    text: i18n.whatIsTheBusinessnNameHint
                 },
-                errorMessage: {
-                    text: errors["last-name"].text
-                } if errors["last-name"] | length or errors["first-name"].text === "Enter your full name",
-                classes: "govuk-input--width-20",
-                id: "last-name",
-                name: "last-name",
-                autocomplete: "family-name",
-                value: payload["last-name"]
-            }) }}
+                id: "what-is-the-business-name",
+                name: "whatIsTheBusinessnName"
+             }) }}
+
+             <div class="govuk-inset-text">
+                <p>{{i18n.whatIsTheBusinessnNamePublic}}</p>   
+            </div>
         </div>
-        {{ govukButton({
-            text: "Continue"
-          }) }}
+            <button class="govuk-button">{{i18n.whatIsTheBusinessnNameSaveAndContinue}}</button>
     </form>
 </main>
 

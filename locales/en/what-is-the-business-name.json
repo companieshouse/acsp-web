@@ -1,0 +1,8 @@
+{
+    "whatIsTheBusinessnNameTitle" : "What is the business name?",
+    "whatIsTheBusinessnNameHint": "This is the name your business trades under.",
+    "whatIsTheBusinessnNamePublic": "We will show this on the public register.",
+    "whatIsTheBusinessnNameSaveAndContinue": "Save and Continue",
+   
+    "error-whatIsTheBusinessnNameInputError" : "Select which name is registered with your AML supervisory body"
+}
