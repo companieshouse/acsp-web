@@ -7,7 +7,6 @@ import {
     companyLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
 
-
 } from "../controllers";
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
@@ -75,6 +74,5 @@ routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidato
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
-
 
 export default routes;
