@@ -11,23 +11,27 @@ import {
     TRANSACTION_CREATE_ERROR
 } from "../../../common/__utils/constants";
 
+import { COMPANY_NUMBER_URL } from "../../../config";
+
 // const acspServiceClient : ACSPServiceClient = new ACSPServiceClient("http://localhost:18644/acsp-api");
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+    const indexService = new IndexService();
     res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const indexService = new IndexService();
-    try {
-        await indexService.createTransaction(req, res, "");
-        // .then((transactionId) => {
-        //     // get transaction record data
-        //     req.session?.setExtraData(SUBMISSION_ID, transactionId);
-        // });
-    } catch (err) {
-        res.status(500).send("Internal Server Error");
-        logger.error(TRANSACTION_CREATE_ERROR);
-    };
-    res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
+    // const indexService = new IndexService();
+    res.redirect(COMPANY_NUMBER_URL);
+    // try {
+    //     await indexService.createTransaction(req, res, "");
+    //     // .then((transactionId) => {
+    //     //     // get transaction record data
+    //     //     req.session?.setExtraData(SUBMISSION_ID, transactionId);
+    //     // });
+    // } catch (err) {
+    //     res.status(500).send("Internal Server Error");
+    //     logger.error(TRANSACTION_CREATE_ERROR);
+    // };
+    // res.render(config.HOME, { title: "Apply to register as a Companies House authorised agent" });
 };

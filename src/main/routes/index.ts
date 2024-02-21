@@ -12,11 +12,12 @@ import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkI
 import { nationalityValidator } from "../../../lib/validation/nationality";
 import * as urls from "../types/pageURL";
 import { authenticationMiddleware } from "../middleware/authentication_middleware";
+import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 
 const routes = Router();
 
 routes.get("/register-acsp/home", indexController.get);
-routes.post("/register-acsp/home", indexController.post);
+routes.post("/register-acsp/home", companyAuthenticationMiddleware, indexController.post);
 
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
 routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);

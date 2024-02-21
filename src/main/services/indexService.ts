@@ -20,6 +20,7 @@ export class IndexService extends GenericService {
         const session = req.session as any as Session;
         const companyNumber1 = req.params.companyNumber;
         let transactionId: string = "";
+        logger.info("-----------here-----------");
         try {
             await postTransaction(session, companyNumber, CREATE_DESCRIPTION, REFERENCE).then((transaction) => {
                 transactionId = transaction.id as string;

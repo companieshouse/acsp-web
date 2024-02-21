@@ -16,6 +16,7 @@ import { sessionMiddleware } from "./middleware/session_middleware";
 
 import Redis from "ioredis";
 import { COMPANY_BASE_URL, EMAIL_BASE_URL, HOME_URL, SIGN_OUT_URL } from "./config";
+import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
 
 const app = express();
 
@@ -81,5 +82,8 @@ process.on("unhandledRejection", (err: any) => {
 app.use(cookieParser());
 app.use(`${HOME_URL}*`, sessionMiddleware);
 app.use(`${HOME_URL}*`, authenticationMiddleware);
+
+const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
+app.use(companyAuthRegex, companyAuthenticationMiddleware);
 
 export default app;
