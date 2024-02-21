@@ -2,6 +2,7 @@ const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
 const LIMITED = "/limited";
+const UNINCORPORATED = "/unincorporated";
 
 export const BASE_URL = "/register-acsp";
 
@@ -31,3 +32,5 @@ export const HEALTHCHECK = "/healthcheck";
 export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
 
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
+
+export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";

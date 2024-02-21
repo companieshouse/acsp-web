@@ -1,0 +1,32 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="name" method="POST">
+        <div class="govuk-form-group">
+            <h1 class="govuk-heading-l">What is your name?</h1>
+        
+            {{ govukInput({
+                label: {
+                    text: "Last name"
+                },
+                errorMessage: {
+                    text: errors["last-name"].text
+                } if errors["last-name"] | length or errors["first-name"].text === "Enter your full name",
+                classes: "govuk-input--width-20",
+                id: "last-name",
+                name: "last-name",
+                autocomplete: "family-name",
+                value: payload["last-name"]
+            }) }}
+        </div>
+        {{ govukButton({
+            text: "Continue"
+          }) }}
+    </form>
+</main>
+
+    
+{% endblock main_content %}
