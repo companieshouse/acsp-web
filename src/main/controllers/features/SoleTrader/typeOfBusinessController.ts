@@ -12,7 +12,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(START, lang),
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + SOLE_TRADER_TYPE_OF_BUSINESS
+        currentUrl: BASE_URL + SOLE_TRADER_TYPE_OF_BUSINESS,
+        typeOfBusiness: req.params.typeOfBusiness
     });
 };
 
