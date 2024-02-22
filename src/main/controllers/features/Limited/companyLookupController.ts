@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import * as config from "../../../config";
 import { ACSPServiceClient } from "../../../clients/ASCPServiceClient";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, LIMITED_CONFIRM_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
 
 const acspServiceClientOne = new ACSPServiceClient("http://localhost:18642/acsp-api");
+const companyDetailsService = new CompanyDetailsService();
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -25,6 +27,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+        const { companyNumber } = req.body;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
@@ -38,19 +42,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const { companyNumber } = req.body;
-            await acspServiceClientOne.getCompany(companyNumber);
-            res.redirect(BASE_URL + LIMITED_CONFIRM_COMPANY);
-            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CONFIRM_COMPANY, lang);
+            const companyDetails = await acspServiceClientOne.getCompany(companyNumber);
+            companyDetailsService.saveToSession(req, companyDetails);
+            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
             res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);
-        /* res.status(404).render(config.LIMITED_COMPANY_NUMBER, {
-
-            payload: req.body,
-            title: "What is the company number?",
-            previousPage: BASE_URL + LIMITED_ONE_LOGIN_PASSWORD
-        }); */
     }
 };
 

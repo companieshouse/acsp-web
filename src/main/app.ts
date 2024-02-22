@@ -26,6 +26,7 @@ app.enable("trust proxy");
 declare module "express-session" {
     export interface SessionData {
       user: { [key: string]: any };
+      companyDetails?: { [key: string]: any };
     }
   }
 app.use(session({
