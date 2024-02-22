@@ -1,0 +1,41 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+<main class="govuk-main-wrapper " id="main-content" role="main">
+
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Company name</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.companyName }}</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Company number</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.companyNumber }}</dd>
+    </div>
+      <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Status</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.status }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Incorporation date</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.incorporationDate }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Company type</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.companyType }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Registered office address</dt>
+
+      <dd class="govuk-summary-list__value">{{ companyDetails.registeredOfficeAddress.address_line_1 }}<br>
+      {{ companyDetails.registeredOfficeAddress.address_line_2 }}<br>
+      {{ companyDetails.registeredOfficeAddress.postal_code }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">Correspondance address</dt>
+      <dd class="govuk-summary-list__value">{{ companyDetails.undeliverable_registered_office_address }}</dd>
+    </div>
+  </dl>
+
+</main>
+{% endblock main_content %} 
