@@ -5,7 +5,8 @@ import { CompanyDetailsService } from "../../../services/company-details/company
 import * as config from "../../../config";
 import { ACSPServiceClient } from "../../../clients/ASCPServiceClient";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, LIMITED_CONFIRM_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
+import logger from "../../../../../lib/Logger";
 
 const acspServiceClientOne = new ACSPServiceClient("http://localhost:18642/acsp-api");
 const companyDetailsService = new CompanyDetailsService();
@@ -23,12 +24,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // const errors = validationResult(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
-        const { companyNumber } = req.body;
-
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
@@ -43,11 +41,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const { companyNumber } = req.body;
             const companyDetails = await acspServiceClientOne.getCompany(companyNumber);
+            logger.info(companyDetails);
             companyDetailsService.saveToSession(req, companyDetails);
             if (!res.headersSent) {
-                const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CONFIRM_COMPANY, lang);
-                res.redirect(nextPageUrl);
+            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+            res.redirect(nextPageUrl);
             }
+
         }
     } catch (error) {
         next(error);

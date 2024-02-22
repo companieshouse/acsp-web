@@ -32,8 +32,11 @@ export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-am
 export const HEALTHCHECK = "/healthcheck";
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
+
 export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = LIMITED + "/your-business-must-be-aml-registered";
+
 export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
+
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
 export const YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT = LIMITED + "/your-business-must-be-aml-registered";
@@ -43,5 +46,9 @@ export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
 export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "/what-is-the-company-number";
 
 export const LIMITED_ONE_LOGIN_PASSWORD = LIMITED + "/one-login-enter-password";
-export const LIMITED_CONFIRM_COMPANY = LIMITED + "/confirm-company";
+
 export const LIMITED_COMPANY_NUMBER = LIMITED + "/company-number";
+
+//test
+export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
+//test

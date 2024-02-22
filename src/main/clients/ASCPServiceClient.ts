@@ -3,7 +3,6 @@ import Axios, { AxiosInstance } from "axios";
 import logger from "../../../lib/Logger";
 
 export class ACSPServiceClient {
-    // const baseURL = "http://localhost:18642/acsp-api/";
     private client: AxiosInstance;
 
     constructor (baseURL: string) {
@@ -16,7 +15,6 @@ export class ACSPServiceClient {
     public async getCompany (companyNumber: string): Promise<any> {
         try {
             const response = await this.client.get(`/company/${companyNumber}`);
-            logger.info(response.data);
             return response.data;
         } catch (err:any) {
             if (err.response && err.response.status === 404) {

@@ -7,9 +7,9 @@ export const companyNumberValidator = [
         .matches(characterPattern).withMessage("invalidcompanyNumberPattern").bail()
         .isLength({ min: 8, max: 8 }).withMessage("invalidcompanyNumbercharacterLimit").bail()
         .custom(async (value: string) => {
-            // Check if company number exists
+            // Call backend error to show on the frontend
             const acspServiceClient = new ACSPServiceClient("http://localhost:18642/acsp-api");
-            const companyExists = await acspServiceClient.getCompany(value);
+            await acspServiceClient.getCompany(value);
 
         })
 
