@@ -14,7 +14,7 @@ export const companyNumberValidator = [
             const companyExists = await acspServiceClient.getCompany(value);
             console.log(companyExists);
             if (!companyExists) {
-                throw new Error("Error"); // add write error
+                throw new Error("Error");
             }
             return true;
         })
