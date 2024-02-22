@@ -23,7 +23,7 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
 
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
-            whatIsTheBusinessName: "Company545-abc"
+            whatIsTheBusinessName: "Company545-&abc. "
         };
 
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);

@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-const businessNameFormat:RegExp = /^[A-Za-z0-9\-&',\s]*$/;
+const businessNameFormat:RegExp = /^[A-Za-z0-9\-&'.\s]*$/;
 
 export const whatIsTheBusinessNameValidator = [
 
