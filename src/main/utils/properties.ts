@@ -15,11 +15,11 @@ const getEnvironmentVariable = (key: string, defaultValue?: any): string => {
 
 export const ACCOUNT_URL = getEnvironmentVariable("ACCOUNT_URL", "false");
 
-export const COOKIE_NAME = getEnvironmentVariable("COOKIE_NAME", "false");
+export const COOKIE_NAME = getEnvironmentVariable("COOKIE_NAME", "__SID");
 
-export const COOKIE_DOMAIN = getEnvironmentVariable("COOKIE_DOMAIN", "false");
+export const COOKIE_DOMAIN = getEnvironmentVariable("COOKIE_DOMAIN", "chs.local");
 
-export const COOKIE_SECRET = getEnvironmentVariable("COOKIE_SECRET", "false");
+export const COOKIE_SECRET = getEnvironmentVariable("COOKIE_SECRET", "ChGovUk-XQrbf3sLj2abFxIY2TlapsJ");
 
 export const CACHE_SERVER = getEnvironmentVariable("CACHE_SERVER", "false");
 

@@ -47,8 +47,8 @@ app.set("view engine", "njk");
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 
 // apply middleware
-// app.use(cookieParser());
-// app.use(`${BASE_URL}*`, sessionMiddleware);
+app.use(cookieParser());
+app.use(`${BASE_URL}*`, sessionMiddleware);
 
 // Unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
