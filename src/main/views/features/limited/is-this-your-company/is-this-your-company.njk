@@ -1,0 +1,121 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+<main class="govuk-main-wrapper " id="main-content" role="main">
+          
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <!-- The action will need to change depending on the location of the confirm-company page -->
+      <form action="confirm-company" method="post">
+        <h1 class="govuk-heading-l">Is this your company?</h1>
+
+        <dl class="govuk-summary-list">
+
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Company name</dt>
+            <dd class="govuk-summary-list__value">MORRIS ACCOUNTING LTD</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Company number</dt>
+            <dd class="govuk-summary-list__value">02050399</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Status</dt>
+            <dd class="govuk-summary-list__value">
+              <!-- a set of if and elif conditions depending on the company status-->
+              Active
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Incorporation date</dt>
+            <dd class="govuk-summary-list__value">28 August 1986</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Company type</dt>
+            <!-- upper is a way in Nunjucks to convert text into uppercase-->
+            <dd class="govuk-summary-list__value">Private limited company</dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Registered office address</dt>
+            <dd class="govuk-summary-list__value">
+              <!-- if statements are used to stop gaps showing where there is missing information -->
+              72 Guild Street <br> London <br> SE23 6FH
+            </dd>
+          </div>
+          <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">Correspondance address</dt>
+            <dd class="govuk-summary-list__value">
+              <!-- if statements are used to stop gaps showing where there is missing information -->
+              56 Hope Street <br> Cardiff <br> CF26 JOH
+            </dd>
+          </div>
+
+
+        </dl>
+       
+    <!--     
+
+<div class="govuk-form-group">
+
+  <fieldset class="govuk-fieldset">
+  
+  <legend class="govuk-fieldset__legend govuk-fieldset__legend--s govuk-!-padding-top-3">
+  
+    Does the company name and registered office address match the details held by the AML supervisory body?
+  
+  </legend>
+  
+
+  <div class="govuk-radios govuk-!-padding-top-2"
+    data-module="govuk-radios">
+    
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="aml-details-match" name="aml-details-match" type="radio" value="yes">
+          <label class="govuk-label govuk-radios__label" for="aml-details-match">
+        Yes
+      </label>
+          
+        </div>
+        
+        <div class="govuk-radios__item">
+          <input class="govuk-radios__input" id="aml-details-match-2" name="aml-details-match" type="radio" value="no">
+          <label class="govuk-label govuk-radios__label" for="aml-details-match-2">
+        No
+      </label>
+          
+        </div>
+    
+  </div>
+  
+
+</fieldset>
+
+
+</div>
+ -->
+
+
+     <!--    <div class="govuk-inset-text">
+  The company name and registered office address must be exactly the same as the details held by the AML supervisor.
+</div>
+ 
+        
+
+      <p class="govuk-body">If the address shown is incorrect, you will need to <a href='' class=''>update the registered office address</a>. You should also check the AML supervisor holds the correct company name and registered office address. </p>
+      -->
+
+<button class="govuk-button" data-module="govuk-button">
+  Confirm and continue
+</button>
+
+
+         <p class="govuk-body"> <a href="company-lookup">Choose a different company</a> </p>
+
+      </form>
+
+      <p></p>
+    </div>
+  </div>
+
+        </main>
+{% endblock main_content %}
