@@ -1,0 +1,49 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<div class="govuk-grid-column-two-thirds-from-desktop">
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                classes: "govuk-radios",
+                id: "what-is-your-role-radios",
+                name: "whatIsYourRole",
+                fieldset: {
+                    legend: {
+                       text: "What is your role?",
+                       isPageHeading: true,
+                       classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "LIMITED_IAM_A_DIRECTOR",
+                        text: "I am a director of" + companyName,
+                        class: "hidden"
+                    },
+                    {
+                        value: "LP_IAM_A_GENERAL_PARTNER",
+                        text: "I am a general partner of _____",
+                        style: "display:none"
+                    },
+                    {
+                        value: "LLP_IAM_A_MEMBER",
+                        text: "I am a member of _____",
+                        display: none
+                    },
+                    {
+                        value: "SOLE_TRADER",
+                        text: "I am the sole trader",
+                        visible: false
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.nameRegisteredWithAmlContinueBtn}}</button>
+    </form>
+</div>
+
+
+{% endblock main_content %}

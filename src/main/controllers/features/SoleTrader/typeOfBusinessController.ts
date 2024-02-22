@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_TYPE_OF_BUSINESS, START, SOLE_TRADER_OTHER_TYPE_OFBUSINESS, SOLE_TRADER_ROLE, BASE_URL } from "../../../types/pageURL";
+import { SOLE_TRADER_TYPE_OF_BUSINESS, SOLE_TRADER, START, LIMITED, WHAT_IS_YOUR_ROLE, SOLE_TRADER_OTHER_TYPE_OFBUSINESS, SOLE_TRADER_ROLE, BASE_URL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -32,11 +32,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            var nextPageUrl = addLangToUrl(SOLE_TRADER_ROLE, lang);
-            if (req.body.typeOfBusinessRadio === "OTHER") {
-                nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, lang);
-            }
-            res.redirect(nextPageUrl);
+            var nextPageUrl = "";
+            if (req.body.typeOfBusinessRadio === "SOLE_TRADER") {
+                nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER + WHAT_IS_YOUR_ROLE, lang);
+            } else if (req.body.typeOfBusinessRadio === "LIMITED") {
+                nextPageUrl = addLangToUrl(BASE_URL + LIMITED + WHAT_IS_YOUR_ROLE, lang);
+            };
+            req.session.user = req.session.user || {};
+            req.session.user.acspType = req.body.typeOfBusinessRadio;
+            console.log("next page url is: ", nextPageUrl);
+            req.session.save(() => {
+                res.redirect(nextPageUrl);
+            });
         }
     } catch (error) {
         next(error);
