@@ -21,6 +21,7 @@ export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS = SOLE_TRADER + "/correspondenceAdd
 export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST = SOLE_TRADER + "/correspondence-address-list";
 
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = SOLE_TRADER + "/where-do-you-live";
+
 export const SOLE_TRADER_ROLE = SOLE_TRADER + "/statement-relevant-officer";
 
 export const SOLE_TRADER_TYPE_OF_BUSINESS = SOLE_TRADER + "/type-of-business";
@@ -42,3 +43,7 @@ export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 export const YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT = LIMITED + "/your-business-must-be-aml-registered";
 
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";
+
+export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
+
+export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "what-is-the-company-number";

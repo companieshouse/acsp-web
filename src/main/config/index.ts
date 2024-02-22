@@ -19,3 +19,4 @@ export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = `${BASE_SOLE_TRADER_URL}/other-
 export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
 export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = `${BASE_LIMITED_TRADER_URL}/business-mustbe-aml-registered/business-mustbe-aml-registered`;
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = `${BASE_UNINCORPORATED_URL}/what-is-the-business-name/what-is-the-business-name`;
+export const LIMITED_COMPANY_INACTIVE = `${BASE_LIMITED_TRADER_URL}/company-inactive/company-inactive`;

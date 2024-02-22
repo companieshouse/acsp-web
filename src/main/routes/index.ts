@@ -4,8 +4,8 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController, whatIsTheBusinessNameController
-
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
+    , companyInactiveController, whatIsTheBusinessNameController
 } from "../controllers";
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
@@ -15,7 +15,7 @@ import { nameValidator } from "../../../lib/validation/name";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
-import { nationalityValidator } from "../../../lib/validation/nationality";
+import { nationalityValidator } from "../../main/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
@@ -66,6 +66,8 @@ routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator
 
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
+
+routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
