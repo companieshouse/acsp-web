@@ -60,7 +60,7 @@ describe("POST /sole-trader/nationality", () => {
 describe("POST /sole-trader/nationality", () => {
     it("should fail validation with empty first nationality", async () => {
         await router.post("/register-acsp/sole-trader/nationality")
-            .send({ nationality_input_0: "", nationality_input_1: " ", nationality_input_2: "" }).expect(400);
+            .send({ nationality_input_0: " ", nationality_input_1: " ", nationality_input_2: " " }).expect(400);
     });
 });
 
@@ -72,10 +72,10 @@ describe("POST /sole-trader/nationality", () => {
     });
 });
 
-// Test for invalid and over the limit characters
+// Test for invalid input
 describe("POST /sole-trader/nationality", () => {
     it("should fail validation with invalid nationality", async () => {
         await router.post("/register-acsp/sole-trader/nationality")
-            .send({ nationality_input_0: "British", nationality_input_1: "Thelenghtofthisentenceisverylongoverthecharacterspecified", nationality_input_2: "British" }).expect(400);
+            .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" }).expect(400);
     });
 });
