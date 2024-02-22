@@ -26,7 +26,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
                 previousPage: addLangToUrl(BASE_URL + LIMITED_ONE_LOGIN_PASSWORD, lang),
                 payload: req.body,

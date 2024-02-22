@@ -21,7 +21,7 @@ export class ACSPServiceClient {
         } catch (err:any) {
             if (err.response && err.response.status === 404) {
                 // Override the default error message from backend - Request failed with status code 404 to customErrorMessage
-                const customErrorMessage = "Enter a valid company number";
+                const customErrorMessage = "companyNumberDontExsits";
                 logger.error(customErrorMessage);
                 throw new Error(customErrorMessage);
             } else {
