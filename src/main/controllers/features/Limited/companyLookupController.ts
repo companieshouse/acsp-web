@@ -37,15 +37,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             });
         } else {
-            //const { companyNumber } = req.body;
-            //await acspServiceClientOne.getCompany(companyNumber);
-            //check if getCompany dont send a response
+            // const { companyNumber } = req.body;
+            // await acspServiceClientOne.getCompany(companyNumber);
+            // check if getCompany dont send a response
             if (!res.headersSent) {
-            //res.redirect(BASE_URL + LIMITED_CONFIRM_COMPANY);
-            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CONFIRM_COMPANY, lang);
-            res.redirect(nextPageUrl);
+            // res.redirect(BASE_URL + LIMITED_CONFIRM_COMPANY);
+                const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CONFIRM_COMPANY, lang);
+                res.redirect(nextPageUrl);
+            }
         }
-    }
     } catch (error) {
         next(error);
         /* res.status(404).render(config.LIMITED_COMPANY_NUMBER, {
