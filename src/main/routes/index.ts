@@ -17,6 +17,7 @@ import { nameValidator } from "../../../lib/validation/name";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
+import { nationalityValidator } from "../../main/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import { companyNumberValidator } from "../validation/companyLookup";
