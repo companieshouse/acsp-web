@@ -1,0 +1,14 @@
+{
+    "companyNumberTitle": "What is the company number welsh?",
+    "companyNumberHint": "A company number is 8 characters long welsh.",
+    "textHowGetCompanyNumer": "How do I find the company number welsh?",
+    "infoToGetCompanyNumer": "You can find this by searching for the company on the welsh",
+    "linkWhereToHowGetCompanyNumer": "Companies House register (opens in new tab) welsh",
+
+
+    "error-invalidcompanyNumberNoData": "Enter the company numbe welsh",
+    "error-invalidcompanyNumbercharacterLimit": "Company number must be 8 characters welsh",
+    "error-invalidcompanyNumberPattern": "Company number must only include letters a to z and numbers welsh"
+
+
+}

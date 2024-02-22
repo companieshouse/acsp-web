@@ -1,0 +1,11 @@
+{
+    "companyNumberTitle":"What is the company number?",
+    "companyNumberHint":"A company number is 8 characters long.",
+    "textHowGetCompanyNumer": "How do I find the company number?",
+    "infoToGetCompanyNumer":"You can find this by searching for the company on the",
+    "linkWhereToHowGetCompanyNumer":"Companies House register (opens in new tab)",
+   
+    "error-invalidcompanyNumberNoData": "Enter the company number",
+    "error-invalidcompanyNumbercharacterLimit": "Company number must be 8 characters",
+    "error-invalidcompanyNumberPattern": "Company number must only include letters a to z and numbers"
+}

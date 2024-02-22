@@ -13,13 +13,13 @@
 
       {{ govukInput({
       label: {
-      text: "What is the company number?",
+      text: i18n.companyNumberTitle,
       classes: "govuk-label--l",
       isPageHeading: true
       },
       classes: "govuk-input--width-10",
       hint: {
-      text: "A company number is 8 characters long."
+      text: i18n.companyNumberHint
       },
       id: "companyNumber",
       name: "companyNumber",
@@ -37,11 +37,11 @@
       <details class="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
-            Help with nationality
+            {{i18n.textHowGetCompanyNumer}}
           </span>
         </summary>
-        <div class="govuk-details__text">You can find this by searching for the company on the<br>
-            <a href="https://find-and-update.company-information.service.gov.uk/"> Companies House register (opens in new tab)</a>.
+        <div class="govuk-details__text">{{i18n.infoToGetCompanyNumer}}<br>
+            <a href="https://find-and-update.company-information.service.gov.uk/"> {{i18n.linkWhereToHowGetCompanyNumer}}</a>.
         </div>
       </details>
       </div>
@@ -49,7 +49,7 @@
 
        </fieldset>
         {{ govukButton({
-          text: "Continue"
+          text: i18n.Continue
         }) }}
       </div>
     </form>
