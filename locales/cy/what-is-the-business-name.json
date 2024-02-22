@@ -1,8 +1,10 @@
 {
-    "whatIsTheBusinessnNameTitle" : "What is the business name? welsh",
-    "whatIsTheBusinessnNameHint": "This is the name your business trades under. welsh",
-    "whatIsTheBusinessnNamePublic": "We will show this on the public register. welsh",
-    "whatIsTheBusinessnNameSaveAndContinue": "Save and Continue welsh",
+    "whatIsTheBusinessNameTitle" : "What is the business name? welsh",
+    "whatIsTheBusinessNameHint": "This is the name your business trades under. welsh",
+    "whatIsTheBusinessNamePublic": "We will show this on the public register. welsh",
+    "whatIsTheBusinessNameSaveAndContinue": "Save and Continue welsh",
    
-    "error-whatIsTheBusinessnNameInputError" : "Select which name is registered with your AML supervisory body welsh"
+    "error-whatIsTheBusinessNameNoName" : "Enter the business name welsh",
+    "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes welsh",
+    "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 200 characters or less welsh"
 }

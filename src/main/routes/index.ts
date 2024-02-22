@@ -20,6 +20,7 @@ import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
+import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
 
 const routes = Router();
 
@@ -71,6 +72,6 @@ routes.get(urls.HEALTHCHECK, healthCheckController.get);
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
 
 export default routes;
