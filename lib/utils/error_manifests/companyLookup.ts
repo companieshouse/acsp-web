@@ -1,4 +1,4 @@
-const companyLookupErrorManifest = {
+/*const companyLookupErrorManifest = {
     generic: {
         serverError: {
             summary: "There was an error processing your request. Please try again."
@@ -28,3 +28,4 @@ const companyLookupErrorManifest = {
 };
 
 export default companyLookupErrorManifest;
+*/

@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import companyLookupErrorManifest from "../../../lib/utils/error_manifests/companyLookup";
+// import companyLookupErrorManifest from "../../../lib/utils/error_manifests/companyLookup";
 // import * as constants from "../../src/main/common/__utils/constants";
 import { ACSPServiceClient } from "../../main/clients/ASCPServiceClient";
 
