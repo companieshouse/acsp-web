@@ -16,3 +16,4 @@ export * as healthCheckController from "./healthCheckController";
 export * as nameRegisteredWithAmlController from "./features/limited/nameRegisteredWithAmlController";
 export * as businessMustbeAmlRegisteredController from "./features/Limited/businessMustbeAmlRegisteredController";
 export * as companyLookupController from "./features/Limited/companyLookupController";
+export * as companyInactiveController from "./features/limited/companyInactiveController";
