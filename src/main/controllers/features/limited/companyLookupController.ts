@@ -8,7 +8,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
 import logger from "../../../../../lib/Logger";
 
-const acspServiceClientOne = new ACSPServiceClient("http://localhost:18642/acsp-api");
+const acspServiceClientOne = new ACSPServiceClient(config.ACSP_API_LOCALHOST);
 const companyDetailsService = new CompanyDetailsService();
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

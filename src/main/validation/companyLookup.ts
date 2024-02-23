@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 import { ACSPServiceClient } from "../../main/clients/ASCPServiceClient";
+import * as config from "../../main/config/index";
 
 const characterPattern:RegExp = /^[a-zA-Z0-9]+$/;
 export const companyNumberValidator = [
@@ -8,7 +9,7 @@ export const companyNumberValidator = [
         .isLength({ min: 8, max: 8 }).withMessage("invalidcompanyNumbercharacterLimit").bail()
         .custom(async (value: string) => {
             // Call backend error to show on the frontend
-            const acspServiceClient = new ACSPServiceClient("http://localhost:18642/acsp-api");
+            const acspServiceClient = new ACSPServiceClient(config.ACSP_API_LOCALHOST);
             await acspServiceClient.getCompany(value);
 
         })

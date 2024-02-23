@@ -1,3 +1,4 @@
+export const ACSP_API_LOCALHOST = "http://localhost:18642/acsp-api";
 const BASE_VIEWS_URL = "../views/features";
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
