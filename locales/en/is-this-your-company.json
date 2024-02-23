@@ -1,0 +1,12 @@
+{
+    "isThisYourCompany": "Is this your company?",
+    "companyName": "Company name",
+    "companyNumber": "Company number",
+    "status": "Status",
+    "incorporationDate": "Incorporation date",
+    "companyType": "Company type welsh",
+    "registeredOfficeAddress": "Registered office address",
+    "correspondaceAddress": "Correspondance address",
+    "confirm": "Confirm and continue",
+    "chooseADifferentCompany": "Choose a different company"
+}
