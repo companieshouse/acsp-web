@@ -5,4 +5,15 @@
 PORT=3000
 
 export NODE_PORT=${PORT}
-exec node /opt/bin/www.js -- ${PORT}
+for entry in /opt/*
+do
+  echo "$entry"
+done
+
+for entry in /opt/assets
+do
+  echo "$entry"
+done
+
+ls -R /opt/assets
+exec node /opt/dist/src/main/server.js -- ${PORT}

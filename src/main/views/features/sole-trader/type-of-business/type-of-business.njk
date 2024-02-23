@@ -1,0 +1,79 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="" method="POST">
+        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.typeOfBusinessRadio if errors,
+                classes: "govuk-radios",
+                id: "type-of-business-radios",
+                name: "typeOfBusinessRadio",
+                fieldset: {
+                    legend: {
+                        text: i18n.typeOfBusinessTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "LIMITED_COMPANY",
+                        text: i18n.typeOfBusinessLimitedCompanyOption,
+                        checked: type-of-business == LIMITED_COMPANY,
+                        attributes: {
+                            "data-event-id": "limited-company-option"
+                        }
+                    },
+                    {
+                        value: "LIMITED_PARTNERSHIP",
+                        text: i18n.typeOfBusinessLimitedPartnershipOption,
+                        checked: type-of-business == LIMITED_PARTNERSHIP,
+                        attributes: {
+                            "data-event-id": "limited-partnership-option"
+                        }
+                    },
+                    {
+                        value: "LIMITED_LIABILITY_PARTNERSHIP",
+                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
+                        checked: type-of-business == LIMITED_LIABILITY_PARTNERSHIP,
+                        attributes: {
+                            "data-event-id": "limited-liability-partnership-option"
+                        }
+                    },
+                    {
+                        value: "PARTNERSHIP",
+                        text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption,
+                        checked: type-of-business == PARTNERSHIP,
+                        attributes: {
+                            "data-event-id": "partnership-option"
+                        }
+                    },
+                    {
+                        value: "SOLE_TRADER",
+                        text: i18n.typeOfBusinessSoleTraderOption,
+                        checked: typeOfBusiness == soleTrader,
+                        attributes: {
+                            "data-event-id": "sole-trader-option"
+                        }
+                    },
+                    {
+                        value: "OTHER",
+                        text: i18n.typeOfBusinessOtherOption,
+                        checked: type-of-business == OTHER,
+                        attributes: {
+                            "data-event-id": "other-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.Continue}}</button>
+    </form>
+</main>
+
+    
+{% endblock main_content %}

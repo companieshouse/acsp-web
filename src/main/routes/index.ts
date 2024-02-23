@@ -2,20 +2,32 @@ import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
-    soleTraderCorrespondanceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController
+    soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
+    soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
+    , companyInactiveController
+
 } from "../controllers";
-import { correspondanceAddressManualValidator } from "../../../lib/validation/correspondanceAddressManual";
+
+import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
-import { sectorYouWorkInValidator } from "../../../lib/validation/sectorYouWorkIn";
-import { nationalityValidator } from "../../../lib/validation/nationality";
+import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
+import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
+import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
+import { nationalityValidator } from "../../main/validation/nationality";
+import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
+import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
+import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 import { authenticationMiddleware } from "../middleware/authentication_middleware";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 
 const routes = Router();
 
+routes.get(urls.START, indexController.get);
+routes.post(urls.START, indexController.post);
 routes.get("/register-acsp/home", indexController.get);
 routes.post("/register-acsp/home", companyAuthenticationMiddleware, indexController.post);
 
@@ -27,7 +39,6 @@ routes.post("/sole-trader/name", nameValidator, soleTraderNameController.post);
 
 routes.get("/sole-trader/statement-relevant-officer", statementRelevantOfficerController.get);
 routes.post("/sole-trader/statement-relevant-officer", statementRelevantOfficerController.post);
-
 routes.get("/sole-trader/stop-not-relevant-officer", stopNotRelevantOfficerController.get);
 
 routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
@@ -36,10 +47,34 @@ routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, secto
 routes.get("/sole-trader/where-do-you-live", soleTraderWhereDoYouLiveController.get);
 routes.post("/sole-trader/where-do-you-live", whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
-routes.get("/sole-trader/correspondance-address-manual", soleTraderCorrespondanceAddressManualController.get);
-routes.post("/sole-trader/correspondance-address-manual", correspondanceAddressManualValidator, soleTraderCorrespondanceAddressManualController.post);
+routes.get(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, soleTraderCorrespondenceAddressManualController.get);
+routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
+
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, soleTraderCorrespodanceAddressDetailsController.get);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
+
+routes.get(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.get);
+routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.post);
 
 routes.get("/sole-trader/nationality", soleTraderNationalityController.get);
 routes.post("/sole-trader/nationality", nationalityValidator, soleTraderNationalityController.post);
+
+routes.get(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
+
+routes.get(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
+routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+
+routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
+routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
+
+routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
+
+routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
 
 export default routes;

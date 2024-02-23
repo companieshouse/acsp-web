@@ -57,7 +57,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
-// app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
 
 // Unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

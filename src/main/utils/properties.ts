@@ -34,3 +34,7 @@ export const INTERNAL_API_URL = getEnvironmentVariable("INTERNAL_API_URL", "fals
 export const LOCALES_ENABLED = getEnvironmentVariable("LOCALES_ENABLED", "true");
 
 export const LOCALES_PATH = getEnvironmentVariable("LOCALES_PATH", "locales");
+
+export const POSTCODE_ADDRESSES_LOOKUP_URL = getEnvironmentVariable("POSTCODE_ADDRESSES_LOOKUP_URL", "http://postcode.cidev.aws.chdev.org");
+
+export const CDN_URL_CSS = getEnvironmentVariable("CDN_URL_CSS");
