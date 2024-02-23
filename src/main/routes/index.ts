@@ -5,7 +5,7 @@ import {
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
-    , companyInactiveController, companyLookupController, isThisYourCompanyController
+    , companyInactiveController, companyLookupController
 
 } from "../controllers";
 
@@ -76,7 +76,5 @@ routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
-
-routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.get);
 
 export default routes;
