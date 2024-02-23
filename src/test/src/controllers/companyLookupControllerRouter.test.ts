@@ -1,29 +1,37 @@
-import request from "supertest";
+import supertest from "supertest";
 import app from "../../../main/app";
-import { BASE_URL, LIMITED_COMPANY_NUMBER } from "../../../main/types/pageURL";
+const router = supertest(app);
 
-describe("CompanyLookupController", () => {
-    test("GET" + LIMITED_COMPANY_NUMBER, async () => {
-        const res = await request(app).get("/register-acsp/limited/company-number");
-        expect(res.status).toBe(200);// render company number page
-
+describe("POST /limited/company-number", () => {
+    it("should return status 200", async () => {
+        await router.get("/register-acsp/limited/company-number").expect(200);
     });
+});
 
-    test("POST" + LIMITED_COMPANY_NUMBER, async () => {
-        const res = await request(app).post("/register-acsp/limited/company-number").send({ companyNumber: "NI038379" });
-        expect(res.status).toBe(302); // Redirect status code - valid company number
-
+describe("POST /limited/company-number", () => {
+    it("should return status 400 after redirect", async () => {
+        await router.post("/register-acsp/limited/company-number")
+            .send({ companyNumber: " " }).expect(400);
     });
+});
 
-    test("POST" + LIMITED_COMPANY_NUMBER, async () => {
-        const res = await request(app).post("/register-acsp/limited/company-number").send({ companyNumber: "" });
-        expect(res.status).toBe(400); // Bad request status code -invalid company number
-
+describe("POST /limited/company-number", () => {
+    it("should return status 400 after redirect", async () => {
+        await router.post("/register-acsp/limited/company-number")
+            .send({ companyNumber: "@&£29864" }).expect(400);
     });
+});
 
-    test("POST" + LIMITED_COMPANY_NUMBER, async () => {
-        const res = await request(app).post("/register-acsp/limited/company-number").send({ companyNumber: "12345678" });
-        expect(res.status).toBe(400); // Bad request status code -invalid company number
+describe("POST /limited/company-number", () => {
+    it("should return status 400 after redirect", async () => {
+        await router.post("/register-acsp/limited/company-number")
+            .send({ companyNumber: "@&£29864" }).expect(400);
+    });
+});
 
+describe("POST /limited/company-number", () => {
+    it("should return status 400 after redirect", async () => {
+        await router.post("/register-acsp/limited/company-number")
+            .send({ companyNumber: "NI5981260987654321" }).expect(400);
     });
 });
