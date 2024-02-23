@@ -1,0 +1,37 @@
+{% from "govuk/components/input/macro.njk"           import govukInput %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main class="govuk-main-wrapper">
+  <div class="govuk-grid-row">
+   <div class="govuk-grid-column-two-thirds">
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            <h1 class="govuk-heading-l">{{i18n.whatIsTheBusinessNameTitle}}</h1>
+            
+            {{ govukInput({
+                 errorMessage: {
+                    text: errors["whatIsTheBusinessName"].text
+              } if errors["whatIsTheBusinessName"] | length,
+                classes: "govuk-input",
+                hint: {
+                    text: i18n.whatIsTheBusinessNameHint
+                },
+                id: "whatIsTheBusinessName",
+                name: "whatIsTheBusinessName",
+                value: payload["whatIsTheBusinessName"]     
+             }) }}
+
+             <div class="govuk-inset-text">
+                <p>{{i18n.whatIsTheBusinessNamePublic}}</p>   
+            </div>
+        </div>
+            <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+     </form>
+   </div>
+ </div>
+</main>
+
+    
+{% endblock main_content %}
