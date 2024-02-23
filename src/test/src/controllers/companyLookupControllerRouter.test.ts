@@ -28,7 +28,7 @@ describe("POST" + LIMITED_COMPANY_NUMBER, () => {
 describe("POST" + LIMITED_COMPANY_NUMBER, () => {
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_COMPANY_NUMBER)
-            .send({ companyNumber: "@&£29864" }).expect(400);
+            .send({ companyNumber: "08694860" }).expect(400);
     });
 });
 
@@ -45,3 +45,11 @@ describe("POST" + LIMITED_COMPANY_NUMBER, () => {
             .send({ companyNumber: "NI5981260987654321" }).expect(400);
     });
 });
+
+/* test("POST" + LIMITED_COMPANY_NUMBER, async () => {
+    const res = await router
+        .post(BASE_URL + LIMITED_COMPANY_NUMBER)
+        .send({ companyNumber: "NI038379" });
+
+    expect(res.status).toBe(302);
+}, 1000);// Redirect status code - valid company number */
