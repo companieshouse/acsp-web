@@ -1,5 +1,6 @@
 import { getEnvironmentValue } from "../common/__utils/environment/environment_value";
 
+export const APPLICATION_NAME = "acsp-web";
 const BASE_VIEWS_URL = "../views/features";
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
@@ -18,6 +19,9 @@ export const ACSP_SERVICE_TRANSACTION_URI = `${ACSP_SERVICE_BASE}/transactions`;
 export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
 export const CHS_URL = getEnvironmentValue("CHS_URL", "http://chs.local");
+export const CDN_URL_CSS = getEnvironmentValue("CDN_URL_CSS", "http://chs.local");
+export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "http://chs.local");
+export const CDN_HOST = getEnvironmentValue("CDN_HOST", "http://chs.local");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET", "ChGovUk-XQrbf3sLj2abFxIY2TlapsJ");
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN", "chs.local");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "localhost:6379");
@@ -34,7 +38,6 @@ export const SIGN_OUT_PAGE = `signout`;
 
 export const HOME_URL = `${ACSP_HOME_PAGE}/home`;
 export const COMPANY_BASE_URL = `${ACSP_HOME_PAGE}/company`;
-export const EMAIL_BASE_URL = `${ACSP_HOME_PAGE}/email`;
 
 export const COMPANY_NUMBER_PAGE = "company/number";
 export const COMPANY_NUMBER_URL = `${HOME_URL}/${COMPANY_NUMBER_PAGE}`;

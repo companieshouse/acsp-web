@@ -5,19 +5,21 @@ import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
-import {
-    SessionStore,
-    SessionMiddleware,
-    Session
-} from "@companieshouse/node-session-handler";
-
+import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
-
-import Redis from "ioredis";
-import { COMPANY_BASE_URL, EMAIL_BASE_URL, HOME_URL, SIGN_OUT_URL } from "./config";
 import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
 
+import {
+    APPLICATION_NAME,
+    CDN_URL_CSS,
+    CDN_URL_JS,
+    CDN_HOST,
+    CHS_URL,
+    COMPANY_BASE_URL,
+    HOME_URL,
+    SIGN_OUT_URL
+} from "./config";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -29,30 +31,30 @@ const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     express: app
 });
 
-nunjucksEnv.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
-nunjucksEnv.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
-nunjucksEnv.addGlobal("cdnHost", process.env.CDN_HOST);
-nunjucksEnv.addGlobal("chsUrl", process.env.CHS_URL);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "njk");
+nunjucksEnv.addGlobal("cdnUrlCss", CDN_URL_CSS);
+nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
+nunjucksEnv.addGlobal("cdnHost", CDN_HOST);
+nunjucksEnv.addGlobal("chsUrl", CHS_URL);
+nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
 
 app.enable("trust proxy");
 
-declare module "express-session" {
-    export interface SessionData {
-      user: { [key: string]: any };
-    }
-  }
-app.use(session({
-    secret: "123456",
-    resave: false,
-    saveUninitialized: true
-}));
+// declare module "express-session" {
+//     export interface SessionData {
+//       user: { [key: string]: any };
+//     }
+//   }
+// app.use(session({
+//     secret: "123456",
+//     resave: false,
+//     saveUninitialized: true
+// }));
 
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "njk");
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 // app.use("/assets", express.static("./../node_modules/govuk-frontend/govuk/assets"));
@@ -62,9 +64,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     res.render("partials/error_500");
 });
-
-// Channel all requests through router dispatch
-routerDispatch(app);
 
 // Unhandled exceptions
 process.on("uncaughtException", (err: any) => {
@@ -81,9 +80,19 @@ process.on("unhandledRejection", (err: any) => {
 // Apply middleware
 app.use(cookieParser());
 app.use(`${HOME_URL}*`, sessionMiddleware);
-app.use(`${HOME_URL}*`, authenticationMiddleware);
 
-const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
-app.use(companyAuthRegex, companyAuthenticationMiddleware);
+// Login redirect for company and email paths and also signout page
+app.use(cookieParser());
+const userAuthRegex = new RegExp(`^((${COMPANY_BASE_URL})|(${HOME_URL}).+)|(${SIGN_OUT_URL})`);
+app.use(userAuthRegex, authenticationMiddleware);
+
+// Company Auth redirect
+// const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
+// app.use(companyAuthRegex, companyAuthenticationMiddleware);
+
+// Channel all requests through router dispatch
+routerDispatch(app);
+
+app.use(pageNotFound);
 
 export default app;

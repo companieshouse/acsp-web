@@ -11,27 +11,27 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array()));
-            res.status(400).render(config.SOLE_TRADER_NAME, {
-                title: "What is your name?",
-                previousPage: "/sole-trader/",
-                pageProperties: pageProperties,
-                payload: req.body
-            });
-        } else {
-            req.session.user = req.session.user || {};
-            req.session.user.firstName = req.body["first-name"];
-            req.session.user.lastName = req.body["last-name"];
-            req.session.save(() => {
-                res.redirect("/sole-trader/date-of-birth");
-            });
-        }
-    } catch (error) {
-        next(error);
-    }
+    // try {
+    //     const errorList = validationResult(req);
+    //     if (!errorList.isEmpty()) {
+    //         const pageProperties = getPageProperties(formatValidationError(errorList.array()));
+    //         res.status(400).render(config.SOLE_TRADER_NAME, {
+    //             title: "What is your name?",
+    //             previousPage: "/sole-trader/",
+    //             pageProperties: pageProperties,
+    //             payload: req.body
+    //         });
+    //     } else {
+    //         req.session.user = req.session.user || {};
+    //         req.session.user.firstName = req.body["first-name"];
+    //         req.session.user.lastName = req.body["last-name"];
+    //         req.session.save(() => {
+    //             res.redirect("/sole-trader/date-of-birth");
+    //         });
+    //     }
+    // } catch (error) {
+    //     next(error);
+    // }
 };
 
 const getPageProperties = (errors?: FormattedValidationErrors) => ({

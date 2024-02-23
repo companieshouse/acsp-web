@@ -1,16 +1,14 @@
 import { SessionMiddleware, SessionStore } from "@companieshouse/node-session-handler";
 import Redis from "ioredis";
-import * as constants from "../config";
+import { CACHE_SERVER, COOKIE_DOMAIN, COOKIE_NAME, COOKIE_SECRET, DEFAULT_SESSION_EXPIRATION } from "../config";
 
-const sessionStore = new SessionStore(new Redis(`redis://${constants.CACHE_SERVER}`));
-
-// passing true to SessionMiddleware means
-// that a session will be created if none found
+const redis = new Redis(CACHE_SERVER);
+const sessionStore = new SessionStore(redis);
 
 export const sessionMiddleware = SessionMiddleware({
-    cookieName: constants.COOKIE_NAME,
-    cookieSecret: constants.COOKIE_SECRET,
-    cookieDomain: constants.COOKIE_DOMAIN,
+    cookieDomain: COOKIE_DOMAIN,
+    cookieName: COOKIE_NAME,
+    cookieSecret: COOKIE_SECRET,
     cookieSecureFlag: undefined,
-    cookieTimeToLiveInSeconds: parseInt(constants.DEFAULT_SESSION_EXPIRATION)
+    cookieTimeToLiveInSeconds: parseInt(DEFAULT_SESSION_EXPIRATION, 10)
 }, sessionStore, true);
