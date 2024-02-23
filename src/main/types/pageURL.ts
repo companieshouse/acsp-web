@@ -49,6 +49,4 @@ export const LIMITED_ONE_LOGIN_PASSWORD = LIMITED + "/one-login-enter-password";
 
 export const LIMITED_COMPANY_NUMBER = LIMITED + "/company-number";
 
-// test
 export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
-// test

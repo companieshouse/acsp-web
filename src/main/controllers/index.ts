@@ -17,5 +17,4 @@ export * as nameRegisteredWithAmlController from "./features/limited/nameRegiste
 export * as businessMustbeAmlRegisteredController from "./features/Limited/businessMustbeAmlRegisteredController";
 export * as companyLookupController from "./features/Limited/companyLookupController";
 export * as companyInactiveController from "./features/limited/companyInactiveController";
-// test
 export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";

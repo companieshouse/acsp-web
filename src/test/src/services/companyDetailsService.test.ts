@@ -21,16 +21,16 @@ describe("CompanyDetailsService", () => {
     test("saveToSession correctly saves company details to session", () => {
     // mock company details
         const mockCompanyDetails = {
-            company_name: "Example Company",
+            company_name: "Company",
             company_number: "12345678",
             company_status: "Active",
-            date_of_creation: "2023-01-15",
+            date_of_creation: "2023-02-23",
             type: "Private Limited Company",
             registered_office_address: {
                 address_line_1: "123 Main Street",
-                city: "Example City",
-                postal_code: "12345",
-                country: "Example Country"
+                city: "City",
+                postal_code: "54321",
+                country: "Country"
             },
             undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
         };
@@ -51,16 +51,16 @@ describe("CompanyDetailsService", () => {
 
     test("getFromSession retrieves company details from session", () => {
         const mockCompanyDetails = {
-            company_name: "Example Company",
+            company_name: "Company",
             company_number: "12345678",
             company_status: "Active",
-            date_of_creation: "2023-01-15",
+            date_of_creation: "2023-02-23",
             type: "Private Limited Company",
             registered_office_address: {
                 address_line_1: "123 Main Street",
-                city: "Example City",
-                postal_code: "12345",
-                country: "Example Country"
+                city: "City",
+                postal_code: "54321",
+                country: "Country"
             },
             undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
         };
@@ -73,16 +73,16 @@ describe("CompanyDetailsService", () => {
 
     test("clearSession clears company details from session", () => {
         const mockCompanyDetails = {
-            company_name: "Example Company",
+            company_name: "Company",
             company_number: "12345678",
             company_status: "Active",
-            date_of_creation: "2023-01-15",
+            date_of_creation: "2023-02-23",
             type: "Private Limited Company",
             registered_office_address: {
                 address_line_1: "123 Main Street",
-                city: "Example City",
-                postal_code: "12345",
-                country: "Example Country"
+                city: "City",
+                postal_code: "54321",
+                country: "Country"
             },
             undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
         };
