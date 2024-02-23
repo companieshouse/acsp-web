@@ -44,8 +44,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             logger.info(companyDetails);
             companyDetailsService.saveToSession(req, companyDetails);
             if (!res.headersSent) {
-            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
-            res.redirect(nextPageUrl);
+                const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+                res.redirect(nextPageUrl);
             }
 
         }
