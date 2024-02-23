@@ -2,6 +2,7 @@ const SEPARATOR = "/";
 
 const SOLE_TRADER = "/sole-trader";
 const LIMITED = "/limited";
+const UNINCORPORATED = "/unincorporated";
 
 export const BASE_URL = "/register-acsp";
 
@@ -41,6 +42,8 @@ export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
 export const YOUR_BUSINESS_MUST_BE_REGISTERED_KICKOUT = LIMITED + "/your-business-must-be-aml-registered";
 
+export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";
+
 export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
 
 export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "/what-is-the-company-number";
@@ -50,3 +53,7 @@ export const LIMITED_ONE_LOGIN_PASSWORD = LIMITED + "/one-login-enter-password";
 export const LIMITED_COMPANY_NUMBER = LIMITED + "/company-number";
 
 export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
+
+export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "what-is-the-company-number";
+
+export const UNINCORPORATED_WHAT_BUSINESS_TYPE = UNINCORPORATED + "/what-business-type";

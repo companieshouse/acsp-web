@@ -4,8 +4,8 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
-    , companyInactiveController, companyLookupController
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
+    companyLookupController, companyInactiveController, whatIsTheBusinessNameController
 
 } from "../controllers";
 
@@ -22,6 +22,7 @@ import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness"
 import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 import { companyNumberValidator } from "../validation/companyLookup";
+import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
 
 const routes = Router();
 
@@ -76,5 +77,8 @@ routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, businessMustbeAmlRegisteredController.get);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
 
 export default routes;
