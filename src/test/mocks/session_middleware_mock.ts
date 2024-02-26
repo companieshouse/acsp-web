@@ -1,22 +1,25 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../../src/main/middleware/session_middleware";
 import { Session } from "@companieshouse/node-session-handler";
-import { COMPANY_NUMBER } from "../../../src/main/common/__utils/constants";
+import { COMPANY, COMPANY_NUMBER } from "../../../src/main/common/__utils/constants";
+import { Company } from "main/model/Company";
+import { getSessionRequestWithPermission } from "./session.mock";
 
 jest.mock("ioredis");
-jest.mock("../../src/middleware/session_middleware");
+jest.mock("../../../src/main/middleware/session_middleware");
 
 // get handle on mocked function
 const mockSessionMiddleware = sessionMiddleware as jest.Mock;
-
-export const session = new Session();
+export const session = getSessionRequestWithPermission();
 const NUMBER = "1234567";
 const URL = "test/return-url";
 
 // tell the mock what to return
 mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    const session: Session = req.session as any as Session;
-    session.data.extra_data[COMPANY_NUMBER] = NUMBER;
+    const company : Company = {
+        companyName: "My Company"
+    };
+    session.setExtraData(COMPANY, company);
     next();
 });
 

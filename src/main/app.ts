@@ -77,11 +77,7 @@ process.on("unhandledRejection", (err: any) => {
 // Apply middleware
 app.use(cookieParser());
 app.use(`${BASE_URL}*`, sessionMiddleware);
-
-// Login redirect for company and email paths and also signout page
-app.use(cookieParser());
-const userAuthRegex = new RegExp(`${BASE_URL}*`);
-app.use(userAuthRegex, authenticationMiddleware);
+app.use(`${BASE_URL}*`, authenticationMiddleware);
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);

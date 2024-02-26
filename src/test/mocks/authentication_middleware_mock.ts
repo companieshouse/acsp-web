@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { authenticationMiddleware } from "../../../src/main/middleware/authentication_middleware";
 
-jest.mock("../../src/middleware/authentication_middleware");
+jest.mock("../../../src/main/middleware/authentication_middleware");
 
 // get handle on mocked function
 const mockAuthenticationMiddleware = authenticationMiddleware as jest.Mock;
