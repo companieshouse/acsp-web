@@ -40,7 +40,7 @@ describe("Correspondence Address Manual Validator", () => {
             addressTown: "",
             addressCounty: "Invalid County Name!@#",
             addressCountry: "Invalid Country Name!@#",
-            addressPostcode: "Invalid_Postcode"
+            addressPostcode: "INVALID_POSTCODE"
         };
 
         const req = { body: invalidAddressData };
@@ -54,7 +54,15 @@ describe("Correspondence Address Manual Validator", () => {
 
         const errors = validationResult(req);
 
-        expect(errors.isEmpty()).toBe(false);
-        expect(errors.array()).toHaveLength(6);
+        const expectedErrors = [
+            { location: "body", msg: "noPropertyDetails", param: "addressPropertyDetails", value: "" },
+            { location: "body", msg: "invalidAddressLine1", param: "addressLine1", value: "Invalid!@#" },
+            { location: "body", msg: "noCityOrTown", param: "addressTown", value: "" },
+            { location: "body", msg: "invalidAddressCounty", param: "addressCounty", value: "Invalid County Name!@#" },
+            { location: "body", msg: "invalidAddressCountry", param: "addressCountry", value: "Invalid Country Name!@#" },
+            { location: "body", msg: "invalidPostcodeFormat", param: "addressPostcode", value: "INVALID_POSTCODE" }
+        ];
+
+        expect(errors.array()).toMatchObject(expectedErrors);
     });
 });
