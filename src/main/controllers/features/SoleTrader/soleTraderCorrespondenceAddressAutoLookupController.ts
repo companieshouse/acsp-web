@@ -8,9 +8,16 @@ import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-l
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { Address } from "../../../model/Address";
+import { UserData } from "../../../model/UserData";
+import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session.getExtraData(USER_DATA)!;
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
@@ -18,14 +25,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
-        firstName: req.session.user.firstName,
-        lastName: req.session.user.lastName
+        firstName: userData.firstName,
+        lastName: userData.lastName
     });
 
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -40,8 +48,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                firstName: userData.firstName,
+                lastName: userData.lastName
             });
         } else {
             let postcode = req.body.postCode;
@@ -54,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     premise: "",
                     addressLine1: "",
                     addressLine2: "",
-                    locality: "",
+                    postTown: "",
                     postalCode: "",
                     country: ""
                 };
@@ -64,32 +72,33 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                             premise: ukAddress.premise,
                             addressLine1: ukAddress.addressLine1,
                             addressLine2: ukAddress.addressLine2!,
-                            locality: ukAddress.postTown,
+                            postTown: ukAddress.postTown,
                             postalCode: ukAddress.postcode,
                             country: getCountryFromKey(ukAddress.country)
                         };
                     }
                 }
                 // Save the correspondence address to session
-                req.session.user.correspondenceAddress = {
+                const correspondenceAddress : Address = {
                     propertyDetails: address.premise,
                     line1: address.addressLine1,
                     line2: address.addressLine2,
-                    town: address.locality,
+                    town: address.postTown,
                     country: address.country,
                     postcode: address.postalCode
                 };
-
-                req.session.save(() => {
-                    res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
-                });
+                const userAddresses : Array<Address> = userData.addresses ? userData.addresses : [];
+                userAddresses.push(correspondenceAddress);
+                userData.addresses = userAddresses;
+                saveDataInSession(req, USER_DATA, userData);
+                res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
             } else {
 
-                const addressList = [];
+                const addressList : Array<Address> = [];
                 for (const ukAddress of ukAddresses) {
                     const address = {
-                        premise: ukAddress.premise,
+                        propertyDetails: ukAddress.premise,
                         line1: ukAddress.addressLine1,
                         line2: ukAddress.addressLine2,
                         town: ukAddress.postTown,
@@ -101,12 +110,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     addressList.push(address);
 
                 }
-
-                req.session.user.addressList = addressList;
-                req.session.save(() => {
-                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
-                    res.redirect(nextPageUrl);
-                });
+                userData.addresses = addressList;
+                saveDataInSession(req, USER_DATA, userData);
+                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
+                res.redirect(nextPageUrl);
 
             }
 

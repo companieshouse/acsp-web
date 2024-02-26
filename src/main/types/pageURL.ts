@@ -4,6 +4,15 @@ const SOLE_TRADER = "/sole-trader";
 const LIMITED = "/limited";
 
 export const BASE_URL = "/register-acsp";
+export const SIGN_OUT_PAGE = `signout`;
+
+export const HOME_URL = "/home";
+export const COMPANY_BASE_URL = "/company";
+
+export const COMPANY_NUMBER_PAGE = "company/number";
+export const COMPANY_NUMBER_URL = `${HOME_URL}/${COMPANY_NUMBER_PAGE}`;
+
+export const SIGN_OUT_URL = `${HOME_URL}/${SIGN_OUT_PAGE}`;
 
 export const START = "/"; // Domain name will go here
 

@@ -21,15 +21,11 @@ import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
-import { authenticationMiddleware } from "../middleware/authentication_middleware";
-import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 
 const routes = Router();
 
-routes.get(urls.START, indexController.get);
-routes.post(urls.START, indexController.post);
-routes.get("/register-acsp/home", indexController.get);
-routes.post("/register-acsp/home", companyAuthenticationMiddleware, indexController.post);
+routes.get(urls.HOME_URL, indexController.get);
+routes.post(urls.HOME_URL, indexController.post);
 
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
 routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);

@@ -41,14 +41,3 @@ export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
     CLOSED: "closed"
 };
-
-export const ACSP_HOME_PAGE = "/register-acsp";
-export const SIGN_OUT_PAGE = `signout`;
-
-export const HOME_URL = `${ACSP_HOME_PAGE}/home`;
-export const COMPANY_BASE_URL = `${ACSP_HOME_PAGE}/company`;
-
-export const COMPANY_NUMBER_PAGE = "company/number";
-export const COMPANY_NUMBER_URL = `${HOME_URL}/${COMPANY_NUMBER_PAGE}`;
-
-export const SIGN_OUT_URL = `${HOME_URL}/${SIGN_OUT_PAGE}`;

@@ -32,7 +32,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            var nextPageUrl = addLangToUrl(SOLE_TRADER_ROLE, lang);
+            var nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_ROLE, lang);
             if (req.body.typeOfBusinessRadio === "OTHER") {
                 nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, lang);
             }

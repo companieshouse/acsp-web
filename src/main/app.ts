@@ -15,11 +15,9 @@ import {
     CDN_URL_CSS,
     CDN_URL_JS,
     CDN_HOST,
-    CHS_URL,
-    COMPANY_BASE_URL,
-    HOME_URL,
-    SIGN_OUT_URL
+    CHS_URL
 } from "./config";
+import { HOME_URL, COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -78,11 +76,11 @@ process.on("unhandledRejection", (err: any) => {
 
 // Apply middleware
 app.use(cookieParser());
-app.use(`${HOME_URL}*`, sessionMiddleware);
+app.use(`${BASE_URL}*`, sessionMiddleware);
 
 // Login redirect for company and email paths and also signout page
 app.use(cookieParser());
-const userAuthRegex = new RegExp(`^((${COMPANY_BASE_URL})|(${HOME_URL}).+)|(${SIGN_OUT_URL})`);
+const userAuthRegex = new RegExp(`${BASE_URL}*`);
 app.use(userAuthRegex, authenticationMiddleware);
 
 // Company Auth redirect

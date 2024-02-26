@@ -3,19 +3,25 @@ import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { BASE_URL } from "../../../types/pageURL";
+import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { UserData } from "../../../model/UserData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session.getExtraData(USER_DATA)!;
+
     res.render(config.SOLE_TRADER_DOB, {
         title: "What is your date of Birth?",
         previousPage: BASE_URL + "/sole-trader/name",
-        firstName: req.session.user.firstName,
-        lastName: req.session.user.lastName
+        firstName: userData.firstName,
+        lastName: userData.lastName
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -25,8 +31,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: BASE_URL + "/sole-trader/name",
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                firstName: userData.firstName,
+                lastName: userData.lastName
             });
         } else {
             res.redirect(BASE_URL + "/sole-trader/nationality");
