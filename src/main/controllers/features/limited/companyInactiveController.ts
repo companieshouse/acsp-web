@@ -8,14 +8,14 @@ import { Company } from "../../../model/Company";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const company : Company = session.getExtraData(COMPANY)!;
+    const company : Company = session?.getExtraData(COMPANY)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.LIMITED_COMPANY_INACTIVE, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         startPage: addLangToUrl(BASE_URL, lang),
         title: "Which name is registered with your AML supervisory body?",
-        companyName: company.companyName,
+        companyName: company?.companyName,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + LIMITED_COMPANY_INACTIVE
     });

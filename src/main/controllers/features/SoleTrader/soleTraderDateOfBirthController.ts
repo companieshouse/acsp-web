@@ -9,19 +9,19 @@ import { UserData } from "../../../model/UserData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
 
     res.render(config.SOLE_TRADER_DOB, {
         title: "What is your date of Birth?",
         previousPage: BASE_URL + "/sole-trader/name",
-        firstName: userData.firstName,
-        lastName: userData.lastName
+        firstName: userData?.firstName,
+        lastName: userData?.lastName
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -31,8 +31,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: BASE_URL + "/sole-trader/name",
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: userData.firstName,
-                lastName: userData.lastName
+                firstName: userData?.firstName,
+                lastName: userData?.lastName
             });
         } else {
             res.redirect(BASE_URL + "/sole-trader/nationality");

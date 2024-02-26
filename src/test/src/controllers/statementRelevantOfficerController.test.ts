@@ -1,12 +1,16 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
 
+jest.mock("@companieshouse/api-sdk-node");
 const request = supertest(app);
 
 describe("Statement Relevant Officer Router", () => {
     it("should render statement-relevant-officer page", async () => {
         const response = await request.get("/register-acsp/sole-trader/statement-relevant-officer");
         expect(response.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(response.text).toContain("What is your role?");
     });
 

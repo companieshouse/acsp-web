@@ -10,20 +10,20 @@ import { UserData } from "../../../model/UserData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
         nationalityList: nationalityList,
         title: "What is your nationality?",
         previousPage: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
-        firstName: userData.firstName,
-        lastName: userData.lastName
+        firstName: userData?.firstName,
+        lastName: userData?.lastName
 
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
@@ -36,8 +36,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "What is your nationality?",
                 previousPage: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
                 payload: req.body,
-                firstName: userData.firstName,
-                lastName: userData.lastName
+                firstName: userData?.firstName,
+                lastName: userData?.lastName
 
             });// determined from user not in banned list
         } else {

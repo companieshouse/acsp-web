@@ -12,7 +12,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -21,14 +21,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        addresses: userData.addresses
+        addresses: userData?.addresses
     }
     );
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
-                addresses: userData.addresses
+                addresses: userData?.addresses
             });
         } else {
             const addressList = userData.addresses!;

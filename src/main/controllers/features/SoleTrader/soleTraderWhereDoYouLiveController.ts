@@ -10,13 +10,13 @@ import { UserData } from "../../../model/UserData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session.getExtraData(USER_DATA)!;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         countryList: countryList,
         title: "Where do you live?",
         previousPage: BASE_URL + "/sole-trader/nationality",
-        firstName: userData.firstName,
-        lastName: userData.lastName
+        firstName: userData?.firstName,
+        lastName: userData?.lastName
     });
 };
 

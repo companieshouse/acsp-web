@@ -1,10 +1,15 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
+
+jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET /sole-trader/sector-you-work-in", () => {
     it("should return status 200", async () => {
         await router.get("/register-acsp/sole-trader/sector-you-work-in").expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
 
