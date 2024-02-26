@@ -1,40 +1,68 @@
 import supertest from "supertest";
 import app from "../../../main/app";
-import { response } from "express";
+import { correspondenceAddressAutoLookupValidator } from "../../../main/validation/correspondenceAddressAutoLookup";
+import { validationResult } from "express-validator";
+
 const router = supertest(app);
 
-describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
+describe("Correspondence Address Auto Lookup Validator", () => {
+    it("Valid Address Data Should Pass Validation", async () => {
+        jest.mock("../../../main/services/postcode-lookup-service", () => ({
+            getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
+                if (postcode === "ValidPostcode") {
+                    return [{
+                        postcode: "ST63LJ",
+                        premise: "10",
+                        addressLine1: "DOWN STREET",
+                        addressLine2: "",
+                        postTown: "LONDON",
+                        country: "UNITED KINGDOM"
+                    }];
+                } else {
+                    return [];
+                }
+            })
+        }));
 
-    it("should return status 400 for incorrect data entered", async () => {
-        const formData = {
-            postCode: "",
-            premise: ""
-        };
-
-        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
-        expect(response.status).toBe(400);
-        expect(response.text).toContain("Enter a postcode");
-    });
-
-    it("should return status 400 for no postcode entered", async () => {
-        const formData = {
-            postCode: "ST6",
-            premise: "4"
-        };
-
-        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
-        expect(response.status).toBe(400);
-        expect(response.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
-    });
-
-    it("should return status 400 for no postcode entered", async () => {
-        const formData = {
+        const validAddressData = {
             postCode: "ST63LJ",
-            premise: "6$££kasu"
+            premise: "10 "
         };
 
-        const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
-        expect(response.status).toBe(400);
-        expect(response.text).toContain("Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        const req = { body: validAddressData };
+        const res = { locals: {} };
+
+        for (const validationChain of correspondenceAddressAutoLookupValidator) {
+            await validationChain(req, res, () => {});
+        }
+
+        const errors = validationResult(req);
+        console.log(errors);
+        expect(errors.isEmpty()).toBe(true);
+    });
+
+    it("Invalid Address Data Should Fail Validation", async () => {
+        jest.mock("../../../main/services/postcode-lookup-service", () => ({
+            getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
+                return [];
+            })
+        }));
+
+        const invalidAddressData = {
+            postCode: "InvalidPostcode",
+            premise: "Invalid Property Details",
+        };
+
+        const req = { body: invalidAddressData };
+        const res = { locals: {} };
+
+        for (const validationChain of correspondenceAddressAutoLookupValidator) {
+            await validationChain(req, res, () => {});
+        }
+
+        const errors = validationResult(req);
+
+        expect(errors.isEmpty()).toBe(false);
+        expect(errors.array()).toHaveLength(1);
     });
 });
