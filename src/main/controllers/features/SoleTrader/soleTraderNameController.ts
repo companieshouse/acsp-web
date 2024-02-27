@@ -32,7 +32,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 firstName: req.body["first-name"],
                 lastName: req.body["last-name"]
             };
-            session.setExtraData(USER_DATA, userData);
+            if (session) {
+                session.setExtraData(USER_DATA, userData);
+            }
             res.redirect(BASE_URL + "/sole-trader/date-of-birth");
         }
     } catch (error) {
