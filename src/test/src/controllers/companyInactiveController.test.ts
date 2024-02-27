@@ -1,6 +1,7 @@
 import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
+
 import { LIMITED_COMPANY_INACTIVE, BASE_URL } from "../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");

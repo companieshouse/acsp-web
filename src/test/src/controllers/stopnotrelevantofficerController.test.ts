@@ -1,7 +1,8 @@
 import mocks from "../../mocks/all_middleware_mock";
-import assert from "assert";
 import supertest from "supertest";
 import app from "../../../main/app";
+
+import assert from "assert";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);

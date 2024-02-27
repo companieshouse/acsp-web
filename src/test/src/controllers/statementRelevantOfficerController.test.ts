@@ -7,7 +7,7 @@ const router = supertest(app);
 
 describe("Statement Relevant Officer Router", () => {
     it("should render statement-relevant-officer page", async () => {
-        const response = await router.get("//register-acsp/sole-trader/statement-relevant-officer");
+        const response = await router.get("/register-acsp/sole-trader/statement-relevant-officer");
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

@@ -1,6 +1,7 @@
 import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
+
 import { LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, BASE_URL, AML_REGISTRATION, SOLE_TRADER_TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");

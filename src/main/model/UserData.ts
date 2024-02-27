@@ -6,5 +6,4 @@ export interface UserData {
     firstName: string;
     lastName: string;
     addresses?: Array<Address>;
-    originalAddress? : Address;
 }

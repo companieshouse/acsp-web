@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from "express";
-import session from "express-session";
 import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
