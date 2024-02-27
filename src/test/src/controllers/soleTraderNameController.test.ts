@@ -25,6 +25,8 @@ describe("POST /sole-trader/name", () => {
 
         expect(response.status).toBe(302); // Expect a redirect status code
         expect(response.header.location).toBe("/register-acsp/sole-trader/date-of-birth");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 400 for incorrect data entered", async () => {
