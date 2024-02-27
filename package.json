@@ -19,6 +19,7 @@
     "start": "npm run build && source ./dist/config/.env && node dist/src/main/server.js",
     "start:watch": "nodemon",
     "sonarqube": "sonar-scanner"
+    
   },
   "husky": {
     "hooks": {
