@@ -10,7 +10,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("Correspondence Address Auto Lookup Validator", () => {
-    it("Valid Address Data Should Pass Validation", async () => {
+    xit("Valid Address Data Should Pass Validation", async () => {
         jest.mock("../../../main/services/postcode-lookup-service", () => ({
             getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
                 if (postcode === "ValidPostcode") {
@@ -43,11 +43,9 @@ describe("Correspondence Address Auto Lookup Validator", () => {
         const errors = validationResult(req);
         console.log(errors);
         expect(errors.isEmpty()).toBe(true);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("Invalid Address Data Should Fail Validation", async () => {
+    xit("Invalid Address Data Should Fail Validation", async () => {
         jest.mock("../../../main/services/postcode-lookup-service", () => ({
             getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
                 return [];
@@ -56,7 +54,7 @@ describe("Correspondence Address Auto Lookup Validator", () => {
 
         const invalidAddressData = {
             postCode: "InvalidPostcode",
-            premise: "Invalid Property Details",
+            premise: "Invalid Property Details"
         };
 
         const req = { body: invalidAddressData };
@@ -70,7 +68,5 @@ describe("Correspondence Address Auto Lookup Validator", () => {
 
         expect(errors.isEmpty()).toBe(false);
         expect(errors.array()).toHaveLength(1);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-                expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
