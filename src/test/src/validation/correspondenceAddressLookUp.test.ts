@@ -50,7 +50,7 @@ describe("Correspondence Address Auto Lookup Validator", () => {
 
         const invalidAddressData = {
             postCode: "InvalidPostcode",
-            premise: "Invalid Property Details",
+            premise: "Invalid Property Details"
         };
 
         const req = { body: invalidAddressData };
