@@ -1,6 +1,5 @@
-import { getEnvironmentValue } from "../common/__utils/environment/environment_value";
+import { getEnvironmentValue } from "../utils/environment/environment_value";
 
-export const APPLICATION_NAME = "acsp-web";
 const BASE_VIEWS_URL = "../views/features";
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
@@ -27,17 +26,6 @@ export const ACSP_SERVICE_HOST = "localhost";
 export const ACSP_SERVICE_PORT = "18644";
 export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}:${ACSP_SERVICE_PORT}/acsp-api`;
 export const ACSP_SERVICE_TRANSACTION_URI = `${ACSP_SERVICE_BASE}/transactions`;
-export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
-export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
-export const CHS_URL = getEnvironmentValue("CHS_URL", "http://chs.local");
-export const CDN_URL_CSS = getEnvironmentValue("CDN_URL_CSS", "http://chs.local");
-export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "http://chs.local");
-export const CDN_HOST = getEnvironmentValue("CDN_HOST", "http://chs.local");
-export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET", "ChGovUk-XQrbf3sLj2abFxIY2TlapsJ");
-export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN", "chs.local");
-export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "localhost:6379");
-export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME", "__SID");
-export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
 export const CREATE_DESCRIPTION = "Create an ACSP registration transaction";
 export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {

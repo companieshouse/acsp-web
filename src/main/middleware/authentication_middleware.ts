@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
-import { CHS_URL } from "../config";
+import { CHS_URL } from "../utils/properties";
 
 export const authenticationMiddleware = (req: Request, res: Response, next: NextFunction) => {
 

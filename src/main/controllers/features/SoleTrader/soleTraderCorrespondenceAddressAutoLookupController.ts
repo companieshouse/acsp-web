@@ -39,7 +39,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
-        console.log("errorlist-->" + errorList.isEmpty());
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             console.log(errorList.array());
@@ -54,7 +53,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: userData?.lastName
             });
         } else {
-            console.log("-----here in else---");
             let postcode = req.body.postCode;
             postcode = postcode.replace(/\s/g, "");
             const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);

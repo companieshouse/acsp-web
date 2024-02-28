@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
-import { CHS_URL } from "../config";
+import { CHS_URL } from "../utils/properties";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY_NUMBER } from "../common/__utils/constants";
 

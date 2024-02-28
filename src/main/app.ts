@@ -15,7 +15,7 @@ import {
     CDN_URL_JS,
     CDN_HOST,
     CHS_URL
-} from "./config";
+} from "./utils/properties";
 import { HOME_URL, COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL } from "./types/pageURL";
 const app = express();
 
@@ -37,17 +37,6 @@ nunjucksEnv.addGlobal("chsUrl", CHS_URL);
 nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
 
 app.enable("trust proxy");
-
-// declare module "express-session" {
-//     export interface SessionData {
-//       user: { [key: string]: any };
-//     }
-//   }
-// app.use(session({
-//     secret: "123456",
-//     resave: false,
-//     saveUninitialized: true
-// }));
 
 // parse body into req.body
 app.use(express.json());
