@@ -10,7 +10,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.LIMITED_COMPANY_INACTIVE, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         startPage: addLangToUrl(BASE_URL, lang),
-        title: "Which name is registered with your AML supervisory body?",
+        title: "Company is not active",
         companyName: req.session.user.companyName,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + LIMITED_COMPANY_INACTIVE
