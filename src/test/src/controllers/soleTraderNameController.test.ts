@@ -1,10 +1,15 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
+
+jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET /sole-trader/name", () => {
     it("should return status 200", async () => {
         await router.get("/register-acsp/sole-trader/name").expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
 
@@ -20,6 +25,8 @@ describe("POST /sole-trader/name", () => {
 
         expect(response.status).toBe(302); // Expect a redirect status code
         expect(response.header.location).toBe("/register-acsp/sole-trader/date-of-birth");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 400 for incorrect data entered", async () => {

@@ -26,8 +26,8 @@ import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessN
 
 const routes = Router();
 
-routes.get(urls.START, indexController.get);
-routes.post(urls.START, indexController.post);
+routes.get(urls.HOME_URL, indexController.get);
+routes.post(urls.HOME_URL, indexController.post);
 
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
 routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDateOfBirthController.post);

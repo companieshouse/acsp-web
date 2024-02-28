@@ -14,7 +14,7 @@ describe("Correspondence Address Manual Validator", () => {
             addressTown: "Valid City Or Town",
             addressCounty: "Valid County",
             addressCountry: "Valid Country",
-            addressPostcode: "Valid1234",
+            addressPostcode: "Valid1234"
         };
 
         const req = { body: validAddressData };

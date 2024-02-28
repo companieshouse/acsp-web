@@ -4,12 +4,19 @@ import countryList from "../../../../../lib/countryList";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL } from "../../../types/pageURL";
+import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { UserData } from "../../../model/UserData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         countryList: countryList,
         title: "Where do you live?",
-        previousPage: BASE_URL + "/sole-trader/nationality"
+        previousPage: BASE_URL + "/sole-trader/nationality",
+        firstName: userData?.firstName,
+        lastName: userData?.lastName
     });
 };
 

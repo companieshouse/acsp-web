@@ -3,6 +3,10 @@ import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { BASE_URL } from "../../../types/pageURL";
+import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { UserData } from "../../../model/UserData";
+import logger from "../../../../../lib/Logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.SOLE_TRADER_NAME, {
@@ -23,12 +27,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-            req.session.user = req.session.user || {};
-            req.session.user.firstName = req.body["first-name"];
-            req.session.user.lastName = req.body["last-name"];
-            req.session.save(() => {
-                res.redirect(BASE_URL + "/sole-trader/date-of-birth");
-            });
+            const session: Session = req.session as any as Session;
+            const userData : UserData = {
+                firstName: req.body["first-name"],
+                lastName: req.body["last-name"]
+            };
+            if (session) {
+                session.setExtraData(USER_DATA, userData);
+            }
+            res.redirect(BASE_URL + "/sole-trader/date-of-birth");
         }
     } catch (error) {
         next(error);
