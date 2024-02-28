@@ -15,7 +15,7 @@
     "lint": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts' --fix",
     "test:coverage": "npm run test -- --coverage",
-    "test": "jest",
+    "test": "jest --testPathPattern=src/test",
     "start": "npm run build && source ./dist/config/.env && node dist/src/main/server.js",
     "start:watch": "nodemon",
     "sonarqube": "sonar-scanner"
