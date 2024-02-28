@@ -41,7 +41,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            console.log(errorList.array());
             res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),
