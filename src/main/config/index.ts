@@ -1,3 +1,4 @@
+export const ACSP_API_LOCALHOST = "http://localhost:18642/acsp-api";
 import { getEnvironmentValue } from "../utils/environment/environment_value";
 
 const BASE_VIEWS_URL = "../views/features";
@@ -31,3 +32,5 @@ export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
     CLOSED: "closed"
 };
+export const LIMITED_COMPANY_NUMBER = `${BASE_LIMITED_TRADER_URL}/company-number/company-number`;
+export const LIMITED_IS_THIS_YOUR_COMPANY = `${BASE_LIMITED_TRADER_URL}/is-this-your-company/is-this-your-company`;

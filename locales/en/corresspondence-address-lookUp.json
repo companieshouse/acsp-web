@@ -12,6 +12,7 @@
     "error-correspondenceLookUpAddressNoPostCode" : "Enter a postcode",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
-
+    "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces",
+    "error-invalidAddressPostcode": "Enter a full UK postcode",
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address"
 }

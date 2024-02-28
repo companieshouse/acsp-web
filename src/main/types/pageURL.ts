@@ -55,6 +55,12 @@ export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-
 
 export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
 
-export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "what-is-the-company-number";
+export const LIMITED_WHAT_IS_THE_COMPANY_NUMBER = LIMITED + "/what-is-the-company-number";
+
+export const LIMITED_ONE_LOGIN_PASSWORD = LIMITED + "/one-login-enter-password";
+
+export const LIMITED_COMPANY_NUMBER = LIMITED + "/company-number";
+
+export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
 
 export const UNINCORPORATED_WHAT_BUSINESS_TYPE = UNINCORPORATED + "/what-business-type";

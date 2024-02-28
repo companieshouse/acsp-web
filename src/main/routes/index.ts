@@ -4,8 +4,9 @@ import {
     statementRelevantOfficerController, stopNotRelevantOfficerController, sectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController
-    , companyInactiveController, whatIsTheBusinessNameController
+    soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
+    companyLookupController, companyInactiveController, whatIsTheBusinessNameController
+
 } from "../controllers";
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
@@ -20,6 +21,7 @@ import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
+import { companyNumberValidator } from "../validation/companyLookup";
 import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
 
 const routes = Router();
@@ -66,6 +68,9 @@ routes.post(urls.SOLE_TRADER_OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator
 
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
+
+routes.get(urls.LIMITED_COMPANY_NUMBER, companyLookupController.get);
+routes.post(urls.LIMITED_COMPANY_NUMBER, companyNumberValidator, companyLookupController.post);
 
 routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 
