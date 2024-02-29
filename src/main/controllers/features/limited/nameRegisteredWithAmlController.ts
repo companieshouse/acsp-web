@@ -10,7 +10,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     res.render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang),
-        title: "Which name is registered with your AML supervisory body?",
+        title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML
     });
@@ -26,7 +26,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
                 previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang),
-                title: "Which name is registered with your AML supervisory body?",
+                title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML,
                 ...pageProperties
