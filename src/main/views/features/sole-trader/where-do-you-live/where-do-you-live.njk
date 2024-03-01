@@ -6,12 +6,15 @@
 <div class="govuk-grid-column-two-thirds-from-desktop">
     <form action="where-do-you-live" method="post">
       <div id="typeahead-form-group" class="govuk-form-group">
-        <h1 class="govuk-label-wrapper">
-          <label class="govuk-label govuk-label--l" for="countryInput">Where do you live?</label>
-        </h1>
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <span class="govuk-caption-l">{{ firstName }}
+                {{ lastName }}</span>
+             <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="countryInput">Where do you live?</label>
+            </h1>
+         </legend>
         <p class="govuk-hint" id="typeahead-hint">Start typing a country, then choose from the list.</p>
         {% set dropdownDefaultText = "Select where you live" %}
-        <span class="govuk-caption-l">{{ firstName }} {{ lastName }}</span>
         <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
         {% set errorMessage = errors %}
         {% include "../../../partials/country-typeahead-input.njk" %}
