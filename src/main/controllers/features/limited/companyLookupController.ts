@@ -5,7 +5,7 @@ import { CompanyDetailsService } from "../../../services/company-details/company
 import * as config from "../../../config";
 import { ACSPServiceClient } from "../../../clients/ASCPServiceClient";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_COMPANY_NUMBER } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
 import logger from "../../../../../lib/Logger";
 
 const acspServiceClientOne = new ACSPServiceClient(config.ACSP_API_LOCALHOST);
@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(BASE_URL + LIMITED_ONE_LOGIN_PASSWORD, lang),
         title: "What is the company number?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + LIMITED_COMPANY_NUMBER
+        currentUrl: BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER
     });
 };
 
@@ -34,7 +34,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body,
                 title: "What is the company number?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + LIMITED_COMPANY_NUMBER,
+                currentUrl: BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER,
                 pageProperties: pageProperties
 
             });

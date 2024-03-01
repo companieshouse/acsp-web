@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { createSessionData } from "../../mocks/session_generator_mock";
 import * as crypto from "crypto";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST } from "../../../main/types/pageURL";
 
 const cookieSecret = generateRandomBytesBase64(16);
 jest.mock("@companieshouse/api-sdk-node");
@@ -27,15 +28,15 @@ describe("Address Auto look up tests ", () => {
         response = createResponse();
     });
 
-    describe("GET /sole-trader/correspondenceAddressAutoLookup", () => {
+    describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
         it("should return status 200", async () => {
-            await router.get("/register-acsp/sole-trader/correspondenceAddressAutoLookup").expect(200);
+            await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).expect(200);
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         });
     });
 
-    describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
+    describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
 
         xit("should redirect to address list with status 302 on successful form submission", async () => {
             const formData = {
@@ -43,9 +44,9 @@ describe("Address Auto look up tests ", () => {
                 premise: ""
             };
 
-            const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
+            const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
             expect(response.status).toBe(302); // Expect a redirect status code
-            expect(response.header.location).toBe("/register-acsp/sole-trader/correspondence-address-list?lang=en");
+            expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST + "?lang=en");
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         });
@@ -56,9 +57,9 @@ describe("Address Auto look up tests ", () => {
                 premise: "6"
             };
 
-            const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
+            const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
             expect(response.status).toBe(302); // Expect a redirect status code
-            expect(response.header.location).toBe("/register-acsp/sole-trader/correspondence-address-confirm");
+            expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         });
@@ -69,7 +70,7 @@ describe("Address Auto look up tests ", () => {
                 premise: "6"
             };
 
-            const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
+            const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
 
             expect(response.status).toBe(400);
         });
@@ -80,7 +81,7 @@ describe("Address Auto look up tests ", () => {
                 premise: "6"
             };
 
-            const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
+            const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
 
             expect(response.status).toBe(400);
         });
@@ -91,7 +92,7 @@ describe("Address Auto look up tests ", () => {
                 premise: ""
             };
 
-            const response = await router.post("/register-acsp/sole-trader/correspondenceAddressAutoLookup").send(formData);
+            const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
 
             expect(response.status).toBe(400);
         });
