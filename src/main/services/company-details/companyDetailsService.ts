@@ -18,6 +18,7 @@ export class CompanyDetailsService {
     private readonly sessionKey = "companyDetails";
 
     public saveToSession (req: Request, details: CompanyDetails): void {
+        const session: Session = req.session as any as Session;
         const requiredDetails: Company = {
             companyName: details.company_name,
             companyNumber: details.company_number,
@@ -26,7 +27,10 @@ export class CompanyDetailsService {
             companyType: details.type,
             registeredOfficeAddress: details.registered_office_address,
             correspondenceAddress: details.undeliverable_registered_office_address
-        };
-        saveDataInSession(req, COMPANY_DETAILS, requiredDetails);
+        };// saveDataInSession(req, COMPANY_DETAILS, requiredDetails);
+        if (session) {
+            session.setExtraData(COMPANY_DETAILS, requiredDetails);
+        }
+        console.log(requiredDetails);
     }
 }

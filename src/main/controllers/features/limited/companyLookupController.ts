@@ -41,7 +41,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const { companyNumber } = req.body;
             const companyDetails = await acspServiceClientOne.getCompany(companyNumber);
-            logger.info(companyDetails);
             companyDetailsService.saveToSession(req, companyDetails);
             if (!res.headersSent) {
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
