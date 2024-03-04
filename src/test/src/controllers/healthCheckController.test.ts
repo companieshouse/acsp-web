@@ -1,10 +1,10 @@
 import app from "../../../main/app";
 import supertest from "supertest";
-
+import { HEALTHCHECK, BASE_URL } from "../../../main/types/pageURL";
 const router = supertest(app);
 
-describe("GET /healthcheck", () => {
+describe("GET" + HEALTHCHECK, () => {
     it("should return status 200", async () => {
-        await router.get("/").expect(200);
+        await router.get(BASE_URL + HEALTHCHECK).expect(200);
     });
 });

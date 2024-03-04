@@ -1,26 +1,32 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
-import { SOLE_TRADER_TYPE_OF_BUSINESS, START, SOLE_TRADER_OTHER_TYPE_OFBUSINESS } from "../../../main/types/pageURL";
+
+import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OFBUSINESS, BASE_URL } from "../../../main/types/pageURL";
+
+jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
-describe("GET " + SOLE_TRADER_TYPE_OF_BUSINESS, () => {
+describe("GET " + TYPE_OF_BUSINESS, () => {
     it("should return status 200", async () => {
-        await router.get(SOLE_TRADER_TYPE_OF_BUSINESS).expect(200);
+        await router.get(BASE_URL + TYPE_OF_BUSINESS).expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
-describe("POST " + SOLE_TRADER_TYPE_OF_BUSINESS, () => {
+describe("POST " + TYPE_OF_BUSINESS, () => {
     it("should return status 302 after redirect", async () => {
-        await router.post(SOLE_TRADER_TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" }).expect(302);
+        await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" }).expect(302);
     });
     it("should return status 302 after redirect", async () => {
-        await router.post(SOLE_TRADER_TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "OTHER" }).expect(302);
+        await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "OTHER" }).expect(302);
     });
 });
 // Test for incorrect form details entered, will return 400.
-describe("POST " + SOLE_TRADER_TYPE_OF_BUSINESS, () => {
+describe("POST " + TYPE_OF_BUSINESS, () => {
     it("should return status 400 after incorrect data entered", async () => {
-        await router.post(SOLE_TRADER_TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "" }).expect(400);
+        await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "" }).expect(400);
     });
 });

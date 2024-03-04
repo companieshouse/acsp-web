@@ -1,32 +1,33 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../types/pageURL";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { Address } from "../../../model/Address";
+import { UserData } from "../../../model/UserData";
+import { Session } from "@companieshouse/node-session-handler";
+import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    req.session.user = req.session.user || {};
-    const { firstName, lastName, correspondenceAddress } = req.session.user;
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
+
+    const { firstName, lastName, addresses } = userData;
 
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
-        previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        editPage: addLangToUrl(SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+        editPage: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),
         title: "Confirm the correspondence address",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
+        currentUrl: BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
         firstName,
         lastName,
-        correspondenceAddress: correspondenceAddress || req.session.user.originalAddress
+        correspondenceAddress: addresses ? [0] : ""
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    req.session.user = req.session.user || {};
-
-    req.session.user.originalAddress = req.session.user.originalAddress || {};
-    req.session.user.originalAddress = req.session.user.correspondenceAddress;
-    res.redirect("/type-of-acsp");
+    res.redirect(BASE_URL + TYPE_OF_BUSINESS);
 };

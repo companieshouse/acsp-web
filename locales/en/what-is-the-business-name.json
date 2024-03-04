@@ -1,0 +1,10 @@
+{
+    "whatIsTheBusinessNameTitle" : "What is the business name?",
+    "whatIsTheBusinessNameHint": "This is the name your business trades under.",
+    "whatIsTheBusinessNamePublic": "We will show this on the public register.",
+    "whatIsTheBusinessNameSaveAndContinue": "Save and Continue",
+   
+    "error-whatIsTheBusinessNameNoName" : "Enter the business name",
+    "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
+    "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 200 characters or less"
+}

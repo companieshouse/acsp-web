@@ -7,25 +7,33 @@ import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-se
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { Address } from "../../../model/Address";
+import { UserData } from "../../../model/UserData";
+import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
         title: "What is your correspondence address?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
-        previousPage: addLangToUrl(SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
-        firstName: req.session.user.firstName,
-        lastName: req.session.user.lastName
+        currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
+        firstName: userData?.firstName,
+        lastName: userData?.lastName
     });
 
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -36,12 +44,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                 title: "What is your correspondence address?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
-                previousPage: addLangToUrl(SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
+                currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: req.session.user.firstName,
-                lastName: req.session.user.lastName
+                firstName: userData?.firstName,
+                lastName: userData?.lastName
             });
         } else {
             let postcode = req.body.postCode;
@@ -49,53 +57,63 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
             const correspondencePremise = req.body.premise;
 
-            if (correspondencePremise !== "") {
-                let address = {};
+            if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
+                let address = {
+                    premise: "",
+                    addressLine1: "",
+                    addressLine2: "",
+                    postTown: "",
+                    postalCode: "",
+                    country: ""
+                };
                 for (const ukAddress of ukAddresses) {
-                    if (ukAddress.premise.toUpperCase() === correspondencePremise.toUpperCase()) {
+                    if (ukAddress.premise === correspondencePremise) {
                         address = {
                             premise: ukAddress.premise,
                             addressLine1: ukAddress.addressLine1,
-                            addressLine2: ukAddress.addressLine2,
-                            locality: ukAddress.postTown,
+                            addressLine2: ukAddress.addressLine2!,
+                            postTown: ukAddress.postTown,
                             postalCode: ukAddress.postcode,
                             country: getCountryFromKey(ukAddress.country)
                         };
                     }
+                }
+                // Save the correspondence address to session
+                const correspondenceAddress : Address = {
+                    propertyDetails: address.premise,
+                    line1: address.addressLine1,
+                    line2: address.addressLine2,
+                    town: address.postTown,
+                    country: address.country,
+                    postcode: address.postalCode
+                };
+                const userAddresses : Array<Address> = userData?.addresses ? userData.addresses : [];
+                userAddresses.push(correspondenceAddress);
+                userData.addresses = userAddresses;
+                saveDataInSession(req, USER_DATA, userData);
+                res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
-                    // Save the correspondence address to session
-                    req.session.user.correspondenceAddress = {
+            } else {
+
+                const addressList : Array<Address> = [];
+                for (const ukAddress of ukAddresses) {
+                    const address = {
                         propertyDetails: ukAddress.premise,
                         line1: ukAddress.addressLine1,
                         line2: ukAddress.addressLine2,
                         town: ukAddress.postTown,
                         country: getCountryFromKey(ukAddress.country),
-                        postcode: ukAddress.postcode
-                    };
-                }
-                req.session.user.address = address;
-
-                req.session.save(() => {
-                    res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
-                });
-
-            } else {
-
-                const addressList = [];
-                for (const ukAddress of ukAddresses) {
-                    const address = {
-                        premise: ukAddress.premise,
+                        postcode: ukAddress.postcode,
                         formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
                     };
 
                     addressList.push(address);
 
                 }
-
-                req.session.user.addressList = addressList;
-                req.session.save(() => {
-                    res.redirect(SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
-                });
+                userData.addresses = addressList;
+                saveDataInSession(req, USER_DATA, userData);
+                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
+                res.redirect(nextPageUrl);
 
             }
 

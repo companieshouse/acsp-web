@@ -3,24 +3,33 @@ import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL } from "../../../types/pageURL";
+import { Address } from "../../../model/Address";
+import { UserData } from "../../../model/UserData";
+import { Session } from "@companieshouse/node-session-handler";
+import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
-        title: "Select your address?",
+        title: "Select your address",
         ...getLocaleInfo(locales, lang),
-        currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
-        previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        addresses: req.session.user.addressList
+        currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+        addresses: userData?.addresses
     }
     );
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    req.session.user = req.session.user || {};
+    const session: Session = req.session as any as Session;
+    const userData : UserData = session?.getExtraData(USER_DATA)!;
+
     try {
         const errorList = validationResult(req);
         const lang = selectLang(req.query.lang);
@@ -28,15 +37,34 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
-                title: "What is your correspondence address?",
+                title: "What is your correspondence address",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
-                previousPage: addLangToUrl(SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+                currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
+                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
-                addresses: req.session.user.addressList
+                addresses: userData?.addresses
             });
         } else {
-            res.redirect(SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+            const addressList = userData.addresses!;
+            const selectPremise = req.body.correspondenceAddress;
+            for (const ukAddress of addressList) {
+                if (ukAddress.propertyDetails!.toUpperCase() === selectPremise.toUpperCase()) {
+                    // Save the correspondence address to session
+                    const correspondenceAddress = {
+                        propertyDetails: ukAddress.propertyDetails,
+                        line1: ukAddress.line1,
+                        line2: ukAddress.line2,
+                        town: ukAddress.town,
+                        country: ukAddress.country,
+                        postcode: ukAddress.postcode
+                    };
+                    saveDataInSession(req, CORRESPONDENCE_ADDRESS, correspondenceAddress);
+
+                }
+
+            }
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);

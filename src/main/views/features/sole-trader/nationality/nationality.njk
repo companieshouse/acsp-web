@@ -1,66 +1,99 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 {% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
+    {% if errors %}
+        {% set dropdownOneError =  errors.nationality_input_0 %}
+        {% set dropdownTwoError =  errors.nationality_input_1 %}
+        {% set dropdownThreeError =  errors.nationality_input_2 %}
+    {% endif %}
     <div>
-        <form action="nationality" method="post">
+        <form action="" method="post">
             <fieldset class="govuk-fieldset">
-                <div id="typeahead-form-group-0" class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper">
-                        <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
-                    </h1>
-                    <p class="govuk-hint" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                     <span class="govuk-caption-l">{{ firstName }}
                         {{ lastName }}</span>
-                    <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds">
-                        {% set errorMessage = errors %}
-                    </div>
+                    <h1 class="govuk-fieldset__heading">
+                        <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
+                    </h1>
+                </legend>
+                <div id="typeahead-form-group-0" class="govuk-form-group">
+                    <p class="govuk-hint-0" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
+                    {% if payload.nationality_input_0 | length %}
+                        {% set dropdownDefaultText = payload.nationality_input_0 %}
+                    {% else %}
+                        {% set dropdownDefaultText = "Select your nationality" %}
+                    {% endif %}
+                    <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+                    <noscript>
+                        {% set dropdownNumber = "0" %}
+                        {% set errorMessage = dropdownOneError %}
+                        {% include "../../../partials/nationality-typeahead-input.njk" %}
+                    </noscript>
                 </div>
                 <div id="second-nationality" class="second-nationality">
                     <div id="typeahead-form-group-1" class="govuk-form-group ">
                         <label for="nationality_input_1" class="govuk-label">Second nationality (if relevant)</label>
-                        <p class="govuk-hint" id="typeahead-hint-1">Dual citizenship (also known as dual nationality) is allowed in some
+                        <p class="govuk-hint-1" id="typeahead-hint-1">Dual citizenship (also known as dual nationality) is allowed in some
                             countries. This means you can be a citizen of your own country and another country.</p>
+                        {% if payload.nationality_input_1 | length %}
+                            {% set dropdownDefaultText = payload.nationality_input_1 %}
+                        {% else %}
+                            {% set dropdownDefaultText = "Select your nationality" %}
+                        {% endif %}
                         <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+                        <noscript>
+                            {% set dropdownNumber = "1" %}
+                            {% set dropdownValue = payloadValue1 %}
+                            {% set errorMessage = dropdownTwoError %}
+                            {% include "../../../partials/nationality-typeahead-input.njk" %}
+                        </noscript>
                     </div>
                 </div>
                 <div id="third-nationality" class="third-nationality">
                     <div id="typeahead-form-group-2" class="govuk-form-group ">
                         <label for="nationality_input_2" class="govuk-label">Third nationality (if relevant)</label>
-                        <p class="govuk-hint" id="typeahead-hint-2">Multiple citizenship (also known as multiple nationality) is allowed in some
-                            countries. This means you can be a citizen of your own country and two other countries.</p>
-                        <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds">
-                            {% include "../../../partials/nationality-typeahead-input.njk" %}
-                        </div>
+                        <p class="govuk-hint-2" id="typeahead-hint-2">Multiple citizenship (also known as multiple nationality) is allowed in
+                            some countries. This means you can be a citizen of your own country and two other countries.</p>
+                        {% if payload.nationality_input_2 | length %}
+                            {% set dropdownDefaultText = payload.nationality_input_2 %}
+                        {% else %}
+                            {% set dropdownDefaultText = "Select your nationality" %}
+                        {% endif %}
+                        <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+                        <noscript>
+                            {% set dropdownNumber = "2" %}
+                            {% set errorMessage = dropdownThreeError %}
+                        </noscript>
+                        {% include "../../../partials/nationality-typeahead-input.njk" %}
+                        {% set errorMessage = errors %}
                     </div>
                 </div>
-            </fieldset>
+            </div>
             {{ govukButton({
-        text: "Continue"
-        }) }}
-        </form>
-    </div>
-    <script>
-        // Mimic nunjucks error generation
-        for (let i = 0; i < error.length; i++) {
-            const currentErrors = error[i];
-            if (currentErrors) { // Add error class to form group
-                document
-                    .getElementById("typeahead-form-group-" + i)
-                    .classList
-                    .add("govuk-form-group--error");
-                // Add error message
-                const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors +
-                        '</p>';
-                const element = document.getElementById("typeahead-hint-" + i);
-                element.insertAdjacentHTML("afterend", errorHtml);
-                // Add error class to input
-                document
-                    .getElementById("nationality_input_" + i)
-                    .classList
-                    .add("govuk-input--error");
-            }
-        }
-    </script>
-{% endblock main_content %}
+                              text: "Continue"
+                              }) }}
+        </div>
+    </fieldset>
+</form></div><script>
+// Mimic nunjucks error generation
+for (let i = 0; i < error.length; i++) {
+    const currentErrors = error[i];
+    if (currentErrors) { // Add error class to form group
+        document
+            .getElementById("typeahead-form-group-" + i)
+            .classList
+            .add("govuk-form-group--error");
+        // Add error message
+        const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors +
+                '</p>';
+        const element = document.getElementById("typeahead-hint-" + i);
+        element.insertAdjacentHTML("afterend", errorHtml);
+        // Add error class to input
+        document
+            .getElementById("nationality_input_" + i)
+            .classList
+            .add("govuk-input--error");
+    }
+}</script>{% endblock main_content %}
