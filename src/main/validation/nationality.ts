@@ -22,7 +22,7 @@ export const nationalityValidator = [
     // Validation for 'nationality_input_2'
     body("nationality_input_2")
         .optional({ nullable: true, checkFalsy: true })
-        .isIn(nationalityList.split(";")).withMessage(nationalityErrorManifest.validation.invalid.summary)
+        .isIn(nationalityList.split(";")).withMessage(nationalityErrorManifest.validation.invalid.summary).bail()
         .custom((value, { req }) => {
             // Check if it's the same as 'nationalityInputSecond' or 'nationalityInput'
             if ((value === req.body.nationality_input_1 || value === req.body.nationality_input_0) && value !== " ") {
