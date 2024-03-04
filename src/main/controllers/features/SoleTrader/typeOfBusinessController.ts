@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_TYPE_OF_BUSINESS, START, SOLE_TRADER_OTHER_TYPE_OFBUSINESS, SOLE_TRADER_ROLE, BASE_URL } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OFBUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -12,8 +12,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(START, lang),
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + SOLE_TRADER_TYPE_OF_BUSINESS,
-        typeOfBusiness: req.params.typeOfBusiness
+        currentUrl: BASE_URL + TYPE_OF_BUSINESS,
+        typeOfBusiness: req.query.typeOfBusiness
     });
 };
 
@@ -28,13 +28,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(START, lang),
                 title: "What type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + SOLE_TRADER_TYPE_OF_BUSINESS,
+                currentUrl: BASE_URL + TYPE_OF_BUSINESS,
                 ...pageProperties
             });
         } else {
-            var nextPageUrl = addLangToUrl(SOLE_TRADER_ROLE, lang);
+            var nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang);
             if (req.body.typeOfBusinessRadio === "OTHER") {
-                nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_OTHER_TYPE_OFBUSINESS, lang);
+                nextPageUrl = addLangToUrl(BASE_URL + OTHER_TYPE_OFBUSINESS, lang);
             }
             res.redirect(nextPageUrl);
         }

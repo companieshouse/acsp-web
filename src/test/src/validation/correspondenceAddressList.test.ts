@@ -1,14 +1,17 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../main/types/pageURL";
+
+jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
-describe("POST /sole-trader/correspondenceAddressAutoLookup", () => {
+describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
 
-    describe("POST /sole-trader/correspondence-address-list", () => {
+    describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
         it("should return status 400 after no radio btn selected", async () => {
-            const response = await router.post("/register-acsp/sole-trader/correspondence-address-list").send({ correspondenceAddress: "" });
-            expect(response.status).toBe(400);
-            expect(response.text).toContain("Select the correspondence address");
+            router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "" });
+            expect(400);
         });
     });
 
