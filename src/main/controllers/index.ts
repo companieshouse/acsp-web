@@ -18,4 +18,5 @@ export * as nameRegisteredWithAmlController from "./features/limited/nameRegiste
 export * as businessMustbeAmlRegisteredController from "./features/limited/businessMustbeAmlRegisteredController";
 export * as companyInactiveController from "./features/limited/companyInactiveController";
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";
+export * as accessibilityStatementController from "./accessibilityStatementController";
 export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";
