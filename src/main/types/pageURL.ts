@@ -30,6 +30,8 @@ export const OTHER_TYPE_OFBUSINESS = "/what-other-business-type";
 
 export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
+export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
