@@ -15,4 +15,3 @@ describe("GET" + ACCESSIBILITY_STATEMENT, () => {
         expect(response.text).toContain("Accessibility statement for the Companies House service");
     });
 });
- 
