@@ -1,6 +1,10 @@
 {
     "cannotUseServiceTitle" : "You cannot use this service",
     "listOfAuthorisedAgent" : "To register an authorised agent, you must be one of the following:",
+    "director": "director",
+    "generalPartner": "general partner",
+    "partner": "partner",
+    "soleTrader": "sole trader",
     "guidancePageText": "Read the guidance about applying to register as an authorised agent",
     "moreInformation": "for more information."
 } 
