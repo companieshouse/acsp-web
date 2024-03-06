@@ -33,7 +33,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            var nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang);
 
             switch (selectedOption) {
             case "LIMITED_COMPANY":
@@ -50,8 +49,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             case "OTHER":
                 res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OFBUSINESS, lang));
                 break;
-            default:
-                res.redirect(nextPageUrl);
             }
         }
     } catch (error) {
