@@ -10,19 +10,16 @@
             <span class="govuk-caption-l">{{ firstName }}
                 {{ lastName }}</span>
              <h1 class="govuk-label-wrapper">
-              <label class="govuk-label govuk-label--l" for="countryInput">Where do you live?</label>
+              <label class="govuk-label govuk-label--l" for="countryInput">{{i18n.whereDoYouLiveTitle}}</label>
             </h1>
          </legend>
-        <p class="govuk-hint" id="typeahead-hint">Start typing a country, then choose from the list.</p>
-        {% set dropdownDefaultText = "Select where you live" %}
+        <p class="govuk-hint" id="typeahead-hint">{{i18n.whereDoYouLiveHint}}</p>
         <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
         {% set errorMessage = errors %}
         {% include "../../../partials/country-typeahead-input.njk" %}
         </div>
 
-        {{ govukButton({
-          text: "Continue"
-        }) }}
+        <button class="govuk-button">{{i18n.Continue}}</button>
 
       </form>   
 </div>

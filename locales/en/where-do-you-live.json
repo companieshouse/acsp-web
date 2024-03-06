@@ -1,0 +1,6 @@
+{
+    "whereDoYouLiveTitle" : "Where do you live?",
+    "whereDoYouLiveHint" : "Start typing a country, then choose from the list.",
+    "whereDoYouLiveDefaultDropdownText" : "Select where you live",
+    "error-whereDoYouLiveNoData" : "Select where you live"
+}

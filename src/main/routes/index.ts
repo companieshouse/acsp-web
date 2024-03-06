@@ -10,7 +10,7 @@ import {
 } from "../controllers";
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
-import { whereDoYouLiveValidator } from "../../../lib/validation/whereDoYouLive";
+import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
