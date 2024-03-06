@@ -76,7 +76,9 @@ export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT = LIMITED + "/your-b
 
 export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
 
+export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-aml-supervised";
+
 // unincorporated journey urls
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";
 
-export const SOLE_TRADER_HOW_ARE_YOU_AML_SUPERVISED = LIMITED + "/how-are-you-aml-supervised";
+export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
