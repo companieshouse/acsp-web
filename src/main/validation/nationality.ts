@@ -9,7 +9,7 @@ export const nationalityValidator = [
     // Validation for 'nationality_input_1'
     body("nationality_input_1")
         .custom((value, { req }) => {
-            if (!nationalityList.includes(value.trim()) && value.trim() !== "") { // Checks the nationality is in the list of nationalities
+            if (!nationalityList.split(";").includes(value.trim()) && value.trim() !== "") { // Checks the nationality is in the list of nationalities
                 throw new Error(nationalityErrorManifest.validation.invalid.summary);
             } else if (value.trim() === req.body.nationality_input_0.trim() && value.trim() !== "") { // Check if it's the same as 'nationality_input_0'
                 throw new Error(nationalityErrorManifest.validation.doubleSecondNationality.summary);
