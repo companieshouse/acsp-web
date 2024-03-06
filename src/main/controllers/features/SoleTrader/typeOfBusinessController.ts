@@ -41,7 +41,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             case "LIMITED_LIABILITY_PARTNERSHIP":
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
                 break;
-            case "PATNERSHIP":
+            case "PARTNERSHIP":
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
                 break;
             case "SOLE_TRADER":
