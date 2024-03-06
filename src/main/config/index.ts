@@ -35,3 +35,4 @@ export const transactionStatuses = {
 export const LIMITED_COMPANY_NUMBER = `${BASE_LIMITED_TRADER_URL}/company-number/company-number`;
 export const LIMITED_IS_THIS_YOUR_COMPANY = `${BASE_LIMITED_TRADER_URL}/is-this-your-company/is-this-your-company`;
 export const ACCESSIBILITY_STATEMENT = `${BASE_VIEWS_URL}/accessibility-statement/accessibility-statement`;
+export const STOP_NOT_RELEVANT_OFFICER = `${BASE_SOLE_TRADER_URL}/stop-not-relevant-officer/stop-not-relevant-officer`;
