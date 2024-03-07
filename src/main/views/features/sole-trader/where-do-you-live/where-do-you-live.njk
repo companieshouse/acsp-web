@@ -5,10 +5,9 @@
 
 <div class="govuk-grid-column-two-thirds-from-desktop">
     <form action="" method="post">
+      {% include "partials/user_name.njk" %}
       <div id="typeahead-form-group" class="govuk-form-group">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <span class="govuk-caption-l">{{ firstName }}
-                {{ lastName }}</span>
              <h1 class="govuk-label-wrapper">
               <label class="govuk-label govuk-label--l" for="countryInput">{{i18n.whereDoYouLiveTitle}}</label>
             </h1>
