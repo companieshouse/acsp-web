@@ -1,0 +1,13 @@
+{"nationalityTitle": "What is your nationality?",
+"firstNationalityHint"  :"Start typing a nationality, then choose from the list.",
+"secondNationalityHint"  :"Second nationality (if relevant)",
+"secondNationalityHintDetails"  :"Dual citizenship (also known as dual nationality) is allowed in some countries. This means you can be a citizen of your own country and another country.",
+"thridNationalityHint"  :"Third nationality (if relevant)",
+"thirdNationalityHintDetails"  :"Multiple citizenship (also known as multiple nationality) is allowed in some countries. This means you can be a citizen of your own country and two other countries.",
+
+"error-invalidNationalityNoData": "Enter your nationality",
+"error-invalidNationalityNoNationality": "Select a nationality from the list",
+"error-invalidNationalityDoubleSecondNationality": "Enter a different second nationality",
+"error-invalidNationalityDoubleThirdNationality" : "Enter a different third nationality"
+
+}
