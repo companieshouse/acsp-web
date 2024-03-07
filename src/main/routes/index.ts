@@ -11,7 +11,7 @@ import {
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
-import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
+import { dateOfBirthValidator } from "../validation/dateOfBirth";
 import { nameValidator } from "../../../lib/validation/name";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";

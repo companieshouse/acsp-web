@@ -1,5 +1,4 @@
 import { body } from "express-validator";
-import dateOfBirthErrorManifest from "../utils/error_manifests/dateOfBirth";
 
 export const dateOfBirthValidator = [
     body("dob-day").custom((value, { req }) => dateDayChecker(req.body["dob-day"], req.body["dob-month"], req.body["dob-year"])),
@@ -10,29 +9,29 @@ export const dateOfBirthValidator = [
 
 export const dateDayChecker = (day: string, month: string, year: string) => {
     if (day.trim() === "" && month.trim() === "" && year.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noData.summary);
+        throw new Error("noData");
     } else if (day.trim() === "" && month.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noDayMonth.summary);
+        throw new Error("noDayMonth");
     } else if (day.trim() === "" && year.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noDayYear.summary);
+        throw new Error("noDayYear");
     } else if (day.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noDay.summary);
+        throw new Error("noDay");
     }
     return true;
 };
 
 export const dateMonthChecker = (day: string, month: string, year: string) => {
     if (day.trim() !== "" && month.trim() === "" && year.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noMonthYear.summary);
+        throw new Error("noMonthYear");
     } else if (day.trim() !== "" && month.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noMonth.summary);
+        throw new Error("noMonth");
     }
     return true;
 };
 
 export const dateYearChecker = (day: string, month: string, year: string) => {
     if (day.trim() !== "" && month.trim() !== "" && year.trim() === "") {
-        throw new Error(dateOfBirthErrorManifest.validation.noYear.summary);
+        throw new Error("noYear");
     }
     return true;
 };
@@ -40,15 +39,15 @@ export const dateYearChecker = (day: string, month: string, year: string) => {
 export const validDataChecker = (day: string, month: string, year: string) => {
     if (day !== "" && month !== "" && year !== "") {
         if (!isNumeric(day) || !isNumeric(month) || !isNumeric(year)) {
-            throw new Error(dateOfBirthErrorManifest.validation.nonNumeric.summary);
+            throw new Error("nonNumeric");
         } else if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isValidDay(+day, +month, +year) || day.length > 2 || month.length > 2) {
-            throw new Error(dateOfBirthErrorManifest.validation.invalid.summary);
+            throw new Error("invalid");
         } else if (!isNotInFuture(+day, +month, +year)) {
-            throw new Error(dateOfBirthErrorManifest.validation.dateInFuture.summary);
+            throw new Error("dateInFuture");
         } else if (!isNotTooYoung(+day, +month, +year)) {
-            throw new Error(dateOfBirthErrorManifest.validation.tooYoung.summary);
+            throw new Error("tooYoung");
         } else if (!isNotTooOld(+day, +month, +year)) {
-            throw new Error(dateOfBirthErrorManifest.validation.tooOld.summary);
+            throw new Error("tooOld");
         }
     }
     return true;
