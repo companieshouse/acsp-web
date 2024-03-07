@@ -19,11 +19,11 @@
                         classes: "govuk-fieldset__legend--l"
                     }
                 },
+                value: typeOfBusiness,
                 items: [
                     {
                         value: "LIMITED_COMPANY",
                         text: i18n.typeOfBusinessLimitedCompanyOption,
-                        checked: type-of-business == LIMITED_COMPANY,
                         attributes: {
                             "data-event-id": "limited-company-option"
                         }
@@ -31,7 +31,6 @@
                     {
                         value: "LIMITED_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedPartnershipOption,
-                        checked: type-of-business == LIMITED_PARTNERSHIP,
                         attributes: {
                             "data-event-id": "limited-partnership-option"
                         }
@@ -39,7 +38,6 @@
                     {
                         value: "LIMITED_LIABILITY_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
-                        checked: type-of-business == LIMITED_LIABILITY_PARTNERSHIP,
                         attributes: {
                             "data-event-id": "limited-liability-partnership-option"
                         }
@@ -47,7 +45,6 @@
                     {
                         value: "PARTNERSHIP",
                         text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption,
-                        checked: type-of-business == PARTNERSHIP,
                         attributes: {
                             "data-event-id": "partnership-option"
                         }
@@ -55,7 +52,6 @@
                     {
                         value: "SOLE_TRADER",
                         text: i18n.typeOfBusinessSoleTraderOption,
-                        checked: type-of-business == SOLE_TRADER,
                         attributes: {
                             "data-event-id": "sole-trader-option"
                         }
@@ -63,7 +59,6 @@
                     {
                         value: "OTHER",
                         text: i18n.typeOfBusinessOtherOption,
-                        checked: type-of-business == OTHER,
                         attributes: {
                             "data-event-id": "other-option"
                         }

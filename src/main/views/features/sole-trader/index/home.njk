@@ -12,84 +12,84 @@
       <form action="" method="POST">
 
         <h1 class="govuk-heading-l">
-          Apply to register as a Companies House authorised agent
+          {{i18n.startPageTitle}}
         </h1>
 
         <p class="govuk-body">
-          Use this service to register your business as an authorised agent with Companies House.
+          {{i18n.useThisService}}
         </p>
 
         <details class="govuk-details">
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
-              Who needs to register as an authorised agent?
+              {{i18n.whoNeedsToRegister}}
             </span>
           </summary>
           <div class="govuk-details__text">
             <p>
-              From XX DATE, individuals or organisations will need to register as a Companies House authorised agent to (do any of the following):
+              {{i18n.startFromDate}}
             </p>
             <ul class="govuk-list govuk-list--bullet">
-              <li>file on behalf of clients</li>
-              <li>form companies or registrable partnerships on behalf of clients</li>
-              <li>verify someone's identity for Companies House</li>
+              <li>{{i18n.onBehalfClients}}</li>
+              <li>{{i18n.formCompanies}}</li>
+              <li>{{i18n.verifyIndentityForCH}}</li>
             </ul>
           </div>
         </details>
 
         <p class="govuk-body">
-          To apply, you must be (one of the following):
+          {{i18n.youMustBe}}
         </p>
 
         <ul class="govuk-list govuk-list--bullet" role="listitem">
-          <li>director</li>
-          <li>general partner</li>
-          <li>partner</li>
-          <li>sole trader</li>
+          <li>{{i18n.startDirector}}</li>
+          <li>{{i18n.startGeneralPartner}}</li>
+          <li>{{i18n.startPartner}}</li>
+          <li>{{i18n.startSoleTrader}}</li>
         </ul>
 
         <div class="ch-info-panel" style="max-width: 630px; width: 100%; background-color: #f3f2f1; color: #000000; margin: 16px 0; padding: 2em;">
-          <h2 class="govuk-heading-m">Before you start</h2>
+          <h2 class="govuk-heading-m">{{i18n.beforeYouStart}}</h2>
           <div class="govuk-panel__body">
             <p class="govuk-body">
-              If you’re a sole trader, you’ll need to verify your identity for Companies House before you can use this service.
+              {{i18n.identifyBeforeYouCanUse}}
             </p>
             <p class="govuk-body" style="display: flex; align-items: center;">
-              <img src="images/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" style="max-width:100%; margin-top: 5px; margin-right: 0px;">       
+              <img src="{{cdnHost}}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" style="max-width:100%; margin-top: 5px; margin-right: 0px;">       
               <strong><a class="govuk-link govuk-link--no-visited-state" href="/v7/verify-identity-prototype" style="margin-left:10px;">
-                Verify your identity for Companies House
+                {{i18n.verifyIdentityLink}}
               </a></strong>.
             </p>
           </div>
         </div>
 
-        <h2 class="govuk-heading-m">What you'll need</h2>
+        <h2 class="govuk-heading-m">{{i18n.whatYoullNeedHeading}}</h2>
 
         <p>
-          You’ll need to give details about your business, or yourself if you are a sole trader. You'll also need:
+          {{i18n.giveDetailsText}}
         </p>
         <ul class="govuk-list govuk-list--bullet" role="listitem">
-          <li>the names of all Anti-Money Laundering (AML) supervisory bodies the business is registered with</li>
-          <li>the AML membership numbers - we will check this with your AML supervisory body</li>
-          <li>to pay the £XX registration fee using a credit or debit card</li>
+          <li>{{i18n.startNameOfAML}}</li>
+          <li>{{i18n.startAMLNumbers}}</li>
+          <li>{{i18n.startPayFee}}</li>
         </ul>
         <div class="govuk-inset-text">
-          We will check the AML supervisory body has the same name and membership number for your business. If you are registered with the AML supervisory body as an individual, you will need to apply as a sole trader using your own name.
+          {{i18n.startCheckAMLParagraph}}
         </div>
 
         <p>
-          This service will time out if you do not use it for 60 minutes. You can save your answers and resume your application later.
+          {{i18n.startTimeout}}
         </p>
 
         <button class="govuk-button govuk-button--start" data-module="govuk-button">
-          Start now
+          {{i18n.startNow}}
           <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
           </svg>
         </button>
 
         <p>
-          Read the <a href="guidance-ACSPs">guidance about applying to register as a Companies House authorised agent</a>.
+          {{i18n.readThe}} <a href="guidance-ACSPs">{{i18n.guidenceLinkText}}</a>.
         </p>
       </form>
     </div>

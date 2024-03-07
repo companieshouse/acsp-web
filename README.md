@@ -24,7 +24,7 @@ The documentation of the project is available on [Confluence](https://companiesh
 
 Having cloned the project into your project root, run the following commands:
 
-``` cd your-companies-web```
+``` cd acsp-web```
 
 ```npm install```
 

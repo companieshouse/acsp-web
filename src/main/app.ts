@@ -1,13 +1,22 @@
 import express, { NextFunction, Request, Response } from "express";
-import session from "express-session";
 import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
-import { sessionMiddleware } from "./middleware/session.middleware";
-import { BASE_URL } from "./types/pageURL";
+import { pageNotFound } from "./utils/error";
+import { authenticationMiddleware } from "./middleware/authentication_middleware";
+import { sessionMiddleware } from "./middleware/session_middleware";
+import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
 
+import {
+    APPLICATION_NAME,
+    CDN_URL_CSS,
+    CDN_URL_JS,
+    CDN_HOST,
+    CHS_URL
+} from "./utils/properties";
+import { HOME_URL, COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -19,30 +28,19 @@ const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     express: app
 });
 
-nunjucksEnv.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
-nunjucksEnv.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
-nunjucksEnv.addGlobal("cdnHost", process.env.CDN_HOST);
-nunjucksEnv.addGlobal("chsUrl", process.env.CHS_URL);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "njk");
+nunjucksEnv.addGlobal("cdnUrlCss", CDN_URL_CSS);
+nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
+nunjucksEnv.addGlobal("cdnHost", CDN_HOST);
+nunjucksEnv.addGlobal("chsUrl", CHS_URL);
+nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
 
 app.enable("trust proxy");
-
-declare module "express-session" {
-    export interface SessionData {
-      user: { [key: string]: any };
-    }
-  }
-app.use(session({
-    secret: "123456",
-    resave: false,
-    saveUninitialized: true
-}));
 
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "njk");
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 
@@ -56,9 +54,6 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     res.render("partials/error_500");
 });
 
-// Channel all requests through router dispatch
-routerDispatch(app);
-
 // Unhandled exceptions
 process.on("uncaughtException", (err: any) => {
     logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
@@ -70,5 +65,19 @@ process.on("unhandledRejection", (err: any) => {
     logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
+
+// Apply middleware
+app.use(cookieParser());
+app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+
+// Company Auth redirect
+// const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
+// app.use(companyAuthRegex, companyAuthenticationMiddleware);
+
+// Channel all requests through router dispatch
+routerDispatch(app);
+
+app.use(pageNotFound);
 
 export default app;
