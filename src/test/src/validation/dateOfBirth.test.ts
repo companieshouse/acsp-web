@@ -36,7 +36,7 @@ describe("Valid data input tests", () => {
         expect(() => validDataChecker("11", "0", "1999")).toThrow(new Error("invalid"));
     });
     test("Error if year is greater than 9999", async () => {
-        expect(() => validDataChecker("11", "13", "99999")).toThrow(new Error("validation"));
+        expect(() => validDataChecker("11", "13", "99999")).toThrow(new Error("invalid"));
     });
     test("Error if year is less than 1000", async () => {
         expect(() => validDataChecker("11", "13", "999")).toThrow(new Error("invalid"));
