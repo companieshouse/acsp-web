@@ -9,7 +9,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
-        previousPage: addLangToUrl(START, lang),
+        previousPage: addLangToUrl(BASE_URL + HOME_URL, lang),
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + TYPE_OF_BUSINESS,
@@ -26,7 +26,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
-                previousPage: addLangToUrl(HOME_URL, lang),
+                previousPage: addLangToUrl(BASE_URL + HOME_URL, lang),
                 title: "What type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + TYPE_OF_BUSINESS,
