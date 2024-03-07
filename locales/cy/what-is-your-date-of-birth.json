@@ -1,6 +1,6 @@
 {
-    "whereDoYouLiveTitle" : "What is your date of birth? welsh",
-    "whereDoYouLiveHint" : "For example, 31 3 1980 welsh",
+    "dateOfBirthTitle" : "What is your date of birth? welsh",
+    "dateOfBirthHint" : "For example, 31 3 1980 welsh",
     "day": "Day welsh",
     "month": "Month welsh",
     "year": "Year welsh",
