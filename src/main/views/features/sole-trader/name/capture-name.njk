@@ -8,10 +8,10 @@
 <main>
     <form action="" method="POST">
         <div class="govuk-form-group">
-            <h1 class="govuk-heading-l">What is your name?</h1>
+            <h1 class="govuk-heading-l">{{i18n.whatIsYourNameTitle}}</h1>
             {{ govukInput({
                 label: {
-                    text: "First name"
+                    text: i18n.whatIsYourNameFirstName
                 },
                 errorMessage: {
                     text: errors["first-name"].text
@@ -25,7 +25,7 @@
 
             {{ govukInput({
                 label: {
-                    text: "Middle names"
+                    text: i18n.whatIsYourNameMiddleNames
                 },
                 errorMessage: {
                     text: errors["middle-names"].text
@@ -39,11 +39,11 @@
 
             {{ govukInput({
                 label: {
-                    text: "Last name"
+                    text: i18n.whatIsYourNameLastName
                 },
                 errorMessage: {
                     text: errors["last-name"].text
-                } if errors["last-name"] | length or errors["first-name"].text === "Enter your full name",
+                } if errors["last-name"] | length or errors["first-name"].text === "Enter your full name" or errors["first-name"].text === "Enter your full name welsh",
                 classes: "govuk-input--width-20",
                 id: "last-name",
                 name: "last-name",
@@ -51,9 +51,7 @@
                 value: payload["last-name"]
             }) }}
         </div>
-        {{ govukButton({
-            text: "Continue"
-          }) }}
+        <button class="govuk-button">{{i18n.Continue}}</button>
     </form>
 </main>
 
