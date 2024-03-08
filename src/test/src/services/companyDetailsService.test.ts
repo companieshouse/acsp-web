@@ -2,6 +2,7 @@ import { Request } from "express";
 import { CompanyDetailsService } from "../../../main/services/company-details/companyDetailsService";
 import { getSessionValue } from "../../../main/common/__utils/sessionHelper";
 import { COMPANY_DETAILS } from "../../../main/common/__utils/constants";
+import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 
 describe("CompanyDetailsService", () => {
     let service: CompanyDetailsService;
@@ -21,50 +22,112 @@ describe("CompanyDetailsService", () => {
     });
 
     xtest("saveToSession correctly saves company details to session", () => {
-    // mock company details
-        const mockCompanyDetails = {
-            company_name: "Company",
-            company_number: "12345678",
-            company_status: "Active",
-            date_of_creation: "2023-02-23",
+        // mock company details
+        const mockCompanyDetails : CompanyProfile = {
+            companyName: "Company",
+            companyNumber: "12345678",
+            companyStatus: "Active",
+            companyStatusDetail: "",
+            dateOfCreation: "2023-02-23",
+            jurisdiction: "",
+            sicCodes: [""],
+            hasBeenLiquidated: false,
+            hasSuperSecurePscs: false,
             type: "Private Limited Company",
-            registered_office_address: {
-                address_line_1: "123 Main Street",
-                city: "City",
-                postal_code: "54321",
-                country: "Country"
+            hasCharges: false,
+            hasInsolvencyHistory: false,
+            registeredOfficeAddress: {
+                addressLineOne: "456 Secondary Street",
+                addressLineTwo: "",
+                careOf: "",
+                country: "Country",
+                locality: "",
+                poBox: "",
+                postalCode: "54321",
+                premises: "",
+                region: ""
             },
-            undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
+            serviceAddress: {
+                addressLineOne: "456 Secondary Street",
+                addressLineTwo: "",
+                careOf: "",
+                country: "Example Country",
+                locality: "",
+                poBox: "",
+                postalCode: "54321",
+                premises: "",
+                region: ""
+            },
+            accounts: {
+                nextAccounts: {
+                    periodEndOn: "",
+                    periodStartOn: ""
+                },
+                nextDue: "",
+                overdue: false
+            },
+            links: {}
         };
         // call the method to save company details into session
         service.saveToSession(req, mockCompanyDetails);
 
         expect(req.session.companyDetails).toBeDefined();
         expect(req.session.companyDetails).toEqual({
-            companyName: mockCompanyDetails.company_name,
-            companyNumber: mockCompanyDetails.company_number,
-            status: mockCompanyDetails.company_status,
-            incorporationDate: mockCompanyDetails.date_of_creation,
+            companyName: mockCompanyDetails.companyName,
+            companyNumber: mockCompanyDetails.companyNumber,
+            status: mockCompanyDetails.companyStatus,
+            incorporationDate: mockCompanyDetails.dateOfCreation,
             companyType: mockCompanyDetails.type,
-            registeredOfficeAddress: mockCompanyDetails.registered_office_address,
-            correspondenceAddress: mockCompanyDetails.undeliverable_registered_office_address
+            registeredOfficeAddress: mockCompanyDetails.registeredOfficeAddress,
+            correspondenceAddress: mockCompanyDetails.serviceAddress
         });
     });
 
     xtest("getFromSession retrieves company details from session", () => {
-        const mockCompanyDetails = {
-            company_name: "Company",
-            company_number: "12345678",
-            company_status: "Active",
-            date_of_creation: "2023-02-23",
+        const mockCompanyDetails : CompanyProfile = {
+            companyName: "Company",
+            companyNumber: "12345678",
+            companyStatus: "Active",
+            companyStatusDetail: "",
+            dateOfCreation: "2023-02-23",
+            jurisdiction: "",
+            sicCodes: [""],
+            hasBeenLiquidated: false,
+            hasSuperSecurePscs: false,
             type: "Private Limited Company",
-            registered_office_address: {
-                address_line_1: "123 Main Street",
-                city: "City",
-                postal_code: "54321",
-                country: "Country"
+            hasCharges: false,
+            hasInsolvencyHistory: false,
+            registeredOfficeAddress: {
+                addressLineOne: "456 Secondary Street",
+                addressLineTwo: "",
+                careOf: "",
+                country: "Country",
+                locality: "",
+                poBox: "",
+                postalCode: "54321",
+                premises: "",
+                region: ""
             },
-            undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
+            serviceAddress: {
+                addressLineOne: "456 Secondary Street",
+                addressLineTwo: "",
+                careOf: "",
+                country: "Example Country",
+                locality: "",
+                poBox: "",
+                postalCode: "54321",
+                premises: "",
+                region: ""
+            },
+            accounts: {
+                nextAccounts: {
+                    periodEndOn: "",
+                    periodStartOn: ""
+                },
+                nextDue: "",
+                overdue: false
+            },
+            links: {}
         };
         req.session.companyDetails = mockCompanyDetails;
         // fetch company details
