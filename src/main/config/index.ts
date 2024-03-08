@@ -23,7 +23,6 @@ export const LIMITED_COMPANY_INACTIVE = `${BASE_LIMITED_TRADER_URL}/company-inac
 export const ACSP_SERVICE_HOST = "http://chs.local";
 export const ACSP_SERVICE_PORT = "18644";
 export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}/acsp-api`;
-export const ACSP_SERVICE_TRANSACTION_URI = `${ACSP_SERVICE_BASE}/createatxn`;
 export const CREATE_DESCRIPTION = "Create an ACSP registration transaction";
 export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
