@@ -3,15 +3,17 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import * as config from "../../../config";
-import { ACSPServiceClient } from "../../../clients/ASCPServiceClient";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_ONE_LOGIN_PASSWORD, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
 import logger from "../../../../../lib/Logger";
+import { CHS_API_KEY } from "../../../utils/properties";
+import { ACSP_SERVICE_BASE } from "../../../config";
+import { CompanyLookupService } from "../../../services/companyLookupService";
 
-const acspServiceClientOne = new ACSPServiceClient(config.ACSP_API_LOCALHOST);
 const companyDetailsService = new CompanyDetailsService();
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.LIMITED_COMPANY_NUMBER, {
@@ -40,8 +42,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const { companyNumber } = req.body;
-            const companyDetails = await acspServiceClientOne.getCompany(companyNumber);
-            logger.info(companyDetails);
+            const companyLookupService = new CompanyLookupService();
+            const companyDetails = await companyLookupService.getCompany(companyNumber);
             companyDetailsService.saveToSession(req, companyDetails);
             if (!res.headersSent) {
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
