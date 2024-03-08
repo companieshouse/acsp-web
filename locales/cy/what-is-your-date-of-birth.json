@@ -12,6 +12,7 @@
     "error-noDayYear" : "Date of birth must include a day and a year welsh",
     "error-noMonthYear" : "Date of birth must include a month and a year welsh",
     "error-noDay" : "Date of birth must include a day welsh",
+    "error-noMonth" : "Date of birth must include a month welsh",
     "error-noYear" : "Date of birth must include a year welsh",
     "error-tooOld" : "You must be less than 110 years old welsh",
     "error-tooYoung" : "You must be at least 16 years old welsh",
