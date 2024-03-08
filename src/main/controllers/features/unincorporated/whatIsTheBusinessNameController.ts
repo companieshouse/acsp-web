@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_SECTOR_YOU_WORK_IN, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, BASE_URL, TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,12 +26,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
                 title: "What is the business name?",
+                payload: req.body,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME,
                 ...pageProperties
             });
         } else {
-            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang);
+            const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
             res.redirect(nextPageUrl);
         }
     } catch (error) {
