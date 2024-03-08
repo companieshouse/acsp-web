@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL } from "../../../types/pageURL";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { Address } from "../../../model/Address";
 import { UserData } from "../../../model/UserData";
 import { Session } from "@companieshouse/node-session-handler";
@@ -29,5 +29,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    res.redirect(BASE_URL + "/type-of-acsp");
+    res.redirect(BASE_URL + TYPE_OF_BUSINESS);
 };

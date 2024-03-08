@@ -3,14 +3,17 @@
 
 {% block main_content %}
 
-<main class="govuk-main-wrapper">
+<div class="govuk-main-wrapper">
   <div class="govuk-grid-row">
    <div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
         <div class="govuk-form-group">
-            <h1 class="govuk-heading-l">{{i18n.whatIsTheBusinessNameTitle}}</h1>
             
             {{ govukInput({
+                label: {
+                    text: i18n.whatIsTheBusinessNameTitle,
+                    isPageHeading: true
+                },
                  errorMessage: {
                     text: errors["whatIsTheBusinessName"].text
               } if errors["whatIsTheBusinessName"] | length,
@@ -31,7 +34,7 @@
      </form>
    </div>
  </div>
-</main>
+</div>
 
     
 {% endblock main_content %}
