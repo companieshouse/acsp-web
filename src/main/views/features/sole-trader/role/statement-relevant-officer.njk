@@ -1,46 +1,45 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
 
 <main>
-
-<div class="govuk-form-group">
-<form action="" method="post">
-  <fieldset class="govuk-fieldset">
-    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-      <h1 class="govuk-fieldset__heading">
-        What is your role?
-      </h1>
-    </legend>
-
-
-    <div class="govuk-radios" data-module="govuk-radios">
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="WhatIsYourRole" name="WhatIsYourRole" type="radio" value="director">
-        <label class="govuk-label govuk-radios__label" for="WhatIsYourRole">
-          I am a director
-        </label>
-      </div>
-
-
-      <div class="govuk-radios__item">
-        <input class="govuk-radios__input" id="WhatIsYourRole-2" name="WhatIsYourRole" type="radio" value="someone-else">
-        <label class="govuk-label govuk-radios__label" for="WhatIsYourRole-2">
-          I am someone else
-        </label>
-      </div>
-
-
-    </div>
-  </fieldset>
-  </div>
-        <button type="submit" class="govuk-button" data-module="govuk-button">
-        Continue
-        </button>
-
-  </form>
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.WhatIsYourRole if errors,
+                classes: "govuk-radios",
+                id: "WhatIsYourRole",
+                name: "WhatIsYourRole",
+                fieldset: {
+                    legend: {
+                        text: i18n.soleTraderRoleTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                value: WhatIsYourRole,
+                items: [
+                    {
+                        value: "DIRECTOR",
+                        text: i18n.soleTraderRoleDirector,
+                        attributes: {
+                            "data-event-id": "director-option"
+                        }
+                    },
+                    {
+                        value: "SOMEONE_ELSE",
+                        text: i18n.soleTraderRoleSomeoneelse,
+                        attributes: {
+                            "data-event-id": "someone-else-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.Continue}}</button>
+    </form>
 </main>
-
 
 
 

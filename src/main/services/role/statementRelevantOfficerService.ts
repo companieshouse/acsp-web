@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+/*import { Request, Response } from "express";
 import logger from "../../../../lib/Logger";
 import { GenericService } from "./../generic";
 
@@ -25,3 +25,4 @@ export class StatementRelevantOfficerService extends GenericService {
 }
 
 export default StatementRelevantOfficerService;
+*/
