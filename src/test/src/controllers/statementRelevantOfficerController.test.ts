@@ -22,10 +22,10 @@ describe("Statement Relevant Officer Router", () => {
         expect(response.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        //expect(response.header.location).toBe(BASE_URL + STOP_NOT_RELEVANT_OFFICER);
+        // expect(response.header.location).toBe(BASE_URL + STOP_NOT_RELEVANT_OFFICER);
     });
 
-    /*it("should respond with status 400 on form submission with invalid role", async () => {
+    /* it("should respond with status 400 on form submission with invalid role", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "DIRECTOR"
         });
@@ -33,5 +33,5 @@ describe("Statement Relevant Officer Router", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         //expect(response.text).toContain("Status code: 404");
-    });*/
+    }); */
 });

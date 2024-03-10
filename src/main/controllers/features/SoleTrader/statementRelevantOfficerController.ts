@@ -6,7 +6,6 @@ import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_NAME_REGISTERED_WITH_A
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 
-
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -16,7 +15,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE
     });
 };
-
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
