@@ -6,21 +6,21 @@ import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_NATIO
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { UserData } from "../../../model/UserData";
+import { ACSP } from "../../../model/ACSP";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const userData : UserData = session?.getExtraData(USER_DATA)!;
+    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
 
     res.render(config.SOLE_TRADER_DATE_OF_BIRTH, {
         title: "What is your date of Birth?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang),
         currentUrl: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
-        firstName: userData?.firstName,
-        lastName: userData?.lastName
+        firstName: ACSP?.firstName,
+        lastName: ACSP?.lastName
     });
 };
 
@@ -28,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const userData : UserData = session?.getExtraData(USER_DATA)!;
+    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -40,8 +40,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: userData?.firstName,
-                lastName: userData?.lastName
+                firstName: ACSP?.firstName,
+                lastName: ACSP?.lastName
             });
         } else {
             res.redirect(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);

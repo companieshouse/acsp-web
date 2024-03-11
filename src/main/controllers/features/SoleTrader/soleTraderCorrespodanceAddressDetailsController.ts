@@ -5,14 +5,14 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL } from "../../../types/pageURL";
 import { Address } from "../../../model/Address";
-import { UserData } from "../../../model/UserData";
+import { ACSP } from "../../../model/ACSP";
 import { Session } from "@companieshouse/node-session-handler";
 import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session?.getExtraData(USER_DATA)!;
+    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -21,14 +21,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        addresses: userData?.addresses
+        addresses: ACSP?.addresses
     }
     );
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const userData : UserData = session?.getExtraData(USER_DATA)!;
+    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
@@ -42,10 +42,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
-                addresses: userData?.addresses
+                addresses: ACSP?.addresses
             });
         } else {
-            const addressList = userData.addresses!;
+            const addressList = ACSP.addresses!;
             const selectPremise = req.body.correspondenceAddress;
             for (const ukAddress of addressList) {
                 if (ukAddress.propertyDetails!.toUpperCase() === selectPremise.toUpperCase()) {
