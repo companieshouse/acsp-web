@@ -1,0 +1,25 @@
+<!-- router_views/index/stop-not-relevant-officer.njk -->
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+  <main class="govuk-main-wrapper" id="main-content" role="main">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{ i18n.cannotUseServiceTitle }}</h1>
+        <p class="govuk-body">{{ i18n.listOfAuthorisedAgent }}</p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>{{ i18n.director }}</li>
+          <li>{{ i18n.generalPartner }}</li>
+          <li>{{ i18n.partner }}</li>
+          <li>{{ i18n.soleTrader }}</li>
+        </ul>
+
+        <p class="govuk-body">
+          <a href="#" class="govuk-link govuk-link--no-visited-state">{{ i18n.guidancePageText }}</a>
+          {{ i18n.moreInformation }}
+        </p>
+      </div>
+    </div>
+  </main>
+{% endblock %}

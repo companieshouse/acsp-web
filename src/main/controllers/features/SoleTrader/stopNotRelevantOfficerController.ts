@@ -1,9 +1,15 @@
-import { Request, Response } from "express";
-import { StopNotRelevantOfficerService } from "../../../services/kick-out/stopNotRelevantOfficerService";
+import { NextFunction, Request, Response, Router } from "express";
+import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 
-export const get = async (req: Request, res: Response) => {
-    const handler = new StopNotRelevantOfficerService();
-    const viewData = await handler.execute(req, res);
-    res.render(config.SOLE_TRADER_KICK_OUT, viewData);
+export const get = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    res.render(config.STOP_NOT_RELEVANT_OFFICER, {
+        title: "You cannot use this service",
+        ...getLocaleInfo(locales, lang),
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
+        currentUrl: BASE_URL + STOP_NOT_RELEVANT_OFFICER
+    });
 };

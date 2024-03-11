@@ -15,16 +15,16 @@
                     <span class="govuk-caption-l">{{ firstName }}
                         {{ lastName }}</span>
                     <h1 class="govuk-fieldset__heading">
-                        <label for="nationality_input_0" class="govuk-label govuk-label--l">What is your nationality?</label>
+                        <label for="nationality_input_0" class="govuk-label govuk-label--l">{{i18n.nationalityTitle}}</label>
                     </h1>
                 </legend>
                 <div id="typeahead-form-group-0" class="govuk-form-group">
-                    <p class="govuk-hint-0" id="typeahead-hint-0">Start typing a nationality, then choose from the list.</p>
+                    <p class="govuk-hint-0" id="typeahead-hint-0">{{i18n.firstNationalityHint}}</p>
+                    {% set dropdownDefaultText = "Select your nationality" %}
                     {% if payload.nationality_input_0 | length %}
-                        {% set dropdownDefaultText = payload.nationality_input_0 %}
-                    {% else %}
-                        {% set dropdownDefaultText = "Select your nationality" %}
+                        {% set dropdownValue = payload.nationality_input_0 %}
                     {% endif %}
+
                     <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                     <noscript>
                         {% set dropdownNumber = "0" %}
@@ -34,18 +34,16 @@
                 </div>
                 <div id="second-nationality" class="second-nationality">
                     <div id="typeahead-form-group-1" class="govuk-form-group ">
-                        <label for="nationality_input_1" class="govuk-label">Second nationality (if relevant)</label>
-                        <p class="govuk-hint-1" id="typeahead-hint-1">Dual citizenship (also known as dual nationality) is allowed in some
-                            countries. This means you can be a citizen of your own country and another country.</p>
-                        {% if payload.nationality_input_1 | length %}
-                            {% set dropdownDefaultText = payload.nationality_input_1 %}
-                        {% else %}
-                            {% set dropdownDefaultText = "Select your nationality" %}
-                        {% endif %}
+                        <label for="nationality_input_1" class="govuk-label">{{i18n.secondNationalityInput}}</label>
+                        <p class="govuk-hint-1" id="typeahead-hint-1">{{i18n.secondNationalityHintDetails}}</p>
+                    {% set dropdownDefaultText = "Select your nationality" %}
+                    {% if payload.nationality_input_1 | length %}
+                        {% set dropdownValue = payload.nationality_input_1 %}
+                    {% endif %}
+
                         <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "1" %}
-                            {% set dropdownValue = payloadValue1 %}
                             {% set errorMessage = dropdownTwoError %}
                             {% include "../../../partials/nationality-typeahead-input.njk" %}
                         </noscript>
@@ -53,14 +51,13 @@
                 </div>
                 <div id="third-nationality" class="third-nationality">
                     <div id="typeahead-form-group-2" class="govuk-form-group ">
-                        <label for="nationality_input_2" class="govuk-label">Third nationality (if relevant)</label>
-                        <p class="govuk-hint-2" id="typeahead-hint-2">Multiple citizenship (also known as multiple nationality) is allowed in
-                            some countries. This means you can be a citizen of your own country and two other countries.</p>
-                        {% if payload.nationality_input_2 | length %}
-                            {% set dropdownDefaultText = payload.nationality_input_2 %}
-                        {% else %}
-                            {% set dropdownDefaultText = "Select your nationality" %}
-                        {% endif %}
+                        <label for="nationality_input_2" class="govuk-label">{{i18n.thirdNationalityHint}}</label>
+                        <p class="govuk-hint-2" id="typeahead-hint-2">{{i18n.thirdNationalityHintDetails}}</p>
+                    {% set dropdownDefaultText = "Select your nationality" %}
+                    {% if payload.nationality_input_2 | length %}
+                        {% set dropdownValue = payload.nationality_input_2 %}
+                    {% endif %}
+
                         <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "2" %}
@@ -72,8 +69,8 @@
                 </div>
             </div>
             {{ govukButton({
-                              text: "Continue"
-                              }) }}
+             text: i18n.Continue
+            }) }}
         </div>
     </fieldset>
 </form></div><script>

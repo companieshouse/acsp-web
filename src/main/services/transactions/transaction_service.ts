@@ -12,32 +12,30 @@ import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config
 /**
  * Post transaction
  */
-export const postTransaction = async (session: Session, companyNumber: string, description: string, reference: string): Promise<Transaction> => {
+export const postTransaction = async (session: Session, description: string, reference: string): Promise<Transaction> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     const transaction: Transaction = {
-        companyNumber,
         reference,
         description
     };
 
-    logger.debug(`Creating transaction with company number ${companyNumber}`);
     const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.postTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API POST request returned no response for company number ${companyNumber}`);
+        logger.error(`Transaction API POST request returned no response`);
         return Promise.reject(sdkResponse);
     }
 
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== StatusCodes.CREATED) {
-        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to post transaction for company number ${companyNumber}`);
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to post transaction`);
         return Promise.reject(sdkResponse);
     }
 
     const castedSdkResponse: Resource<Transaction> = sdkResponse as Resource<Transaction>;
 
     if (!castedSdkResponse.resource) {
-        logger.error(`Transaction API POST request returned no resource for company number ${companyNumber}`);
+        logger.error(`Transaction API POST request returned no resource`);
         return Promise.reject(sdkResponse);
     }
 
