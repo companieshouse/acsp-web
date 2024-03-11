@@ -12,33 +12,33 @@
   <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.companyName}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.companyName }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.companyName }}</dd>
     </div>
     <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.companyNumber}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.companyNumber }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.companyNumber }}</dd>
     </div>
       <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.status}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.status }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.status }}</dd>
     </div>
        <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.incorporationDate}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.incorporationDate }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.incorporationDate }}</dd>
     </div>
        <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.companyType}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.companyType }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.companyType }}</dd>
     </div>
        <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.registeredOfficeAddress.address_line_1 }}<br>
-      {{ companyDetails.registeredOfficeAddress.address_line_2 }}<br>
-      {{ companyDetails.registeredOfficeAddress.postal_code }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.address_line_1 }}<br>
+      {{ company.registeredOfficeAddress.address_line_2 }}<br>
+      {{ company.registeredOfficeAddress.postal_code }}</dd>
     </div>
        <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.correspondaceAddress}}</dt>
-      <dd class="govuk-summary-list__value">{{ companyDetails.undeliverable_registered_office_address }}</dd>
+      <dd class="govuk-summary-list__value">{{ company.undeliverable_registered_office_address }}</dd>
     </div>
   </dl>
   
