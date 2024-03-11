@@ -44,10 +44,6 @@ app.use(express.urlencoded({ extended: false }));
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../../../assets/public")));
 
-// apply middleware
-app.use(cookieParser());
-app.use(`${BASE_URL}*`, sessionMiddleware);
-
 // Unhandled errors
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
