@@ -1,0 +1,48 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<main>
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.WhatIsYourRole if errors,
+                classes: "govuk-radios",
+                id: "WhatIsYourRole",
+                name: "WhatIsYourRole",
+                fieldset: {
+                    legend: {
+                        text: i18n.soleTraderRoleTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                value: WhatIsYourRole,
+                items: [
+                    {
+                        value: "DIRECTOR",
+                        text: i18n.soleTraderRoleDirector,
+                        attributes: {
+                            "data-event-id": "director-option"
+                        }
+                    },
+                    {
+                        value: "SOMEONE_ELSE",
+                        text: i18n.soleTraderRoleSomeoneelse,
+                        attributes: {
+                            "data-event-id": "someone-else-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{i18n.Continue}}</button>
+    </form>
+</main>
+
+
+
+{% endblock %}
+
+

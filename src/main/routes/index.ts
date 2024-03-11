@@ -23,6 +23,7 @@ import * as urls from "../types/pageURL";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 import { companyNumberValidator } from "../validation/companyLookup";
 import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
+import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
 
 const routes = Router();
 
@@ -36,7 +37,7 @@ routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, soleTraderNameController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, nameValidator, soleTraderNameController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, statementRelevantOfficerController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, statementRelevantOfficerController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator,statementRelevantOfficerController.post);
 routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
