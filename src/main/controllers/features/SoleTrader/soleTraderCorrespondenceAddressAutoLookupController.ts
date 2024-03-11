@@ -9,14 +9,14 @@ import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { Address } from "../../../model/Address";
-import { ACSP } from "../../../model/acsp";
+import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -25,15 +25,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
-        firstName: ACSP?.firstName,
-        lastName: ACSP?.lastName
+        firstName: ACSPData?.firstName,
+        lastName: ACSPData?.lastName
     });
 
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -48,8 +48,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSP?.firstName,
-                lastName: ACSP?.lastName
+                firstName: ACSPData?.firstName,
+                lastName: ACSPData?.lastName
             });
         } else {
             let postcode = req.body.postCode;
@@ -87,10 +87,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     country: address.country,
                     postcode: address.postalCode
                 };
-                const userAddresses : Array<Address> = ACSP?.addresses ? ACSP.addresses : [];
+                const userAddresses : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
                 userAddresses.push(correspondenceAddress);
-                ACSP.addresses = userAddresses;
-                saveDataInSession(req, USER_DATA, ACSP);
+                ACSPData.addresses = userAddresses;
+                saveDataInSession(req, USER_DATA, ACSPData);
                 res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
             } else {
@@ -110,8 +110,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     addressList.push(address);
 
                 }
-                ACSP.addresses = addressList;
-                saveDataInSession(req, USER_DATA, ACSP);
+                ACSPData.addresses = addressList;
+                saveDataInSession(req, USER_DATA, ACSPData);
                 const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
                 res.redirect(nextPageUrl);
 

@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, BASE_URL } from "../../../types/pageURL";
 import { Address } from "../../../model/Address";
-import { ACSP } from "../../../model/acsp";
+import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -14,20 +14,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
-        firstName: ACSP?.firstName,
-        lastName: ACSP?.lastName
+        firstName: ACSPData?.firstName,
+        lastName: ACSPData?.lastName
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSP : ACSP = session?.getExtraData(USER_DATA)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -42,8 +42,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSP?.firstName,
-                lastName: ACSP?.lastName
+                firstName: ACSPData?.firstName,
+                lastName: ACSPData?.lastName
             });
         } else {
             // Save the correspondence address to session
@@ -56,10 +56,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 country: req.body.addressCountry,
                 postcode: req.body.addressPostcode
             };
-            const userAddress : Array<Address> = ACSP?.addresses ? ACSP.addresses : [];
+            const userAddress : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
             userAddress.push(correspondenceAddress);
-            ACSP.addresses = userAddress;
-            saveDataInSession(req, USER_DATA, ACSP);
+            ACSPData.addresses = userAddress;
+            saveDataInSession(req, USER_DATA, ACSPData);
             res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
         }
     } catch (error) {
