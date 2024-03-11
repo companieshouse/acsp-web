@@ -7,7 +7,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("Statement Relevant Officer Router", () => {
-    it("should render statement-relevant-officer page", async () => {
+    it("should render what is your role page", async () => {
         const response = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -24,7 +24,7 @@ describe("Statement Relevant Officer Router", () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should respond with status 400 on form submission with invalid role", async () => {
+    it("should respond with status 302 on form submission with sole trader", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "SOLE_TRADER"
         });
@@ -34,7 +34,7 @@ describe("Statement Relevant Officer Router", () => {
 
     });
 
-    it("should respond with status 400 on form submission with invalid role", async () => {
+    it("should respond with status 400 on form submission with empty role", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: ""
         });
