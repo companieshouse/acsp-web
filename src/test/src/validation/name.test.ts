@@ -1,15 +1,14 @@
-import nameErrorManifest from "../../../../lib/utils/error_manifests/name";
-import { firstNameChecker, lastNameChecker, middleNameChecker } from "../../../../lib/validation/name";
+import { firstNameChecker, lastNameChecker, middleNameChecker } from "../../../main/validation/whatIsYourName";
 
 describe("Missing input validation tests", () => {
     test("Error if name fields are completely empty", async () => {
-        expect(() => firstNameChecker("", "")).toThrow(new Error(nameErrorManifest.validation.noData.summary));
+        expect(() => firstNameChecker("", "")).toThrow(new Error("enterFullName"));
     });
     test("Error if first name field is empty", async () => {
-        expect(() => firstNameChecker("", "Doe")).toThrow(new Error(nameErrorManifest.validation.noFirstName.summary));
+        expect(() => firstNameChecker("", "Doe")).toThrow(new Error("enterFirstName"));
     });
     test("Error if last name field is empty", async () => {
-        expect(() => lastNameChecker("John", "")).toThrow(new Error(nameErrorManifest.validation.noLastName.summary));
+        expect(() => lastNameChecker("John", "")).toThrow(new Error("enterLastName"));
     });
     test("No error if first and last name entered", async () => {
         expect(() => lastNameChecker("John", "Doe")).toBeTruthy();
@@ -18,12 +17,12 @@ describe("Missing input validation tests", () => {
 
 describe("Valid data input tests", () => {
     test("Error if first name field is not valid input", async () => {
-        expect(() => firstNameChecker("J0hn&/", "Doe")).toThrow(new Error(nameErrorManifest.validation.firstName.summary));
+        expect(() => firstNameChecker("J0hn&/", "Doe")).toThrow(new Error("invalidFirstNameFormat"));
     });
     test("Error if last name field is not valid input", async () => {
-        expect(() => lastNameChecker("John", "DO&@")).toThrow(new Error(nameErrorManifest.validation.lastName.summary));
+        expect(() => lastNameChecker("John", "DO&@")).toThrow(new Error("invalidLastNameFormat"));
     });
     test("Error if middle names field is not valid input", async () => {
-        expect(() => middleNameChecker("And?£*")).toThrow(new Error(nameErrorManifest.validation.middleName.summary));
+        expect(() => middleNameChecker("And?£*")).toThrow(new Error("invalidMiddleNameFormat"));
     });
 });

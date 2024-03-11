@@ -5,14 +5,14 @@ import {
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
-    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController
+    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController
 
 } from "../controllers";
 
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
-import { dateOfBirthValidator } from "../../../lib/validation/dateOfBirth";
-import { nameValidator } from "../../../lib/validation/name";
+import { dateOfBirthValidator } from "../validation/dateOfBirth";
+import { nameValidator } from "../validation/whatIsYourName";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
@@ -80,6 +80,12 @@ routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, businessMustbeAm
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, unincorporatedWhatIsYourNameController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, nameValidator, unincorporatedWhatIsYourNameController.post);
+
+routes.get(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, unincorporatedNameRegisteredWithAmlController.get);
+routes.post(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, unincorporatedNameRegisteredWithAmlController.post);
 
 routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 

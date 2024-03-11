@@ -8,7 +8,7 @@ import { SOLE_TRADER_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, LIMIT
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    res.render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
+    res.render(config.NAME_REGISTERED_WITH_AML, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang),
         title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
         ...getLocaleInfo(locales, lang),
@@ -24,7 +24,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const selectedOption = req.body.nameRegisteredWithAml;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
+            res.status(400).render(config.NAME_REGISTERED_WITH_AML, {
                 previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang),
                 title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
                 ...getLocaleInfo(locales, lang),
@@ -37,7 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // res.redirect(nextPageUrl);
             switch (selectedOption) {
             case "YOUR_NAME":
-                res.redirect(nextPageUrlForBoth); // Redirect to another page whne your name selected
+                res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
                 break;
             default:
                 res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
