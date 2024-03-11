@@ -3,7 +3,7 @@ import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { Address } from "../../../model/Address";
-import { ACSP } from "../../../model/ACSP";
+import { ACSP } from "../../../model/acsp";
 import { Session } from "@companieshouse/node-session-handler";
 import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";

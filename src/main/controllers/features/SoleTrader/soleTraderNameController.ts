@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER, SOLE_TRADER_WHAT_IS_YOUR_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { ACSP } from "../../../model/ACSP";
+import { ACSP } from "../../../model/acsp";
 import logger from "../../../../../lib/Logger";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 
