@@ -1,27 +1,27 @@
 {% from "govuk/components/cookie-banner/macro.njk"  import govukCookieBanner %}
 
 {% set html %}
-<p>We use some essential cookies to make our services work.</p>
-<p>We'd also like to use analytics cookies so we can understand how you use our services and to make improvements.</p>
+<p>{{i18n.cookiesBanner1}}</p>
+<p>{{i18n.cookiesBanner2}}</p>
 {% endset %}
 
 {% set acceptHtml %}
-<p>You've accepted analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
+ <p>{{ i18n.acceptedAnalyticsCookies }} {{ i18n.changeCookie1 }} <a class="govuk-link" href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }}</a> {{ i18n.changeCookie3 }}</p>
 {% endset %}
 
 {% set rejectHtml %}
-<p>You've rejected analytics cookies. You can <a class="govuk-link" href="{{ chsUrl }}/help/cookies">change your cookie settings</a> at any time.</p>
+ <p>{{ i18n.rejectedAnalyticsCookies }} {{ i18n.changeCookie1 }} <a class="govuk-link" href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }}</a> {{ i18n.changeCookie3 }}</p>
 {% endset %}
 
 {{ govukCookieBanner({
-  ariaLabel: "Cookies on Companies House services",
+  ariaLabel: i18n.cookiesHeader,
   attributes: {
     id: "cookie-banner"
   },
   hidden: true,
   messages: [
     {
-      headingText: "Cookies on Companies House services",
+      headingText: i18n.cookiesHeader,
       attributes: {
       id: "accept-or-reject-message"
     },
@@ -29,7 +29,7 @@
       html: html,
       actions: [
       {
-        text: "Accept analytics cookies",
+        text: i18n.acceptAnalyticCookies,
         type: "button",
         name: "cookies",
         value: "accept",
@@ -38,7 +38,7 @@
       }
       },
       {
-        text: "Reject analytics cookies",
+        text: i18n.rejectAnalyticCookies,
         type: "button",
         name: "cookies",
         value: "reject",
@@ -61,7 +61,7 @@
       hidden: true,
       actions: [
       {
-        text: "Hide this message",
+        text: i18n.cookieHide,
         type: "button",
         name: "hide",
         value: "hide",
@@ -80,7 +80,7 @@
       hidden: true,
       actions: [
       {
-        text: "Hide this message",
+        text: i18n.cookieHide,
         type: "button",
         name: "hide",
         value: "hide",
@@ -95,11 +95,11 @@
 
 <noscript>
     {{ govukCookieBanner({
-    ariaLabel: "Cookies on Companies House services",
+    ariaLabel: i18n.cookiesHeader,
     messages: [
       {
-        headingText: "Cookies on Companies House services",
-        text: "We use cookies to make our services work and collect analytics information. To accept or reject analytics cookies, turn on JavaScript in your browser settings and reload this page."
+        headingText: i18n.cookiesHeader,
+        text: i18n.cookieNoJS
       }
     ]
   }) }}
