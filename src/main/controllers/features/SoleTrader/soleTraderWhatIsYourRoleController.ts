@@ -21,7 +21,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedRole = req.body.WhatIsYourRole;
-        console.log(typeof selectedRole);
+    
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_WHAT_IS_YOUR_ROLE, {
@@ -33,9 +33,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             switch (selectedRole) {
-            case "DIRECTOR":
-            case "GENERAL_PARTNER":
-            case "MEMBER_OF_THE_PARTNERSHIP":
             case "SOLE_TRADER":
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_NAME_REGISTERED_WITH_AML, lang));
                 break;

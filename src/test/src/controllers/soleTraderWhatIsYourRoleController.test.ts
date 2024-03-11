@@ -26,7 +26,7 @@ describe("Statement Relevant Officer Router", () => {
 
     it("should respond with status 400 on form submission with invalid role", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
-            WhatIsYourRole: "DIRECTOR"
+            WhatIsYourRole: "SOLE_TRADER"
         });
         expect(response.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
