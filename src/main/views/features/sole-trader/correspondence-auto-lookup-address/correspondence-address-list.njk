@@ -18,7 +18,7 @@
     {% set ITEMS = ITEMS.concat(addressObject) %}
 {% endfor %}
 
-<main>
+
     <form action="" method="POST">
         <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
         <div class="govuk-form-group">
@@ -40,7 +40,7 @@
         <button class="govuk-button">{{i18n.correspondenceLookUpAddresListConfirmBtn}}</button>
     </form>
       <p><a href="/register-acsp/sole-trader/correspondence-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
-</main>
+
 
     
 {% endblock main_content %}
