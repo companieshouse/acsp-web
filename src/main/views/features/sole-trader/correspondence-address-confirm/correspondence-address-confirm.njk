@@ -1,34 +1,26 @@
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-
   <div class="govuk-main-wrapper" id="main-content" role="main">
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-two-thirds">
-
         <form class="form" action="" method="post">
-
           {% include "partials/user_name.njk" %}
-
-          <h1 class="govuk-heading-l">{{i18n.correspondenceAddressConfirmTitle}}</h1>
+          <h1 class="govuk-heading-l">{{ i18n.correspondenceAddressConfirmTitle }}</h1>
           <ul class="govuk-list">
-              <li>{{correspondenceAddress.propertyDetails}}</li>
-              <li>{{correspondenceAddress.line1}}</li>
-              <li>{{correspondenceAddress.line2}}</li>
-              <li>{{correspondenceAddress.town}}</li>
-              <li>{{correspondenceAddress.county}}</li>
-              <li>{{correspondenceAddress.country}}</li>
-              <li>{{correspondenceAddress.postcode}}</li>
+            <li>{{ correspondenceAddress.propertyDetails }}</li>
+            <li>{{ correspondenceAddress.line1 }}</li>
+            <li>{{ correspondenceAddress.line2 }}</li>
+            <li>{{ correspondenceAddress.town }}</li>
+            <li>{{ correspondenceAddress.county }}</li>
+            <li>{{ correspondenceAddress.country }}</li>
+            <li>{{ correspondenceAddress.postcode }}</li>
           </ul>
-
           <p class="govuk-body">
-            <a href={{editPage}} class="govuk-link govuk-link--no-visited-state">{{i18n.EditAddress}}</a>
+            <a href={{editPage}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
           </p>
-          <button class="govuk-button">{{i18n.ConfirmAndContinue}}</button>
+          <button class="govuk-button">{{ i18n.ConfirmAndContinue }}</button>
         </form>
       </div>
     </div>
   </div>
-</div>
-
-{% endblock main_content %}
-onfirmAndContinue
+</div>{% endblock main_content %}

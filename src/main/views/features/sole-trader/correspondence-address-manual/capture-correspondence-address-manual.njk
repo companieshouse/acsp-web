@@ -3,20 +3,18 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% set errors = pageProperties.errors %}
-
 {% block main_content %}
-
-    <form action="" method="POST">
-        {% include "partials/user_name.njk" %}
-        <div class="govuk-form-group">
-          {{ govukFieldset({
+  <form action="" method="POST">
+    {% include "partials/user_name.njk" %}
+    <div class="govuk-form-group">
+      {{ govukFieldset({
              legend: {
              text: i18n.correspondenceAddressManualTitle,
              classes: "govuk-fieldset__legend--l",
              isPageHeading: true
              }  
-          }) }}  
-          {{ govukInput({
+          }) }}
+      {{ govukInput({
               label: {
                 text: i18n.addressPropertyDetails
               },
@@ -31,7 +29,7 @@
                 text: errors["addressPropertyDetails"].text
               } if errors.addressPropertyDetails
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressLine1
               },
@@ -43,7 +41,7 @@
                 text: errors["addressLine1"].text
               } if errors.addressLine1
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressLine2
               },
@@ -55,7 +53,7 @@
                 text: errors["addressLine2"].text
               } if errors.addressLine2
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressTown
               },
@@ -67,7 +65,7 @@
                 text: errors["addressTown"].text
               } if errors.addressTown
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressCounty
               },
@@ -79,7 +77,7 @@
                 text: errors["addressCounty"].text
               } if errors.addressCounty
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressCountry
               },
@@ -91,7 +89,7 @@
                 text: errors["addressCountry"].text
               } if errors.addressCountry
           }) }}
-          {{ govukInput({
+      {{ govukInput({
               label: {
                 text: i18n.addressPostcode
               },
@@ -103,10 +101,7 @@
                 text: errors["addressPostcode"].text
               } if errors.addressPostcode
           }) }}
-        </div>
-        <button class="govuk-button">{{i18n.Continue}}</button>
-    </form>
-
-
-
+    </div>
+    <button class="govuk-button">{{ i18n.Continue }}</button>
+  </form>
 {% endblock main_content %}
