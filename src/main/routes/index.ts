@@ -74,6 +74,7 @@ routes.get(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyLookupController.get)
 routes.post(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyNumberValidator, companyLookupController.post);
 
 routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.get);
+routes.post(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.post);
 
 routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 
