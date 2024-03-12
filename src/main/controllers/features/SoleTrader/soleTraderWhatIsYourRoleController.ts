@@ -12,7 +12,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
-    console.log("soletraderAcspType");
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role?",
         ...getLocaleInfo(locales, lang),

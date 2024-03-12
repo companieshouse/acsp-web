@@ -56,7 +56,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const session: Session = req.session as any as Session;
             const acspType = req.body.typeOfBusinessRadio;
-            console.log(acspType);
             if (session) {
                 session.setExtraData(ACSP_TYPE, acspType);
             }

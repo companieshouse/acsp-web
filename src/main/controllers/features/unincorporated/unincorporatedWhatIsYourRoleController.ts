@@ -14,7 +14,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
     const unincorporatedBusinessName = session?.getExtraData(UNINCORPORATED_BUSINESS_NAME)!;
-    console.log("unincorporatedAcspType");
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
@@ -30,7 +29,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
-        console.log(errorList);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
