@@ -3,6 +3,7 @@ const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
 const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
 const BASE_COMMON_URL = `${BASE_VIEWS_URL}/common`;
+
 export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
 export const SOLE_TRADER_DATE_OF_BIRTH = `${BASE_SOLE_TRADER_URL}/what-is-your-date-of-birth/what-is-your-date-of-birth`;
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = `${BASE_SOLE_TRADER_URL}/role/what-is-your-role`;
@@ -16,7 +17,6 @@ export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_SOLE_TRADER_UR
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
 export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
 export const SOLE_TRADER_OTHER_TYPE_OFBUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
-
 export const SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME = `${BASE_SOLE_TRADER_URL}/what-is-the-business-name/what-is-the-business-name`;
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
@@ -34,7 +34,6 @@ export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
     CLOSED: "closed"
 };
-
 export const ACCESSIBILITY_STATEMENT = `${BASE_VIEWS_URL}/accessibility-statement/accessibility-statement`;
 export const STOP_NOT_RELEVANT_OFFICER = `${BASE_SOLE_TRADER_URL}/stop-not-relevant-officer/stop-not-relevant-officer`;
 export const WHAT_IS_YOUR_NAME = `${BASE_COMMON_URL}/name/capture-name`;
