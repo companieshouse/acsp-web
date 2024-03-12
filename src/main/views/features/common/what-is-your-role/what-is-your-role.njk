@@ -10,26 +10,32 @@
                 name: "WhatIsYourRole",
                 fieldset: {
                     legend: {
-                        text: i18n.soleTraderRoleTitle,
+                        text: i18n.title,
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
                 },
-                value: WhatIsYourRole,
+                value: acspType,
                 items: [
                     {
                         value: "SOLE_TRADER",
-                        text: i18n.soleTraderRoleDirector,
-                        attributes: {
-                            "data-event-id": "director-option"
-                        }
-                    },
+                        text: i18n.soleTrader
+                    } if (acspType == "SOLE_TRADER"),
+                    {
+                        value: "MEMBER_OF_PARTNERSHIP",
+                        text: i18n.member + unincorporatedBusinessName
+                    } if (acspType == "PARTNERSHIP"),
+                    {
+                        value: "MEMBER_OF_GOVERNING_BODY",
+                        text: i18n.memberOfGoverningBody + unincorporatedBusinessName
+                    } if (acspType == "OTHER"),
+                    {
+                        value: "MEMBER_OF_ENTITY",
+                        text: i18n.member + unincorporatedBusinessName
+                    } if (acspType == "OTHER"),
                     {
                         value: "SOMEONE_ELSE",
-                        text: i18n.soleTraderRoleSomeoneelse,
-                        attributes: {
-                            "data-event-id": "someone-else-option"
-                        }
+                        text: i18n.someoneElse
                     }
                 ]
                 }) }}
