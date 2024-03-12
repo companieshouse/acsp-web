@@ -2,17 +2,13 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% set errors = pageProperties.errors %}
 {% block main_content %}
-
-
-<div class="govuk-width-container">
-
-    <main class="govuk-main-wrapper" id="main-content" role="main" role="main">
+  <div class="govuk-width-container">
     <form action="" method="POST">
-       <span class="govuk-caption-l">{{firstName}} {{lastName}}</span>
-          <h1 class="govuk-heading-l">{{i18n.correspondenceLookUpAddressTitle}}</h1>
-         <div class ="govuk-form-group">
-
-         {{ govukInput({
+      <span class="govuk-caption-l">{{ firstName }}
+        {{ lastName }}</span>
+      <h1 class="govuk-heading-l">{{ i18n.correspondenceLookUpAddressTitle }}</h1>
+      <div class="govuk-form-group">
+        {{ govukInput({
                 label: {
                     text: "UK postcode"
                 },
@@ -25,9 +21,7 @@
                 autocomplete: "postal-code",
                 value: payload.postCode
             }) }}
-
-
-            {{ govukInput({
+        {{ govukInput({
                 label: {
                     text: i18n.correspondenceLookUpAddressInputHint1
                 },
@@ -44,16 +38,13 @@
                   classes: "govuk-hint"
                 }
             }) }}
-          </div>
-
-          <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
-            {{i18n.correspondenceLookUpAddressFindAddressBtn}}
-          </button>
-
-           <p><a href="/register-acsp/sole-trader/correspondence-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
+      </div>
+      <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
+        {{ i18n.correspondenceLookUpAddressFindAddressBtn }}
+      </button>
+      <p>
+        <a href="/register-acsp/sole-trader/correspondence-address-manual" class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+      </p>
     </form>
-    </main>
   </div>
-
-
 {% endblock %}

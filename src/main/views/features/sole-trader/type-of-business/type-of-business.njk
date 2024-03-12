@@ -1,11 +1,9 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
-
 {% block main_content %}
-
-<main>
     <form action="" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+        <span class="govuk-caption-l">{{ firstName }}
+            {{ surname }}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.typeOfBusinessRadio if errors,
@@ -66,9 +64,6 @@
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{i18n.Continue}}</button>
+        <button class="govuk-button">{{ i18n.Continue }}</button>
     </form>
-</main>
-
-    
 {% endblock main_content %}
