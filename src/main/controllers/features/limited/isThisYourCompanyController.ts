@@ -12,7 +12,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // Retrieve company details from the session
     const session: Session = req.session as any as Session;
     const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
-    logger.debug(`Looking for company profile with company details ${company}`);
     res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         chooseDifferentCompany: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
