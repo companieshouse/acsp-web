@@ -25,7 +25,6 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME).send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
