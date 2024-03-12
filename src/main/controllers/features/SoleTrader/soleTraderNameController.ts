@@ -45,7 +45,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (session) {
                 session.setExtraData(USER_DATA, userData);
             }
-            res.redirect(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);

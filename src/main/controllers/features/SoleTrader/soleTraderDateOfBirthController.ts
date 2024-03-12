@@ -44,7 +44,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: userData?.lastName
             });
         } else {
-            res.redirect(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);
