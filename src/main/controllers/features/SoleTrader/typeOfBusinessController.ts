@@ -7,7 +7,6 @@ import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OFBUSINESS, SOLE_TRADER_WHAT_IS_YOU
 import { TypeOfBusinessService } from "../../..//services/typeOfBusinessService";
 import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, ACSP_TYPE } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession, getSessionValue } from "../../../common/__utils/sessionHelper";
 
@@ -55,9 +54,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            const acspType = req.body.typeOfBusinessRadio;
             if (session) {
-                session.setExtraData(ACSP_TYPE, acspType);
+                session.setExtraData(ACSP_TYPE, selectedOption);
             }
             switch (selectedOption) {
             case "LIMITED_COMPANY":
