@@ -9,8 +9,8 @@ export class CompanyDetailsService {
     private readonly sessionKey = "companyDetails";
 
     public saveToSession (req: Request, details: CompanyProfile): void {
-            const session: Session = req.session as any as Session;
-            const requiredDetails: Company = {
+        const session: Session = req.session as any as Session;
+        const requiredDetails: Company = {
             companyName: details.companyName,
             companyNumber: details.companyNumber,
             status: details.companyStatus,
