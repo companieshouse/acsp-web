@@ -2,24 +2,26 @@ import { NextFunction, Request, Response, Router } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_COMPANY_AUTH_CODE, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE, UNINCORPORATED_BUSINESS_NAME } from "../../../common/__utils/constants";
+import { ACSP_TYPE, COMPANY_DETAILS } from "../../../common/__utils/constants";
+import { Company } from "../../../model/Company";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
-    const unincorporatedBusinessName = session?.getExtraData(UNINCORPORATED_BUSINESS_NAME)!;
+    const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE,
+        previousPage: addLangToUrl(BASE_URL + LIMITED_COMPANY_AUTH_CODE, lang),
+        currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
         acspType: acspType,
-        unincorporatedBusinessName: unincorporatedBusinessName
+        companyNumber: company?.companyNumber,
+        companyName: company?.companyName
     });
 };
 
@@ -33,8 +35,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
                 title: "What is your role in the business?",
                 ...getLocaleInfo(locales, lang),
-                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE,
+                previousPage: addLangToUrl(BASE_URL + LIMITED_COMPANY_AUTH_CODE, lang),
+                currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
                 pageProperties: pageProperties,
                 payload: req.body
             });
@@ -42,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             } else {
-                res.redirect(BASE_URL + UNINCORPORATED_WHICH_SECTOR);
+                res.redirect(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML);
             }
         }
     } catch (error) {
