@@ -112,3 +112,8 @@ variable "acsp_web_version" {
   type        = string
   description = "The version of the acsp_web container to run."
 }
+
+variable "api_url" {
+  type    = string
+  default = "http://api.chs.local:4001"
+}

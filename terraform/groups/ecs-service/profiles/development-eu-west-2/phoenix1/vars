@@ -4,3 +4,4 @@ aws_profile = "development-eu-west-2"
 # service configs
 use_set_environment_files = true
 log_level = "debug"
+api_url = "https://api.phoenix1.aws.chdev.org"
