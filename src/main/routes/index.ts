@@ -5,7 +5,7 @@ import {
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
-    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController
+    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, soleTraderWhatIsTheBusinessNameController
 
 } from "../controllers";
 
@@ -82,5 +82,8 @@ routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameC
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
 
 routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
+
+routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
+routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
 
 export default routes;
