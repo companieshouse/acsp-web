@@ -18,7 +18,8 @@ export * as businessMustbeAmlRegisteredController from "./features/limited/busin
 export * as companyInactiveController from "./features/limited/companyInactiveController";
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";
 export * as accessibilityStatementController from "./accessibilityStatementController";
-export * as unincorporatedNameRegisteredWithAmlController from "./features/unincorporated/unincorporatedNameRegisteredWithAmlController";
+export * as soleTraderWhatIsTheBusinessNameController from "./features/SoleTrader/soleTraderWhatIsTheBusinessNameController";
 export * as unincorporatedWhatIsYourNameController from "./features/unincorporated/unincorporatedWhatIsYourNameController";
+export * as unincorporatedNameRegisteredWithAmlController from "./features/unincorporated/unincorporatedNameRegisteredWithAmlController";
 export * as unincorporatedWhatIsYourRoleController from "./features/unincorporated/unincorporatedWhatIsYourRoleController";
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
