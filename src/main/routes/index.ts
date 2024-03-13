@@ -24,6 +24,7 @@ import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWith
 import { companyNumberValidator } from "../validation/companyLookup";
 import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
 import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
+import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 
 const routes = Router();
 
@@ -61,8 +62,8 @@ routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespon
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, soleTraderNationalityController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, nationalityValidator, soleTraderNationalityController.post);
 
-routes.get(urls.TYPE_OF_BUSINESS, typeOfBusinessController.get);
-routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
+routes.get(urls.TYPE_OF_BUSINESS, companyAuthenticationMiddleware, typeOfBusinessController.get);
+routes.post(urls.TYPE_OF_BUSINESS, companyAuthenticationMiddleware, typeOfBusinessValidator, typeOfBusinessController.post);
 
 routes.get(urls.OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
 routes.post(urls.OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
