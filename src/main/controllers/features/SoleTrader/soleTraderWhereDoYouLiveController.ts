@@ -41,7 +41,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 countryList: countryList
             });
         } else {
-            res.redirect(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);
