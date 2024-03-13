@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             } else {
-                res.redirect(BASE_URL + UNINCORPORATED_WHICH_SECTOR);
+                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));
             }
         }
     } catch (error) {
