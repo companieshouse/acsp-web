@@ -14,7 +14,9 @@ export class CompanyLookupService extends GenericService {
     async getCompany (companyNumber: string): Promise<CompanyProfile> {
         let companyProfile: CompanyProfile;
         try {
+            logger.info("going to get Company Profile ---> ");
             companyProfile = await getCompanyProfile(companyNumber);
+            logger.info("Company Profile ---> " + JSON.stringify(companyProfile));
             return Promise.resolve(companyProfile);
         } catch (err) {
             logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while getting company details`);
