@@ -11,8 +11,9 @@ import { createPublicApiKeyClient } from "../api-services";
  */
 export const getCompanyProfile = async (companyNumber: string): Promise<CompanyProfile> => {
     const apiClient = createPublicApiKeyClient();
+    logger.info("-----------Got the api client---------");
 
-    logger.debug(`Looking for company profile with company number ${companyNumber}`);
+    logger.info(`Looking for company profile with company number ${companyNumber}`);
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
 
     if (!sdkResponse) {
@@ -30,7 +31,7 @@ export const getCompanyProfile = async (companyNumber: string): Promise<CompanyP
         return Promise.reject(sdkResponse);
     }
 
-    logger.debug(`Received company profile ${JSON.stringify(sdkResponse)}`);
+    logger.info(`Received company profile ${JSON.stringify(sdkResponse)}`);
 
     return Promise.resolve(sdkResponse.resource);
 };
