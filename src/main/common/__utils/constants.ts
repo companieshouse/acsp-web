@@ -9,3 +9,5 @@ export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction 
 export const USER_DATA = "user";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
+export const ACSP_TYPE = "acspType";
+export const UNINCORPORATED_BUSINESS_NAME = "unincorporatedBusinessName";

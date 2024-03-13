@@ -84,3 +84,5 @@ export const UNINCORPORATED_WHAT_IS_YOUR_NAME = UNINCORPORATED + "/what-is-your-
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";
 
 export const UNINCORPORATED_WHAT_IS_YOUR_ROLE = UNINCORPORATED + "/what-is-your-role";
+
+export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";

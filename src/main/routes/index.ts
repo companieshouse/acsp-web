@@ -5,7 +5,8 @@ import {
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
-    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController, soleTraderWhatIsTheBusinessNameController
+    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
+    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController
 
 } from "../controllers";
 
@@ -35,10 +36,6 @@ routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDate
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, soleTraderNameController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, nameValidator, soleTraderNameController.post);
-
-routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
-routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
 routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, sectorYouWorkInController.post);
@@ -92,5 +89,12 @@ routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
+
+routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
+routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.post);
 
 export default routes;

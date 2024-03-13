@@ -1,7 +1,0 @@
-{
-    "soleTraderRoleTitle": "What is your role?",
-    "soleTraderRoleDirector":"I am the sole trader",
-    "soleTraderRoleSomeoneelse":"I am someone else",
-    
-    "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else"
-}
