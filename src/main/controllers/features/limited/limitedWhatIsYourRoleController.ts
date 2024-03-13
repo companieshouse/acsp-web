@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { BASE_URL, LIMITED_COMPANY_AUTH_CODE, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_TYPE, COMPANY_DETAILS } from "../../../common/__utils/constants";
@@ -17,11 +17,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(BASE_URL + LIMITED_COMPANY_AUTH_CODE, lang),
+        previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE, lang),
         currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
         acspType: acspType,
-        companyNumber: company?.companyNumber,
-        companyName: company?.companyName
+        company: company
     });
 };
 
@@ -35,7 +34,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
                 title: "What is your role in the business?",
                 ...getLocaleInfo(locales, lang),
-                previousPage: addLangToUrl(BASE_URL + LIMITED_COMPANY_AUTH_CODE, lang),
+                previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE, lang),
                 currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
                 pageProperties: pageProperties,
                 payload: req.body
