@@ -1,0 +1,9 @@
+{
+    "title": "What is your role?",
+    "soleTrader":"I am the sole trader",
+    "someoneElse":"I am someone else",
+    "member": "I am a member of ",
+    "memberOfGoverningBody": "I am a member of the governing body of ",
+    
+    "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else"
+}

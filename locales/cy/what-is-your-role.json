@@ -1,0 +1,9 @@
+{
+    "title": "What is your role? welsh",
+    "soleTrader":"I am the sole trader welsh",
+    "someoneElse":"I am someone else welsh",
+    "member": "I am a member of welsh ",
+    "memberOfGoverningBody": "I am a member of the governing body of welsh ",
+
+    "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else"
+}

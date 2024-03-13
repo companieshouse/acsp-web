@@ -6,7 +6,7 @@ import * as config from "../../../config";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    res.render(config.STOP_NOT_RELEVANT_OFFICER, {
+    res.render(config.STOP_NOT_RELEVANT_OFFICER_KICK_OUT, {
         title: "You cannot use this service",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
