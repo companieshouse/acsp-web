@@ -22,6 +22,7 @@ export class TypeOfBusinessService extends GenericService {
             await postTransaction(session, CREATE_DESCRIPTION, REFERENCE).then((transaction) => {
                 transactionId = transaction.id as string;
             });
+            logger.info("Transaction created ---> " + transactionId);
             return Promise.resolve(transactionId);
         } catch (err) {
             logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while create transaction record for ${companyNumber}`);

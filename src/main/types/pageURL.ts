@@ -2,7 +2,7 @@ const SEPARATOR = "/";
 
 export const START = "/"; // Domain name will go here
 
-export const HOME_URL = "/home";
+export const HOME_URL = "";
 
 export const SIGN_OUT_PAGE = `signout`;
 
@@ -16,7 +16,7 @@ export const COMPANY_NUMBER_URL = `${HOME_URL}/${COMPANY_NUMBER_PAGE}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
-export const BASE_URL = "/register-acsp";
+export const BASE_URL = "/register-as-companies-house-authorised-agent";
 
 export const SOLE_TRADER = "/sole-trader";
 
@@ -86,3 +86,5 @@ export const UNINCORPORATED_WHAT_IS_YOUR_NAME = UNINCORPORATED + "/what-is-your-
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-is-the-business-name";
 
 export const UNINCORPORATED_WHAT_IS_YOUR_ROLE = UNINCORPORATED + "/what-is-your-role";
+
+export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";

@@ -1,9 +1,6 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
-
 {% block main_content %}
-
-<main>
     <form action="" method="POST">
         {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
@@ -71,9 +68,6 @@
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{i18n.Continue}}</button>
+        <button class="govuk-button">{{ i18n.Continue }}</button>
     </form>
-</main>
-
-    
 {% endblock main_content %}

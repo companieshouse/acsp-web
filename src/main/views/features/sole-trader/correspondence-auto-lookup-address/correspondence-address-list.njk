@@ -1,12 +1,10 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
 {% set errors = pageProperties.errors %}
-
 {% block main_content %}
-
-{% set ITEMS = [] %}
-{% for addressOption in addresses %}
-    {% set addressObject = {
+    {% set ITEMS = [] %}
+    {% for addressOption in addresses %}
+        {% set addressObject = {
     id: addressOption.premise,
     value: addressOption.premise,
     text: addressOption.formattedAddress,
@@ -15,12 +13,11 @@
         "data-event-id": "address-option-" + addressOption.premise
     }
     } %}
-    {% set ITEMS = ITEMS.concat(addressObject) %}
-{% endfor %}
-
-<main>
+        {% set ITEMS = ITEMS.concat(addressObject) %}
+    {% endfor %}
     <form action="" method="POST">
-        <span class="govuk-caption-l">{{firstName}} {{surname}}</span>
+        <span class="govuk-caption-l">{{ firstName }}
+            {{ surname }}</span>
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.correspondenceLookUpAddressList if errors,
@@ -37,10 +34,9 @@
                 items: ITEMS
                 }) }}
         </div>
-        <button class="govuk-button">{{i18n.correspondenceLookUpAddresListConfirmBtn}}</button>
+        <button class="govuk-button">{{ i18n.correspondenceLookUpAddresListConfirmBtn }}</button>
     </form>
-      <p><a href="/register-acsp/sole-trader/correspondence-address-manual" class="govuk-link">{{i18n.correspondenceLookUpAddressManuallyBtn}}</a></p>
-</main>
-
-    
+    <p>
+        <a href="/register-as-companies-house-authorised-agent/sole-trader/correspondence-address-manual-entry" class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+    </p>
 {% endblock main_content %}

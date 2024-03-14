@@ -1,8 +1,7 @@
 export * as indexController from "./features/SoleTrader/indexController";
 export * as soleTraderDateOfBirthController from "./features/SoleTrader/soleTraderDateOfBirthController";
 export * as soleTraderNameController from "./features/SoleTrader/soleTraderNameController";
-export * as statementRelevantOfficerController from "./features/SoleTrader/statementRelevantOfficerController";
-export * as stopNotRelevantOfficerController from "./features/SoleTrader/stopNotRelevantOfficerController";
+export * as soleTraderWhatIsYourRoleController from "./features/SoleTrader/soleTraderWhatIsYourRoleController";
 export * as soleTraderWhereDoYouLiveController from "./features/SoleTrader/soleTraderWhereDoYouLiveController";
 export * as soleTraderCorrespondenceAddressManualController from "./features/SoleTrader/soleTraderCorrespondenceAddressManualController";
 export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/SoleTrader/soleTraderCorrespondenceAddressAutoLookupController";
@@ -19,6 +18,9 @@ export * as businessMustbeAmlRegisteredController from "./features/limited/busin
 export * as companyInactiveController from "./features/limited/companyInactiveController";
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";
 export * as accessibilityStatementController from "./accessibilityStatementController";
+export * as soleTraderWhatIsTheBusinessNameController from "./features/SoleTrader/soleTraderWhatIsTheBusinessNameController";
 export * as unincorporatedWhatIsYourNameController from "./features/unincorporated/unincorporatedWhatIsYourNameController";
 export * as unincorporatedNameRegisteredWithAmlController from "./features/unincorporated/unincorporatedNameRegisteredWithAmlController";
+export * as unincorporatedWhatIsYourRoleController from "./features/unincorporated/unincorporatedWhatIsYourRoleController";
+export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
 export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";
