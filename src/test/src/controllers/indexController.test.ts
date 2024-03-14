@@ -5,9 +5,9 @@ const router = supertest(app);
 
 describe("Home Page tests -", () => {
 
-    describe("GET /register-as-companies-house-authorised-agent", () => {
+    describe("GET /register-acsp/home", () => {
         it("should return status 200", async () => {
-            await router.get("/register-as-companies-house-authorised-agent");
+            await router.get("/register-acsp/home");
             expect(200);
         });
     });
