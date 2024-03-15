@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, OTHER_TYPE_OFBUSINESS, BASE_URL } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE, OTHER_TYPE_OFBUSINESS, BASE_URL } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -31,7 +31,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            var nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang);
+            var nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
             res.redirect(nextPageUrl);
         }
     } catch (error) {

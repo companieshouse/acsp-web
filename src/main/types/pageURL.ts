@@ -68,6 +68,8 @@ export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
 
 export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
 
+export const LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE = LIMITED + "/what-is-the-company-authentication-code";
+
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
