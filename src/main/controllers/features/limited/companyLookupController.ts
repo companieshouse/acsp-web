@@ -62,18 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         }
     } catch (error : any) {
-        if (error.response) {
-            const errorMessage = Buffer.from(error.response.data).toString("utf-8");
-            res.status(error.response.status).json({
-                errors: [errorMessage]
-            });
-        } else {
-            res.status(500).json({
-                errors: [error.message]
-            });
-        }
         next(error);
-
     }
 };
 
