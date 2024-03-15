@@ -25,6 +25,6 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     xit("should redirect to /type-of-acsp with status 302", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", "/register-as-companies-house-authorised-agent/type-of-acsp");
+        await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", "/register-acsp/type-of-acsp");
     });
 });
