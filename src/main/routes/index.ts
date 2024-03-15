@@ -6,7 +6,7 @@ import {
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
     companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
-    unincorporatedWhatIsYourRoleController
+    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController
 
 } from "../controllers";
 
@@ -87,11 +87,17 @@ routes.post(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlV
 
 routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 
+routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
+routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
+
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
 routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.post);
+
+routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.get);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post);
 
 export default routes;

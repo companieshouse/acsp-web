@@ -20,7 +20,7 @@
     {% include "partials/__header.njk" %}
     <div class="govuk-width-container ">
       {% block backLink %}
-              <a href="{{ previousPage }}" class="govuk-back-link">Back</a>
+              <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
       {% endblock %}
       {% include "locales-banner.njk" %}
       <main class="govuk-main-wrapper " id="main-content">
