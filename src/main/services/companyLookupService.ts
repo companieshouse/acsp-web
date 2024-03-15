@@ -3,6 +3,7 @@ import logger from "../../../lib/Logger";
 import { GenericService } from "./generic";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "./company/company_profile_service";
+import { Session } from "@companieshouse/node-session-handler";
 
 export class CompanyLookupService extends GenericService {
     constructor () {
@@ -11,11 +12,11 @@ export class CompanyLookupService extends GenericService {
         this.viewData.title = "";
     }
 
-    async getCompany (companyNumber: string): Promise<CompanyProfile> {
+    async getCompany (session: Session, companyNumber: string): Promise<CompanyProfile> {
         let companyProfile: CompanyProfile;
         try {
             logger.info("going to get Company Profile ---> ");
-            companyProfile = await getCompanyProfile(companyNumber);
+            companyProfile = await getCompanyProfile(session, companyNumber.toUpperCase());
             logger.info("Company Profile ---> " + JSON.stringify(companyProfile));
             return Promise.resolve(companyProfile);
         } catch (err) {

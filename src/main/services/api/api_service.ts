@@ -19,3 +19,7 @@ export const createPublicOAuthApiClient = (session: Session): ApiClient => {
 export const createPublicApiKeyClient = (): ApiClient => {
     return createApiClient(CHS_API_KEY, undefined, API_URL);
 };
+
+export const createPublicApiKeyClientWithToken = (token: string): ApiClient => {
+    return createApiClient(undefined, token, API_URL);
+};

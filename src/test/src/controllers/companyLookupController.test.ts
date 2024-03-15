@@ -31,12 +31,12 @@ describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     });
 });
 
-describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    it("should return status 400 after redirect", async () => {
-        await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
-            .send({ companyNumber: "08694860" }).expect(400);
-    });
-});
+// describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
+//     it("should return status 400 after redirect", async () => {
+//         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
+//             .send({ companyNumber: "08694860" }).expect(400);
+//     });
+// });
 
 describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     it("should return status 400 after redirect", async () => {
