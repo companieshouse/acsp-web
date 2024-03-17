@@ -23,4 +23,5 @@ export * as unincorporatedWhatIsYourNameController from "./features/unincorporat
 export * as unincorporatedNameRegisteredWithAmlController from "./features/unincorporated/unincorporatedNameRegisteredWithAmlController";
 export * as unincorporatedWhatIsYourRoleController from "./features/unincorporated/unincorporatedWhatIsYourRoleController";
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
+export * as limitedWhatIsYourRoleController from "./features/limited/limitedWhatIsYourRoleController";
 export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";
