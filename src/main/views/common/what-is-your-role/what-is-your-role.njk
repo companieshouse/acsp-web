@@ -18,24 +18,43 @@
                 value: acspType,
                 items: [
                     {
-                        value: "SOLE_TRADER",
-                        text: i18n.soleTrader
+                      value: "SOLE_TRADER",
+                      text: i18n.soleTrader
                     } if (acspType == "SOLE_TRADER"),
+
                     {
-                        value: "MEMBER_OF_PARTNERSHIP",
-                        text: i18n.member + unincorporatedBusinessName
+                      value: "MEMBER_OF_PARTNERSHIP",
+                      text: i18n.member + unincorporatedBusinessName
                     } if (acspType == "PARTNERSHIP"),
+
                     {
-                        value: "MEMBER_OF_GOVERNING_BODY",
-                        text: i18n.memberOfGoverningBody + unincorporatedBusinessName
+                      value: "MEMBER_OF_GOVERNING_BODY",
+                      text: i18n.memberOfGoverningBody + unincorporatedBusinessName
                     } if (acspType == "OTHER"),
+
                     {
-                        value: "MEMBER_OF_ENTITY",
-                        text: i18n.member + unincorporatedBusinessName
+                      value: "MEMBER_OF_ENTITY",
+                      text: i18n.member + unincorporatedBusinessName
                     } if (acspType == "OTHER"),
+
                     {
-                        value: "SOMEONE_ELSE",
-                        text: i18n.someoneElse
+                      value: "DIRECTOR",
+                      text: i18n.director + company.companyName + "(" + company.companyNumber + ")"
+                    } if (acspType == "LIMITED_COMPANY"),
+
+                    {
+                      value: "MEMBER_OF_LLP",
+                      text: i18n.member + company.companyName + "(" + company.companyNumber + ")"
+                    } if (acspType == "LIMITED_LIABILITY_PARTNERSHIP"),
+
+                    {
+                      value: "GENERAL_PARTNER",
+                      text: i18n.generalPartner + company.companyName + "(" + company.companyNumber + ")"
+                    } if (acspType == "LIMITED_PARTNERSHIP"),
+
+                    {
+                      value: "SOMEONE_ELSE",
+                      text: i18n.someoneElse
                     }
                 ]
                 }) }}

@@ -1,9 +1,14 @@
 <!-- router_views/index/stop-not-relevant-officer.njk -->
 {% extends "layouts/default.njk" %}
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
 {% block main_content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">{{ i18n.cannotUseServiceTitle }}</h1>
+       <h1 class="govuk-fieldset__heading">
+          <label class="govuk-label govuk-label--l">{{i18n.cannotUseServiceTitle}}</label>
+       </h1>
       <p class="govuk-body">{{ i18n.listOfAuthorisedAgent }}</p>
       <ul class="govuk-list govuk-list--bullet">
         <li>{{ i18n.director }}</li>

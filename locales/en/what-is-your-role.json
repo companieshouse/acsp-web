@@ -4,6 +4,8 @@
     "someoneElse":"I am someone else",
     "member": "I am a member of ",
     "memberOfGoverningBody": "I am a member of the governing body of ",
+    "director": "I am a director of ",
+    "generalPartner": "I am a general partner of",
     
     "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else"
 }
