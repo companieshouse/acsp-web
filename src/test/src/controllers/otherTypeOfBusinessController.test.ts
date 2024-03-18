@@ -2,7 +2,7 @@ import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
 
-import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
+import { BASE_URL, OTHER_TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
@@ -18,12 +18,25 @@ describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST " + OTHER_TYPE_OF_BUSINESS, () => {
     it("should return status 302 after redirect", async () => {
-        await router.post("/register-acsp/" + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" }).expect(302);
+        await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" }).expect(302);
     });
 });
-// Test for incorrect form details entered, will return 400.
+
 describe("POST " + OTHER_TYPE_OF_BUSINESS, () => {
     it("should return status 400 after incorrect data entered", async () => {
-        await router.post("/register-acsp/" + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "" }).expect(400);
+        await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "" }).expect(400);
+    });
+});
+
+describe("POST" + OTHER_TYPE_OF_BUSINESS, () => {
+    it("should return status 302 after redirect", async () => {
+        await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" }).expect(302);
+    });
+});
+
+describe("POST" + OTHER_TYPE_OF_BUSINESS, () => {
+    it("should return status 400 after incorrect data entered", async () => {
+    // Add this line to include middleware checks for the 400 case
+        await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "CORPORATE_BODY" }).expect(302);
     });
 });

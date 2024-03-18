@@ -21,7 +21,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
-        const selectedOption = req.body.soleTraderOtherTypeOfBusiness;
+        const selectedOption = req.body.otherTypeOfBusinessRadio;
+        console.log(selectedOption);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_OTHER_TYPE_OF_BUSINESS, {
