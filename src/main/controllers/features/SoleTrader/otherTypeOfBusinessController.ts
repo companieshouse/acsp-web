@@ -22,7 +22,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedOption = req.body.otherTypeOfBusinessRadio;
-        console.log(selectedOption);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_OTHER_TYPE_OF_BUSINESS, {
@@ -35,7 +34,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const nextPageUrlForAmlBody = addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang);
             const nextPageUrlForYourRole = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
-            // res.redirect(nextPageUrl);
             switch (selectedOption) {
             case "UNINCORPORATED_ENTITY":
                 res.redirect(nextPageUrlForAmlBody); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
