@@ -61,8 +61,8 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, nationalityValidator, sol
 routes.get(urls.TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
-routes.get(urls.OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
-routes.post(urls.OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+routes.get(urls.OTHER_TYPE_OF_BUSINESS, OtherTypeOfBusinessController.get);
+routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
 
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
