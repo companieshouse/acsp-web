@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OFBUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML, HOME_URL } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, START, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML, HOME_URL } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../..//services/typeOfBusinessService";
 import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, ACSP_TYPE } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
@@ -70,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
                 break;
             case "OTHER":
-                res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OFBUSINESS, lang));
+                res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
                 break;
             }
         }

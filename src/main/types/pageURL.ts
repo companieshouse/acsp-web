@@ -26,7 +26,7 @@ const UNINCORPORATED = "/unincorporated";
 
 export const TYPE_OF_BUSINESS = "/what-business-type";
 
-export const OTHER_TYPE_OFBUSINESS = "/what-other-business-type";
+export const OTHER_TYPE_OF_BUSINESS = "/what-other-business-type";
 
 export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
