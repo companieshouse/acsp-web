@@ -14,7 +14,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
     const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
-    console.log("test:", acspType);
     res.render(config.SECTOR_YOU_WORK_IN, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang),
         title: "Which sector do you work in?",
