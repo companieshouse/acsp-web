@@ -26,7 +26,7 @@ const UNINCORPORATED = "/unincorporated";
 
 export const TYPE_OF_BUSINESS = "/what-business-type";
 
-export const OTHER_TYPE_OFBUSINESS = "/what-other-business-type";
+export const OTHER_TYPE_OF_BUSINESS = "/what-other-business-type";
 
 export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
@@ -46,6 +46,8 @@ export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = SOLE_TRADER + "/what-is-your
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = SOLE_TRADER + "/where-do-you-live";
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/which-sector";
+
+export const SOLE_TRADER_OTHER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/which-sector-other";
 
 export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS = SOLE_TRADER + "/correspondence-address-lookup";
 
@@ -68,6 +70,8 @@ export const LIMITED_IS_THIS_YOUR_COMPANY = LIMITED + "/is-this-your-company";
 
 export const LIMITED_COMPANY_INACTIVE = LIMITED + "/company-inactive";
 
+export const LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE = LIMITED + "/what-is-the-company-authentication-code";
+
 export const LIMITED_WHAT_IS_YOUR_ROLE = LIMITED + "/what-is-your-role";
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = LIMITED + "/name-registered-with-aml";
@@ -76,7 +80,11 @@ export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT = LIMITED + "/your-b
 
 export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
 
-export const LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE = LIMITED + "/what-is-the-company-authentication-code";
+export const LIMITED_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector";
+
+export const LIMITED_OTHER_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector-other";
+
+export const LIMITED_SELECT_AML_SUPERVISOR = LIMITED + "/select-aml-supervisor";
 
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
@@ -88,3 +96,8 @@ export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = UNINCORPORATED + "/what-
 export const UNINCORPORATED_WHAT_IS_YOUR_ROLE = UNINCORPORATED + "/what-is-your-role";
 
 export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";
+
+export const UNINCORPORATED_WHICH_OTHER_SECTOR = UNINCORPORATED + "/which-sector-other";
+
+export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/business-address-lookup";
+

@@ -1,0 +1,75 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <form action="" method="POST">
+        {% if acspType == "SOLE_TRADER" %}
+           {% include "partials/user_name.njk" %}
+        {% endif %}
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.sectorYouWorkIn if errors,
+                classes: "govuk-radios",
+                id: "sector-you-work-in-radios",
+                name: "sectorYouWorkIn",
+                fieldset: {
+                    legend: {
+                        text: i18n.sectorYouWorkInTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "AUDITORS_INSOLVENCY_PRACTITIONERS",
+                        text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
+                        checked: sector-you-work-in == AUDITORS_INSOLVENCY_PRACTITIONERS,
+                        attributes: {
+                            "data-event-id": "auditors-insolvency-practitioners-option"
+                        }
+                    },
+                    {
+                        value: "INDEPENDENT_LEGAL_PROFESSIONALS",
+                        text: i18n.sectorYouWorkInIndependentLegalProfessionalsOption,
+                        checked: sector-you-work-in == INDEPENDENT_LEGAL_PROFESSIONALS,
+                        attributes: {
+                            "data-event-id": "independent-legal-professionals-option"
+                        }
+                    },
+                    {
+                        value: "TRUST_OR_COMPANY_SERVICE_PROVIDERS",
+                        text: i18n.sectorYouWorkInTrustOrCompanyServiceProvidersOption,
+                        checked: sector-you-work-in == TRUST_OR_COMPANY_SERVICE_PROVIDERS,
+                        attributes: {
+                            "data-event-id": "trust-or-company-service-providers-option"
+                        }
+                    },
+                    {
+                        value: "CREDIT_INSTITUTIONS",
+                        text: i18n.sectorYouWorkInCreditInstitutionsOption,
+                        checked: sector-you-work-in == CREDIT_INSTITUTIONS,
+                        attributes: {
+                            "data-event-id": "credit-institutions-option"
+                        }
+                    },
+                    {
+                        value: "FINANCIAL_INSTITUTIONS",
+                        text: i18n.sectorYouWorkInFinancialInstitutionsOption,
+                        checked: sector-you-work-in == FINANCIAL_INSTITUTIONS,
+                        attributes: {
+                            "data-event-id": "financial-institutions-option"
+                        }
+                    },
+                    {
+                        value: "OTHER",
+                        text: i18n.sectorYouWorkInOtherOption,
+                        checked: sector-you-work-in == OTHER,
+                        attributes: {
+                            "data-event-id": "other-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{ i18n.Continue }}</button>
+    </form>
+{% endblock main_content %}

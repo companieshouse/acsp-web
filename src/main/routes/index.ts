@@ -1,12 +1,13 @@
 import { Router } from "express";
 import {
     indexController, soleTraderDateOfBirthController, soleTraderNameController,
-    soleTraderWhatIsYourRoleController, stopNotRelevantOfficerController, sectorYouWorkInController,
+    soleTraderWhatIsYourRoleController, stopNotRelevantOfficerController, soleTraderSectorYouWorkInController,
     soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController,
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
     companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
-    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController, isThisYourCompanyController
+    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
+    unincorporatedSectorYouWorkInController, isThisYourCompanyController
 
 } from "../controllers";
 
@@ -37,8 +38,8 @@ routes.post(urls.SOLE_TRADER_DATE_OF_BIRTH, dateOfBirthValidator, soleTraderDate
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, soleTraderNameController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, nameValidator, soleTraderNameController.post);
 
-routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
-routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, sectorYouWorkInController.post);
+routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, soleTraderSectorYouWorkInController.get);
+routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, soleTraderSectorYouWorkInController.post);
 
 routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveController.get);
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
@@ -61,8 +62,8 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, nationalityValidator, sol
 routes.get(urls.TYPE_OF_BUSINESS, typeOfBusinessController.get);
 routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
-routes.get(urls.OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
-routes.post(urls.OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
+routes.get(urls.OTHER_TYPE_OF_BUSINESS, OtherTypeOfBusinessController.get);
+routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
 
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
@@ -102,5 +103,11 @@ routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleC
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.get);
 routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post);
+
+routes.get(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.get);
+routes.post(urls.LIMITED_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, limitedSectorYouWorkInController.post);
+
+routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
+routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
 
 export default routes;
