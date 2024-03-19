@@ -80,6 +80,12 @@ export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT = LIMITED + "/your-b
 
 export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-registration";
 
+export const LIMITED_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector";
+
+export const LIMITED_OTHER_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector-other";
+
+export const LIMITED_SELECT_AML_SUPERVISOR = LIMITED + "/select-aml-supervisor";
+
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
 
