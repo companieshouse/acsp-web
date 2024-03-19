@@ -5,7 +5,7 @@ export * as soleTraderWhatIsYourRoleController from "./features/SoleTrader/soleT
 export * as soleTraderWhereDoYouLiveController from "./features/SoleTrader/soleTraderWhereDoYouLiveController";
 export * as soleTraderCorrespondenceAddressManualController from "./features/SoleTrader/soleTraderCorrespondenceAddressManualController";
 export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/SoleTrader/soleTraderCorrespondenceAddressAutoLookupController";
-export * as sectorYouWorkInController from "./features/SoleTrader/sectorYouWorkInController";
+export * as soleTraderSectorYouWorkInController from "./features/SoleTrader/soleTraderSectorYouWorkInController";
 export * as soleTraderCorrespodanceAddressDetailsController from "./features/SoleTrader/soleTraderCorrespodanceAddressDetailsController";
 export * as soleTraderCorrespondenceAddressConfirmController from "./features/SoleTrader/soleTradercorrespondenceAddressConfirmController";
 export * as soleTraderNationalityController from "./features/SoleTrader/soleTraderNationalityController";
@@ -24,3 +24,4 @@ export * as unincorporatedNameRegisteredWithAmlController from "./features/uninc
 export * as unincorporatedWhatIsYourRoleController from "./features/unincorporated/unincorporatedWhatIsYourRoleController";
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
 export * as limitedWhatIsYourRoleController from "./features/limited/limitedWhatIsYourRoleController";
+export * as limitedSectorYouWorkInController from "./features/limited/limitedSectorYouWorkInController";
