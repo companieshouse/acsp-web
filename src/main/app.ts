@@ -67,6 +67,10 @@ app.use(cookieParser());
 app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
 
+// Regex in progress to work with out home url /home
+// app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|\b${BASE_URL}\b|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+// app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|\b${BASE_URL}\b|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
 // app.use(companyAuthRegex, companyAuthenticationMiddleware);
