@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../../src/main/middleware/session_middleware";
-import { Session } from "@companieshouse/node-session-handler";
-import { COMPANY, COMPANY_NUMBER } from "../../../src/main/common/__utils/constants";
+import { COMPANY, COMPANY_DETAILS } from "../../../src/main/common/__utils/constants";
 import { Company } from "../../main/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
+import { validCompanyProfile } from "./company_profile_mock";
 
 jest.mock("ioredis");
 jest.mock("../../../src/main/middleware/session_middleware");
@@ -20,6 +20,8 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
         companyName: "My Company"
     };
     session.setExtraData(COMPANY, company);
+    session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
+    req.session = session;
     next();
 });
 
