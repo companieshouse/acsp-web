@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
+import { Session } from "@companieshouse/node-session-handler";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_NAME_REGISTERED_WITH_AML, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_NAME, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { UNINCORPORATED_AML_SELECTED_OPTION } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -22,6 +24,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedOption = req.body.nameRegisteredWithAml;
+        const session: Session = req.session as any as Session;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.NAME_REGISTERED_WITH_AML, {
@@ -32,15 +36,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME, lang);
-            const nextPageUrlForBoth = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang);
-            // res.redirect(nextPageUrl);
+            if (session) {
+                session.setExtraData(UNINCORPORATED_AML_SELECTED_OPTION, selectedOption);
+            }
+            // Redirection logic based on selected option
             switch (selectedOption) {
             case "NAME_OF_THE_BUSINESS":
-                res.redirect(nextPageUrlForBoth); // Redirect to another page whne your name selected
+                // User is only supervised under their business name, so redirect back to the AML supervisor name page
+                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang));
                 break;
             default:
-                res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
+                // User is supervised under their personal name or both personal and business name, so redirect to the "What is your name?" page
+                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME, lang));
+                break;
             }
         }
     } catch (error) {
