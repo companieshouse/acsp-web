@@ -6,7 +6,8 @@ import {
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
     companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
-    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController, limitedSectorYouWorkInController
+    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
+    unincorporatedSectorYouWorkInController
 
 } from "../controllers";
 
@@ -102,5 +103,8 @@ routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post
 
 routes.get(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.get);
 routes.post(urls.LIMITED_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, limitedSectorYouWorkInController.post);
+
+routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
+routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
 
 export default routes;
