@@ -59,8 +59,8 @@ routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespon
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, soleTraderNationalityController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, nationalityValidator, soleTraderNationalityController.post);
 
-routes.get(urls.TYPE_OF_BUSINESS, companyAuthenticationMiddleware, typeOfBusinessController.get);
-routes.post(urls.TYPE_OF_BUSINESS, companyAuthenticationMiddleware, typeOfBusinessValidator, typeOfBusinessController.post);
+routes.get(urls.TYPE_OF_BUSINESS, typeOfBusinessController.get);
+routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
 routes.get(urls.OTHER_TYPE_OFBUSINESS, OtherTypeOfBusinessController.get);
 routes.post(urls.OTHER_TYPE_OFBUSINESS, otherTypeOfBusinessValidator, OtherTypeOfBusinessController.post);
@@ -98,7 +98,7 @@ routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get)
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.post);
 
-routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.get);
-routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post);
+routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.get);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
 
 export default routes;

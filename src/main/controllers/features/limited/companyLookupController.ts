@@ -4,9 +4,11 @@ import { ValidationError, validationResult } from "express-validator";
 import * as config from "../../../config";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { CompanyLookupService } from "../../../services/companyLookupService";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { COMPANY_NUMBER } from "../../../common/__utils/constants";
 
 const companyDetailsService = new CompanyDetailsService();
 
@@ -41,11 +43,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const { companyNumber } = req.body;
+            saveDataInSession(req, COMPANY_NUMBER, companyNumber);
             const companyLookupService = new CompanyLookupService();
             getCompanyDetails(companyLookupService, session, companyNumber, req).then(
                 (result) => {
                     if (!res.headersSent) {
-                        const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+                        const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang);
                         res.redirect(nextPageUrl);
                     }
                 }).catch((error) => {
