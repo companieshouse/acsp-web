@@ -25,3 +25,4 @@ export * as unincorporatedWhatIsYourRoleController from "./features/unincorporat
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
 export * as limitedWhatIsYourRoleController from "./features/limited/limitedWhatIsYourRoleController";
 export * as limitedSectorYouWorkInController from "./features/limited/limitedSectorYouWorkInController";
+export * as unincorporatedSectorYouWorkInController from "./features/unincorporated/unincorporatedSectorYouWorkInController";
