@@ -1,0 +1,47 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <!-- The action will need to change depending on the location of the confirm-company page -->
+      <form action="" method="post">
+        <h1 class="govuk-heading-l">{{i18n.isThisYourCompany}}</h1>
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.companyName}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.companyName }}</dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.companyNumber}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.companyNumber }}</dd>
+    </div>
+      <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.status}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.status }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.incorporationDate}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.incorporationDate }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.companyType}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.companyType }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.addressLineOne }}<br>
+      {{ company.registeredOfficeAddress.addressLineTwo }}<br>
+      {{ company.registeredOfficeAddress.postalCode }}</dd>
+    </div>
+       <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">{{i18n.correspondaceAddress}}</dt>
+      <dd class="govuk-summary-list__value">{{ company.undeliverable_registered_office_address }}</dd>
+    </div>
+  </dl>
+  
+<button class="govuk-button" data-module="govuk-button">
+  {{i18n.confirm}}
+</button>
+ <p class="govuk-body"> <a href={{chooseDifferentCompany}}>{{i18n.chooseADifferentCompany}}</a> </p>
+{% endblock main_content %}

@@ -7,7 +7,7 @@ import {
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
     companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
     unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
-    unincorporatedSectorYouWorkInController
+    unincorporatedSectorYouWorkInController, isThisYourCompanyController
 
 } from "../controllers";
 
@@ -70,6 +70,9 @@ routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidato
 
 routes.get(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyLookupController.get);
 routes.post(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyNumberValidator, companyLookupController.post);
+
+routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.get);
+routes.post(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.post);
 
 routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
 
