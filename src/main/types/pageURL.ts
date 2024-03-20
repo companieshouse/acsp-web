@@ -16,7 +16,7 @@ export const COMPANY_NUMBER_URL = `${HOME_URL}/${COMPANY_NUMBER_PAGE}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
-export const BASE_URL = "/register-acsp";
+export const BASE_URL = "/register-as-companies-house-authorised-agent";
 
 export const SOLE_TRADER = "/sole-trader";
 

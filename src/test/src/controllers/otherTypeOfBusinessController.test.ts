@@ -9,7 +9,7 @@ const router = supertest(app);
 
 describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
     it("should return status 200", async () => {
-        await router.get("/register-acsp/" + OTHER_TYPE_OF_BUSINESS).expect(200);
+        await router.get(BASE_URL + OTHER_TYPE_OF_BUSINESS).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
