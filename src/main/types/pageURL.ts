@@ -100,4 +100,3 @@ export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";
 export const UNINCORPORATED_WHICH_OTHER_SECTOR = UNINCORPORATED + "/which-sector-other";
 
 export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/business-address-lookup";
-
