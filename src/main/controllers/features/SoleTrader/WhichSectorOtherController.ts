@@ -14,11 +14,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
     const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
-    res.render(config.SECTOR_YOU_WORK_IN, {
-        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang),
-        title: "Which sector do you work in?",
+    res.render(config.WHICH_SECTOR_YOTHER, {
+        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
+        title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN,
+        currentUrl: BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER,
         firstName: ACSPData?.firstName,
         lastName: ACSPData?.lastName,
         acspType: acspType
@@ -32,19 +32,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SECTOR_YOU_WORK_IN, {
-                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang),
-                title: "Which sector do you work in?",
+            res.status(400).render(config.WHICH_SECTOR_YOTHER, {
+                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
+                title: "Which other sector do you work in?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN,
+                currentUrl: BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER,
                 ...pageProperties
             });
         } else {
-            if (req.body.sectorYouWorkIn === "OTHER") {
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER, lang));
-            } else {
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
-            }
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
         }
     } catch (error) {
         next(error);

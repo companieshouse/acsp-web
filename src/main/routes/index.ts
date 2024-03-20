@@ -6,7 +6,8 @@ import {
     soleTraderNationalityController, typeOfBusinessController, healthCheckController, OtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController, nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
     companyLookupController, companyInactiveController, whatIsTheBusinessNameController, accessibilityStatementController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
-    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController
+    unincorporatedWhatIsYourRoleController, soleTraderWhatIsTheBusinessNameController, limitedWhatIsYourRoleController,
+    whichsectorOtherController
 
 } from "../controllers";
 
@@ -17,6 +18,7 @@ import { nameValidator } from "../validation/whatIsYourName";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
+import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { nationalityValidator } from "../../main/validation/nationality";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
@@ -39,6 +41,9 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NAME, nameValidator, soleTraderNameCon
 
 routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInController.get);
 routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, sectorYouWorkInController.post);
+
+routes.get(urls.SOLE_TRADER_WHICH_SECTOR_OTHER, whichsectorOtherController.get);
+routes.post(urls.SOLE_TRADER_WHICH_SECTOR_OTHER, whichSectorOtherValidator, whichsectorOtherController.post);
 
 routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveController.get);
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
