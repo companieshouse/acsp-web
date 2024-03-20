@@ -10,3 +10,12 @@ export const validCompanyProfile: Company = {
     companyType: "Limited",
     registeredOfficeAddress: {}
 };
+
+export const invalidCompanyProfile: Company = {
+    companyName: "Test Company",
+    companyNumber: "123456",
+    status: "inactive",
+    incorporationDate: "2022-01-01",
+    companyType: "Limited",
+    registeredOfficeAddress: {}
+};
