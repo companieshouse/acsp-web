@@ -12,8 +12,7 @@
         <form action="" method="post">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                    <span class="govuk-caption-l">{{ firstName }}
-                        {{ lastName }}</span>
+                    {% include "partials/user_name.njk" %}
                     <h1 class="govuk-fieldset__heading">
                         <label for="nationality_input_0" class="govuk-label govuk-label--l">{{i18n.nationalityTitle}}</label>
                     </h1>

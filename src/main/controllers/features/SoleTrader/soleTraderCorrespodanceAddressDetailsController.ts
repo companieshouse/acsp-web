@@ -20,6 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
+        firstName: ACSPData?.firstName,
+        lastName: ACSPData?.lastName,
         addresses: ACSPData?.addresses
     }
     );
@@ -41,6 +43,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
+                firstName: ACSPData?.firstName,
+                lastName: ACSPData?.lastName,
                 addresses: ACSPData?.addresses
             });
         } else {
