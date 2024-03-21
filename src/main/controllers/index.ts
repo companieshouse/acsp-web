@@ -4,20 +4,20 @@ export * as accessibilityStatementController from "./accessibilityStatementContr
 
 // Sole trader
 
-export * as soleTraderNameController from "./features/soleTrader/nameController";
-export * as soleTraderDateOfBirthController from "./features/soleTrader/dateOfBirthController";
-export * as soleTraderWhatIsYourRoleController from "./features/soleTrader/whatIsYourRoleController";
-export * as soleTraderWhereDoYouLiveController from "./features/soleTrader/whereDoYouLiveController";
-export * as soleTraderCorrespondenceAddressManualController from "./features/soleTrader/correspondenceAddressManualController";
-export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/soleTrader/correspondenceAddressAutoLookupController";
-export * as soleTraderSectorYouWorkInController from "./features/soleTrader/sectorYouWorkInController";
-export * as soleTraderWhichSectorOtherController from "./features/soleTrader/whichSectorOtherController";
-export * as soleTraderCorrespodanceAddressDetailsController from "./features/soleTrader/correspodanceAddressDetailsController";
-export * as soleTraderCorrespondenceAddressConfirmController from "./features/soleTrader/correspondenceAddressConfirmController";
-export * as soleTraderNationalityController from "./features/soleTrader/nationalityController";
-export * as soleTraderTypeOfBusinessController from "./features/soleTrader/typeOfBusinessController";
-export * as soleTraderOtherTypeOfBusinessController from "./features/soleTrader/otherTypeOfBusinessController";
-export * as soleTraderWhatIsTheBusinessNameController from "./features/soleTrader/whatIsTheBusinessNameController";
+export * as soleTraderNameController from "./features/sole-trader/nameController";
+export * as soleTraderDateOfBirthController from "./features/sole-trader/dateOfBirthController";
+export * as soleTraderWhatIsYourRoleController from "./features/sole-trader/whatIsYourRoleController";
+export * as soleTraderWhereDoYouLiveController from "./features/sole-trader/whereDoYouLiveController";
+export * as soleTraderCorrespondenceAddressManualController from "./features/sole-trader/correspondenceAddressManualController";
+export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/sole-trader/correspondenceAddressAutoLookupController";
+export * as soleTraderSectorYouWorkInController from "./features/sole-trader/sectorYouWorkInController";
+export * as soleTraderWhichSectorOtherController from "./features/sole-trader/whichSectorOtherController";
+export * as soleTraderCorrespodanceAddressDetailsController from "./features/sole-trader/correspodanceAddressDetailsController";
+export * as soleTraderCorrespondenceAddressConfirmController from "./features/sole-trader/correspondenceAddressConfirmController";
+export * as soleTraderNationalityController from "./features/sole-trader/nationalityController";
+export * as soleTraderTypeOfBusinessController from "./features/sole-trader/typeOfBusinessController";
+export * as soleTraderOtherTypeOfBusinessController from "./features/sole-trader/otherTypeOfBusinessController";
+export * as soleTraderWhatIsTheBusinessNameController from "./features/sole-trader/whatIsTheBusinessNameController";
 
 // limited
 export * as companyLookupController from "./features/limited/companyLookupController";
