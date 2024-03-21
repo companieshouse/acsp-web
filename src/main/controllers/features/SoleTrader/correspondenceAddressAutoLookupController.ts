@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
-import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../main/utils/properties";
+import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../utils/properties";
 import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
