@@ -1,0 +1,28 @@
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="form" action="" method="post">
+        {% include "partials/business_name.njk" %}
+        <h1 class="govuk-heading-l">{{ i18n.correspondenceAddressConfirmTitle }}</h1>
+        <ul class="govuk-list">
+          <li>{{ businessAddress.propertyDetails }}</li>
+          <li>{{ businessAddress.line1 }}</li>
+          <li>{{ businessAddress.line2 }}</li>
+          <li>{{ businessAddress.town }}</li>
+          <li>{{ businessAddress.county }}</li>
+          <li>{{ businessAddress.country }}</li>
+          <li>{{ businessAddress.postcode }}</li>
+        </ul>
+        <p class="govuk-body">
+          <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
+        </p>
+        <div class="govuk-inset-text">
+          <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
+          <p>{{ i18n.businessLocationInfo }}</p>
+        </div>
+        <button class="govuk-button">{{ i18n.ConfirmAndContinue }}</button>
+      </form>
+    </div>
+  </div>
+</div>{% endblock main_content %}

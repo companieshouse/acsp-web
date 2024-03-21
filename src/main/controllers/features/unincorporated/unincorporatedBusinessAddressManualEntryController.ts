@@ -8,24 +8,24 @@ import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspdata : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
         title: "Enter the business address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY
+        currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY,
+        businessName: acspdata.companyDetails?.companyName
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspdata : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -33,15 +33,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
+            res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
                 title: "Enter the business address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                businessName: acspdata.companyDetails?.companyName
             });
         } else {
             // Save the correspondence address to session
@@ -54,10 +53,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 country: req.body.addressCountry,
                 postcode: req.body.addressPostcode
             };
-            const userAddress : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
-            userAddress.push(businessAddress);
-            ACSPData.addresses = userAddress;
-            saveDataInSession(req, USER_DATA, ACSPData);
+            const companyDetails = acspdata.companyDetails ? acspdata.companyDetails : {};
+            companyDetails.registeredOfficeAddress = businessAddress;
+            acspdata.companyDetails = companyDetails;
+            if (session) {
+                session.setExtraData(USER_DATA, acspdata);
+            }
             res.redirect(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
         }
     } catch (error) {

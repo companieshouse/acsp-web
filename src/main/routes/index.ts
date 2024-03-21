@@ -11,7 +11,7 @@ import {
 
 } from "../controllers";
 
-import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
+import { manualAddressValidator } from "../validation/commonAddressManual";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { dateOfBirthValidator } from "../validation/dateOfBirth";
 import { nameValidator } from "../validation/whatIsYourName";
@@ -45,7 +45,7 @@ routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveControlle
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
 routes.get(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, soleTraderCorrespondenceAddressManualController.get);
-routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
+routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, manualAddressValidator, soleTraderCorrespondenceAddressManualController.post);
 
 routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
 routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
@@ -111,6 +111,6 @@ routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInContro
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, unincorporatedBusinessAddressManualEntryController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, correspondenceAddressManualValidator, unincorporatedBusinessAddressManualEntryController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, manualAddressValidator, unincorporatedBusinessAddressManualEntryController.post);
 
 export default routes;

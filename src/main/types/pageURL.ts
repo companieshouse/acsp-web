@@ -104,3 +104,5 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/busines
 export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = UNINCORPORATED + "/business-address-manual-entry";
 
 export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = UNINCORPORATED + "/confirm-your-business-address";
+
+export const UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = UNINCORPORATED + "/what-is-the-correspondence-address";
