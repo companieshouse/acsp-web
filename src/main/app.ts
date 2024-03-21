@@ -64,16 +64,8 @@ process.on("unhandledRejection", (err: any) => {
 
 // Apply middleware
 app.use(cookieParser());
-
-// app.use(`^(?!(${BASE_URL})$) | ^${BASE_URL}(?!(${HEALTHCHECK}|${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-// app.use(`^(?!(${BASE_URL})$) | ^${BASE_URL}(?!(${HEALTHCHECK}|${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
-
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
-
-//working with home = /
-// app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}$|${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-// app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}$|${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
