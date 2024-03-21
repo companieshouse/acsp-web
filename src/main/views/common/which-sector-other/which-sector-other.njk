@@ -1,0 +1,54 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <form action="" method="POST">
+        {% if acspType == "SOLE_TRADER" %}
+           {% include "partials/user_name.njk" %}
+        {% endif %}
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.whichSectorOther if errors,
+                classes: "govuk-radios",
+                id: "which-sector-other-radios",
+                name: "whichSectorOther",
+                fieldset: {
+                    legend: {
+                        text: i18n.whichSectorOtherTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "ESTATE_AGENTS",
+                        text: i18n.whichSectorOtherEstateAgentsOption,
+                        checked: which-sector-other == ESTATE_AGENTS,
+                        attributes: {
+                            "data-event-id": "estate-agents-option"
+                        }
+                    },
+                    {
+                        value: "HIGH_VALUE_DEALERS",
+                        text: i18n.whichSectorOtherHighValueDealersOption,
+                        checked: which-sector-other == HIGH_VALUE_DEALERS,
+                        attributes: {
+                            "data-event-id": "high-value-dealers-option"
+                        }
+                    },
+                    {
+                        value: "CASINOS",
+                        text: i18n.whichSectorOtherCasinosOption,
+                        checked: which-sector-other == CASINOS,
+                        attributes: {
+                            "data-event-id": "casinos-option"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <div class="govuk-button-group"> 
+            <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+            <a href={{ whichSectorLink }} class="govuk-link">{{ i18n.whichSectorOtherGoBack }}</a>
+        </div>
+    </form>
+{% endblock main_content %}
