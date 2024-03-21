@@ -7,9 +7,9 @@ import {
     soleTraderWhichSectorOtherController, soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController,
     soleTraderWhatIsTheBusinessNameController,
     nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
-    companyLookupController, companyInactiveController, whatIsTheBusinessNameController, unincorporatedWhatIsYourNameController, unincorporatedNameRegisteredWithAmlController,
-    unincorporatedWhatIsYourRoleController, limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
-    unincorporatedSectorYouWorkInController, isThisYourCompanyController
+    unincorporatedNameRegisteredWithAmlController, unincorporatedWhatIsYourRoleController,
+    limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
+    unincorporatedSectorYouWorkInController, isThisYourCompanyController, companyLookupController, companyInactiveController, whatIsTheBusinessNameController, unincorporatedWhatIsYourNameController
 
 } from "../controllers";
 
