@@ -14,7 +14,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
     const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
-    res.render(config.WHICH_SECTOR_YOTHER, {
+    res.render(config.WHICH_SECTOR_OTHER, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
         title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.WHICH_SECTOR_YOTHER, {
+            res.status(400).render(config.WHICH_SECTOR_OTHER, {
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
                 title: "Which other sector do you work in?",
                 ...getLocaleInfo(locales, lang),
