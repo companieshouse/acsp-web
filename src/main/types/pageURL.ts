@@ -47,7 +47,7 @@ export const SOLE_TRADER_WHERE_DO_YOU_LIVE = SOLE_TRADER + "/where-do-you-live";
 
 export const SOLE_TRADER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/which-sector";
 
-export const SOLE_TRADER_OTHER_SECTOR_YOU_WORK_IN = SOLE_TRADER + "/which-sector-other";
+export const SOLE_TRADER_WHICH_SECTOR_OTHER = SOLE_TRADER + "/which-sector-other";
 
 export const SOLE_TRADER_AUTO_LOOKUP_ADDRESS = SOLE_TRADER + "/correspondence-address-lookup";
 
@@ -100,4 +100,3 @@ export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";
 export const UNINCORPORATED_WHICH_OTHER_SECTOR = UNINCORPORATED + "/which-sector-other";
 
 export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/business-address-lookup";
-

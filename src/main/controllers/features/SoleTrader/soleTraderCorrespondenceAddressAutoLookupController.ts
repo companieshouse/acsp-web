@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
         firstName: ACSPData?.firstName,
         lastName: ACSPData?.lastName,
-        correspondenceAddressManual: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+        correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     });
 
 };
@@ -50,7 +50,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                lastName: ACSPData?.lastName,
+                correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
             let postcode = req.body.postCode;
