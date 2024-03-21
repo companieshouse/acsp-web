@@ -27,3 +27,4 @@ export * as limitedWhatIsYourRoleController from "./features/limited/limitedWhat
 export * as limitedSectorYouWorkInController from "./features/limited/limitedSectorYouWorkInController";
 export * as unincorporatedSectorYouWorkInController from "./features/unincorporated/unincorporatedSectorYouWorkInController";
 export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";
+export * as unincorporatedBusinessAddressManualEntryController from "./features/unincorporated/unincorporatedBusinessAddressManualEntryController";

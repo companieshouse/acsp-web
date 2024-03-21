@@ -2,6 +2,7 @@ const BASE_VIEWS_URL = "../views/features";
 const BASE_COMMON_URL = `../views/common`;
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
+const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
 
 export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
 export const SOLE_TRADER_DATE_OF_BIRTH = `${BASE_SOLE_TRADER_URL}/what-is-your-date-of-birth/what-is-your-date-of-birth`;
@@ -17,10 +18,12 @@ export const SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
 export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = `${BASE_LIMITED_TRADER_URL}/business-mustbe-aml-registered/business-mustbe-aml-registered`;
-export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
 export const LIMITED_COMPANY_INACTIVE = `${BASE_LIMITED_TRADER_URL}/company-inactive/company-inactive`;
 export const LIMITED_COMPANY_NUMBER = `${BASE_LIMITED_TRADER_URL}/company-number/company-number`;
 export const LIMITED_IS_THIS_YOUR_COMPANY = `${BASE_LIMITED_TRADER_URL}/is-this-your-company/is-this-your-company`;
+
+export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
+export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = `${BASE_UNINCORPORATED_URL}/business-address-manual-entry/business-address-manual-entry`;
 
 export const ACSP_SERVICE_HOST = "http://chs.local";
 export const ACSP_SERVICE_PORT = "18644";

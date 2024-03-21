@@ -101,3 +101,6 @@ export const UNINCORPORATED_WHICH_OTHER_SECTOR = UNINCORPORATED + "/which-sector
 
 export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/business-address-lookup";
 
+export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = UNINCORPORATED + "/business-address-manual-entry";
+
+export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = UNINCORPORATED + "/confirm-your-business-address";

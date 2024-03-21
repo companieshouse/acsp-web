@@ -1,5 +1,6 @@
 {
     "correspondenceAddressManualTitle" : "What is the correspondence address? welsh",
+    "businessAddressManualTitle" : "Enter the business address welsh",
     "addressPropertyDetails": "Property name or number welsh",
     "addressPropertyDetailsHint": "For example, 'The Mill', '116' or 'Flat 37a' welsh",
     "addressLine1": "Address line 1 welsh",
@@ -8,6 +9,8 @@
     "addressCounty": "County (optional) welsh",
     "addressCountry": "Country welsh",
     "addressPostcode": "Postcode welsh",
+    "infoShowOnPublic": "What information we'll show on the public register welsh",
+    "businessLocationInfo": "We'll show which county the business is located in. welsh",
     "error-noPropertyDetails": "Enter a property name or number welsh",
     "error-noAddressLine1": "Enter an address welsh",
     "error-noCityOrTown": "Enter a city or town welsh",
