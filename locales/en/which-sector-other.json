@@ -1,0 +1,9 @@
+{
+    "whichSectorOtherTitle" : "Which other sector do you work in?",
+    "whichSectorOtherEstateAgentsOption": "Estate agents",
+    "whichSectorOtherHighValueDealersOption": "High value dealers",
+    "whichSectorOtherCasinosOption": "Casinos",
+    "whichSectorOtherGoBack": "Go back to main business sector list",
+   
+    "error-whichSectorOtherSelectRadio" : "Select which other sector you work in"
+}

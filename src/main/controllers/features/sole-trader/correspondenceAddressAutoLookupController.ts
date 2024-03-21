@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
-import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../../main/utils/properties";
+import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../utils/properties";
 import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
         firstName: ACSPData?.firstName,
         lastName: ACSPData?.lastName,
-        correspondenceAddressManual: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+        correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     });
 
 };
@@ -50,7 +50,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                lastName: ACSPData?.lastName,
+                correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
             let postcode = req.body.postCode;
