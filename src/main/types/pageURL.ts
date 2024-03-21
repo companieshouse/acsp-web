@@ -2,7 +2,7 @@ const SEPARATOR = "/";
 
 export const START = "/"; // Domain name will go here
 
-export const HOME_URL = "/home";
+export const HOME_URL = "";
 
 export const SIGN_OUT_PAGE = `signout`;
 
