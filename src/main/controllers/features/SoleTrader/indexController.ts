@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { BASE_URL, HOME_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -9,7 +9,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.HOME, {
         title: "",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + HOME_URL
+        currentUrl: BASE_URL
     });
 };
 

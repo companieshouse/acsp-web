@@ -16,7 +16,7 @@ import {
     CDN_HOST,
     CHS_URL
 } from "./utils/properties";
-import { HOME_URL, COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -64,8 +64,8 @@ process.on("unhandledRejection", (err: any) => {
 
 // Apply middleware
 app.use(cookieParser());
-app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-app.use(`^${BASE_URL}(?!(${HEALTHCHECK}|${HOME_URL}|${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
