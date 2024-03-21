@@ -3,8 +3,9 @@ export * as healthCheckController from "./healthCheckController";
 export * as accessibilityStatementController from "./accessibilityStatementController";
 
 // Sole trader
-export * as soleTraderDateOfBirthController from "./features/soleTrader/dateOfBirthController";
+
 export * as soleTraderNameController from "./features/soleTrader/nameController";
+export * as soleTraderDateOfBirthController from "./features/soleTrader/dateOfBirthController";
 export * as soleTraderWhatIsYourRoleController from "./features/soleTrader/whatIsYourRoleController";
 export * as soleTraderWhereDoYouLiveController from "./features/soleTrader/whereDoYouLiveController";
 export * as soleTraderCorrespondenceAddressManualController from "./features/soleTrader/correspondenceAddressManualController";
