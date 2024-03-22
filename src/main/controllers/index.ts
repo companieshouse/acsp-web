@@ -36,3 +36,4 @@ export * as unincorporatedWhatIsYourRoleController from "./features/unincorporat
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
 export * as unincorporatedSectorYouWorkInController from "./features/unincorporated/unincorporatedSectorYouWorkInController";
 export * as unincorporatedBusinessAddressManualEntryController from "./features/unincorporated/unincorporatedBusinessAddressManualEntryController";
+export * as unincorporatedConfirmYourBusinessAddressController from "./features/unincorporated/unincorporatedConfirmYourBusinessAddressController";
