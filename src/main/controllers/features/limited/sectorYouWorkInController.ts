@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_OTHER_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
+import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -33,7 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (req.body.sectorYouWorkIn === "OTHER") {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_OTHER_SECTOR_YOU_WORK_IN, lang));
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
             } else {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
             }
