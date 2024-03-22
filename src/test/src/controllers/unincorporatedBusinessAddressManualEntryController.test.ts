@@ -16,7 +16,7 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
-    xit("should return status 302 after redirect", async () => {
+    it("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -111,7 +111,7 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
 
 // Test for no addressCounty, will return 302.
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
-    xit("should return status 400", async () => {
+    it("should return status 400", async () => {
         await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -133,7 +133,7 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
 
 // Test for no addressCountry, will return 302.
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, () => {
-    xit("should return status 302", async () => {
+    it("should return status 302", async () => {
         await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
     });
