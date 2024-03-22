@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM,
         businessName: businessName,
-        correspondenceAddress: businessAddress
+        businessAddress: businessAddress
     });
 };
 
