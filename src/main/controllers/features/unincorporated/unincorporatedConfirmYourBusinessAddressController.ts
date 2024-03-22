@@ -11,7 +11,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const businessName = session?.getExtraData(BUSINESS_NAME);
     const businessAddress = session?.getExtraData(BUSINESS_ADDRESS);
-    res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
+    res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
         editAddress: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, lang),
         title: "Confirm the business address",
