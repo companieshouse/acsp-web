@@ -11,3 +11,5 @@ export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const ACSP_TYPE = "acspType";
 export const UNINCORPORATED_AML_SELECTED_OPTION = "unincorporatedAmlSelectedOption";
+export const BUSINESS_NAME = "businessName";
+export const BUSINESS_ADDRESS = "businessAddress";
