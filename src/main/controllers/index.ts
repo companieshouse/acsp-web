@@ -20,13 +20,14 @@ export * as soleTraderOtherTypeOfBusinessController from "./features/sole-trader
 export * as soleTraderWhatIsTheBusinessNameController from "./features/sole-trader/whatIsTheBusinessNameController";
 
 // limited
-export * as companyLookupController from "./features/limited/companyLookupController";
-export * as nameRegisteredWithAmlController from "./features/limited/nameRegisteredWithAmlController";
-export * as businessMustbeAmlRegisteredController from "./features/limited/businessMustbeAmlRegisteredController";
-export * as companyInactiveController from "./features/limited/companyInactiveController";
-export * as limitedWhatIsYourRoleController from "./features/limited/limitedWhatIsYourRoleController";
-export * as limitedSectorYouWorkInController from "./features/limited/limitedSectorYouWorkInController";
-export * as isThisYourCompanyController from "./features/limited/isThisYourCompanyController";
+export * as limitedCompanyLookupController from "./features/limited/companyLookupController";
+export * as limitedNameRegisteredWithAmlController from "./features/limited/nameRegisteredWithAmlController";
+export * as limitedBusinessMustbeAmlRegisteredController from "./features/limited/businessMustbeAmlRegisteredController";
+export * as limitedCompanyInactiveController from "./features/limited/companyInactiveController";
+export * as limitedWhatIsYourRoleController from "./features/limited/whatIsYourRoleController";
+export * as limitedSectorYouWorkInController from "./features/limited/sectorYouWorkInController";
+export * as limitedWhichSectorOtherController from "./features/limited/whichSectorOtherController";
+export * as limitedIsThisYourCompanyController from "./features/limited/isThisYourCompanyController";
 
 // unincorporated
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";

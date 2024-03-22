@@ -82,7 +82,7 @@ export const AML_REGISTRATION = "https://www.gov.uk/anti-money-laundering-regist
 
 export const LIMITED_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector";
 
-export const LIMITED_OTHER_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector-other";
+export const LIMITED_WHICH_SECTOR_OTHER = LIMITED + "/which-sector-other";
 
 export const LIMITED_SELECT_AML_SUPERVISOR = LIMITED + "/select-aml-supervisor";
 
