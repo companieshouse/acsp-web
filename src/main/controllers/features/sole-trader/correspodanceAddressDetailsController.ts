@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         firstName: ACSPData?.firstName,
         lastName: ACSPData?.lastName,
         addresses: ACSPData?.addresses,
-        correspondenceAddressManual: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+        correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     }
     );
 };
