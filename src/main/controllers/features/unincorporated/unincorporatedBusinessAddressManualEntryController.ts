@@ -7,6 +7,7 @@ import { Address } from "../../../model/Address";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -52,9 +53,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 country: req.body.addressCountry,
                 postcode: req.body.addressPostcode
             };
-            if (session) {
-                session.setExtraData(BUSINESS_ADDRESS, businessAddress);
-            }
+            saveDataInSession(req, BUSINESS_ADDRESS, businessAddress);
             res.redirect(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
         }
     } catch (error) {
