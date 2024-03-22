@@ -6,10 +6,11 @@ import {
     soleTraderTypeOfBusinessController, soleTraderOtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderWhichSectorOtherController, soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController,
     soleTraderWhatIsTheBusinessNameController,
-    nameRegisteredWithAmlController, businessMustbeAmlRegisteredController,
+    limitedNameRegisteredWithAmlController, limitedBusinessMustbeAmlRegisteredController, limitedWhatIsYourRoleController,
+    limitedSectorYouWorkInController, limitedIsThisYourCompanyController, limitedCompanyLookupController, limitedCompanyInactiveController,
+    limitedWhichSectorOtherController,
     unincorporatedNameRegisteredWithAmlController, unincorporatedWhatIsYourRoleController,
-    limitedWhatIsYourRoleController, limitedSectorYouWorkInController,
-    unincorporatedSectorYouWorkInController, isThisYourCompanyController, companyLookupController, companyInactiveController, whatIsTheBusinessNameController, unincorporatedWhatIsYourNameController,
+    unincorporatedSectorYouWorkInController, whatIsTheBusinessNameController, unincorporatedWhatIsYourNameController,
     unincorporatedBusinessAddressManualEntryController, unincorporatedConfirmYourBusinessAddressController
 
 } from "../controllers";
@@ -84,18 +85,24 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameVal
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
 
-routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlController.get);
-routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, nameRegisteredWithAmlController.post);
+routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, limitedNameRegisteredWithAmlController.get);
+routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, limitedNameRegisteredWithAmlController.post);
 
-routes.get(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyLookupController.get);
-routes.post(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyNumberValidator, companyLookupController.post);
+routes.get(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, limitedCompanyLookupController.get);
+routes.post(urls.LIMITED_WHAT_IS_THE_COMPANY_NUMBER, companyNumberValidator, limitedCompanyLookupController.post);
 
-routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.get);
-routes.post(urls.LIMITED_IS_THIS_YOUR_COMPANY, isThisYourCompanyController.post);
+routes.get(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.get);
+routes.post(urls.LIMITED_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, limitedSectorYouWorkInController.post);
 
-routes.get(urls.LIMITED_COMPANY_INACTIVE, companyInactiveController.get);
+routes.get(urls.LIMITED_WHICH_SECTOR_OTHER, limitedWhichSectorOtherController.get);
+routes.post(urls.LIMITED_WHICH_SECTOR_OTHER, whichSectorOtherValidator, limitedWhichSectorOtherController.post);
 
-routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, businessMustbeAmlRegisteredController.get);
+routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, limitedIsThisYourCompanyController.get);
+routes.post(urls.LIMITED_IS_THIS_YOUR_COMPANY, limitedIsThisYourCompanyController.post);
+
+routes.get(urls.LIMITED_COMPANY_INACTIVE, limitedCompanyInactiveController.get);
+
+routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, limitedBusinessMustbeAmlRegisteredController.get);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
@@ -111,9 +118,6 @@ routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleC
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.get);
 routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post);
-
-routes.get(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.get);
-routes.post(urls.LIMITED_SECTOR_YOU_WORK_IN, sectorYouWorkInValidator, limitedSectorYouWorkInController.post);
 
 routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
