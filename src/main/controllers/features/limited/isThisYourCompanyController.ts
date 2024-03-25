@@ -3,8 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import { COMPANY_DETAILS } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { Company } from "../../../model/Company";
-import { BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
+import { BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -27,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
         if (company.status === "active") {
-            res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE, lang));
+            res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
         } else {
             res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));
         }
