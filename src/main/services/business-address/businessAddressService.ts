@@ -9,7 +9,7 @@ import { Session } from "@companieshouse/node-session-handler";
 export class BusinessAddressService {
     private readonly sessionKey = "businessAddress";
 
-    public saveToSession (req: Request, details: CompanyProfile): void {
+    public saveToSession (req: Request): void {
         const session: Session = req.session as any as Session;
         const businessAddress : Address = {
             propertyDetails: req.body.addressPropertyDetails,

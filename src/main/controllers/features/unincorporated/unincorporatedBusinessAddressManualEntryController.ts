@@ -8,6 +8,8 @@ import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSIN
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
+
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -43,17 +45,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 businessName: businessName
             });
         } else {
-            // Save the correspondence address to session
-            const businessAddress : Address = {
-                propertyDetails: req.body.addressPropertyDetails,
-                line1: req.body.addressLine1,
-                line2: req.body.addressLine2,
-                town: req.body.addressTown,
-                county: req.body.addressCounty,
-                country: req.body.addressCountry,
-                postcode: req.body.addressPostcode
-            };
-            saveDataInSession(req, BUSINESS_ADDRESS, businessAddress);
+            const businessAddressService = new BusinessAddressService();
+            businessAddressService.saveToSession(req);
             res.redirect(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
         }
     } catch (error) {
