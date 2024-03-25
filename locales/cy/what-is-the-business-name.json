@@ -3,6 +3,11 @@
     "whatIsTheBusinessNameHint": "This is the name your business trades under. welsh",
     "whatIsTheBusinessNamePublic": "We will show this on the public register. welsh",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue welsh",
+
+    "whatIsTheBusinessNameOwnerNameOption": "James Morris",
+    "whatIsTheBusinessNameDifferentNameOption": "A different name",
+    "whatIsTheBusinessNameEnterTheBusiness": "Enter the business name",
+
    
     "error-whatIsTheBusinessNameNoName" : "Enter the business name welsh",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes welsh",
