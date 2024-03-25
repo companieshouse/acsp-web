@@ -18,8 +18,6 @@
     "error-invalidAddressTown": "City or town must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidAddressCounty": "County or region must only include letters a to z",
     "error-invalidAddressCountry": "Country must only include letters a to z",
-    "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces",
-    "error-invalidAddressPostcode": "Enter a full UK postcode",
     "error-invalidPropertyDetailsLength": "Property name or number must be 200 characters or less",
     "error-invalidAddressLine1Length": "Address line 1 must be 50 characters or less",
     "error-invalidAddressLine2Length": "Address line 2 must be 50 characters or less",
