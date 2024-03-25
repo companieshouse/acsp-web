@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
+import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_TYPE } from "../../../common/__utils/constants";
 
@@ -13,12 +13,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
     res.render(config.WHICH_SECTOR_OTHER, {
-        previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
+        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
         title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + LIMITED_WHICH_SECTOR_OTHER,
+        currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
         acspType: acspType,
-        whichSectorLink: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang)
+        whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang)
     });
 };
 
@@ -32,16 +32,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHICH_SECTOR_OTHER, {
-                previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
+                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 title: "Which other sector do you work in?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + LIMITED_WHICH_SECTOR_OTHER,
+                currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
                 acspType: acspType,
-                whichSectorLink: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
+                whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 ...pageProperties
             });
         } else {
-            res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
         }
     } catch (error) {
         next(error);

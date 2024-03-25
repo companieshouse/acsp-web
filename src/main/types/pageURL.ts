@@ -97,6 +97,6 @@ export const UNINCORPORATED_WHAT_IS_YOUR_ROLE = UNINCORPORATED + "/what-is-your-
 
 export const UNINCORPORATED_WHICH_SECTOR = UNINCORPORATED + "/which-sector";
 
-export const UNINCORPORATED_WHICH_OTHER_SECTOR = UNINCORPORATED + "/which-sector-other";
+export const UNINCORPORATED_WHICH_SECTOR_OTHER = UNINCORPORATED + "/which-sector-other";
 
 export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = UNINCORPORATED + "/business-address-lookup";
