@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response, Router } from "express";
-import { validationResult } from "express-validator";
-import * as config from "../../../config";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, BASE_URL, TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHAT_IS_YOUR_NAME, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { UNINCORPORATED_BUSINESS_NAME, UNINCORPORATED_AML_SELECTED_OPTION } from "../../../common/__utils/constants";
+import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
+import { UNINCORPORATED_AML_SELECTED_OPTION, UNINCORPORATED_BUSINESS_NAME } from "../../../common/__utils/constants";
+import * as config from "../../../config";
+import { BASE_URL, UNINCORPORATED_NAME_REGISTERED_WITH_AML, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE } from "../../../types/pageURL";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -52,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const session: Session = req.session as any as Session;
             const unincorporatedBusinessName = req.body.whatIsTheBusinessName;
             if (session) {
                 session.setExtraData(UNINCORPORATED_BUSINESS_NAME, unincorporatedBusinessName);

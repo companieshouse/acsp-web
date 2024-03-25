@@ -1,22 +1,21 @@
+import cookieParser from "cookie-parser";
 import express, { NextFunction, Request, Response } from "express";
 import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "../../lib/Logger";
-import routerDispatch from "./router.dispatch";
-import cookieParser from "cookie-parser";
-import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
-import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
+import routerDispatch from "./router.dispatch";
+import { pageNotFound } from "./utils/error";
 
+import { ACCESSIBILITY_STATEMENT, BASE_URL, HEALTHCHECK } from "./types/pageURL";
 import {
     APPLICATION_NAME,
+    CDN_HOST,
     CDN_URL_CSS,
     CDN_URL_JS,
-    CDN_HOST,
     CHS_URL
 } from "./utils/properties";
-import { COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),

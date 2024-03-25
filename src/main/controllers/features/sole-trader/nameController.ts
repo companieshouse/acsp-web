@@ -1,13 +1,12 @@
-import { NextFunction, Request, Response, Router } from "express";
-import * as config from "../../../config";
-import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER_WHAT_IS_YOUR_ROLE, SOLE_TRADER_WHAT_IS_YOUR_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
+import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import { USER_DATA } from "../../../common/__utils/constants";
+import * as config from "../../../config";
 import { ACSPData } from "../../../model/ACSPData";
-import logger from "../../../../../lib/Logger";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../types/pageURL";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -37,12 +36,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            const ACSPData : ACSPData = {
+            const acspData : ACSPData = {
                 firstName: req.body["first-name"],
                 lastName: req.body["last-name"]
             };
             if (session) {
-                session.setExtraData(USER_DATA, ACSPData);
+                session.setExtraData(USER_DATA, acspData);
             }
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang);
             res.redirect(nextPageUrl);

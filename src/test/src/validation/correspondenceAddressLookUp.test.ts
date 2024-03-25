@@ -1,10 +1,7 @@
-import mocks from "../../mocks/all_middleware_mock";
+import { validationResult } from "express-validator";
 import supertest from "supertest";
 import app from "../../../main/app";
 import { correspondenceAddressAutoLookupValidator } from "../../../main/validation/correspondenceAddressAutoLookup";
-import { validationResult } from "express-validator";
-
-import { response } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);

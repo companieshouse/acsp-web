@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from "express";
-import * as config from "../../../config";
-import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
-import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
+import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import * as config from "../../../config";
+import { ACSPData } from "../../../model/ACSPData";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -20,9 +20,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName,
-        addresses: ACSPData?.addresses,
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName,
+        addresses: acspData?.addresses,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     }
     );
@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
@@ -44,12 +44,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName,
-                addresses: ACSPData?.addresses
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName,
+                addresses: acspData?.addresses
             });
         } else {
-            const addressList = ACSPData.addresses!;
+            const addressList = acspData.addresses!;
             const selectPremise = req.body.correspondenceAddress;
             for (const ukAddress of addressList) {
                 if (ukAddress.propertyDetails!.toUpperCase() === selectPremise.toUpperCase()) {

@@ -1,27 +1,27 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Session } from "@companieshouse/node-session-handler";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import countryList from "../../../../../lib/countryList";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import * as config from "../../../config";
-import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
+import * as config from "../../../config";
 import { ACSPData } from "../../../model/ACSPData";
-import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { BASE_URL, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         title: "Where do you live?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang),
         currentUrl: BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE,
         countryList: countryList,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName
     });
 };
 

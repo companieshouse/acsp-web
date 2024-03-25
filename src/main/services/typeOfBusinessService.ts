@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
-import { postTransaction } from "./transactions/transaction_service";
+import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import logger from "../../../lib/Logger";
 import {
     CREATE_DESCRIPTION, REFERENCE
 } from "../config";
-import logger from "../../../lib/Logger";
 import { GenericService } from "./generic";
+import { postTransaction } from "./transactions/transaction_service";
 
 export class TypeOfBusinessService extends GenericService {
     constructor () {
@@ -16,7 +16,7 @@ export class TypeOfBusinessService extends GenericService {
     }
 
     async createTransaction (req: Request, res: Response, companyNumber: string): Promise<string> {
-        const session = req.session as Session;
+        const session = req.session as any as Session;
         let transactionId: string = "";
         try {
             await postTransaction(session, CREATE_DESCRIPTION, REFERENCE).then((transaction) => {

@@ -1,9 +1,8 @@
-import { Request } from "express";
-import { saveDataInSession } from "../../common/__utils/sessionHelper";
-import { COMPANY_DETAILS } from "../../common/__utils/constants";
-import { Company } from "../../model/Company";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Session } from "@companieshouse/node-session-handler";
+import { Request } from "express";
+import { COMPANY_DETAILS } from "../../common/__utils/constants";
+import { Company } from "../../model/Company";
 
 export class CompanyDetailsService {
     private readonly sessionKey = "companyDetails";

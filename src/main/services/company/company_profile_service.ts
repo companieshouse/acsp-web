@@ -1,9 +1,9 @@
-import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
+import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { Session } from "@companieshouse/node-session-handler";
 import { StatusCodes } from "http-status-codes";
 import logger from "../../../../lib/Logger";
 import { createPublicOAuthApiClient } from "../api/api_service";
-import { Session } from "@companieshouse/node-session-handler";
 
 /**
  * Get the profile for a company.

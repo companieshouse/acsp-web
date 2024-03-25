@@ -1,7 +1,7 @@
-import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
-import { SOLE_TRADER_SECTOR_YOU_WORK_IN, BASE_URL, TYPE_OF_BUSINESS, START, OTHER_TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
+import { BASE_URL, SOLE_TRADER_SECTOR_YOU_WORK_IN } from "../../../main/types/pageURL";
+import mocks from "../../mocks/all_middleware_mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
