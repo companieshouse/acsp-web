@@ -5,6 +5,7 @@
     "secondNationalityHintDetails": "Dual citizenship (also known as dual nationality) is allowed in some countries. This means you can be a citizen of your own country and another country. Welsh",
     "thirdNationalityHint": "Third nationality (if relevant) Welsh",
     "thirdNationalityHintDetails": "Multiple citizenship (also known as multiple nationality) is allowed in some countries. This means you can be a citizen of your own country and two other countries. Welsh",
+    "whatIsYourNationalityDefaultDropdownText" : "Select your nationality welsh",
     "error-invalidNationalityNoData": "Enter your nationality Welsh",
     "error-invalidNationalityNoNationality": "Select a nationality from the list Welsh",
     "error-invalidNationalityDoubleSecondNationality": "Enter a different second nationality Welsh",
