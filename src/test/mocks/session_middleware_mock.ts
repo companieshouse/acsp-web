@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { COMPANY, COMPANY_DETAILS } from "../../../src/main/common/__utils/constants";
 import { sessionMiddleware } from "../../../src/main/middleware/session_middleware";
+import { COMPANY, COMPANY_DETAILS } from "../../../src/main/common/__utils/constants";
 import { Company } from "../../main/model/Company";
-import { logger } from "../../main/utils/logger";
-import { validCompanyProfile } from "./company_profile_mock";
 import { getSessionRequestWithPermission } from "./session.mock";
+import { validCompanyProfile, invalidCompanyProfile } from "./company_profile_mock";
+import { logger } from "../../main/utils/logger";
 
 jest.mock("ioredis");
 jest.mock("../../../src/main/middleware/session_middleware");

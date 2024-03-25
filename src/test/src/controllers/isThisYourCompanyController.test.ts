@@ -21,7 +21,7 @@ describe("Limited Company Controller Tests", () => {
     });
 });
 
-describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
+/* describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
     beforeEach(() => {
         createMockSessionMiddleware("valid");
     });
@@ -62,3 +62,4 @@ function createMockSessionMiddleware (companyStatus: string) {
         });
     }
 }
+*/

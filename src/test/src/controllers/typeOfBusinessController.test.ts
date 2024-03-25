@@ -1,6 +1,6 @@
+import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
-import mocks from "../../mocks/all_middleware_mock";
 
 import { BASE_URL, TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
 

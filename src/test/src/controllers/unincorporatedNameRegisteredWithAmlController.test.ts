@@ -1,4 +1,3 @@
-// src/test/src/controllers/unincorporatedNameRegisteredWithAmlController.test.ts
 import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
