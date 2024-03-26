@@ -52,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const session: Session = req.session as any as Session;
             const unincorporatedBusinessName = req.body.whatIsTheBusinessName;
             if (session) {
                 session.setExtraData(UNINCORPORATED_BUSINESS_NAME, unincorporatedBusinessName);

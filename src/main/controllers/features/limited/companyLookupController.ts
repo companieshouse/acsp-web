@@ -74,13 +74,13 @@ async function getCompanyDetails (companyLookupService: CompanyLookupService, se
     await companyLookupService.getCompany(session, companyNumber).then(
         (companyDetails) => {
             companyDetailsService.saveToSession(req, companyDetails);
-        }).catch((companyNumber) => {
+        }).catch(() => {
         const validationError : ValidationError[] = [{
             value: companyNumber,
             msg: "companyNumberDontExsits",
             param: "companyNumber",
             location: "body"
-        }]; ;
+        }];
         throw validationError;
     });
 

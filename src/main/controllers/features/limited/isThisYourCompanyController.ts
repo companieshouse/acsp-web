@@ -24,7 +24,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
         if (company.status === "active") {
