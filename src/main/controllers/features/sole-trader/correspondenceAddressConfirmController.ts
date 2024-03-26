@@ -12,8 +12,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
-
     const { firstName, lastName, addresses } = ACSPData;
+    console.log(addresses);
 
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
         firstName,
         lastName,
-        correspondenceAddress: addresses ? [0] : ""
+        correspondenceAddress: addresses ? addresses[0] : ""
     });
 };
 
