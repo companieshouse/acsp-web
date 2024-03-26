@@ -7,8 +7,8 @@ import { SectorOfWork } from "./SectorOfWork";
 import { TypeOfBusiness } from "./TypeOfBusiness";
 
 export interface ACSPData {
-    firstName: string;
-    lastName: string;
+    firstName?: string;
+    lastName?: string;
     addresses?: Array<Address>;
     typeofBusiness? : TypeOfBusiness;
     roleType? : RoleType;

@@ -2,6 +2,7 @@ const BASE_VIEWS_URL = "../views/features";
 const BASE_COMMON_URL = `../views/common`;
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
+const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
 
 export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
 export const SOLE_TRADER_DATE_OF_BIRTH = `${BASE_SOLE_TRADER_URL}/what-is-your-date-of-birth/what-is-your-date-of-birth`;
@@ -21,6 +22,9 @@ export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what
 export const LIMITED_COMPANY_INACTIVE = `${BASE_LIMITED_TRADER_URL}/company-inactive/company-inactive`;
 export const LIMITED_COMPANY_NUMBER = `${BASE_LIMITED_TRADER_URL}/company-number/company-number`;
 export const LIMITED_IS_THIS_YOUR_COMPANY = `${BASE_LIMITED_TRADER_URL}/is-this-your-company/is-this-your-company`;
+
+export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = `${BASE_UNINCORPORATED_URL}/business-address-auto-lookup/auto-lookup-address`;
+export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = `${BASE_UNINCORPORATED_URL}/business-address-auto-lookup/business-address-list`;
 
 export const ACSP_SERVICE_HOST = "http://chs.local";
 export const ACSP_SERVICE_PORT = "18644";
