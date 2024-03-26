@@ -8,6 +8,8 @@
     "whatIsTheBusinessNameDifferentNameOption": "A different name",
     "whatIsTheBusinessNameEnterTheBusiness": "Enter the business name",
 
+    "error-whatIsTheBusinessNameRadio" : "Select which sector you work in welsh",
+
    
     "error-whatIsTheBusinessNameNoName" : "Enter the business name welsh",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes welsh",

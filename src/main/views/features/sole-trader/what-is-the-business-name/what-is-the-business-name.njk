@@ -8,52 +8,52 @@
   <div class="govuk-grid-row">
    <div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
-        <div class="govuk-form-group">
+      <div class="govuk-form-group">
 
-{% set emailHtml %}
-{{ govukInput({
-  id: "contact-by-email",
-  name: "contactByEmail",
-  type: "email",
-  autocomplete: "email",
-  spellcheck: false,
-  classes: "govuk-!-width-one-half",
-  label: {
-    text: "Email address"
-  },
-  errorMessage: {
-    text: "Email address cannot be blank"
-  }
-}) }}
-{% endset -%}
+        {% set textHtml %}
+        {{ govukInput({
+            label: {
+              text: i18n.whatIsTheBusinessNameTitle
+            },
+            errorMessage: {
+              text: errors["whatIsTheBusinessNameInput"].text
+              } if errors["whatIsTheBusinessNameInput"] | length,
+            classes: "govuk-input",
+            hint: {
+              text: i18n.whatIsTheBusinessNameHint
+            },
+            id: "what-is-the-business-name-input",
+            name: "whatIsTheBusinessNameInput",
+            value: payload["whatIsTheBusinessName"] 
+         }) }}
+        {% endset -%}
 
-{{ govukRadios({
-  name: "contact",
-  fieldset: {
-    legend: {
-      text: "How would you prefer to be contacted?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  hint: {
-    text: "Select one option."
-  },
-  items: [
-    {
-      value: "email",
-      text: "Email",
-      checked: true,
-      conditional: {
-        html: emailHtml
-      }
-    },
-    {
-      value: "phone",
-      text: "Phone"
-    }
-  ]
-}) }}  
+        {{ govukRadios({
+          name: "whatsTheBusinessNameRadio",
+          errorMessage: errors.whatIsTheBusinessNameRadio if errors,
+          id: "what-is-the-business-name-radio",
+          classes: "govuk-radios",
+          fieldset: {
+            legend: {
+              text: i18n.whatIsTheBusinessNameTitle,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "John Morris",
+              text: "John Morris"
+            },
+            {
+              value: "A Different Name",
+              text: "A Different Name",
+              conditional: {
+                html: textHtml
+              }
+            }
+          ]
+        }) }}  
 
         </div>
             <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
