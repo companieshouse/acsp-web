@@ -20,9 +20,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName,
-        addresses: ACSPData?.addresses,
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName,
+        addresses: acspData?.addresses,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     }
     );

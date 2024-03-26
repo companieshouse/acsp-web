@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE, UNINCORPORATED_BUSINESS_NAME, BUSINESS_NAME, USER_DATA } from "../../../common/__utils/constants";
+import { ACSP_TYPE, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

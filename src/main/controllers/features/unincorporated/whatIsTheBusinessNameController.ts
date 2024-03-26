@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, BASE_URL, TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHAT_IS_YOUR_NAME, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { UNINCORPORATED_BUSINESS_NAME, UNINCORPORATED_AML_SELECTED_OPTION, BUSINESS_NAME, USER_DATA } from "../../../common/__utils/constants";
+import { UNINCORPORATED_AML_SELECTED_OPTION, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "main/model/ACSPData";
 
