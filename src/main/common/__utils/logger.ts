@@ -12,3 +12,7 @@ export const createAndLogError = (name: string, description: string): Error => {
     logger.error(`${error.stack}`);
     return error;
 };
+try {
+} catch (error) {
+    createAndLogError("CustomErrorName", "Description of the error");
+}
