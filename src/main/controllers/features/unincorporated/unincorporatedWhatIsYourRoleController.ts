@@ -31,7 +31,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
         const acspType = session?.getExtraData(ACSP_TYPE)!;
-        const businessName : ACSPData = session?.getExtraData(BUSINESS_NAME)!;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 acspType: acspType,
-                unincorporatedBusinessName: businessName
+                unincorporatedBusinessName: acspData?.businessName
             });
         } else {
             const redirectUrlAccordingToRole = redirectUrl(req.body.WhatIsYourRole, lang);

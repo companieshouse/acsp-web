@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const businessName = session?.getExtraData(BUSINESS_NAME);
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY,
                 pageProperties: pageProperties,
                 payload: req.body,
-                businessName: businessName
+                businessName: acspData?.businessName
             });
         } else {
             const businessAddressService = new BusinessAddressService();
