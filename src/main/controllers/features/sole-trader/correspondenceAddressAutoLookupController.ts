@@ -16,7 +16,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -25,8 +25,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What is your correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName,
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     });
 
@@ -34,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -49,8 +49,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName,
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
@@ -87,10 +87,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                         country: address.country,
                         postcode: address.postalCode
                     };
-                    const userAddresses : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
+                    const userAddresses : Array<Address> = acspData?.addresses ? acspData.addresses : [];
                     userAddresses.push(correspondenceAddress);
-                    ACSPData.addresses = userAddresses;
-                    saveDataInSession(req, USER_DATA, ACSPData);
+                    acspData.addresses = userAddresses;
+                    saveDataInSession(req, USER_DATA, acspData);
                     res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
                 } else {
@@ -110,8 +110,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                         addressList.push(address);
 
                     }
-                    ACSPData.addresses = addressList;
-                    saveDataInSession(req, USER_DATA, ACSPData);
+                    acspData.addresses = addressList;
+                    saveDataInSession(req, USER_DATA, acspData);
                     const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
                     res.redirect(nextPageUrl);
 
@@ -126,8 +126,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
                     pageProperties: pageProperties,
                     payload: req.body,
-                    firstName: ACSPData?.firstName,
-                    lastName: ACSPData?.lastName,
+                    firstName: acspData?.firstName,
+                    lastName: acspData?.lastName,
                     correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
                 });
             });

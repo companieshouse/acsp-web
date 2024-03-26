@@ -5,6 +5,7 @@
   "secondNationalityHintDetails": "Dual citizenship (also known as dual nationality) is allowed in some countries. This means you can be a citizen of your own country and another country.",
   "thirdNationalityHint": "Third nationality (if relevant)",
   "thirdNationalityHintDetails": "Multiple citizenship (also known as multiple nationality) is allowed in some countries. This means you can be a citizen of your own country and two other countries.",
+  "whatIsYourNationalityDefaultDropdownText" : "Select your nationality",
   "error-invalidNationalityNoData": "Enter your nationality",
   "error-invalidNationalityNoNationality": "Select a nationality from the list",
   "error-invalidNationalityDoubleSecondNationality": "Enter a different second nationality",

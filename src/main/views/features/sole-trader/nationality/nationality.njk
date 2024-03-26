@@ -19,7 +19,7 @@
                 </legend>
                 <div id="typeahead-form-group-0" class="govuk-form-group">
                     <p class="govuk-hint-0" id="typeahead-hint-0">{{i18n.firstNationalityHint}}</p>
-                    {% set dropdownDefaultText = "Select your nationality" %}
+                    {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_0 | length %}
                         {% set dropdownValue = payload.nationality_input_0 %}
                     {% endif %}
@@ -35,7 +35,7 @@
                     <div id="typeahead-form-group-1" class="govuk-form-group ">
                         <label for="nationality_input_1" class="govuk-label">{{i18n.secondNationalityInput}}</label>
                         <p class="govuk-hint-1" id="typeahead-hint-1">{{i18n.secondNationalityHintDetails}}</p>
-                    {% set dropdownDefaultText = "Select your nationality" %}
+                    {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_1 | length %}
                         {% set dropdownValue = payload.nationality_input_1 %}
                     {% endif %}
@@ -52,7 +52,7 @@
                     <div id="typeahead-form-group-2" class="govuk-form-group ">
                         <label for="nationality_input_2" class="govuk-label">{{i18n.thirdNationalityHint}}</label>
                         <p class="govuk-hint-2" id="typeahead-hint-2">{{i18n.thirdNationalityHintDetails}}</p>
-                    {% set dropdownDefaultText = "Select your nationality" %}
+                    {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_2 | length %}
                         {% set dropdownValue = payload.nationality_input_2 %}
                     {% endif %}

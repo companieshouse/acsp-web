@@ -35,6 +35,7 @@ export * as unincorporatedBusinessAddressAutoLookupController from "./features/u
 export * as unincorporatedBusinessAddressListController from "./features/unincorporated/businessAddressListController";
 export * as unincorporatedNameRegisteredWithAmlController from "./features/unincorporated/unincorporatedNameRegisteredWithAmlController";
 export * as unincorporatedSectorYouWorkInController from "./features/unincorporated/unincorporatedSectorYouWorkInController";
+export * as unincorporatedWhichSectorOtherController from "./features/unincorporated/whichSectorOtherController";
 export * as unincorporatedWhatIsYourNameController from "./features/unincorporated/unincorporatedWhatIsYourNameController";
 export * as unincorporatedWhatIsYourRoleController from "./features/unincorporated/unincorporatedWhatIsYourRoleController";
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";

@@ -3,7 +3,7 @@ import app from "../../../main/app";
 import supertest from "supertest";
 import { sessionMiddleware } from "../../../../src/main/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
-import { LIMITED_IS_THIS_YOUR_COMPANY, BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE } from "../../../main/types/pageURL";
+import { LIMITED_IS_THIS_YOUR_COMPANY, BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../main/types/pageURL";
 import { NextFunction, Request, Response } from "express";
 import { validCompanyProfile, invalidCompanyProfile } from "../../mocks/company_profile_mock";
 import { COMPANY_DETAILS } from "../../../../src/main/common/__utils/constants";
@@ -29,7 +29,7 @@ describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
         const res = await router.post(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
         expect(customMockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toContain(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_AUTH_CODE);
+        expect(res.header.location).toContain(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
     });
 });
 

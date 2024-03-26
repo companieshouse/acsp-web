@@ -40,15 +40,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 session.setExtraData(UNINCORPORATED_AML_SELECTED_OPTION, selectedOption);
             }
             // Redirection logic based on selected option
-            switch (selectedOption) {
-            case "NAME_OF_THE_BUSINESS":
+            if (selectedOption === "NAME_OF_THE_BUSINESS") {
                 // User is only supervised under their business name, so redirect back to the AML supervisor name page
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang));
-                break;
-            default:
+            } else {
                 // User is supervised under their personal name or both personal and business name, so redirect to the "What is your name?" page
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME, lang));
-                break;
             }
         }
     } catch (error) {
