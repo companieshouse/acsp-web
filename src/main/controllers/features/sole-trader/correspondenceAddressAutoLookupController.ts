@@ -1,3 +1,4 @@
+
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
@@ -55,75 +56,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const postcode = req.body.postCode;
             const correspondencePremise = req.body.premise;
-
-
-            if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
-                CorrespondenceAddressAutoLookService.saveCorrespondenceAddressToSession(session, req, ukAddresses, correspondencePremise);
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
-            } else {
-                CorrespondenceAddressAutoLookService.saveAddressListToSession(session, req, ukAddresses);
-                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
-                res.redirect(nextPageUrl);
-
-           /* getAddressFromPostcode(postcode).then((ukAddresses) => {
+            getAddressFromPostcode(postcode).then((ukAddresses) => {
                 if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
-                    let address = {
-                        premise: "",
-                        addressLine1: "",
-                        addressLine2: "",
-                        postTown: "",
-                        postalCode: "",
-                        country: ""
-                    };
-                    for (const ukAddress of ukAddresses) {
-                        if (ukAddress.premise === correspondencePremise) {
-                            address = {
-                                premise: ukAddress.premise,
-                                addressLine1: ukAddress.addressLine1,
-                                addressLine2: ukAddress.addressLine2!,
-                                postTown: ukAddress.postTown,
-                                postalCode: ukAddress.postcode,
-                                country: getCountryFromKey(ukAddress.country)
-                            };
-                        }
-                    }
-                    // Save the correspondence address to session
-                    const correspondenceAddress : Address = {
-                        propertyDetails: address.premise,
-                        line1: address.addressLine1,
-                        line2: address.addressLine2,
-                        town: address.postTown,
-                        country: address.country,
-                        postcode: address.postalCode
-                    };
-                    const userAddresses : Array<Address> = acspData?.addresses ? acspData.addresses : [];
-                    userAddresses.push(correspondenceAddress);
-                    acspData.addresses = userAddresses;
-                    saveDataInSession(req, USER_DATA, acspData);
-                    res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+
+                    CorrespondenceAddressAutoLookService.saveCorrespondenceAddressToSession(session, req, ukAddresses, correspondencePremise);
+                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
 
                 } else {
 
-                    const addressList : Array<Address> = [];
-                    for (const ukAddress of ukAddresses) {
-                        const address = {
-                            propertyDetails: ukAddress.premise,
-                            line1: ukAddress.addressLine1,
-                            line2: ukAddress.addressLine2,
-                            town: ukAddress.postTown,
-                            country: getCountryFromKey(ukAddress.country),
-                            postcode: ukAddress.postcode,
-                            formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
-                        };
-
-                        addressList.push(address);
-
-                    }
-                    acspData.addresses = addressList;
-                    saveDataInSession(req, USER_DATA, acspData);
+                    CorrespondenceAddressAutoLookService.saveAddressListToSession(session, req, ukAddresses);
                     const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
-                    res.redirect(nextPageUrl);*/
-
+                    res.redirect(nextPageUrl);
 
                 }
 

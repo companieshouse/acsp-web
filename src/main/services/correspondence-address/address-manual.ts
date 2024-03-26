@@ -5,7 +5,7 @@ import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { USER_DATA } from "../../common/__utils/constants";
 
 export class CorrespondenceAddressManualService {
-    static saveCorrespondenceManualAddress (req: Request, ACSPData: ACSPData): void {
+    static saveCorrespondenceManualAddress (req: Request, acspData: ACSPData): void {
         const correspondenceAddress: Address = {
             propertyDetails: req.body.addressPropertyDetails,
             line1: req.body.addressLine1,
@@ -16,10 +16,9 @@ export class CorrespondenceAddressManualService {
             postcode: req.body.addressPostcode
         };
 
-        const userAddress: Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
+        const userAddress: Array<Address> = acspData?.addresses ? acspData.addresses : [];
         userAddress.push(correspondenceAddress);
-        ACSPData.addresses = userAddress;
-
-        saveDataInSession(req, USER_DATA, ACSPData);
+        acspData.addresses = userAddress;
+        saveDataInSession(req, USER_DATA, acspData);
     }
 }

@@ -51,11 +51,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
 
-
-            /*const addressList = acspData.addresses!;*/
-
             const selectPremise = req.body.correspondenceAddress;
-            CorrespondenceAddressDetailsService.saveCorrespondenceDetailsAddress(req, ACSPData, selectPremise);
+            CorrespondenceAddressDetailsService.saveCorrespondenceDetailsAddress(req, acspData, selectPremise);
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }

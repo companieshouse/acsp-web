@@ -1,57 +1,59 @@
-import { Request } from "express";
-import { Address } from "../../model/Address";
-import { ACSPData } from "../../model/ACSPData";
+import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../common/__utils/constants";
+import { Request } from "express";
+import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
+import { ACSPData } from "../../model/ACSPData";
+import { Address } from "../../model/Address";
+import { Company } from "../../model/Company";
 import { getCountryFromKey } from "../../utils/web";
-import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 
-class CorrespondenceAddressAutoLookService {
-    static saveCorrespondenceAddressToSession (
-        session: Session,
-        req: Request,
-        ukAddresses: UKAddress[],
-        correspondencePremise: string
-    ): void {
-        const ACSPData: ACSPData = session?.getExtraData(USER_DATA)!;
+export class CorrespondenceAddressAutoLookService {
+    static saveAddressListToSession (session: Session, req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, ukAddresses: UKAddress[]) {
+        throw new Error("Method not implemented.");
+    }
+
+    static saveCorrespondenceAddressToSession (session: Session, req: Request, ukAddresses: UKAddress[], inputPremise: string): void {
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
         let address = {
             premise: "",
-            addressLine1: "",
-            addressLine2: "",
-            postTown: "",
-            postalCode: "",
-            country: ""
+            propertyDetails: "",
+            line1: "",
+            line2: "",
+            town: "",
+            country: "",
+            postcode: ""
         };
         for (const ukAddress of ukAddresses) {
-            if (ukAddress.premise === correspondencePremise) {
+            if (ukAddress.premise === inputPremise) {
                 address = {
+                    propertyDetails: ukAddress.premise,
                     premise: ukAddress.premise,
-                    addressLine1: ukAddress.addressLine1,
-                    addressLine2: ukAddress.addressLine2!,
-                    postTown: ukAddress.postTown,
-                    postalCode: ukAddress.postcode,
-                    country: getCountryFromKey(ukAddress.country)
+                    line1: ukAddress.addressLine1,
+                    line2: ukAddress.addressLine2!,
+                    town: ukAddress.postTown,
+                    country: getCountryFromKey(ukAddress.country),
+                    postcode: ukAddress.postcode
                 };
             }
         }
 
         const correspondenceAddress: Address = {
             propertyDetails: address.premise,
-            line1: address.addressLine1,
-            line2: address.addressLine2,
-            town: address.postTown,
+            line1: address.line1,
+            line2: address.line2,
+            town: address.town,
             country: address.country,
-            postcode: address.postalCode
+            postcode: address.postcode
         };
-        const userAddresses: Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
+        const userAddresses: Array<Address> = acspData?.addresses ? acspData.addresses : [];
         userAddresses.push(correspondenceAddress);
-        ACSPData.addresses = userAddresses;
-        saveDataInSession(req, USER_DATA, ACSPData);
+        acspData.addresses = userAddresses;
+        saveDataInSession(req, USER_DATA, acspData);
     }
 
-    static saveAddressListToSession (session: Session, req: Request, ukAddresses: UKAddress[]): void {
+    public saveAddressListToSession (session: Session, req: Request, ukAddresses: UKAddress[]): void {
         const ACSPData: ACSPData = session?.getExtraData(USER_DATA)!;
 
         const addressList: Array<Address> = [];
@@ -65,11 +67,13 @@ class CorrespondenceAddressAutoLookService {
                 postcode: ukAddress.postcode,
                 formattedAddress: `${ukAddress.premise}, ${ukAddress.addressLine1}, ${ukAddress.postTown}, ${getCountryFromKey(ukAddress.country)}, ${ukAddress.postcode}`
             };
-            addressList.push(address);
-        }
 
+            addressList.push(address);
+
+        }
+        // Save the list of addresses to the session
         ACSPData.addresses = addressList;
-        saveDataInSession(req, USER_DATA, ACSPData);
+        saveDataInSession(req, ADDRESS_LIST, addressList);
     }
 }
 
