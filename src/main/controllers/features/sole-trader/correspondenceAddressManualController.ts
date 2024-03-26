@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
@@ -14,20 +14,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName
     });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -42,8 +42,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName
             });
         } else {
             // Save the correspondence address to session
@@ -56,10 +56,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 country: req.body.addressCountry,
                 postcode: req.body.addressPostcode
             };
-            const userAddress : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
+            const userAddress : Array<Address> = acspData?.addresses ? acspData.addresses : [];
             userAddress.push(correspondenceAddress);
-            ACSPData.addresses = userAddress;
-            saveDataInSession(req, USER_DATA, ACSPData);
+            acspData.addresses = userAddress;
+            saveDataInSession(req, USER_DATA, acspData);
             res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
         }
     } catch (error) {

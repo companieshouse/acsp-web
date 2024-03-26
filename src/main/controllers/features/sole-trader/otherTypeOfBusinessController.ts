@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
@@ -34,11 +34,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const nextPageUrlForAmlBody = addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang);
             const nextPageUrlForYourRole = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
-            switch (selectedOption) {
-            case "UNINCORPORATED_ENTITY":
+            if (selectedOption === "UNINCORPORATED_ENTITY") {
                 res.redirect(nextPageUrlForAmlBody); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
-                break;
-            default:
+            } else {
                 res.redirect(nextPageUrlForYourRole); // Redirect to what is you role?
             }
         }
