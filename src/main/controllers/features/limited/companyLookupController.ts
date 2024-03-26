@@ -43,13 +43,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const { companyNumber } = req.body;
             const companyLookupService = new CompanyLookupService();
             getCompanyDetails(companyLookupService, session, companyNumber, req).then(
-                (result) => {
+                () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
                         res.redirect(nextPageUrl);
                     }
-                }).catch((error) => {
-                const pageProperties = getPageProperties(formatValidationError(error, lang));
+                }).catch(() => {
+                const validationError : ValidationError[] = [{
+                    value: companyNumber,
+                    msg: "companyNumberDontExsits",
+                    param: "companyNumber",
+                    location: "body"
+                }];
+                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
                 res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
                     previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
                     payload: req.body,
@@ -75,13 +81,7 @@ async function getCompanyDetails (companyLookupService: CompanyLookupService, se
         (companyDetails) => {
             companyDetailsService.saveToSession(req, companyDetails);
         }).catch(() => {
-        const validationError : ValidationError[] = [{
-            value: companyNumber,
-            msg: "companyNumberDontExsits",
-            param: "companyNumber",
-            location: "body"
-        }];
-        throw validationError;
+        throw Error("Company Not Found");
     });
 
 }
