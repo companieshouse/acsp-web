@@ -1,5 +1,6 @@
 {
     "correspondenceLookUpAddressTitle" : "What is your correspondence address? welsh",
+    "businessLookUpAddressTitle": "What is the business address? welsh",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode welsh",
     "correspondenceLookUpAddressInputHint1": "Property name or number welsh",
     "correspondenceLookUpAddressInputHint2": "The Mill', '116' or 'Flat 37a' welsh",
@@ -12,7 +13,10 @@
     "error-correspondenceLookUpAddressNoPostCode" : "Enter a postcode welsh",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes welsh",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address welsh"
+    "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces welsh",
+    "error-invalidAddressPostcode": "Enter a full UK postcode welsh",
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address welsh",
+    "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address welsh"
 
 
 

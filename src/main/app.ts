@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
-import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
 
 import {
     APPLICATION_NAME,
@@ -16,7 +15,7 @@ import {
     CDN_HOST,
     CHS_URL
 } from "./utils/properties";
-import { COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
