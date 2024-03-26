@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../utils/properties";
-import { getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
+import { getAddressFromPostcode, getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
@@ -54,71 +54,83 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
-            let postcode = req.body.postCode;
-            postcode = postcode.replace(/\s/g, "");
-            const ukAddresses: UKAddress[] = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
+            const postcode = req.body.postCode;
             const correspondencePremise = req.body.premise;
-
-            if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
-                let address = {
-                    premise: "",
-                    addressLine1: "",
-                    addressLine2: "",
-                    postTown: "",
-                    postalCode: "",
-                    country: ""
-                };
-                for (const ukAddress of ukAddresses) {
-                    if (ukAddress.premise === correspondencePremise) {
-                        address = {
-                            premise: ukAddress.premise,
-                            addressLine1: ukAddress.addressLine1,
-                            addressLine2: ukAddress.addressLine2!,
-                            postTown: ukAddress.postTown,
-                            postalCode: ukAddress.postcode,
-                            country: getCountryFromKey(ukAddress.country)
-                        };
-                    }
-                }
-                // Save the correspondence address to session
-                const correspondenceAddress : Address = {
-                    propertyDetails: address.premise,
-                    line1: address.addressLine1,
-                    line2: address.addressLine2,
-                    town: address.postTown,
-                    country: address.country,
-                    postcode: address.postalCode
-                };
-                const userAddresses : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
-                userAddresses.push(correspondenceAddress);
-                ACSPData.addresses = userAddresses;
-                saveDataInSession(req, USER_DATA, ACSPData);
-                res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
-
-            } else {
-
-                const addressList : Array<Address> = [];
-                for (const ukAddress of ukAddresses) {
-                    const address = {
-                        propertyDetails: ukAddress.premise,
-                        line1: ukAddress.addressLine1,
-                        line2: ukAddress.addressLine2,
-                        town: ukAddress.postTown,
-                        country: getCountryFromKey(ukAddress.country),
-                        postcode: ukAddress.postcode,
-                        formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
+            getAddressFromPostcode(postcode).then((ukAddresses) => {
+                if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
+                    let address = {
+                        premise: "",
+                        addressLine1: "",
+                        addressLine2: "",
+                        postTown: "",
+                        postalCode: "",
+                        country: ""
                     };
+                    for (const ukAddress of ukAddresses) {
+                        if (ukAddress.premise === correspondencePremise) {
+                            address = {
+                                premise: ukAddress.premise,
+                                addressLine1: ukAddress.addressLine1,
+                                addressLine2: ukAddress.addressLine2!,
+                                postTown: ukAddress.postTown,
+                                postalCode: ukAddress.postcode,
+                                country: getCountryFromKey(ukAddress.country)
+                            };
+                        }
+                    }
+                    // Save the correspondence address to session
+                    const correspondenceAddress : Address = {
+                        propertyDetails: address.premise,
+                        line1: address.addressLine1,
+                        line2: address.addressLine2,
+                        town: address.postTown,
+                        country: address.country,
+                        postcode: address.postalCode
+                    };
+                    const userAddresses : Array<Address> = ACSPData?.addresses ? ACSPData.addresses : [];
+                    userAddresses.push(correspondenceAddress);
+                    ACSPData.addresses = userAddresses;
+                    saveDataInSession(req, USER_DATA, ACSPData);
+                    res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
-                    addressList.push(address);
+                } else {
+
+                    const addressList : Array<Address> = [];
+                    for (const ukAddress of ukAddresses) {
+                        const address = {
+                            propertyDetails: ukAddress.premise,
+                            line1: ukAddress.addressLine1,
+                            line2: ukAddress.addressLine2,
+                            town: ukAddress.postTown,
+                            country: getCountryFromKey(ukAddress.country),
+                            postcode: ukAddress.postcode,
+                            formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
+                        };
+
+                        addressList.push(address);
+
+                    }
+                    ACSPData.addresses = addressList;
+                    saveDataInSession(req, USER_DATA, ACSPData);
+                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
+                    res.redirect(nextPageUrl);
 
                 }
-                ACSPData.addresses = addressList;
-                saveDataInSession(req, USER_DATA, ACSPData);
-                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
-                res.redirect(nextPageUrl);
 
-            }
-
+            }).catch((error) => {
+                const pageProperties = getPageProperties(formatValidationError(error, lang));
+                res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
+                    previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
+                    title: "What is your correspondence address?",
+                    ...getLocaleInfo(locales, lang),
+                    currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+                    pageProperties: pageProperties,
+                    payload: req.body,
+                    firstName: ACSPData?.firstName,
+                    lastName: ACSPData?.lastName,
+                    correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+                });
+            });
         }
     } catch (error) {
         next(error);

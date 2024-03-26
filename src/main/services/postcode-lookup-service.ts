@@ -3,6 +3,8 @@ import { createAndLogError, logger } from "../utils/logger";
 import { Resource, createApiClient } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { createPublicApiKeyClient } from "./api-services";
+import { ValidationError } from "express-validator";
+import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../utils/properties";
 
 export const getUKAddressesFromPostcode = async (postcodeAddressesLookupURL: string, postcode: string): Promise<UKAddress[]> => {
     const apiClient: ApiClient = createPublicApiKeyClient();
@@ -29,3 +31,18 @@ export const getIsValidUKPostcode = async (postcodeValidationUrl: string, postco
     }
     return sdkResponse;
 };
+
+export async function getAddressFromPostcode (postcode: string) {
+    postcode = postcode.replace(/\s/g, "");
+    const ukAddresses = await getUKAddressesFromPostcode(POSTCODE_ADDRESSES_LOOKUP_URL, postcode);
+    const validationError : ValidationError[] = [{
+        value: postcode,
+        msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+        param: "postcode",
+        location: "body"
+    }];
+    if (!ukAddresses.length) {
+        throw validationError;
+    }
+    return ukAddresses;
+}

@@ -1,5 +1,6 @@
 {
     "correspondenceLookUpAddressTitle" : "What is your correspondence address?",
+    "businessLookUpAddressTitle": "What is the business address?",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
     "correspondenceLookUpAddressInputHint1": "Property name or number",
     "correspondenceLookUpAddressInputHint2": "The Mill', '116' or 'Flat 37a'",
@@ -14,5 +15,6 @@
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually",
     "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces",
     "error-invalidAddressPostcode": "Enter a full UK postcode",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address"
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address", 
+    "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address"
 }

@@ -1,35 +1,56 @@
 import { Router } from "express";
 import {
-    indexController, stopNotRelevantOfficerController, healthCheckController, accessibilityStatementController,
-    soleTraderDateOfBirthController, soleTraderNameController, soleTraderWhatIsYourRoleController, soleTraderSectorYouWorkInController,
-    soleTraderCorrespondenceAddressManualController, soleTraderWhereDoYouLiveController, soleTraderNationalityController,
-    soleTraderTypeOfBusinessController, soleTraderOtherTypeOfBusinessController, soleTraderCorrespondenceAddressAutoLookupController,
-    soleTraderWhichSectorOtherController, soleTraderCorrespodanceAddressDetailsController, soleTraderCorrespondenceAddressConfirmController,
-    soleTraderWhatIsTheBusinessNameController,
-    limitedNameRegisteredWithAmlController, limitedBusinessMustbeAmlRegisteredController, limitedWhatIsYourRoleController,
-    limitedSectorYouWorkInController, limitedIsThisYourCompanyController, limitedCompanyLookupController, limitedCompanyInactiveController,
+    accessibilityStatementController,
+    healthCheckController,
+    indexController,
+    limitedBusinessMustbeAmlRegisteredController,
+    limitedCompanyInactiveController,
+    limitedCompanyLookupController,
+    limitedIsThisYourCompanyController,
+    limitedNameRegisteredWithAmlController,
+    limitedSectorYouWorkInController,
+    limitedWhatIsYourRoleController,
     limitedWhichSectorOtherController,
-    unincorporatedNameRegisteredWithAmlController, unincorporatedWhatIsYourRoleController,
-    unincorporatedSectorYouWorkInController, whatIsTheBusinessNameController, unincorporatedWhatIsYourNameController
-
+    soleTraderCorrespodanceAddressDetailsController,
+    soleTraderCorrespondenceAddressAutoLookupController,
+    soleTraderCorrespondenceAddressConfirmController,
+    soleTraderCorrespondenceAddressManualController,
+    soleTraderDateOfBirthController, soleTraderNameController,
+    soleTraderNationalityController,
+    soleTraderOtherTypeOfBusinessController,
+    soleTraderSectorYouWorkInController,
+    soleTraderTypeOfBusinessController,
+    soleTraderWhatIsTheBusinessNameController,
+    soleTraderWhatIsYourRoleController,
+    soleTraderWhereDoYouLiveController,
+    soleTraderWhichSectorOtherController,
+    stopNotRelevantOfficerController,
+    unincorporatedBusinessAddressAutoLookupController,
+    unincorporatedBusinessAddressListController,
+    unincorporatedNameRegisteredWithAmlController,
+    unincorporatedSectorYouWorkInController,
+    unincorporatedWhatIsYourNameController,
+    unincorporatedWhatIsYourRoleController,
+    whatIsTheBusinessNameController
 } from "../controllers";
 
-import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
-import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
-import { dateOfBirthValidator } from "../validation/dateOfBirth";
-import { nameValidator } from "../validation/whatIsYourName";
-import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
-import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
-import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
-import { whichSectorOtherValidator } from "../validation/whichSectorOther";
-import { nationalityValidator } from "../../main/validation/nationality";
-import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
-import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import * as urls from "../types/pageURL";
-import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
+import { businessAddressListValidator } from "../validation/businessAddressList";
 import { companyNumberValidator } from "../validation/companyLookup";
-import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
+import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
+import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
+import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
+import { dateOfBirthValidator } from "../validation/dateOfBirth";
+import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
+import { nationalityValidator } from "../validation/nationality";
+import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
+import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
+import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
+import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
+import { nameValidator } from "../validation/whatIsYourName";
+import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
+import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 
 const routes = Router();
 
@@ -120,5 +141,11 @@ routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, limitedWhatIsYourRoleController.post
 
 routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
+
+routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, unincorporatedBusinessAddressAutoLookupController.get);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedBusinessAddressAutoLookupController.post);
+
+routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, unincorporatedBusinessAddressListController.get);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator, unincorporatedBusinessAddressListController.post);
 
 export default routes;

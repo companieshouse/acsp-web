@@ -5,7 +5,7 @@ jest.mock("../../../main/utils/logger");
 
 import { createPublicApiKeyClient } from "../../../main/services/api-services";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
-import { getUKAddressesFromPostcode, getIsValidUKPostcode } from "../../../main/services/postcode-lookup-service";
+import { getUKAddressesFromPostcode, getIsValidUKPostcode, getAddressFromPostcode } from "../../../main/services/postcode-lookup-service";
 import { createAndLogError } from "../../../main/utils/logger";
 
 const mockResponseBodyOfUKAddress1: UKAddress = ({
@@ -62,5 +62,23 @@ describe("getUKAddressesFromPostcode", () => {
         mockIsValidUKPostcode.mockResolvedValueOnce(undefined);
         const isValid = await getIsValidUKPostcode("http://example.postcode.lookup", "SW1A1XZ");
         expect(isValid).toBe(false);
+    });
+});
+
+describe("getAddressFromPostcode", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+    it("Should throw an error for an invalid postcode", async () => {
+        const invalidPostcode = "AB12AB"; // Example Invalid postcode
+        await expect(getAddressFromPostcode(invalidPostcode)).rejects.toThrow();
+    });
+    it("should return UK addresses for a valid postcode", async () => {
+        mockGetUKAddressesFromPostcode.mockResolvedValueOnce({ httpStatusCode: 200, resource: mockResponseBodyOfUKAddresses });
+        const result = await getUKAddressesFromPostcode("http://example.postcode.lookup/", "ST63LJ");
+
+        expect(result).toHaveLength(2);
+        expect(JSON.stringify(result[0])).toEqual(JSON.stringify(mockResponseBodyOfUKAddress1));
+        expect(JSON.stringify(result[1])).toEqual(JSON.stringify(mockResponseBodyOfUKAddress2));
     });
 });

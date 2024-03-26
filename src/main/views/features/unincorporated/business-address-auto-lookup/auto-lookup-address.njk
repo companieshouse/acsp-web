@@ -1,0 +1,49 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% set errors = pageProperties.errors %}
+{% block main_content %}
+  <div class="govuk-width-container">
+    <form action="" method="POST">
+      {% include "partials/business_name.njk" %}
+      <h1 class="govuk-heading-l">{{ i18n.businessLookUpAddressTitle }}</h1>
+      <div class="govuk-form-group">
+        {{ govukInput({
+                label: {
+                    text: "UK postcode"
+                },
+                errorMessage: {
+                    text: errors.postCode.text
+                } if errors.postCode | length,
+                classes: "govuk-input--width-10",
+                id: "postCode",
+                name: "postCode",
+                autocomplete: "postal-code",
+                value: payload.postCode
+            }) }}
+        {{ govukInput({
+                label: {
+                    text: i18n.correspondenceLookUpAddressInputHint1
+                },
+                errorMessage: {
+                    text: errors.premise.text
+                } if errors.premise | length,
+                classes: "govuk-input--width-10",
+                id: "premise",
+                name: "premise",
+                autocomplete: "street-address",
+                value: payload.premise,
+                hint: {
+                  text: i18n.correspondenceLookUpAddressInputHint2,
+                  classes: "govuk-hint"
+                }
+            }) }}
+      </div>
+      <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
+        {{ i18n.correspondenceLookUpAddressFindAddressBtn }}
+      </button>
+      <p>
+        <a href={{ businessAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+      </p>
+    </form>
+  </div>
+{% endblock %}
