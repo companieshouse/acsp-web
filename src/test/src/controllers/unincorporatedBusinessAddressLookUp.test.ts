@@ -4,7 +4,6 @@ import app from "../../../main/app";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../main/types/pageURL";
 import { getAddressFromPostcode } from "../../../main/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { AddressLookUpService } from "../../../main/services/address/addressLookUp";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/postcode-lookup-service.ts");
@@ -31,7 +30,7 @@ describe("Business address auto look up tests", () => {
 
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
 
-    xit("should redirect to address list with status 302 on successful form submission", async () => {
+    it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",
             premise: ""
@@ -43,14 +42,13 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(302); // Expect a redirect status code
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Select your address");
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST + "?lang=en");
     });
 
-    xit("should redirect to confirm page status 302 on successful form submission", async () => {
+    it("should redirect to confirm page status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",
-            premise: "6"
+            premise: "2"
         };
 
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
@@ -59,14 +57,13 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(302); // Expect a redirect status code
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Confirm the business address");
-        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
     });
 
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
-            premise: "6"
+            premise: "2"
         };
 
         const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP).send(formData);

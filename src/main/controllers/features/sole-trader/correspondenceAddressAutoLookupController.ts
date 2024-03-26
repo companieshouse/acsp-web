@@ -1,10 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
+import { ValidationError, validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
-import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../../../utils/properties";
-import { getAddressFromPostcode, getUKAddressesFromPostcode } from "../../../services/postcode-lookup-service";
-import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
+import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
@@ -117,8 +115,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 }
 
-            }).catch((error) => {
-                const pageProperties = getPageProperties(formatValidationError(error, lang));
+            }).catch(() => {
+                const validationError : ValidationError[] = [{
+                    value: postcode,
+                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                    param: "postcode",
+                    location: "body"
+                }];
+                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
                 res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
                     previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
                     title: "What is your correspondence address?",
