@@ -11,7 +11,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
@@ -44,13 +44,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
                 pageProperties: pageProperties,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName,
-                addresses: ACSPData?.addresses,
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName,
+                addresses: acspData?.addresses,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
-            const addressList = ACSPData.addresses!;
+            const addressList = acspData.addresses!;
             const selectPremise = req.body.correspondenceAddress;
             for (const ukAddress of addressList) {
                 if (ukAddress.propertyDetails!.toUpperCase() === selectPremise.toUpperCase()) {

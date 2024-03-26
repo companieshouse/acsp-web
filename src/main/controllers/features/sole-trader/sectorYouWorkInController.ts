@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
@@ -13,14 +13,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspType = session?.getExtraData(ACSP_TYPE)!;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SECTOR_YOU_WORK_IN, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang),
         title: "Which sector do you work in?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName,
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName,
         acspType: acspType
     });
 };
@@ -31,7 +31,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspType = session?.getExtraData(ACSP_TYPE)!;
-        const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -40,8 +40,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Which sector do you work in?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName,
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName,
                 acspType: acspType,
                 ...pageProperties
             });

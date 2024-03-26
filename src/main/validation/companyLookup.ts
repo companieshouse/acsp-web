@@ -1,5 +1,4 @@
 import { body } from "express-validator";
-import { CompanyLookupService } from "../services/companyLookupService";
 
 const characterPattern:RegExp = /^[a-zA-Z0-9]+$/;
 export const companyNumberValidator = [

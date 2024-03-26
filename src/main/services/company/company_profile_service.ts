@@ -1,4 +1,4 @@
-import { createApiClient, Resource } from "@companieshouse/api-sdk-node";
+import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { StatusCodes } from "http-status-codes";
 import logger from "../../../../lib/Logger";
