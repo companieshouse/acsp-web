@@ -8,6 +8,7 @@ import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { CorrespondenceAddressDetailsService } from "../../../services/correspondence-address/address-details";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -49,24 +50,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addresses: ACSPData?.addresses
             });
         } else {
-            const addressList = ACSPData.addresses!;
             const selectPremise = req.body.correspondenceAddress;
-            for (const ukAddress of addressList) {
-                if (ukAddress.propertyDetails!.toUpperCase() === selectPremise.toUpperCase()) {
-                    // Save the correspondence address to session
-                    const correspondenceAddress = {
-                        propertyDetails: ukAddress.propertyDetails,
-                        line1: ukAddress.line1,
-                        line2: ukAddress.line2,
-                        town: ukAddress.town,
-                        country: ukAddress.country,
-                        postcode: ukAddress.postcode
-                    };
-                    saveDataInSession(req, CORRESPONDENCE_ADDRESS, correspondenceAddress);
-
-                }
-
-            }
+            CorrespondenceAddressDetailsService.saveCorrespondenceDetailsAddress(req, ACSPData, selectPremise);
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }
