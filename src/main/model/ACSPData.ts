@@ -13,7 +13,7 @@ export interface ACSPData {
     typeofBusiness? : TypeOfBusiness;
     roleType? : RoleType;
     dateOfBirth? : Date;
-    verified? : Boolean;
+    verified? : boolean;
     nationality? : Array<Nationality>;
     countryOfResidence? : string;
     businessName?: string;

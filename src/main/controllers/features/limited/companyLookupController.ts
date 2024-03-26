@@ -80,7 +80,7 @@ async function getCompanyDetails (companyLookupService: CompanyLookupService, se
     await companyLookupService.getCompany(session, companyNumber).then(
         (companyDetails) => {
             companyDetailsService.saveToSession(req, companyDetails);
-        }).catch((returnedCompanyNumber) => {
+        }).catch(() => {
         throw Error("Company Not Found");
     });
 

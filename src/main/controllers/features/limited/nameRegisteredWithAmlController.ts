@@ -34,12 +34,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang);
             const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
-            // res.redirect(nextPageUrl);
-            switch (selectedOption) {
-            case "YOUR_NAME":
+            if (selectedOption === "YOUR_NAME") {
                 res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
-                break;
-            default:
+            } else {
                 res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
             }
         }
