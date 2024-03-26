@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
-import { companyAuthenticationMiddleware } from "./middleware/company_authentication_middleware";
 
 import {
     APPLICATION_NAME,

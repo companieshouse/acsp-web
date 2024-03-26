@@ -12,15 +12,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
     res.render(config.SOLE_TRADER_DATE_OF_BIRTH, {
         title: "What is your date of Birth?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang),
         currentUrl: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName
     });
 };
 
@@ -28,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -40,8 +40,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + SOLE_TRADER_DATE_OF_BIRTH,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                firstName: acspData?.firstName,
+                lastName: acspData?.lastName
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang);
