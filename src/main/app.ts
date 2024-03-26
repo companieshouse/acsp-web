@@ -15,7 +15,7 @@ import {
     CDN_HOST,
     CHS_URL
 } from "./utils/properties";
-import { COMPANY_BASE_URL, SIGN_OUT_PAGE, BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
