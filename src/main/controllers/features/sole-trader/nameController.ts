@@ -36,10 +36,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            const acspData : ACSPData = {
-                firstName: req.body["first-name"],
-                lastName: req.body["last-name"]
-            };
+            const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+            if (ACSPData) {
+                acspData.firstName = req.body["first-name"];
+                acspData.lastName = req.body["last-name"];
+            }
+
             if (session) {
                 session.setExtraData(USER_DATA, acspData);
             }

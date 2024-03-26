@@ -5,21 +5,22 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE, COMPANY_DETAILS } from "../../../common/__utils/constants";
+import { COMPANY_DETAILS, USER_DATA } from "../../../common/__utils/constants";
 import { Company } from "../../../model/Company";
+import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspType = session?.getExtraData(ACSP_TYPE)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
     const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
         currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
-        acspType: acspType,
+        acspType: ACSPData?.typeofBusiness,
         company: company
     });
 };
