@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
@@ -12,15 +12,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
     res.render(config.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
         title: "What is the business name?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME,
-        firstName: ACSPData?.firstName,
-        lastName: ACSPData?.lastName
+        usersName: acspData.firstName + " " + acspData.lastName || ""
     });
 };
 
@@ -29,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -40,8 +39,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME,
                 ...pageProperties,
-                firstName: ACSPData?.firstName,
-                lastName: ACSPData?.lastName
+                usersName: acspData.firstName + " " + acspData.lastName
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang);

@@ -3,7 +3,11 @@
     "whatIsTheBusinessNameHint": "This is the name your business trades under.",
     "whatIsTheBusinessNamePublic": "We will show this on the public register.",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue",
-   
+
+    "whatIsTheBusinessNameDifferentNameOption": "A different name",
+    "whatIsTheBusinessNameEnterTheBusiness": "Enter the business name",
+
+    "error-whatIsTheBusinessNameRadio" : "Select the business name",
     "error-whatIsTheBusinessNameNoName" : "Enter the business name",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
     "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 200 characters or less"

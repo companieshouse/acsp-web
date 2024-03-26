@@ -1,5 +1,7 @@
-{% from "govuk/components/input/macro.njk"           import govukInput %}
-{% from "govuk/components/radios/macro.njk"          import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
@@ -9,30 +11,24 @@
    <div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
       <div class="govuk-form-group">
-
-        {% set textHtml %}
-        {{ govukInput({
+        {% set textInputHtml %}
+          {{ govukInput({
             label: {
-              text: i18n.whatIsTheBusinessNameTitle
+              text: i18n.whatIsTheBusinessNameEnterTheBusiness
             },
             errorMessage: {
-              text: errors["whatIsTheBusinessNameInput"].text
-              } if errors["whatIsTheBusinessNameInput"] | length,
+              text: errors.businessName.text
+            } if errors.businessName | length,
             classes: "govuk-input",
-            hint: {
-              text: i18n.whatIsTheBusinessNameHint
-            },
-            id: "what-is-the-business-name-input",
-            name: "whatIsTheBusinessNameInput",
-            value: payload["whatIsTheBusinessName"] 
-         }) }}
+            id: "business-name",
+            name: "businessName",
+            value: payload.businessName
+          }) }}
         {% endset -%}
 
         {{ govukRadios({
-          name: "whatsTheBusinessNameRadio",
-          errorMessage: errors.whatIsTheBusinessNameRadio if errors,
-          id: "what-is-the-business-name-radio",
-          classes: "govuk-radios",
+          name: "businessNameRadio",
+          errorMessage: errors.businessNameRadio if errors,
           fieldset: {
             legend: {
               text: i18n.whatIsTheBusinessNameTitle,
@@ -42,21 +38,26 @@
           },
           items: [
             {
-              value: "John Morris",
-              text: "John Morris"
+              value: usersName,
+              text: usersName
             },
             {
-              value: "A Different Name",
-              text: "A Different Name",
+              value: "tradingName",
+              text: i18n.whatIsTheBusinessNameDifferentNameOption,
               conditional: {
-                html: textHtml
+                html: textInputHtml
               }
             }
           ]
-        }) }}  
+        }) }}
 
-        </div>
-            <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+        {{ govukInsetText({
+          text: i18n.whatIsTheBusinessNamePublic
+        }) }}
+      </div>
+      {{ govukButton({
+        text: i18n.SaveAndContinue
+      }) }}  
      </form>
    </div>
  </div>
