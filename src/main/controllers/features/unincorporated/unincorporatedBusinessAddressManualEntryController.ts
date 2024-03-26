@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { BUSINESS_ADDRESS, BUSINESS_NAME, USER_DATA } from "../../../common/__utils/constants";
+import { BUSINESS_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { Address } from "../../../model/Address";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY } from "../../../types/pageURL";
