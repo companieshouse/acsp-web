@@ -4,11 +4,9 @@ import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, BASE_URL } from "../../../types/pageURL";
-import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/address-manual";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

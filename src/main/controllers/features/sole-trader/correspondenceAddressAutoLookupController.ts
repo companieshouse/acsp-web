@@ -1,17 +1,13 @@
-
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
-import { getCountryFromKey } from "../../../utils/web";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
-import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import CorrespondenceAddressAutoLookService from "../../../services/correspondence-address/address-autolookup";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

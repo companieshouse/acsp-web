@@ -1,14 +1,10 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request } from "express";
-import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
-import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { ACSPData } from "../../model/ACSPData";
 import { Address } from "../../model/Address";
 import { getCountryFromKey } from "../../utils/web";
 
 export class CorrespondenceAddressAutoLookService {
-    saveCorrespondenceAddress(acspData: ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
+    saveCorrespondenceAddress (acspData: ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
 
         for (const ukAddress of ukAddresses) {
             if (ukAddress.premise === inputPremise) {
@@ -28,7 +24,7 @@ export class CorrespondenceAddressAutoLookService {
         return acspData;
     }
 
-    saveAddressListToSession(acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
+    saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
 
         const addressList: Array<Address> = [];
         for (const ukAddress of ukAddresses) {
