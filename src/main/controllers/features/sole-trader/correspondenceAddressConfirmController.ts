@@ -14,10 +14,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     const { firstName, lastName, addresses } = acspData;
 
-    /*    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-
-    const { firstName, lastName, addresses } = acspData; */
-
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         editPage: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),

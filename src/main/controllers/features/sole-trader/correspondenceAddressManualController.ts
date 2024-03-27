@@ -47,8 +47,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.lastName
             });
         } else {
-
-            CorrespondenceAddressManualService.saveCorrespondenceManualAddress(req, acspData);
+            const AddressManualservice = new CorrespondenceAddressManualService();
+            AddressManualservice.saveCorrespondenceManualAddress(req, acspData);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
 
         }

@@ -5,16 +5,10 @@ import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { ACSPData } from "../../model/ACSPData";
 import { Address } from "../../model/Address";
-import { Company } from "../../model/Company";
 import { getCountryFromKey } from "../../utils/web";
 
 export class CorrespondenceAddressAutoLookService {
-    static saveAddressListToSession (session: Session, req: Request<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>>, ukAddresses: UKAddress[]) {
-        throw new Error("Method not implemented.");
-    }
-
-    static saveCorrespondenceAddressToSession (session: Session, req: Request, ukAddresses: UKAddress[], inputPremise: string): void {
-        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    saveCorrespondenceAddressToSession (acspData :ACSPData, req: Request, ukAddresses: UKAddress[], inputPremise: string) {
 
         let address = {
             premise: "",
@@ -50,11 +44,11 @@ export class CorrespondenceAddressAutoLookService {
         const userAddresses: Array<Address> = acspData?.addresses ? acspData.addresses : [];
         userAddresses.push(correspondenceAddress);
         acspData.addresses = userAddresses;
-        saveDataInSession(req, USER_DATA, acspData);
+        //saveDataInSession(req, USER_DATA, acspData);
+        return acspData;
     }
 
-    public saveAddressListToSession (session: Session, req: Request, ukAddresses: UKAddress[]): void {
-        const ACSPData: ACSPData = session?.getExtraData(USER_DATA)!;
+    saveAddressListToSession (acspData: ACSPData, req: Request, ukAddresses: UKAddress[]) {
 
         const addressList: Array<Address> = [];
         for (const ukAddress of ukAddresses) {
@@ -72,8 +66,9 @@ export class CorrespondenceAddressAutoLookService {
 
         }
         // Save the list of addresses to the session
-        ACSPData.addresses = addressList;
-        saveDataInSession(req, ADDRESS_LIST, addressList);
+        acspData.addresses = addressList;
+        //saveDataInSession(req, ADDRESS_LIST, addressList);
+        return acspData;
     }
 }
 

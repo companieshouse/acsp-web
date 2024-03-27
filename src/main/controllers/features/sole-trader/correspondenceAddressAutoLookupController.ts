@@ -58,13 +58,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondencePremise = req.body.premise;
             getAddressFromPostcode(postcode).then((ukAddresses) => {
                 if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
-
-                    CorrespondenceAddressAutoLookService.saveCorrespondenceAddressToSession(session, req, ukAddresses, correspondencePremise);
+                    const autoLookupSessionservice = new CorrespondenceAddressAutoLookService();
+                    autoLookupSessionservice.saveCorrespondenceAddressToSession(acspData, req, ukAddresses, correspondencePremise);
                     res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
 
                 } else {
-
-                    CorrespondenceAddressAutoLookService.saveAddressListToSession(session, req, ukAddresses);
+                    const autoLookupListservice = new CorrespondenceAddressAutoLookService();
+                    autoLookupListservice.saveAddressListToSession(acspData, req, ukAddresses);
                     const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
                     res.redirect(nextPageUrl);
 

@@ -51,8 +51,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
 
-            const selectPremise = req.body.correspondenceAddress;
-            CorrespondenceAddressDetailsService.saveCorrespondenceDetailsAddress(req, acspData, selectPremise);
+            const correspondenceAddress = req.body.correspondenceAddress;
+            const addressDetailsService = new CorrespondenceAddressDetailsService();
+            addressDetailsService.saveCorrespondenceDetailsAddress(req, acspData, correspondenceAddress);
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }
