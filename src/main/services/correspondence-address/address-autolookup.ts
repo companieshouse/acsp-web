@@ -44,7 +44,7 @@ export class CorrespondenceAddressAutoLookService {
         const userAddresses: Array<Address> = acspData?.addresses ? acspData.addresses : [];
         userAddresses.push(correspondenceAddress);
         acspData.addresses = userAddresses;
-        //saveDataInSession(req, USER_DATA, acspData);
+        // saveDataInSession(req, USER_DATA, acspData);
         return acspData;
     }
 
@@ -67,7 +67,7 @@ export class CorrespondenceAddressAutoLookService {
         }
         // Save the list of addresses to the session
         acspData.addresses = addressList;
-        //saveDataInSession(req, ADDRESS_LIST, addressList);
+        // saveDataInSession(req, ADDRESS_LIST, addressList);
         return acspData;
     }
 }
