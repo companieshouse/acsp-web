@@ -5,18 +5,19 @@ import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_NAME_REGISTERED_WITH_A
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE } from "../../../common/__utils/constants";
+import { ACSPData } from "../../../model/ACSPData";
+import { USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspType = session?.getExtraData(ACSP_TYPE)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE,
-        acspType: acspType
+        acspType: ACSPData?.typeofBusiness
     });
 };
 

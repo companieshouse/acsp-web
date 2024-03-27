@@ -5,19 +5,20 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE } from "../../../common/__utils/constants";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspType = session?.getExtraData(ACSP_TYPE)!;
+    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHICH_SECTOR_OTHER, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
         title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
-        acspType: acspType,
+        acspType: ACSPData?.typeofBusiness,
         whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang)
     });
 };
@@ -27,7 +28,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspType = session?.getExtraData(ACSP_TYPE)!;
+        const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -36,7 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Which other sector do you work in?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
-                acspType: acspType,
+                acspType: ACSPData?.typeofBusiness,
                 whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 ...pageProperties
             });

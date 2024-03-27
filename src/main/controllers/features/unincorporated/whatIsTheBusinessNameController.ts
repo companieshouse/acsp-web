@@ -59,13 +59,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.businessName = unincorporatedBusinessName;
                 saveDataInSession(req, USER_DATA, acspData);
-            } else {
-                const acspDataBusinessName : ACSPData = {
-                    businessName: unincorporatedBusinessName
-                };
-                if (session) {
-                    session.setExtraData(USER_DATA, acspDataBusinessName);
-                }
             }
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
             res.redirect(nextPageUrl);

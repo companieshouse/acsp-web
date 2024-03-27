@@ -22,7 +22,7 @@ export class BusinessAddressService {
             postcode: req.body.addressPostcode
         };
 
-        const acspData: ACSPData = session.getExtraData(USER_DATA) || {};
+        const acspData: ACSPData = session.getExtraData(USER_DATA) || { id: "" };
 
         acspData.businessAddress = businessAddress;
 

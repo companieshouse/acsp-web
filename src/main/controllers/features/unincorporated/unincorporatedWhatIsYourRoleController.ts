@@ -5,15 +5,15 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_TYPE, USER_DATA } from "../../../common/__utils/constants";
+import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspType = session?.getExtraData(ACSP_TYPE)!;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspType = acspData?.typeofBusiness;
     res.render(config.WHAT_IS_YOUR_ROLE, {
         title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
@@ -30,8 +30,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
-        const acspType = session?.getExtraData(ACSP_TYPE)!;
         const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspType = acspData?.typeofBusiness;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
