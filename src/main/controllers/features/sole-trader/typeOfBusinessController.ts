@@ -15,7 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const typeOfBusinessService = new TypeOfBusinessService();
-    const existingTransactionId = getSessionValue(req, SUBMISSION_ID);
+    const session: Session = req.session as any as Session;
+    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
 
     // create transaction record
     try {
