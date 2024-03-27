@@ -8,7 +8,7 @@ import { Address } from "../../model/Address";
 import { getCountryFromKey } from "../../utils/web";
 
 export class CorrespondenceAddressAutoLookService {
-    saveCorrespondenceAddress (acspData :ACSPData, ukAddresses: UKAddress[], inputPremise: string) {
+    saveCorrespondenceAddress (acspData :ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
 
         let address = {
             premise: "",
@@ -47,7 +47,7 @@ export class CorrespondenceAddressAutoLookService {
         return acspData;
     }
 
-    saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]) {
+    saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
 
         const addressList: Array<Address> = [];
         for (const ukAddress of ukAddresses) {
