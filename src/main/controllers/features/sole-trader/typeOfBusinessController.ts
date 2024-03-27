@@ -58,9 +58,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
             const acspData : ACSPData = {
-                id: email
+                id: email,
+                typeofBusiness: selectedOption
             };
-            acspData.typeofBusiness = selectedOption;
             if (session) {
                 session.setExtraData(USER_DATA, acspData);
             }
