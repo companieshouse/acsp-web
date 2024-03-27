@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
-import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY } from "../../../types/pageURL";
+import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "Enter the business address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY,
+        currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL,
         businessName: acspData?.businessName
     });
 };
@@ -37,7 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
                 title: "Enter the business address",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY,
+                currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL,
                 pageProperties: pageProperties,
                 payload: req.body,
                 businessName: acspData?.businessName

@@ -1,17 +1,18 @@
 import { Request } from "express";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
-import { BUSINESS_ADDRESS, BUSINESS_NAME } from "../../common/__utils/constants";
+import { BUSINESS_ADDRESS, BUSINESS_NAME, USER_DATA } from "../../common/__utils/constants";
 import { Company } from "../../model/Company";
 import { Address } from "../../model/Address";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Session } from "@companieshouse/node-session-handler";
+import { ACSPData } from "main/model/ACSPData";
 
 export class BusinessAddressService {
-    private readonly sessionKey = "businessAddress";
-
     public saveBusinessAddress (req: Request): void {
         const session: Session = req.session as any as Session;
-        const businessAddress : Address = {
+
+        // Extract business address details from request body
+        const businessAddress: Address = {
             propertyDetails: req.body.addressPropertyDetails,
             line1: req.body.addressLine1,
             line2: req.body.addressLine2,
@@ -20,6 +21,12 @@ export class BusinessAddressService {
             country: req.body.addressCountry,
             postcode: req.body.addressPostcode
         };
-        saveDataInSession(req, BUSINESS_ADDRESS, businessAddress);
+
+        const acspData: ACSPData = session.getExtraData(USER_DATA) || {};
+
+        acspData.businessAddress = businessAddress;
+
+        saveDataInSession(req, USER_DATA, acspData);
+
     }
 }
