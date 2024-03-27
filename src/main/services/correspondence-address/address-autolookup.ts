@@ -10,7 +10,7 @@ import { getCountryFromKey } from "../../utils/web";
 export class CorrespondenceAddressAutoLookService {
     saveCorrespondenceAddress (acspData :ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
 
-        let address = {
+        const address = {
             premise: "",
             propertyDetails: "",
             line1: "",
@@ -23,7 +23,7 @@ export class CorrespondenceAddressAutoLookService {
             if (ukAddress.premise === inputPremise) {
                 const correspondenceAddress: Address = {
                     propertyDetails: ukAddress.premise,
-                    //premise: ukAddress.premise,
+                    // premise: ukAddress.premise,
                     line1: ukAddress.addressLine1,
                     line2: ukAddress.addressLine2!,
                     town: ukAddress.postTown,
@@ -37,7 +37,6 @@ export class CorrespondenceAddressAutoLookService {
         }
         return acspData;
     }
-            
 
     saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
 
