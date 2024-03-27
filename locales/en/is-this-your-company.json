@@ -4,9 +4,9 @@
     "companyNumber": "Company number",
     "status": "Status",
     "incorporationDate": "Incorporation date",
-    "companyType": "Company type welsh",
+    "companyType": "Company type",
     "registeredOfficeAddress": "Registered office address",
-    "correspondaceAddress": "Correspondance address",
+    "correspondeceAddress": "Correspondence address",
     "confirm": "Confirm and continue",
     "chooseADifferentCompany": "Choose a different company"
 }
