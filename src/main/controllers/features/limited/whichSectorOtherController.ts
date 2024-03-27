@@ -12,13 +12,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHICH_SECTOR_OTHER, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
         title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + LIMITED_WHICH_SECTOR_OTHER,
-        acspType: ACSPData?.typeofBusiness,
+        acspType: acspData?.typeofBusiness,
         whichSectorLink: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang)
     });
 };
@@ -28,8 +28,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
-        const acspType = ACSPData?.typeofBusiness;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
