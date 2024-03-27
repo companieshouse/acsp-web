@@ -31,7 +31,9 @@ import {
     unincorporatedSectorYouWorkInController, unincorporatedWhichSectorOtherController,
     unincorporatedWhatIsYourNameController,
     unincorporatedWhatIsYourRoleController,
-    whatIsTheBusinessNameController
+    whatIsTheBusinessNameController,
+    unincorporatedBusinessAddressManualEntryController,
+    unincorporatedConfirmYourBusinessAddressController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -39,7 +41,7 @@ import { businessAddressListValidator } from "../validation/businessAddressList"
 import { companyNumberValidator } from "../validation/companyLookup";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
-import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
+import { manualAddressValidator } from "../validation/commonAddressManual";
 import { dateOfBirthValidator } from "../validation/dateOfBirth";
 import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWithAml";
 import { nationalityValidator } from "../validation/nationality";
@@ -81,7 +83,7 @@ routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveControlle
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
 routes.get(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, soleTraderCorrespondenceAddressManualController.get);
-routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
+routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, manualAddressValidator, soleTraderCorrespondenceAddressManualController.post);
 
 routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
 routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
@@ -154,5 +156,11 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAu
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, unincorporatedBusinessAddressListController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator, unincorporatedBusinessAddressListController.post);
+
+routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, unincorporatedBusinessAddressManualEntryController.get);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, manualAddressValidator, unincorporatedBusinessAddressManualEntryController.post);
+
+routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
 
 export default routes;

@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import app from "../../../main/app";
-import { correspondenceAddressManualValidator } from "../../../main/validation/correspondenceAddressManual";
+import { manualAddressValidator } from "../../../main/validation/commonAddressManual";
 import { validationResult } from "express-validator";
 
 const router = supertest(app);
@@ -20,7 +20,7 @@ describe("Correspondence Address Manual Validator", () => {
         const req = { body: validAddressData };
         const res = { locals: {} };
 
-        for (const validationChain of correspondenceAddressManualValidator) {
+        for (const validationChain of manualAddressValidator) {
 
             if (typeof validationChain === "function") {
                 validationChain(req, res, () => {});
@@ -46,7 +46,7 @@ describe("Correspondence Address Manual Validator", () => {
         const req = { body: invalidAddressData };
         const res = { locals: {} };
 
-        for (const validationChain of correspondenceAddressManualValidator) {
+        for (const validationChain of manualAddressValidator) {
             if (typeof validationChain === "function") {
                 await validationChain(req, res, () => {});
             }

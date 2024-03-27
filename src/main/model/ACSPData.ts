@@ -17,6 +17,7 @@ export interface ACSPData {
     nationality? : Array<Nationality>;
     countryOfResidence? : string;
     businessName?: string;
+    businessAddress?: Address;
     workSector?: SectorOfWork;
     amlSupervisoryBodies?: Map<AMLSupervisoryBodies, number>;
     companyDetails?: Company;

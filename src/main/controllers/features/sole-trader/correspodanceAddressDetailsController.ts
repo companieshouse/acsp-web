@@ -46,7 +46,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
-                addresses: acspData?.addresses
+                addresses: acspData?.addresses,
+                correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         } else {
             const addressList = acspData.addresses!;
