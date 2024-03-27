@@ -34,7 +34,7 @@ export class AddressLookUpService {
         }
         // Save the address to session
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
+        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
         const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
             companyName: "",
             companyNumber: "",
@@ -72,7 +72,7 @@ export class AddressLookUpService {
 
     public saveAddressFromList (req: Request, businessAddress: Address): void {
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
+        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
         const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
             companyName: "",
             companyNumber: "",
