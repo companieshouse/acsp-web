@@ -8,22 +8,12 @@ import { Address } from "../../model/Address";
 import { getCountryFromKey } from "../../utils/web";
 
 export class CorrespondenceAddressAutoLookService {
-    saveCorrespondenceAddress (acspData :ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
+    saveCorrespondenceAddress(acspData: ACSPData, ukAddresses: UKAddress[], inputPremise: string): ACSPData {
 
-        const address = {
-            premise: "",
-            propertyDetails: "",
-            line1: "",
-            line2: "",
-            town: "",
-            country: "",
-            postcode: ""
-        };
         for (const ukAddress of ukAddresses) {
             if (ukAddress.premise === inputPremise) {
                 const correspondenceAddress: Address = {
                     propertyDetails: ukAddress.premise,
-                    // premise: ukAddress.premise,
                     line1: ukAddress.addressLine1,
                     line2: ukAddress.addressLine2!,
                     town: ukAddress.postTown,
@@ -38,7 +28,7 @@ export class CorrespondenceAddressAutoLookService {
         return acspData;
     }
 
-    saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
+    saveAddressListToSession(acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
 
         const addressList: Array<Address> = [];
         for (const ukAddress of ukAddresses) {
