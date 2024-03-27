@@ -21,31 +21,23 @@ export class CorrespondenceAddressAutoLookService {
         };
         for (const ukAddress of ukAddresses) {
             if (ukAddress.premise === inputPremise) {
-                address = {
+                const correspondenceAddress: Address = {
                     propertyDetails: ukAddress.premise,
-                    premise: ukAddress.premise,
+                    //premise: ukAddress.premise,
                     line1: ukAddress.addressLine1,
                     line2: ukAddress.addressLine2!,
                     town: ukAddress.postTown,
                     country: getCountryFromKey(ukAddress.country),
                     postcode: ukAddress.postcode
                 };
+
+                acspData.addresses = [correspondenceAddress];
+                break;
             }
         }
-
-        const correspondenceAddress: Address = {
-            propertyDetails: address.premise,
-            line1: address.line1,
-            line2: address.line2,
-            town: address.town,
-            country: address.country,
-            postcode: address.postcode
-        };
-        const userAddresses: Array<Address> = acspData?.addresses ? acspData.addresses : [];
-        userAddresses.push(correspondenceAddress);
-        acspData.addresses = userAddresses;
         return acspData;
     }
+            
 
     saveAddressListToSession (acspData: ACSPData, ukAddresses: UKAddress[]): ACSPData {
 
