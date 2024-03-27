@@ -45,7 +45,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 unincorporatedBusinessName: acspData?.businessName
             });
         } else {
-            const redirectUrlAccordingToRole = redirectUrl(req.body.WhatIsYourRole, lang);
+            const redirectUrlAccordingToRole = getRedirectUrl(req.body.WhatIsYourRole, lang);
             res.redirect(addLangToUrl(redirectUrlAccordingToRole, lang));
         }
     } catch (error) {
@@ -57,6 +57,6 @@ const getPageProperties = (errors?: FormattedValidationErrors) => ({
     errors
 });
 
-const redirectUrl = (role: string, lang: string): string => {
+const getRedirectUrl = (role: string, lang: string): string => {
     return role === "SOMEONE_ELSE" ? BASE_URL + STOP_NOT_RELEVANT_OFFICER : BASE_URL + UNINCORPORATED_WHICH_SECTOR;
 };
