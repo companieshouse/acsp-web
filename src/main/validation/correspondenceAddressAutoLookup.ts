@@ -6,7 +6,7 @@ const addressPostcodevaild:RegExp = /^[A-Za-z0-9\s]*$/;
 
 export const correspondenceAddressAutoLookupValidator = [
 
-    body("postCode").trim().notEmpty().withMessage("correspondenceLookUpAddressNoPostCode").bail()
+    body("postCode").trim().toUpperCase().notEmpty().withMessage("correspondenceLookUpAddressNoPostCode").bail()
         .matches(addressPostcodevaild).withMessage("invalidPostcodeFormat").bail()
         .matches(addressUKPostcodeFormat).withMessage("invalidAddressPostcode").bail()
         .isLength({ min: 5, max: 50 }).withMessage("invalidAddressPostcode"),

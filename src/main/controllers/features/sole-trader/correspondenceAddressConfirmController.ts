@@ -10,8 +10,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     const { firstName, lastName, addresses } = acspData;
 
     res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, {
@@ -22,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
         firstName,
         lastName,
-        correspondenceAddress: addresses ? [0] : ""
+        correspondenceAddress: addresses ? addresses[0] : ""
     });
 };
 

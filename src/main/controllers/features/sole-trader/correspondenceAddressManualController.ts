@@ -4,11 +4,10 @@ import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, BASE_URL } from "../../../types/pageURL";
-import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/address-manual";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -46,21 +45,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.lastName
             });
         } else {
-            // Save the correspondence address to session
-            const correspondenceAddress : Address = {
-                propertyDetails: req.body.addressPropertyDetails,
-                line1: req.body.addressLine1,
-                line2: req.body.addressLine2,
-                town: req.body.addressTown,
-                county: req.body.addressCounty,
-                country: req.body.addressCountry,
-                postcode: req.body.addressPostcode
-            };
-            const userAddress : Array<Address> = acspData?.addresses ? acspData.addresses : [];
-            userAddress.push(correspondenceAddress);
-            acspData.addresses = userAddress;
-            saveDataInSession(req, USER_DATA, acspData);
-            res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+            const addressManualservice = new CorrespondenceAddressManualService();
+            addressManualservice.saveCorrespondenceManualAddress(req, acspData);
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
+
         }
     } catch (error) {
         next(error);
