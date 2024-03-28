@@ -1,7 +1,8 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ADDRESS_LIST, BUSINESS_NAME } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
+import { ACSPData } from "../../../model/ACSPData";
 import * as config from "../../../config";
 import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
@@ -12,7 +13,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
-    const businessName = session?.getExtraData(BUSINESS_NAME);
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
 
@@ -22,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
         addresses: addressList,
-        businessName: businessName,
+        businessName: acspData?.businessName,
         businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang)
     }
     );
@@ -32,7 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
-        const businessName = session?.getExtraData(BUSINESS_NAME);
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
@@ -45,12 +46,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
                 addresses: addressList,
-                businessName: businessName,
+                businessName: acspData?.businessName,
                 businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang),
                 pageProperties: pageProperties
             });
         } else {
-            const selectedPremise = req.body.correspondenceAddress;
+            const selectedPremise = req.body.businessAddress;
 
             // Save selected address to the session
             const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
