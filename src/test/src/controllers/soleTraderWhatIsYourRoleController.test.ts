@@ -12,7 +12,7 @@ describe("Statement Relevant Officer Router", () => {
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(response.text).toContain("What is your role?");
+        expect(response.text).toContain("What is your role in the business?");
     });
 
     it("should respond with status 302 on form submission with someone-else role", async () => {
