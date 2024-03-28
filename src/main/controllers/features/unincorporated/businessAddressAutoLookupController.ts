@@ -1,7 +1,8 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
-import { BUSINESS_NAME } from "../../../common/__utils/constants";
+import { USER_DATA } from "../../../common/__utils/constants";
+import { ACSPData } from "../../../model/ACSPData";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
@@ -11,7 +12,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const businessName = session?.getExtraData(BUSINESS_NAME);
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
@@ -19,16 +20,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What is your business address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
-        businessName: businessName,
+        businessName: acspData?.businessName,
         businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang)
     });
 
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const session: Session = req.session as any as Session;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+
     try {
-        const session: Session = req.session as any as Session;
-        const businessName = session?.getExtraData(BUSINESS_NAME);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
@@ -39,10 +41,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "What is your business address?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
-                businessName: businessName,
-                businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang),
                 pageProperties: pageProperties,
-                payload: req.body
+                payload: req.body,
+                businessName: acspData?.businessName,
+                businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang)
             });
         } else {
             const postcode = req.body.postCode;
@@ -60,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                    msg: "businessLookUpAddressInvalidAddressPostcode",
                     param: "postcode",
                     location: "body"
                 }];
@@ -70,7 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     title: "What is your business address?",
                     ...getLocaleInfo(locales, lang),
                     currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
-                    businessName: businessName,
+                    businessName: acspData?.businessName,
                     businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang),
                     pageProperties: pageProperties,
                     payload: req.body
