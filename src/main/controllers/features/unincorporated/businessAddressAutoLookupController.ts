@@ -6,7 +6,7 @@ import { ACSPData } from "../../../model/ACSPData";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
-import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, UNINCORPORATED_WHICH_SECTOR } from "../../../types/pageURL";
+import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 
@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
         title: "What is your business address?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
+        currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
         businessName: acspData?.businessName,
         businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang)
     });
@@ -40,7 +40,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 title: "What is your business address?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
+                currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
                 pageProperties: pageProperties,
                 payload: req.body,
                 businessName: acspData?.businessName,
@@ -71,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                     title: "What is your business address?",
                     ...getLocaleInfo(locales, lang),
-                    currentUrl: BASE_URL + config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
+                    currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
                     businessName: acspData?.businessName,
                     businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang),
                     pageProperties: pageProperties,
