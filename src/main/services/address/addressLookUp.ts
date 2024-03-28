@@ -44,8 +44,7 @@ export class AddressLookUpService {
             registeredOfficeAddress: {}
         };
 
-        acspCompanyDetails.registeredOfficeAddress = address;
-        acspData.companyDetails = acspCompanyDetails;
+        acspData.businessAddress = address;
         saveDataInSession(req, USER_DATA, acspData);
     }
 
@@ -82,8 +81,7 @@ export class AddressLookUpService {
             registeredOfficeAddress: {}
         };
 
-        acspCompanyDetails.registeredOfficeAddress = businessAddress;
-        acspData.companyDetails = acspCompanyDetails;
+        acspData.businessAddress = businessAddress;
         saveDataInSession(req, USER_DATA, acspData);
     }
 }
