@@ -41,7 +41,6 @@ export class CorrespondenceAddressAutoLookService {
             addressList.push(address);
 
         }
-        // Save the list of addresses to the session
         acspData.addresses = addressList;
         return acspData;
     }
