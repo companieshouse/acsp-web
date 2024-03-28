@@ -14,7 +14,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const ACSPData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHAT_IS_YOUR_ROLE, {
-        title: "What is your role?",
+        title: "What is your role in the business?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE,
         acspType: ACSPData?.typeofBusiness
