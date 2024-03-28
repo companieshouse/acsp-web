@@ -45,6 +45,7 @@ export class AddressLookUpService {
         };
 
         acspData.businessAddress = address;
+        acspData.companyDetails = acspCompanyDetails;
         saveDataInSession(req, USER_DATA, acspData);
     }
 
@@ -58,8 +59,8 @@ export class AddressLookUpService {
                 line2: ukAddress.addressLine2,
                 town: ukAddress.postTown,
                 country: getCountryFromKey(ukAddress.country),
-                postcode: ukAddress.postcode
-                // formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
+                postcode: ukAddress.postcode,
+                formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
             };
 
             addressList.push(address);
@@ -82,6 +83,7 @@ export class AddressLookUpService {
         };
 
         acspData.businessAddress = businessAddress;
+        acspData.companyDetails = acspCompanyDetails;
         saveDataInSession(req, USER_DATA, acspData);
     }
 }

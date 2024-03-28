@@ -51,7 +51,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties
             });
         } else {
-            const selectedPremise = req.body.correspondenceAddress;
+            const selectedPremise = req.body.businessAddress;
 
             // Save selected address to the session
             const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
