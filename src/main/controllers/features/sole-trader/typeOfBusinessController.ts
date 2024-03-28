@@ -8,7 +8,7 @@ import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
 import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
-import { saveDataInSession, getSessionValue } from "../../../common/__utils/sessionHelper";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
