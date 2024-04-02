@@ -11,6 +11,7 @@ export interface ACSPData {
     firstName?: string;
     lastName?: string;
     addresses?: Array<Address>;
+    address?: Address;
     typeofBusiness? : TypeOfBusiness;
     roleType? : RoleType;
     dateOfBirth? : Date;

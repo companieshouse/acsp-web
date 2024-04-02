@@ -33,7 +33,9 @@ import {
     unincorporatedWhatIsYourRoleController,
     whatIsTheBusinessNameController,
     unincorporatedBusinessAddressManualEntryController,
-    unincorporatedConfirmYourBusinessAddressController
+    unincorporatedConfirmYourBusinessAddressController,
+    unincorporatedCorrespondenceAddressAutoLookupController,
+    unincorporatedCorrespondenceAddressListController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -162,5 +164,11 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, manualAddressValidator,
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, unincorporatedCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, unincorporatedCorrespondenceAddressListController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, unincorporatedCorrespondenceAddressListController.post);
 
 export default routes;

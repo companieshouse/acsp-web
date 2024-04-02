@@ -18,9 +18,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    res.render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
+    res.render(config.AUTO_LOOKUP_ADDRESS, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
-        title: "What is your correspondence address?",
+        title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
         firstName: acspData?.firstName,
@@ -40,9 +40,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
+            res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
-                title: "What is your correspondence address?",
+                title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
                 pageProperties: pageProperties,
@@ -123,9 +123,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     location: "body"
                 }];
                 const pageProperties = getPageProperties(formatValidationError(validationError, lang));
-                res.status(400).render(config.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, {
+                res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
                     previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
-                    title: "What is your correspondence address?",
+                    title: "What is the correspondence address?",
                     ...getLocaleInfo(locales, lang),
                     currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
                     pageProperties: pageProperties,

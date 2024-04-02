@@ -41,3 +41,5 @@ export * as unincorporatedWhatIsYourRoleController from "./features/unincorporat
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";
 export * as unincorporatedBusinessAddressManualEntryController from "./features/unincorporated/unincorporatedBusinessAddressManualEntryController";
 export * as unincorporatedConfirmYourBusinessAddressController from "./features/unincorporated/unincorporatedConfirmYourBusinessAddressController";
+export * as unincorporatedCorrespondenceAddressAutoLookupController from "./features/unincorporated/correspondenceAddressAutoLookupController";
+export * as unincorporatedCorrespondenceAddressListController from "./features/unincorporated/correspondenceAddressListController";
