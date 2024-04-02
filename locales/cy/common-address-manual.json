@@ -26,5 +26,6 @@
     "error-invalidAddressLine2Length": "Address line 2 must be 50 characters or less welsh",
     "error-invalidAddressTownLength": "City or town must be 50 characters or less welsh",
     "error-invalidAddressCountyLength": "County or region must be 50 characters or less welsh",
-    "error-invalidAddressCountryLength": "Country must be 50 characters or less welsh"
+    "error-invalidAddressCountryLength": "Country must be 50 characters or less welsh",
+    "error-countryIsMissing": "Enter a country welsh"
 }

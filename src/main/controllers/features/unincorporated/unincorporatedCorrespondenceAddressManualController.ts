@@ -3,12 +3,11 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, BASE_URL } from "../../../types/pageURL";
-import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -20,8 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
-        firstName: acspData?.firstName,
-        lastName: acspData?.lastName
+        businessName: acspData?.businessName
     });
 };
 
@@ -42,25 +40,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                businessName: acspData?.businessName
             });
         } else {
             // Save the correspondence address to session
-            const correspondenceAddress : Address = {
-                propertyDetails: req.body.addressPropertyDetails,
-                line1: req.body.addressLine1,
-                line2: req.body.addressLine2,
-                town: req.body.addressTown,
-                county: req.body.addressCounty,
-                country: req.body.addressCountry,
-                postcode: req.body.addressPostcode
-            };
-            const userAddress : Array<Address> = acspData?.addresses ? acspData.addresses : [];
-            userAddress.push(correspondenceAddress);
-            acspData.addresses = userAddress;
-            saveDataInSession(req, USER_DATA, acspData);
-            res.redirect(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
+            const addressManualservice = new CorrespondenceAddressManualService();
+            addressManualservice.saveCorrespondenceManualAddress(req);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }
     } catch (error) {
         next(error);
