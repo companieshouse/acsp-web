@@ -33,8 +33,10 @@ import {
     unincorporatedWhatIsYourRoleController,
     whatIsTheBusinessNameController,
     unincorporatedBusinessAddressManualEntryController,
+    unincorporatedAddressCorrespondanceSelectorController,
     unincorporatedConfirmYourBusinessAddressController,
-    unincorporatedAddressCorrespondanceSelectorController
+    unincorporatedCorrespondenceAddressManualController,
+    unicorporatedCorrespondenceAddressConfirmController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -55,6 +57,7 @@ import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
+import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 
 const routes = Router();
 
