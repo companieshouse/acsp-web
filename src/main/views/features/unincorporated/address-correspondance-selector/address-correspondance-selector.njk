@@ -1,34 +1,40 @@
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-
-{{ govukRadios({
-  name: "signIn",
-  fieldset: {
-    legend: {
-      text: "How do you want to sign in?",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  hint: {
-    text: "You’ll need an account to prove your identity and complete your Self Assessment."
-  },
-  items: [
-    {
-      value: "government-gateway",
-      text: "Sign in with Government Gateway",
-      hint: {
-        text: "You’ll have a user ID if you’ve registered for Self Assessment or filed a tax return online before."
-      }
-    },
-    {
-      value: "govuk-one-login",
-      text: "Sign in with GOV.UK One Login",
-      hint: {
-        text: "If you don’t have a GOV.UK One Login, you can create one."
-      }
-    }
-  ]
-}) }}
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.addressSelectorRadio if errors,
+                classes: "govuk-radios",
+                id: "address-selector-radios",
+                name: "addressSelectorRadio",
+                fieldset: {
+                    legend: {
+                        text: i18n.addressSelectorTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l govuk-!-width-two-thirds"
+                    }
+                },
+                items: [
+                    {
+                        value: "CORRESPONDANCE_ADDRESS",
+                        text: i18n.addressSelectorcorrespondanceAddress,
+                        checked: address-correspondance-selector == CORRESPONDANCE_ADDRESS,
+                        attributes: {
+                            "data-event-id": "correspondance-address"
+                        }
+                    },
+                    {
+                        value: "DIFFERENT_ADDRESS",
+                        text: i18n.addressSelectorDifferentAddress,
+                        checked: address-correspondance-selector == DIFFERENT_ADDRESS,
+                        attributes: {
+                            "data-event-id": "different-address"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{ i18n.SaveAndContinue}}</button>
+    </form>
 {% endblock main_content %}
