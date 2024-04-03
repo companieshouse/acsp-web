@@ -42,4 +42,6 @@ export * as whatIsTheBusinessNameController from "./features/unincorporated/what
 export * as unincorporatedBusinessAddressManualEntryController from "./features/unincorporated/unincorporatedBusinessAddressManualEntryController";
 export * as unincorporatedConfirmYourBusinessAddressController from "./features/unincorporated/unincorporatedConfirmYourBusinessAddressController";
 export * as unincorporatedCorrespondenceAddressManualController from "./features/unincorporated/correspondenceAddressManualController";
-export * as unicorporatedCorrespondenceAddressConfirmController from "./features/unincorporated/correspondenceAddressConfirmController";
+export * as unincorporatedCorrespondenceAddressConfirmController from "./features/unincorporated/correspondenceAddressConfirmController";
+export * as unincorporatedCorrespondenceAddressAutoLookupController from "./features/unincorporated/correspondenceAddressAutoLookupController";
+export * as unincorporatedCorrespondenceAddressListController from "./features/unincorporated/correspondenceAddressListController";

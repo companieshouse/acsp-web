@@ -15,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    res.render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
+    res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
         title: "Select your address",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
@@ -38,7 +38,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SOLE_TRADER_CORRESPONDENCE_ADDRESS_LIST, {
+            res.status(400).render(config.CORRESPONDENCE_ADDRESS_LIST, {
                 title: "Select your address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,

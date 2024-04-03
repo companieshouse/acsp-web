@@ -8,10 +8,10 @@
     {% set ITEMS = [] %}
     {% for addressOption in addresses %}
         {% set addressObject = {
-            id: addressOption.premise,
-            value: addressOption.premise,
-            text: addressOption.formattedAddress,
-            checked: addressOption.premise == currentPremises,
+            id: addressOption.propertyDetails,
+            value: addressOption.propertyDetails,
+            text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.country + ", " + addressOption.postcode,
+            checked: addressOption.propertyDetails == currentPremises,
             attributes: {
                 "data-event-id": "address-option-" + addressOption.premise
             }
@@ -39,7 +39,7 @@
                 items: ITEMS
             }) }}
         </div>
-        <button class="govuk-button">{{ i18n.correspondenceLookUpAddresListConfirmBtn }}</button>
+        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
     </form>
     
     {# Manual address entry link #}
