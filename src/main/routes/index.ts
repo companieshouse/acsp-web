@@ -55,7 +55,6 @@ import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
-import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 
 const routes = Router();
 
@@ -167,5 +166,11 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmY
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, unincorporatedAddressCorrespondanceSelectorController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, unincorporatedAddressCorrespondanceSelectorController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, unincorporatedCorrespondenceAddressManualController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unicorporatedCorrespondenceAddressConfirmController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unicorporatedCorrespondenceAddressConfirmController.post);
 
 export default routes;
