@@ -49,12 +49,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties
             });
         } else {
-            const selectedPremise = req.body.businessAddress;
+            const selectedPremise = req.body.correspondenceAddress;
 
             // Save selected address to the session
-            const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
+            const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.saveCorrespondenceAddressFromList(req, businessAddress);
+            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress);
 
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
