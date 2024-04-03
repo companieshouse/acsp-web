@@ -62,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
-                    msg: "businessLookUpAddressInvalidAddressPostcode",
+                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
                     param: "postcode",
                     location: "body"
                 }];
