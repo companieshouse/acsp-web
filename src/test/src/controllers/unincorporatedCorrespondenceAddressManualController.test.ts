@@ -146,13 +146,15 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     });
 });
 
-// Test for no addressCountry, will return 302.
+// Test for no addressCountry, will return 400.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
-    xit("should return status 302", async () => {
-        await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
+    it("should return status 400", async () => {
+        const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(400);
+        expect(res.text).toContain("Enter a country");
     });
 });
+
 // Test for incorrect addressCountry Format entered, will return 400.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
@@ -181,14 +183,16 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 // Test for incorrect addressPostcode Format entered, will return 400.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
+        const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB@" }).expect(400);
+        expect(res.text).toContain("Postcode must only include letters a to z, numbers and spaces");
     });
 });
 // Test for incorrect addressPostcode Length entered, will return 400.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
+        const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A3GB" }).expect(400);
+        expect(res.text).toContain("Enter a full UK postcode");
     });
 });
