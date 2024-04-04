@@ -15,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, {
-        title: "What is the correspondence address?",
+        title: "Enter the correspondence address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
@@ -35,7 +35,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
-                title: "What is the correspondence address?",
+                title: "Enter the correspondence address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
                 pageProperties: pageProperties,
