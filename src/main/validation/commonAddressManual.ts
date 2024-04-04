@@ -23,11 +23,11 @@ export const manualAddressValidator = [
         .matches(addressTownFormat).withMessage("invalidAddressTown").bail()
         .isLength({ max: 50 }).withMessage("invalidAddressTownLength"),
 
-    body("addressCounty").trim().matches(otherAddressDetailsFormat).withMessage("invalidAddressCounty").bail()
+    body("addressCounty").trim().matches(addressCountyAndCountryFormat).withMessage("invalidAddressCounty").bail()
         .isLength({ max: 50 }).withMessage("invalidAddressCountyLength"),
 
     body("addressCountry").trim().notEmpty().withMessage("countryIsMissing").bail()
-        .matches(otherAddressDetailsFormat).withMessage("invalidAddressCountry").bail()
+        .matches(addressCountyAndCountryFormat).withMessage("invalidAddressCountry").bail()
         .isLength({ max: 50 }).withMessage("invalidAddressCountryLength"),
 
     body("addressPostcode").trim().toUpperCase().notEmpty().withMessage("noPostCode").bail()
