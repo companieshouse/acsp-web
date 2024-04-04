@@ -16,7 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
-        title: "What is the correspondence address?",
+        title: "Enter the correspondence address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
@@ -37,7 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, {
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
-                title: "What is the correspondence address?",
+                title: "Enter the correspondence address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
                 pageProperties: pageProperties,
