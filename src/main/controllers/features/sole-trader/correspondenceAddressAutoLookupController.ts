@@ -89,7 +89,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     userAddresses.push(correspondenceAddress);
                     acspData.addresses = userAddresses;
                     saveDataInSession(req, USER_DATA, acspData);
-                    res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+                    res.redirect(nextPageUrl);
 
                 } else {
 

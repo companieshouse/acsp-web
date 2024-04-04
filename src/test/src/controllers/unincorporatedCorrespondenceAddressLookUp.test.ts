@@ -57,7 +57,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(302); // Expect a redirect status code
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
     it("should return status 400 for invalid postcode entered", async () => {
