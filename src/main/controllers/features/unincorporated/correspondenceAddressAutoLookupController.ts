@@ -50,7 +50,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const addressLookUpService = new AddressLookUpService();
                 if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                     addressLookUpService.saveCorrespondenceAddressToSession(req, ukAddresses, inputPremise);
-                    res.redirect(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
+                    const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+                    res.redirect(nextPageUrl);
                 } else {
                     addressLookUpService.saveAddressListToSession(req, ukAddresses);
                     const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, lang);
