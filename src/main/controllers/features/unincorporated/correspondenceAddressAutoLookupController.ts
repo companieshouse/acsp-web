@@ -60,7 +60,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
                     msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postcode",
+                    param: "postCode",
                     location: "body"
                 }];
                 const pageProperties = getPageProperties(formatValidationError(validationError, lang));
