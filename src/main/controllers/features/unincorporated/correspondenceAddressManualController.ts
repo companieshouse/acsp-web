@@ -14,12 +14,22 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const payload = {
+        addressPropertyDetails: acspData?.address?.propertyDetails,
+        addressLine1: acspData?.address?.line1,
+        addressLine2: acspData?.address?.line2,
+        addressTown: acspData?.address?.town,
+        addressCounty: acspData?.address?.county,
+        addressCountry: acspData?.address?.country,
+        addressPostcode: acspData?.address?.postcode
+    };
     res.render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, {
         title: "Enter the correspondence address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
-        businessName: acspData?.businessName
+        businessName: acspData?.businessName,
+        payload: payload
     });
 };
 
