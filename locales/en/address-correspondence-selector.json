@@ -1,9 +1,5 @@
 {
-    "addressSelectorTitle" : "What is the correspondence address?",
+    "addressSelectorTitle": "What is the correspondence address?",
     "addressSelectorDifferentAddress": "A different address",
-
-    "error-addressSelectorSelectionRadio" : "Select the correspondence address"
-
-   
-
+    "error-addressSelectorSelectionRadio": "Select the correspondence address"
 }

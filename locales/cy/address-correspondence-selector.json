@@ -1,10 +1,5 @@
 {
-    "addressSelectorTitle" : "What is the correspondence address?Welsh",
+    "addressSelectorTitle": "What is the correspondence address?Welsh",
     "addressSelectorDifferentAddress": "A different address Welsh",
-
-    
-    "error-addressSelectorSelectionRadio" : "Select the correspondence address Welsh"
-
-   
-
+    "error-addressSelectorSelectionRadio": "Select the correspondence address Welsh"
 }
