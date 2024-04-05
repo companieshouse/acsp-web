@@ -1,6 +1,13 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
+{% set optionalFields = "" %}
+    {% if businessAddress.line2 %}
+        {% set optionalFields = optionalFields + ", " + businessAddress.line2 %}
+    {% endif %}
+    {% if businessAddress.county %}
+        {% set optionalFields = optionalFields + ", " + businessAddress.county %}
+    {% endif %}
     <form action="" method="POST">
         <div class="govuk-form-group">
             {{ govukRadios({
@@ -18,7 +25,7 @@
                 items: [
                     {
                         value: "CORRESPONDANCE_ADDRESS",
-                        text: i18n.addressSelectorcorrespondanceAddress,
+                        text: businessAddress.propertyDetails + ", " + businessAddress.line1 + optionalFields + ", " + businessAddress.town  + ", " + businessAddress.country + ", " + businessAddress.postcode,
                         checked: address-correspondance-selector == CORRESPONDANCE_ADDRESS,
                         attributes: {
                             "data-event-id": "correspondance-address"
