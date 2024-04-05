@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     }
     res.render(config.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, {
         previousPage: addLangToUrl(previousPage, lang),
-        title: "What is the business name?",
+        title: "What is the name of the business?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME
     });
@@ -47,7 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(previousPage, lang),
-                title: "What is the business name?",
+                title: "What is the name of the business?",
                 payload: req.body,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME,
