@@ -1,7 +1,6 @@
 {
-    "whatIsTheBusinessNameTitle" : "What is the business name?",
-    "whatIsTheBusinessNameHint": "This is the name your business trades under.",
-    "whatIsTheBusinessNamePublic": "We will show this on the public register.",
+    "whatIsTheBusinessNameTitle" : "What is the name of th business?",
+    "whatIsTheBusinessNamePublic": "We will show the business name on the public list of authorised agents.",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue",
    
     "error-whatIsTheBusinessNameNoName" : "Enter the business name",
