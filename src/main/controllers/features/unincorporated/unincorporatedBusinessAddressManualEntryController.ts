@@ -15,13 +15,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const payload = {
-        addressPropertyDetails: acspData.address?.propertyDetails,
-        addressLine1: acspData.address?.line1,
-        addressLine2: acspData.address?.line2,
-        addressTown: acspData.address?.town,
-        addressCounty: acspData.address?.county,
-        addressCountry: acspData.address?.country,
-        addressPostcode: acspData.address?.postcode
+        addressPropertyDetails: acspData?.address?.propertyDetails,
+        addressLine1: acspData?.address?.line1,
+        addressLine2: acspData?.address?.line2,
+        addressTown: acspData?.address?.town,
+        addressCounty: acspData?.address?.county,
+        addressCountry: acspData?.address?.country,
+        addressPostcode: acspData?.address?.postcode
     };
     res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
         title: "Enter the business address",
