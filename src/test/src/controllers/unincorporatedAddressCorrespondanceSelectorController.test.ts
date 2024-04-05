@@ -1,8 +1,7 @@
 import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
-import { UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, BASE_URL, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../main/types/pageURL";
-import { Address } from "../../../main/model/Address";
+import { UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, BASE_URL, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
