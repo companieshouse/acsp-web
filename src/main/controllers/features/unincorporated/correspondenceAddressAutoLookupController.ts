@@ -5,7 +5,7 @@ import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import {
-    BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_ADDRESS_CORRESPONDENCE_SELECTOR,
+    BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
     UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
@@ -16,7 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.AUTO_LOOKUP_ADDRESS, {
-        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_ADDRESS_CORRESPONDENCE_SELECTOR, lang),
+        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
@@ -35,7 +35,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
-                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_ADDRESS_CORRESPONDENCE_SELECTOR, lang),
+                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
                 title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 }];
                 const pageProperties = getPageProperties(formatValidationError(validationError, lang));
                 res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
-                    previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_ADDRESS_CORRESPONDENCE_SELECTOR, lang),
+                    previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
                     title: "What is the correspondence address?",
                     ...getLocaleInfo(locales, lang),
                     currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,

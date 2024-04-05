@@ -25,6 +25,7 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = `${BASE_UNINCORPORATED_URL}/
 export const UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
 export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = `${BASE_UNINCORPORATED_URL}/business-address-manual-entry/business-address-manual-entry`;
 export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = `${BASE_UNINCORPORATED_URL}/confirm-your-business-address/confirm-your-business-address`;
+export const UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_UNINCORPORATED_URL}/address-correspondance-selector/address-correspondance-selector`;
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL = `${BASE_COMMON_URL}/correspondence-address-manual/capture-correspondence-address-manual`;
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_COMMON_URL}/correspondence-address-confirm/correspondence-address-confirm`;
 

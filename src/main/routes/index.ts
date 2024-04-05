@@ -33,6 +33,7 @@ import {
     unincorporatedWhatIsYourRoleController,
     whatIsTheBusinessNameController,
     unincorporatedBusinessAddressManualEntryController,
+    addressCorrespondanceSelectorController,
     unincorporatedConfirmYourBusinessAddressController,
     unincorporatedCorrespondenceAddressManualController,
     unincorporatedCorrespondenceAddressConfirmController,
@@ -58,6 +59,7 @@ import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
+import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 
 const routes = Router();
 
@@ -166,6 +168,9 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, manualAddressValidator,
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, addressCorrespondanceSelectorController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
 routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, unincorporatedCorrespondenceAddressManualController.post);

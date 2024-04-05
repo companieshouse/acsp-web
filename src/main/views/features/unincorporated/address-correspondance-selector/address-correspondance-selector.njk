@@ -1,0 +1,47 @@
+{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+{% set optionalFields = "" %}
+    {% if businessAddress.line2 %}
+        {% set optionalFields = optionalFields + ", " + businessAddress.line2 %}
+    {% endif %}
+    {% if businessAddress.county %}
+        {% set optionalFields = optionalFields + ", " + businessAddress.county %}
+    {% endif %}
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.addressSelectorRadio if errors,
+                classes: "govuk-radios",
+                id: "address-selector-radios",
+                name: "addressSelectorRadio",
+                fieldset: {
+                    legend: {
+                        text: i18n.addressSelectorTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l govuk-!-width-two-thirds"
+                    }
+                },
+                items: [
+                    {
+                        value: "CORRESPONDANCE_ADDRESS",
+                        text: businessAddress.propertyDetails + ", " + businessAddress.line1 + optionalFields + ", " + businessAddress.town  + ", " + businessAddress.country + ", " + businessAddress.postcode,
+                        checked: address-correspondance-selector == CORRESPONDANCE_ADDRESS,
+                        attributes: {
+                            "data-event-id": "correspondance-address"
+                        }
+                    },
+                    {
+                        value: "DIFFERENT_ADDRESS",
+                        text: i18n.addressSelectorDifferentAddress,
+                        checked: address-correspondance-selector == DIFFERENT_ADDRESS,
+                        attributes: {
+                            "data-event-id": "different-address"
+                        }
+                    }
+                ]
+                }) }}
+        </div>
+        <button class="govuk-button">{{ i18n.SaveAndContinue}}</button>
+    </form>
+{% endblock main_content %}
