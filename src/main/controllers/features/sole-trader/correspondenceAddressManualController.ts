@@ -8,14 +8,13 @@ import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { CorrespondenceAddressManualService } from "../../../../main/services/correspondence-address/correspondence-address-manual";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const payload = {
         addressPropertyDetails: acspData?.address?.propertyDetails,
         addressLine1: acspData?.address?.line1,
@@ -38,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -70,4 +69,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 const getPageProperties = (errors?: FormattedValidationErrors) => ({
     errors
 });
-

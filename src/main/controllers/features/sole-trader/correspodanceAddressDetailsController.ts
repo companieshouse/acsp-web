@@ -6,8 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
 import { Address } from "main/model/Address";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
 
