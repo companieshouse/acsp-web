@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { DETAIL_ANSWERS, USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -37,6 +37,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+
+            const session: Session = req.session as any as Session;
+
+            const detailsAnswers: [{}] = session?.getExtraData(DETAIL_ANSWERS)!;
+
+            detailsAnswers.push({
+                key: {
+                  text: "Your Role"
+                },
+                value: {
+                  text: selectedRole
+                }
+              });
 
             switch (selectedRole) {
             case "SOLE_TRADER":

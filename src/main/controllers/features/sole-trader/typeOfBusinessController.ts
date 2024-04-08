@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { DETAIL_ANSWERS, SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -62,7 +62,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 id: email,
                 typeofBusiness: selectedOption
             };
+            const detailsAnswers = [{
+                key: {
+                    text: "Type of Business"
+                },
+                value: {
+                    text: selectedOption
+                }
+            }];
             if (session) {
+                session.setExtraData(DETAIL_ANSWERS, detailsAnswers);
                 session.setExtraData(USER_DATA, acspData);
             }
 
