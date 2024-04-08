@@ -14,12 +14,22 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const payload = {
+        addressPropertyDetails: acspData?.businessAddress?.propertyDetails,
+        addressLine1: acspData?.businessAddress?.line1,
+        addressLine2: acspData?.businessAddress?.line2,
+        addressTown: acspData?.businessAddress?.town,
+        addressCounty: acspData?.businessAddress?.county,
+        addressCountry: acspData?.businessAddress?.country,
+        addressPostcode: acspData?.businessAddress?.postcode
+    };
     res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
         title: "Enter the business address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
         currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL,
-        businessName: acspData?.businessName
+        businessName: acspData?.businessName,
+        payload: payload
     });
 };
 

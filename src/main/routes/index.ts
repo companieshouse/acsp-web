@@ -33,9 +33,12 @@ import {
     unincorporatedWhatIsYourRoleController,
     whatIsTheBusinessNameController,
     unincorporatedBusinessAddressManualEntryController,
+    addressCorrespondanceSelectorController,
     unincorporatedConfirmYourBusinessAddressController,
     unincorporatedCorrespondenceAddressManualController,
-    unicorporatedCorrespondenceAddressConfirmController
+    unincorporatedCorrespondenceAddressConfirmController,
+    unincorporatedCorrespondenceAddressAutoLookupController,
+    unincorporatedCorrespondenceAddressListController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -57,6 +60,7 @@ import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
+import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 
 const routes = Router();
 
@@ -166,10 +170,19 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, manualAddressValidator,
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
 
+routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, addressCorrespondanceSelectorController.post);
+
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
 routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, unincorporatedCorrespondenceAddressManualController.post);
 
-routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unicorporatedCorrespondenceAddressConfirmController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unicorporatedCorrespondenceAddressConfirmController.post);
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, unincorporatedCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, unincorporatedCorrespondenceAddressListController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, unincorporatedCorrespondenceAddressListController.post);
 
 export default routes;

@@ -110,14 +110,14 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
-        expect(res.text).toContain("City or town must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("City or town must only include letters a to z and common special characters such as hyphens, spaces and apostrophes");
     });
 });
 // Test for incorrect addressTown Length entered, will return 400.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "AbcdefghijklmnopqrstuvwxutAbcdefghijklmnopqrstuvwxwA", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
         expect(res.text).toContain("City or town must be 50 characters or less");
     });
 });
@@ -141,7 +141,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "AbcdefghijklmnopqrstuvwxbbAbcdefghijklmnopqrstuvwxaaa", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
         expect(res.text).toContain("County or region must be 50 characters or less");
     });
 });
@@ -167,7 +167,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressPostcode: "MK9 3GB" }).expect(400);
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "AbcdefghijklmnopqrstuvwxbbAbcdefghijklmnopqrstuvwxaaa", addressPostcode: "MK9 3GB" }).expect(400);
         expect(res.text).toContain("Country must be 50 characters or less");
     });
 });
