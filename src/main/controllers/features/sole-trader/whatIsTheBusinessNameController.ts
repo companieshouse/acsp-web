@@ -29,7 +29,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    console.log(acspData);
 
     try {
         const errorList = validationResult(req);
