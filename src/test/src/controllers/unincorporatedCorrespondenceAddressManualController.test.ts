@@ -110,7 +110,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(400);
-        expect(res.text).toContain("City or town must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("City or town must only include letters a to z and common special characters such as hyphens, spaces and apostrophes");
     });
 });
 // Test for incorrect addressTown Length entered, will return 400.

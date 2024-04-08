@@ -10,16 +10,21 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { ACSPData } from "../../../model/ACSPData";
+import { USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+
     res.render(config.AUTO_LOOKUP_ADDRESS, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
+        businessName: acspData?.businessName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
     });
 
@@ -27,6 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -41,6 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
                 pageProperties: pageProperties,
                 payload: req.body,
+                businessName: acspData?.businessName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
             });
         } else {
