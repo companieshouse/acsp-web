@@ -24,12 +24,14 @@
             },
             id: "what-is-the-business-name-input",
             name: "whatIsTheBusinessNameInput",
-            value: payload["whatIsTheBusinessName"] 
+            value: payload["whatIsTheBusinessNameInput"] 
          }) }}
         {% endset -%}
 
         {{ govukRadios({
+          errorMessage: errors.whatsTheBusinessNameRadio if errors,
           name: "whatsTheBusinessNameRadio",
+          value: payload["whatsTheBusinessNameRadio"],
           id: "what-is-the-business-name-radio",
           classes: "govuk-radios",
           fieldset: {
@@ -41,7 +43,7 @@
           },
           items: [
             {
-              value: "USER-NAME",
+              value: "USERNAME",
               text: firstName + " " + lastName
             },
             {
