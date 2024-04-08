@@ -20,6 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
+        businessName: acspData?.businessName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
     });
 
@@ -41,6 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
                 pageProperties: pageProperties,
                 payload: req.body,
+                businessName: acspData?.businessName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
             });
         } else {
