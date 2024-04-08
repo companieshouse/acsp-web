@@ -37,6 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const session: Session = req.session as any as Session;
             const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+            console.log(acspData);
             if (acspData) {
                 acspData.firstName = req.body["first-name"];
                 acspData.lastName = req.body["last-name"];

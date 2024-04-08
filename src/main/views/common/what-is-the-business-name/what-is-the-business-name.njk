@@ -15,6 +15,9 @@
             label: {
               text: i18n.whatIsTheBusinessNameTitle
             },
+            errorMessage: {
+                    text: errors["whatIsTheBusinessNameInput"].text
+              } if errors["whatIsTheBusinessNameInput"] | length,
             classes: "govuk-input",
             hint: {
               text: i18n.whatIsTheBusinessNameHint
@@ -38,8 +41,8 @@
           },
           items: [
             {
-              value: firstName + lastName,
-              text: firstName + lastName
+              value: "USER-NAME",
+              text: firstName + " " + lastName
             },
             {
               value: "A Different Name",
