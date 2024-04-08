@@ -9,6 +9,9 @@
         {% set optionalFields = optionalFields + ", " + businessAddress.county %}
     {% endif %}
     <form action="" method="POST">
+        {% if businessName %}
+            {% include "partials/business_name.njk" %}
+        {% endif %}
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.addressSelectorRadio if errors,
