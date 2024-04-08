@@ -26,6 +26,7 @@
         {% endset -%}
 
         {{ govukRadios({
+          errorMessage: errors.WhatIsYourRole if errors,
           name: "whatsTheBusinessNameRadio",
           id: "what-is-the-business-name-radio",
           classes: "govuk-radios",
