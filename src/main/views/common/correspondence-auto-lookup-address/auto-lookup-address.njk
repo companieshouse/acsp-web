@@ -4,7 +4,12 @@
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="" method="POST">
-      {% include "partials/user_name.njk" %}
+      {% if businessName %}
+        {% include "partials/business_name.njk" %}
+      {% endif %}
+      {% if firstName %}
+        {% include "partials/user_name.njk" %}
+      {% endif %}  
       <h1 class="govuk-heading-l">{{ i18n.correspondenceLookUpAddressTitle }}</h1>
       <div class="govuk-form-group">
         {{ govukInput({
