@@ -1,6 +1,7 @@
 export * as accessibilityStatementController from "./accessibilityStatementController";
 export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
+export * as checkYourAnswersController from "./checkYourAnswers";
 
 // Sole trader
 

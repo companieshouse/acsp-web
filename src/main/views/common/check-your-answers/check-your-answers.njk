@@ -1,0 +1,13 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+
+    <div>
+        <h1 class="govuk-heading-xl">Check your answers before sending your application</h1>
+        <h2 class="govuk-heading-m">Your details</h2>
+        {{ govukSummaryList({
+            rows: answersList
+            })
+        }}
+    </div>
+{% endblock main_content %}

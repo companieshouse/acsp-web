@@ -32,6 +32,8 @@ export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
 export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
 
+export const CHECK_YOUR_ANSWERS = "/check-your-answers";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
