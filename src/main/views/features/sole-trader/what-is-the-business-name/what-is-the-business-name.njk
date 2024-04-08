@@ -8,26 +8,30 @@
   <div class="govuk-grid-row">
    <div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
-      <div class="govuk-form-group">
-
+        <div class="govuk-form-group">
+            
         {% set textHtml %}
         {{ govukInput({
             label: {
               text: i18n.whatIsTheBusinessNameTitle
             },
+            errorMessage: {
+                    text: errors["whatIsTheBusinessNameInput"].text
+              } if errors["whatIsTheBusinessNameInput"] | length,
             classes: "govuk-input",
             hint: {
               text: i18n.whatIsTheBusinessNameHint
             },
             id: "what-is-the-business-name-input",
             name: "whatIsTheBusinessNameInput",
-            value: payload["whatIsTheBusinessName"] 
+            value: payload["whatIsTheBusinessNameInput"] 
          }) }}
         {% endset -%}
 
         {{ govukRadios({
-          errorMessage: errors.WhatIsYourRole if errors,
+          errorMessage: errors.whatsTheBusinessNameRadio if errors,
           name: "whatsTheBusinessNameRadio",
+          value: payload["whatsTheBusinessNameRadio"],
           id: "what-is-the-business-name-radio",
           classes: "govuk-radios",
           fieldset: {
@@ -39,8 +43,8 @@
           },
           items: [
             {
-              value: "John Morris",
-              text: "John Morris"
+              value: "USERNAME",
+              text: firstName + " " + lastName
             },
             {
               value: "A Different Name",
@@ -51,8 +55,7 @@
             }
           ]
         }) }}  
-
-      </div>
+        </div>
             <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
      </form>
    </div>

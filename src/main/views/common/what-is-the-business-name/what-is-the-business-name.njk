@@ -1,5 +1,4 @@
 {% from "govuk/components/input/macro.njk"           import govukInput %}
-{% from "govuk/components/radios/macro.njk"          import govukRadios %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
@@ -10,51 +9,24 @@
     <form action="" method="POST">
         <div class="govuk-form-group">
             
-        {% set textHtml %}
-        {{ govukInput({
-            label: {
-              text: i18n.whatIsTheBusinessNameTitle
-            },
-            errorMessage: {
-                    text: errors["whatIsTheBusinessNameInput"].text
-              } if errors["whatIsTheBusinessNameInput"] | length,
-            classes: "govuk-input",
-            hint: {
-              text: i18n.whatIsTheBusinessNameHint
-            },
-            id: "what-is-the-business-name-input",
-            name: "whatIsTheBusinessNameInput",
-            value: payload["whatIsTheBusinessNameInput"] 
-         }) }}
-        {% endset -%}
+            {{ govukInput({
+                label: {
+                    text: i18n.whatIsTheBusinessNameTitle,
+                    classes: "govuk-label--l",
+                    isPageHeading: true
+                },
+                 errorMessage: {
+                    text: errors["whatIsTheBusinessName"].text
+              } if errors["whatIsTheBusinessName"] | length,
+                classes: "govuk-input",
+                id: "whatIsTheBusinessName",
+                name: "whatIsTheBusinessName",
+                value: payload["whatIsTheBusinessName"]     
+             }) }}
 
-        {{ govukRadios({
-          errorMessage: errors.whatsTheBusinessNameRadio if errors,
-          name: "whatsTheBusinessNameRadio",
-          value: payload["whatsTheBusinessNameRadio"],
-          id: "what-is-the-business-name-radio",
-          classes: "govuk-radios",
-          fieldset: {
-            legend: {
-              text: i18n.whatIsTheBusinessNameTitle,
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          items: [
-            {
-              value: "USERNAME",
-              text: firstName + " " + lastName
-            },
-            {
-              value: "A Different Name",
-              text: "A Different Name",
-              conditional: {
-                html: textHtml
-              }
-            }
-          ]
-        }) }}  
+             <div class="govuk-inset-text">
+                <p>{{i18n.whatIsTheBusinessNamePublic}}</p>   
+            </div>
         </div>
             <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
      </form>
