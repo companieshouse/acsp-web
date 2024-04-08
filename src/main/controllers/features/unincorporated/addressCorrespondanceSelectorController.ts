@@ -14,13 +14,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR, {
-        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM , lang),
+        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
         businessName: acspData?.businessName,
         businessAddress: acspData?.businessAddress,
-        correspondenceAddress: acspData?.address,
         payload: req.body
 
     });
@@ -38,14 +37,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR, {
-                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM , lang),
+                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
                 title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
                 ...pageProperties,
                 businessName: acspData?.businessName,
                 businessAddress: acspData?.businessAddress,
-                //correspondenceAddress: acspData?.address,
                 payload: req.body
             });
         } else {
