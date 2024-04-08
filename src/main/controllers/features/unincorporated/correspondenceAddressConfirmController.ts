@@ -24,5 +24,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    res.redirect(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR);
+    const lang = selectLang(req.query.lang);
+    res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
 };
