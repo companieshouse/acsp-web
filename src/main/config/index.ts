@@ -12,7 +12,7 @@ export const SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_COMMON_URL}/co
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
 export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
 export const SOLE_TRADER_OTHER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
-export const SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
+export const SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME = `${BASE_SOLE_TRADER_URL}/what-is-the-business-name/what-is-the-business-name`;
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
 export const LIMITED_BUSINESS_MUSTBE_AML_REGISTERED = `${BASE_LIMITED_TRADER_URL}/business-mustbe-aml-registered/business-mustbe-aml-registered`;

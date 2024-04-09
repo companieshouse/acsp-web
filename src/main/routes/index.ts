@@ -54,7 +54,8 @@ import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness"
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
 import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
-import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
+import { soleTraderWhatIsTheBusinessNameValidator } from "../validation/soleTraderWhatIsTheBusinessName";
+import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
@@ -110,7 +111,7 @@ routes.get(urls.OTHER_TYPE_OF_BUSINESS, soleTraderOtherTypeOfBusinessController.
 routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, soleTraderOtherTypeOfBusinessController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
@@ -140,7 +141,7 @@ routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, lim
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, unincorporatedWhatIsYourNameController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, nameValidator, unincorporatedWhatIsYourNameController.post);
