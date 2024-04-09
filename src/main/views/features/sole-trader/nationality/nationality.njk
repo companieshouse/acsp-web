@@ -18,7 +18,9 @@
                     </h1>
                 </legend>
                 <div id="typeahead-form-group-0" class="govuk-form-group">
-                    <p class="govuk-hint-0" id="typeahead-hint-0">{{ i18n.firstNationalityHint }}</p>
+
+                    <p class="govuk-hint-0 govuk-hint" id="typeahead-hint-0">{{i18n.firstNationalityHint}}</p>
+
                     {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_0 | length %}
                         {% set dropdownValue = payload.nationality_input_0 %}
@@ -32,12 +34,15 @@
                 </div>
                 <div id="second-nationality" class="second-nationality">
                     <div id="typeahead-form-group-1" class="govuk-form-group ">
-                        <label for="nationality_input_1" class="govuk-label">{{ i18n.secondNationalityInput }}</label>
-                        <p class="govuk-hint-1" id="typeahead-hint-1">{{ i18n.secondNationalityHintDetails }}</p>
-                        {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
-                        {% if payload.nationality_input_1 | length %}
-                            {% set dropdownValue = payload.nationality_input_1 %}
-                        {% endif %}
+                    
+                        <label for="nationality_input_1" class="govuk-label">{{i18n.secondNationalityHint}}</label>
+                        <p class="govuk-hint-1 govuk-hint" id="typeahead-hint-1">{{i18n.secondNationalityHintDetails}}</p>
+                    {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
+                    {% if payload.nationality_input_1 | length %}
+                        {% set dropdownValue = payload.nationality_input_1 %}
+                    {% endif %}
+
+
                         <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "1" %}
@@ -48,12 +53,16 @@
                 </div>
                 <div id="third-nationality" class="third-nationality">
                     <div id="typeahead-form-group-2" class="govuk-form-group ">
-                        <label for="nationality_input_2" class="govuk-label">{{ i18n.thirdNationalityHint }}</label>
-                        <p class="govuk-hint-2" id="typeahead-hint-2">{{ i18n.thirdNationalityHintDetails }}</p>
-                        {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
-                        {% if payload.nationality_input_2 | length %}
-                            {% set dropdownValue = payload.nationality_input_2 %}
-                        {% endif %}
+                    
+
+                        <label for="nationality_input_2" class="govuk-label">{{i18n.thirdNationalityHint}}</label>
+                        <p class="govuk-hint-2 govuk-hint" id="typeahead-hint-2">{{i18n.thirdNationalityHintDetails}}</p>
+                    {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
+                    {% if payload.nationality_input_2 | length %}
+                        {% set dropdownValue = payload.nationality_input_2 %}
+                    {% endif %}
+
+
                         <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
                             {% set dropdownNumber = "2" %}
