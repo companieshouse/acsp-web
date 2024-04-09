@@ -1,8 +1,9 @@
 {
     "whatIsTheBusinessNameTitle" : "What is the name of the business?",
-    "whatIsTheBusinessNamePublic": "We will show the business name on the public list of authorised agents.",
+    "whatIsTheBusinessNameTitleInput" : "Enter the business name",
+    "whatIsTheBusinessNamePublic": "We will show this on the public register.",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue",
-    "whatIsTheBusinessNameDifferentName" : "A Different Name",
+    "whatIsTheBusinessNameDifferentName" : "A different name",
 
     "error-whatIsTheBusinessNameSelectRadio" : "Select business name",
    

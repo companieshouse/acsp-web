@@ -1,8 +1,9 @@
 {
     "whatIsTheBusinessNameTitle" : "What is the name of the business? welsh",
-    "whatIsTheBusinessNamePublic": "We will show the business name on the public list of authorised agents. welsh",
+    "whatIsTheBusinessNameTitleInput" : "Enter the business name welsh",
+    "whatIsTheBusinessNamePublic": "We will show this on the public register. welsh",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue welsh",
-    "whatIsTheBusinessNameDifferentName" : "A Different Name welsh",
+    "whatIsTheBusinessNameDifferentName" : "A different name welsh",
 
     "error-whatIsTheBusinessNameSelectRadio" : "Select business name welsh",
    
