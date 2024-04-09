@@ -69,7 +69,7 @@ describe("Address Auto look up tests ", () => {
 
             const response = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
             expect(response.status).toBe(302); // Expect a redirect status code
-            expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+            expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         });

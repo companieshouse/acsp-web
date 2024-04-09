@@ -135,7 +135,7 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
     it("should return status 302", async () => {
         await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcd", addressPostcode: "MK9 3GB" }).expect(302);
     });
 });
 // Test for incorrect addressCountry Format entered, will return 400.

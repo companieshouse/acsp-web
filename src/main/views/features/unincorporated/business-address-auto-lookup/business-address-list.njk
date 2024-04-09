@@ -1,8 +1,6 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% extends "layouts/default.njk" %}
-
 {% set errors = pageProperties.errors %}
-
 {% block main_content %}
     {# Prepare address items #}
     {% set ITEMS = [] %}
@@ -18,11 +16,13 @@
         } %}
         {% set ITEMS = ITEMS.concat(addressObject) %}
     {% endfor %}
-    
     {# Form section #}
     <form action="" method="POST">
-        {% include "partials/business_name.njk" %}
-        <div class="govuk-form-group">
+        {% if businessName %}
+            {% include "partials/business_name.njk" %}
+        {% endif %}
+        <div
+            class="govuk-form-group">
             {# Render radios #}
             {{ govukRadios({
                 errorMessage: errors.businessLookUpAddressList if errors,
@@ -39,11 +39,10 @@
                 items: ITEMS
             }) }}
         </div>
-        <button class="govuk-button">{{ i18n.correspondenceLookUpAddresListConfirmBtn }}</button>
+        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
     </form>
-    
     {# Manual address entry link #}
     <p>
-        <a href= {{ businessAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+        <a href={{ businessAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
 {% endblock main_content %}

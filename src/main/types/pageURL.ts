@@ -108,3 +108,13 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = UNINCORPORATED + "/confir
 export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = UNINCORPORATED + "/select-your-business-address";
 
 export const UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = UNINCORPORATED + "/what-is-the-correspondence-address";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL = UNINCORPORATED + "/correspondence-address-manual-entry";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM = UNINCORPORATED + "/confirm-your-correspondence-address";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP = UNINCORPORATED + "/correspondence-address-lookup";
+
+export const UNINCORPORATED_SELECT_AML_SUPERVISOR = UNINCORPORATED + "/select-aml-supervisor";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST = UNINCORPORATED + "/select-your-correspondence-address";

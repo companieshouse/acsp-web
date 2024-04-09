@@ -10,8 +10,38 @@ import { getCountryFromKey } from "../../utils/web";
 
 export class AddressLookUpService {
 
-    public async saveAddressToSession (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
+    public async saveBusinessAddressToSession (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
 
+        const address: Address = this.getAddress(ukAddresses, inputPremise);
+        // Save the address to session
+        const session: Session = req.session as any as Session;
+        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
+        const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
+            companyName: "",
+            companyNumber: "",
+            status: "",
+            incorporationDate: "",
+            companyType: "",
+            registeredOfficeAddress: {}
+        };
+
+        acspData.businessAddress = address;
+        acspData.companyDetails = acspCompanyDetails;
+        saveDataInSession(req, USER_DATA, acspData);
+    }
+
+    public async saveCorrespondenceAddressToSession (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
+
+        const address: Address = this.getAddress(ukAddresses, inputPremise);
+        // Save the address to session
+        const session: Session = req.session as any as Session;
+        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
+
+        acspData.address = address;
+        saveDataInSession(req, USER_DATA, acspData);
+    }
+
+    private getAddress (ukAddresses: UKAddress[], inputPremise: string) {
         let address: Address = {
             propertyDetails: "",
             line1: "",
@@ -32,21 +62,7 @@ export class AddressLookUpService {
                 };
             }
         }
-        // Save the address to session
-        const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
-        const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
-            companyName: "",
-            companyNumber: "",
-            status: "",
-            incorporationDate: "",
-            companyType: "",
-            registeredOfficeAddress: {}
-        };
-
-        acspCompanyDetails.registeredOfficeAddress = address;
-        acspData.companyDetails = acspCompanyDetails;
-        saveDataInSession(req, USER_DATA, acspData);
+        return address;
     }
 
     public saveAddressListToSession (req: Request, ukAddresses: UKAddress[]): void {
@@ -59,8 +75,8 @@ export class AddressLookUpService {
                 line2: ukAddress.addressLine2,
                 town: ukAddress.postTown,
                 country: getCountryFromKey(ukAddress.country),
-                postcode: ukAddress.postcode
-                // formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
+                postcode: ukAddress.postcode,
+                formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
             };
 
             addressList.push(address);
@@ -70,7 +86,7 @@ export class AddressLookUpService {
         saveDataInSession(req, ADDRESS_LIST, addressList);
     }
 
-    public saveAddressFromList (req: Request, businessAddress: Address): void {
+    public saveBusinessAddressFromList (req: Request, businessAddress: Address): void {
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
         const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
@@ -82,8 +98,15 @@ export class AddressLookUpService {
             registeredOfficeAddress: {}
         };
 
-        acspCompanyDetails.registeredOfficeAddress = businessAddress;
+        acspData.businessAddress = businessAddress;
         acspData.companyDetails = acspCompanyDetails;
+        saveDataInSession(req, USER_DATA, acspData);
+    }
+
+    public saveCorrespondenceAddressFromList (req: Request, correspondenceAddress: Address): void {
+        const session: Session = req.session as any as Session;
+        const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
+        acspData.address = correspondenceAddress;
         saveDataInSession(req, USER_DATA, acspData);
     }
 }
