@@ -20,9 +20,8 @@
     "startNameOfAML": "the names of all Anti-Money Laundering (AML) supervisory bodies the business is registered with Welsh",
     "startAMLNumbers": "the AML membership numbers or IDs  Welsh",
     "startPayFee": "to pay the £XX registration fee using a credit or debit card Welsh",
-    "startCheckAMLParagraph": "We will check the AML supervisory body has the same name and membership number for your business. If you are registered with the AML supervisory body as an individual, you will need to apply as a sole trader using your own name. Welsh",
+    "startCheckAMLParagraph": "We'll confirm the AML supervisory body has the same name and membership number for your business. Contact your AML supervisory body if you need to check your details before you start. Welsh",
     "startTimeout": "This service will time out if you do not use it for 60 minutes. You can save your answers and resume your application later. Welsh",
     "startNow": "Start now Welsh",
-    "readThe": "Read the Welsh",
-    "guidenceLinkText": "guidance about applying to register as a Companies House authorised agent Welsh"
+    "readThe": "Read the guidance about applying to register as a Companies House authorised agent "
 }
