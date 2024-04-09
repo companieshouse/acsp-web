@@ -18,7 +18,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
-            whatIsTheBusinessNameInput: "Cpmpany",
+            whatIsTheBusinessNameInput: "Company",
             whatsTheBusinessNameRadio: "A Different Name"
         };
 
