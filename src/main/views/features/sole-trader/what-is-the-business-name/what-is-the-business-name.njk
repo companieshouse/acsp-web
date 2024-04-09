@@ -13,19 +13,17 @@
         {% set textHtml %}
         {{ govukInput({
             label: {
-              text: i18n.whatIsTheBusinessNameTitle
+              text: i18n.whatIsTheBusinessNameTitleInput
             },
             errorMessage: {
                     text: errors["whatIsTheBusinessNameInput"].text
               } if errors["whatIsTheBusinessNameInput"] | length,
             classes: "govuk-input",
-            hint: {
-              text: i18n.whatIsTheBusinessNameHint
-            },
             id: "what-is-the-business-name-input",
             name: "whatIsTheBusinessNameInput",
             value: payload["whatIsTheBusinessNameInput"] 
          }) }}
+
         {% endset -%}
 
         {{ govukRadios({
@@ -55,8 +53,13 @@
             }
           ]
         }) }}  
+
+        <div class="govuk-inset-text">
+          <p>{{i18n.whatIsTheBusinessNamePublic}}</p>       
         </div>
-            <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+
+        </div>
+          <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
      </form>
    </div>
  </div>

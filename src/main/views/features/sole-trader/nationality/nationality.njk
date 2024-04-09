@@ -8,22 +8,23 @@
         {% set dropdownTwoError =  errors.nationality_input_1 %}
         {% set dropdownThreeError =  errors.nationality_input_2 %}
     {% endif %}
-    <div>
+    <div class="govuk-grid-column-two-thirds-from-desktop">
         <form action="" method="post">
             <fieldset class="govuk-fieldset">
                 <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                     {% include "partials/user_name.njk" %}
                     <h1 class="govuk-fieldset__heading">
-                        <label for="nationality_input_0" class="govuk-label govuk-label--l">{{i18n.nationalityTitle}}</label>
+                        <label for="nationality_input_0" class="govuk-label govuk-label--l">{{ i18n.nationalityTitle }}</label>
                     </h1>
                 </legend>
                 <div id="typeahead-form-group-0" class="govuk-form-group">
+
                     <p class="govuk-hint-0 govuk-hint" id="typeahead-hint-0">{{i18n.firstNationalityHint}}</p>
+
                     {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_0 | length %}
                         {% set dropdownValue = payload.nationality_input_0 %}
                     {% endif %}
-
                     <div id="nationality-0" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                     <noscript>
                         {% set dropdownNumber = "0" %}
@@ -33,12 +34,14 @@
                 </div>
                 <div id="second-nationality" class="second-nationality">
                     <div id="typeahead-form-group-1" class="govuk-form-group ">
+                    
                         <label for="nationality_input_1" class="govuk-label">{{i18n.secondNationalityHint}}</label>
                         <p class="govuk-hint-1 govuk-hint" id="typeahead-hint-1">{{i18n.secondNationalityHintDetails}}</p>
                     {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_1 | length %}
                         {% set dropdownValue = payload.nationality_input_1 %}
                     {% endif %}
+
 
                         <div id="nationality-1" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
@@ -50,12 +53,15 @@
                 </div>
                 <div id="third-nationality" class="third-nationality">
                     <div id="typeahead-form-group-2" class="govuk-form-group ">
+                    
+
                         <label for="nationality_input_2" class="govuk-label">{{i18n.thirdNationalityHint}}</label>
                         <p class="govuk-hint-2 govuk-hint" id="typeahead-hint-2">{{i18n.thirdNationalityHintDetails}}</p>
                     {% set dropdownDefaultText = i18n.whatIsYourNationalityDefaultDropdownText %}
                     {% if payload.nationality_input_2 | length %}
                         {% set dropdownValue = payload.nationality_input_2 %}
                     {% endif %}
+
 
                         <div id="nationality-2" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
                         <noscript>
@@ -66,12 +72,12 @@
                         {% set errorMessage = errors %}
                     </div>
                 </div>
-            </div>
-            {{ govukButton({
+                            {{ govukButton({
              text: i18n.Continue
             }) }}
-        </div>
-    </fieldset>
+            </div>
+        </fieldset>
+    </div>
 </form></div><script>
 // Mimic nunjucks error generation
 for (let i = 0; i < error.length; i++) {

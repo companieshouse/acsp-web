@@ -55,7 +55,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const businessAddressService = new BusinessAddressService();
             businessAddressService.saveBusinessAddress(req);
-            res.redirect(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang));
         }
     } catch (error) {
         next(error);
