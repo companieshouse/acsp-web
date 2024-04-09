@@ -54,7 +54,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const postcode = req.body.postCode;
             const correspondencePremise = req.body.premise;
-            getAddressFromPostcode(postcode).then((ukAddresses) => {
+            await getAddressFromPostcode(postcode).then((ukAddresses) => {
                 if (correspondencePremise !== "" && ukAddresses.find((address) => address.premise === correspondencePremise)) {
                     let address = {
                         premise: "",
@@ -92,7 +92,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     res.redirect(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
 
                 } else {
-
                     const addressList : Array<Address> = [];
                     for (const ukAddress of ukAddresses) {
                         const address = {
@@ -104,7 +103,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                             postcode: ukAddress.postcode,
                             formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
                         };
-
                         addressList.push(address);
 
                     }
