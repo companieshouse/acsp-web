@@ -30,6 +30,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+        const session: Session = req.session as any as Session;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
@@ -38,6 +41,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
                 currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
                 pageProperties: pageProperties,
+                acspType: acspData?.typeofBusiness,
+                company: company,
                 payload: req.body
             });
         } else {
