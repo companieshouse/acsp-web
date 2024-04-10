@@ -1,10 +1,11 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-    <div class="govuk-grid-column-two-thirds-from-desktop govuk-!-text-align-left">
-        <form action="" method="POST">
-            <div class="govuk-form-group">
-                {{ govukRadios({
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="POST">
+                <div class="govuk-form-group">
+                    {{ govukRadios({
                 errorMessage: errors.nameRegisteredWithAml if errors,
                 classes: "govuk-radios",
                 id: "name-registered-with-aml-radios",
@@ -46,8 +47,9 @@
                     }
                 ]
                 }) }}
-            </div>
-            <button class="govuk-button">{{ i18n.nameRegisteredWithAmlContinueBtn }}</button>
-        </form>
+                </div>
+                <button class="govuk-button">{{ i18n.nameRegisteredWithAmlContinueBtn }}</button>
+            </form>
+        </div>
     </div>
 {% endblock main_content %}
