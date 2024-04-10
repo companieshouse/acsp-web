@@ -7,7 +7,7 @@ import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADD
 import { Address } from "../../../model/Address";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { USER_DATA, ADDRESS_LIST } from "../../../common/__utils/constants";
 import { CorrespondenceAddressManualService } from "../../../../main/services/correspondence-address/correspondence-address-manual";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

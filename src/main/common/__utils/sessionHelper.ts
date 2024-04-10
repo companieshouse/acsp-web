@@ -9,4 +9,4 @@ export const saveDataInSession = async (req: Request, name: string, value: any) 
 export async function getSessionValue (req: Request, name: string) {
     const session: Session = req.session as any as Session;
     return session.getExtraData(name);
-};
+}
