@@ -2,7 +2,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% set errors = pageProperties.errors %}
 {% block main_content %}
-  <div class="govuk-width-container">
+  <div class="govuk-width-container govuk-grid-column-two-thirds-from-desktop  govuk-!-text-align-left">  
     <form action="" method="POST">
       {% if businessName %}
         {% include "partials/business_name.njk" %}
