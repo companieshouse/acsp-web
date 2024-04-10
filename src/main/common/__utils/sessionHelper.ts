@@ -6,7 +6,7 @@ export const saveDataInSession = async (req: Request, name: string, value: any) 
     session.setExtraData(name, value);
 };
 
-export const getSessionValue = async (req: Request, name: string) => {
+export async function getSessionValue (req: Request, name: string) {
     const session: Session = req.session as any as Session;
-    session.getExtraData(name);
+    return session.getExtraData(name);
 };

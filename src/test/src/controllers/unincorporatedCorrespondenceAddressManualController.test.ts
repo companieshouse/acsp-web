@@ -75,7 +75,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
 // Test for no addressLine2, will return 302.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
-    xit("should return status 302", async () => {
+    it("should return status 302", async () => {
         await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -124,7 +124,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
 // Test for no addressCounty, will return 302.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
-    xit("should return status 400", async () => {
+    it("should return status 400", async () => {
         await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });

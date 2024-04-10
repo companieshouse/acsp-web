@@ -1,27 +1,28 @@
 import { Request } from "express";
 import { CompanyDetailsService } from "../../../main/services/company-details/companyDetailsService";
-import { getSessionValue } from "../../../main/common/__utils/sessionHelper";
+import { getSessionValue, saveDataInSession } from "../../../main/common/__utils/sessionHelper";
 import { COMPANY_DETAILS } from "../../../main/common/__utils/constants";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
+import { createRequest, MockRequest } from "node-mocks-http";
+import { Session } from "@companieshouse/node-session-handler";
 
 describe("CompanyDetailsService", () => {
     let service: CompanyDetailsService;
-    let req: Request & { session: any };
+    let req: MockRequest<Request>;
 
     beforeEach(() => {
     // initialize service and mock request object
         service = new CompanyDetailsService();
-        // req = {} as Request;
-        req.session = {} as any; // Mock session object
-        // mock the save and method on req.session
-        req.session.save = jest.fn().mockImplementation((callback: (err?: any) => void) => {
-            if (callback) {
-                callback();
-            }
+        req = createRequest({
+            method: "GET",
+            url: "/"
         });
+        const session = getSessionRequestWithPermission();
+        req.session = session;
     });
 
-    xtest("saveToSession correctly saves company details to session", () => {
+    test("saveToSession correctly saves company details to session", () => {
         // mock company details
         const mockCompanyDetails : CompanyProfile = {
             companyName: "Company",
@@ -68,11 +69,12 @@ describe("CompanyDetailsService", () => {
             },
             links: {}
         };
+
         // call the method to save company details into session
         service.saveToSession(req, mockCompanyDetails);
+        const session: Session = req.session as any as Session;
 
-        expect(req.session.companyDetails).toBeDefined();
-        expect(req.session.companyDetails).toEqual({
+        expect(session.getExtraData(COMPANY_DETAILS)).toEqual({
             companyName: mockCompanyDetails.companyName,
             companyNumber: mockCompanyDetails.companyNumber,
             status: mockCompanyDetails.companyStatus,
@@ -83,7 +85,7 @@ describe("CompanyDetailsService", () => {
         });
     });
 
-    xtest("getFromSession retrieves company details from session", () => {
+    test("getFromSession retrieves company details from session", async () => {
         const mockCompanyDetails : CompanyProfile = {
             companyName: "Company",
             companyNumber: "12345678",
@@ -129,32 +131,12 @@ describe("CompanyDetailsService", () => {
             },
             links: {}
         };
-        req.session.companyDetails = mockCompanyDetails;
+        // req.session = mockCompanyDetails;
         // fetch company details
-        const retrievedDetails = getSessionValue(req, COMPANY_DETAILS);
+        saveDataInSession(req, COMPANY_DETAILS, mockCompanyDetails);
+        const retrievedDetails = await getSessionValue(req, COMPANY_DETAILS);
         // check company details match mock data
         expect(retrievedDetails).toEqual(mockCompanyDetails);
     });
 
-    xtest("clearSession clears company details from session", () => {
-        const mockCompanyDetails = {
-            company_name: "Company",
-            company_number: "12345678",
-            company_status: "Active",
-            date_of_creation: "2023-02-23",
-            type: "Private Limited Company",
-            registered_office_address: {
-                address_line_1: "123 Main Street",
-                city: "City",
-                postal_code: "54321",
-                country: "Country"
-            },
-            undeliverable_registered_office_address: "Correspondence Address: 456 Secondary Street, Example City, 54321, Example Country"
-        };
-        req.session.companyDetails = mockCompanyDetails;
-        // clear company details
-        // service.clearSession(req);
-        // check company details are cleared
-        // expect(req.session.companyDetails).toBeUndefined();
-    });
 });
