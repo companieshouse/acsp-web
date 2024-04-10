@@ -4,13 +4,11 @@ import app from "../../../main/app";
 import { correspondenceAddressAutoLookupValidator } from "../../../main/validation/correspondenceAddressAutoLookup";
 import { validationResult } from "express-validator";
 
-import { response } from "express";
-
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("Correspondence Address Auto Lookup Validator", () => {
-    xit("Valid Address Data Should Pass Validation", async () => {
+    it("Valid Address Data Should Pass Validation", async () => {
         jest.mock("../../../main/services/postcode-lookup-service", () => ({
             getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
                 if (postcode === "ValidPostcode") {
@@ -45,7 +43,7 @@ describe("Correspondence Address Auto Lookup Validator", () => {
         expect(errors.isEmpty()).toBe(true);
     });
 
-    xit("Invalid Address Data Should Fail Validation", async () => {
+    it("Invalid Address Data Should Fail Validation", async () => {
         jest.mock("../../../main/services/postcode-lookup-service", () => ({
             getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {
                 return [];
