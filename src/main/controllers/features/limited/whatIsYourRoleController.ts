@@ -40,10 +40,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
                 currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
-                pageProperties: pageProperties,
                 acspType: acspData?.typeofBusiness,
                 company: company,
-                payload: req.body
+                payload: req.body,
+                ...pageProperties
             });
         } else {
             if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
