@@ -1,0 +1,64 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form class="form" action="" method="post">
+                {% if businessName %}
+                    {% include "partials/business_name.njk" %}
+                {% endif %}
+                {% if firstName %}
+                    {% include "partials/user_name.njk" %}
+                {% endif %}
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        {% include "partials/user_name.njk" %}
+                        <h1 class="govuk-fieldset__heading">
+                            <p class="govuk-label govuk-label--l">What is the Anti-Money Laundering (AML) membership number?</p>
+                        </h1>
+                    </legend>
+                    <p class="govuk-body">Your AML supervisory body may have a different name for this, such as:</p>
+                    <ul class="govuk-list govuk-list--bullet">
+                        <li>a firm ID or number</li>
+                        <li>a regulation ID</li>
+                        <li>an AML ID</li>
+                    </ul>
+                    <p class="govuk-body">Contact the AML supervisory body if you need to check your details.
+                    </p>
+
+                    {{ govukInput({
+                        label: {
+                        text: "Association of Chartered Certified Accountants (ACCA)",
+                        classes: "govuk-label l govuk-label--m",
+                        isPageHeading: true
+                    },
+                    id: "event-name",
+                    name: "eventName",
+                    errorMessage: {
+                    text: "Enter an event name"
+                    }
+                    }) }}
+
+
+                    {{ govukInput({
+                        label: {
+                        text: "Association of Accounting Technicians (AAT)",
+                        classes: "govuk-label l govuk-label--m",
+                        isPageHeading: true
+                    },
+                    id: "event-name",
+                    name: "eventName",
+                    errorMessage: {
+                    text: "Enter an event name"
+                    }
+                    }) }}
+                    
+                    {{ govukButton({
+                                text: i18n.SaveAndContinue
+                                }) }}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

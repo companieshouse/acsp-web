@@ -3,6 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
+    amlBodyDetailsController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -38,7 +39,8 @@ import {
     unincorporatedCorrespondenceAddressManualController,
     unincorporatedCorrespondenceAddressConfirmController,
     unincorporatedCorrespondenceAddressAutoLookupController,
-    unincorporatedCorrespondenceAddressListController
+    unincorporatedCorrespondenceAddressListController,
+    
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -72,6 +74,8 @@ routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.AML_BODY_DETAILS, amlBodyDetailsController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
