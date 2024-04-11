@@ -1,28 +1,25 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% set errors = pageProperties.errors%}
+{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-
-<div class="govuk-grid-column-two-thirds-from-desktop">
-    <form action="" method="post">
-      {% include "partials/user_name.njk" %}
-      <div id="typeahead-form-group" class="govuk-form-group">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-             <h1 class="govuk-label-wrapper">
-              <label class="govuk-label govuk-label--l" for="countryInput">{{i18n.whereDoYouLiveTitle}}</label>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="post">
+        {% include "partials/user_name.njk" %}
+        <div id="typeahead-form-group" class="govuk-form-group">
+          <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <h1 class="govuk-label-wrapper">
+              <label class="govuk-label govuk-label--l" for="countryInput">{{ i18n.whereDoYouLiveTitle }}</label>
             </h1>
-         </legend>
-        {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
-        <p class="govuk-hint" id="typeahead-hint">{{i18n.whereDoYouLiveHint}}</p>
-        <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
-        {% set errorMessage = errors %}
-        {% include "../../../partials/country-typeahead-input.njk" %}
+          </legend>
+          {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
+          <p class="govuk-hint" id="typeahead-hint">{{ i18n.whereDoYouLiveHint }}</p>
+          <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+          {% set errorMessage = errors %}
+          {% include "../../../partials/country-typeahead-input.njk" %}
         </div>
-
-        <button class="govuk-button">{{i18n.Continue}}</button>
-
-      </form>   
-</div>
-
-    
+        <button class="govuk-button">{{ i18n.Continue }}</button>
+      </form>
+    </div>
+  </div>
 {% endblock main_content %}
