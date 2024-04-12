@@ -1,4 +1,4 @@
-<script src="{{MATOMO_ASSET_PATH}}/javascripts/app/piwik-enable.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/piwik-enable.js"></script>
 <script type="application/javascript">
     const journeyTypes = {
         "register-company": "Register"
@@ -11,8 +11,8 @@
     window.PIWIK_URL = '{{ PIWIK_URL }}'
     window.PIWIK_SITE_ID = '{{ PIWIK_SITE_ID }}'
 </script>
-<script src="{{MATOMO_ASSET_PATH}}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
-<script src="{{MATOMO_ASSET_PATH}}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
 <noscript>
     <p>
         <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
