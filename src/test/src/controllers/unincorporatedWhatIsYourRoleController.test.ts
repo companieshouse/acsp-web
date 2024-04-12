@@ -34,4 +34,13 @@ describe("Statement Relevant Officer Router", () => {
 
     });
 
+    it("should respond with status 400 on form submission with empty role", async () => {
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: ""
+        });
+        expect(response.status).toBe(400);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
 });

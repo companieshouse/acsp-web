@@ -8,7 +8,6 @@ export const whatIsYourRoleValidator: ValidationChain[] = [
     body("WhatIsYourRole").trim().custom((value, { req }) => {
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-        logger.debug("++++++++++++++++++++++++++++++++++" + acspData.typeofBusiness!.toString());
         if (value === "") {
             switch (acspData.typeofBusiness!.toString()) {
             case "LIMITED_COMPANY":
