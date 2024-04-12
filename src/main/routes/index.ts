@@ -3,7 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
-    amlBodyDetailsController,
+    amlBodyMembershipNumberController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -39,8 +39,8 @@ import {
     unincorporatedCorrespondenceAddressManualController,
     unincorporatedCorrespondenceAddressConfirmController,
     unincorporatedCorrespondenceAddressAutoLookupController,
-    unincorporatedCorrespondenceAddressListController,
-    
+    unincorporatedCorrespondenceAddressListController
+
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -63,6 +63,7 @@ import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
+//import { amlBodyMembershipNumberControllerValidator } from "../validation/amlBodyMembershipNumber";
 
 const routes = Router();
 
@@ -75,7 +76,8 @@ routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get)
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
-routes.get(urls.AML_BODY_DETAILS, amlBodyDetailsController.get);
+routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);

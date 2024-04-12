@@ -47,4 +47,4 @@ export const SECTOR_YOU_WORK_IN = `${BASE_COMMON_URL}/sector-you-work-in/sector-
 export const WHICH_SECTOR_OTHER = `${BASE_COMMON_URL}/which-sector-other/which-sector-other`;
 export const AUTO_LOOKUP_ADDRESS = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/auto-lookup-address`;
 export const CORRESPONDENCE_ADDRESS_LIST = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/correspondence-address-list`;
-export const AML_BODY_DETAILS = `${BASE_COMMON_URL}/aml-body-details/aml-body-details`;
+export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-body-number`;

@@ -1,5 +1,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <div class="govuk-grid-row">
@@ -40,20 +41,10 @@
                     }
                     }) }}
 
-
-                    {{ govukInput({
-                        label: {
-                        text: "Association of Accounting Technicians (AAT)",
-                        classes: "govuk-label l govuk-label--m",
-                        isPageHeading: true
-                    },
-                    id: "event-name",
-                    name: "eventName",
-                    errorMessage: {
-                    text: "Enter an event name"
-                    }
+                    {{ govukInsetText({
+                    text: "You must have been registered with the AML supervisory body for at least 2 weeks."
                     }) }}
-                    
+
                     {{ govukButton({
                                 text: i18n.SaveAndContinue
                                 }) }}

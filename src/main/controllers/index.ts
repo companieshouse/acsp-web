@@ -1,8 +1,7 @@
 export * as accessibilityStatementController from "./accessibilityStatementController";
 export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
-export * as amlBodyDetailsController from "./features/common/amlBodyDetailsController";
-
+export * as amlBodyMembershipNumberController from "./features/common/amlBodyMembershipNumberController";
 
 // Sole trader
 
