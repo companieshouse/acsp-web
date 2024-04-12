@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
@@ -47,7 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-
+            session.setExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS, addressOption);
             switch (addressOption) {
             case "CORRESPONDANCE_ADDRESS":
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
@@ -55,7 +55,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             case "DIFFERENT_ADDRESS":
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
                 break;
-
             }
         }
     } catch (error) {

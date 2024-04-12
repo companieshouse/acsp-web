@@ -9,6 +9,7 @@ export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction 
 export const USER_DATA = "user";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";
 export const UNINCORPORATED_AML_SELECTED_OPTION = "unincorporatedAmlSelectedOption";
 export const BUSINESS_NAME = "businessName";
 export const ADDRESS_LIST = "addressList";

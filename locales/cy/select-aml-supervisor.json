@@ -1,0 +1,7 @@
+{
+    "selectAmlSupervisorTitle" : "Which Anti-Money Laundering (AML) supervisory bodies are you registered with? welsh",
+    "selectAmlSupervisorHint": "Select all that apply. welsh",
+    "selectAmlSupervisorInfoHeading": "What information we’ll show on the public register welsh",
+    "selectAmlSupervisorInfo": "We'll show the names of the supervisory bodies the business is registered with. welsh",
+    "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with welsh"
+}
