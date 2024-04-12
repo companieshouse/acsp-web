@@ -19,6 +19,7 @@ export * as soleTraderWhatIsTheBusinessNameController from "./features/sole-trad
 export * as soleTraderWhatIsYourRoleController from "./features/sole-trader/whatIsYourRoleController";
 export * as soleTraderWhereDoYouLiveController from "./features/sole-trader/whereDoYouLiveController";
 export * as soleTraderWhichSectorOtherController from "./features/sole-trader/whichSectorOtherController";
+export * as soleTraderSelectAmlSupervisorController from "./features/sole-trader/selectAmlSupervisorController";
 
 // limited
 export * as limitedBusinessMustbeAmlRegisteredController from "./features/limited/businessMustbeAmlRegisteredController";
@@ -29,6 +30,7 @@ export * as limitedNameRegisteredWithAmlController from "./features/limited/name
 export * as limitedSectorYouWorkInController from "./features/limited/sectorYouWorkInController";
 export * as limitedWhatIsYourRoleController from "./features/limited/whatIsYourRoleController";
 export * as limitedWhichSectorOtherController from "./features/limited/whichSectorOtherController";
+export * as limitedSelectAmlSupervisorController from "./features/limited/selectAmlSupervisorController";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
@@ -47,3 +49,4 @@ export * as unincorporatedCorrespondenceAddressManualController from "./features
 export * as unincorporatedCorrespondenceAddressConfirmController from "./features/unincorporated/correspondenceAddressConfirmController";
 export * as unincorporatedCorrespondenceAddressAutoLookupController from "./features/unincorporated/correspondenceAddressAutoLookupController";
 export * as unincorporatedCorrespondenceAddressListController from "./features/unincorporated/correspondenceAddressListController";
+export * as unincorporatedSelectAmlSupervisorController from "./features/unincorporated/selectAmlSupervisorController";

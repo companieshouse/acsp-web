@@ -1,0 +1,136 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form action="" method="POST">
+        {% if acspType == "SOLE_TRADER" %}
+           {% include "partials/user_name.njk" %}
+        {% endif %}
+        <div class="govuk-form-group">
+            {{ govukCheckboxes({
+              name: "AML-supervisory-bodies",
+              fieldset: {
+                legend: {
+                  text: i18n.selectAmlSupervisorTitle,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              hint: {
+                text: i18n.selectAmlSupervisorHint
+              },
+              items: [
+                {
+                  value: "ACCA",
+                  text: "Association of Chartered Certified Accountants (ACCA)"
+                },
+                {
+                  value: "AAT",
+                  text: "Association of Accounting Technicians (AAT)"
+                },
+                {
+                  value: "AIA",
+                  text: "Association of International Accountants (AIA)"
+                },
+                {
+                  value: "ATT",
+                  text: "Association of Taxation Technicians (ATT)"
+                },
+                {
+                  value: "CILEX",
+                  text: "Chartered Institute of for Legal Executives (CILEx)"
+                },
+                {
+                  value: "CIMA",
+                  text: "Chartered Institute of Management Accountants (CIMA)"
+                },
+                {
+                  value: "CIOT",
+                  text: "Chartered Institute of Taxation (CIOT)"
+                },
+                {
+                  value: "CLC",
+                  text: "Council for Licensed Conveyancers (CLC)"
+                },
+                {
+                  value: "DENI",
+                  text: "Department for the Economy Northern Ireland"
+                },
+                {
+                  value: "FA",
+                  text: "Faculty of Advocates"
+                },
+                {
+                  value: "FO",
+                  text: "Faculty Office of the Archbishop of Canterbury (FO)"
+                },
+                {
+                  value: "FCA",
+                  text: "Financial Conduct Authority (FCA)"
+                },
+                {
+                  value: "GC",
+                  text: "Gambling Commission"
+                },
+                {
+                  value: "GCB",
+                  text: "General Council of the Bar"
+                },
+                {
+                  value: "GCBNI",
+                  text: "General Council of the Bar of Northern Ireland"
+                },
+                {
+                  value: "IAB",
+                  text: "Institute of Accountants and Bookkeepers (IAB)"
+                },
+                {
+                  value: "IPA",
+                  text: "Insolvency Practitioners Association (IPA)"
+                },
+                {
+                  value: "ICB",
+                  text: "Institute of Certified Bookkeepers"
+                },
+                {
+                  value: "ICAEW",
+                  text: "Institute of Chartered Accountants in England and Wales (ICAEW)"
+                },
+                {
+                  value: "ICAI",
+                  text: "Institute of Chartered Accountants in Ireland (ICAI)"
+                },
+                {
+                  value: "ICAS",
+                  text: "Institute of Chartered Accountants of Scotland (ICAS)"
+                },
+                {
+                  value: "IFA",
+                  text: "Institute of Financial Accountants (IFA)"
+                },
+                {
+                  value: "LSNI",
+                  text: "Law Society of Northern Ireland (LSNI)"
+                },
+                {
+                  value: "LSS",
+                  text: "Law Society of Scotland"
+                },
+                {
+                  value: "LSEW",
+                  text: "The Law Society of England and Wales (Solicitors Regulatory Authority - SRA)"
+                }
+              ]
+            }) }}
+        </div>
+        <div class="govuk-inset-text">
+          <h2 class="govuk-heading-m">{{i18n.selectAmlSupervisorInfoHeading}}</h2>
+          <p>
+           {{i18n.selectAmlSupervisorInfo}}
+          </p>
+        </div>
+        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+    </form>
+    </div>
+{% endblock main_content %}
