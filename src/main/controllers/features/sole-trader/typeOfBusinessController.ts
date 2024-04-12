@@ -58,12 +58,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
-            const acspData : ACSPData = {
-                id: email,
-                typeofBusiness: selectedOption
-            };
-            if (session) {
-                session.setExtraData(USER_DATA, acspData);
+            if (selectedOption !== "OTHER") {
+                const acspData : ACSPData = {
+                    id: email,
+                    typeofBusiness: selectedOption
+                };
+                saveDataInSession(req, USER_DATA, acspData);
             }
 
             switch (selectedOption) {
