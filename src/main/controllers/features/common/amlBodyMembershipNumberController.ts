@@ -14,11 +14,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.AML_MEMBERSHIP_NUMBER, {
         title: "What is the Anti-Money Laundering (AML) membership number?",
         ...getLocaleInfo(locales, lang),
-        //previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
+        // previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
         currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER
     });
 };
-
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -30,7 +29,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
-                //previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang),
+                // previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang),
                 title: "What is the Anti-Money Laundering (AML) membership number?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
