@@ -1,3 +1,5 @@
+import { getEnvironmentValue } from "../utils/environment/environment_value";
+
 const BASE_VIEWS_URL = "../views/features";
 const BASE_COMMON_URL = `../views/common`;
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
@@ -47,3 +49,8 @@ export const SECTOR_YOU_WORK_IN = `${BASE_COMMON_URL}/sector-you-work-in/sector-
 export const WHICH_SECTOR_OTHER = `${BASE_COMMON_URL}/which-sector-other/which-sector-other`;
 export const AUTO_LOOKUP_ADDRESS = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/auto-lookup-address`;
 export const CORRESPONDENCE_ADDRESS_LIST = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/correspondence-address-list`;
+
+export const PIWIK_URL = getEnvironmentValue("PIWIK_URL");
+export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
+export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID");
+export const PIWIK_UPDATE_START_GOAL_ID = getEnvironmentValue("PIWIK_UPDATE_START_GOAL_ID");

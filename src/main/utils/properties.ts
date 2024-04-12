@@ -35,3 +35,9 @@ export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "localhost:6379"
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME", "__SID");
 
 export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
+
+export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "https://matomo.identity.aws.chdev.org/");
+
+export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "1");
+
+export const PIWIK_EMBED = getEnvironmentValue("PIWIK_EMBED", "1");
