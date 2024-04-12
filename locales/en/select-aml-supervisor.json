@@ -1,0 +1,7 @@
+{
+    "selectAmlSupervisorTitle" : "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
+    "selectAmlSupervisorHint": "Select all that apply.",
+    "selectAmlSupervisorInfoHeading": "What information we’ll show on the public register",
+    "selectAmlSupervisorInfo": "We'll show the names of the supervisory bodies the business is registered with.",
+    "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with"
+}
