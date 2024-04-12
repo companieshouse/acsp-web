@@ -22,6 +22,8 @@ export const whatIsYourRoleValidator: ValidationChain[] = [
                 throw new Error("soleTraderWhatIsYourRoleRadio");
             case "UNINCORPORATED_ENTITY":
                 throw new Error("soleTraderWhatIsYourRoleRadio");
+            case "CORPORATE_BODY":
+                throw new Error("soleTraderWhatIsYourRoleRadio");
             }
         }
         return true;
