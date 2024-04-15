@@ -47,8 +47,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
         const redirectUrlAccordingToRole = req.body.WhatIsYourRole === "SOMEONE_ELSE"
-            ? STOP_NOT_RELEVANT_OFFICER
-            : UNINCORPORATED_WHICH_SECTOR;
+            ? BASE_URL + STOP_NOT_RELEVANT_OFFICER
+            : BASE_URL + UNINCORPORATED_WHICH_SECTOR;
 
         res.redirect(addLangToUrl(redirectUrlAccordingToRole, lang));
 
