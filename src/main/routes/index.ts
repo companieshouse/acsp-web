@@ -41,7 +41,8 @@ import {
     unincorporatedCorrespondenceAddressConfirmController,
     unincorporatedCorrespondenceAddressAutoLookupController,
     unincorporatedCorrespondenceAddressListController,
-    unincorporatedSelectAmlSupervisorController
+    unincorporatedSelectAmlSupervisorController,
+    checkYourAnswersController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -76,6 +77,9 @@ routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
+routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
