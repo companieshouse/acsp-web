@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         // previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
         currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
-        selectedAMLSupervisoryBodies : acspData?.selectedAML 
+        selectedAMLSupervisoryBodies: acspData?.selectedAML
     });
 };
 
@@ -40,7 +40,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
-                selectedAMLSupervisoryBodies : acspData?.selectedAML 
+                selectedAMLSupervisoryBodies: acspData?.selectedAML
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);

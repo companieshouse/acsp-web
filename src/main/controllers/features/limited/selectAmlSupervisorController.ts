@@ -30,7 +30,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
         console.log(req.body["AML-supervisory-bodies"]);
-        
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
@@ -41,10 +41,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"]
+            const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"];
             const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
             if (acspData) {
-                acspData.selectedAML = selectedAMLSupervisoryBodies ;
+                acspData.selectedAML = selectedAMLSupervisoryBodies;
                 saveDataInSession(req, USER_DATA, acspData);
             }
 
