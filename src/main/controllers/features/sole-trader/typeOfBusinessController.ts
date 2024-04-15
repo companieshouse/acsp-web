@@ -5,11 +5,12 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA, ANSWER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
+import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -64,6 +65,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     typeofBusiness: selectedOption
                 };
                 saveDataInSession(req, USER_DATA, acspData);
+                const answersArray: object[] = [{
+                    key: {
+                        text: "Type of Business"
+                    },
+                    value: {
+                        text: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                    }
+                }];
+                saveDataInSession(req, ANSWER_DATA, answersArray);
             }
 
             switch (selectedOption) {

@@ -5,9 +5,10 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
+import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -45,6 +46,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 id: email,
                 typeofBusiness: selectedOption
             };
+            const answersArray: object[] = [{
+                key: {
+                    text: "Type of Business"
+                },
+                value: {
+                    text: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                }
+            }];
+            saveDataInSession(req, ANSWER_DATA, answersArray);
             saveDataInSession(req, USER_DATA, acspData);
             if (selectedOption === "UNINCORPORATED_ENTITY") {
                 res.redirect(nextPageUrlForAmlBody); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
