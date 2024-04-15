@@ -25,7 +25,7 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME).send(formData);
 
         expect(response.status).toBe(302); // Expect a redirect status code
-        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME);
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
