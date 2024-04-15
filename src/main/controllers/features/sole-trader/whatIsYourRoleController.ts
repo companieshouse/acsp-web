@@ -28,6 +28,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedRole = req.body.WhatIsYourRole;
+        const session: Session = req.session as any as Session;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -36,10 +38,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE,
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
+                acspType: acspData?.typeofBusiness,
                 ...pageProperties
             });
         } else {
-
             switch (selectedRole) {
             case "SOLE_TRADER":
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));

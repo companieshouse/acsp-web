@@ -55,7 +55,7 @@ import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWith
 import { nationalityValidator } from "../validation/nationality";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
-import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
+import { whatIsYourRoleValidator } from "../validation/whatIsYourRole";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
 import { soleTraderWhatIsTheBusinessNameValidator } from "../validation/soleTraderWhatIsTheBusinessName";
 import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
@@ -118,7 +118,7 @@ routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusine
 routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
 
 routes.get(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, soleTraderSelectAmlSupervisorController.get);
 routes.post(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, soleTraderSelectAmlSupervisorController.post);
@@ -144,7 +144,7 @@ routes.get(urls.LIMITED_COMPANY_INACTIVE, limitedCompanyInactiveController.get);
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, limitedBusinessMustbeAmlRegisteredController.get);
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.get);
-routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
 
 routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorController.get);
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
@@ -160,7 +160,7 @@ routes.get(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, unincorporatedNameRegis
 routes.post(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, unincorporatedNameRegisteredWithAmlController.post);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, unincorporatedWhatIsYourRoleController.post);
 
 routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
