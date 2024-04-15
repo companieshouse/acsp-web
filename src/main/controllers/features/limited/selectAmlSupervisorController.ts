@@ -7,6 +7,8 @@ import { LIMITED_SELECT_AML_SUPERVISOR, LIMITED_SECTOR_YOU_WORK_IN, BASE_URL, AM
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { Console } from "console";
+import { saveDataInSession } from "../../../../main/common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -27,6 +29,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
+        console.log(req.body["AML-supervisory-bodies"]);
+        
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
@@ -37,6 +41,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"]
+            const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+            if (acspData) {
+                acspData.selectedAML = selectedAMLSupervisoryBodies ;
+                saveDataInSession(req, USER_DATA, acspData);
+            }
+
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

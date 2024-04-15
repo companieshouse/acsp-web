@@ -28,18 +28,20 @@
                     <p class="govuk-body">Contact the AML supervisory body if you need to check your details.
                     </p>
 
-                    {{ govukInput({
-                        label: {
-                        text: "Association of Chartered Certified Accountants (ACCA)",
-                        classes: "govuk-label l govuk-label--m",
-                        isPageHeading: true
-                    },
-                    id: "event-name",
-                    name: "eventName",
-                    errorMessage: {
-                    text: "Enter an event name"
-                    }
-                    }) }}
+                    {% for body in selectedAMLSupervisoryBodies %}
+                        {{ govukInput({
+                            label: {
+                                text: body.text,
+                                classes: "govuk-label l govuk-label--m",
+                                isPageHeading: true
+                            },
+                            id: "membership-number-" + body.value,
+                            name: "membershipNumber_" + body.value,
+                            errorMessage: {
+                                text: "Enter the membership number for " + body.text
+                            }
+                        }) }}
+                    {% endfor %}
 
                     {{ govukInsetText({
                     text: "You must have been registered with the AML supervisory body for at least 2 weeks."

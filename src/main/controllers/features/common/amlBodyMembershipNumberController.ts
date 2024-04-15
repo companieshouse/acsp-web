@@ -11,11 +11,14 @@ import { validationResult } from "express-validator";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const session: Session = req.session as any as Session;
+    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.AML_MEMBERSHIP_NUMBER, {
         title: "What is the Anti-Money Laundering (AML) membership number?",
         ...getLocaleInfo(locales, lang),
         // previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang),
-        currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER
+        currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
+        selectedAMLSupervisoryBodies : acspData?.selectedAML 
     });
 };
 
@@ -36,7 +39,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                lastName: acspData?.lastName,
+                selectedAMLSupervisoryBodies : acspData?.selectedAML 
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);

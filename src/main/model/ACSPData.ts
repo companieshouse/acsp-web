@@ -24,4 +24,5 @@ export interface ACSPData {
     amlSupervisoryBodies?: Map<AMLSupervisoryBodies, number>;
     companyDetails?: Company;
     companyAuthCodeProvided?: boolean;
+    selectedAML?: string[];
 }
