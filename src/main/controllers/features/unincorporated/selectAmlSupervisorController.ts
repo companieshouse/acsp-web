@@ -44,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.WHICH_SECTOR_OTHER, {
+            res.status(400).render(config.SELECT_AML_SUPERVISOR, {
                 previousPage: addLangToUrl(previousPage, lang),
                 title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
                 ...getLocaleInfo(locales, lang),

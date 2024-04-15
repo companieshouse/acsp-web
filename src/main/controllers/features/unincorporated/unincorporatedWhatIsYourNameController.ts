@@ -34,7 +34,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-            res.redirect(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME);
+            const lang = selectLang(req.query.lang);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
     } catch (error) {
         next(error);
