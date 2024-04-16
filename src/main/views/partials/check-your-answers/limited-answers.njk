@@ -1,0 +1,63 @@
+<h2 class="govuk-heading-m">{{ i18n.checkYourAnswersLimitedDetailsHeading }}</h2>
+{{ govukSummaryList({
+    rows: [
+    {
+        key: {
+          text: i18n.companyName
+        },
+        value: {
+          text: detailsAnswers.businessName
+        }
+      },
+      {
+        key: {
+          text: i18n.companyNumber
+        },
+        value: {
+          text: detailsAnswers.companyNumber
+        }
+      },
+      {
+        key: {
+          text: i18n.typeOfBusiness
+        },
+        value: {
+          text: detailsAnswers.typeofBusiness
+        }
+      },
+      {
+        key: {
+          text: i18n.yourRole
+        },
+        value: {
+          text: detailsAnswers.roleType
+        }
+      },
+      {
+        key: {
+          text: i18n.registeredOfficeAddress
+        },
+        value: {
+          html: detailsAnswers.businessAddress
+        }
+      },
+      {
+        key: {
+          text: i18n.businessSector
+        },
+        value: {
+          html: detailsAnswers.workSector
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/limited/which-sector",
+                text: "Change",
+                visuallyHiddenText: i18n.businessSector
+              }
+            ]
+          }
+      }
+    ]
+    })
+}}

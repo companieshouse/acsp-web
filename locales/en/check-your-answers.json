@@ -4,5 +4,8 @@
     "checkYourAnswersSoleTraderDetailsHeading": "Your details",
     "checkYourAnswersLimitedDetailsHeading": "Company details",
     "checkYourAnswersUnincorportatedDetailsHeading": "Business details",
-    "continueToPayment": "Continue to payment"
+    "continueToPayment": "Continue to payment",
+    "yourRole": "Your Role",
+    "businessSector": "Business sector",
+    "typeOfBusiness": "Type of business"
 }

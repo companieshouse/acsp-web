@@ -3,21 +3,15 @@
 {% extends "layouts/default.njk" %}
 {% block main_content %}
 
-    {% if typeOfBusiness === "SOLE_TRADER" %}
-        {% set detailsHeading = i18n.checkYourAnswersSoleTraderDetailsHeading %}
-    {% if typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
-        {% set detailsHeading = i18n.checkYourAnswersLimitedDetailsHeading %}
-    {% if typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
-        {% set detailsHeading = i18n.checkYourAnswersUnincorportatedDetailsHeading %}
-    {% endif %}
-
-    <div>
+    <div class="govuk-grid-column-two-thirds-from-desktop">
         <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
-        <h2 class="govuk-heading-m">{{ detailsHeading }}</h2>
-        {{ govukSummaryList({
-            rows: answersList
-            })
-        }}
+        {% if typeOfBusiness === "SOLE_TRADER" %}
+            {% include "partials/check-your-answers/limited-answers.njk" %}
+        {% elif typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
+            {% include "partials/check-your-answers/limited-answers.njk" %}
+        {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
+            {% include "partials/check-your-answers/limited-answers.njk" %}
+        {% endif %}
         <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
         {{ govukSummaryList({
             rows: amlList

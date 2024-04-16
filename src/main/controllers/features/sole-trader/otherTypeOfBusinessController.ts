@@ -9,6 +9,7 @@ import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -46,14 +47,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 id: email,
                 typeofBusiness: selectedOption
             };
-            const answersArray: object[] = [{
-                key: {
-                    text: "Type of Business"
-                },
-                value: {
-                    text: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
-                }
-            }];
+            const answersArray: Answers = {
+                typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+            };
             saveDataInSession(req, ANSWER_DATA, answersArray);
             saveDataInSession(req, USER_DATA, acspData);
             if (selectedOption === "UNINCORPORATED_ENTITY") {

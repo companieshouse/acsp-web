@@ -5,9 +5,11 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { COMPANY_DETAILS, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, COMPANY_DETAILS, USER_DATA } from "../../../common/__utils/constants";
 import { Company } from "../../../model/Company";
 import { ACSPData } from "../../../model/ACSPData";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -48,11 +50,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         }
-        const redirectUrlAccordingToRole = req.body.WhatIsYourRole === "SOMEONE_ELSE"
-            ? STOP_NOT_RELEVANT_OFFICER
-            : LIMITED_NAME_REGISTERED_WITH_AML;
 
-        res.redirect(addLangToUrl(BASE_URL + redirectUrlAccordingToRole, lang));
+        if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
+            res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
+        } else {
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.roleType = "I'm a director";
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang));
+        }
+
     } catch (error) {
         next(error);
     }

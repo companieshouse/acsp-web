@@ -5,7 +5,6 @@ import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { ACSPData } from "../../model/ACSPData";
 import { Address } from "../../model/Address";
-import { Company } from "../../model/Company";
 import { getCountryFromKey } from "../../utils/web";
 
 export class AddressLookUpService {
@@ -16,17 +15,8 @@ export class AddressLookUpService {
         // Save the address to session
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
-        const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
-            companyName: "",
-            companyNumber: "",
-            status: "",
-            incorporationDate: "",
-            companyType: "",
-            registeredOfficeAddress: {}
-        };
 
         acspData.businessAddress = address;
-        acspData.companyDetails = acspCompanyDetails;
         saveDataInSession(req, USER_DATA, acspData);
     }
 
@@ -89,17 +79,8 @@ export class AddressLookUpService {
     public saveBusinessAddressFromList (req: Request, businessAddress: Address): void {
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
-        const acspCompanyDetails: Company = acspData?.companyDetails ? acspData.companyDetails : {
-            companyName: "",
-            companyNumber: "",
-            status: "",
-            incorporationDate: "",
-            companyType: "",
-            registeredOfficeAddress: {}
-        };
 
         acspData.businessAddress = businessAddress;
-        acspData.companyDetails = acspCompanyDetails;
         saveDataInSession(req, USER_DATA, acspData);
     }
 

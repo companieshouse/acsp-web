@@ -11,6 +11,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -65,14 +66,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     typeofBusiness: selectedOption
                 };
                 saveDataInSession(req, USER_DATA, acspData);
-                const answersArray: object[] = [{
-                    key: {
-                        text: "Type of Business"
-                    },
-                    value: {
-                        text: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
-                    }
-                }];
+                const answersArray: Answers = {
+                    typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                };
                 saveDataInSession(req, ANSWER_DATA, answersArray);
             }
 
