@@ -35,3 +35,7 @@ export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "localhost:6379"
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME", "__SID");
 
 export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
+
+export const FEATURE_FLAG_DISABLE_LIMITED_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_LIMITED_JOURNEY", "false");
+
+export const FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY", "false");

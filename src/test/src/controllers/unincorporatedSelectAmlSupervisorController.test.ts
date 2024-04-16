@@ -19,11 +19,11 @@ describe("GET" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
     it("should return status 302 after redirect", async () => {
-         const res = await router.post(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
-         expect(res.status).toBe(302);
-         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-         expect(res.header.location).toBe(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
+        const res = await router.post(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
+        expect(res.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
     });
 });
 

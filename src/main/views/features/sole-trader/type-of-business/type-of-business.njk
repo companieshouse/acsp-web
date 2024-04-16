@@ -26,7 +26,7 @@
                         attributes: {
                             "data-event-id": "limited-company-option"
                         }
-                    },
+                    }if (FEATURE_FLAG_DISABLE_LIMITED_JOURNEY == "false"),
                     {
                         value: "LIMITED_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedPartnershipOption,
@@ -47,7 +47,7 @@
                         attributes: {
                             "data-event-id": "partnership-option"
                         }
-                    },
+                    }if (FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY == "false"),
                     {
                         value: "SOLE_TRADER",
                         text: i18n.typeOfBusinessSoleTraderOption,

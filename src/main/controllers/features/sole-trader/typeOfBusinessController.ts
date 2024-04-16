@@ -10,6 +10,8 @@ import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
+import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
+import { isActiveFeature } from "../../../utils/feature.flag";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -35,7 +37,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + TYPE_OF_BUSINESS,
-        typeOfBusiness: req.query.typeOfBusiness
+        typeOfBusiness: req.query.typeOfBusiness,
+        FEATURE_FLAG_DISABLE_LIMITED_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_LIMITED_JOURNEY),
+        FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY)
     });
 };
 
