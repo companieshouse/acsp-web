@@ -4,8 +4,8 @@ export interface Answers{
     typeofBusiness? : string;
     roleType? : string;
     name?: string;
-    dateOfBirth? : Date;
-    nationality? : Array<string>;
+    dateOfBirth? : string;
+    nationality? : string;
     countryOfResidence? : string;
     businessName?: string;
     workSector?: string;

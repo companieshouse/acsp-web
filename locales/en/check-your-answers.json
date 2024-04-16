@@ -7,5 +7,10 @@
     "continueToPayment": "Continue to payment",
     "yourRole": "Your Role",
     "businessSector": "Business sector",
-    "typeOfBusiness": "Type of business"
+    "typeOfBusiness": "Type of business",
+    "checkAnswersBusinessName": "Business name",
+    "checkAnswersName": "Name",
+    "checkAnswersDateOfBirth": "Date of birth",
+    "checkAnswersNationality": "Nationality",
+    "checkAnswersWhereDoYouLive": "Where do you live?"
 }

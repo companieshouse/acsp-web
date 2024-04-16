@@ -6,7 +6,9 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -42,14 +44,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            switch (selectedRole) {
-            case "SOLE_TRADER":
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
-                break;
-            case "SOMEONE_ELSE":
-                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
-                break;
 
+            if (selectedRole === "SOLE_TRADER") {
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.roleType = "I am the sole trader";
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
+            } else {
+                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             }
         }
     } catch (error) {

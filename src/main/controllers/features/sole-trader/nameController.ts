@@ -4,9 +4,11 @@ import { validationResult } from "express-validator";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER_WHAT_IS_YOUR_ROLE, SOLE_TRADER_WHAT_IS_YOUR_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -41,12 +43,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.firstName = req.body["first-name"];
                 acspData.lastName = req.body["last-name"];
             }
+            saveDataInSession(req, USER_DATA, acspData);
 
-            if (session) {
-                session.setExtraData(USER_DATA, acspData);
-            }
-            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang);
-            res.redirect(nextPageUrl);
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.name = req.body["first-name"] + " " + req.body["last-name"];
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang));
         }
     } catch (error) {
         next(error);

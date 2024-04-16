@@ -6,8 +6,10 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import * as config from "../../../config";
 import { SOLE_TRADER_DATE_OF_BIRTH, BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -50,8 +52,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });// determined from user not in banned list
         } else {
             // If validation passes, redirect to the next page
-            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang);
-            res.redirect(nextPageUrl);
+            let nationalityString = req.body.nationality_input_0;
+            if (req.body.nationality_input_1 !== "") {
+                nationalityString += "<br>" + req.body.nationality_input_1;
+            }
+            if (req.body.nationality_input_2 !== "") {
+                nationalityString += "<br>" + req.body.nationality_input_2;
+            }
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.nationality = nationalityString;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
         }
     } catch (error) {
         next(error);
