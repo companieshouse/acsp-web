@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             const AcspDto = await getAcsp(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
             logger.info("......getAcsp AcspDto" + AcspDto);
         }
-        
+
     } catch (err) {
         logger.error(TRANSACTION_CREATE_ERROR);
         return Promise.reject(err);
