@@ -8,7 +8,7 @@ import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -85,7 +85,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

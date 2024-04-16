@@ -9,13 +9,14 @@ import {
     UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
 
@@ -88,7 +89,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

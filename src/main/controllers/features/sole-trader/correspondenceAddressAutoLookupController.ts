@@ -1,10 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
+import {
+    BASE_URL,
+    SOLE_TRADER_AUTO_LOOKUP_ADDRESS,
+    SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
+    SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM,
+    SOLE_TRADER_SECTOR_YOU_WORK_IN,
+    SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS
+} from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
@@ -29,13 +36,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-
     try {
+        const session: Session = req.session as any as Session;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
@@ -91,9 +99,4 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     } catch (error) {
         next(error);
     }
-
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

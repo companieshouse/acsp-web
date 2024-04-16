@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import {
-    FormattedValidationErrors,
-    formatValidationError
+    formatValidationError,
+    getPageProperties
 } from "../../../validation/validation";
 import {
     selectLang,
@@ -21,14 +21,8 @@ import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 
-/**
- * Handler for GET request to select Anti-Money Laundering (AML) supervisory bodies page.
- * Renders the page with relevant data.
- * @param req Express request object
- * @param res Express response object
- * @param next Express next function
- */
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
 
@@ -40,17 +34,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-/**
- * Handler for POST request from select Anti-Money Laundering (AML) supervisory bodies page.
- * Redirects to the AML membership number page if no validation errors, otherwise re-renders the page with validation errors.
- * @param req Express request object
- * @param res Express response object
- * @param next Express next function
- */
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeofBusiness;
@@ -72,12 +61,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-/**
- * Returns page properties containing validation errors.
- * @param errors Formatted validation errors
- * @returns Page properties
- */
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

@@ -18,11 +18,13 @@ import {
 import { COMPANY_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    // Retrieve company details from the session
+
     const session: Session = req.session as any as Session;
     const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
+
     res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
         chooseDifferentCompany: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
@@ -35,9 +37,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const lang = selectLang(req.query.lang);
+
         const session: Session = req.session as any as Session;
         const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
+
         const redirectUrlAccordingToRole = company.status === "active"
             ? LIMITED_WHAT_IS_YOUR_ROLE
             : LIMITED_COMPANY_INACTIVE;

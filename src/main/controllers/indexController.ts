@@ -8,13 +8,6 @@ import {
     selectLang
 } from "../utils/localise";
 
-/**
- * Handler for GET request to the home page.
- * Renders the home page with relevant data.
- * @param req Express request object
- * @param res Express response object
- * @param next Express next function
- */
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -26,13 +19,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-/**
- * Handler for POST request from the home page.
- * Redirects to the next page based on user's language preference.
- * @param req Express request object
- * @param res Express response object
- * @param next Express next function
- */
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);

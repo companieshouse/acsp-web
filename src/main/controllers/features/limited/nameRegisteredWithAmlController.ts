@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import {
-    FormattedValidationErrors,
-    formatValidationError
+    formatValidationError,
+    getPageProperties
 } from "../../../validation/validation";
 import {
     selectLang,
@@ -20,8 +20,10 @@ import {
 } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+
     res.render(config.NAME_REGISTERED_WITH_AML, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang),
         title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
@@ -32,8 +34,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+
         const errorList = validationResult(req);
         const selectedOption = req.body.nameRegisteredWithAml;
 
@@ -57,7 +61,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
