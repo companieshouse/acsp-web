@@ -1,6 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <div class="govuk-grid-row">
@@ -16,35 +17,76 @@
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         {% include "partials/user_name.njk" %}
                         <h1 class="govuk-fieldset__heading">
-                            <p class="govuk-label govuk-label--l">What is the Anti-Money Laundering (AML) membership number?</p>
+                            <p class="govuk-label govuk-label--l">{{i18n.amlMembershipTitle}}</p>
                         </h1>
                     </legend>
-                    <p class="govuk-body">Your AML supervisory body may have a different name for this, such as:</p>
+                    <p class="govuk-body">{{i18n.amlMembershipdescription}}</p>
                     <ul class="govuk-list govuk-list--bullet">
-                        <li>a firm ID or number</li>
-                        <li>a regulation ID</li>
-                        <li>an AML ID</li>
+                        <li>{{i18n.amlMembershipLisit1}}</li>
+                        <li>{{i18n.amlMembershipLisit2}}</li>
+                        <li>{{i18n.amlMembershipLisit3}}</li>
                     </ul>
-                    <p class="govuk-body">Contact the AML supervisory body if you need to check your details.
+                    <p class="govuk-body">{{i18n.amlcontactinfo}}
                     </p>
 
-                    {% for body in selectedAMLSupervisoryBodies %}
+                   <!-- {% for body in selectedAMLSupervisoryBodies %}
                         {{ govukInput({
                             label: {
-                                text: body.text,
+                                text: body,
                                 classes: "govuk-label l govuk-label--m",
                                 isPageHeading: true
                             },
-                            id: "membership-number-" + body.value,
-                            name: "membershipNumber_" + body.value,
+                            id: "membershipNumber_" + loop.index,
+                            name: "membershipNumber_" + loop.index,
                             errorMessage: {
-                                text: "Enter the membership number for " + body.text
-                            }
+                                text: errors["membershipNumber_" + loop.index].text
+                            } if errors["membershipNumber_" + loop.index]
                         }) }}
-                    {% endfor %}
+                    {% endfor %}-->
+
+                     {{ govukInput({
+                            label: {
+                                text: selectedAMLSupervisoryBodies,
+                                classes: "govuk-label l govuk-label--m",
+                                isPageHeading: true
+                            },
+                            id: "membershipNumber_1",
+                            name: "membershipNumber_1",
+                            errorMessage: {
+                                text: errors["membershipNumber_1"].text
+                            } if errors["membershipNumber_1"]
+                        }) }}
+
+
+                     {{ govukInput({
+                            label: {
+                                text: selectedAMLSupervisoryBodies,
+                                classes: "govuk-label l govuk-label--m",
+                                isPageHeading: true
+                            },
+                            id: "membershipNumber_2",
+                            name: "membershipNumber_2",
+                            errorMessage: {
+                                text: errors["membershipNumber_2"].text
+                            } if errors["membershipNumber_2"]
+                        }) }}
+                    
+                     {{ govukInput({
+                            label: {
+                                text: selectedAMLSupervisoryBodies,
+                                classes: "govuk-label l govuk-label--m",
+                                isPageHeading: true
+                            },
+                            id: "membershipNumber_3",
+                            name: "membershipNumber_3",
+                            errorMessage: {
+                                text: errors["membershipNumber_3"].text
+                            } if errors["membershipNumber_3"]
+                        }) }}
+
 
                     {{ govukInsetText({
-                    text: "You must have been registered with the AML supervisory body for at least 2 weeks."
+                    text: i18n.amlAdditionalInfo
                     }) }}
 
                     {{ govukButton({
@@ -55,3 +97,6 @@
         </div>
     </div>
 {% endblock %}
+
+
+

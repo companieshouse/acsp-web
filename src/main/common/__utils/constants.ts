@@ -14,3 +14,4 @@ export const UNINCORPORATED_AML_SELECTED_OPTION = "unincorporatedAmlSelectedOpti
 export const BUSINESS_NAME = "businessName";
 export const ADDRESS_LIST = "addressList";
 export const BUSINESS_ADDRESS = "businessAddress";
+export const AML_SUPERVISOR_SELECTED: string = "selected AML supervisors"; ;
