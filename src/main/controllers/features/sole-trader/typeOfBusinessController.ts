@@ -26,10 +26,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 // get transaction record data
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
             });
+            logger.info("......getAcsp transactionId" + session.getExtraData(SUBMISSION_ID));
+            const AcspDto = await getAcsp(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
+            logger.info("......getAcsp AcspDto" + AcspDto);
         }
-        logger.info("......getAcsp transactionId" + session.getExtraData(SUBMISSION_ID));
-        const AcspDto = await getAcsp(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
-        logger.info("......getAcsp AcspDto" + AcspDto);
+        
     } catch (err) {
         logger.error(TRANSACTION_CREATE_ERROR);
         return Promise.reject(err);

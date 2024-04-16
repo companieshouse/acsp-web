@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@companieshouse/api-sdk-node": "file://Users/shaileshwalke/IdeaProjects/docker-chs-development/repositories/api-sdk-node",
+    "@companieshouse/api-sdk-node": "file://Users/sampankumar/git/docker-chs-development/repositories/api-sdk-node",
     "@companieshouse/ch-node-utils": "^1.1.4",
     "@companieshouse/node-session-handler": "^4.1.9",
     "@companieshouse/structured-logging-node": "^1.0.8",
