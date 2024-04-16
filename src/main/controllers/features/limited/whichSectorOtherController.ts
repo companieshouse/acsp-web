@@ -2,8 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
+import {
+    selectLang,
+    addLangToUrl,
+    getLocalesService,
+    getLocaleInfo
+} from "../../../utils/localise";
+import {
+    LIMITED_SECTOR_YOU_WORK_IN,
+    LIMITED_SELECT_AML_SUPERVISOR,
+    BASE_URL,
+    LIMITED_WHICH_SECTOR_OTHER
+} from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";

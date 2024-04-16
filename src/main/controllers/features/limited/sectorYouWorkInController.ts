@@ -22,6 +22,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SECTOR_YOU_WORK_IN, {
@@ -32,11 +33,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            if (req.body.sectorYouWorkIn === "OTHER") {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
-            } else {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
-            }
+            const nextPageUrl = req.body.sectorYouWorkIn === "OTHER"
+                ? LIMITED_WHICH_SECTOR_OTHER
+                : LIMITED_SELECT_AML_SUPERVISOR;
+
+            res.redirect(addLangToUrl(BASE_URL + nextPageUrl, lang));
         }
     } catch (error) {
         next(error);

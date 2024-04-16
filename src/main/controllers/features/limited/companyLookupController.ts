@@ -3,8 +3,18 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import * as config from "../../../config";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import {
+    selectLang,
+    addLangToUrl,
+    getLocalesService,
+    getLocaleInfo
+} from "../../../utils/localise";
+import {
+    BASE_URL,
+    LIMITED_IS_THIS_YOUR_COMPANY,
+    LIMITED_WHAT_IS_THE_COMPANY_NUMBER,
+    TYPE_OF_BUSINESS
+} from "../../../types/pageURL";
 import { CompanyLookupService } from "../../../services/companyLookupService";
 import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
 

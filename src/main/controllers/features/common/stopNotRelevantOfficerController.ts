@@ -3,9 +3,17 @@ import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_ROLE } fr
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 
+/**
+ * Handler for GET request to stop not relevant officer kick-out page.
+ * Renders the page with relevant data.
+ * @param req Express request object
+ * @param res Express response object
+ * @param next Express next function
+ */
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+
     res.render(config.STOP_NOT_RELEVANT_OFFICER_KICK_OUT, {
         title: "You cannot use this service",
         ...getLocaleInfo(locales, lang),
