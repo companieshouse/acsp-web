@@ -2,19 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
 import { Company } from "../../../model/Company";
-import {
-    selectLang,
-    addLangToUrl,
-    getLocalesService,
-    getLocaleInfo
-} from "../../../utils/localise";
-import {
-    LIMITED_WHAT_IS_THE_COMPANY_NUMBER,
-    LIMITED_IS_THIS_YOUR_COMPANY,
-    LIMITED_COMPANY_INACTIVE,
-    LIMITED_WHAT_IS_YOUR_ROLE,
-    BASE_URL
-} from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL } from "../../../types/pageURL";
 import { COMPANY_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

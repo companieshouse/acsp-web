@@ -1,20 +1,9 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
-
 import * as config from "../../../config";
-import {
-    selectLang,
-    addLangToUrl,
-    getLocalesService,
-    getLocaleInfo
-} from "../../../utils/localise";
-import {
-    BASE_URL,
-    LIMITED_IS_THIS_YOUR_COMPANY,
-    LIMITED_WHAT_IS_THE_COMPANY_NUMBER,
-    TYPE_OF_BUSINESS
-} from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { CompanyLookupService, getCompanyDetails } from "../../../services/companyLookupService";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 

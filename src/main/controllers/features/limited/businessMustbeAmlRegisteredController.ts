@@ -1,18 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import {
-    selectLang,
-    addLangToUrl,
-    getLocalesService,
-    getLocaleInfo
-} from "../../../utils/localise";
-import {
-    BASE_URL,
-    LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT,
-    LIMITED_NAME_REGISTERED_WITH_AML,
-    TYPE_OF_BUSINESS,
-    AML_REGISTRATION
-} from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_NAME_REGISTERED_WITH_AML, TYPE_OF_BUSINESS, AML_REGISTRATION } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 

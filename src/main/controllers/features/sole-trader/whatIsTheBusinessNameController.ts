@@ -7,6 +7,7 @@ import { BASE_URL, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_SECTOR_YOU
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";
+
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();

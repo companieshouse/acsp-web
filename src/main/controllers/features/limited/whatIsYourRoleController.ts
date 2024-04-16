@@ -1,24 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
-import {
-    FormattedValidationErrors,
-    formatValidationError,
-    getPageProperties
-} from "../../../validation/validation";
-import {
-    BASE_URL,
-    LIMITED_IS_THIS_YOUR_COMPANY,
-    STOP_NOT_RELEVANT_OFFICER,
-    LIMITED_WHAT_IS_YOUR_ROLE,
-    LIMITED_NAME_REGISTERED_WITH_AML
-} from "../../../types/pageURL";
-import {
-    selectLang,
-    addLangToUrl,
-    getLocalesService,
-    getLocaleInfo
-} from "../../../utils/localise";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY_DETAILS, USER_DATA } from "../../../common/__utils/constants";
 import { Company } from "../../../model/Company";

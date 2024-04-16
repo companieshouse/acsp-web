@@ -1,16 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import {
-    selectLang,
-    addLangToUrl,
-    getLocalesService,
-    getLocaleInfo
-} from "../../../utils/localise";
-import {
-    LIMITED_WHAT_IS_THE_COMPANY_NUMBER,
-    LIMITED_COMPANY_INACTIVE,
-    BASE_URL
-} from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_COMPANY_INACTIVE, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY } from "../../../common/__utils/constants";
 import { Company } from "../../../model/Company";
