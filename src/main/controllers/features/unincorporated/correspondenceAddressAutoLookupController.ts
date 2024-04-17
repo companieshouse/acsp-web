@@ -12,6 +12,8 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";
+import { logger } from "main/utils/logger";
+import { log } from "console";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -39,6 +41,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+        const pageUrl = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
@@ -55,16 +58,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             getAddressFromPostcode(postcode).then((ukAddresses) => {
+                logger.debug("+++++++++++++++++++" + postcode);
+                logger.debug("-----------------------" + inputPremise);
                 const addressLookUpService = new AddressLookUpService();
-                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                    addressLookUpService.saveCorrespondenceAddressToSession(req, ukAddresses, inputPremise);
-                    const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-                    res.redirect(nextPageUrl);
-                } else {
-                    addressLookUpService.saveAddressListToSession(req, ukAddresses);
-                    const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, lang);
-                    res.redirect(nextPageUrl);
-                }
+                addressLookUpService.handleAddressLookup(req, postcode, inputPremise, lang, pageUrl);
+                // const addressLookUpService = new AddressLookUpService();
+                // if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
+                //     addressLookUpService.saveCorrespondenceAddressToSession(req, ukAddresses, inputPremise);
+                //     const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+                //     res.redirect(nextPageUrl);
+                // } else {
+                //     addressLookUpService.saveAddressListToSession(req, ukAddresses);
+                //     const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, lang);
+                //     res.redirect(nextPageUrl);
+                // }
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
