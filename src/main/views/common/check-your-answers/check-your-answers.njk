@@ -3,6 +3,28 @@
 {% extends "layouts/default.njk" %}
 {% block main_content %}
 
+{% set amlList = [] %}
+  {% for body,value in amlDetails %}
+      {% set amlSummaryObject = {
+          key: {
+            text:  i18n.checkYourAnswersAMLTab
+          },
+          value: {
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body + "</li><li>" + value + "</li></ul>"
+          },
+          actions: {
+            items: [
+              {
+                href: editAML + "#" + "membershipnumber_" + loop.index,
+                text: "Change",
+                visuallyHiddenText: body
+              }
+            ]
+          }
+        } %}
+      {% set amlList = amlList.concat(amlSummaryObject) %}
+  {% endfor %}
+
     <div class="govuk-grid-column-two-thirds-from-desktop">
         <form method="post">
             <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>

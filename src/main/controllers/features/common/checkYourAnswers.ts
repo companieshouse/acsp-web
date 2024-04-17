@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { BASE_URL, CHECK_YOUR_ANSWERS, PAYMENT_URL } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, PAYMENT_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
 import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
@@ -17,8 +17,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "Check your answers before sending your application",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + CHECK_YOUR_ANSWERS,
+        editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
         typeOfBusiness: acspData.typeofBusiness,
-        detailsAnswers
+        detailsAnswers,
+        lang
+        // amlDetails
     });
 };
 
