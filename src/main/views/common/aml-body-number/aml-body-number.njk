@@ -39,7 +39,7 @@
                             id: "membershipNumber_" + loop.index,
                             name: "membershipNumber_" + loop.index,
                             errorMessage: {
-                                text: errors["membershipNumber_" + loop.index].text
+                                text: errors["membershipNumber_" + loop.index].text + " " + body if errors["membershipNumber_" + loop.index]
                             } if errors["membershipNumber_" + loop.index]
                         }) }}
                     {% endfor %}
