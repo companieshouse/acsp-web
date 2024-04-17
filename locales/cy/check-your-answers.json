@@ -4,5 +4,16 @@
     "checkYourAnswersSoleTraderDetailsHeading": "Your details Welsh",
     "checkYourAnswersLimitedDetailsHeading": "Company details Welsh",
     "checkYourAnswersUnincorportatedDetailsHeading": "Business details Welsh",
-    "continueToPayment": "Continue to payment Welsh"
+    "continueToPayment": "Continue to payment Welsh",
+    "yourRole": "Your Role Welsh",
+    "businessSector": "Business sector Welsh",
+    "typeOfBusiness": "Type of business Welsh",
+    "checkAnswersBusinessName": "Business name Welsh",
+    "checkAnswersName": "Name Welsh",
+    "checkAnswersDateOfBirth": "Date of birth Welsh",
+    "checkAnswersNationality": "Nationality Welsh",
+    "checkAnswersWhereDoYouLive": "Where do you live? Welsh",
+    "checkAnswersNameWithAML": "Name registered with the AML supervisory body Welsh",
+    "checkAnswersYourName": "Your name Welsh",
+    "checkAnswersBusinessAddress": "Business address Welsh"
 }

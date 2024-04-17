@@ -12,5 +12,8 @@
     "checkAnswersName": "Name",
     "checkAnswersDateOfBirth": "Date of birth",
     "checkAnswersNationality": "Nationality",
-    "checkAnswersWhereDoYouLive": "Where do you live?"
+    "checkAnswersWhereDoYouLive": "Where do you live?",
+    "checkAnswersNameWithAML": "Name registered with the AML supervisory body",
+    "checkAnswersYourName": "Your name",
+    "checkAnswersBusinessAddress": "Business address"
 }
