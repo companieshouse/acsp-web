@@ -46,7 +46,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const selectedAMLSupervisoryBodies = Array.isArray(req.body["AML-supervisory-bodies"]) ? req.body["AML-supervisory-bodies"] : [req.body["AML-supervisory-bodies"]];
+            //const selectedAMLSupervisoryBodies = Array.isArray(req.body["AML-supervisory-bodies"]) ? req.body["AML-supervisory-bodies"] : [req.body["AML-supervisory-bodies"]];
+            const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"]
             session.setExtraData(AML_SUPERVISOR_SELECTED, JSON.stringify(selectedAMLSupervisoryBodies));
 
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));

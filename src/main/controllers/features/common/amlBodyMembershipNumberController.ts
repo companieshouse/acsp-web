@@ -16,6 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const acspType = acspData?.typeofBusiness;
     const selectedAMLSupervisoryBodies: string[] | [string] = JSON.parse(session?.getExtraData(AML_SUPERVISOR_SELECTED) || '[]');
+  
     var previousPage: string = "";
     if (acspType === TypeOfBusiness.SOLE_TRADER) {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
@@ -41,7 +42,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const selectedAMLSupervisoryBodies: string = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    //gives no bracket
+    const selectedAMLSupervisoryBodies: string[] | [string] = JSON.parse(session?.getExtraData(AML_SUPERVISOR_SELECTED) || '[]');
     //console.log(selectedAMLSupervisoryBodies);
     console.log(req.body);
     const acspType = acspData?.typeofBusiness;
@@ -63,7 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "What is the Anti-Money Laundering (AML) membership number?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
-                pageProperties: addLangToUrl(previousPage, lang),
+                pageProperties: pageProperties ,
                 payload: req.body,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,

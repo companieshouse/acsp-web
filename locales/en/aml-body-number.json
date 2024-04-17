@@ -8,5 +8,5 @@
     "amlAdditionalInfo": "You must have been registered with the AML supervisory body for at least 2 weeks.",
 
 
-    "amlIDNumberInput": "Enter the details for"
+    "error-amlIDNumberInput": "Enter the details for"
 }

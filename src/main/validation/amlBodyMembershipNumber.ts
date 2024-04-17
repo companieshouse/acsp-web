@@ -4,8 +4,8 @@ import { body } from "express-validator";
 export const amlBodyMembershipNumberControllerValidator = [
 
     body("membershipNumber_1").trim().notEmpty().withMessage("amlIDNumberInput").bail(),
-    body("membershipNumber_2").trim().notEmpty().withMessage("amlIDNumberInput").bail(),
-    body("membershipNumber_3").trim().notEmpty().withMessage("amlIDNumberInput").bail()
+    body("membershipNumber_2")?.trim().notEmpty().withMessage("amlIDNumberInput").bail(),
+    body("membershipNumber_3")?.trim().notEmpty().withMessage("amlIDNumberInput").bail()
     /* body("membershipNumber_4").trim().notEmpty().withMessage("amlIDNumberInput"),
     body("membershipNumber_5").trim().notEmpty().withMessage("amlIDNumberInput"),
     body("membershipNumber_6").trim().notEmpty().withMessage("amlIDNumberInput"),
