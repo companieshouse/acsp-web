@@ -4,21 +4,23 @@
 {% block main_content %}
 
     <div class="govuk-grid-column-two-thirds-from-desktop">
-        <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
-        {% if typeOfBusiness === "SOLE_TRADER" %}
-            {% include "partials/check-your-answers/sole-trader-answers.njk" %}
-        {% elif typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
-            {% include "partials/check-your-answers/limited-answers.njk" %}
-        {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
-            {% include "partials/check-your-answers/unincorporated-answers.njk" %}
-        {% endif %}
-        <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
-        {{ govukSummaryList({
-            rows: amlList
-            })
-        }}
-        {{ govukButton({
-            text: i18n.continueToPayment
-           }) }}
+        <form method="post">
+            <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
+            {% if typeOfBusiness === "SOLE_TRADER" %}
+                {% include "partials/check-your-answers/sole-trader-answers.njk" %}
+            {% elif typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
+                {% include "partials/check-your-answers/limited-answers.njk" %}
+            {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
+                {% include "partials/check-your-answers/unincorporated-answers.njk" %}
+            {% endif %}
+            <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+            {{ govukSummaryList({
+                rows: amlList
+                })
+            }}
+            {{ govukButton({
+                text: i18n.continueToPayment
+            }) }}
+        </form>
     </div>
 {% endblock main_content %}
