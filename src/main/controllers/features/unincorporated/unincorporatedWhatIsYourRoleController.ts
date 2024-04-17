@@ -52,8 +52,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
             res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
         } else {
+
+            let role;
+            switch (req.body.WhatIsYourRole) {
+            case "MEMBER_OF_PARTNERSHIP":
+                role = "I'm a member";
+                break;
+            case "MEMBER_OF_GOVERNING_BODY":
+                role = "I am a member of the governing body";
+                break;
+            case "MEMBER_OF_ENTITY":
+                role = "I am a member of the body";
+                break;
+            }
+
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.roleType = "I am a member";
+            detailsAnswers.roleType = role;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));
         }
