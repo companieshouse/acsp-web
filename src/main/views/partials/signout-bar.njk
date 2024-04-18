@@ -1,0 +1,16 @@
+{% if userEmail %}
+    {% set signoutURL = signoutURL | default("/register-as-companies-house-authorised-agent/signout") %}
+    {% if lang %}
+        {% set signoutURL = signoutURL ~ "?lang=" ~ lang %}
+    {% endif %}
+    {% set email = userEmail | default("Not signed in") %}
+    <ul class="js-signout" id="navigation">
+        <li class="content-email" id="signed-in-user">{{email}}</li>
+        <li class="content">
+        <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">
+            {{ i18n.signOut }}
+        </a>
+        </li>
+    </ul>
+    <script src="{{cdnHost}}/javascripts/app/session-timeout.js"></script>
+{% endif %}

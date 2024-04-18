@@ -22,6 +22,9 @@
       {% block backLink %}
               <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
       {% endblock %}
+      {% block signoutBar %}
+        {% include "partials/signout-bar.njk" %}
+      {% endblock %}
       {% include "locales-banner.njk" %}
       <main class="govuk-main-wrapper " id="main-content">
         <div class="govuk-grid-row">
