@@ -1,0 +1,20 @@
+{
+    "checkYourAnswersHeading": "Check your answers before sending your application",
+    "checkYourAnswersAMLHeading": "Anti-Money Laundering (AML) details",
+    "checkYourAnswersSoleTraderDetailsHeading": "Your details",
+    "checkYourAnswersLimitedDetailsHeading": "Company details",
+    "checkYourAnswersUnincorportatedDetailsHeading": "Business details",
+    "continueToPayment": "Continue to payment",
+    "yourRole": "Your Role",
+    "businessSector": "Business sector",
+    "typeOfBusiness": "Type of business",
+    "checkAnswersBusinessName": "Business name",
+    "checkAnswersName": "Name",
+    "checkAnswersDateOfBirth": "Date of birth",
+    "checkAnswersNationality": "Nationality",
+    "checkAnswersWhereDoYouLive": "Where do you live?",
+    "checkAnswersNameWithAML": "Name registered with the AML supervisory body",
+    "checkAnswersYourName": "Your name",
+    "checkAnswersBusinessAddress": "Business address",
+    "checkYourAnswersAMLTab": "AML supervisory body and membership number"
+}

@@ -34,6 +34,10 @@ export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
 
 export const AML_MEMBERSHIP_NUMBER = "/aml-membership-number";
 
+export const CHECK_YOUR_ANSWERS = "/check-your-answers";
+
+export const PAYMENT_URL = "/payment-url";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 

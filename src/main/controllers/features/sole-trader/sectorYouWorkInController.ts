@@ -5,8 +5,11 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { SectorOfWork } from "../../../model/SectorOfWork";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -48,6 +51,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.sectorYouWorkIn === "OTHER") {
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER, lang));
             } else {
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
             }
         }

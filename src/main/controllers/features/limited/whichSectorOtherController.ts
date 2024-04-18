@@ -6,7 +6,10 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { SectorOfWork } from "../../../model/SectorOfWork";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -49,6 +52,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.workSector = SectorOfWork[req.body.whichSectorOther as keyof typeof SectorOfWork];
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
         }
     } catch (error) {

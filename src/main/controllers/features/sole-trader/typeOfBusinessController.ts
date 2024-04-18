@@ -5,11 +5,13 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA, ANSWER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
+import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
+import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
 
@@ -68,6 +70,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     typeofBusiness: selectedOption
                 };
                 saveDataInSession(req, USER_DATA, acspData);
+                const answersArray: Answers = {
+                    typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                };
+                saveDataInSession(req, ANSWER_DATA, answersArray);
             }
 
             switch (selectedOption) {

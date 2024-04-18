@@ -5,9 +5,10 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, BASE_URL, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHAT_IS_YOUR_NAME, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { UNINCORPORATED_AML_SELECTED_OPTION, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, UNINCORPORATED_AML_SELECTED_OPTION, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ACSPData } from "main/model/ACSPData";
+import { ACSPData } from "../../../model/ACSPData";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -56,12 +57,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const unincorporatedBusinessName = req.body.whatIsTheBusinessName;
             const acspData: ACSPData = session.getExtraData(USER_DATA)!;
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.businessName = unincorporatedBusinessName;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             if (acspData) {
                 acspData.businessName = unincorporatedBusinessName;
                 saveDataInSession(req, USER_DATA, acspData);
             }
-            const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
-            res.redirect(nextPageUrl);
+
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang));
         }
     } catch (error) {
         next(error);

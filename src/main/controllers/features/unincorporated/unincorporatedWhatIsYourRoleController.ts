@@ -5,8 +5,10 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -46,11 +48,29 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         }
-        const redirectUrlAccordingToRole = req.body.WhatIsYourRole === "SOMEONE_ELSE"
-            ? STOP_NOT_RELEVANT_OFFICER
-            : UNINCORPORATED_WHICH_SECTOR;
 
-        res.redirect(addLangToUrl(BASE_URL + redirectUrlAccordingToRole, lang));
+        if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
+            res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
+        } else {
+
+            let role;
+            switch (req.body.WhatIsYourRole) {
+            case "MEMBER_OF_PARTNERSHIP":
+                role = "I'm a member";
+                break;
+            case "MEMBER_OF_GOVERNING_BODY":
+                role = "I am a member of the governing body";
+                break;
+            case "MEMBER_OF_ENTITY":
+                role = "I am a member of the body";
+                break;
+            }
+
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.roleType = role;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));
+        }
 
     } catch (error) {
         next(error);
