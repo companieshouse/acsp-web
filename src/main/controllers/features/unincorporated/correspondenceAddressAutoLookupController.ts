@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
-import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import {
     BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
     UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP
@@ -54,17 +53,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
-            getAddressFromPostcode(postcode).then((ukAddresses) => {
-                const addressLookUpService = new AddressLookUpService();
-                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                    addressLookUpService.saveCorrespondenceAddressToSession(req, ukAddresses, inputPremise);
-                    const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-                    res.redirect(nextPageUrl);
-                } else {
-                    addressLookUpService.saveAddressListToSession(req, ukAddresses);
-                    const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, lang);
-                    res.redirect(nextPageUrl);
-                }
+            const addressLookUpService = new AddressLookUpService();
+            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise,
+                UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
+                res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,

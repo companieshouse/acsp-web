@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
-import { getAddressFromPostcode } from "../../../services/postcode-lookup-service";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import {
     BASE_URL,
@@ -60,21 +59,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
-            getAddressFromPostcode(postcode).then((ukAddresses) => {
-                const addressLookUpService = new AddressLookUpService();
-                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                    addressLookUpService.saveCorrespondenceAddressToSession(req, ukAddresses, inputPremise);
-                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-                    res.redirect(nextPageUrl);
-
-                } else {
-
-                    addressLookUpService.saveAddressListToSession(req, ukAddresses);
-                    const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, lang);
-                    res.redirect(nextPageUrl);
-
-                }
-
+            const addressLookUpService = new AddressLookUpService();
+            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then((nextPageUrl) => {
+                res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError: ValidationError[] = [{
                     value: postcode,
