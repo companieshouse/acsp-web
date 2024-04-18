@@ -61,7 +61,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             let role;
             switch (req.body.WhatIsYourRole) {
             case "DIRECTOR":
-                role = "I'm a director";
+                role = "I am a director";
                 break;
             case "MEMBER_OF_LLP":
                 role = "I am a member of the partnership";

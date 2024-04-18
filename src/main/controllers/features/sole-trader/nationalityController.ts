@@ -54,10 +54,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // If validation passes, redirect to the next page
             let nationalityString = req.body.nationality_input_0;
             if (req.body.nationality_input_1 !== "") {
-                nationalityString += "<br>" + req.body.nationality_input_1;
+                nationalityString += ", " + req.body.nationality_input_1;
             }
             if (req.body.nationality_input_2 !== "") {
-                nationalityString += "<br>" + req.body.nationality_input_2;
+                nationalityString += ", " + req.body.nationality_input_2;
             }
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.nationality = nationalityString;
