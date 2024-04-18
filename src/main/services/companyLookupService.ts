@@ -27,16 +27,15 @@ export class CompanyLookupService extends GenericService {
             return Promise.reject(errorData);
         }
     }
-}
 
-const companyDetailsService = new CompanyDetailsService();
+    async getCompanyDetails (session: Session, companyNumber: string, req: Request) {
+        await this.getCompany(session, companyNumber).then(
+            (companyDetails) => {
+                const companyDetailsService = new CompanyDetailsService();
+                companyDetailsService.saveToSession(req, companyDetails);
+            }).catch(() => {
+            throw Error("Company Not Found");
+        });
 
-export async function getCompanyDetails (companyLookupService: CompanyLookupService, session: Session, companyNumber: string, req: Request) {
-    await companyLookupService.getCompany(session, companyNumber).then(
-        (companyDetails) => {
-            companyDetailsService.saveToSession(req, companyDetails);
-        }).catch(() => {
-        throw Error("Company Not Found");
-    });
-
+    }
 }

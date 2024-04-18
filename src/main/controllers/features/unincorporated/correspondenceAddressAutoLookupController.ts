@@ -11,6 +11,8 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";
+import { logger } from "main/utils/logger";
+import { log } from "console";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
