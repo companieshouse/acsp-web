@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
+import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 
 import {
     APPLICATION_NAME,
@@ -72,6 +73,8 @@ process.on("unhandledRejection", (err: any) => {
 app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+
+app.use(commonTemplateVariablesMiddleware)
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
