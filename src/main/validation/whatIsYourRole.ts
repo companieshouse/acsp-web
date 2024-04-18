@@ -13,10 +13,11 @@ export const whatIsYourRoleValidator: ValidationChain[] = [
             case "LIMITED_COMPANY":
                 throw new Error("limitedCompanyWhatIsYourRoleRadio");
             case "LIMITED_PARTNERSHIP":
-            case "PARTNERSHIP":
-                throw new Error("partnershipWhatIsYourRoleRadio");
-            case "LIMITED_LIABILITY_PARTNERSHIP":
                 throw new Error("limitedLPWhatIsYourRoleRadio");
+            case "LIMITED_LIABILITY_PARTNERSHIP":
+                throw new Error("llppartnershipWhatIsYourRoleRadio");
+            case "PARTNERSHIP":
+                throw new Error("nonRegistrablePartnership");
             case "SOLE_TRADER":
                 throw new Error("soleTraderWhatIsYourRoleRadio");
             case "UNINCORPORATED_ENTITY":
