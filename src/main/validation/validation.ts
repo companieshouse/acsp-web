@@ -31,3 +31,13 @@ export function formatValidationError (validationErrors: ValidationError[], lang
 
     return errors;
 }
+
+/**
+ * Returns page properties containing validation errors.
+ * @param errors Formatted validation errors
+ * @returns Page properties
+ */
+
+export const getPageProperties = (errors?: FormattedValidationErrors) => ({
+    errors
+});

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
@@ -11,11 +11,13 @@ import { Address } from "main/model/Address";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
 
     res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
         title: "Select your address",
@@ -33,12 +35,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
+
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const errorList = validationResult(req);
+
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-        const errorList = validationResult(req);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -67,7 +71,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

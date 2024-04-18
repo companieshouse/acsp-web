@@ -2,18 +2,16 @@ import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
 import * as config from "../../../config";
-import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { CompanyLookupService } from "../../../services/companyLookupService";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
-
-const companyDetailsService = new CompanyDetailsService();
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+
     res.render(config.LIMITED_COMPANY_NUMBER, {
         previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
         title: "What is the company number?",
@@ -24,12 +22,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+
         const session: Session = req.session as any as Session;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+
             res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
                 payload: req.body,
@@ -42,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const { companyNumber } = req.body;
             const companyLookupService = new CompanyLookupService();
-            getCompanyDetails(companyLookupService, session, companyNumber, req).then(
+            companyLookupService.getCompanyDetails(session, companyNumber, req).then(
                 () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
@@ -56,6 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     location: "body"
                 }];
                 const pageProperties = getPageProperties(formatValidationError(validationError, lang));
+
                 res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
                     previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
                     payload: req.body,
@@ -71,17 +74,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
-
-async function getCompanyDetails (companyLookupService: CompanyLookupService, session: Session, companyNumber: string, req: Request) {
-    await companyLookupService.getCompany(session, companyNumber).then(
-        (companyDetails) => {
-            companyDetailsService.saveToSession(req, companyDetails);
-        }).catch(() => {
-        throw Error("Company Not Found");
-    });
-
-}
