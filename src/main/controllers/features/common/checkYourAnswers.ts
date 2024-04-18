@@ -13,6 +13,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session.getExtraData(USER_DATA)!;
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA)!;
+    const amlDetails = new Map<string, string>();
+    amlDetails.set("Association of Chartered Certified Accountants (ACCA)", "12345678");
+    amlDetails.set("Chartered Institute of Legal Executives (CILEx)", "08297534784635");
+    amlDetails.set("HMRC", "859324768974385634858");
     res.render(config.CHECK_YOUR_ANSWERS, {
         title: "Check your answers before sending your application",
         ...getLocaleInfo(locales, lang),
@@ -20,8 +24,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
         typeOfBusiness: acspData.typeofBusiness,
         detailsAnswers,
-        lang
-        // amlDetails
+        lang,
+        amlDetails
     });
 };
 

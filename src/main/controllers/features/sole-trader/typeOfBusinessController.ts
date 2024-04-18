@@ -15,7 +15,6 @@ import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
 
-
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();

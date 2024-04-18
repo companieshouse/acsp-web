@@ -8,7 +8,6 @@ import { ANSWER_DATA, COMPANY_DETAILS } from "../../../common/__utils/constants"
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
-
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
