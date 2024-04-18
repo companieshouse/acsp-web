@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as config from "../../../config";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
@@ -58,7 +58,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

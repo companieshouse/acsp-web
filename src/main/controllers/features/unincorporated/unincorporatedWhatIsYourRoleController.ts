@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
@@ -76,7 +76,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

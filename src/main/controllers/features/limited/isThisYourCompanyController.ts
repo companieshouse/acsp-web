@@ -8,10 +8,10 @@ import { ANSWER_DATA, COMPANY_DETAILS } from "../../../common/__utils/constants"
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
+
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    // Retrieve company details from the session
     const session: Session = req.session as any as Session;
     const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
     res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {

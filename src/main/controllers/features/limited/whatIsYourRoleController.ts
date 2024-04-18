@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
@@ -12,8 +12,10 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
+
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+
     const session: Session = req.session!;
     const acspData: ACSPData = session.getExtraData(USER_DATA)!;
     const company: Company = session.getExtraData(COMPANY_DETAILS)!;
@@ -30,9 +32,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+
         const session: Session = req.session!;
         const acspData: ACSPData = session.getExtraData(USER_DATA)!;
         const company: Company = session.getExtraData(COMPANY_DETAILS)!;
@@ -78,7 +82,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
