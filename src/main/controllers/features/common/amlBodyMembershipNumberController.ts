@@ -15,7 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const acspType = acspData?.typeofBusiness;
-    const selectedAMLSupervisoryBodies: string[] | [string] = JSON.parse(session?.getExtraData(AML_SUPERVISOR_SELECTED) || '[]');
+    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    //const selectedAMLSupervisoryBodies: [string] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
   
     var previousPage: string = "";
     if (acspType === TypeOfBusiness.SOLE_TRADER) {
@@ -43,8 +44,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     //gives no bracket
-    const selectedAMLSupervisoryBodies: string[] | [string] = JSON.parse(session?.getExtraData(AML_SUPERVISOR_SELECTED) || '[]');
+    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+
     //console.log(selectedAMLSupervisoryBodies);
+    //const selectedAMLSupervisoryBodies: [string] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
     console.log(req.body);
     const acspType = acspData?.typeofBusiness;
     var previousPage: string = "";
