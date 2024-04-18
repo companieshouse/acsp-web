@@ -41,3 +41,5 @@ export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "https://matomo.identi
 export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "1");
 
 export const PIWIK_EMBED = getEnvironmentValue("PIWIK_EMBED", "1");
+
+export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID", "4");
