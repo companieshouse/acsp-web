@@ -8,8 +8,9 @@
     "generalPartner": "I am a general partner of ",
     
     "error-limitedCompanyWhatIsYourRoleRadio" : "Select if you are a director or someone else",
-    "error-limitedLPWhatIsYourRoleRadio" : "Select if you are a member of the partnership or someone else",
-    "error-partnershipWhatIsYourRoleRadio" : "Select if you are a general partner or someone else",
+    "error-limitedPWhatIsYourRoleRadio" : "Select if you are a general partner or someone else",
+    "error-llppartnershipWhatIsYourRoleRadio" : "Select if you are a member of the partnership or someone else",
+    "error-nonRegistrablePartnership" : "Select if you are a member of the partnership or someone else",
     "error-unincorporatedEntityWhatIsYourRoleRadio" : "Select your role",
     "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else"
 }
