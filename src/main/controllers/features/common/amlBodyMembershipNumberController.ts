@@ -12,13 +12,12 @@ import { TypeOfBusiness } from "../../../../main/model/TypeOfBusiness";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const acspType = acspData?.typeofBusiness;
-    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
-    //const selectedAMLSupervisoryBodies: [string] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
-  
-    var previousPage: string = "";
+   // const session: Session = req.session as any as Session;
+    //const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    //const acspType = acspData?.typeofBusiness;
+    //const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    
+    /*var previousPage: string = "";
     if (acspType === TypeOfBusiness.SOLE_TRADER) {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
     } else if (acspType === TypeOfBusiness.LIMITED_COMPANY) {
@@ -26,14 +25,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } else {
         // Handle the case where acspData?.typeofBusiness is undefined or other values
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
-    }
+    }*/
 
     res.render(config.AML_MEMBERSHIP_NUMBER, {
         title: "What is the Anti-Money Laundering (AML) membership number?",
         ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(previousPage, lang),
+       // previousPage: addLangToUrl(previousPage, lang),
         currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
-        selectedAMLSupervisoryBodies, 
+       // selectedAMLSupervisoryBodies, 
 
     });
 };
@@ -41,13 +40,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
+    /*const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     //gives no bracket
-    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
-
-    //console.log(selectedAMLSupervisoryBodies);
-    //const selectedAMLSupervisoryBodies: [string] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    //const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
     console.log(req.body);
     const acspType = acspData?.typeofBusiness;
     var previousPage: string = "";
@@ -57,22 +53,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     } else {
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
-    }
+    }*/
     try {
         const errorList = validationResult(req);
         console.log(JSON.stringify(errorList));
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
-                previousPage: addLangToUrl(previousPage, lang),
+               // previousPage: addLangToUrl(previousPage, lang),
                 title: "What is the Anti-Money Laundering (AML) membership number?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
                 pageProperties: pageProperties ,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
-                selectedAMLSupervisoryBodies,
+               // firstName: acspData?.firstName,
+                //lastName: acspData?.lastName,
+                //selectedAMLSupervisoryBodies,
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
