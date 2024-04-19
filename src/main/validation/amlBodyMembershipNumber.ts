@@ -18,13 +18,13 @@ const customValidator = (value: any, { req }: any) => {
     if (selectedAMLSupervisoryBodies) {
         for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
             const bodyName = selectedAMLSupervisoryBodies[i];
+            
             const validationRule = body(`membershipNumber_${i + 1}`).trim().notEmpty().withMessage("amlIDNumberInput").bail();
-
+            amlBodyMembershipNumberControllerValidator.push(validationRule);
         }
     }
 
 
 }
-
 
 amlBodyMembershipNumberControllerValidator.push(body('*').custom(customValidator));
