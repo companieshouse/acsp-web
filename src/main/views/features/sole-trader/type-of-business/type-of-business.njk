@@ -2,10 +2,12 @@
 {% from "govuk/components/button/macro.njk"              import govukButton %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-    <form action="" method="POST">
-        {% include "partials/user_name.njk" %}
-        <div class="govuk-form-group">
-            {{ govukRadios({
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form action="" method="POST">
+                {% include "partials/user_name.njk" %}
+                <div class="govuk-form-group">
+                    {{ govukRadios({
                 errorMessage: errors.typeOfBusinessRadio if errors,
                 classes: "govuk-radios",
                 id: "type-of-business-radios",
@@ -25,7 +27,7 @@
                         attributes: {
                             "data-event-id": "limited-company-option"
                         }
-                    },
+                    }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
                     {
                         value: "LIMITED_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedPartnershipOption,
@@ -46,7 +48,7 @@
                         attributes: {
                             "data-event-id": "partnership-option"
                         }
-                    },
+                    }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
                     {
                         value: "SOLE_TRADER",
                         text: i18n.typeOfBusinessSoleTraderOption,
@@ -63,7 +65,9 @@
                     }
                 ]
                 }) }}
+                </div>
+                <button class="govuk-button">{{ i18n.Continue }}</button>
+            </form>
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
-    </form>
+    </div>
 {% endblock main_content %}

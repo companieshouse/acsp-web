@@ -5,7 +5,7 @@ import { USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 import { ACSPData } from "main/model/ACSPData";
 
@@ -55,13 +55,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const businessAddressService = new BusinessAddressService();
             businessAddressService.saveBusinessAddress(req);
-            res.redirect(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang));
         }
     } catch (error) {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

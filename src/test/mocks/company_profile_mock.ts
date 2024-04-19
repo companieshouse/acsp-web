@@ -7,8 +7,7 @@ export const validCompanyProfile: Company = {
     companyNumber: "123456",
     status: "active",
     incorporationDate: "2022-01-01",
-    companyType: "Limited",
-    registeredOfficeAddress: {}
+    companyType: "Limited"
 };
 
 export const invalidCompanyProfile: Company = {
@@ -16,6 +15,5 @@ export const invalidCompanyProfile: Company = {
     companyNumber: "123456",
     status: "inactive",
     incorporationDate: "2022-01-01",
-    companyType: "Limited",
-    registeredOfficeAddress: {}
+    companyType: "Limited"
 };

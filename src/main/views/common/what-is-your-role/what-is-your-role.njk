@@ -15,7 +15,6 @@
                         classes: "govuk-fieldset__legend--l"
                     }
                 },
-                value: acspType,
                 items: [
                     {
                       value: "SOLE_TRADER",
@@ -30,12 +29,12 @@
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
                       text: i18n.memberOfGoverningBody + unincorporatedBusinessName
-                    } if (acspType == "OTHER"),
+                    } if (acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY"),
 
                     {
                       value: "MEMBER_OF_ENTITY",
                       text: i18n.member + unincorporatedBusinessName
-                    } if (acspType == "OTHER"),
+                    } if (acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY" ),
 
                     {
                       value: "DIRECTOR",

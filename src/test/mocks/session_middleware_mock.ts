@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../../src/main/middleware/session_middleware";
-import { COMPANY, COMPANY_DETAILS } from "../../../src/main/common/__utils/constants";
+import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID } from "../../../src/main/common/__utils/constants";
 import { Company } from "../../main/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
-import { validCompanyProfile, invalidCompanyProfile } from "./company_profile_mock";
-import { logger } from "../../main/utils/logger";
+import { validCompanyProfile } from "./company_profile_mock";
 
 jest.mock("ioredis");
 jest.mock("../../../src/main/middleware/session_middleware");
@@ -13,17 +12,20 @@ jest.mock("../../../src/main/middleware/session_middleware");
 export const mockSessionMiddleware = sessionMiddleware as jest.Mock;
 
 export const session = getSessionRequestWithPermission();
-const NUMBER = "1234567";
-const URL = "test/return-url";
 
 // tell the mock what to return
 mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    logger.info("Active is called");
     const company : Company = {
         companyName: "My Company"
     };
     session.setExtraData(COMPANY, company);
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
+    session.setExtraData(USER_DATA, {
+        firstName: "John",
+        lastName: "Doe"
+    }
+    );
+    session.setExtraData(SUBMISSION_ID, "validTransactionId");
     req.session = session;
     next();
 });

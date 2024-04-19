@@ -43,3 +43,7 @@ export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "1");
 export const PIWIK_EMBED = getEnvironmentValue("PIWIK_EMBED", "1");
 
 export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID", "4");
+
+export const FEATURE_FLAG_DISABLE_LIMITED_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_LIMITED_JOURNEY", "false");
+
+export const FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY", "false");

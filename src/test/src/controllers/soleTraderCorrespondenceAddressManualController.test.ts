@@ -16,7 +16,7 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
-    xit("should return status 302 after redirect", async () => {
+    it("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -67,7 +67,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
 // Test for no addressLine2, will return 302.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
-    xit("should return status 302", async () => {
+    it("should return status 302", async () => {
         await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -111,7 +111,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
 // Test for no addressCounty, will return 302.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
-    xit("should return status 400", async () => {
+    it("should return status 400", async () => {
         await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmnop", addressPostcode: "MK9 3GB" }).expect(302);
     });
@@ -133,9 +133,9 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
 // Test for no addressCountry, will return 302.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
-    xit("should return status 302", async () => {
+    it("should return status 302", async () => {
         await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(302);
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "", addressPostcode: "MK9 3GB" }).expect(400);
     });
 });
 // Test for incorrect addressCountry Format entered, will return 400.

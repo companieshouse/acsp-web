@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import * as config from "../../../config";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -28,6 +30,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedRole = req.body.WhatIsYourRole;
+        const session: Session = req.session as any as Session;
+        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -36,25 +40,21 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE,
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
+                acspType: acspData?.typeofBusiness,
                 ...pageProperties
             });
         } else {
 
-            switch (selectedRole) {
-            case "SOLE_TRADER":
+            if (selectedRole === "SOLE_TRADER") {
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.roleType = "I am the sole trader";
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
-                break;
-            case "SOMEONE_ELSE":
+            } else {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
-                break;
-
             }
         }
     } catch (error) {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
