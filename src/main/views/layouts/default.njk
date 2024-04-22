@@ -22,6 +22,10 @@
       {% block backLink %}
               <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
       {% endblock %}
+      {% block signoutBar %}
+        {% include "partials/signout-bar.njk" %}
+        <hr class="govuk-section-break govuk-section-break--visible">
+      {% endblock %}
       {% include "locales-banner.njk" %}
       <main class="govuk-main-wrapper " id="main-content">
         <div class="govuk-grid-row">
@@ -32,5 +36,7 @@
         </main>
       </div>
       {% include "partials/__footer.njk" %}
+      {% include "partials/piwik.njk" %}
+      <script src="{{ cdnHost }}/javascripts/govuk-frontend/v4.6.0/govuk-frontend-4.6.0.min.js"></script>
     </body>
   </html>

@@ -1,13 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import countryList from "../../../../../lib/countryList";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { Answers } from "../../../model/Answers";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -30,6 +32,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
+        const session: Session = req.session as any as Session;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
@@ -41,14 +44,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 countryList: countryList
             });
         } else {
-            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang);
-            res.redirect(nextPageUrl);
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.countryOfResidence = req.body.countryInput;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
     } catch (error) {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
