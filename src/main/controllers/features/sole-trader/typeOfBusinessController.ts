@@ -5,7 +5,7 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { getAcsp } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
@@ -26,22 +26,28 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 // get transaction record data
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
             });
-            logger.info("......getAcsp transactionId" + session.getExtraData(SUBMISSION_ID));
-            const AcspDto = await getAcsp(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
-            logger.info("......getAcsp AcspDto" + AcspDto);
         }
+        logger.info("......getAcsp transactionId" + session.getExtraData(SUBMISSION_ID));
+        const acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
+        logger.info("......getAcspRegistration acsp" + JSON.stringify(acsp));
+
+        res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
+            previousPage: addLangToUrl(BASE_URL, lang),
+            title: "What type of business are you registering?",
+            ...getLocaleInfo(locales, lang),
+            currentUrl: BASE_URL + TYPE_OF_BUSINESS,
+            typeOfBusiness: req.query.typeOfBusiness
+        });
 
     } catch (err) {
         logger.error(TRANSACTION_CREATE_ERROR);
-        return Promise.reject(err);
+        res.status(400).render(config.ERROR_404, {
+            previousPage: addLangToUrl(BASE_URL, lang),
+            title: "Page not found",
+            ...getLocaleInfo(locales, lang),
+            currentUrl: BASE_URL + TYPE_OF_BUSINESS
+        });
     }
-    res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
-        previousPage: addLangToUrl(BASE_URL, lang),
-        title: "What type of business are you registering?",
-        ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + TYPE_OF_BUSINESS,
-        typeOfBusiness: req.query.typeOfBusiness
-    });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
