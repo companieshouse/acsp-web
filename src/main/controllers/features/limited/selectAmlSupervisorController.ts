@@ -29,7 +29,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-        const acspType = acspData?.typeofBusiness;
+        const acspType = acspData?.typeOfBusiness;
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {

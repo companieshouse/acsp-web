@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang),
         currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE,
-        acspType: acspData?.typeofBusiness,
+        acspType: acspData?.typeOfBusiness,
         unincorporatedBusinessName: acspData?.businessName
     });
 };
@@ -43,7 +43,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE,
                 pageProperties: pageProperties,
                 payload: req.body,
-                acspType: acspData?.typeofBusiness,
+                acspType: acspData?.typeOfBusiness,
                 unincorporatedBusinessName: acspData?.businessName,
                 ...pageProperties
             });

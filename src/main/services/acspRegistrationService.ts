@@ -4,7 +4,7 @@ import { createPublicOAuthApiClient } from "./api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { AcspDto, Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspDto, Acsp, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 /**
  * GET an acsp registration object with the given transaction ID and emailId.
@@ -36,5 +36,36 @@ export const getAcspRegistration = async (session: Session, transactionId:string
     }
 
     logger.debug(`acsp registration details ${JSON.stringify(sdkResponse)}`);
+    return Promise.resolve(castedSdkResponse.resource);
+};
+
+/**
+ * POST an acsp registration object for the given transaction ID. The information within this registration can be built upon using patches.
+ * @param session The current session to connect to the api
+ * @param transactionId The filings associated transaction ID
+ * @returns The AcspResponse contains the submission ID for the newly created registration
+ */
+export const postAcspRegistration = async (session: Session, transactionId: string, acsp: Acsp): Promise<AcspResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+
+    logger.debug(`Posting acsp registration for transaction ${transactionId}`);
+    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.postACSP(transactionId, acsp);
+
+    if (!sdkResponse) {
+        logger.error(`acsp registration POST request returned no response for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to post acsp registration for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    const castedSdkResponse: Resource<AcspResponse> = sdkResponse as Resource<AcspResponse>;
+    if (!castedSdkResponse.resource) {
+        logger.error(`acsp registration API POST request returned no resource for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    logger.debug(`acsp registration ${JSON.stringify(sdkResponse)}`);
     return Promise.resolve(castedSdkResponse.resource);
 };

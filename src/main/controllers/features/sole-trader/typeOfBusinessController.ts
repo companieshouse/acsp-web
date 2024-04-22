@@ -14,7 +14,8 @@ import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
-import { getAcspRegistration } from "../../../services/acspRegistrationService";
+import { postAcspRegistration } from "../../../services/acspRegistrationService";
+import { Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -31,16 +32,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
             });
         }
-        logger.info("......getAcsp transactionId" + session.getExtraData(SUBMISSION_ID));
-        const acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, "demo@ch.gov.uk");
-        logger.info("......getAcspRegistration acsp" + JSON.stringify(acsp));
 
         res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
             previousPage: addLangToUrl(BASE_URL, lang),
             title: "What type of business are you registering?",
             ...getLocaleInfo(locales, lang),
             currentUrl: BASE_URL + TYPE_OF_BUSINESS,
-            typeOfBusiness: req.query.typeOfBusiness,
+            typeOfBusiness: session.getExtraData("typeOfBusinessService"),
             FEATURE_FLAG_DISABLE_LIMITED_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_LIMITED_JOURNEY),
             FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY)
         });
@@ -78,14 +76,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (selectedOption !== "OTHER") {
                 const acspData : ACSPData = {
                     id: email,
-                    typeofBusiness: selectedOption
+                    typeOfBusiness: selectedOption
                 };
                 saveDataInSession(req, USER_DATA, acspData);
                 const answersArray: Answers = {
-                    typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                    typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
                 };
                 saveDataInSession(req, ANSWER_DATA, answersArray);
             }
+            const acspData: ACSPData = session.getExtraData(USER_DATA)!;
+            logger.info("......postAcspRegistration acspData" + JSON.stringify(acspData));
+            const acsp: Acsp = {
+                id: acspData.id,
+                typeOfBusiness: acspData.typeOfBusiness!
+            };
+            // calling  postAcspRegistration api
+            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acsp);
 
             switch (selectedOption) {
             case "LIMITED_COMPANY":

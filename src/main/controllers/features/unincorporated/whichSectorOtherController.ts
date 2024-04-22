@@ -15,13 +15,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHICH_SECTOR_OTHER, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
         title: "Which other sector do you work in?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
-        acspType: acspData?.typeofBusiness,
+        acspType: acspData?.typeOfBusiness,
         whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang)
     });
 };
@@ -31,7 +31,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -40,7 +40,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Which other sector do you work in?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
-                acspType: acspData?.typeofBusiness,
+                acspType: acspData?.typeOfBusiness,
                 whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 ...pageProperties
             });
