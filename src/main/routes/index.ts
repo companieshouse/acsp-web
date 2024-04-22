@@ -42,7 +42,8 @@ import {
     unincorporatedCorrespondenceAddressAutoLookupController,
     unincorporatedCorrespondenceAddressListController,
     unincorporatedSelectAmlSupervisorController,
-    checkYourAnswersController
+    checkYourAnswersController,
+    applicationConfirmationController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -80,6 +81,8 @@ routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
+
+routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
