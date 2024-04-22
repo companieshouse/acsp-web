@@ -19,6 +19,7 @@ import {
 } from "./utils/properties";
 import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 import { PIWIK_START_GOAL_ID } from "./config";
+import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -72,6 +73,7 @@ process.on("unhandledRejection", (err: any) => {
 app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+app.use(commonTemplateVariablesMiddleware);
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
