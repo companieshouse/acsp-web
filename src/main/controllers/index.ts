@@ -2,6 +2,7 @@ export * as accessibilityStatementController from "./accessibilityStatementContr
 export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
 export * as checkYourAnswersController from "./features/common/checkYourAnswers";
+export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
 
 // Sole trader
 

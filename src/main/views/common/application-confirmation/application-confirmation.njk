@@ -1,0 +1,63 @@
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% extends "layouts/default.njk" %}
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+{% block main_content %}
+ <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {{ govukPanel({
+        titleText: i18n.applicationSubmittedTitle,
+        html: i18n.applicationSubmittedReference
+      }) }}
+
+      <p class="govuk-body"> {{ i18n.applicationSubmittedText1 }} <strong>{{ email }}</strong>.</p>
+
+      <div class="govuk-tag--grey govuk-!-padding-4">
+      <h2 class="govuk-heading-m">{{ i18n.applicationSubmittedHeading1 }}</h2>
+      <p class="govuk-body">
+         {{ i18n.applicationSubmittedText2 }} <a href={{survey}} class="govuk-link govuk-link--no-visited-state">{{i18n.applicationSubmittedLink1}}</a> {{ i18n.applicationSubmittedText3 }}
+      </p>
+      </div>
+
+      <h2 class="govuk-heading-m">{{i18n.applicationSubmittedHeading2}}</h2>
+
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText4}}
+      </p>
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText5}}
+      </p>
+
+      <h2 class="govuk-heading-m">{{i18n.applicationSubmittedHeading4}}</h2>
+
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText6}}
+      </p>
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText7}}
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{i18n.applicationSubmittedText8}}</li>
+        <li>{{i18n.applicationSubmittedText9}}</li>
+        <li>{{i18n.applicationSubmittedText10}}</li>
+        <li>{{i18n.applicationSubmittedText11}}</li>
+      </ul>
+
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText12}}
+      </p>
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText13}} <strong>{{ email }}</strong>. {{i18n.applicationSubmittedText14}}
+      </p>
+
+      <h2 class="govuk-heading-m">{{i18n.applicationSubmittedHeading5}}</h2>
+
+      <p class="govuk-body">
+        {{i18n.applicationSubmittedText15}} <strong>{{ email }}</strong> {{i18n.applicationSubmittedText16}}
+      </p>
+    </div>
+  </div>
+{% endblock main_content %}
