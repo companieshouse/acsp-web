@@ -56,13 +56,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             let role;
             switch (req.body.WhatIsYourRole) {
             case "MEMBER_OF_PARTNERSHIP":
-                role = "I'm a member";
+            case "MEMBER_OF_ENTITY":
+                role = "I am a member";
                 break;
             case "MEMBER_OF_GOVERNING_BODY":
-                role = "I am a member of the governing body";
-                break;
-            case "MEMBER_OF_ENTITY":
-                role = "I am a member of the body";
+                if (acspData.typeofBusiness!.toString() === "CORPORATE_BODY") {
+                    role = "I am the equivalent to a director";
+                } else {
+                    role = "I am a member of the governing body";
+                }
                 break;
             }
 

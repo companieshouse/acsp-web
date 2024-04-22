@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 role = "I am a director";
                 break;
             case "MEMBER_OF_LLP":
-                role = "I am a member of the partnership";
+                role = "I am a member";
                 break;
             case "GENERAL_PARTNER":
                 role = "I am a general partner";
