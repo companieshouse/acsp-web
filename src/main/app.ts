@@ -13,9 +13,12 @@ import {
     CDN_URL_CSS,
     CDN_URL_JS,
     CDN_HOST,
-    CHS_URL
+    CHS_URL,
+    PIWIK_URL,
+    PIWIK_SITE_ID
 } from "./utils/properties";
 import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { PIWIK_START_GOAL_ID } from "./config";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -34,6 +37,10 @@ nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
 nunjucksEnv.addGlobal("cdnHost", CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", CHS_URL);
 nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
+
+nunjucksEnv.addGlobal("PIWIK_URL", PIWIK_URL);
+nunjucksEnv.addGlobal("PIWIK_SITE_ID", PIWIK_SITE_ID);
+nunjucksEnv.addGlobal("PIWIK_EMBED", PIWIK_SITE_ID);
 
 app.enable("trust proxy");
 
