@@ -1,0 +1,39 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+<main class="govuk-main-wrapper" id="main-content" role="main">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half-from-desktop">
+      <form class="form" action="sign-out" method="post">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="sign-out-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+              <h1 class="govuk-fieldset__heading">Are you sure you want to sign out?</h1>
+            </legend>
+            <div id="sign-out-hint" class="govuk-hint">Your application will be saved in Your filings.</div>
+            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="sign-out" name="sign-out" type="radio" value="yes">
+                <label class="govuk-label govuk-radios__label" for="sign-out">Yes</label>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="sign-out-2" name="sign-out" type="radio" value="no">
+                <label class="govuk-label govuk-radios__label" for="sign-out-2">No</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">How do I find my saved applications?</span>
+          </summary>
+          <div class="govuk-details__text">
+            Sign in to your Companies House account and select Your filings to access your saved applications.
+          </div>
+        </details>
+        <button class="govuk-button" data-module="govuk-button">Continue</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock %}

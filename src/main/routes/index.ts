@@ -3,6 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
+    signOutController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -80,6 +81,9 @@ routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
+
+routes.get(urls.SIGN_OUT_URL, signOutController.get);
+routes.post(urls.SIGN_OUT_URL, signOutController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
