@@ -85,7 +85,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, ANSWER_DATA, answersArray);
             }
             const acspData: ACSPData = session.getExtraData(USER_DATA)!;
-            logger.info("......postAcspRegistration acspData" + JSON.stringify(acspData));
             const acsp: Acsp = {
                 id: acspData.id,
                 typeOfBusiness: acspData.typeOfBusiness!
