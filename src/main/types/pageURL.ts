@@ -40,7 +40,7 @@ export const CHECK_YOUR_ANSWERS = "/check-your-answers";
 
 export const PAYMENT_URL = "/payment-url";
 
-export const CONFIRMATION = "/confirmation";
+export const CONFIRMATION = "/application-complete";
 
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
