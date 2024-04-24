@@ -16,9 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     try {
-        logger.info("......calling  getAcspRegistration for transactionId" + session.getExtraData(SUBMISSION_ID));
         const acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
-        logger.info("......getAcspRegistration acsp" + JSON.stringify(acsp));
         session.setExtraData("typeOfBusinessService", acsp.typeOfBusiness);
 
         res.render(config.LIMITED_COMPANY_NUMBER, {

@@ -16,3 +16,4 @@ export const ADDRESS_LIST = "addressList";
 export const BUSINESS_ADDRESS = "businessAddress";
 export const ANSWER_DATA = "answerData";
 export const GET_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to get resistration details for the transaction";
+export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post resistration details for the transaction";

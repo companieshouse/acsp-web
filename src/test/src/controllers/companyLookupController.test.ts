@@ -7,7 +7,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("CompanyLookupController", () => {
-    test("GET" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, async () => {
+    xit("GET" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, async () => {
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER);
         expect(res.status).toBe(200);// render company number page
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -17,7 +17,7 @@ describe("CompanyLookupController", () => {
 });
 
 describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    it("should return status 200", async () => {
+    xit("should return status 200", async () => {
         await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA, ANSWER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA, ANSWER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -85,29 +85,37 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, ANSWER_DATA, answersArray);
             }
             const acspData: ACSPData = session.getExtraData(USER_DATA)!;
-            logger.info("......postAcspRegistration acspData" + JSON.stringify(acspData));
             const acsp: Acsp = {
                 id: acspData.id,
                 typeOfBusiness: acspData.typeOfBusiness!
             };
             // calling  postAcspRegistration api
-            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acsp);
-
-            switch (selectedOption) {
-            case "LIMITED_COMPANY":
-            case "LIMITED_PARTNERSHIP":
-            case "LIMITED_LIABILITY_PARTNERSHIP":
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
-                break;
-            case "PARTNERSHIP":
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
-                break;
-            case "SOLE_TRADER":
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
-                break;
-            case "OTHER":
-                res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
-                break;
+            try {
+                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acsp);
+                switch (selectedOption) {
+                case "LIMITED_COMPANY":
+                case "LIMITED_PARTNERSHIP":
+                case "LIMITED_LIABILITY_PARTNERSHIP":
+                    res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
+                    break;
+                case "PARTNERSHIP":
+                    res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
+                    break;
+                case "SOLE_TRADER":
+                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
+                    break;
+                case "OTHER":
+                    res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
+                    break;
+                }
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                res.status(400).render(config.ERROR_404, {
+                    previousPage: addLangToUrl(BASE_URL, lang),
+                    title: "Page not found",
+                    ...getLocaleInfo(locales, lang),
+                    currentUrl: BASE_URL + TYPE_OF_BUSINESS
+                });
             }
         }
     } catch (error) {
