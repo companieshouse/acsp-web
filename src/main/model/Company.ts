@@ -1,4 +1,4 @@
-import { ServiceAddress } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
+import { RegisteredOfficeAddress, ServiceAddress } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 
 export interface Company {
     companyName?: string,
@@ -6,6 +6,6 @@ export interface Company {
     status?: string,
     incorporationDate?: string,
     companyType?: string,
-    registeredOfficeAddress?: object,
+    registeredOfficeAddress?: RegisteredOfficeAddress,
     correspondenceAddress?: ServiceAddress
 }

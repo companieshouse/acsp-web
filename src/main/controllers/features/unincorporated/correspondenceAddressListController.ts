@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ADDRESS_LIST } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
@@ -10,10 +10,12 @@ import {
     UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const addressList = session.getExtraData(ADDRESS_LIST);
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -24,6 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
         addresses: addressList,
+        businessName: acspData?.businessName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
     }
     );
@@ -32,6 +35,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
         const lang = selectLang(req.query.lang);
@@ -45,6 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
                 addresses: addressList,
+                businessName: acspData?.businessName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang),
                 pageProperties: pageProperties
             });
@@ -63,7 +68,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

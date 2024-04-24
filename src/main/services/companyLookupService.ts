@@ -1,9 +1,11 @@
 import { StatusCodes } from "http-status-codes";
 import logger from "../../../lib/Logger";
 import { GenericService } from "./generic";
+import { Request } from "express";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "./company/company_profile_service";
 import { Session } from "@companieshouse/node-session-handler";
+import { CompanyDetailsService } from "./company-details/companyDetailsService";
 
 export class CompanyLookupService extends GenericService {
     constructor () {
@@ -24,5 +26,16 @@ export class CompanyLookupService extends GenericService {
             const errorData = this.processServiceException(err);
             return Promise.reject(errorData);
         }
+    }
+
+    async getCompanyDetails (session: Session, companyNumber: string, req: Request) {
+        await this.getCompany(session, companyNumber).then(
+            (companyDetails) => {
+                const companyDetailsService = new CompanyDetailsService();
+                companyDetailsService.saveToSession(req, companyDetails);
+            }).catch(() => {
+            throw Error("Company Not Found");
+        });
+
     }
 }

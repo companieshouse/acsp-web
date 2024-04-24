@@ -1,15 +1,19 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, TRANSACTION_CREATE_ERROR, USER_DATA, ANSWER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
+import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
+import { Answers } from "../../../model/Answers";
+import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
+import { isActiveFeature } from "../../../utils/feature.flag";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -35,7 +39,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "What type of business are you registering?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + TYPE_OF_BUSINESS,
-        typeOfBusiness: req.query.typeOfBusiness
+        typeOfBusiness: req.query.typeOfBusiness,
+        FEATURE_FLAG_DISABLE_LIMITED_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_LIMITED_JOURNEY),
+        FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY)
     });
 };
 
@@ -58,12 +64,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
-            const acspData : ACSPData = {
-                id: email,
-                typeofBusiness: selectedOption
-            };
-            if (session) {
-                session.setExtraData(USER_DATA, acspData);
+            if (selectedOption !== "OTHER") {
+                const acspData : ACSPData = {
+                    id: email,
+                    typeofBusiness: selectedOption
+                };
+                saveDataInSession(req, USER_DATA, acspData);
+                const answersArray: Answers = {
+                    typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                };
+                saveDataInSession(req, ANSWER_DATA, answersArray);
             }
 
             switch (selectedOption) {
@@ -87,7 +97,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

@@ -2,10 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_NAME_REGISTERED_WITH_AML, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_NAME, BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
-import { UNINCORPORATED_AML_SELECTED_OPTION } from "../../../common/__utils/constants";
+import { ANSWER_DATA, UNINCORPORATED_AML_SELECTED_OPTION } from "../../../common/__utils/constants";
+import { Answers } from "../../../model/Answers";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+
+enum NameRegisteredWithAML {
+    NAME_OF_THE_BUSINESS = "Name of the business",
+    YOUR_NAME = "Your name",
+    BOTH = "Name of the business and your name"
+}
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -36,9 +44,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            if (session) {
-                session.setExtraData(UNINCORPORATED_AML_SELECTED_OPTION, selectedOption);
-            }
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.nameRegisteredWithAML = NameRegisteredWithAML[selectedOption as keyof typeof NameRegisteredWithAML];
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            saveDataInSession(req, UNINCORPORATED_AML_SELECTED_OPTION, selectedOption);
             // Redirection logic based on selected option
             if (selectedOption === "NAME_OF_THE_BUSINESS") {
                 // User is only supervised under their business name, so redirect back to the AML supervisor name page
@@ -52,7 +61,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});
