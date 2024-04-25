@@ -3,6 +3,7 @@ export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
 export * as checkYourAnswersController from "./features/common/checkYourAnswers";
 export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
+export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
 export * as signOutController from "./signOutController";
 
 // Sole trader
