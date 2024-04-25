@@ -34,6 +34,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             detailsAnswers.businessName = company.companyName;
             detailsAnswers.companyNumber = company.companyNumber;
             detailsAnswers.businessAddress = company.registeredOfficeAddress?.addressLineOne! +
+            "<br>" + company.registeredOfficeAddress?.addressLineTwo! +
+            "<br>" + company.registeredOfficeAddress?.locality! +
+            "<br>" + company.registeredOfficeAddress?.region! +
             "<br>" + company.registeredOfficeAddress?.country! +
             "<br>" + company.registeredOfficeAddress?.postalCode!;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);

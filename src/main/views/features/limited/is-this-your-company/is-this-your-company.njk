@@ -32,11 +32,10 @@
       <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
       <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.addressLineOne }}<br>
       {{ company.registeredOfficeAddress.addressLineTwo }}<br>
+      {{ company.registeredOfficeAddress.locality }}<br>
+      {{ company.registeredOfficeAddress.region }}<br>
+      {{ company.registeredOfficeAddress.country }}<br>
       {{ company.registeredOfficeAddress.postalCode }}</dd>
-    </div>
-       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.correspondeceAddress}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.undeliverable_registered_office_address }}</dd>
     </div>
   </dl>
   
