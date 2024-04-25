@@ -8,5 +8,7 @@
     "registeredOfficeAddress": "Registered office address",
     "correspondeceAddress": "Correspondence address",
     "confirm": "Confirm and continue",
-    "chooseADifferentCompany": "Choose a different company"
+    "chooseADifferentCompany": "Choose a different company",
+    "publicInformationAgents": "What information we'll show on the public list of authorised agents",
+    "companyNameAndCity": "We'll show the company name and the town or city the registered office address."
 }

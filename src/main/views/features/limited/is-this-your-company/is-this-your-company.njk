@@ -34,11 +34,12 @@
       {{ company.registeredOfficeAddress.addressLineTwo }}<br>
       {{ company.registeredOfficeAddress.postalCode }}</dd>
     </div>
-       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.correspondeceAddress}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.undeliverable_registered_office_address }}</dd>
-    </div>
   </dl>
+
+   <div class="govuk-inset-text">
+   <h2>{{i18n.publicInformationAgents}}</h2>
+   <p>{{i18n.companyNameAndCity}}</p>       
+  </div>
   
 <button class="govuk-button" data-module="govuk-button">
   {{i18n.confirm}}
