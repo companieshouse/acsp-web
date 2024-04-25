@@ -9,7 +9,7 @@ import { NextFunction, Request, Response } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 describe("Statement Relevant Officer Router", () => {
     it("should render what is your role page", async () => {
@@ -66,12 +66,12 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
     });
 });
 
-function createMockSessionMiddleware (businessName: string, typeofBusiness: string) {
+function createMockSessionMiddleware (businessName: string, typeOfBusiness: string) {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, {
         businessName: businessName,
-        typeofBusiness: typeofBusiness
+        typeOfBusiness: typeOfBusiness
     });
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;

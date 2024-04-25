@@ -12,8 +12,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const correspondenceAddress : string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
-    var previousPage : string = "";
+    const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
+    var previousPage: string = "";
     if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
         previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
     } else {
@@ -32,10 +32,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-        const acspType = acspData?.typeofBusiness;
-        const correspondenceAddress : string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
-        var previousPage : string = "";
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspType = acspData?.typeOfBusiness;
+        const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
+        var previousPage: string = "";
         if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
             previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
         } else {

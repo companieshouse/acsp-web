@@ -43,12 +43,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
-            const acspData : ACSPData = {
+            const acspData: ACSPData = {
                 id: email,
-                typeofBusiness: selectedOption
+                typeOfBusiness: selectedOption
             };
             const answersArray: Answers = {
-                typeofBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
             };
             saveDataInSession(req, ANSWER_DATA, answersArray);
             saveDataInSession(req, USER_DATA, acspData);

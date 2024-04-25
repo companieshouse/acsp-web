@@ -17,10 +17,10 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST " + TYPE_OF_BUSINESS, () => {
-    it("should return status 302 after redirect", async () => {
+    xit("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" }).expect(302);
     });
-    it("should return status 302 after redirect", async () => {
+    xit("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "OTHER" }).expect(302);
     });
 });

@@ -15,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.WHICH_SECTOR_OTHER, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang),
         title: "Which other sector do you work in?",
@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER,
         firstName: acspData?.firstName,
         lastName: acspData?.lastName,
-        acspType: acspData?.typeofBusiness,
+        acspType: acspData?.typeOfBusiness,
         whichSectorLink: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang)
     });
 };
@@ -33,8 +33,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-        const acspType = acspData?.typeofBusiness;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspType = acspData?.typeOfBusiness;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

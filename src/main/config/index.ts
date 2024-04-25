@@ -2,6 +2,7 @@ import { getEnvironmentValue } from "../utils/environment/environment_value";
 
 const BASE_VIEWS_URL = "../views/features";
 const BASE_COMMON_URL = `../views/common`;
+const BASE_PARTIALS_URL = `../views/partials`;
 const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
 const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
@@ -51,6 +52,8 @@ export const AUTO_LOOKUP_ADDRESS = `${BASE_COMMON_URL}/correspondence-auto-looku
 export const CORRESPONDENCE_ADDRESS_LIST = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/correspondence-address-list`;
 export const SIGN_OUT_PAGE = `${BASE_COMMON_URL}/sign-out-page/sign-out`;
 
+export const ERROR_404 = `${BASE_PARTIALS_URL}/error_400`;
+
 export const PIWIK_URL = getEnvironmentValue("PIWIK_URL");
 export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
 export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID");
@@ -58,3 +61,4 @@ export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID");
 export const SELECT_AML_SUPERVISOR = `${BASE_COMMON_URL}/select-aml-supervisory-bodies/select-aml-supervisory-bodies`;
 export const CHECK_YOUR_ANSWERS = `${BASE_COMMON_URL}/check-your-answers/check-your-answers`;
 export const APPLICATION_CONFIRMATION = `${BASE_COMMON_URL}/application-confirmation/application-confirmation`;
+export const YOUR_RESPONSIBILITIES = `${BASE_COMMON_URL}/your-responsibilities/your-responsibilities`;

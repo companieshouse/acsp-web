@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + CHECK_YOUR_ANSWERS,
         previousPage: addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang),
         editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
-        typeOfBusiness: acspData.typeofBusiness,
+        typeOfBusiness: acspData.typeOfBusiness,
         detailsAnswers,
         lang,
         amlDetails

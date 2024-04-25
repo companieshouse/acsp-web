@@ -8,7 +8,7 @@ export const whatIsYourRoleValidator: ValidationChain[] = [
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         if (value === "") {
-            switch (acspData.typeofBusiness!.toString()) {
+            switch (acspData.typeOfBusiness!.toString()) {
             case "LIMITED_COMPANY":
                 throw new Error("limitedCompanyWhatIsYourRoleRadio");
             case "LIMITED_PARTNERSHIP":
