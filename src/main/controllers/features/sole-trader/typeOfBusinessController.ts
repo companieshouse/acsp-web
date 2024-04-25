@@ -78,7 +78,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     id: email,
                     typeOfBusiness: selectedOption
                 };
-                saveDataInSession(req, USER_DATA, acspData);
+                saveDataInSession(req, USER_DATA, acspData); // should be removed when refactoring
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
                 };
