@@ -27,25 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const session: Session = req.session as any as Session;
-        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.YOUR_RESPONSIBILITIES, {
-                previousPage: addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang),
-                title: "Your responsibilities as an authorised agent",
-                ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + YOUR_RESPONSIBILITIES,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
-                businessName: acspData?.businessName,
-                ...pageProperties
-            });
-        } else {
-            res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
-        }
+        res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
     } catch (error) {
         next(error);
     }
