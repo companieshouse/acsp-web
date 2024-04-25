@@ -1,7 +1,7 @@
 import { Address } from "./Address";
 
 export interface Answers{
-    typeofBusiness? : string;
+    typeOfBusiness? : string;
     roleType? : string;
     name?: string;
     dateOfBirth? : string;

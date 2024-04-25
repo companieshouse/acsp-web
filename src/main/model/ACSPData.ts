@@ -12,7 +12,7 @@ export interface ACSPData {
     lastName?: string;
     addresses?: Array<Address>;
     address?: Address;
-    typeofBusiness? : TypeOfBusiness;
+    typeOfBusiness? : TypeOfBusiness;
     roleType? : RoleType;
     dateOfBirth? : Date;
     verified? : boolean;
