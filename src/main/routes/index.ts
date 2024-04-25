@@ -43,7 +43,8 @@ import {
     unincorporatedCorrespondenceAddressListController,
     unincorporatedSelectAmlSupervisorController,
     checkYourAnswersController,
-    applicationConfirmationController
+    applicationConfirmationController,
+    yourResponsibilitiesController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -83,6 +84,9 @@ routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
 
 routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
+
+routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
+routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);

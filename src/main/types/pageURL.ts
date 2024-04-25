@@ -42,6 +42,8 @@ export const PAYMENT_URL = "/payment-url";
 
 export const CONFIRMATION = "/confirmation";
 
+export const YOUR_RESPONSIBILITIES = "/your-responsibilities";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
