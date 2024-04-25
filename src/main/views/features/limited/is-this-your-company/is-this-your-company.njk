@@ -31,9 +31,15 @@
        <div class="govuk-summary-list__row">
       <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
       <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.addressLineOne }}<br>
-      {{ company.registeredOfficeAddress.addressLineTwo }}<br>
-      {{ company.registeredOfficeAddress.locality }}<br>
-      {{ company.registeredOfficeAddress.region }}<br>
+        {% if company.registeredOfficeAddress.addressLineTwo %}
+        {{ company.registeredOfficeAddress.addressLineTwo }}<br>
+      {% endif %}
+      {% if company.registeredOfficeAddress.locality %}
+        {{ company.registeredOfficeAddress.locality }}<br>
+      {% endif %}
+      {% if company.registeredOfficeAddress.region %}
+        {{ company.registeredOfficeAddress.region }}<br>
+      {% endif %}
       {{ company.registeredOfficeAddress.country }}<br>
       {{ company.registeredOfficeAddress.postalCode }}</dd>
     </div>
