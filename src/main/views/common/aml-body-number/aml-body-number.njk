@@ -29,7 +29,7 @@
                     <p class="govuk-body">{{i18n.amlcontactinfo}}
                     </p>
 
-                    <!--{% for body in selectedAMLSupervisoryBodies %}
+                    {% for body in selectedAMLSupervisoryBodies %}
                         {{ govukInput({
                             label: {
                                 text: body,
@@ -39,51 +39,10 @@
                             id: "membershipNumber_" + loop.index,
                             name: "membershipNumber_" + loop.index,
                             errorMessage: {
-                                text: errors["membershipNumber_" + loop.index].text + " " + body if errors["membershipNumber_" + loop.index]
+                                text: errors["membershipNumber_" + loop.index].text
                             } if errors["membershipNumber_" + loop.index]
                         }) }}
-                    {% endfor %}-->
-
-                     {{ govukInput({
-                            label: {
-                                text: selectedAMLSupervisoryBodies,
-                                classes: "govuk-label l govuk-label--m",
-                                isPageHeading: true
-                            },
-                            id: "membershipNumber_1",
-                            name: "membershipNumber_1",
-                            errorMessage: {
-                                text: errors["membershipNumber_1"].text
-                            } if errors["membershipNumber_1"]
-                        }) }}
-
-                                             {{ govukInput({
-                            label: {
-                                text: selectedAMLSupervisoryBodies,
-                                classes: "govuk-label l govuk-label--m",
-                                isPageHeading: true
-                            },
-                            id: "membershipNumber_2",
-                            name: "membershipNumber_2",
-                            errorMessage: {
-                                text: errors["membershipNumber_2"].text
-                            } if errors["membershipNumber_2"]
-                        }) }}
-
-
-                     {{ govukInput({
-                            label: {
-                                text: selectedAMLSupervisoryBodies,
-                                classes: "govuk-label l govuk-label--m",
-                                isPageHeading: true
-                            },
-                            id: "membershipNumber_3",
-                            name: "membershipNumber_3",
-                            errorMessage: {
-                                text: errors["membershipNumber_3"].text
-                            } if errors["membershipNumber_3"]
-                        }) }}
-
+                    {% endfor %}
 
 
                     {{ govukInsetText({
@@ -102,3 +61,4 @@
 
 
 
+<!--text: errors["membershipNumber_" + loop.index].text + " " + body if errors["membershipNumber_" + loop.index]-->

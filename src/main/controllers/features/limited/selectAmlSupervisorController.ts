@@ -31,8 +31,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
-        console.log(req.body["AML-supervisory-bodies"]);
-        // console.log(req.body);
+        //console.log(req.body["AML-supervisory-bodies"]);
+        console.log(req.body);
+
 
         console.log(JSON.stringify(errorList));
         if (!errorList.isEmpty()) {
@@ -48,14 +49,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"]
             console.log(selectedAMLSupervisoryBodies);
-            if ( selectedAMLSupervisoryBodies instanceof Array ) {
-                session.setExtraData(AML_SUPERVISOR_SELECTED,selectedAMLSupervisoryBodies);
+            if (selectedAMLSupervisoryBodies instanceof Array) {
+                session.setExtraData(AML_SUPERVISOR_SELECTED, selectedAMLSupervisoryBodies);
             } else {
                 const selectedAML = []
                 selectedAML.push(selectedAMLSupervisoryBodies)
-                session.setExtraData(AML_SUPERVISOR_SELECTED,selectedAML);
+                session.setExtraData(AML_SUPERVISOR_SELECTED, selectedAML);
             }
-           
+
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

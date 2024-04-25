@@ -12,16 +12,12 @@ export type FormattedValidationErrors = {
     }[],
   };
 
-export function formatValidationError (validationErrors: ValidationError[], lang?: string): FormattedValidationErrors {
+export function formatValidationError (validationErrors: ValidationError[], lang?: string, errorMessageAlreadyResolved? : boolean | false): FormattedValidationErrors {
     const errors = { errorList: [] } as any;
-    const localesService = getLocalesService();
     validationErrors.forEach(validationResult => {
         let errorMessage = validationResult.msg;
-        if (lang !== undefined) {
-            const error = localesService.i18nCh.resolveSingleKey("error-" + validationResult.msg, lang);
-            if (!error.startsWith("error-")) {
-                errorMessage = error;
-            }
+        if(!errorMessageAlreadyResolved) {
+          errorMessage = resolveErrorMessage(errorMessage, lang)
         }
         // errors.errorList[] relates to the linked error messages at the top of the page
         errors.errorList.push({ href: "#" + validationResult.param, text: errorMessage });
@@ -30,4 +26,16 @@ export function formatValidationError (validationErrors: ValidationError[], lang
     });
 
     return errors;
+}
+
+
+export function resolveErrorMessage (errorMessage: string, lang?: string): string {
+  const localesService = getLocalesService();
+  if (lang !== undefined) {
+    const error = localesService.i18nCh.resolveSingleKey("error-" + errorMessage, lang);
+    if (!error.startsWith("error-")) {
+        errorMessage = error;
+    }
+  }
+  return errorMessage;
 }

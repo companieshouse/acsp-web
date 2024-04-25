@@ -5,14 +5,14 @@ import { FormattedValidationErrors, formatValidationError } from "../../../valid
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, AML_MEMBERSHIP_NUMBER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { AML_SUPERVISOR_SELECTED, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.SELECT_AML_SUPERVISOR, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
@@ -29,7 +29,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -45,6 +45,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"]
+            console.log(selectedAMLSupervisoryBodies);
+            if (selectedAMLSupervisoryBodies instanceof Array) {
+                session.setExtraData(AML_SUPERVISOR_SELECTED, selectedAMLSupervisoryBodies);
+            } else {
+                const selectedAML = []
+                selectedAML.push(selectedAMLSupervisoryBodies)
+                session.setExtraData(AML_SUPERVISOR_SELECTED, selectedAML);
+            }
+
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

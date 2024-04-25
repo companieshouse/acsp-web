@@ -67,7 +67,8 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
-import { amlBodyMembershipNumberControllerValidator } from "../validation/amlBodyMembershipNumber";
+//import { amlBodyMembershipNumberControllerValidator } from "../validation/amlBodyMembershipNumber";
+import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 
 const routes = Router();
 
@@ -81,7 +82,8 @@ routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get)
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
-routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator, amlBodyMembershipNumberController.post);
+//routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator, amlBodyMembershipNumberController.post);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(undefined), amlBodyMembershipNumberController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
