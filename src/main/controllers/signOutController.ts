@@ -13,6 +13,7 @@ export const get = (req: Request, res: Response, next: NextFunction) => {
         logger.debugRequest(req, `GET ${config.SIGN_OUT_PAGE}`);
 
         const previousPageUrl = getPreviousPageUrl(req, BASE_URL);
+        logger.info("GET PREVIOUS PAGE URL" + previousPageUrl);
 
         res.render(config.SIGN_OUT_PAGE, {
             title: "What is your role in the business?",
@@ -30,13 +31,15 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
 
     try {
-        logger.debugRequest(req, `POST ${config.SIGN_OUT_PAGE}`);
+        // logger.debugRequest(req, `POST ${config.SIGN_OUT_PAGE}`);
+        logger.info("recheddddddddddddd post");
         const previousPageUrl = getPreviousPageUrl(req, BASE_URL);
-        const previousPage = req.body.previousPage;
+        logger.info("post previous page url" + previousPageUrl);
+        // const previousPage = req.body.previousPage;
 
-        if (!previousPage.startsWith(BASE_URL)) {
-            throw createAndLogErrorRequest(req, `${previousPage} page is not part of the journey!`);
-        }
+        // if (!previousPage.startsWith(BASE_URL)) {
+        //     throw createAndLogErrorRequest(req, `${previousPage} page is not part of the journey!`);
+        // }
 
         if (req.body.sign_out === "yes") {
             logger.info("----------------------------------------" + SIGN_OUT_URL);
@@ -54,6 +57,7 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
         }
 
     } catch (error) {
+        logger.info("reached catch");
         next(error);
     }
 };

@@ -1,10 +1,10 @@
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
+<form action="" method="POST">
 <main class="govuk-main-wrapper" id="main-content" role="main">
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-half-from-desktop">
-      <form class="form" action="sign-out" method="post">
         <div class="govuk-form-group">
           <fieldset class="govuk-fieldset" aria-describedby="sign-out-hint">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
@@ -31,9 +31,9 @@
             Sign in to your Companies House account and select Your filings to access your saved applications.
           </div>
         </details>
-        <button class="govuk-button" data-module="govuk-button">Continue</button>
-      </form>
+        <button class="govuk-button">{{ i18n.Continue }}</button>
     </div>
   </div>
+</form>
 </main>
 {% endblock %}
