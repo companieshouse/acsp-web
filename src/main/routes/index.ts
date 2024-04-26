@@ -44,7 +44,8 @@ import {
     unincorporatedSelectAmlSupervisorController,
     checkYourAnswersController,
     applicationConfirmationController,
-    yourResponsibilitiesController
+    yourResponsibilitiesController,
+    amlBodyMembershipNumberController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -68,6 +69,7 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
+import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 
 const routes = Router();
 
@@ -87,6 +89,9 @@ routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
 
 routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
 routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
+
+routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(undefined), amlBodyMembershipNumberController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);

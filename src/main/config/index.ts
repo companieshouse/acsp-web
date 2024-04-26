@@ -61,3 +61,4 @@ export const SELECT_AML_SUPERVISOR = `${BASE_COMMON_URL}/select-aml-supervisory-
 export const CHECK_YOUR_ANSWERS = `${BASE_COMMON_URL}/check-your-answers/check-your-answers`;
 export const APPLICATION_CONFIRMATION = `${BASE_COMMON_URL}/application-confirmation/application-confirmation`;
 export const YOUR_RESPONSIBILITIES = `${BASE_COMMON_URL}/your-responsibilities/your-responsibilities`;
+export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-body-number`;

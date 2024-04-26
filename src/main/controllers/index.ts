@@ -4,6 +4,7 @@ export * as indexController from "./indexController";
 export * as checkYourAnswersController from "./features/common/checkYourAnswers";
 export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
 export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
+export * as amlBodyMembershipNumberController from "./features/common/amlBodyMembershipNumberController";
 
 // Sole trader
 

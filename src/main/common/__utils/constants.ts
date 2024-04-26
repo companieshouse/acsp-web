@@ -17,3 +17,4 @@ export const BUSINESS_ADDRESS = "businessAddress";
 export const ANSWER_DATA = "answerData";
 export const GET_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to get registration details for the transaction";
 export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post registration details for the transaction";
+export const AML_SUPERVISOR_SELECTED: string = "selected AML supervisors";
