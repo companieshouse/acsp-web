@@ -1,32 +1,40 @@
 import { NextFunction, Request, Response } from "express";
 import logger, { createAndLogErrorRequest } from "../../../lib/Logger";
 import * as config from "../config";
-import { isActiveFeature } from "../utils/feature.flag";
 import { getPreviousPageUrl } from "../services/url";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../utils/localise";
 import { BASE_URL, SIGN_OUT_URL } from "../types/pageURL";
 
 export const get = (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+
     try {
         logger.debugRequest(req, `GET ${config.SIGN_OUT_PAGE}`);
 
         const previousPageUrl = getPreviousPageUrl(req, BASE_URL);
 
-        return res.render(config.SIGN_OUT_PAGE, {
-            previousPage: previousPageUrl,
-            saveAndResume: isActiveFeature(config.FEATURE_FLAG_ENABLE_SAVE_AND_RESUME_17102022),
-            journey: config.JourneyType.register
+        res.render(config.SIGN_OUT_PAGE, {
+            title: "What is your role in the business?",
+            ...getLocaleInfo(locales, lang),
+            previousPage: addLangToUrl(previousPageUrl, lang),
+            currentUrl: BASE_URL + SIGN_OUT_URL
         });
     } catch (error) {
-        logger.errorRequest(req, error);
         next(error);
     }
 };
 
 export const post = (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+
     try {
         logger.debugRequest(req, `POST ${config.SIGN_OUT_PAGE}`);
+        const previousPageUrl = getPreviousPageUrl(req, BASE_URL);
         const previousPage = req.body.previousPage;
 
+        // Validation and redirection logic
         if (!previousPage.startsWith(BASE_URL)) {
             throw createAndLogErrorRequest(req, `${previousPage} page is not part of the journey!`);
         }
@@ -35,9 +43,14 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
             return res.redirect(SIGN_OUT_URL);
         }
 
-        return (previousPage);
+        // Render the sign-out page template
+        res.render(config.SIGN_OUT_PAGE, {
+            title: "What is your role in the business?",
+            ...getLocaleInfo(locales, lang),
+            previousPage: addLangToUrl(previousPageUrl, lang),
+            currentUrl: BASE_URL + SIGN_OUT_URL
+        });
     } catch (error) {
-        logger.errorRequest(req, error);
         next(error);
     }
 };
