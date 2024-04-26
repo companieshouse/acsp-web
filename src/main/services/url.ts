@@ -12,8 +12,7 @@ export function getPreviousPageUrl (req: Request, basePath: string) {
     const startingIndexOfRelativePath = absolutePreviousPageUrl.indexOf(basePath);
     const relativePreviousPageUrl = absolutePreviousPageUrl.substring(startingIndexOfRelativePath);
 
-    logger.info("PREVIOUS PAGE URL FROM METHOD-----" + relativePreviousPageUrl);
-    // logger.debugRequest(req, `Relative previous page URL is ${relativePreviousPageUrl}`);
+    logger.debugRequest(req, `Relative previous page URL is ${relativePreviousPageUrl}`);
 
     return relativePreviousPageUrl;
 
