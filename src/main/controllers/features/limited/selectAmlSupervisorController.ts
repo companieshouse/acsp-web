@@ -7,17 +7,18 @@ import { LIMITED_SELECT_AML_SUPERVISOR, LIMITED_SECTOR_YOU_WORK_IN, BASE_URL, AM
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-
     res.render(config.SELECT_AML_SUPERVISOR, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + LIMITED_SELECT_AML_SUPERVISOR
+        currentUrl: BASE_URL + LIMITED_SELECT_AML_SUPERVISOR,
+        AMLSupervisoryBodies
     });
 };
 
@@ -39,6 +40,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + LIMITED_SELECT_AML_SUPERVISOR,
+                AMLSupervisoryBodies,
                 ...pageProperties
             });
         } else {
