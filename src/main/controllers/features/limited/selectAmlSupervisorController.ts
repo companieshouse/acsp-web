@@ -13,7 +13,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    console.log("Aml supervisory bodies:", AMLSupervisoryBodies);
     res.render(config.SELECT_AML_SUPERVISOR, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",

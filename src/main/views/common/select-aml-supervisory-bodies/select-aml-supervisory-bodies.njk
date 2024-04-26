@@ -12,8 +12,8 @@
         {% for key,value in AMLSupervisoryBodies %}
           {% if value is string %}
             {% set checkboxItem = {
-                    value: AMLSupervisoryBodies[key],
-                    text: AMLSupervisoryBodies[key]
+                    value: value,
+                    text: value
             } %}
             {% set ITEMS = ITEMS.concat(checkboxItem) %}
           {% endif %}
