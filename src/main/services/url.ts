@@ -14,5 +14,7 @@ export function getPreviousPageUrl (req: Request, basePath: string) {
 
     logger.debugRequest(req, `Relative previous page URL is ${relativePreviousPageUrl}`);
 
+    logger.info(relativePreviousPageUrl);
     return relativePreviousPageUrl;
+
 }
