@@ -13,6 +13,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspType = acspData?.typeofBusiness;
     res.render(config.SELECT_AML_SUPERVISOR, {
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
@@ -20,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR,
         firstName: acspData?.firstName,
         lastName: acspData?.lastName,
-        acspType: acspData?.typeofBusiness
+        acspType: acspType
     });
 };
 

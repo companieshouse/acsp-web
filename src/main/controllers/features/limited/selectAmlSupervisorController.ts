@@ -14,11 +14,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const acspType = acspData?.typeofBusiness;
+    console.log(acspType);
     res.render(config.SELECT_AML_SUPERVISOR, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
         ...getLocaleInfo(locales, lang),
-        acspType: acspType,
+         acspType: acspType,
         currentUrl: BASE_URL + LIMITED_SELECT_AML_SUPERVISOR
     });
 };
@@ -31,9 +32,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeofBusiness;
         const errorList = validationResult(req);
-        //console.log(req.body["AML-supervisory-bodies"]);
-        console.log(req.body);
-
 
         console.log(JSON.stringify(errorList));
         if (!errorList.isEmpty()) {

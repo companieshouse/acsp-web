@@ -14,21 +14,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const acspType = acspData?.typeofBusiness;
+    const acspType : string = acspData?.typeofBusiness!;
     const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
   
     var previousPage: string = "";
-    if (acspType === TypeOfBusiness.SOLE_TRADER) {
+    console.log("acsp type:", acspType);
+    var previousPage: string = "";
+    if (acspType === "SOLE_TRADER") {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === TypeOfBusiness.LIMITED_COMPANY) {
+    } else if (acspType === "LIMITED_COMPANY") {
         previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     } else {
-        // Handle the case where acspData?.typeofBusiness is undefined or other values
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
     }
-
     res.render(config.AML_MEMBERSHIP_NUMBER, {
-        title: "What is the Anti-Money Laundering (AML) membership number?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(previousPage, lang),
         currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
@@ -43,16 +42,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
-    console.log(req.body);
-    const acspType = acspData?.typeofBusiness;
+    const acspType : string = acspData?.typeofBusiness!;
+  
     var previousPage: string = "";
-    if (acspType === TypeOfBusiness.SOLE_TRADER) {
+    console.log("acsp type:", acspType);
+    var previousPage: string = "";
+    if (acspType === "SOLE_TRADER") {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === TypeOfBusiness.LIMITED_COMPANY) {
+    } else if (acspType === "LIMITED_COMPANY") {
         previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     } else {
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
     }
+
     try {
         const errorList = validationResult(req);
         console.log("errorlist -->" + JSON.stringify(errorList))
