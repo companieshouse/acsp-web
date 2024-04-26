@@ -91,7 +91,7 @@ routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
 routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
 
 routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
-routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(undefined), amlBodyMembershipNumberController.post);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), amlBodyMembershipNumberController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
