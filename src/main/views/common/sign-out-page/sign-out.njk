@@ -1,39 +1,55 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
-<form action="" method="POST">
-  <main class="govuk-main-wrapper" id="main-content" role="main">
-    <div class="govuk-grid-row">
-      <div class="govuk-grid-column-one-half-from-desktop">
-        <div class="govuk-form-group">
-          <fieldset class="govuk-fieldset" aria-describedby="sign-out-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">{{ i18n.signoutTitle }}</h1>
-            </legend>
-            <div id="sign-out-hint" class="govuk-hint">{{ i18n.signoutOptionHintText }}</div>
-            <div class="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="sign-out" name="sign-out" type="radio" value="yes">
-                <label class="govuk-label govuk-radios__label" for="sign-out">{{ i18n.signoutYesButtonText }}</label>
-              </div>
-              <div class="govuk-radios__item">
-                <input class="govuk-radios__input" id="sign-out-2" name="sign-out" type="radio" value="no">
-                <label class="govuk-label govuk-radios__label" for="sign-out-2">{{ i18n.signoutNoButtonText }}</label>
-              </div>
-            </div>
-          </fieldset>
-        </div>
-        <details class="govuk-details" data-module="govuk-details">
-          <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">{{ i18n.signoutHowHintText }}</span>
-          </summary>
-          <div class="govuk-details__text">
-            {{ i18n.signoutHowHintDetailsText }}
+<main class="govuk-main-wrapper" id="main-content" role="main">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form action="" method="POST">
+    <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.detailsErrorMsg if errors,
+                classes: "govuk-radios--inline",
+                id: "signout",
+                name: "signout",
+                fieldset: {
+                    legend: {
+                        text: i18n.signoutTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: i18n.signoutOptionHintText
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: i18n.signoutYesButtonText, 
+                        attributes: {
+                            "data-event-id": "signout-yes"
+                        }
+                    },
+                    {
+                        value: "no",
+                        text: i18n.signoutNoButtonText,
+                        attributes: {
+                            "data-event-id": "signout-no"
+                        }
+                    }
+                ]
+            }) }}
           </div>
-        </details>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
-      </div>
+          {{ govukDetails({
+              summaryText: i18n.signoutHowHintText,
+              text: i18n.signoutHowHintDetailsText
+          }) }}
+            <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+        </form>
+        </div>
     </div>
-  </main>
-</form>
-{% endblock %}
+{% endblock main_content %}
+
+
+

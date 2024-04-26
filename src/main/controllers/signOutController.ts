@@ -14,8 +14,7 @@ export const get = (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const previousPageUrl = getPreviousPageUrl(req, BASE_URL);
-        const getpreviousPageUrl = req.body.previousPageUrl;
-        saveDataInSession(req, PREVIOUSPAGEURL, getpreviousPageUrl);
+        saveDataInSession(req, PREVIOUSPAGEURL, previousPageUrl);
         res.render(config.SIGN_OUT_PAGE, {
             title: "Are you sure you want to sign out?",
             ...getLocaleInfo(locales, lang),
@@ -46,7 +45,7 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            if (req.body["sign-out"] === "yes") {
+            if (req.body.signout === "yes") {
                 res.redirect(addLangToUrl(BASE_URL, lang));
             } else {
                 res.redirect(addLangToUrl(previousPageUrl, lang));
