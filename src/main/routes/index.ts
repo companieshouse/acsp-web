@@ -69,6 +69,7 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
+import { selectsignOutValidator } from "../validation/signOut";
 
 const routes = Router();
 
@@ -85,7 +86,7 @@ routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
 
 routes.get(urls.SIGN_OUT_URL, signOutController.get);
-routes.post(urls.SIGN_OUT_URL, signOutController.post);
+routes.post(urls.SIGN_OUT_URL, selectsignOutValidator, signOutController.post);
 
 routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
 

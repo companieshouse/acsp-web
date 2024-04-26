@@ -16,7 +16,7 @@ export const get = (req: Request, res: Response, next: NextFunction) => {
         const getpreviousPageUrl = req.body.previousPageUrl;
         saveDataInSession(req, PREVIOUSPAGEURL, getpreviousPageUrl);
         res.render(config.SIGN_OUT_PAGE, {
-            title: "What is your role in the business?",
+            title: "Are you sure you want to sign out?",
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(previousPageUrl, lang),
             currentUrl: BASE_URL + SIGN_OUT_URL
@@ -34,13 +34,13 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
 
     try {
         res.render(config.SIGN_OUT_PAGE, {
-            title: "What is your role in the business?",
+            title: "Are you sure you want to sign out?",
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(previousPageUrl, lang),
             currentUrl: BASE_URL + SIGN_OUT_URL
         });
 
-        if (req.body.sign_out === "yes") {
+        if (req.body.signout === "Yes") {
             res.redirect(SIGN_OUT_URL);
         } else {
             res.redirect(previousPageUrl);
