@@ -18,7 +18,7 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
 
 describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
     it("Test for valid input, should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_0: "ABC", membershipNumber_1: "CBA", membershipNumber__2: "Finance" });
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "ABC", membershipNumber_2: "CBA", membershipNumber__3: "Finance" });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(302);
@@ -28,9 +28,11 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
 
 describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
     it("Test for invalid input , empty value - should return status 400", async () => {
-        await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_0: " " });
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: " " });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(400);
+        expect(res.text).toContain("Enter the details for Law Society of Northern Ireland");
+
     });
 });

@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     var previousPage: string = "";
     if (acspType === "SOLE_TRADER") {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === "LIMITED_COMPANY") {
+    } else if (acspType === "LIMITED_COMPANY" || acspType === "LIMITED_PARTNERSHIP" || acspType === "LIMITED_LIABILITY_PARTNERSHIP") {
         previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     } else {
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
@@ -39,12 +39,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    console.log(JSON.stringify(selectedAMLSupervisoryBodies));
     const acspType : string = acspData?.typeOfBusiness!;
 
     var previousPage: string = "";
     if (acspType === "SOLE_TRADER") {
         previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === "LIMITED_COMPANY") {
+    } else if (acspType === "LIMITED_COMPANY" || acspType === "LIMITED_PARTNERSHIP" || acspType === "LIMITED_LIABILITY_PARTNERSHIP") {
         previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     } else {
         previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
@@ -58,7 +59,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 const selection = selectedAMLSupervisoryBodies[index];
                 element.msg = resolveErrorMessage(element.msg, lang);
+
                 element.msg = element.msg + selection;
+
             });
 
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
