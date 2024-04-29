@@ -1,0 +1,55 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+<main class="govuk-main-wrapper" id="main-content" role="main">
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+    <form action="" method="POST">
+    <div class="govuk-form-group">
+            {{ govukRadios({
+                errorMessage: errors.signout if errors,
+                classes: "govuk-radios--inline",
+                id: "signout",
+                name: "signout",
+                fieldset: {
+                    legend: {
+                        text: i18n.signoutTitle,
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                hint: {
+                    text: i18n.signoutOptionHintText
+                },
+                items: [
+                    {
+                        value: "yes",
+                        text: i18n.signoutYesButtonText, 
+                        attributes: {
+                            "data-event-id": "signout-yes"
+                        }
+                    },
+                    {
+                        value: "no",
+                        text: i18n.signoutNoButtonText,
+                        attributes: {
+                            "data-event-id": "signout-no"
+                        }
+                    }
+                ]
+            }) }}
+          </div>
+          {{ govukDetails({
+              summaryText: i18n.signoutHowHintText,
+              text: i18n.signoutHowHintDetailsText
+          }) }}
+            <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+        </form>
+        </div>
+    </div>
+{% endblock main_content %}
+
+
+
