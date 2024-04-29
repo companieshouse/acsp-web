@@ -34,6 +34,7 @@ export * as limitedSectorYouWorkInController from "./features/limited/sectorYouW
 export * as limitedWhatIsYourRoleController from "./features/limited/whatIsYourRoleController";
 export * as limitedWhichSectorOtherController from "./features/limited/whichSectorOtherController";
 export * as limitedSelectAmlSupervisorController from "./features/limited/selectAmlSupervisorController";
+export * as limitedCorrespondenceAddressManualController from "./features/limited/correspondenceAddressManualController";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
