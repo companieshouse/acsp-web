@@ -1,3 +1,5 @@
+import { ACCOUNT_URL } from "../utils/properties";
+
 const SEPARATOR = "/";
 
 export const START = "/"; // Domain name will go here
@@ -7,6 +9,8 @@ export const HOME_URL = "";
 export const SIGN_OUT_PAGE = `signout`;
 
 export const SIGN_OUT_URL = `/${SIGN_OUT_PAGE}`;
+
+export const ACCOUNTS_SIGNOUT_PATH = `${ACCOUNT_URL}/signout`;
 
 export const COMPANY_BASE_URL = "/company";
 
