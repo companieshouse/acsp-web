@@ -3,6 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
+    signOutController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -70,6 +71,8 @@ import { companyAuthenticationMiddleware } from "../middleware/company_authentic
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
+import { selectsignOutValidator } from "../validation/signOut";
+
 
 const routes = Router();
 
@@ -84,6 +87,9 @@ routes.get(urls.HEALTHCHECK, healthCheckController.get);
 
 routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
+
+routes.get(urls.SIGN_OUT_URL, signOutController.get);
+routes.post(urls.SIGN_OUT_URL, selectsignOutValidator, signOutController.post);
 
 routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
 
