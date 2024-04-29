@@ -73,7 +73,6 @@ import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor"
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 import { selectsignOutValidator } from "../validation/signOut";
 
-
 const routes = Router();
 
 routes.get(urls.HOME_URL, indexController.get);
