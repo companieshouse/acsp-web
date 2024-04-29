@@ -3,6 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
+    signOutController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -11,6 +12,7 @@ import {
     limitedSectorYouWorkInController,
     limitedWhatIsYourRoleController,
     limitedWhichSectorOtherController,
+    limitedSelectAmlSupervisorController,
     soleTraderCorrespodanceAddressDetailsController,
     soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespondenceAddressConfirmController,
@@ -24,6 +26,7 @@ import {
     soleTraderWhatIsYourRoleController,
     soleTraderWhereDoYouLiveController,
     soleTraderWhichSectorOtherController,
+    soleTraderSelectAmlSupervisorController,
     stopNotRelevantOfficerController,
     unincorporatedBusinessAddressAutoLookupController,
     unincorporatedBusinessAddressListController,
@@ -33,7 +36,16 @@ import {
     unincorporatedWhatIsYourRoleController,
     whatIsTheBusinessNameController,
     unincorporatedBusinessAddressManualEntryController,
-    unincorporatedConfirmYourBusinessAddressController
+    addressCorrespondanceSelectorController,
+    unincorporatedConfirmYourBusinessAddressController,
+    unincorporatedCorrespondenceAddressManualController,
+    unincorporatedCorrespondenceAddressConfirmController,
+    unincorporatedCorrespondenceAddressAutoLookupController,
+    unincorporatedCorrespondenceAddressListController,
+    unincorporatedSelectAmlSupervisorController,
+    checkYourAnswersController,
+    applicationConfirmationController,
+    yourResponsibilitiesController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -47,13 +59,17 @@ import { nameRegisteredWithAmlValidator } from "../validation/nameRegisteredWith
 import { nationalityValidator } from "../validation/nationality";
 import { otherTypeOfBusinessValidator } from "../validation/otherTypeOfBusiness";
 import { sectorYouWorkInValidator } from "../validation/sectorYouWorkIn";
-import { soleTraderWhatIsYourRoleValidator } from "../validation/soleTraderWhatIsYourRole";
+import { whatIsYourRoleValidator } from "../validation/whatIsYourRole";
 import { typeOfBusinessValidator } from "../validation/typeOfBusiness";
-import { whatIsTheBusinessNameValidator } from "../validation/whatIsTheBusinessName";
+import { soleTraderWhatIsTheBusinessNameValidator } from "../validation/soleTraderWhatIsTheBusinessName";
+import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
+import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
+import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
+import { selectsignOutValidator } from "../validation/signOut";
 
 const routes = Router();
 
@@ -65,6 +81,17 @@ routes.get(urls.ACCESSIBILITY_STATEMENT, accessibilityStatementController.get);
 routes.get(urls.STOP_NOT_RELEVANT_OFFICER, stopNotRelevantOfficerController.get);
 
 routes.get(urls.HEALTHCHECK, healthCheckController.get);
+
+routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
+routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
+
+routes.get(urls.SIGN_OUT_URL, signOutController.get);
+routes.post(urls.SIGN_OUT_URL, selectsignOutValidator, signOutController.post);
+
+routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
+
+routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
+routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
@@ -104,10 +131,13 @@ routes.get(urls.OTHER_TYPE_OF_BUSINESS, soleTraderOtherTypeOfBusinessController.
 routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, soleTraderOtherTypeOfBusinessController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, soleTraderWhatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, soleTraderWhatIsYourRoleController.post);
+
+routes.get(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, soleTraderSelectAmlSupervisorController.get);
+routes.post(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, soleTraderSelectAmlSupervisorController.post);
 
 // LIMITED
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, limitedNameRegisteredWithAmlController.get);
@@ -130,11 +160,14 @@ routes.get(urls.LIMITED_COMPANY_INACTIVE, limitedCompanyInactiveController.get);
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, limitedBusinessMustbeAmlRegisteredController.get);
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.get);
-routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
+
+routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorController.get);
+routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, whatIsTheBusinessNameController.post);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, unincorporatedWhatIsYourNameController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_NAME, nameValidator, unincorporatedWhatIsYourNameController.post);
@@ -143,7 +176,7 @@ routes.get(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, unincorporatedNameRegis
 routes.post(urls.UNINCORPORATED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, unincorporatedNameRegisteredWithAmlController.post);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, unincorporatedWhatIsYourRoleController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, unincorporatedWhatIsYourRoleController.post);
 
 routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.get);
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, sectorYouWorkInValidator, unincorporatedSectorYouWorkInController.post);
@@ -162,5 +195,23 @@ routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, manualAddressValidator,
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, addressCorrespondanceSelectorController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, unincorporatedCorrespondenceAddressManualController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, unincorporatedCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, unincorporatedCorrespondenceAddressListController.get);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, unincorporatedCorrespondenceAddressListController.post);
+
+routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSupervisorController.get);
+routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);
 
 export default routes;

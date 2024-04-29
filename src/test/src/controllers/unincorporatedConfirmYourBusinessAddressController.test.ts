@@ -24,7 +24,7 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, () => {
 });
 
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
-    it("should redirect to /type-of-acsp with status 302", async () => {
-        await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM).expect(302).expect("Location", BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+    it("should redirect to /what-is-the-correspondence-address with status 302", async () => {
+        await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM).expect(302).expect("Location", BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS + "?lang=en");
     });
 });

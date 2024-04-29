@@ -1,0 +1,149 @@
+<h2 class="govuk-heading-m">{{ i18n.checkYourAnswersSoleTraderDetailsHeading }}</h2>
+{{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: i18n.typeOfBusiness
+        },
+        value: {
+          text: detailsAnswers.typeOfBusiness
+        }
+      },
+
+      {
+        key: {
+          text: i18n.yourRole
+        },
+        value: {
+          text: detailsAnswers.roleType
+        }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersName
+        },
+        value: {
+          text: detailsAnswers.name
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/what-is-your-name" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersName
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersDateOfBirth
+        },
+        value: {
+          text: detailsAnswers.dateOfBirth
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/what-is-your-date-of-birth" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersDateOfBirth
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersNationality
+        },
+        value: {
+          text: detailsAnswers.nationality
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/what-is-your-nationality" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersNationality
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersWhereDoYouLive
+        },
+        value: {
+          text: detailsAnswers.countryOfResidence
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/where-do-you-live" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersWhereDoYouLive
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersBusinessName
+        },
+        value: {
+          text: detailsAnswers.businessName
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/what-is-the-business-name" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersBusinessName
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.businessSector
+        },
+        value: {
+          text: detailsAnswers.workSector
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/which-sector" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.businessSector
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.correspondeceAddress
+        },
+        value: {
+          html: detailsAnswers.correspondenceAddress
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/sole-trader/correspondence-address-lookup" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      }
+    ]
+    })
+}}

@@ -32,6 +32,18 @@ export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
 export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
 
+export const AML_MEMBERSHIP_NUMBER = "/aml-membership-number";
+
+export const AML_BODY_DETAILS_CONFIRM = "/confirm-aml-details";
+
+export const CHECK_YOUR_ANSWERS = "/check-your-answers";
+
+export const PAYMENT_URL = "/payment-url";
+
+export const CONFIRMATION = "/application-complete";
+
+export const YOUR_RESPONSIBILITIES = "/your-responsibilities";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
@@ -108,3 +120,13 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = UNINCORPORATED + "/confir
 export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = UNINCORPORATED + "/select-your-business-address";
 
 export const UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = UNINCORPORATED + "/what-is-the-correspondence-address";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL = UNINCORPORATED + "/correspondence-address-manual-entry";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM = UNINCORPORATED + "/confirm-your-correspondence-address";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP = UNINCORPORATED + "/correspondence-address-lookup";
+
+export const UNINCORPORATED_SELECT_AML_SUPERVISOR = UNINCORPORATED + "/select-aml-supervisor";
+
+export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST = UNINCORPORATED + "/select-your-correspondence-address";

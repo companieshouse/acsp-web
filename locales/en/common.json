@@ -3,5 +3,7 @@
     "SaveAndContinue": "Save and continue",
     "ConfirmAndContinue": "Confirm and continue",
     "EditAddress": "Edit address",
-    "Back" : "Back"
+    "Back" : "Back",
+    "SignOut": "Sign out",
+    "AcceptAndContinue": "Accept and Continue"
 }

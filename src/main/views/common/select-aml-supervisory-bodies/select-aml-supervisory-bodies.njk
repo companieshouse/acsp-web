@@ -1,0 +1,47 @@
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+    <form action="" method="POST">
+        {% if acspType == "SOLE_TRADER" %}
+           {% include "partials/user_name.njk" %}
+        {% endif %}
+
+        {% set ITEMS = [] %}
+        {% for key,value in AMLSupervisoryBodies %}
+          {% if value is string %}
+            {% set checkboxItem = {
+                    value: value,
+                    text: value
+            } %}
+            {% set ITEMS = ITEMS.concat(checkboxItem) %}
+          {% endif %}
+        {% endfor %}
+
+        <div class="govuk-form-group">
+            {{ govukCheckboxes({
+              name: "AML-supervisory-bodies",
+              fieldset: {
+                legend: {
+                  text: i18n.selectAmlSupervisorTitle,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              hint: {
+                text: i18n.selectAmlSupervisorHint
+              },
+              items: ITEMS
+            }) }}
+        </div>
+        <div class="govuk-inset-text">
+          <h2 class="govuk-heading-m">{{i18n.selectAmlSupervisorInfoHeading}}</h2>
+          <p>
+           {{i18n.selectAmlSupervisorInfo}}
+          </p>
+        </div>
+        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+    </form>
+    </div>
+{% endblock main_content %}

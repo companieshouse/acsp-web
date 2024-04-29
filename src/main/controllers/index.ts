@@ -1,6 +1,10 @@
 export * as accessibilityStatementController from "./accessibilityStatementController";
 export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
+export * as checkYourAnswersController from "./features/common/checkYourAnswers";
+export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
+export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
+export * as signOutController from "./signOutController";
 
 // Sole trader
 
@@ -18,6 +22,7 @@ export * as soleTraderWhatIsTheBusinessNameController from "./features/sole-trad
 export * as soleTraderWhatIsYourRoleController from "./features/sole-trader/whatIsYourRoleController";
 export * as soleTraderWhereDoYouLiveController from "./features/sole-trader/whereDoYouLiveController";
 export * as soleTraderWhichSectorOtherController from "./features/sole-trader/whichSectorOtherController";
+export * as soleTraderSelectAmlSupervisorController from "./features/sole-trader/selectAmlSupervisorController";
 
 // limited
 export * as limitedBusinessMustbeAmlRegisteredController from "./features/limited/businessMustbeAmlRegisteredController";
@@ -28,6 +33,7 @@ export * as limitedNameRegisteredWithAmlController from "./features/limited/name
 export * as limitedSectorYouWorkInController from "./features/limited/sectorYouWorkInController";
 export * as limitedWhatIsYourRoleController from "./features/limited/whatIsYourRoleController";
 export * as limitedWhichSectorOtherController from "./features/limited/whichSectorOtherController";
+export * as limitedSelectAmlSupervisorController from "./features/limited/selectAmlSupervisorController";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
@@ -41,3 +47,9 @@ export * as unincorporatedWhatIsYourRoleController from "./features/unincorporat
 export * as whatIsTheBusinessNameController from "./features/unincorporated/whatIsTheBusinessNameController";
 export * as unincorporatedBusinessAddressManualEntryController from "./features/unincorporated/unincorporatedBusinessAddressManualEntryController";
 export * as unincorporatedConfirmYourBusinessAddressController from "./features/unincorporated/unincorporatedConfirmYourBusinessAddressController";
+export * as addressCorrespondanceSelectorController from "./features/unincorporated/addressCorrespondanceSelectorController";
+export * as unincorporatedCorrespondenceAddressManualController from "./features/unincorporated/correspondenceAddressManualController";
+export * as unincorporatedCorrespondenceAddressConfirmController from "./features/unincorporated/correspondenceAddressConfirmController";
+export * as unincorporatedCorrespondenceAddressAutoLookupController from "./features/unincorporated/correspondenceAddressAutoLookupController";
+export * as unincorporatedCorrespondenceAddressListController from "./features/unincorporated/correspondenceAddressListController";
+export * as unincorporatedSelectAmlSupervisorController from "./features/unincorporated/selectAmlSupervisorController";

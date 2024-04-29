@@ -8,7 +8,7 @@ import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { FormattedValidationErrors, formatValidationError } from "../../../validation/validation";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -56,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // Save selected address to the session
             const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.saveAddressFromList(req, businessAddress);
+            addressLookUpService.saveBusinessAddressFromList(req, businessAddress);
 
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
@@ -65,7 +65,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
-
-const getPageProperties = (errors?: FormattedValidationErrors) => ({
-    errors
-});

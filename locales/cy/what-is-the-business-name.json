@@ -1,8 +1,11 @@
 {
     "whatIsTheBusinessNameTitle" : "What is the business name? welsh",
-    "whatIsTheBusinessNameHint": "This is the name your business trades under. welsh",
+    "whatIsTheBusinessNameTitleInput" : "Enter the business name welsh",
     "whatIsTheBusinessNamePublic": "We will show this on the public register. welsh",
     "whatIsTheBusinessNameSaveAndContinue": "Save and Continue welsh",
+    "whatIsTheBusinessNameDifferentName" : "A different name welsh",
+
+    "error-whatIsTheBusinessNameSelectRadio" : "Select business name welsh",
    
     "error-whatIsTheBusinessNameNoName" : "Enter the business name welsh",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes welsh",

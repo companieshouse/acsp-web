@@ -1,0 +1,140 @@
+<h2 class="govuk-heading-m">{{ i18n.checkYourAnswersUnincorportatedDetailsHeading }}</h2>
+{{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: i18n.typeOfBusiness
+        },
+        value: {
+          text: detailsAnswers.typeOfBusiness
+        }
+      },
+
+      {
+        key: {
+          text: i18n.checkAnswersNameWithAML
+        },
+        value: {
+          text: detailsAnswers.nameRegisteredWithAML
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/name-registered-with-aml" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersNameWithAML
+              }
+            ]
+          }
+      },
+
+      {
+        key: {
+          text: i18n.checkAnswersYourName
+        },
+        value: {
+          text: detailsAnswers.name
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/what-is-your-name" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersYourName
+              }
+            ]
+          }
+      } if detailsAnswers.name | length,
+
+      {
+        key: {
+          text: i18n.checkAnswersBusinessName
+        },
+        value: {
+          text: detailsAnswers.businessName
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/what-is-the-business-name" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersBusinessName
+              }
+            ]
+          }
+      },
+
+      {
+        key: {
+          text: i18n.yourRole
+        },
+        value: {
+          text: detailsAnswers.roleType
+        },
+        actions: {
+          items: [
+            {
+              href: "/register-as-companies-house-authorised-agent/unincorporated/what-is-your-role" + "?lang=" + lang,
+              text: i18n.checkYourAnswersChange,
+              visuallyHiddenText: i18n.yourRole
+            }
+          ]
+        }
+      },
+      
+      {
+        key: {
+          text: i18n.businessSector
+        },
+        value: {
+          text: detailsAnswers.workSector
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/which-sector" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.businessSector
+              }
+            ]
+          }
+      },
+      
+      {
+        key: {
+          text: i18n.checkAnswersBusinessAddress
+        },
+        value: {
+          html: detailsAnswers.businessAddress
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/business-address-lookup" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkAnswersBusinessAddress
+              }
+            ]
+          }
+      },
+
+      {
+        key: {
+          text: i18n.correspondeceAddress
+        },
+        value: {
+          html: detailsAnswers.correspondenceAddress
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/what-is-the-correspondence-address" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      }
+    ]
+    })
+}}

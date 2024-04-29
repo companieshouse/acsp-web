@@ -1,0 +1,69 @@
+{% from "govuk/components/input/macro.njk"           import govukInput %}
+{% from "govuk/components/radios/macro.njk"          import govukRadios %}
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+<div class="govuk-main-wrapper">
+  <div class="govuk-grid-row">
+   <div class="govuk-grid-column-two-thirds">
+    <form action="" method="POST">
+        <div class="govuk-form-group">
+            
+        {% set textHtml %}
+        {{ govukInput({
+            label: {
+              text: i18n.whatIsTheBusinessNameTitleInput
+            },
+            errorMessage: {
+                    text: errors["whatIsTheBusinessNameInput"].text
+              } if errors["whatIsTheBusinessNameInput"] | length,
+            classes: "govuk-input",
+            id: "what-is-the-business-name-input",
+            name: "whatIsTheBusinessNameInput",
+            value: payload["whatIsTheBusinessNameInput"] 
+         }) }}
+
+        {% endset -%}
+
+        {{ govukRadios({
+          errorMessage: errors.whatsTheBusinessNameRadio if errors,
+          name: "whatsTheBusinessNameRadio",
+          value: payload["whatsTheBusinessNameRadio"],
+          id: "what-is-the-business-name-radio",
+          classes: "govuk-radios",
+          fieldset: {
+            legend: {
+              text: i18n.whatIsTheBusinessNameTitle,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: [
+            {
+              value: "USERNAME",
+              text: firstName + " " + lastName
+            },
+            {
+              value: "A Different Name",
+              text: i18n.whatIsTheBusinessNameDifferentName,
+              conditional: {
+                html: textHtml
+              }
+            }
+          ]
+        }) }}  
+
+        <div class="govuk-inset-text">
+          <p>{{i18n.whatIsTheBusinessNamePublic}}</p>       
+        </div>
+
+        </div>
+          <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+     </form>
+   </div>
+ </div>
+</div>
+
+    
+{% endblock main_content %}
