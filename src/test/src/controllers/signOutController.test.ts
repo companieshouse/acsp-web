@@ -8,7 +8,8 @@ const router = supertest(app);
 
 describe("GET" + SIGN_OUT_URL, () => {
     it("should return status 200", async () => {
-        await router.get(BASE_URL + SIGN_OUT_URL).expect(200);
+        const response = await router.get(BASE_URL + SIGN_OUT_URL).expect(200);
+        expect(response.text).toContain("Are you sure you want to sign out?");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
@@ -18,18 +19,20 @@ describe("GET" + SIGN_OUT_URL, () => {
 describe("POST " + SIGN_OUT_URL, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
-        await router.post(BASE_URL + SIGN_OUT_URL)
+        const response = await router.post(BASE_URL + SIGN_OUT_URL)
             .send({ signout: "yes" })
             .expect(302);
+        expect(response.header.location).toBe(BASE_URL);
     });
 });
 
 describe("POST " + SIGN_OUT_URL, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
-        await router.post(BASE_URL + SIGN_OUT_URL)
+        const response = await router.post(BASE_URL + SIGN_OUT_URL)
             .send({ signout: "no" })
             .expect(302);
+        expect(response.header.location).toBe("register-as-companies-house-authorised-agent/what-business-type");
     });
 });
 
