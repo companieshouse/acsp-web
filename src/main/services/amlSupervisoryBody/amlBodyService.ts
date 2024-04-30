@@ -2,7 +2,7 @@ import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { AML_SUPERVISOR_SELECTED } from "../../common/__utils/constants";
 
-export class amlSupervisoryBodyService {
+export class AmlSupervisoryBodyService {
     public saveSelectedAML = (session: Session, req: Request) => {
         const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"];
         if (selectedAMLSupervisoryBodies instanceof Array) {

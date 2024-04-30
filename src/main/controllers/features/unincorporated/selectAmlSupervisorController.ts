@@ -7,7 +7,7 @@ import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, 
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
-import { amlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
+import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -58,8 +58,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const amlSupervisoryBody = new amlSupervisoryBodyService();
-            amlSupervisoryBody.saveSelectedAML(session, req);
+            const AmlSupervisoryBody = new AmlSupervisoryBodyService();
+            AmlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {
