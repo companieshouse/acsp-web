@@ -102,6 +102,12 @@ export const LIMITED_WHICH_SECTOR_OTHER = LIMITED + "/which-sector-other";
 
 export const LIMITED_SELECT_AML_SUPERVISOR = LIMITED + "/select-aml-supervisor";
 
+export const LIMITED_CORRESPONDENCE_ADDRESS_MANUAL = LIMITED + "/correspondence-address-manual-entry";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP = LIMITED + "/correspondence-address-lookup";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM = LIMITED + "/confirm-your-correspondence-address";
+
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
 
