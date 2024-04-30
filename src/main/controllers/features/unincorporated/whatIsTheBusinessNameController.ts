@@ -22,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } else {
         previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME;
     }
-    res.render(config.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, {
+    res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
         previousPage: addLangToUrl(previousPage, lang),
         title: "What is the name of the business?",
         ...getLocaleInfo(locales, lang),
@@ -46,7 +46,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, {
+            res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(previousPage, lang),
                 title: "What is the name of the business?",
                 payload: req.body,

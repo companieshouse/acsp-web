@@ -5,8 +5,8 @@ import { getPreviousPageUrl } from "../services/url";
 import { Session } from "@companieshouse/node-session-handler";
 import { formatValidationError, getPageProperties } from "../validation/validation";
 import { PREVIOUS_PAGE_URL } from "../common/__utils/constants";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../utils/localise";
-import { BASE_URL, SIGN_OUT_URL } from "../types/pageURL";
+import { selectLang, getLocalesService, getLocaleInfo } from "../utils/localise";
+import { BASE_URL, SIGN_OUT_URL, ACCOUNTS_SIGNOUT_PATH } from "../types/pageURL";
 import { saveDataInSession } from "../common/__utils/sessionHelper";
 import { logger } from "../utils/logger";
 
@@ -43,7 +43,7 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (req.body.signout === "yes") {
-                res.redirect((BASE_URL));
+                res.redirect((ACCOUNTS_SIGNOUT_PATH));
             } else {
                 res.redirect((previousPageUrl));
             }

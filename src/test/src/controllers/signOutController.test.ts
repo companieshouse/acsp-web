@@ -22,7 +22,7 @@ describe("POST " + SIGN_OUT_URL, () => {
         const response = await router.post(BASE_URL + SIGN_OUT_URL)
             .send({ signout: "yes" })
             .expect(302);
-        expect(response.header.location).toBe(BASE_URL);
+        expect(response.header.location).toBe("false/signout");
     });
 });
 

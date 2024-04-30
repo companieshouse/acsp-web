@@ -13,6 +13,7 @@ import {
     limitedWhatIsYourRoleController,
     limitedWhichSectorOtherController,
     limitedSelectAmlSupervisorController,
+    limitedCorrespondenceAddressManualController,
     soleTraderCorrespodanceAddressDetailsController,
     soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespondenceAddressConfirmController,
@@ -169,6 +170,9 @@ routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, companyAuth
 
 routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorController.get);
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, limitedCorrespondenceAddressManualController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, limitedCorrespondenceAddressManualController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
