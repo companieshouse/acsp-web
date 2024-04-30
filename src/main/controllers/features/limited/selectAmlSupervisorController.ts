@@ -8,7 +8,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { saveSelectedAML } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
+import { amlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService"
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -46,7 +46,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            saveSelectedAML(session, req);
+            const amlSupervisoryBody = new amlSupervisoryBodyService();
+            amlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {
