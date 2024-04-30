@@ -14,7 +14,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
 
-    res.render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, {
+    res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
         editPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang),
         title: "Confirm the correspondence address",
