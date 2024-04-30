@@ -1,6 +1,6 @@
 {
-    "companyInactiveTitle" : "Company is not active",
-    "canNotRegister" : "You cannot register {companyName} as an authorised agent because it is not an active company. ",
+    "companyInactiveTitle" : "You cannot register this company",
+    "canNotRegister" : "You cannot register {companyName} as an authorised agent because it has been dissolved, or is in the process of being dissolved. ",
     "toRegister" : "To register an active company, you will need to",
     "startAgain" : "start the application again."
 }
