@@ -53,7 +53,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            errorListDisplay(errorList.array(), selectedAMLSupervisoryBodies, lang)
+            errorListDisplay(errorList.array(), selectedAMLSupervisoryBodies, lang);
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -75,14 +75,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-
-
 const errorListDisplay = (errors: any[], selectedAMLSupervisoryBodies: string[], lang: string) => {
     return errors.forEach((element, index) => {
         const selection = selectedAMLSupervisoryBodies[index];
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selection;
-        return element
+        return element;
 
     });
 };
