@@ -10,7 +10,7 @@
         {{ i18n.canNotRegister | replace('{companyName}', companyName) }}
       </p>
        <p class="govuk-body">
-        <a class="govuk-link" href="https://www.gov.uk/guidance/company-restoration-guide#process-to-restore-a-company-name-to-the-register-of-companiesbrbr">{{ i18n.readThe }}</a>
+        <a class="govuk-link" href="https://www.gov.uk/guidance/company-restoration-guide#process-to-restore-a-company-name-to-the-register-of-companies">{{ i18n.readThe | safe }}</a>
         {{ i18n.toFind }}
       </p>
       <p class="govuk-body">
@@ -18,7 +18,7 @@
         <a class="govuk-link" href={{startPage}}>{{ i18n.startAgain }}</a>
       </p>
       <p class="govuk-body">
-        <a class="govuk-link" href="https://www.gov.uk/contact-companies-house">{{ i18n.contactUs }}</a>
+        <a class="govuk-link" href="https://www.gov.uk/contact-companies-house">{{ i18n.contactUs | safe }}</a>
         {{ i18n.ifYou }}
       </p>
     </div>
