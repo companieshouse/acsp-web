@@ -13,8 +13,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const acspType : string = acspData?.typeOfBusiness!;
-    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const acspType: string = acspData?.typeOfBusiness!;
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
 
     var previousPage: string = "";
     if (acspType === "SOLE_TRADER") {
@@ -38,9 +38,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const selectedAMLSupervisoryBodies:string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
-    console.log(JSON.stringify(selectedAMLSupervisoryBodies));
-    const acspType : string = acspData?.typeOfBusiness!;
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const acspType: string = acspData?.typeOfBusiness!;
 
     var previousPage: string = "";
     if (acspType === "SOLE_TRADER") {
@@ -54,16 +53,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            const errors = errorList.array();
-            errors.forEach((element, index) => {
-
-                const selection = selectedAMLSupervisoryBodies[index];
-                element.msg = resolveErrorMessage(element.msg, lang);
-
-                element.msg = element.msg + selection;
-
-            });
-
+            errorListDisplay(errorList.array(), selectedAMLSupervisoryBodies, lang)
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -83,4 +73,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     } catch (error) {
         next(error);
     }
+};
+
+
+
+const errorListDisplay = (errors: any[], selectedAMLSupervisoryBodies: string[], lang: string) => {
+    return errors.forEach((element, index) => {
+        const selection = selectedAMLSupervisoryBodies[index];
+        element.msg = resolveErrorMessage(element.msg, lang);
+        element.msg = element.msg + selection;
+        return element
+
+    });
 };
