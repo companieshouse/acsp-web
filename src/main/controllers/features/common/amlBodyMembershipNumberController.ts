@@ -15,15 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const acspType: string = acspData?.typeOfBusiness!;
     const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const previousPage: string = getPreviousPage(acspType);
 
-    var previousPage: string = "";
-    if (acspType === "SOLE_TRADER") {
-        previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === "LIMITED_COMPANY" || acspType === "LIMITED_PARTNERSHIP" || acspType === "LIMITED_LIABILITY_PARTNERSHIP") {
-        previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
-    } else {
-        previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
-    }
     res.render(config.AML_MEMBERSHIP_NUMBER, {
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(previousPage, lang),
@@ -40,15 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
     const acspType: string = acspData?.typeOfBusiness!;
-
-    var previousPage: string = "";
-    if (acspType === "SOLE_TRADER") {
-        previousPage = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    } else if (acspType === "LIMITED_COMPANY" || acspType === "LIMITED_PARTNERSHIP" || acspType === "LIMITED_LIABILITY_PARTNERSHIP") {
-        previousPage = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
-    } else {
-        previousPage = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
-    }
+    const previousPage: string = getPreviousPage(acspType);
 
     try {
         const errorList = validationResult(req);
@@ -83,4 +68,17 @@ const errorListDisplay = (errors: any[], selectedAMLSupervisoryBodies: string[],
         return element;
 
     });
+};
+
+const getPreviousPage = (ascpType: string): string => {
+    switch (ascpType) {
+    case "SOLE_TRADER":
+        return BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
+    case "LIMITED_COMPANY":
+    case "LIMITED_PARTNERSHIP":
+    case "LIMITED_LIABILITY_PARTNERSHIP":
+        return BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
+    default:
+        return BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
+    }
 };

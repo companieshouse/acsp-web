@@ -58,8 +58,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const AmlSupervisoryBody = new AmlSupervisoryBodyService();
-            AmlSupervisoryBody.saveSelectedAML(session, req);
+            const amlSupervisoryBody = new AmlSupervisoryBodyService();
+            amlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {
