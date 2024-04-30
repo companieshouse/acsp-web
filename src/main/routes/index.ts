@@ -14,6 +14,8 @@ import {
     limitedWhichSectorOtherController,
     limitedSelectAmlSupervisorController,
     limitedCorrespondenceAddressManualController,
+    limitedCorrespondenceAddressAutoLookupController,
+    limitedCorrespondenceAddressListController,
     soleTraderCorrespodanceAddressDetailsController,
     soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespondenceAddressConfirmController,
@@ -168,6 +170,12 @@ routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, li
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, limitedCorrespondenceAddressManualController.get);
 routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, limitedCorrespondenceAddressManualController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, limitedCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, limitedCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, limitedCorrespondenceAddressListController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, limitedCorrespondenceAddressListController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
