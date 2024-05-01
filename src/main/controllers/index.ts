@@ -37,6 +37,7 @@ export * as limitedSelectAmlSupervisorController from "./features/limited/select
 export * as limitedCorrespondenceAddressManualController from "./features/limited/correspondenceAddressManualController";
 export * as limitedCorrespondenceAddressAutoLookupController from "./features/limited/correspondenceAddressAutoLookupController";
 export * as limitedCorrespondenceAddressListController from "./features/limited/correspondenceAddressListController";
+export * as limitedCorrespondenceAddressConfirmController from "./features/limited/correspondenceAddressConfirmController";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
