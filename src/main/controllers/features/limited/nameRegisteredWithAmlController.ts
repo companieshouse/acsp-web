@@ -32,7 +32,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang);
+            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang);
             const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
             if (selectedOption === "YOUR_NAME") {
                 res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
