@@ -108,6 +108,10 @@ export const LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP = LIMITED + "/correspondence-
 
 export const LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM = LIMITED + "/confirm-your-correspondence-address";
 
+export const LIMITED_CORRESPONDENCE_ADDRESS_LIST = LIMITED + "/select-your-correspondence-address";
+
+export const LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = LIMITED + "/what-is-the-correspondence-address";
+
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
 
