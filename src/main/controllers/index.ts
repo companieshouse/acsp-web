@@ -40,7 +40,6 @@ export * as limitedCorrespondenceAddressListController from "./features/limited/
 export * as limitedCorrespondenceAddressConfirmController from "./features/limited/correspondenceAddressConfirmController";
 export * as limitedAddressCorrespondanceSelectorController from "./features/limited/addressCorrespondanceSelectorController";
 
-
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";
 export * as unincorporatedBusinessAddressAutoLookupController from "./features/unincorporated/businessAddressAutoLookupController";
