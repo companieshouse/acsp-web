@@ -1,7 +1,7 @@
 {
     "companyInactiveTitle" : "You cannot register this company Welsh",
     "canNotRegister" : "You cannot register {companyName} as an authorised agent because it has been dissolved, or is in the process of being dissolved. Welsh.",
-    "readThe" : "Read the Company Restoration Guide Welsh",
+    "readTheCompany" : "Read the Company Restoration Guide Welsh",
     "toFind" : "to find out about restoring a company name to the register. Welsh",
     "ifThis" : "If this is the wrong company, you will need to Welsh",
     "startAgain" : "start the application again Welsh.",
