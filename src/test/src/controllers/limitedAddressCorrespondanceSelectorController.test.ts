@@ -6,7 +6,7 @@ import { BASE_URL, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, LIMITED_CORRESPON
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
-describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS , () => {
+describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     it("should render the correspondence address selector page with status 200", async () => {
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
         expect(res.status).toBe(200);
@@ -16,7 +16,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS , () => {
     });
 });
 
-describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS , () => {
+describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     it("should render the correspondence address selector page with validation errors", async () => {
         const res = await router
             .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
@@ -28,7 +28,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS , () => {
 
     it("should redirect to correspondence-address-lookup page when address option is CORRESPONDANCE_ADDRESS", async () => {
         const res = await router
-            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS )
+            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
@@ -36,7 +36,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS , () => {
 
     it("should redirect to correspondence-address-lookup page when address option is DIFFERENT_ADDRESS", async () => {
         const res = await router
-            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS )
+            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "DIFFERENT_ADDRESS" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP + "?lang=en");
