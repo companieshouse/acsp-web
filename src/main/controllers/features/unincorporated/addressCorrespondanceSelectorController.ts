@@ -15,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    res.render(config.UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR, {
+    res.render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
         title: "What is the correspondence address?",
         ...getLocaleInfo(locales, lang),
@@ -38,7 +38,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR, {
+            res.status(400).render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
                 title: "What is the correspondence address?",
                 ...getLocaleInfo(locales, lang),
