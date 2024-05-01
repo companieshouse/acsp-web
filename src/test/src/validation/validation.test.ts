@@ -1,10 +1,9 @@
-import { ValidationError } from "express-validator";
-import { resolveErrorMessage, formatValidationError } from "../../../main/validation/validation";
+import { resolveErrorMessage } from "../../../main/validation/validation";
 import { getLocalesService } from "../../../main/utils/localise";
 
 describe("resolveErrorMessage", () => {
     it("should return the original error message if it cannot be resolved", () => {
-        const errorMessage = "some_error_message";
+        const errorMessage = "error_message";
         const lang = "en";
 
         // Mock the getLocalesService function
@@ -17,7 +16,7 @@ describe("resolveErrorMessage", () => {
     });
 
     it("should return the original error message if lang is undefined", () => {
-        const errorMessage = "some_error_message";
+        const errorMessage = "error_message";
         const resolvedErrorMessage = resolveErrorMessage(errorMessage);
         expect(resolvedErrorMessage).toEqual(errorMessage);
     });

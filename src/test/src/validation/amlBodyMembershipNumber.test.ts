@@ -1,4 +1,4 @@
-import { ValidationChain, body } from "express-validator";
+import { ValidationChain } from "express-validator";
 import amlBodyMembershipNumberControllerValidator from "../../../main/validation/amlBodyMembershipNumber";
 
 describe("amlBodyMembershipNumberControllerValidator", () => {

@@ -4,7 +4,7 @@ import { AML_SUPERVISOR_SELECTED } from "../../../main/common/__utils/constants"
 import { AmlSupervisoryBodyService } from "../../../main/services/amlSupervisoryBody/amlBodyService";
 
 describe("AmlSupervisoryBodyService", () => {
-    it("should save selected AML supervisory bodies to session when more then one selection", () => {
+    it("should save selected AML supervisory bodies to session when more then one selection is selected", () => {
         const sessionMock: Partial<Session> = {
             setExtraData: jest.fn()
         };
