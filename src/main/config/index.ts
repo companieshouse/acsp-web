@@ -60,3 +60,5 @@ export const CORRESPONDENCE_ADDRESS_MANUAL = `${BASE_COMMON_URL}/correspondence-
 export const CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_COMMON_URL}/correspondence-address-confirm/correspondence-address-confirm`;
 export const WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
 export const ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_COMMON_URL}/address-correspondance-selector/address-correspondance-selector`;
+export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-body-number`;
+
