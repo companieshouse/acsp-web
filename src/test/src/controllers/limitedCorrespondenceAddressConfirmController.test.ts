@@ -2,7 +2,7 @@ import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
 
-import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, LIMITED_SELECT_AML_SUPERVISOR } from "../../../main/types/pageURL";
+import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, LIMITED_SECTOR_YOU_WORK_IN } from "../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
@@ -27,6 +27,6 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     it("should redirect to /select-aml-supervisor with status 302", async () => {
-        await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
     });
 });
