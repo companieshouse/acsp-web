@@ -6,6 +6,7 @@ export * as applicationConfirmationController from "./features/common/applicatio
 export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
 export * as amlBodyMembershipNumberController from "./features/common/amlBodyMembershipNumberController";
 export * as signOutController from "./signOutController";
+export * as checkAmlDetailsController from "./features/common/checkAmlDetailsController";
 
 // Sole trader
 

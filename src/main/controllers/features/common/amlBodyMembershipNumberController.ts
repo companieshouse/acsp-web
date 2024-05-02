@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { BASE_URL, AML_BODY_DETAILS_CONFIRM, AML_MEMBERSHIP_NUMBER, LIMITED_SELECT_AML_SUPERVISOR, SOLE_TRADER_SELECT_AML_SUPERVISOR, UNINCORPORATED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
-import { Session } from "node-mocks-http";
+import { Session } from "@companieshouse/node-session-handler";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../model/ACSPData";
 import { AML_SUPERVISOR_SELECTED, USER_DATA } from "../../../common/__utils/constants";
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
@@ -14,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const acspType: string = acspData?.typeOfBusiness!;
-    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED)!;
     const previousPage: string = getPreviousPage(acspType);
 
     res.render(config.AML_MEMBERSHIP_NUMBER, {
@@ -31,7 +32,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED)!;
     const acspType: string = acspData?.typeOfBusiness!;
     const previousPage: string = getPreviousPage(acspType);
 
@@ -52,6 +53,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 selectedAMLSupervisoryBodies
             });
         } else {
+            const session: Session = req.session as any as Session;
+            const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+            acspData.amlSupervisoryBodies = new Map<string, number>();
+
+            for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
+                const j = i + 1;
+                const id = "membershipNumber_" + j;
+                acspData.amlSupervisoryBodies.set(selectedAMLSupervisoryBodies[i], req.body[id]);
+            }
+
+            saveDataInSession(req, USER_DATA, acspData);
+
+            const acspData1 : ACSPData = session?.getExtraData(USER_DATA)!;
+            console.log("acsp data after session:", acspData1);
+            console.log("aml supervisory bodies after session:", acspData1?.amlSupervisoryBodies);
+
             const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }

@@ -1,0 +1,60 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {% if businessName %}
+              {% include "partials/business_name.njk" %}
+            {% endif %}
+            {% if firstName %}
+              {% include "partials/user_name.njk" %}
+            {% endif %}
+            <h1 class="govuk-fieldset__heading">
+               <label class="govuk-label govuk-label--l">{{ i18n.checkAmlDetailsTitle }}</label>
+            </h1>
+            <p class="govuk-body">{{ i18n.checkAmlDetailsText1 }}</p>
+            <p class="govuk-body">{{ i18n.checkAmlDetailsText2 }}</p>
+            <p></p>
+            <p><b>Anti-Money Laundering (AML) details</b></p>
+            {{ govukSummaryList({
+              rows: [
+                {
+                  key: {
+                    text:  "AML supervisory body",
+                    classes: "govuk-!-width-one-half"
+                  },
+                  value: {
+                    text:  "AML membership number",
+                    classes: "govuk-!-width-one-half govuk-table__header"
+                  }
+                }
+              ]
+            }) }}
+            {% for body,value in amlSupervisoryBodies %}
+            {{ govukSummaryList({
+              rows: [
+                {
+                  key: {
+                    text:  body,
+                    classes: "govuk-!-width-one-half"
+                  },
+                  value: {
+                    text:  value,
+                    classes: "govuk-!-width-one-quarter"
+                  },
+                  actions: {
+                    items: [
+                      {
+                        href: editField + "#" + "membershipnumber_" + loop.index,
+                        text: "Change",
+                        visuallyHiddenText: body
+                      }
+                    ]
+                  }
+                }
+              ]
+            }) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
