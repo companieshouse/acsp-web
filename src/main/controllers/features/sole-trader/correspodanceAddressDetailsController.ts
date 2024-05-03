@@ -6,9 +6,11 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Address } from "main/model/Address";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
+import { Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -17,16 +19,24 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-
+    // const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const Acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+    // const acspData: ACSPData = session.getExtraData(USER_DATA)!;
+    // const acsp: Acsp = {
+    //     firstName: acspData?.firstName,
+    //     lastName: acspData?.lastName!
+    //     // id: acspData.id,
+    //     // addresses: acspData?.addressList,
+    //     // typeOfBusiness: acspData.typeOfBusiness!
+    // };
     res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
         title: "Select your address",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         addresses: addressList,
-        firstName: acspData?.firstName,
-        lastName: acspData?.lastName,
+        firstName: Acsp?.firstName,
+        lastName: Acsp?.lastName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     }
     );
