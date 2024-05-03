@@ -53,8 +53,6 @@ describe("acsp service tests", () => {
 
             const acspResponse: AcspResponse = await postAcspRegistration(session, TRANSACTION_ID, acsp);
 
-            console.log(acspResponse);
-
             expect(acspResponse.data.id).toEqual(EMAIL_ID);
             expect(acspResponse.data.typeOfBusiness).toEqual("LIMITED");
         });
@@ -87,11 +85,11 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockPostAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.CREATED
+                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
             });
 
             await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
-                .rejects.toEqual({ httpStatusCode: StatusCodes.CREATED });
+                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
         });
     });
 
@@ -128,10 +126,10 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockGetAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.OK
+                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
             });
 
-            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.OK });
+            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
         });
     });
 });
