@@ -7,6 +7,7 @@ import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, 
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -26,7 +27,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
         ...getLocaleInfo(locales, lang),
         acspType: acspData?.typeOfBusiness,
-        currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR
+        currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
+        AMLSupervisoryBodies
     });
 };
 
@@ -55,6 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
                 acspType: acspData?.typeOfBusiness,
+                AMLSupervisoryBodies,
                 ...pageProperties
             });
         } else {
