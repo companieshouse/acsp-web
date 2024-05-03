@@ -4,9 +4,10 @@ import { Session } from "@companieshouse/node-session-handler";
 import { Company } from "../../../model/Company";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL } from "../../../types/pageURL";
-import { ANSWER_DATA, COMPANY_DETAILS } from "../../../common/__utils/constants";
+import { ANSWER_DATA, COMPANY_DETAILS, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { ACSPData } from "../../../../main/model/ACSPData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -37,6 +38,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             "<br>" + company.registeredOfficeAddress?.country! +
             "<br>" + company.registeredOfficeAddress?.postalCode!;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            const acspData: ACSPData = session.getExtraData(USER_DATA)!;
+            if (acspData) {
+                acspData.businessAddress =  { 
+                    line1: company.registeredOfficeAddress?.addressLineOne!,
+                    town: company.registeredOfficeAddress?.locality!,
+                    country: company.registeredOfficeAddress?.addressLineTwo!,
+                    postcode: company.registeredOfficeAddress?.postalCode!
+
+                };
+                session.setExtraData(USER_DATA, acspData);
+            }
             // Redirect to next page
             res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
         } else {
