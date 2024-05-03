@@ -9,7 +9,7 @@
     "addressCounty": "County (optional)",
     "addressCountry": "Country",
     "addressPostcode": "Postcode",
-    "infoShowOnPublic": "What information we'll show on the public public list of authorised agents",
+    "infoShowOnPublic": "What information we'll show on the public list of authorised agents",
     "businessLocationInfo": "We'll show the town or city of the business address.",
     "error-noPropertyDetails": "Enter a property name or number",
     "error-noAddressLine1": "Enter an address",
