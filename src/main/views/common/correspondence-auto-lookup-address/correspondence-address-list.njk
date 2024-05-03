@@ -30,7 +30,7 @@
         <div class="govuk-form-group">
             {# Render radios #}
             {{ govukRadios({
-                errorMessage: errors.correspondenceLookUpAddressList if errors,
+                errorMessage: errors.correspondenceAddress if errors,
                 classes: "govuk-radios",
                 id: "correspondence-address-in-radios",
                 name: "correspondenceAddress",

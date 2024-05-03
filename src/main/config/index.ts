@@ -25,7 +25,6 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP = `${BASE_UNINCORPORATED_URL
 export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = `${BASE_UNINCORPORATED_URL}/business-address-auto-lookup/business-address-list`;
 export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = `${BASE_UNINCORPORATED_URL}/business-address-manual-entry/business-address-manual-entry`;
 export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = `${BASE_UNINCORPORATED_URL}/confirm-your-business-address/confirm-your-business-address`;
-export const UNINCORPORATED_ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_UNINCORPORATED_URL}/address-correspondance-selector/address-correspondance-selector`;
 
 export const ACSP_SERVICE_HOST = "http://chs.local";
 export const ACSP_SERVICE_PORT = "18644";
@@ -61,3 +60,4 @@ export const CORRESPONDENCE_ADDRESS_MANUAL = `${BASE_COMMON_URL}/correspondence-
 export const CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_COMMON_URL}/correspondence-address-confirm/correspondence-address-confirm`;
 export const WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
 export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-body-number`;
+export const ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_COMMON_URL}/address-correspondance-selector/address-correspondance-selector`;

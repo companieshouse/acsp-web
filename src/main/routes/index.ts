@@ -17,6 +17,7 @@ import {
     limitedCorrespondenceAddressAutoLookupController,
     limitedCorrespondenceAddressListController,
     limitedCorrespondenceAddressConfirmController,
+    limitedAddressCorrespondanceSelectorController,
     soleTraderCorrespodanceAddressDetailsController,
     soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespondenceAddressConfirmController,
@@ -185,6 +186,9 @@ routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListV
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.get);
 routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.post);
+
+routes.get(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, limitedAddressCorrespondanceSelectorController.get);
+routes.post(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, limitedAddressCorrespondanceSelectorController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
