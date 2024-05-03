@@ -7,6 +7,7 @@ import { SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_CORRESPONDENCE_ADDRESS_C
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,7 +22,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR,
         firstName: acspData?.firstName,
         lastName: acspData?.lastName,
-        acspType: acspData?.typeOfBusiness
+        acspType: acspData?.typeOfBusiness,
+        AMLSupervisoryBodies
     });
 };
 
@@ -40,6 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR,
+                AMLSupervisoryBodies,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
                 acspType: acspData?.typeOfBusiness,
