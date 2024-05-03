@@ -3,6 +3,9 @@ export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
 export * as checkYourAnswersController from "./features/common/checkYourAnswers";
 export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
+export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
+export * as amlBodyMembershipNumberController from "./features/common/amlBodyMembershipNumberController";
+export * as signOutController from "./signOutController";
 
 // Sole trader
 
@@ -32,6 +35,11 @@ export * as limitedSectorYouWorkInController from "./features/limited/sectorYouW
 export * as limitedWhatIsYourRoleController from "./features/limited/whatIsYourRoleController";
 export * as limitedWhichSectorOtherController from "./features/limited/whichSectorOtherController";
 export * as limitedSelectAmlSupervisorController from "./features/limited/selectAmlSupervisorController";
+export * as limitedCorrespondenceAddressManualController from "./features/limited/correspondenceAddressManualController";
+export * as limitedCorrespondenceAddressAutoLookupController from "./features/limited/correspondenceAddressAutoLookupController";
+export * as limitedCorrespondenceAddressListController from "./features/limited/correspondenceAddressListController";
+export * as limitedCorrespondenceAddressConfirmController from "./features/limited/correspondenceAddressConfirmController";
+export * as limitedAddressCorrespondanceSelectorController from "./features/limited/addressCorrespondanceSelectorController";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";

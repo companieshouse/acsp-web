@@ -7,11 +7,14 @@ import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, 
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
     var previousPage: string = "";
     if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
@@ -23,7 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(previousPage, lang),
         title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR
+        acspType: acspData?.typeOfBusiness,
+        currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
+        AMLSupervisoryBodies
     });
 };
 
@@ -33,7 +38,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-        const acspType = acspData?.typeOfBusiness;
+
         const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
         var previousPage: string = "";
         if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
@@ -51,10 +56,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
-                acspType: acspType,
+                acspType: acspData?.typeOfBusiness,
+                AMLSupervisoryBodies,
                 ...pageProperties
             });
         } else {
+            const amlSupervisoryBody = new AmlSupervisoryBodyService();
+            amlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

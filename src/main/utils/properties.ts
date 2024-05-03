@@ -2,7 +2,7 @@ import { getEnvironmentVariable, getEnvironmentValue } from "./environment/envir
 
 export const APPLICATION_NAME = "acsp-web";
 
-export const ACCOUNT_URL = getEnvironmentVariable("ACCOUNT_URL", "false");
+export const ACCOUNT_URL = getEnvironmentVariable("ACCOUNT_LOCAL_URL", "false");
 
 export const SHOW_SERVICE_OFFLINE_PAGE = getEnvironmentVariable("SHOW_SERVICE_OFFLINE_PAGE", "false");
 

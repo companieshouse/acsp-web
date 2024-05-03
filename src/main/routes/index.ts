@@ -3,6 +3,7 @@ import {
     accessibilityStatementController,
     healthCheckController,
     indexController,
+    signOutController,
     limitedBusinessMustbeAmlRegisteredController,
     limitedCompanyInactiveController,
     limitedCompanyLookupController,
@@ -12,6 +13,11 @@ import {
     limitedWhatIsYourRoleController,
     limitedWhichSectorOtherController,
     limitedSelectAmlSupervisorController,
+    limitedCorrespondenceAddressManualController,
+    limitedCorrespondenceAddressAutoLookupController,
+    limitedCorrespondenceAddressListController,
+    limitedCorrespondenceAddressConfirmController,
+    limitedAddressCorrespondanceSelectorController,
     soleTraderCorrespodanceAddressDetailsController,
     soleTraderCorrespondenceAddressAutoLookupController,
     soleTraderCorrespondenceAddressConfirmController,
@@ -43,7 +49,9 @@ import {
     unincorporatedCorrespondenceAddressListController,
     unincorporatedSelectAmlSupervisorController,
     checkYourAnswersController,
-    applicationConfirmationController
+    applicationConfirmationController,
+    yourResponsibilitiesController,
+    amlBodyMembershipNumberController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -67,6 +75,8 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
+import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
+import { selectsignOutValidator } from "../validation/signOut";
 
 const routes = Router();
 
@@ -82,7 +92,16 @@ routes.get(urls.HEALTHCHECK, healthCheckController.get);
 routes.get(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.get);
 routes.post(urls.CHECK_YOUR_ANSWERS, checkYourAnswersController.post);
 
+routes.get(urls.SIGN_OUT_URL, signOutController.get);
+routes.post(urls.SIGN_OUT_URL, selectsignOutValidator, signOutController.post);
+
 routes.get(urls.CONFIRMATION, applicationConfirmationController.get);
+
+routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
+routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
+
+routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), amlBodyMembershipNumberController.post);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
@@ -155,6 +174,21 @@ routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, companyAuth
 
 routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorController.get);
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, limitedCorrespondenceAddressManualController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, manualAddressValidator, limitedCorrespondenceAddressManualController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, limitedCorrespondenceAddressAutoLookupController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, limitedCorrespondenceAddressAutoLookupController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, limitedCorrespondenceAddressListController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, limitedCorrespondenceAddressListController.post);
+
+routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.get);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.post);
+
+routes.get(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, limitedAddressCorrespondanceSelectorController.get);
+routes.post(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, limitedAddressCorrespondanceSelectorController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);

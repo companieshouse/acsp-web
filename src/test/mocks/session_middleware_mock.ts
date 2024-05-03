@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../../src/main/middleware/session_middleware";
-import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID } from "../../../src/main/common/__utils/constants";
+import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, AML_SUPERVISOR_SELECTED, PREVIOUS_PAGE_URL } from "../../../src/main/common/__utils/constants";
 import { Company } from "../../main/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
 import { validCompanyProfile } from "./company_profile_mock";
@@ -26,6 +26,8 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     }
     );
     session.setExtraData(SUBMISSION_ID, "validTransactionId");
+    session.setExtraData(AML_SUPERVISOR_SELECTED, ["Law Society of Northern Ireland"]);
+    session.setExtraData(PREVIOUS_PAGE_URL, "register-as-companies-house-authorised-agent/what-business-type");
     req.session = session;
     next();
 });

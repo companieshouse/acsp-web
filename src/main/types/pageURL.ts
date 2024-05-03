@@ -1,3 +1,5 @@
+import { ACCOUNT_URL } from "../utils/properties";
+
 const SEPARATOR = "/";
 
 export const START = "/"; // Domain name will go here
@@ -7,6 +9,8 @@ export const HOME_URL = "";
 export const SIGN_OUT_PAGE = `signout`;
 
 export const SIGN_OUT_URL = `/${SIGN_OUT_PAGE}`;
+
+export const ACCOUNTS_SIGNOUT_PATH = `${ACCOUNT_URL}/signout`;
 
 export const COMPANY_BASE_URL = "/company";
 
@@ -40,7 +44,9 @@ export const CHECK_YOUR_ANSWERS = "/check-your-answers";
 
 export const PAYMENT_URL = "/payment-url";
 
-export const CONFIRMATION = "/confirmation";
+export const CONFIRMATION = "/application-complete";
+
+export const YOUR_RESPONSIBILITIES = "/your-responsibilities";
 
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
@@ -95,6 +101,16 @@ export const LIMITED_SECTOR_YOU_WORK_IN = LIMITED + "/which-sector";
 export const LIMITED_WHICH_SECTOR_OTHER = LIMITED + "/which-sector-other";
 
 export const LIMITED_SELECT_AML_SUPERVISOR = LIMITED + "/select-aml-supervisor";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_MANUAL = LIMITED + "/correspondence-address-manual-entry";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP = LIMITED + "/correspondence-address-lookup";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM = LIMITED + "/confirm-your-correspondence-address";
+
+export const LIMITED_CORRESPONDENCE_ADDRESS_LIST = LIMITED + "/select-your-correspondence-address";
+
+export const LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = LIMITED + "/what-is-the-correspondence-address";
 
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";

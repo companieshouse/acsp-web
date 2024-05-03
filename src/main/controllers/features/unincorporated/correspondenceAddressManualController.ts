@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         addressCountry: acspData?.address?.country,
         addressPostcode: acspData?.address?.postcode
     };
-    res.render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, {
+    res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
         title: "Enter the correspondence address",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
@@ -43,7 +43,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, {
+            res.status(400).render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
                 title: "Enter the correspondence address",
                 ...getLocaleInfo(locales, lang),
