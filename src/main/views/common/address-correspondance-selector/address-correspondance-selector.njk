@@ -2,11 +2,17 @@
 {% extends "layouts/default.njk" %}
 {% block main_content %}
 {% set optionalFields = "" %}
+    {% if businessAddress.propertyDetails %}
+        {% set optionalFields = businessAddress.propertyDetails + ", " %}
+    {% endif %}
     {% if businessAddress.line2 %}
-        {% set optionalFields = optionalFields + ", " + businessAddress.line2 %}
+        {% set optionalFields = optionalFields + businessAddress.line2 + ", " %}
     {% endif %}
     {% if businessAddress.county %}
-        {% set optionalFields = optionalFields + ", " + businessAddress.county %}
+        {% set optionalFields = optionalFields + businessAddress.county + ", " %}
+    {% endif %}
+        {% if businessAddress.town %}
+        {% set optionalFields = optionalFields + businessAddress.town + ", " %}
     {% endif %}
     <form action="" method="POST">
         {% if businessName %}
@@ -28,7 +34,7 @@
                 items: [
                     {
                         value: "CORRESPONDANCE_ADDRESS",
-                        text: businessAddress.propertyDetails + ", " + businessAddress.line1 + optionalFields + ", " + businessAddress.town  + ", " + businessAddress.country + ", " + businessAddress.postcode,
+                        text: optionalFields + businessAddress.line1 + ", " + businessAddress.country + ", " + businessAddress.postcode,
                         checked: address-correspondance-selector == CORRESPONDANCE_ADDRESS,
                         attributes: {
                             "data-event-id": "correspondance-address"
