@@ -7,6 +7,7 @@ import { Session } from "@companieshouse/node-session-handler";
 export class CompanyDetailsService {
     public saveToSession (req: Request, details: CompanyProfile): void {
         const session: Session = req.session as any as Session;
+  
         const requiredDetails: Company = {
             companyName: details.companyName,
             companyNumber: details.companyNumber,
