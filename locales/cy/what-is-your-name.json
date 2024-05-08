@@ -3,6 +3,7 @@
     "whatIsYourNameFirstName" : "First name welsh",
     "whatIsYourNameMiddleNames" : "Middle names welsh",
     "whatIsYourNameLastName" : "Last name welsh",
+    "whatIsYourNameInsetText":"We'll show this on the public register, unless you have a different business name that you trade under. welsh",
     "error-enterFullName" : "Enter your full name welsh",
     "error-enterFirstName" : "Enter your first name welsh",
     "error-enterLastName": "Enter your last name welsh",
