@@ -7,30 +7,45 @@ import { CorrespondenceAddressManualService } from "../../../services/correspond
 import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, BASE_URL } from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import logger from "../../../../../lib/Logger";
+import { ErrorService } from "main/services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    const payload = {
-        addressPropertyDetails: acspData?.address?.propertyDetails,
-        addressLine1: acspData?.address?.line1,
-        addressLine2: acspData?.address?.line2,
-        addressTown: acspData?.address?.town,
-        addressCounty: acspData?.address?.county,
-        addressCountry: acspData?.address?.country,
-        addressPostcode: acspData?.address?.postcode
-    };
-    res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
-        title: "Enter the correspondence address",
-        ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
-        currentUrl: BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL,
-        businessName: acspData?.businessName,
-        payload: payload
-    });
+    const previousPage: string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+    const currentUrl: string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL;
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        const payload = {
+            addressPropertyDetails: acspData?.correspondenceAddress?.propertyDetails,
+            addressLine1: acspData?.correspondenceAddress?.line1,
+            addressLine2: acspData?.correspondenceAddress?.line2,
+            addressTown: acspData?.correspondenceAddress?.town,
+            addressCounty: acspData?.correspondenceAddress?.county,
+            addressCountry: acspData?.correspondenceAddress?.country,
+            addressPostcode: acspData?.correspondenceAddress?.postcode
+        };
+        res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
+            title: "Enter the correspondence address",
+            ...getLocaleInfo(locales, lang),
+            previousPage,
+            currentUrl,
+            businessName: acspData?.businessName,
+            payload: payload
+        });
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {

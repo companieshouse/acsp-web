@@ -21,7 +21,7 @@ export interface ACSPData {
     businessName?: string;
     businessAddress?: Address;
     workSector?: SectorOfWork;
-    amlSupervisoryBodies?: Map<AMLSupervisoryBodies, number>;
+    amlSupervisoryBodies?: Map<string, string>;
     companyDetails?: Company;
     companyAuthCodeProvided?: boolean;
 }
