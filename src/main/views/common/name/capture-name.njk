@@ -1,8 +1,10 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
+<div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
         <div class="govuk-form-group">
             <h1 class="govuk-heading-l">{{ i18n.whatIsYourNameTitle }}</h1>
@@ -46,6 +48,10 @@
                 value: payload["last-name"]
             }) }}
         </div>
+        {{ govukInsetText({
+            text: i18n.whatIsYourNameInsetText
+        }) }}
         <button class="govuk-button">{{ i18n.Continue }}</button>
     </form>
+</div>
 {% endblock main_content %}
