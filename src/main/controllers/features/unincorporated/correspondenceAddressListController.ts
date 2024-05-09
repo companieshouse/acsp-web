@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
 
     res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
-        title: "Select your address",
+        title: "Select the correspondence address",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
@@ -44,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.CORRESPONDENCE_ADDRESS_LIST, {
-                title: "Select your address",
+                title: "Select the correspondence address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
