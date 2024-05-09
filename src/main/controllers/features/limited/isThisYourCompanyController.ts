@@ -10,12 +10,15 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ErrorService } from "main/services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
+    const previousPage: string = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang);
+    const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
 
     try {
         // get data from mongo and save to session
@@ -23,39 +26,43 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {
-            previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
+            previousPage,
             chooseDifferentCompany: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
             title: "Is this your company?",
             company,
             ...getLocaleInfo(locales, lang),
-            currentUrl: BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY
+            currentUrl
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        res.status(400).render(config.ERROR_404, {
-            previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
-            title: "Page not found",
-            ...getLocaleInfo(locales, lang),
-            currentUrl: BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY
-        });
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
     }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const session: Session = req.session as any as Session;
+        const locales = getLocalesService();
+        const previousPage: string = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang);
+        const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-        if (acspData) {
-            acspData.companyDetails = company;
-        }
-        try {
-            //  save data to mongodb
-            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+        if (company.status === "active") {
+            const acspData: AcspData = session.getExtraData(USER_DATA)!;
+            if (acspData) {
+                acspData.businessAddress = {
+                    line1: company.registeredOfficeAddress?.addressLineOne!,
+                    town: company.registeredOfficeAddress?.locality!,
+                    country: company.registeredOfficeAddress?.addressLineTwo!,
+                    postcode: company.registeredOfficeAddress?.postalCode!
+                };
+                acspData.companyDetails = company;
+            }
+            try {
+                //  save data to mongodb
+                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-            if (company.status === "active") {
                 // Save answers
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.businessName = company.companyName;
@@ -64,20 +71,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 "<br>" + company.registeredOfficeAddress?.country! +
                 "<br>" + company.registeredOfficeAddress?.postalCode!;
                 saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
                 // Redirect to next page
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
-            } else {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));
+            } catch (err) {
+                logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
             }
-        } catch (err) {
-            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-            res.status(400).render(config.ERROR_404, {
-                previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
-                title: "Page not found",
-                ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY
-            });
+        } else {
+            res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));
         }
     } catch (error) {
         next(error);
