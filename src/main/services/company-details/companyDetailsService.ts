@@ -8,9 +8,6 @@ export class CompanyDetailsService {
     public saveToSession (req: Request, details: CompanyProfile): void {
         const session: Session = req.session as any as Session;
 
-
-
-
         const requiredDetails: Company = {
             companyName: details.companyName,
             companyNumber: details.companyNumber,
@@ -28,30 +25,27 @@ export class CompanyDetailsService {
         }
     }
 
-
-    public determineCompanyType(type: string): string {
+    public determineCompanyType (type: string): string {
         let companyType;
         switch (type.toUpperCase()) {
-            case "PLC":
-                companyType = "Public Limited Company";
-                break;
-            case "LTD":
-                companyType = "Private Limited Company";  
-                break;
-            case "LP":
-                companyType= "Limited Partnership";
-                break;
-            case "LLP":
-                companyType = "Limited Liability Partnership";
-                break;
-            default:
-                companyType = type;
+        case "PLC":
+            companyType = "Public Limited Company";
+            break;
+        case "LTD":
+            companyType = "Private Limited Company";
+            break;
+        case "LP":
+            companyType = "Limited Partnership";
+            break;
+        case "LLP":
+            companyType = "Limited Liability Partnership";
+            break;
+        default:
+            companyType = type;
         }
-        return companyType ;
-        
+        return companyType;
+
     }
-
-
 
     public capFirstLetter = (str: string): string => {
         return str.charAt(0).toUpperCase() + str.slice(1);
