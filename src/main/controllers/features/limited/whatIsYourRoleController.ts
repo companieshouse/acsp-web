@@ -5,17 +5,20 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ErrorService } from "main/services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session!;
+    const previousPage: string = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+    const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
     try {
         // get data from mongo and save to session
@@ -25,19 +28,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.WHAT_IS_YOUR_ROLE, {
             title: "What is your role in the business?",
             ...getLocaleInfo(locales, lang),
-            previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
-            currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
+            previousPage,
+            currentUrl,
             acspType: acspData?.typeOfBusiness,
             company: acspData?.companyDetails
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        res.status(400).render(config.ERROR_404, {
-            previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
-            title: "Page not found",
-            ...getLocaleInfo(locales, lang),
-            currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE
-        });
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
     }
 };
 
@@ -48,14 +47,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const session: Session = req.session!;
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
+        const previousPage: string = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+        const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             return res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
                 title: "What is your role in the business?",
                 ...getLocaleInfo(locales, lang),
-                previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
-                currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE,
+                previousPage,
+                currentUrl,
                 acspType: acspData?.typeOfBusiness,
                 company: acspData?.companyDetails,
                 payload: req.body,
@@ -92,12 +93,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 }
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                res.status(400).render(config.ERROR_404, {
-                    previousPage: addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang),
-                    title: "Page not found",
-                    ...getLocaleInfo(locales, lang),
-                    currentUrl: BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE
-                });
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
             }
         }
     } catch (error) {
