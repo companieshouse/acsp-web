@@ -8,6 +8,7 @@ import { ANSWER_DATA, COMPANY_DETAILS, USER_DATA } from "../../../common/__utils
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ACSPData } from "../../../../main/model/ACSPData";
+import { CompanyDetailsService } from "../../../../main/services/company-details/companyDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -29,7 +30,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const session: Session = req.session as any as Session;
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
-        if (company.status === "active") {
+        const companyDetailsService = new CompanyDetailsService();
+        const status = company?.status;
+        if (companyDetailsService.capFirstLetter(status || " ") === "Active") {
+        //if ((company.status === "active")) {
             // Save answers
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.businessName = company.companyName;
@@ -43,8 +47,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.businessAddress = {
                     line1: company.registeredOfficeAddress?.addressLineOne!,
+                    line2: company.registeredOfficeAddress?.addressLineTwo!,
                     town: company.registeredOfficeAddress?.locality!,
-                    country: company.registeredOfficeAddress?.addressLineTwo!,
+                    county: company.registeredOfficeAddress?.region!,
+                    country: company.registeredOfficeAddress?.country!,
                     postcode: company.registeredOfficeAddress?.postalCode!
 
                 };
@@ -59,3 +65,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(error);
     }
 };
+
+
+
+/*
+        const companyDetailsService = new CompanyDetailsService();
+        const status = company?.status || "";
+        if (companyDetailsService.capFirstLetter(status) === "Active") {
+
+*/
