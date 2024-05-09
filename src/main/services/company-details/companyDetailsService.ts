@@ -8,38 +8,50 @@ export class CompanyDetailsService {
     public saveToSession (req: Request, details: CompanyProfile): void {
         const session: Session = req.session as any as Session;
 
+
+
+
         const requiredDetails: Company = {
             companyName: details.companyName,
             companyNumber: details.companyNumber,
             // status:details.companyStatus,
             status: this.capFirstLetter(details.companyStatus || ""),
             incorporationDate: this.formatDate(details.dateOfCreation),
-            companyType: details.type,
+            companyType: this.determineCompanyType(details.type),
             registeredOfficeAddress: details.registeredOfficeAddress,
             correspondenceAddress: details.serviceAddress
         };
+
         if (session) {
             session.setExtraData(COMPANY_DETAILS, requiredDetails);
             session.setExtraData(COMPANY_NUMBER, details.companyNumber);
         }
     }
 
-    /* public determineCompanyType(type: string): string {
-        let companyType: string;
 
-        if (type === "plc") {
-            companyType = "Public Limited Company"
-        } else if (type === "Ltd") {
-            companyType = "Private Limited Company"
-        } else if (type === "LP") {
-            companyType = "Limited Partnership"
-        } else if (type === "LLP") {
-            companyType = "Limited Liability Partnership"
-        } else {
-            companyType = type;
+    public determineCompanyType(type: string): string {
+        let companyType;
+        switch (type.toUpperCase()) {
+            case "PLC":
+                companyType = "Public Limited Company";
+                break;
+            case "LTD":
+                companyType = "Private Limited Company";  
+                break;
+            case "LP":
+                companyType= "Limited Partnership";
+                break;
+            case "LLP":
+                companyType = "Limited Liability Partnership";
+                break;
+            default:
+                companyType = type;
         }
-        return companyType
-    } */
+        return companyType ;
+        
+    }
+
+
 
     public capFirstLetter = (str: string): string => {
         return str.charAt(0).toUpperCase() + str.slice(1);
