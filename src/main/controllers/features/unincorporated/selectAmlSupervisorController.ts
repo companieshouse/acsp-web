@@ -5,31 +5,46 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
+import logger from "../../../../../lib/Logger";
+import { ErrorService } from "main/services/error/errorService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
+    const currentUrl: string = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
     var previousPage: string = "";
     if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
         previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
     } else {
         previousPage = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM;
     }
-    res.render(config.SELECT_AML_SUPERVISOR, {
-        previousPage: addLangToUrl(previousPage, lang),
-        title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
-        ...getLocaleInfo(locales, lang),
-        acspType: acspData?.typeOfBusiness,
-        currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
-        AMLSupervisoryBodies
-    });
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        res.render(config.SELECT_AML_SUPERVISOR, {
+            previousPage: addLangToUrl(previousPage, lang),
+            title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
+            ...getLocaleInfo(locales, lang),
+            acspType: acspData?.typeOfBusiness,
+            currentUrl,
+            AMLSupervisoryBodies
+        });
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -37,9 +52,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
         const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
+        const currentUrl: string = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
         var previousPage: string = "";
         if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
             previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
@@ -62,8 +78,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
-            amlSupervisoryBody.saveSelectedAML(session, req);
-            res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
+            amlSupervisoryBody.saveSelectedAML(session, req, acspData);
+            try {
+                //  save data to mongodb
+                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+                res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+            }
         }
     } catch (error) {
         next(error);
