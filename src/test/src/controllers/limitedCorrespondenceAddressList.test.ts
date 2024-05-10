@@ -12,7 +12,7 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Select your address");
+        expect(res.text).toContain("Select the correspondence address");
     });
 });
 
