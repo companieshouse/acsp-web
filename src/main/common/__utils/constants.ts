@@ -19,3 +19,4 @@ export const GET_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to get regist
 export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post registration details for the transaction";
 export const AML_SUPERVISOR_SELECTED: string = "selectedamlsupervisors";
 export const PREVIOUS_PAGE_URL: string = "previouspageurl";
+export const LIMITED_CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
