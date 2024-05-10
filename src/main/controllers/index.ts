@@ -6,6 +6,8 @@ export * as applicationConfirmationController from "./features/common/applicatio
 export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
 export * as amlBodyMembershipNumberController from "./features/common/amlBodyMembershipNumberController";
 export * as signOutController from "./signOutController";
+export * as typeOfBusinessController from "./features/common/typeOfBusinessController";
+export * as otherTypeOfBusinessController from "./features/common/otherTypeOfBusinessController";
 
 // Sole trader
 
@@ -16,9 +18,7 @@ export * as soleTraderCorrespondenceAddressManualController from "./features/sol
 export * as soleTraderDateOfBirthController from "./features/sole-trader/dateOfBirthController";
 export * as soleTraderNameController from "./features/sole-trader/nameController";
 export * as soleTraderNationalityController from "./features/sole-trader/nationalityController";
-export * as soleTraderOtherTypeOfBusinessController from "./features/sole-trader/otherTypeOfBusinessController";
 export * as soleTraderSectorYouWorkInController from "./features/sole-trader/sectorYouWorkInController";
-export * as soleTraderTypeOfBusinessController from "./features/sole-trader/typeOfBusinessController";
 export * as soleTraderWhatIsTheBusinessNameController from "./features/sole-trader/whatIsTheBusinessNameController";
 export * as soleTraderWhatIsYourRoleController from "./features/sole-trader/whatIsYourRoleController";
 export * as soleTraderWhereDoYouLiveController from "./features/sole-trader/whereDoYouLiveController";

@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, UNINCORPORATED_WHAT_IS_YOUR_ROLE, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
@@ -38,8 +38,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const nextPageUrlForAmlBody = addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang);
-            const nextPageUrlForYourRole = addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang);
             const session: Session = req.session as any as Session;
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
@@ -52,11 +50,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
             saveDataInSession(req, ANSWER_DATA, answersArray);
             saveDataInSession(req, USER_DATA, acspData);
-            if (selectedOption === "UNINCORPORATED_ENTITY") {
-                res.redirect(nextPageUrlForAmlBody); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
-            } else {
-                res.redirect(nextPageUrlForYourRole); // Redirect to what is you role?
-            }
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang)); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
         }
     } catch (error) {
         next(error);

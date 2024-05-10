@@ -24,9 +24,9 @@ import {
     soleTraderCorrespondenceAddressManualController,
     soleTraderDateOfBirthController, soleTraderNameController,
     soleTraderNationalityController,
-    soleTraderOtherTypeOfBusinessController,
+    otherTypeOfBusinessController,
     soleTraderSectorYouWorkInController,
-    soleTraderTypeOfBusinessController,
+    typeOfBusinessController,
     soleTraderWhatIsTheBusinessNameController,
     soleTraderWhatIsYourRoleController,
     soleTraderWhereDoYouLiveController,
@@ -134,11 +134,11 @@ routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespon
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, soleTraderNationalityController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, nationalityValidator, soleTraderNationalityController.post);
 
-routes.get(urls.TYPE_OF_BUSINESS, soleTraderTypeOfBusinessController.get);
-routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, soleTraderTypeOfBusinessController.post);
+routes.get(urls.TYPE_OF_BUSINESS, typeOfBusinessController.get);
+routes.post(urls.TYPE_OF_BUSINESS, typeOfBusinessValidator, typeOfBusinessController.post);
 
-routes.get(urls.OTHER_TYPE_OF_BUSINESS, soleTraderOtherTypeOfBusinessController.get);
-routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, soleTraderOtherTypeOfBusinessController.post);
+routes.get(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessController.get);
+routes.post(urls.OTHER_TYPE_OF_BUSINESS, otherTypeOfBusinessValidator, otherTypeOfBusinessController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameController.get);
 routes.post(urls.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, soleTraderWhatIsTheBusinessNameValidator, soleTraderWhatIsTheBusinessNameController.post);
