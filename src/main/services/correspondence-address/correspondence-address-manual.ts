@@ -3,7 +3,8 @@ import { Address } from "../../model/Address";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../common/__utils/constants";
-import { ACSPData } from "main/model/ACSPData";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ACSPData } from "../../model/ACSPData";
 
 export class CorrespondenceAddressManualService {
     public saveCorrespondenceManualAddress (req: Request): void {
@@ -20,9 +21,8 @@ export class CorrespondenceAddressManualService {
             postcode: req.body.addressPostcode
         };
 
-        const acspData: ACSPData = session.getExtraData(USER_DATA) || { id: "" };
-
-        acspData.address = correspondenceAddress;
+        const acspData: AcspData = session.getExtraData(USER_DATA)!;
+        // acspData.correspondenceAddress = correspondenceAddress;
 
         saveDataInSession(req, USER_DATA, acspData);
     }

@@ -5,26 +5,42 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { SectorOfWork } from "../../../model/SectorOfWork";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import logger from "../../../../../lib/Logger";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ErrorService } from "../../../services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
-    res.render(config.SECTOR_YOU_WORK_IN, {
-        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang),
-        title: "Which sector do you work in?",
-        ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN,
-        firstName: acspData?.firstName,
-        lastName: acspData?.lastName,
-        acspType: acspData?.typeOfBusiness
-    });
+    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang);
+    const currentUrl: string = BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN;
+
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        res.render(config.SECTOR_YOU_WORK_IN, {
+            previousPage,
+            title: "Which sector do you work in?",
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            firstName: acspData?.firstName,
+            lastName: acspData?.lastName,
+            acspType: acspData?.typeOfBusiness
+        });
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -32,7 +48,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const acspType = acspData?.typeOfBusiness;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
