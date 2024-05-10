@@ -29,7 +29,12 @@
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
                       text: i18n.memberOfGoverningBody + unincorporatedBusinessName
-                    } if (acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY"),
+                    } if (acspType == "UNINCORPORATED_ENTITY"),
+
+                    {
+                      value: "EQUIVALENT_OF_DIRECTOR",
+                      text: i18n.equivalentToDirector + unincorporatedBusinessName
+                    } if (acspType == "CORPORATE_BODY"),
 
                     {
                       value: "MEMBER_OF_ENTITY",
