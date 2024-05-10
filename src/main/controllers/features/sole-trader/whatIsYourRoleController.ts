@@ -9,7 +9,7 @@ import { ACSPData } from "../../../model/ACSPData";
 import { ANSWER_DATA, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "main/services/acspRegistrationService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -33,7 +33,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const selectedRole = req.body.WhatIsYourRole;
         const session: Session = req.session as any as Session;
-        const Acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE,
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-                acspType: Acsp?.typeOfBusiness,
+                acspType: acspData?.typeOfBusiness,
                 ...pageProperties
             });
         } else {

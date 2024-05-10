@@ -16,7 +16,7 @@ import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
 import { postAcspRegistration } from "../../../services/acspRegistrationService";
-import { Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -87,7 +87,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, ANSWER_DATA, answersArray);
             }
             const acspData: ACSPData = session.getExtraData(USER_DATA)!;
-            const acsp: Acsp = {
+            const acsp: AcspData = {
                 id: acspData.id,
                 typeOfBusiness: acspData.typeOfBusiness!
             };

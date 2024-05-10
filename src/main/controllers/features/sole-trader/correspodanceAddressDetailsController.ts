@@ -10,7 +10,7 @@ import { ADDRESS_LIST, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/
 import { Address } from "main/model/Address";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
-import { Acsp } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
     // const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    const Acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+    const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
     // const acspData: ACSPData = session.getExtraData(USER_DATA)!;
     // const acsp: Acsp = {
     //     firstName: acspData?.firstName,
@@ -35,8 +35,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
         addresses: addressList,
-        firstName: Acsp?.firstName,
-        lastName: Acsp?.lastName,
+        firstName: acspData?.firstName,
+        lastName: acspData?.lastName,
         correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
     }
     );
