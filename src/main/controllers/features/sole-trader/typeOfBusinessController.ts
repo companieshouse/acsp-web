@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
@@ -73,9 +74,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
+            const userId = session?.data?.signin_info?.user_profile?.id!;
             if (selectedOption !== "OTHER") {
                 const acspData : ACSPData = {
-                    id: email,
+                    id: userId,
                     typeOfBusiness: selectedOption
                 };
                 saveDataInSession(req, USER_DATA, acspData); // should be removed when refactoring

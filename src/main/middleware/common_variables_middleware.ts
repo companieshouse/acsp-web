@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Session } from "@companieshouse/node-session-handler";
 import { Handler } from "express";
 
@@ -16,8 +17,12 @@ export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
     // Populate user email for use in signout bar.
     // eslint-disable-next-line camelcase
     const email = session?.data?.signin_info?.user_profile?.email;
+    const userId = session?.data?.signin_info?.user_profile?.id;
     if (email !== undefined) {
         res.locals.userEmail = email;
+    }
+    if (userId !== undefined) {
+        res.locals.userId = userId;
     }
 
     next();
