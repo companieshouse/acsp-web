@@ -33,7 +33,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const companyDetailsService = new CompanyDetailsService();
         const status = company?.status;
         if (companyDetailsService.capFirstLetter(status || " ") === "Active") {
-        // if ((company.status === "active")) {
             // Save answers
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.businessName = company.companyName;
@@ -66,9 +65,3 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-/*
-        const companyDetailsService = new CompanyDetailsService();
-        const status = company?.status || "";
-        if (companyDetailsService.capFirstLetter(status) === "Active") {
-
-*/

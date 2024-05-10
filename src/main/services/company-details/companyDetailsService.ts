@@ -11,7 +11,6 @@ export class CompanyDetailsService {
         const requiredDetails: Company = {
             companyName: details.companyName,
             companyNumber: details.companyNumber,
-            // status:details.companyStatus,
             status: this.capFirstLetter(details.companyStatus || ""),
             incorporationDate: this.formatDate(details.dateOfCreation),
             companyType: this.determineCompanyType(details.type),
