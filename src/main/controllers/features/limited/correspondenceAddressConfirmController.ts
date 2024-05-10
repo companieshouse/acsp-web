@@ -4,7 +4,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, BASE_URL, LIMITED_SECTOR_YOU_WORK_IN } from "../../../types/pageURL";
 import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, LIMITED_CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
@@ -22,6 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM,
         businessName: acspData?.businessName,
         correspondenceAddress: acspData?.address
+
     });
 };
 
