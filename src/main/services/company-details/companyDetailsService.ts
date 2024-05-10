@@ -25,8 +25,12 @@ export class CompanyDetailsService {
     }
 
     public determineCompanyType (type: string): string {
+        if (!type) return "";
+
+        const companyTypeFormat = /[^\w\s]/gi;
+        const cleanedCompanyType = type.replace(companyTypeFormat, "");
         let companyType;
-        switch (type.toUpperCase()) {
+        switch (cleanedCompanyType.toUpperCase()) {
         case "PLC":
             companyType = "Public Limited Company";
             break;
@@ -40,7 +44,7 @@ export class CompanyDetailsService {
             companyType = "Limited Liability Partnership";
             break;
         default:
-            companyType = type;
+            companyType = type.replace(companyTypeFormat, " ");
         }
         return companyType;
 
