@@ -17,6 +17,7 @@
         {% set ITEMS = ITEMS.concat(addressObject) %}
     {% endfor %}
     {# Form section #}
+<div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
         {% if businessName %}
             {% include "partials/business_name.njk" %}
@@ -31,7 +32,7 @@
                 name: "businessAddress",
                 fieldset: {
                     legend: {
-                        text: i18n.correspondenceLookUpAddressListTitle,
+                        text: i18n.businessLookUpAddressListTitle,
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
@@ -39,10 +40,15 @@
                 items: ITEMS
             }) }}
         </div>
+        <div class="govuk-inset-text">
+            <h2 class="govuk-heading-m">{{ i18n.businessAddressShowOnPublicList }}</h2>
+            <p>{{ i18n.businessAddressShowTownOrCity }}</p>
+        </div> 
         <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
     </form>
     {# Manual address entry link #}
     <p>
         <a href={{ businessAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
+</div>
 {% endblock main_content %}

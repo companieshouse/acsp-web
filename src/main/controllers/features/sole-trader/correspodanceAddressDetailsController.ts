@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     //     // typeOfBusiness: acspData.typeOfBusiness!
     // };
     res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
-        title: "Select your address",
+        title: "Select the correspondence address",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
         previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.CORRESPONDENCE_ADDRESS_LIST, {
-                title: "Select your address",
+                title: "Select the correspondence address",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST,
                 previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang),
