@@ -68,7 +68,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (acspData) {
-                //Need to change
                 acspData.workSector = req.body.whichSectorOther;
             }
             try {

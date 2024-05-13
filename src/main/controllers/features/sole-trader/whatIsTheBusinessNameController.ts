@@ -64,12 +64,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.lastName
             });
         } else {
-            if (acspData) {
-                acspData.businessName = req.body.whatIsTheBusinessNameInput;
-            }
-            try {
-            //  save data to mongodb
-            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             let businessName;
             if (req.body.whatsTheBusinessNameRadio === "A Different Name") {
@@ -77,7 +71,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 businessName = detailsAnswers.name;
             }
-
+            if (acspData) {
+                acspData.businessName = businessName;
+            }
+            try {
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             detailsAnswers.businessName = businessName;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 

@@ -1,9 +1,8 @@
 import { Request } from "express";
-import { Address } from "../../model/Address";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../common/__utils/constants";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ACSPData } from "../../model/ACSPData";
 
 export class CorrespondenceAddressManualService {
@@ -22,7 +21,7 @@ export class CorrespondenceAddressManualService {
         };
 
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
-        // acspData.correspondenceAddress = correspondenceAddress;
+        acspData.correspondenceAddress = correspondenceAddress;
 
         saveDataInSession(req, USER_DATA, acspData);
     }

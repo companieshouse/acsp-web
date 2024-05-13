@@ -79,7 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             if (acspData) {
                 //Need to change
-                acspData.nationality = req.body.whichSectorOther;
+                acspData.nationality = req.body.nationality_input_0;
             }
             try {
             //  save data to mongodb

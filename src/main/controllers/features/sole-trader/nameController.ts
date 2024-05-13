@@ -59,8 +59,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             const acspData : AcspData = session?.getExtraData(USER_DATA)!;
             if (acspData) {
-                acspData.firstName = req.body.firstName;
-                acspData.lastName = req.body.lastName;
+                acspData.firstName = req.body["first-name"];
+                acspData.middleName = req.body["middle-names"];
+                acspData.lastName = req.body["last-name"];
             }
             try {
                 //  save data to mongodb
