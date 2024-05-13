@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, AML_MEMBERSHIP_NUMBER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         // get data from mongo and save to session
@@ -49,17 +49,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
+        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+        const currentUrl: string = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
-                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
+                previousPage,
                 title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR,
+                currentUrl,
                 AMLSupervisoryBodies,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
@@ -67,10 +69,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            if (acspData) {
+                //need to change
+                acspData.workSector = req.body.whichSectorOther;
+            }
+            try {
+                //  save data to mongodb
+                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
             amlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
+        } catch (err) {
+            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
         }
+    }
     } catch (error) {
         next(error);
     }

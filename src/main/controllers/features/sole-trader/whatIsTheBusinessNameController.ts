@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
@@ -44,24 +44,32 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang);
+    const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME;
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, {
-                previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang),
+                previousPage,
                 title: "What is the name of the business?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME,
+                currentUrl,
                 ...pageProperties,
                 payload: req.body,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName
             });
         } else {
+            if (acspData) {
+                acspData.businessName = req.body.whatIsTheBusinessNameInput;
+            }
+            try {
+            //  save data to mongodb
+            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             let businessName;
             if (req.body.whatsTheBusinessNameRadio === "A Different Name") {
@@ -74,7 +82,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
+        }   catch (err) {
+            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
         }
+    }
     } catch (error) {
         next(error);
     }
