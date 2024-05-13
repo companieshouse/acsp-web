@@ -40,7 +40,9 @@
       {% if company.registeredOfficeAddress.region %}
         {{ company.registeredOfficeAddress.region }}<br>
       {% endif %}
-      {{ company.registeredOfficeAddress.country }}<br>
+      {% if company.registeredOfficeAddress.country %}
+        {{ company.registeredOfficeAddress.country }}<br>
+      {% endif %}
       {{ company.registeredOfficeAddress.postalCode }}</dd>
     </div>
   </dl>
