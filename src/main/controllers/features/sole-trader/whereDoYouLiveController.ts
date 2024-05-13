@@ -4,27 +4,43 @@ import countryList from "../../../../../lib/countryList";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { ACSPData } from "../../../model/ACSPData";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import logger from "../../../../../lib/Logger";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ErrorService } from "../../../services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang);
+    const currentUrl: string = BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE;
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
-        title: "Where do you live?",
-        ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang),
-        currentUrl: BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE,
-        countryList: countryList,
-        firstName: acspData?.firstName,
-        lastName: acspData?.lastName
-    });
+
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
+            title: "Where do you live?",
+            ...getLocaleInfo(locales, lang),
+            previousPage,
+            currentUrl,
+            countryList: countryList,
+            firstName: acspData?.firstName,
+            lastName: acspData?.lastName
+        });
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
