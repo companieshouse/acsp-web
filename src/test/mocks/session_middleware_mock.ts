@@ -4,6 +4,7 @@ import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, AML_SUPERVISOR_SELE
 import { Company } from "../../main/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
 import { validCompanyProfile } from "./company_profile_mock";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("ioredis");
 jest.mock("../../../src/main/middleware/session_middleware");
@@ -18,15 +19,19 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     const company : Company = {
         companyName: "My Company"
     };
+    const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
+        amlSupervisoryBodies.push({
+            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
+        })
     session.setExtraData(COMPANY, company);
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
     session.setExtraData(USER_DATA, {
         firstName: "John",
-        lastName: "Doe"
+        lastName: "Doe",
+        amlSupervisoryBodies: amlSupervisoryBodies
     }
     );
     session.setExtraData(SUBMISSION_ID, "validTransactionId");
-    session.setExtraData(AML_SUPERVISOR_SELECTED, ["Law Society of Northern Ireland"]);
     session.setExtraData(PREVIOUS_PAGE_URL, "register-as-companies-house-authorised-agent/what-business-type");
     req.session = session;
     next();

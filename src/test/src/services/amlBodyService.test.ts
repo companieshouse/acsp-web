@@ -2,6 +2,7 @@ import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { AML_SUPERVISOR_SELECTED } from "../../../main/common/__utils/constants";
 import { AmlSupervisoryBodyService } from "../../../main/services/amlSupervisoryBody/amlBodyService";
+import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 describe("AmlSupervisoryBodyService", () => {
     it("should save selected AML supervisory bodies to session when more then one selection is selected", () => {
@@ -11,14 +12,26 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": ["Value1", "Value2"]
+                "AML-supervisory-bodies": ["Association of Chartered Certified Accountants (ACCA)", "Association of Accounting Technicians (AAT)"]
             }
         };
+        
+        const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
+        amlSupervisoryBodies.push({
+            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
+        },
+        {
+            amlSupervisoryBody : "Association of Accounting Technicians (AAT)",
+        })
+
+        const acspData: AcspData = {
+          id: "abc",
+          typeOfBusiness: "LIMITED"
+        }
 
         const amlSupervisoryBodyService = new AmlSupervisoryBodyService();
-        amlSupervisoryBodyService.saveSelectedAML(sessionMock as Session, requestMock as Request);
-
-        expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_SUPERVISOR_SELECTED, ["Value1", "Value2"]);
+        amlSupervisoryBodyService.saveSelectedAML(requestMock as Request, acspData as AcspData);
+        expect(acspData.amlSupervisoryBodies).toEqual(amlSupervisoryBodies);
     });
 
     it("should save selected AML supervisory body to session when only one is selected", () => {
@@ -28,13 +41,22 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": "Value1"
+                "AML-supervisory-bodies": "Association of Chartered Certified Accountants (ACCA)"
             }
         };
 
-        const amlSupervisoryBodyService = new AmlSupervisoryBodyService();
-        amlSupervisoryBodyService.saveSelectedAML(sessionMock as Session, requestMock as Request);
+        const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
+        amlSupervisoryBodies.push({
+            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
+        })
 
-        expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_SUPERVISOR_SELECTED, ["Value1"]);
+        const acspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+          }
+
+        const amlSupervisoryBodyService = new AmlSupervisoryBodyService();
+        amlSupervisoryBodyService.saveSelectedAML(requestMock as Request, acspData as AcspData);
+        expect(acspData.amlSupervisoryBodies).toEqual(amlSupervisoryBodies);
     });
 });

@@ -2,12 +2,23 @@ import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
 import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL } from "../../../main/types/pageURL";
+import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
+
+const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const acspData: AcspData = { 
+    id : "abc",
+    typeOfBusiness: "LIMITED",
+    workSector: "AUDITORS_INSOLVENCY_PRACTITIONERS"
+ }
 
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
