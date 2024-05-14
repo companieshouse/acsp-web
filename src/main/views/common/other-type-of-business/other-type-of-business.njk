@@ -22,7 +22,7 @@
                         text: i18n.otherTypeOfBusinessUnincorporatedEntity,
                         checked: type-of-business == UNINCORPORATED_ENTITY,
                         attributes: {
-                            "data-event-id": "unincorporated-entity"
+                            "data-event-id": "Unincorporated entity"
                         }
                     },
                     {
@@ -33,12 +33,12 @@
                         },
                         checked: type-of-business == CORPORATE_BODY,
                         attributes: {
-                            "data-event-id": "corporate-body"
+                            "data-event-id": "Corporate body"
                         }
                     }
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
+        <button class="govuk-button" data-event-id="SAVE AND CONTINUE - type of business other">{{ i18n.Continue }}</button>
     </form>
 {% endblock main_content %}

@@ -14,7 +14,7 @@ import { Answers } from "../../../model/Answers";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    res.render(config.SOLE_TRADER_OTHER_TYPE_OF_BUSINESS, {
+    res.render(config.OTHER_TYPE_OF_BUSINESS, {
         previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
         title: "What other type of business are you registering?",
         ...getLocaleInfo(locales, lang),
@@ -30,7 +30,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const selectedOption = req.body.otherTypeOfBusinessRadio;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SOLE_TRADER_OTHER_TYPE_OF_BUSINESS, {
+            res.status(400).render(config.OTHER_TYPE_OF_BUSINESS, {
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
                 title: "What other type of business are you registering?",
                 ...getLocaleInfo(locales, lang),

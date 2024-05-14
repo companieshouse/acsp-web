@@ -7,12 +7,10 @@ const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
 const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
 
-export const HOME = `${BASE_SOLE_TRADER_URL}/index/home`;
+export const HOME = `${BASE_COMMON_URL}/index/home`;
 export const SOLE_TRADER_DATE_OF_BIRTH = `${BASE_SOLE_TRADER_URL}/what-is-your-date-of-birth/what-is-your-date-of-birth`;
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = `${BASE_SOLE_TRADER_URL}/where-do-you-live/where-do-you-live`;
 export const SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY = `${BASE_SOLE_TRADER_URL}/nationality/nationality`;
-export const SOLE_TRADER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/type-of-business/type-of-business`;
-export const SOLE_TRADER_OTHER_TYPE_OF_BUSINESS = `${BASE_SOLE_TRADER_URL}/other-type-of-business/other-type-of-business`;
 export const SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME = `${BASE_SOLE_TRADER_URL}/what-is-the-business-name/what-is-the-business-name`;
 
 export const LIMITED_NAME_REGISTERED_WITH_AML = `${BASE_LIMITED_TRADER_URL}/name-registered-with-aml/name-registered-with-aml`;
@@ -34,7 +32,7 @@ export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
     CLOSED: "closed"
 };
-export const ACCESSIBILITY_STATEMENT = `${BASE_VIEWS_URL}/accessibility-statement/accessibility-statement`;
+export const ACCESSIBILITY_STATEMENT = `${BASE_COMMON_URL}/accessibility-statement/accessibility-statement`;
 export const STOP_NOT_RELEVANT_OFFICER = `${BASE_SOLE_TRADER_URL}/stop-not-relevant-officer/stop-not-relevant-officer`;
 export const WHAT_IS_YOUR_NAME = `${BASE_COMMON_URL}/name/capture-name`;
 export const NAME_REGISTERED_WITH_AML = `${BASE_COMMON_URL}/name-registered-with-aml/name-registered-with-aml`;
@@ -61,3 +59,5 @@ export const CORRESPONDENCE_ADDRESS_CONFIRM = `${BASE_COMMON_URL}/correspondence
 export const WHAT_IS_THE_BUSINESS_NAME = `${BASE_COMMON_URL}/what-is-the-business-name/what-is-the-business-name`;
 export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-body-number`;
 export const ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_COMMON_URL}/address-correspondance-selector/address-correspondance-selector`;
+export const TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/type-of-business/type-of-business`;
+export const OTHER_TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/other-type-of-business/other-type-of-business`;
