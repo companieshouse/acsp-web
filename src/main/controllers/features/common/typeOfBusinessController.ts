@@ -34,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
 
-        res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
+        res.render(config.TYPE_OF_BUSINESS, {
             previousPage: addLangToUrl(BASE_URL, lang),
             title: "What type of business are you registering?",
             ...getLocaleInfo(locales, lang),
@@ -63,7 +63,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const selectedOption = req.body.typeOfBusinessRadio;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
+            res.status(400).render(config.TYPE_OF_BUSINESS, {
                 previousPage: addLangToUrl(BASE_URL, lang),
                 title: "What type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
