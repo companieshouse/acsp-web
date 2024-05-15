@@ -15,18 +15,18 @@ const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const correspondenceAddress: Address = {
-   propertyDetails: "2",
-   line1: "DUNCALF STREET",
-   postcode: "ST6 3LJ"
-}
+    propertyDetails: "2",
+    line1: "DUNCALF STREET",
+    postcode: "ST6 3LJ"
+};
 
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME",
     correspondenceAddress: correspondenceAddress
- }
- 
+};
+
 const mockResponseBodyOfUKAddress: UKAddress[] = [{
     premise: "2",
     addressLine1: "DUNCALF STREET",
@@ -39,7 +39,7 @@ describe("Correspondence address auto look up tests", () => {
     it("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, async () => {
 
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        
+
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

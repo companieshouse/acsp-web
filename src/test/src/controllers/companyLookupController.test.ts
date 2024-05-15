@@ -12,13 +12,12 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const companyDetails: Company = {
     companyNumber: "123"
-}
-const acspData: AcspData = { 
-    id : "abc",
+};
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED",
     companyDetails: companyDetails
- }
-
+};
 
 describe("CompanyLookupController", () => {
     it("GET" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, async () => {

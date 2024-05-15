@@ -10,16 +10,16 @@ jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS_NAME"
- }
+};
 
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        
+
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

@@ -15,19 +15,19 @@ describe("AmlSupervisoryBodyService", () => {
                 "AML-supervisory-bodies": ["Association of Chartered Certified Accountants (ACCA)", "Association of Accounting Technicians (AAT)"]
             }
         };
-        
+
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodies.push({
-            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
+            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
         },
         {
-            amlSupervisoryBody : "Association of Accounting Technicians (AAT)",
-        })
+            amlSupervisoryBody: "Association of Accounting Technicians (AAT)"
+        });
 
         const acspData: AcspData = {
-          id: "abc",
-          typeOfBusiness: "LIMITED"
-        }
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
 
         const amlSupervisoryBodyService = new AmlSupervisoryBodyService();
         amlSupervisoryBodyService.saveSelectedAML(requestMock as Request, acspData as AcspData);
@@ -47,13 +47,13 @@ describe("AmlSupervisoryBodyService", () => {
 
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodies.push({
-            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
-        })
+            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+        });
 
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
-          }
+        };
 
         const amlSupervisoryBodyService = new AmlSupervisoryBodyService();
         amlSupervisoryBodyService.saveSelectedAML(requestMock as Request, acspData as AcspData);

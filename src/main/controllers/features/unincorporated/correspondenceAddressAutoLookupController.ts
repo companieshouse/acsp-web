@@ -15,7 +15,6 @@ import { logger } from "main/utils/logger";
 import { log } from "console";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
-
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session?.getExtraData(USER_DATA)!;

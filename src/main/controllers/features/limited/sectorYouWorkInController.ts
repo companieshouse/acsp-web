@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
+import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -18,19 +18,18 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-        const limitedCorrespondenceAddress : string = session?.getExtraData(LIMITED_CORRESPONDENCE_ADDRESS)!;
+    const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
+
         var previousPage : string = "";
-        if (limitedCorrespondenceAddress === "CORRESPONDANCE_ADDRESS") {
+        if (acspData.correspondenceAddress === acspData.businessAddress) {
             previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
         } else {
             previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
         }
-    const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
-
-    try {
-        // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
-        saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.SECTOR_YOU_WORK_IN, {
             previousPage: addLangToUrl(previousPage, lang),
@@ -42,7 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -52,13 +51,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
-        const limitedCorrespondenceAddress: string = session?.getExtraData(LIMITED_CORRESPONDENCE_ADDRESS)!;
-                var previousPage : string = "";
-                if (limitedCorrespondenceAddress === "CORRESPONDANCE_ADDRESS") {
-                    previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
-                } else {
-                    previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
-                }
+        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        var previousPage : string = "";
+        if (acspData.correspondenceAddress === acspData.businessAddress) {
+            previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
+        } else {
+            previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
+        }
         const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -71,7 +70,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const acspData : AcspData = session?.getExtraData(USER_DATA)!;
             if (acspData) {
                 acspData.workSector = req.body.sectorYouWorkIn;
             }
@@ -91,7 +89,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
     } catch (error) {

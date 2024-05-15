@@ -10,10 +10,10 @@ jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED"
- }
+};
 
 describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     it("should render the correspondence address selector page with status 200", async () => {

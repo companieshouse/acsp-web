@@ -37,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
 
-        res.render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
+        res.render(config.TYPE_OF_BUSINESS, {
             previousPage,
             title: "What type of business are you registering?",
             ...getLocaleInfo(locales, lang),
@@ -50,7 +50,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SOLE_TRADER_TYPE_OF_BUSINESS, {
+            res.status(400).render(config.TYPE_OF_BUSINESS, {
                 previousPage,
                 title: "What type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
@@ -73,10 +73,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-                // eslint-disable-next-line camelcase
-                const email = session?.data?.signin_info?.user_profile?.email!;
-                const userId = session?.data?.signin_info?.user_profile?.id!;
-             if (selectedOption !== "OTHER"){
+            // eslint-disable-next-line camelcase
+            const email = session?.data?.signin_info?.user_profile?.email!;
+            // eslint-disable-next-line camelcase
+            const userId = session?.data?.signin_info?.user_profile?.id!;
+            if (selectedOption !== "OTHER") {
                 const acspData: AcspData = {
                     id: userId,
                     typeOfBusiness: selectedOption
@@ -106,7 +107,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 } catch (err) {
                     logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                     const error = new ErrorService();
-                    error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                    error.renderErrorPage(res, locales, lang, currentUrl);
                 }
             } else {
                 res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));

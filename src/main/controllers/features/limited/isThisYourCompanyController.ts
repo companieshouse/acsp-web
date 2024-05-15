@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {
@@ -37,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -51,14 +51,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
         const companyDetailsService = new CompanyDetailsService();
         const status = company?.status;
-         if (companyDetailsService.capFirstLetter(status || " ") === "Active") {
-            //update acspData
+        if (companyDetailsService.capFirstLetter(status || " ") === "Active") {
+            // update acspData
             const acspData: AcspData = session.getExtraData(USER_DATA)!;
             if (acspData) {
                 acspData.businessAddress = {
                     line1: company.registeredOfficeAddress?.addressLineOne!,
+                    line2: company.registeredOfficeAddress?.addressLineTwo!,
                     town: company.registeredOfficeAddress?.locality!,
-                    country: company.registeredOfficeAddress?.addressLineTwo!,
+                    county: company.registeredOfficeAddress?.region!,
+                    country: company.registeredOfficeAddress?.country!,
                     postcode: company.registeredOfficeAddress?.postalCode!
                 };
                 acspData.companyDetails = company;
@@ -82,7 +84,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         } else {
             res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));

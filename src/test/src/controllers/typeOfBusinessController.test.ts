@@ -12,10 +12,10 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
 describe("GET " + TYPE_OF_BUSINESS, () => {
-    const acspData: AcspData = { 
-        id : "abc",
+    const acspData: AcspData = {
+        id: "abc",
         typeOfBusiness: "LIMITED"
-     }
+    };
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -27,7 +27,7 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST " + TYPE_OF_BUSINESS, () => {
-    mockPostAcspRegistration
+    mockPostAcspRegistration;
     it("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" }).expect(302);
     });

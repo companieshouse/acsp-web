@@ -16,8 +16,8 @@ export class AddressLookUpService {
         const address: Address = this.getAddress(ukAddresses, inputPremise);
         // Save the address to session
         const session: Session = req.session as any as Session;
-        const acspData: AcspData = session.getExtraData(USER_DATA)!
-        
+        const acspData: AcspData = session.getExtraData(USER_DATA)!;
+
         acspData.businessAddress = address;
         saveDataInSession(req, USER_DATA, acspData);
     }
@@ -46,10 +46,10 @@ export class AddressLookUpService {
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
-                //update ascpData with postcode to save to DB
+                // update ascpData with postcode to save to DB
                 const correspondenceAddress: Address = {
                     postcode: req.body.postCode
-                }
+                };
                 acspData.correspondenceAddress = correspondenceAddress;
                 const nextPageUrl = addLangToUrl(BASE_URL + nexPageUrls[1], lang);
                 return nextPageUrl;
@@ -83,7 +83,7 @@ export class AddressLookUpService {
     }
 
     public async saveCorrespondenceAddress (req: Request, ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
-        //save correspondence addess to model to be saved in mongoDB
+        // save correspondence addess to model to be saved in mongoDB
         const address: Address = this.getAddress(ukAddresses, inputPremise);
         acspData.correspondenceAddress = address;
     }

@@ -10,17 +10,16 @@ import { COMPANY_DETAILS } from "../../../../src/main/common/__utils/constants";
 import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
-
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 let customMockSessionMiddleware : any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED"
- }
+};
 
 describe("Limited Company Controller Tests", () => {
     mockGetAcspRegistration.mockResolvedValueOnce(acspData);

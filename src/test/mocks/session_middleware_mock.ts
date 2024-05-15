@@ -20,9 +20,9 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
         companyName: "My Company"
     };
     const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
-        amlSupervisoryBodies.push({
-            amlSupervisoryBody : "Association of Chartered Certified Accountants (ACCA)", 
-        })
+    amlSupervisoryBodies.push({
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+    });
     session.setExtraData(COMPANY, company);
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
     session.setExtraData(USER_DATA, {

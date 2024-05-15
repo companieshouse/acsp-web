@@ -22,13 +22,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userEmail);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
         // collect selectedAMLs to render the page with saved data
-        const selectedAMLSupervisoryBodies: string[] = []
+        const selectedAMLSupervisoryBodies: string[] = [];
         const amlSupervisoryBody = new AmlSupervisoryBodyService();
-        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);   
+        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
         res.render(config.SELECT_AML_SUPERVISOR, {
             previousPage,
@@ -42,7 +42,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             // update acspData
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
-            amlSupervisoryBody.saveSelectedAML(req, acspData);          
+            amlSupervisoryBody.saveSelectedAML(req, acspData);
             try {
                 //  save data to mongodb
                 const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
@@ -78,7 +78,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
     } catch (error) {

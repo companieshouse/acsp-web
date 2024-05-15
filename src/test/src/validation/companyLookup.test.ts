@@ -11,10 +11,10 @@ jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED"
- }
+};
 
 describe("get" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     mockGetAcspRegistration.mockResolvedValueOnce(acspData);

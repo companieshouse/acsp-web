@@ -15,11 +15,11 @@ const router = supertest(app);
 let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = { 
-    id : "abc",
+const acspData: AcspData = {
+    id: "abc",
     typeOfBusiness: "LIMITED",
     workSector: "AUDITORS_INSOLVENCY_PRACTITIONERS"
- }
+};
 
 describe("Statement Relevant Officer Router", () => {
     it("should render what is your role page", async () => {
