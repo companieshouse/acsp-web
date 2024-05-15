@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // create transaction record
     try {
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-            await typeOfBusinessService.createTransaction(req, res, "").then((transactionId) => {
+            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
                 // get transaction record data
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
             });

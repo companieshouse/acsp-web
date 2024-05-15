@@ -42,7 +42,7 @@ export const AML_BODY_DETAILS_CONFIRM = "/confirm-aml-details";
 
 export const CHECK_YOUR_ANSWERS = "/check-your-answers";
 
-export const PAYMENT_URL = "/payment-url";
+export const PAYMENT_CALLBACK_URL = "/payment-callback";
 
 export const CONFIRMATION = "/application-complete";
 
