@@ -20,3 +20,5 @@ export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post regi
 export const AML_SUPERVISOR_SELECTED: string = "selectedamlsupervisors";
 export const PREVIOUS_PAGE_URL: string = "previouspageurl";
 export const LIMITED_CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
+export const WORK_SECTOR: string = "work sector";
+export const OTHER_WORK_SECTOR: string = "work sector";

@@ -35,14 +35,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
 
-        const acspData: AcspData = session.getExtraData(USER_DATA)!;
+        const typeOfBusiness = session.getExtraData(TYPE_OF_BUSINESS)!;
 
         res.render(config.TYPE_OF_BUSINESS, {
             previousPage,
             title: "What type of business are you registering?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            typeOfBusiness: acspData?.typeOfBusiness,
+            typeOfBusiness,
             FEATURE_FLAG_DISABLE_LIMITED_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_LIMITED_JOURNEY),
             FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY)
         });
@@ -73,6 +73,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
+            saveDataInSession(req, TYPE_OF_BUSINESS, selectedOption);
+
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
             // eslint-disable-next-line camelcase
