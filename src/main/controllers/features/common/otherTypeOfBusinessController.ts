@@ -26,14 +26,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
-        const otherTypeOfBusiness = session.getExtraData(OTHER_TYPE_OF_BUSINESS)!;
-
         res.render(config.OTHER_TYPE_OF_BUSINESS, {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
             title: "What other type of business are you registering?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            otherTypeOfBusiness: otherTypeOfBusiness
+            otherTypeOfBusiness: acspData?.typeOfBusiness
         });
 
     } catch (err) {
@@ -62,7 +60,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            saveDataInSession(req, OTHER_TYPE_OF_BUSINESS, selectedOption);
 
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;

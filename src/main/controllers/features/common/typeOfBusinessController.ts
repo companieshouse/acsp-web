@@ -13,7 +13,7 @@ import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
-import { postAcspRegistration } from "../../../services/acspRegistrationService";
+import { postAcspRegistration, getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 
@@ -35,7 +35,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             });
         }
 
-        const typeOfBusiness = session.getExtraData(TYPE_OF_BUSINESS)!;
+        let typeOfBusiness = "";
+        // get data from mongo and save to session
+        try {
+            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            saveDataInSession(req, USER_DATA, acspData);
+
+            if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                typeOfBusiness = "OTHER";
+            } else {
+                typeOfBusiness = acspData.typeOfBusiness;
+            }
+        } catch (err) {
+            logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        }
 
         res.render(config.TYPE_OF_BUSINESS, {
             previousPage,
@@ -73,7 +86,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            saveDataInSession(req, TYPE_OF_BUSINESS, selectedOption);
 
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;

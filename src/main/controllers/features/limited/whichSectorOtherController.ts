@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, OTHER_WORK_SECTOR } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -26,14 +26,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
-        const workSector = session.getExtraData(OTHER_WORK_SECTOR)!;
         res.render(config.WHICH_SECTOR_OTHER, {
             previousPage,
             title: "Which other sector do you work in?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             acspType: acspData?.typeOfBusiness,
-            workSector,
+            workSector: acspData?.workSector,
             whichSectorLink: addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang)
         });
     } catch (err) {
@@ -65,7 +64,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            saveDataInSession(req, OTHER_WORK_SECTOR, req.body.sectorYouWorkIn);
             if (acspData) {
                 acspData.workSector = req.body.whichSectorOther;
             }

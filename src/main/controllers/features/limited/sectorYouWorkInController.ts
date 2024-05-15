@@ -7,7 +7,7 @@ import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, WORK_SECTOR, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { ANSWER_DATA, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
@@ -31,7 +31,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
         }
 
-        const workSector = session.getExtraData(WORK_SECTOR)!;
+        let workSector;
+        if (acspData.workSector === "ESTATE_AGENTS" || acspData.workSector === "HIGH_VALUE_DEALERS" || acspData.workSector === "CASINOS") {
+            workSector = "OTHER";
+        } else {
+            workSector = acspData.workSector;
+        }
+
         res.render(config.SECTOR_YOU_WORK_IN, {
             previousPage: addLangToUrl(previousPage, lang),
             title: "Which sector do you work in?",
@@ -71,7 +77,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            saveDataInSession(req, WORK_SECTOR, req.body.sectorYouWorkIn);
             if (acspData) {
                 acspData.workSector = req.body.sectorYouWorkIn;
             }
