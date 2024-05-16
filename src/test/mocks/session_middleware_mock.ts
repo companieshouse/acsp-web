@@ -33,6 +33,7 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     );
     session.setExtraData(SUBMISSION_ID, "validTransactionId");
     session.setExtraData(PREVIOUS_PAGE_URL, "register-as-companies-house-authorised-agent/what-business-type");
+    session.setExtraData("payment-nonce", "123456");
     req.session = session;
     next();
 });
