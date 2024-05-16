@@ -11,7 +11,6 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { startPaymentsSession } from "../../../services/paymentService";
 import { createAndLogError } from "../../../utils/logger";
-import { CHS_URL } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
