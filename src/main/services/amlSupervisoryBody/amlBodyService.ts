@@ -24,7 +24,7 @@ export class AmlSupervisoryBodyService {
             const id = "membershipNumber_" + j;
             amlSupervisoryBodies.push({
                 amlSupervisoryBody: selectedAMLSupervisoryBodies[i],
-                membershipNumber: req.body[id]
+                membershipId: req.body[id]
             });
         }
         if (acspData) {
@@ -46,7 +46,7 @@ export class AmlSupervisoryBodyService {
             const j = i + 1;
             const id: string = "membershipNumber_" + j;
             payload = {
-                id: acspData.amlSupervisoryBodies![i].membershipNumber
+                id: acspData.amlSupervisoryBodies![i].membershipId
             };
         }
     }
