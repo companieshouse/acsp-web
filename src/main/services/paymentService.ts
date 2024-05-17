@@ -7,11 +7,12 @@ import { createPaymentApiClient } from "./api-services";
 import { API_URL, CHS_URL } from "../utils/properties";
 import { v4 as uuidv4 } from "uuid";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../types/pageURL";
+import { PAYEMNT_REFERENCE } from "../common/__utils/constants";
 
 export const startPaymentsSession = async (session: Session, paymentSessionUrl: string,
     transactionId: string): Promise<ApiResponse<Payment>> => {
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
-    const reference: string = "Register_ACSP " + transactionId;
+    const reference: string = PAYEMNT_REFERENCE + transactionId;
     const redirectUri: string = CHS_URL + BASE_URL + PAYMENT_CALLBACK_URL;
     const paymentResourceUri: string = `/transactions/${transactionId}/payment`;
     const resourceWithHost = API_URL + paymentResourceUri;

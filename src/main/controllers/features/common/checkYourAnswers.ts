@@ -4,7 +4,7 @@ import * as config from "../../../config";
 import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, AML_BODY_DETAILS_CONFIRM, CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { ANSWER_DATA, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -49,7 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 transactionId);
 
             if (!paymentResponse.resource) {
-                return next(createAndLogError("No resource in payment response"));
+                return next(createAndLogError(NO_PAYMENT_RESOURCE_ERROR));
             }
 
             res.redirect(paymentResponse.resource.links.journey);

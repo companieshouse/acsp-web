@@ -20,6 +20,8 @@ export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post regi
 export const AML_SUPERVISOR_SELECTED: string = "selectedamlsupervisors";
 export const PREVIOUS_PAGE_URL: string = "previouspageurl";
 export const LIMITED_CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
+export const NO_PAYMENT_RESOURCE_ERROR: string = "No resource in payment response";
+export const PAYEMNT_REFERENCE: string = "Register_ACSP_";
 
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"

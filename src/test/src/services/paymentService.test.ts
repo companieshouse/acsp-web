@@ -2,12 +2,13 @@ import { Session } from "@companieshouse/node-session-handler";
 import { createAndLogError } from "../../../main/utils/logger";
 import { createPaymentApiClient } from "../../../main/services/api-services";
 import { startPaymentsSession } from "../../../main/services/paymentService";
-import { ApiResponse, ApiResult } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CreatePaymentRequest, Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { v4 as uuidv4 } from "uuid";
 import { API_URL } from "../../../main/utils/properties";
 import { dummyPayment } from "../../mocks/payment_mock";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../../../main/types/pageURL";
+import { PAYEMNT_REFERENCE } from "../../../main/common/__utils/constants";
 
 jest.mock("../../../main/utils/logger");
 jest.mock("../../../main/services/api-services");
@@ -17,7 +18,7 @@ const TRANSACTION_ID = "987654321";
 const PAYMENT_SESSION_URL = "/payment/21321";
 const PAYMENT_RESOURCE_URI = "/transactions/" + TRANSACTION_ID + "/payment";
 const UUID = "d29f8b9c-501d-4ae3-91b2-001fd9e4e0a5";
-const REFERENCE = "Register_ACSP " + TRANSACTION_ID;
+const REFERENCE = PAYEMNT_REFERENCE + TRANSACTION_ID;
 
 const mockCreatePaymentWithFullUrl = jest.fn();
 const mockCreatePaymentApiClient = createPaymentApiClient as jest.Mock;
