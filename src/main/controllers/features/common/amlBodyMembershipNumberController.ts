@@ -13,6 +13,9 @@ import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervis
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
+const selectedAMLSupervisoryBodies: string[] = [];
+const amlSupervisoryBody = new AmlSupervisoryBodyService();
+
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -28,8 +31,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = getPreviousPage(acspType);
 
         // collect selected AMLs
-        const selectedAMLSupervisoryBodies: string[] = [];
-        const amlSupervisoryBody = new AmlSupervisoryBodyService();
         amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
         // collect membership numbers to render the page with saved data
@@ -60,8 +61,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + AML_MEMBERSHIP_NUMBER;
 
     // collect selected AMLs
-    const selectedAMLSupervisoryBodies: string[] = [];
-    const amlSupervisoryBody = new AmlSupervisoryBodyService();
+    // const selectedAMLSupervisoryBodies: string[] = [];
+    // const amlSupervisoryBody = new AmlSupervisoryBodyService();
     amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
     try {
