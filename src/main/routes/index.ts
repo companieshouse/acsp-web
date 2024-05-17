@@ -51,7 +51,8 @@ import {
     checkYourAnswersController,
     applicationConfirmationController,
     yourResponsibilitiesController,
-    amlBodyMembershipNumberController
+    amlBodyMembershipNumberController,
+    paymentCallbackController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -102,6 +103,8 @@ routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
 
 routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
 routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), amlBodyMembershipNumberController.post);
+
+routes.get(urls.PAYMENT_CALLBACK_URL, paymentCallbackController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);

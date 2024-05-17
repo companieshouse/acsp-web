@@ -8,6 +8,7 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { StatusCodes } from "http-status-codes";
 
 import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config";
+import { headers } from "../../common/__utils/constants";
 
 /**
  * Post transaction
@@ -47,42 +48,37 @@ export const postTransaction = async (session: Session, description: string, ref
 /**
  * Close transaction
  */
-export const closeTransaction = async (session: Session, companyNumber: string, transactionId: string, objectId: string|undefined): Promise<ApiResponse<Transaction>> => {
-    const apiResponse: ApiResponse<Transaction> = await putTransaction(session, companyNumber, transactionId, CREATE_DESCRIPTION, transactionStatuses.CLOSED, objectId).catch((sdkResponse) => {
-        return Promise.reject(sdkResponse);
-    });
-    return Promise.resolve(apiResponse);
+export const closeTransaction = async (session: Session, transactionId: string): Promise<string | undefined> => {
+    const apiResponse: ApiResponse<Transaction> = await putTransaction(session, transactionId, CREATE_DESCRIPTION, transactionStatuses.CLOSED);
+    return apiResponse.headers?.[headers.PAYMENT_REQUIRED];
 };
 
 /**
  * PUT transaction
  */
 export const putTransaction = async (session: Session,
-    companyNumber: string,
     transactionId: string,
     transactionDescription: string,
-    transactionStatus: string,
-    objectId: string|undefined): Promise<ApiResponse<Transaction>> => {
+    transactionStatus: string): Promise<ApiResponse<Transaction>> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     const transaction: Transaction = {
-        companyNumber,
         description: transactionDescription,
         id: transactionId,
-        reference: REFERENCE + objectId,
+        reference: REFERENCE,
         status: transactionStatus
     };
 
-    logger.debug(`Updating transaction id ${transactionId} with company number ${companyNumber}, status ${transactionStatus}`);
+    logger.debug(`Updating transaction id: ${transactionId}, status ${transactionStatus}`);
     const sdkResponse: ApiResponse<Transaction> | ApiErrorResponse = await apiClient.transaction.putTransaction(transaction);
 
     if (!sdkResponse) {
-        logger.error(`Transaction API PUT request returned no response for transaction id ${transactionId}, company number ${companyNumber}`);
+        logger.error(`Transaction API PUT request returned no response for transaction id: ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
 
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode !== StatusCodes.NO_CONTENT) {
-        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to put transaction for transaction id ${transactionId}, company number ${companyNumber}`);
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to put transaction for transaction id: ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
 

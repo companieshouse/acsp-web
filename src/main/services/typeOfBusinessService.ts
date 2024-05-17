@@ -15,7 +15,7 @@ export class TypeOfBusinessService extends GenericService {
         this.viewData.title = "";
     }
 
-    async createTransaction (req: Request, res: Response, companyNumber: string): Promise<string> {
+    async createTransaction (req: Request, res: Response): Promise<string> {
         const session = req.session as Session;
         let transactionId: string = "";
         try {
@@ -25,7 +25,7 @@ export class TypeOfBusinessService extends GenericService {
             logger.info("Transaction created ---> " + transactionId);
             return Promise.resolve(transactionId);
         } catch (err) {
-            logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while create transaction record for ${companyNumber}`);
+            logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while create transaction record`);
             const errorData = this.processServiceException(err);
             return Promise.reject(errorData);
         }

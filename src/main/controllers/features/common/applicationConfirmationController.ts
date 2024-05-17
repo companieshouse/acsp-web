@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
+import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { CONFIRMATION, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
