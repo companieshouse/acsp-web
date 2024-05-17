@@ -66,8 +66,46 @@
                 ]
                 }) }}
                 </div>
-                <button class="govuk-button" data-event-id="SAVE AND CONTINUE-type of business">{{ i18n.Continue }}</button>
+                {{ govukButton({
+                    text: i18n.Continue,
+                    attributes: {
+                        "data-event-id": "SAVE AND CONTINUE-type of business",
+                        "onClick": "continueOnClick()"
+                    }
+                }) }}
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        function continueOnClick() {
+            const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
+            if (selectedOption){
+                const selectedValue = selectedOption.value;
+                if (selectedValue !== "OTHER") {
+                    trackGoal(selectedValue);
+                }
+            }
+        }
+        function trackGoal(goal){
+            let goalId;
+            switch(goal) {
+                case "LIMITED_COMPANY":
+                    goalId = 1;
+                    break;
+                case "LIMITED_PARTNERSHIP":
+                    goalId = 2;
+                    break;
+                case "LIMITED_LIABILITY_PARTNERSHIP":
+                    goalId = 3;
+                    break;
+                case "PARTNERSHIP":
+                    goalId = 4;
+                    break;
+                case "SOLE_TRADER":
+                    goalId = 5;
+                    break;
+            }
+            _paq.push(['trackGoal', goalId]);
+        }
+    </script>
 {% endblock main_content %}
