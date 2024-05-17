@@ -44,7 +44,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
                 typeOfBusiness = "OTHER";
             } else {
-                typeOfBusiness = acspData.typeOfBusiness! ;
+                typeOfBusiness = acspData.typeOfBusiness!;
             }
         } catch (err) {
             logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
