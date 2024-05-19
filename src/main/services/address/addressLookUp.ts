@@ -32,7 +32,6 @@ export class AddressLookUpService {
     }
 
     public saveCorrespondenceAddressFromList (req: Request, correspondenceAddress: Address, acspData: AcspData): void {
-        const session: Session = req.session as any as Session;
         acspData.correspondenceAddress = correspondenceAddress;
     }
 
@@ -41,8 +40,7 @@ export class AddressLookUpService {
         var nextPage = getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                 this.saveCorrespondenceAddress(req, ukAddresses, inputPremise, acspData);
-                const nextPageUrl = addLangToUrl(BASE_URL + nexPageUrls[0], lang);
-                return nextPageUrl;
+                return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
@@ -51,8 +49,7 @@ export class AddressLookUpService {
                     postcode: req.body.postCode
                 };
                 acspData.correspondenceAddress = correspondenceAddress;
-                const nextPageUrl = addLangToUrl(BASE_URL + nexPageUrls[1], lang);
-                return nextPageUrl;
+                return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
             }
 
         }).catch((err) => {

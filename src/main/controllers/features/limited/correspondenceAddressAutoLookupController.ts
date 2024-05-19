@@ -9,7 +9,7 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, ADDRESS_LIST } from "../../../common/__utils/constants";
+import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -74,7 +74,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
-            const acspData: AcspData = session.getExtraData(USER_DATA)!;
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData,
                 LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {

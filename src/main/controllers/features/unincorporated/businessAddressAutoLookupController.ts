@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!; // Needs to be removed once save and continue refactoring is done
-    const acspData1 : AcspData = session?.getExtraData(USER_DATA)!;  
+    const acspData1 : AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);

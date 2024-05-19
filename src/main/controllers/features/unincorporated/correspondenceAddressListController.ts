@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
-// import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import {
     BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,

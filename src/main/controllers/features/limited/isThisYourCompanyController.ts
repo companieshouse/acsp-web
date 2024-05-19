@@ -46,7 +46,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const session: Session = req.session as any as Session;
         const locales = getLocalesService();
-        const previousPage: string = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang);
         const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
         const companyDetailsService = new CompanyDetailsService();
