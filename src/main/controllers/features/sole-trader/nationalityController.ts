@@ -45,14 +45,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang);
-    const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY;
-    const session: Session = req.session as any as Session;
-    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-
     try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang);
+        const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY;
+        const session: Session = req.session as any as Session;
+        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -78,23 +77,23 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 nationalityString += ", " + req.body.nationality_input_2;
             }
             if (acspData) {
-                //Need to change
+                // Need to change
                 acspData.nationality = req.body.nationality_input_0;
             }
             try {
             //  save data to mongodb
-            const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.nationality = nationalityString;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.nationality = nationalityString;
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
-            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-        } catch (err) {
-            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-            const error = new ErrorService();
-            error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+            }
         }
-    }
     } catch (error) {
         next(error);
     }

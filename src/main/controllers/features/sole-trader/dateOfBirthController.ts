@@ -42,13 +42,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
-    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang);
-    const currentUrl: string = BASE_URL + SOLE_TRADER_DATE_OF_BIRTH;
     try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const session: Session = req.session as any as Session;
+        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang);
+        const currentUrl: string = BASE_URL + SOLE_TRADER_DATE_OF_BIRTH;
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -64,13 +64,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (acspData) {
-                acspData.dateOfBirth = req.body.day;
-                acspData.dateOfBirth = req.body.month;
-                acspData.dateOfBirth = req.body.year;
+                acspData.dateOfBirth = new Date(
+                    req.body["dob-year"],
+                    req.body["dob-month"] - 1,
+                    req.body["dob-day"]
+                ).toDateString();
             }
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.dateOfBirth = new Date(req.body["dob-year"], req.body["dob-month"] - 1, req.body["dob-day"])
                     .toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });

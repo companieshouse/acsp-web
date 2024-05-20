@@ -70,20 +70,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER, lang));
             } else {
                 if (acspData) {
-                    //Need to change
                     acspData.workSector = req.body.sectorYouWorkIn;
                 }
                 try {
-                    //  save data to mongodb
+                //  save data to mongodb
                     const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
+                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                    detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
+                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
                 } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                    const error = new ErrorService();
+                    error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
                 }
             }
         }
