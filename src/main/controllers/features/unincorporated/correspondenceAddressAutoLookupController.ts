@@ -13,7 +13,6 @@ import { ACSPData } from "../../../model/ACSPData";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { logger } from "main/utils/logger";
 import { log } from "console";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -35,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -57,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData,
+            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise,
                 UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
                 res.redirect(nextPageUrl);
             }).catch(() => {
