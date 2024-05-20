@@ -5,8 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
-import { Address } from "main/model/Address";
+import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
