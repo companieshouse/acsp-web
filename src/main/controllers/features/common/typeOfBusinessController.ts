@@ -16,6 +16,7 @@ import { isActiveFeature } from "../../../utils/feature.flag";
 import { postAcspRegistration, getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -39,12 +40,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         try {
             const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-            saveDataInSession(req, USER_DATA, acspData);
-
-            if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-                typeOfBusiness = "OTHER";
-            } else {
-                typeOfBusiness = acspData.typeOfBusiness!;
+            if (acspData !== undefined) {
+                saveDataInSession(req, USER_DATA, acspData);
+                if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                    typeOfBusiness = "OTHER";
+                } else {
+                    typeOfBusiness = acspData.typeOfBusiness!;
+                }
             }
         } catch (err) {
             logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
