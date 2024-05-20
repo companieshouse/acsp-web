@@ -31,7 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
-                // get transaction record data
+                // get transaction record data from transaction api
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
             });
         }
