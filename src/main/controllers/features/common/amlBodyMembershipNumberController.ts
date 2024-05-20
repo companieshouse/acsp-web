@@ -88,7 +88,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

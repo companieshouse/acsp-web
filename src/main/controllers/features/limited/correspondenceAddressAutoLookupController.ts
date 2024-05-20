@@ -79,7 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
                 try {
                     // save data to mongodb
-                    const acspResponse = postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                     res.redirect(nextPageUrl);
                 } catch (err) {
                     logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);

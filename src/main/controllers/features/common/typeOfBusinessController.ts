@@ -99,7 +99,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 };
                 try {
                     // save data to mongodb
-                    const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                     const answersArray: Answers = {
                         typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

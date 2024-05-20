@@ -72,7 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             amlSupervisoryBody.saveSelectedAML(req, acspData);
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
             } catch (err) {

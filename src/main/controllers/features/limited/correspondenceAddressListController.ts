@@ -77,7 +77,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

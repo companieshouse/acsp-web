@@ -77,7 +77,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.correspondenceAddress = acspData.businessAddress;
                 try {
                     //  save data to mongodb
-                    const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;

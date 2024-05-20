@@ -71,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressManualservice.saveCorrespondenceManualAddress(req, acspData);
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
             } catch (err) {
