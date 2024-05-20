@@ -25,49 +25,87 @@
                         value: "LIMITED_COMPANY",
                         text: i18n.typeOfBusinessLimitedCompanyOption,
                         attributes: {
-                            "data-event-id": "limited-company-option"
+                            "data-event-id": "Limited company"
                         }
                     }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
                     {
                         value: "LIMITED_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedPartnershipOption,
                         attributes: {
-                            "data-event-id": "limited-partnership-option"
+                            "data-event-id": "Limited partnership"
                         }
                     },
                     {
                         value: "LIMITED_LIABILITY_PARTNERSHIP",
                         text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
                         attributes: {
-                            "data-event-id": "limited-liability-partnership-option"
+                            "data-event-id": "Limited liability partnership"
                         }
                     },
                     {
                         value: "PARTNERSHIP",
                         text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption,
                         attributes: {
-                            "data-event-id": "partnership-option"
+                            "data-event-id": "Partnership"
                         }
                     }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
                     {
                         value: "SOLE_TRADER",
                         text: i18n.typeOfBusinessSoleTraderOption,
                         attributes: {
-                            "data-event-id": "sole-trader-option"
+                            "data-event-id": "Sole trader"
                         }
                     },
                     {
                         value: "OTHER",
                         text: i18n.typeOfBusinessOtherOption,
                         attributes: {
-                            "data-event-id": "other-option"
+                            "data-event-id": "Other"
                         }
                     }
                 ]
                 }) }}
                 </div>
-                <button class="govuk-button">{{ i18n.Continue }}</button>
+                {{ govukButton({
+                    text: i18n.Continue,
+                    attributes: {
+                        "data-event-id": "SAVE AND CONTINUE-type of business",
+                        "onClick": "continueOnClick()"
+                    }
+                }) }}
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        function continueOnClick() {
+            const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
+            if (selectedOption){
+                const selectedValue = selectedOption.value;
+                if (selectedValue !== "OTHER") {
+                    trackGoal(selectedValue);
+                }
+            }
+        }
+        function trackGoal(goal){
+            let goalId;
+            switch(goal) {
+                case "LIMITED_COMPANY":
+                    goalId = 1;
+                    break;
+                case "LIMITED_PARTNERSHIP":
+                    goalId = 2;
+                    break;
+                case "LIMITED_LIABILITY_PARTNERSHIP":
+                    goalId = 3;
+                    break;
+                case "PARTNERSHIP":
+                    goalId = 4;
+                    break;
+                case "SOLE_TRADER":
+                    goalId = 5;
+                    break;
+            }
+            _paq.push(['trackGoal', goalId]);
+        }
+    </script>
 {% endblock main_content %}

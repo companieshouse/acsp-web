@@ -9,7 +9,7 @@
     <div class="govuk-grid-column-two-thirds">
       {{ govukPanel({
         titleText: i18n.applicationSubmittedTitle,
-        html: i18n.applicationSubmittedReference
+        html: i18n.applicationSubmittedReference + "<br>" + transactionId
       }) }}
 
       <p class="govuk-body"> {{ i18n.applicationSubmittedText1 }} <strong>{{ email }}</strong>.</p>

@@ -1,4 +1,5 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/button/macro.njk"              import govukButton %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <form action="" method="POST">
@@ -22,7 +23,7 @@
                         text: i18n.otherTypeOfBusinessUnincorporatedEntity,
                         checked: type-of-business == UNINCORPORATED_ENTITY,
                         attributes: {
-                            "data-event-id": "unincorporated-entity"
+                            "data-event-id": "Unincorporated entity"
                         }
                     },
                     {
@@ -33,12 +34,39 @@
                         },
                         checked: type-of-business == CORPORATE_BODY,
                         attributes: {
-                            "data-event-id": "corporate-body"
+                            "data-event-id": "Corporate body"
                         }
                     }
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
+        {{ govukButton({
+            text: i18n.Continue,
+            attributes: {
+                "data-event-id": "SAVE AND CONTINUE - type of business other",
+                "onClick": "continueOnClick()"
+            }
+        }) }}
     </form>
+    <script type="text/javascript">
+        function continueOnClick () {
+            const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
+            if (selectedOption){
+                const selectedValue = selectedOption.value;
+                trackGoal(selectedValue);
+            }
+        }
+        function trackGoal(goal){
+            let goalId;
+            switch(goal) {
+                case "UNINCORPORATED_ENTITY":
+                    goalId = 6;
+                    break;
+                case "CORPORATE_BODY":
+                    goalId = 6;
+                    break;
+            }
+            _paq.push(['trackGoal', goalId]);
+        }
+    </script>
 {% endblock main_content %}

@@ -13,8 +13,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { REFERENCE } from "../../../../main/config";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../../src/services/api/api_service");
-jest.mock("../../../../src/utils/common/logger");
+jest.mock("../../../../main/services/api/api_service");
 
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostTransaction = jest.fn();
@@ -31,9 +30,8 @@ mockCreatePublicOAuthApiClient.mockReturnValue({
 
 let session: any;
 const TRANSACTION_ID = "2222";
-const COMPANY_NUMBER = "12345678";
 const OBJECT_ID = REFERENCE + "12345";
-const EXPECTED_REF = REFERENCE + OBJECT_ID;
+const EXPECTED_REF = REFERENCE;
 const DESCRIPTION = "desc";
 
 describe("transaction service tests", () => {
@@ -50,21 +48,19 @@ describe("transaction service tests", () => {
                 httpStatusCode: StatusCodes.CREATED,
                 resource: {
                     reference: REFERENCE,
-                    companyNumber: COMPANY_NUMBER,
                     description: "desc"
                 }
             });
-            const transaction: Transaction = await postTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE);
+            const transaction: Transaction = await postTransaction(session, DESCRIPTION, REFERENCE);
 
             expect(transaction.reference).toEqual(REFERENCE);
-            expect(transaction.companyNumber).toEqual(COMPANY_NUMBER);
             expect(transaction.description).toEqual(DESCRIPTION);
         });
 
         it("Should throw an error when no transaction api response", async () => {
             mockPostTransaction.mockResolvedValueOnce(undefined);
 
-            await expect(postTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE))
+            await expect(postTransaction(session, DESCRIPTION, REFERENCE))
                 .rejects.toBe(undefined);
         });
 
@@ -73,7 +69,7 @@ describe("transaction service tests", () => {
                 httpStatusCode: StatusCodes.NOT_FOUND
             });
 
-            await expect(postTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE))
+            await expect(postTransaction(session, DESCRIPTION, REFERENCE))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
 
@@ -83,7 +79,7 @@ describe("transaction service tests", () => {
                 httpStatusCode: HTTP_STATUS_CODE
             } as Resource<CompanyProfile>);
 
-            await expect(postTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE))
+            await expect(postTransaction(session, DESCRIPTION, REFERENCE))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
         });
 
@@ -92,7 +88,7 @@ describe("transaction service tests", () => {
                 httpStatusCode: StatusCodes.CREATED
             });
 
-            await expect(postTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE))
+            await expect(postTransaction(session, DESCRIPTION, REFERENCE))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.CREATED });
         });
     });
@@ -104,15 +100,13 @@ describe("transaction service tests", () => {
                 httpStatusCode: StatusCodes.NO_CONTENT,
                 resource: {
                     reference: EXPECTED_REF,
-                    companyNumber: COMPANY_NUMBER,
                     description: DESCRIPTION,
                     status: "closed"
                 }
             } as ApiResponse<Transaction>);
-            const transaction: ApiResponse<Transaction> = await putTransaction(session, COMPANY_NUMBER, TRANSACTION_ID, DESCRIPTION, "closed", OBJECT_ID);
+            const transaction: ApiResponse<Transaction> = await putTransaction(session, TRANSACTION_ID, DESCRIPTION, "closed");
 
             expect(transaction.resource?.reference).toEqual(EXPECTED_REF);
-            expect(transaction.resource?.companyNumber).toEqual(COMPANY_NUMBER);
             expect(transaction.resource?.description).toEqual(DESCRIPTION);
             expect(transaction.resource?.status).toEqual("closed");
 
@@ -124,7 +118,7 @@ describe("transaction service tests", () => {
         it("Should throw an error when no transaction api response", async () => {
             mockPutTransaction.mockResolvedValueOnce(undefined);
 
-            await expect(putTransaction(session, COMPANY_NUMBER, TRANSACTION_ID, DESCRIPTION, "closed", OBJECT_ID))
+            await expect(putTransaction(session, TRANSACTION_ID, DESCRIPTION, "closed"))
                 .rejects.toBe(undefined);
         });
 
@@ -133,7 +127,7 @@ describe("transaction service tests", () => {
                 httpStatusCode: StatusCodes.NOT_FOUND
             });
 
-            await expect(putTransaction(session, COMPANY_NUMBER, TRANSACTION_ID, DESCRIPTION, "closed", OBJECT_ID))
+            await expect(putTransaction(session, TRANSACTION_ID, DESCRIPTION, "closed"))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
 
@@ -143,29 +137,29 @@ describe("transaction service tests", () => {
                 httpStatusCode: HTTP_STATUS_CODE
             } as Resource<CompanyProfile>);
 
-            await expect(putTransaction(session, COMPANY_NUMBER, DESCRIPTION, REFERENCE, "closed", OBJECT_ID))
+            await expect(putTransaction(session, DESCRIPTION, REFERENCE, "closed"))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
         });
     });
 
     describe("closeTransaction tests", () => {
-        it("Expected data should exist in close transaction response", async () => {
-            const apiResponse = `"httpStatusCode": ${StatusCodes.OK}, "resource": {"companyNumber": "12345678", "description": DESCRIPTION, "reference": "UpdateRegisteredEmailAddressReference", "status": "closed"}}`;
+        it("Should extract payment url from headers", async () => {
+            const paymentUrl = "http://payment";
             mockPutTransaction.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.NO_CONTENT,
+                headers: {
+                    "x-payment-required": paymentUrl
+                },
+                httpStatusCode: 200,
                 resource: {
                     reference: EXPECTED_REF,
-                    companyNumber: COMPANY_NUMBER,
-                    description: DESCRIPTION,
+                    description: "desc",
                     status: "closed"
                 }
             } as ApiResponse<Transaction>);
 
-            const expectedAPIResponse = await closeTransaction(session, COMPANY_NUMBER, TRANSACTION_ID, OBJECT_ID);
+            const url = await closeTransaction(session, TRANSACTION_ID);
 
-            expect(expectedAPIResponse.httpStatusCode).toBe(StatusCodes.NO_CONTENT);
-            expect(expectedAPIResponse.resource?.companyNumber).toBe(COMPANY_NUMBER);
-            expect(expectedAPIResponse.resource?.reference).toBe(REFERENCE + OBJECT_ID);
+            expect(url).toBe(paymentUrl);
         });
 
         it("Should throw an error if SERVICE UNAVAILABLE returned from SDK", async () => {
@@ -174,7 +168,7 @@ describe("transaction service tests", () => {
                 httpStatusCode: HTTP_STATUS_CODE
             } as Resource<CompanyProfile>);
 
-            await expect(closeTransaction(session, COMPANY_NUMBER, TRANSACTION_ID, OBJECT_ID))
+            await expect(closeTransaction(session, TRANSACTION_ID))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
         });
     });

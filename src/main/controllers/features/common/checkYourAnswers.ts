@@ -1,11 +1,16 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, PAYMENT_URL, AML_BODY_DETAILS_CONFIRM } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, AML_BODY_DETAILS_CONFIRM, CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { ANSWER_DATA, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
+import { closeTransaction } from "../../../services/transactions/transaction_service";
+import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
+import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
+import { startPaymentsSession } from "../../../services/paymentService";
+import { createAndLogError } from "../../../utils/logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -33,7 +38,23 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        res.redirect(addLangToUrl(BASE_URL + PAYMENT_URL, lang));
+        const session: Session = req.session as any as Session;
+        const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
+        const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
+
+        if (!paymentUrl) {
+            return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
+        } else {
+            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(session, paymentUrl,
+                transactionId);
+
+            if (!paymentResponse.resource) {
+                return next(createAndLogError(NO_PAYMENT_RESOURCE_ERROR));
+            }
+
+            res.redirect(paymentResponse.resource.links.journey);
+        }
+
     } catch (error) {
         next(error);
     }
