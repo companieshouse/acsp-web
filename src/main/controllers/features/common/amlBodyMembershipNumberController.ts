@@ -53,6 +53,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
+            // adding a comment to trigger the pipeline
             res.redirect(nextPageUrl);
         }
     } catch (error) {
