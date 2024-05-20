@@ -3,32 +3,11 @@ import supertest from "supertest";
 import app from "../../../main/app";
 
 import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, LIMITED_SECTOR_YOU_WORK_IN } from "../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
-import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
-const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const correspondenceAddress: Address = {
-    propertyDetails: "2",
-    line1: "DUNCALF STREET",
-    town: "STOKE-ON-TRENT",
-    country: "England",
-    postcode: "ST6 3LJ"
-};
-const acspData: AcspData = {
-    id: "abc",
-    typeOfBusiness: "LIMITED",
-    businessName: "BUSINESS_NAME",
-    correspondenceAddress: correspondenceAddress
-};
-
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
-
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-
     it("should render the confirmation page with status 200", async () => {
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(200);
