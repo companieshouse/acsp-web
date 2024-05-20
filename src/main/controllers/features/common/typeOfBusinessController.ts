@@ -93,7 +93,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
             // calling  postAcspRegistration api
             try {
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acsp);
+                // temporarily commenting this out to deploy on Staging.
+                // const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acsp);
                 switch (selectedOption) {
                 case "LIMITED_COMPANY":
                 case "LIMITED_PARTNERSHIP":
