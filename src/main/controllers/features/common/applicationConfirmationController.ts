@@ -4,18 +4,20 @@ import * as config from "../../../config";
 import { CONFIRMATION, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSPData } from "../../../model/ACSPData";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: ACSPData = session.getExtraData(USER_DATA)!;
+    const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
 
     res.render(config.APPLICATION_CONFIRMATION, {
         title: "Application submitted",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + CONFIRMATION,
-        email: acspData?.id
+        email: acspData?.id,
+        transactionId
     });
 };
