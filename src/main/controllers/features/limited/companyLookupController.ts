@@ -16,8 +16,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     try {
-        // const acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        // session.setExtraData("typeOfBusinessService", acsp.typeOfBusiness);
+        const acsp = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        session.setExtraData("typeOfBusinessService", acsp.typeOfBusiness);
 
         res.render(config.LIMITED_COMPANY_NUMBER, {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
