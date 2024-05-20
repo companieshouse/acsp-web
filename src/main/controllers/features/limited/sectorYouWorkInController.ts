@@ -3,49 +3,69 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_SELECT_AML_SUPERVISOR, LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
+import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, LIMITED_CORRESPONDENCE_ADDRESS } from "../../../common/__utils/constants";
+import { ANSWER_DATA, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import logger from "../../../../../lib/Logger";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { ErrorService } from "../../../services/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const limitedCorrespondenceAddress : string = session?.getExtraData(LIMITED_CORRESPONDENCE_ADDRESS)!;
-    var previousPage : string = "";
-    if (limitedCorrespondenceAddress === "CORRESPONDANCE_ADDRESS") {
-        previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
-    } else {
-        previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
-    }
-
-    res.render(config.SECTOR_YOU_WORK_IN, {
-        previousPage: addLangToUrl(previousPage, lang),
-        title: "Which sector do you work in?",
-        ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + LIMITED_SECTOR_YOU_WORK_IN
-    });
-};
-
-export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
     try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
 
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const errorList = validationResult(req);
-        const session: Session = req.session as any as Session;
-        const limitedCorrespondenceAddress: string = session?.getExtraData(LIMITED_CORRESPONDENCE_ADDRESS)!;
         var previousPage : string = "";
-        if (limitedCorrespondenceAddress === "CORRESPONDANCE_ADDRESS") {
+        if (acspData.correspondenceAddress === acspData.businessAddress) {
             previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
         } else {
             previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
         }
 
+        let workSector;
+        if (acspData.workSector === "ESTATE_AGENTS" || acspData.workSector === "HIGH_VALUE_DEALERS" || acspData.workSector === "CASINOS") {
+            workSector = "OTHER";
+        } else {
+            workSector = acspData.workSector;
+        }
+
+        res.render(config.SECTOR_YOU_WORK_IN, {
+            previousPage: addLangToUrl(previousPage, lang),
+            title: "Which sector do you work in?",
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            workSector
+        });
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
+    }
+};
+
+export const post = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const errorList = validationResult(req);
+        const session: Session = req.session as any as Session;
+        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        var previousPage : string = "";
+        if (acspData.correspondenceAddress === acspData.businessAddress) {
+            previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
+        } else {
+            previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
+        }
+        const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
 
@@ -53,18 +73,30 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(previousPage, lang),
                 title: "Which sector do you work in?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + LIMITED_SECTOR_YOU_WORK_IN,
+                currentUrl,
                 ...pageProperties
             });
         } else {
-            if (req.body.sectorYouWorkIn === "OTHER") {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
-            } else {
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            if (acspData) {
+                acspData.workSector = req.body.sectorYouWorkIn;
+            }
+            try {
+                //  save data to mongodb
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
+                if (req.body.sectorYouWorkIn === "OTHER") {
+                    res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
+                } else {
+                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                    detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
+                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+                    res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
+                }
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
     } catch (error) {

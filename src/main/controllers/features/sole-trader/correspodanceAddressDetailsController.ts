@@ -5,13 +5,13 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Address } from "main/model/Address";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
 import logger from "../../../../../lib/Logger";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,6 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST;
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
+    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         // get data from mongo and save to session
@@ -73,7 +74,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // Save selected address to the session
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectPremise)[0];
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress);
+            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
+
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+            res.redirect(nextPageUrl);
+            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             try {
                 const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);

@@ -80,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 // Save the correspondence address to session
                 const addressManualservice = new CorrespondenceAddressManualService();
-                addressManualservice.saveCorrespondenceManualAddress(req);
+                addressManualservice.saveCorrespondenceManualAddress(req, acspData);
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);

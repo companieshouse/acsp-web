@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS;
-    
+
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
@@ -68,7 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then((nextPageUrl) => {
+            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then((nextPageUrl) => {
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError: ValidationError[] = [{
