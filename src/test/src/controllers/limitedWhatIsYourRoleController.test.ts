@@ -6,24 +6,13 @@ import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../main/types/pageURL";
 import { USER_DATA } from "../../../../src/main/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
 let customMockSessionMiddleware: any;
 
-const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const acspData: AcspData = {
-    id: "abc",
-    typeOfBusiness: "LIMITED",
-    workSector: "AUDITORS_INSOLVENCY_PRACTITIONERS"
-};
-
 describe("Statement Relevant Officer Router", () => {
     it("should render what is your role page", async () => {
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const response = await router.get(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

@@ -9,7 +9,6 @@ import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS } from "../../../commo
 import { ACSPData } from "../../../model/ACSPData";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -38,7 +37,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
 
         const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
         var previousPage: string = "";
@@ -63,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
-            amlSupervisoryBody.saveSelectedAML(req, acspData);
+            amlSupervisoryBody.saveSelectedAML(session, req);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

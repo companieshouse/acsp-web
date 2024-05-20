@@ -7,7 +7,7 @@ import {
 } from "../../../main/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { AcspData, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { Acsp, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/api/api_service");
@@ -26,7 +26,7 @@ mockCreatePublicOAuthApiClient.mockReturnValue({
 let session: any;
 const TRANSACTION_ID = "2222";
 const EMAIL_ID = "example@example.com";
-const acsp: AcspData = {
+const acsp: Acsp = {
     id: EMAIL_ID,
     typeOfBusiness: "LIMITED"
 };
