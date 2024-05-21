@@ -20,11 +20,11 @@
                     hint: {
                          text: i18n.nameRegisteredWithAmlBody
                     },
+                    value: nameRegisteredWithAml,
                 items: [
                     {
                         value: "NAME_OF_THE_BUSINESS",
                         text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
-                        checked: name-registered-with-aml == NAME_OF_THE_BUSINESS,
                         attributes: {
                             "data-event-id": "name-of-the-business-option"
                         }
@@ -32,7 +32,6 @@
                     {
                         value: "YOUR_NAME",
                         text: i18n.nameRegisteredWithAmlYourNameOption,
-                        checked: name-registered-with-aml == YOUR_NAME,
                         attributes: {
                             "data-event-id": "your-company-option"
                         }
@@ -40,7 +39,6 @@
                     {
                         value: "BOTH",
                         text: i18n.nameRegisteredWithAmlBothOption,
-                        checked: name-registered-with-aml == BOTH,
                         attributes: {
                             "data-event-id": "both-option"
                         }
