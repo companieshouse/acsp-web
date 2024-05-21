@@ -80,8 +80,7 @@ describe("CompanyDetailsService", () => {
             status: mockCompanyDetails.companyStatus,
             incorporationDate: mockCompanyDetails.dateOfCreation,
             companyType: mockCompanyDetails.type,
-            registeredOfficeAddress: mockCompanyDetails.registeredOfficeAddress,
-            correspondenceAddress: mockCompanyDetails.serviceAddress
+            registeredOfficeAddress: mockCompanyDetails.registeredOfficeAddress
         });
     });
 
