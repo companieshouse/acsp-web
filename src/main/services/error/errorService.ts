@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { getLocaleInfo } from "../utils/localise";
+import { getLocaleInfo } from "../../utils/localise";
 import { LocalesService } from "@companieshouse/ch-node-utils";
-import * as config from "../config";
+import * as config from "../../config";
 
 export class ErrorService {
      public renderErrorPage = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {

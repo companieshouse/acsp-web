@@ -11,7 +11,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, nationality } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -39,7 +39,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -67,32 +67,40 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             });// determined from user not in banned list
         } else {
-            // If validation passes, redirect to the next page
-            let nationalityString = req.body.nationality_input_0;
-            if (req.body.nationality_input_1 !== "") {
-                nationalityString += ", " + req.body.nationality_input_1;
-            }
-            if (req.body.nationality_input_2 !== "") {
-                nationalityString += ", " + req.body.nationality_input_2;
-            }
-            if (acspData) {
-                // Need to change
-                acspData.nationality = req.body.nationality_input_0;
-            }
             try {
-            //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.nationality = nationalityString;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                let nationalityString = req.body.nationality_input_0;
+                if (req.body.nationality_input_1 !== "") {
+                    nationalityString += ", " + req.body.nationality_input_1;
+                }
+                if (req.body.nationality_input_2 !== "") {
+                    nationalityString += ", " + req.body.nationality_input_2;
+                }
 
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+            const nationality: nationality = {
+                firstNationality: req.body.nationality_input_0,
+                secondNationality: req.body.nationality_input_1,
+                thirdNationality: req.body.nationality_input_2,
             }
-        }
+
+            if (acspData) {
+                acspData.nationality = nationality;
+            }
+                logger.info("nationality +++++++++++++++++++++++ " + nationality);
+        
+                //  save data to mongodb
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                    detailsAnswers.nationality = nationalityString;
+                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
+                } 
+             catch (err) {
+                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                    const error = new ErrorService();
+                    error.renderErrorPage(res, locales, lang, currentUrl);
+                }
+            }
     } catch (error) {
         next(error);
     }

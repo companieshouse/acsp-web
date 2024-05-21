@@ -19,9 +19,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM;
 
     try {
-        // get data from mongo and save to session
+        // get data from mongodb
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage,
@@ -36,7 +35,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -45,6 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData : AcspData = session?.getExtraData(USER_DATA)!;
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+
     detailsAnswers.correspondenceAddress = acspData.correspondenceAddress?.propertyDetails + " " + acspData.correspondenceAddress?.line1 + "<br>" + acspData.correspondenceAddress?.country + "<br>" + acspData.correspondenceAddress?.postcode;
     saveDataInSession(req, ANSWER_DATA, detailsAnswers);
     res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR, lang));

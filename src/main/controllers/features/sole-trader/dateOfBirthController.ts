@@ -36,7 +36,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
@@ -63,12 +63,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (acspData) {
-                acspData.dateOfBirth = new Date(
+                const dateOfBirth = new Date (
                     req.body["dob-year"],
                     req.body["dob-month"] - 1,
-                    req.body["dob-day"]
-                ).toDateString();
+                    req.body["dob-day"] );
+
+                    acspData.dateOfBirth =  dateOfBirth
             }
+    
+            logger.info("date of birth retrieve +++++++++++++++++++++++" + acspData);
+            logger.info("date of birth retrieve with convert into +++++++++++++++++++++++ " + JSON.stringify(acspData));
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
@@ -82,7 +86,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
     } catch (error) {

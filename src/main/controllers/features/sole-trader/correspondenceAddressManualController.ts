@@ -19,19 +19,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS;
+
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-        const payload = {
-            addressPropertyDetails: acspData?.correspondenceAddress?.propertyDetails,
-            addressLine1: acspData?.correspondenceAddress?.line1,
-            addressLine2: acspData?.correspondenceAddress?.line2,
-            addressTown: acspData?.correspondenceAddress?.town,
-            addressCounty: acspData?.correspondenceAddress?.county,
-            addressCountry: acspData?.correspondenceAddress?.country,
-            addressPostcode: acspData?.correspondenceAddress?.postcode
-        };
+
+        const addressManualservice = new CorrespondenceAddressManualService();
+        const payload = addressManualservice.getCorrespondenceManualAddress(acspData);
+
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             title: "Enter the correspondence address",
             ...getLocaleInfo(locales, lang),
@@ -39,24 +35,24 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            payload: payload
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS;
 
     try {
+        const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -71,20 +67,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.lastName
             });
         } else {
-            if (acspData) {
-                acspData.correspondenceAddress = req.body.correspondenceAddress;
-            }
+            // update acspData
+            const addressManualservice = new CorrespondenceAddressManualService();
+            addressManualservice.saveCorrespondenceManualAddress(req, acspData);
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                // Save the correspondence address to session
-                const addressManualservice = new CorrespondenceAddressManualService();
-                addressManualservice.saveCorrespondenceManualAddress(req, acspData);
+
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
     } catch (error) {
