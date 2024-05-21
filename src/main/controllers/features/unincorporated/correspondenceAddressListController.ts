@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
-import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import {
     BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
@@ -11,11 +10,11 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { ACSPData } from "../../../model/ACSPData";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const addressList = session.getExtraData(ADDRESS_LIST);
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -35,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
         const lang = selectLang(req.query.lang);
@@ -59,7 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // Save selected address to the session
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress);
+            addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
 
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);

@@ -8,6 +8,7 @@ import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA } from "../../../common/__utils/constants";
 import { CorrespondenceAddressManualService } from "../../../../main/services/correspondence-address/correspondence-address-manual";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -36,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         const lang = selectLang(req.query.lang);
@@ -57,7 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             // Save the correspondence address to session
             const addressManualservice = new CorrespondenceAddressManualService();
-            addressManualservice.saveCorrespondenceManualAddress(req);
+            addressManualservice.saveCorrespondenceManualAddress(req, acspData);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }
     } catch (error) {

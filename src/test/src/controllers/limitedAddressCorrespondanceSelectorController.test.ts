@@ -2,12 +2,22 @@ import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../main/app";
 import { BASE_URL, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, LIMITED_SECTOR_YOU_WORK_IN } from "../../../main/types/pageURL";
+import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);
+
+const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const acspData: AcspData = {
+    id: "abc",
+    typeOfBusiness: "LIMITED"
+};
 
 describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     it("should render the correspondence address selector page with status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
