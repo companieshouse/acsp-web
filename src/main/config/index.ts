@@ -61,3 +61,4 @@ export const AML_MEMBERSHIP_NUMBER = `${BASE_COMMON_URL}/aml-body-number/aml-bod
 export const ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_COMMON_URL}/address-correspondance-selector/address-correspondance-selector`;
 export const TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/type-of-business/type-of-business`;
 export const OTHER_TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/other-type-of-business/other-type-of-business`;
+export const CHECK_AML_DETAILS = `${BASE_COMMON_URL}/check-aml-details/check-aml-details`;

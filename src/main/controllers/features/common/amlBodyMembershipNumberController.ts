@@ -60,11 +60,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = getPreviousPage(acspType);
     const currentUrl: string = BASE_URL + AML_MEMBERSHIP_NUMBER;
 
-    // collect selected AMLs
-    // const selectedAMLSupervisoryBodies: string[] = [];
-    // const amlSupervisoryBody = new AmlSupervisoryBodyService();
-    amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
-
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -85,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
             amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies, amlSupervisoryBodies);
-
+            console.log("post membershipNumber------------>", acspData);
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
