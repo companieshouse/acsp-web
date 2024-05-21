@@ -2,68 +2,38 @@ import { NextFunction, Request, Response } from "express";
 import { BASE_URL, AML_BODY_DETAILS_CONFIRM, AML_MEMBERSHIP_NUMBER, LIMITED_SELECT_AML_SUPERVISOR, SOLE_TRADER_SELECT_AML_SUPERVISOR, UNINCORPORATED_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
-import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { Session } from "node-mocks-http";
+import { ACSPData } from "../../../model/ACSPData";
+import { AML_SUPERVISOR_SELECTED, USER_DATA } from "../../../common/__utils/constants";
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
 import { validationResult } from "express-validator";
-import logger from "../../../../../lib/Logger";
-import { ErrorService } from "../../../services/errorService";
-import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-
-const selectedAMLSupervisoryBodies: string[] = [];
-const amlSupervisoryBody = new AmlSupervisoryBodyService();
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const currentUrl: string = BASE_URL + AML_MEMBERSHIP_NUMBER;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspType: string = acspData?.typeOfBusiness!;
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
+    const previousPage: string = getPreviousPage(acspType);
 
-    try {
-        // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        saveDataInSession(req, USER_DATA, acspData);
+    res.render(config.AML_MEMBERSHIP_NUMBER, {
+        ...getLocaleInfo(locales, lang),
+        previousPage: addLangToUrl(previousPage, lang),
+        currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
+        selectedAMLSupervisoryBodies
 
-        const acspType: string = acspData?.typeOfBusiness!;
-        const previousPage: string = getPreviousPage(acspType);
-
-        // collect selected AMLs
-        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
-
-        // collect membership numbers to render the page with saved data
-        let payload;
-        amlSupervisoryBody.getMembershipNumbers(acspData, selectedAMLSupervisoryBodies, payload);
-
-        res.render(config.AML_MEMBERSHIP_NUMBER, {
-            ...getLocaleInfo(locales, lang),
-            previousPage: addLangToUrl(previousPage, lang),
-            currentUrl,
-            selectedAMLSupervisoryBodies,
-            payload
-        });
-    } catch (err) {
-        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
-    }
+    });
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
+    const selectedAMLSupervisoryBodies: string[] = session?.getExtraData(AML_SUPERVISOR_SELECTED);
     const acspType: string = acspData?.typeOfBusiness!;
     const previousPage: string = getPreviousPage(acspType);
-    const currentUrl: string = BASE_URL + AML_MEMBERSHIP_NUMBER;
-
-    // collect selected AMLs
-    // const selectedAMLSupervisoryBodies: string[] = [];
-    // const amlSupervisoryBody = new AmlSupervisoryBodyService();
-    amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
     try {
         const errorList = validationResult(req);
@@ -74,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(previousPage, lang),
                 title: "What is the Anti-Money Laundering (AML) membership number?",
                 ...getLocaleInfo(locales, lang),
-                currentUrl,
+                currentUrl: BASE_URL + AML_MEMBERSHIP_NUMBER,
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: acspData?.firstName,
@@ -82,21 +52,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 selectedAMLSupervisoryBodies
             });
         } else {
-            // update acspData
-            const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
-            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies, amlSupervisoryBodies);
-
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-
-                const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
-                res.redirect(nextPageUrl);
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
+            // adding a comment to trigger the pipeline
+            res.redirect(nextPageUrl);
         }
     } catch (error) {
         next(error);

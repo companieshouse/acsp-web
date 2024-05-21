@@ -4,7 +4,7 @@ import { createPublicOAuthApiClient } from "./api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspDto, Acsp, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 /**
  * GET an acsp registration object with the given transaction ID and emailId.
@@ -14,7 +14,7 @@ import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/di
  * @returns The acsp registration details
  */
 
-export const getAcspRegistration = async (session: Session, transactionId:string, emailId: string): Promise<AcspData> => {
+export const getAcspRegistration = async (session: Session, transactionId:string, emailId: string): Promise<Acsp> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Retrieving acsp registration details for emailId ${emailId}`);
@@ -29,7 +29,7 @@ export const getAcspRegistration = async (session: Session, transactionId:string
         return Promise.reject(sdkResponse);
     }
 
-    const castedSdkResponse: Resource<AcspData> = sdkResponse as Resource<AcspData>;
+    const castedSdkResponse: Resource<Acsp> = sdkResponse as Resource<Acsp>;
     if (!castedSdkResponse.resource) {
         logger.error(`acsp registration API GET request returned no resource for emailId ${emailId}`);
         return Promise.reject(sdkResponse);
@@ -45,7 +45,7 @@ export const getAcspRegistration = async (session: Session, transactionId:string
  * @param transactionId The filings associated transaction ID
  * @returns The AcspResponse contains the submission ID for the newly created registration
  */
-export const postAcspRegistration = async (session: Session, transactionId: string, acsp: AcspData): Promise<AcspResponse> => {
+export const postAcspRegistration = async (session: Session, transactionId: string, acsp: Acsp): Promise<AcspResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Posting acsp registration for transaction ${transactionId}`);
