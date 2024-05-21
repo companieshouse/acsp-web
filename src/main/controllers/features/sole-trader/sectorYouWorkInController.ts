@@ -6,7 +6,6 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
-import { ACSPData } from "../../../model/ACSPData";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { SectorOfWork } from "../../../model/SectorOfWork";
@@ -74,7 +73,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 }
                 try {
                 //  save data to mongodb
-                    const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
                     saveDataInSession(req, ANSWER_DATA, detailsAnswers);

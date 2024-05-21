@@ -62,9 +62,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
             }
+            logger.info("+++++++++++++++++++++++++++++++++++" + acspData);
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 if (selectedRole === "SOLE_TRADER") {
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.roleType = "I am the sole trader";

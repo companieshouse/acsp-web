@@ -69,18 +69,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
-             amlSupervisoryBody.saveSelectedAML(req, acspData);
+            amlSupervisoryBody.saveSelectedAML(req, acspData);
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-            res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
-        } catch (err) {
-            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-            const error = new ErrorService();
-            error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+            }
         }
-    }
     } catch (error) {
         next(error);
     }

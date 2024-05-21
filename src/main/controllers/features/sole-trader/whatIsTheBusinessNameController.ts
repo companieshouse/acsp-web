@@ -5,7 +5,6 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSPData } from "../../../model/ACSPData";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -76,17 +75,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
             //  save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-            detailsAnswers.businessName = businessName;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                detailsAnswers.businessName = businessName;
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
-            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
-        }   catch (err) {
-            logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-            const error = new ErrorService();
-            error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, previousPage, currentUrl);
+            }
         }
-    }
     } catch (error) {
         next(error);
     }

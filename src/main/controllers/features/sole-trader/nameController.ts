@@ -5,7 +5,6 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER_WHAT_IS_YOUR_ROLE, SOLE_TRADER_WHAT_IS_YOUR_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
-import { ACSPData } from "../../../model/ACSPData";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -65,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 saveDataInSession(req, USER_DATA, acspData);
 
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

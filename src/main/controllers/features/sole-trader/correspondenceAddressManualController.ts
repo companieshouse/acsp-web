@@ -4,7 +4,6 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, BASE_URL } from "../../../types/pageURL";
-import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
@@ -77,7 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                const acspResponse = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 // Save the correspondence address to session
                 const addressManualservice = new CorrespondenceAddressManualService();
                 addressManualservice.saveCorrespondenceManualAddress(req, acspData);
