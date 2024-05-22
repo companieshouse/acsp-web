@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-
+        const url = "/register-as-companies-house-authorised-agent/aml-membership-number";
         res.render(config.CHECK_AML_DETAILS, {
             title: "Check the AML details",
             ...getLocaleInfo(locales, lang),
@@ -26,7 +26,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
             firstName: acspData?.firstName,
-            businessName: acspData?.businessName
+            businessName: acspData?.businessName,
+            url
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
