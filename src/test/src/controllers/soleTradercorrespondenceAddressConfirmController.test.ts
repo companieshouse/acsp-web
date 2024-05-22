@@ -20,7 +20,7 @@ const correspondenceAddress: Address = {
 };
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED",
+    typeOfBusiness: "SOLE_TRADER",
     businessName: "BUSINESS_NAME",
     correspondenceAddress: correspondenceAddress
 };

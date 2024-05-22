@@ -63,16 +63,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (acspData) {
-                const dateOfBirth = new Date (
+                const dateOfBirth = new Date(
                     req.body["dob-year"],
                     req.body["dob-month"] - 1,
-                    req.body["dob-day"] );
+                    req.body["dob-day"]);
 
-                    acspData.dateOfBirth =  dateOfBirth
+                acspData.dateOfBirth = dateOfBirth;
             }
-    
-            logger.info("date of birth retrieve +++++++++++++++++++++++" + acspData);
-            logger.info("date of birth retrieve with convert into +++++++++++++++++++++++ " + JSON.stringify(acspData));
+
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
