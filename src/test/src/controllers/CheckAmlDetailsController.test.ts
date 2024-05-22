@@ -26,5 +26,3 @@ describe("POST" + AML_BODY_DETAILS_CONFIRM, () => {
         expect(res.header.location).toBe(BASE_URL + CHECK_YOUR_ANSWERS + "?lang=en");
     });
 });
-
-

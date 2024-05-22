@@ -26,23 +26,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
-
-        // collect selected AMLs
-        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
-
-        // collect membership numbers to render the page with saved data
-        let payload;
-        amlSupervisoryBody.getMembershipNumbers(acspData, selectedAMLSupervisoryBodies, payload);
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
-            selectedAMLSupervisoryBodies,
-            payload
+            amlSupervisoryBodies: acspData?.amlSupervisoryBodies
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -63,7 +54,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            errorListDisplay(errorList.array(), selectedAMLSupervisoryBodies, lang);
+            errorListDisplay(errorList.array(), acspData.amlSupervisoryBodies!, lang);
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -71,16 +62,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,
-                payload: req.body,
+                amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
-                selectedAMLSupervisoryBodies
+                lastName: acspData?.lastName
             });
         } else {
             // update acspData
-            const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
-            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies, amlSupervisoryBodies);
-            console.log("post membershipNumber------------>", acspData);
+            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
@@ -98,9 +86,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const errorListDisplay = (errors: any[], selectedAMLSupervisoryBodies: string[], lang: string) => {
+const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string) => {
     return errors.forEach((element, index) => {
-        const selection = selectedAMLSupervisoryBodies[index];
+        const selection = amlSupervisoryBodies[index].amlSupervisoryBody;
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selection;
         return element;

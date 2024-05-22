@@ -1,5 +1,6 @@
 {
     "checkAmlDetailsTitle": "Check the Anti-Money Laundering (AML) details welsh",
     "checkAmlDetailsText1": "We’ll confirm the AML supervisory body holds the same details for MORRIS ACCOUNTING LTD. If the details do not match, we will reject your application. welsh",
-    "checkAmlDetailsText2": "Check the details are correct and change them if you need to. welsh"
+    "checkAmlDetailsText2": "Check the details are correct and change them if you need to. welsh",
+    "checkAmlDetailsText3": "You must have been registered with the AML supervisory body for at least 2 weeks. welsh"
 }
