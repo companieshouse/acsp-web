@@ -3,7 +3,7 @@ import supertest from "supertest";
 import app from "../../../main/app";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../main/types/pageURL";
 import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
-import { AcspData, nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
+import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/acspRegistrationService");
@@ -11,7 +11,7 @@ const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 
-const nationality: nationality = {
+const nationalityData: Nationality = {
     firstNationality: "British",
     secondNationality: "",
     thirdNationality: ""
@@ -22,7 +22,7 @@ const acspData: AcspData = {
     firstName: "John",
     middleName: "",
     lastName: "Doe",
-    nationality: nationality
+    nationality: nationalityData
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {

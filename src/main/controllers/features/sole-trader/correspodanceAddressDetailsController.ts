@@ -14,7 +14,7 @@ import { getAcspRegistration, postAcspRegistration } from "../../../services/acs
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
 import logger from "../../../../../lib/Logger";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { ErrorService } from "../../../services/error/errorService";
+import { ErrorService } from "../../../services/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
