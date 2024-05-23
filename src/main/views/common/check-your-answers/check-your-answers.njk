@@ -4,20 +4,20 @@
 {% block main_content %}
 
 {% set amlList = [] %}
-  {% for body,value in amlDetails %}
+  {% for body in amlDetails %}
       {% set amlSummaryObject = {
           key: {
             text:  i18n.checkYourAnswersAMLTab
           },
           value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body + "</li><li>" + value + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.amlSupervisoryBody + "</li><li>" + body.membershipId + "</li></ul>"
           },
           actions: {
             items: [
               {
                 href: editAML + "#" + "membershipnumber_" + loop.index,
                 text: i18n.checkYourAnswersChange,
-                visuallyHiddenText: body
+                visuallyHiddenText: body.amlSupervisoryBody
               }
             ]
           }
