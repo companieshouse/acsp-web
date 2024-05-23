@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/error/errorService";

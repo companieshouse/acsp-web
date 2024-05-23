@@ -5,7 +5,6 @@ import { BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS } from "../../../ma
 import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
-
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/acspRegistrationService");
 const router = supertest(app);

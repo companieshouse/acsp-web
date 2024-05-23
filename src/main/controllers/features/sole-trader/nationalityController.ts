@@ -79,8 +79,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const nationality: nationality = {
                     firstNationality: req.body.nationality_input_0,
                     secondNationality: req.body.nationality_input_1,
-                    thirdNationality: req.body.nationality_input_2,
-                }
+                    thirdNationality: req.body.nationality_input_2
+                };
 
                 if (acspData) {
                     acspData.nationality = nationality;
@@ -93,8 +93,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-            }
-            catch (err) {
+            } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();
                 error.renderErrorPage(res, locales, lang, currentUrl);

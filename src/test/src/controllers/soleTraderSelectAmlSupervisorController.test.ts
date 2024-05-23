@@ -45,4 +45,3 @@ describe("POST" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
         expect(res.text).toContain("Select all AML supervisory bodies you are registered with");
     });
 });
-

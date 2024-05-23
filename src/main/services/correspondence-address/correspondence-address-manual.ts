@@ -2,7 +2,7 @@ import { Request } from "express";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export class CorrespondenceAddressManualService {
-public saveCorrespondenceManualAddress (req: Request, acspData: AcspData): void {
+    public saveCorrespondenceManualAddress (req: Request, acspData: AcspData): void {
         // Extract correspondence address details from request body
         const correspondenceAddress: Address = {
             propertyDetails: req.body.addressPropertyDetails,

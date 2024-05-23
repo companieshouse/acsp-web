@@ -17,13 +17,13 @@ const acspData: AcspData = {
     middleName: "",
     lastName: "Doe",
     typeOfBusiness: "LIMITED",
-    businessName: "BUSINESS NAME",
+    businessName: "BUSINESS NAME"
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME)
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

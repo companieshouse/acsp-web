@@ -16,7 +16,6 @@ import logger from "../../../../../lib/Logger";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/error/errorService";
 
-
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -25,7 +24,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST;
     const session: Session = req.session as any as Session;
     const addressList = session.getExtraData(ADDRESS_LIST);
-
 
     try {
         // get data from mongo and save to session

@@ -19,7 +19,7 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH)
+        const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -31,11 +31,11 @@ describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.post(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH)
-        .send({
-            "dob-year": "1999", 
-            "dob-month": "02",
-            "dob-day": "11" 
-        })
+            .send({
+                "dob-year": "1999",
+                "dob-month": "02",
+                "dob-day": "11"
+            });
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -44,7 +44,7 @@ describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
 // Test for incorrect form details entered, will return 400.
 describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     it("should return status 400", async () => {
-        const res = await router.post(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH)
+        const res = await router.post(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(res.status).toBe(400);
     });
 });

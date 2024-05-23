@@ -14,8 +14,8 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const nationality: nationality = {
     firstNationality: "British",
     secondNationality: "",
-    thirdNationality: "",
-}
+    thirdNationality: ""
+};
 
 const acspData: AcspData = {
     id: "abc",
@@ -28,20 +28,19 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 });
 
-
 // Test for correct form with valid inputs, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-        .send({ nationality_input_0: "British", nationality_input_1: "French", nationality_input_2: "German" })
+            .send({ nationality_input_0: "British", nationality_input_1: "French", nationality_input_2: "German" });
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
