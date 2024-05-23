@@ -28,10 +28,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.SELECT_AML_SUPERVISOR, {
-            previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
+            previousPage,
             title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
             ...getLocaleInfo(locales, lang),
-            currentUrl: BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR,
+            currentUrl,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
             acspType: acspData?.typeOfBusiness,
