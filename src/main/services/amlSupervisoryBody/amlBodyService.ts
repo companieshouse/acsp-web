@@ -18,18 +18,20 @@ export class AmlSupervisoryBodyService {
         }
     }
 
-    public saveAmlSupervisoryBodies = (req: Request, acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>, amlSupervisoryBodies: Array<AmlSupervisoryBody>) => {
-        for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
+    public saveAmlSupervisoryBodies = (req: Request, acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>) => {
+        const amlSupervisoryBodiesNew: Array<AmlSupervisoryBody> = [];
+        for (let i = 0; i < acspData.amlSupervisoryBodies!.length; i++) {
             const j = i + 1;
             const id = "membershipNumber_" + j;
-            amlSupervisoryBodies.push({
-                amlSupervisoryBody: selectedAMLSupervisoryBodies[i],
+            amlSupervisoryBodiesNew.push({
+                amlSupervisoryBody: acspData.amlSupervisoryBodies![i].amlSupervisoryBody,
                 membershipId: req.body[id]
             });
         }
+
         if (acspData) {
-            acspData.amlSupervisoryBodies = amlSupervisoryBodies;
-        }
+            acspData.amlSupervisoryBodies = amlSupervisoryBodiesNew;
+        };
     }
 
     public getSelectedAML = (acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>) => {
@@ -41,13 +43,4 @@ export class AmlSupervisoryBodyService {
         }
     }
 
-    public getMembershipNumbers = (acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>, payload: { id: string | undefined; } | undefined) => {
-        for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
-            const j = i + 1;
-            const id: string = "membershipNumber_" + j;
-            payload = {
-                id: acspData.amlSupervisoryBodies![i].membershipId
-            };
-        }
-    }
 }

@@ -8,6 +8,7 @@ export * as amlBodyMembershipNumberController from "./features/common/amlBodyMem
 export * as signOutController from "./signOutController";
 export * as typeOfBusinessController from "./features/common/typeOfBusinessController";
 export * as otherTypeOfBusinessController from "./features/common/otherTypeOfBusinessController";
+export * as checkAmlDetailsController from "./features/common/checkAmlDetailsController";
 export * as paymentCallbackController from "./features/common/paymentCallbackController";
 
 // Sole trader
