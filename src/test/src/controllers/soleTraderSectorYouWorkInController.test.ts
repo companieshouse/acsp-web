@@ -35,6 +35,15 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("John Doe");
     });
+    it("catch error when rendering the page", async () => {
+        const resp = await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        mockGetAcspRegistration.mockImplementationOnce(() => Promise.reject(new Error("oh no")));
+        // mockGetAcspRegistration.mockRejectedValueOnce(null);
+        expect(resp.status).toEqual(400);
+        expect(resp.text).toContain("Page not found");
+    });
 });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
