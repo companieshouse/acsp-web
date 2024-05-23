@@ -23,45 +23,27 @@
                 items: [
                     {
                         value: "LIMITED_COMPANY",
-                        text: i18n.typeOfBusinessLimitedCompanyOption,
-                        attributes: {
-                            "data-event-id": "Limited company"
-                        }
+                        text: i18n.typeOfBusinessLimitedCompanyOption
                     }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
                     {
                         value: "LIMITED_PARTNERSHIP",
-                        text: i18n.typeOfBusinessLimitedPartnershipOption,
-                        attributes: {
-                            "data-event-id": "Limited partnership"
-                        }
+                        text: i18n.typeOfBusinessLimitedPartnershipOption
                     },
                     {
                         value: "LIMITED_LIABILITY_PARTNERSHIP",
-                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
-                        attributes: {
-                            "data-event-id": "Limited liability partnership"
-                        }
+                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption
                     },
                     {
                         value: "PARTNERSHIP",
-                        text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption,
-                        attributes: {
-                            "data-event-id": "Partnership"
-                        }
+                        text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption
                     }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
                     {
                         value: "SOLE_TRADER",
-                        text: i18n.typeOfBusinessSoleTraderOption,
-                        attributes: {
-                            "data-event-id": "Sole trader"
-                        }
+                        text: i18n.typeOfBusinessSoleTraderOption
                     },
                     {
                         value: "OTHER",
-                        text: i18n.typeOfBusinessOtherOption,
-                        attributes: {
-                            "data-event-id": "Other"
-                        }
+                        text: i18n.typeOfBusinessOtherOption
                     }
                 ]
                 }) }}
@@ -69,7 +51,6 @@
                 {{ govukButton({
                     text: i18n.Continue,
                     attributes: {
-                        "data-event-id": "SAVE AND CONTINUE-type of business",
                         "onClick": "continueOnClick()"
                     }
                 }) }}
