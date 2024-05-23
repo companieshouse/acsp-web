@@ -62,7 +62,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
             }
-            logger.info("+++++++++++++++++++++++++++++++++++" + acspData);
             try {
                 //  save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);

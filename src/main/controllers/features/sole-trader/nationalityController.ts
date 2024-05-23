@@ -76,14 +76,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     nationalityString += ", " + req.body.nationality_input_2;
                 }
 
-                const nationality: NationalityType = {
+                const nationalityData: NationalityType = {
                     firstNationality: req.body.nationality_input_0,
                     secondNationality: req.body.nationality_input_1,
                     thirdNationality: req.body.nationality_input_2
                 };
 
                 if (acspData) {
-                    acspData.nationality = nationality;
+                    acspData.nationality = nationalityData;
                 }
 
                 //  save data to mongodb
