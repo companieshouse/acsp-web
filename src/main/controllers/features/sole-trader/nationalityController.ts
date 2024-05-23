@@ -11,7 +11,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
-import { AcspData, nationality } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, nationality as NationalityType } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/error/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -76,7 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     nationalityString += ", " + req.body.nationality_input_2;
                 }
 
-                const nationality: nationality = {
+                const nationality: NationalityType = {
                     firstNationality: req.body.nationality_input_0,
                     secondNationality: req.body.nationality_input_1,
                     thirdNationality: req.body.nationality_input_2
