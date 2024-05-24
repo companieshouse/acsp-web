@@ -1,16 +1,19 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-
-import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_SELECT_AML_SUPERVISOR } from "../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import app from "../../../../main/app";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, SOLE_TRADER_SELECT_AML_SUPERVISOR } from "../../../../main/types/pageURL";
+import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/acspRegistrationService");
+jest.mock("../../../../../lib/Logger");
+
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
+
 const correspondenceAddress: Address = {
     propertyDetails: "2",
     line1: "DUNCALF STREET",
@@ -26,8 +29,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
-
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+    beforeEach(() => {
+        mockGetAcspRegistration.mockClear();
+    });
 
     it("should render the confirmation page with status 200", async () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
@@ -43,6 +47,13 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
             .get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM)
             .set("Cookie", [`userSession=${JSON.stringify(userSession)}`])
             .expect(200);
+    });
+    it("catch error when rendering the page", async () => {
+        mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
+        const resp = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(resp.status).toEqual(400);
+        expect(resp.text).toContain("Page not found");
+
     });
 });
 

@@ -1,13 +1,13 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-import { SOLE_TRADER_SECTOR_YOU_WORK_IN, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../main/types/pageURL";
-import { getAcspRegistration, postAcspRegistration } from "../../../main/services/acspRegistrationService";
+import app from "../../../../main/app";
+import { SOLE_TRADER_SECTOR_YOU_WORK_IN, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../../main/types/pageURL";
+import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
-jest.mock("../../../../lib/Logger");
+jest.mock("../../../../main/services/acspRegistrationService");
+jest.mock("../../../../../lib/Logger");
 
 const router = supertest(app);
 
