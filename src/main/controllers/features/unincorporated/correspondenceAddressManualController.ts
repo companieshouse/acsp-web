@@ -5,33 +5,41 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, BASE_URL } from "../../../types/pageURL";
-import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import logger from "../../../../../lib/Logger";
+import { ErrorService } from "../../../services/errorService";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
-    const payload = {
-        addressPropertyDetails: acspData?.address?.propertyDetails,
-        addressLine1: acspData?.address?.line1,
-        addressLine2: acspData?.address?.line2,
-        addressTown: acspData?.address?.town,
-        addressCounty: acspData?.address?.county,
-        addressCountry: acspData?.address?.country,
-        addressPostcode: acspData?.address?.postcode
-    };
-    res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
-        title: "Enter the correspondence address",
-        ...getLocaleInfo(locales, lang),
-        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL,
-        businessName: acspData?.businessName,
-        payload: payload
-    });
+    const currentUrl = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL;
+
+    try {
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        const addressManualservice = new CorrespondenceAddressManualService();
+        const payload = addressManualservice.getCorrespondenceManualAddress(acspData);
+
+        res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
+            title: "Enter the correspondence address",
+            ...getLocaleInfo(locales, lang),
+            previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
+            currentUrl,
+            businessName: acspData?.businessName,
+            payload
+        });
+    } catch {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -54,9 +62,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 businessName: acspData?.businessName
             });
         } else {
-            // Save the correspondence address to session
+            // Update acspData
             const addressManualservice = new CorrespondenceAddressManualService();
             addressManualservice.saveCorrespondenceManualAddress(req, acspData);
+
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+            // redirect to confirm address page
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }
     } catch (error) {
