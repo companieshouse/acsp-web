@@ -22,10 +22,7 @@
                     {
                         value: "UNINCORPORATED_ENTITY",
                         text: i18n.otherTypeOfBusinessUnincorporatedEntity,
-                        checked: type-of-business == UNINCORPORATED_ENTITY,
-                        attributes: {
-                            "data-event-id": "Unincorporated entity"
-                        }
+                        checked: type-of-business == UNINCORPORATED_ENTITY
                     },
                     {
                         value: "CORPORATE_BODY",
@@ -33,10 +30,7 @@
                         hint: {
                             text: "This does not include limited companies or registrable partnerships."
                         },
-                        checked: type-of-business == CORPORATE_BODY,
-                        attributes: {
-                            "data-event-id": "Corporate body"
-                        }
+                        checked: type-of-business == CORPORATE_BODY
                     }
                 ]
                 }) }}
@@ -44,7 +38,6 @@
         {{ govukButton({
             text: i18n.Continue,
             attributes: {
-                "data-event-id": "SAVE AND CONTINUE - type of business other",
                 "onClick": "continueOnClick()"
             }
         }) }}
