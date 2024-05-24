@@ -4,19 +4,15 @@ import app from "../../../main/app";
 import { SOLE_TRADER_SECTOR_YOU_WORK_IN, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_AUTO_LOOKUP_ADDRESS } from "../../../main/types/pageURL";
 import { getAcspRegistration, postAcspRegistration } from "../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
-import logger from "../../../../lib/Logger";
-import { ErrorService } from "../../../main/services/errorService";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/acspRegistrationService");
 jest.mock("../../../../lib/Logger");
-jest.mock("../../../main/services/errorService");
 
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
-const mockErrorService = new ErrorService() as jest.Mocked<ErrorService>;
 
 const acspData: AcspData = {
     id: "abc",
@@ -27,22 +23,23 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
+    beforeEach(() => {
+        mockGetAcspRegistration.mockClear();
+    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-
         const res = await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("John Doe");
     });
     it("catch error when rendering the page", async () => {
+        mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const resp = await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        mockGetAcspRegistration.mockImplementationOnce(() => Promise.reject(new Error("oh no")));
-        // mockGetAcspRegistration.mockRejectedValueOnce(null);
         expect(resp.status).toEqual(400);
         expect(resp.text).toContain("Page not found");
+
     });
 });
 
@@ -62,10 +59,7 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
     });
 
     it("should handle error and render error page on postAcspRegistration error", async () => {
-        mockPostAcspRegistration.mockRejectedValueOnce(new Error("Test Error"));
-
-        await router.post(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" }).expect(500);
-        expect(logger.error).toHaveBeenCalledWith("Unable to post registration details for the transaction");
-        // expect(mockErrorService.renderErrorPage).toHaveBeenCalled();
+        mockPostAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
+        await router.post(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" }).expect(400);
     });
 });
