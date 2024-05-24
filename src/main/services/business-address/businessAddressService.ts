@@ -18,15 +18,15 @@ export class BusinessAddressService {
         acspData.businessAddress = businessAddress;
     }
 
-    public getBusinessManualAddress (acspData: AcspData): Address {
+    public getBusinessManualAddress (acspData: AcspData) {
         return {
             propertyDetails: acspData?.businessAddress?.propertyDetails,
-            line1: acspData?.businessAddress?.line1,
-            line2: acspData?.businessAddress?.line2,
-            town: acspData?.businessAddress?.town,
-            county: acspData?.businessAddress?.county,
-            country: acspData?.businessAddress?.country,
-            postcode: acspData?.businessAddress?.postcode
+            addressLine1: acspData?.businessAddress?.line1,
+            addressLine2: acspData?.businessAddress?.line2,
+            addressTown: acspData?.businessAddress?.town,
+            addressCounty: acspData?.businessAddress?.county,
+            addressCountry: acspData?.businessAddress?.country,
+            addressPostcode: acspData?.businessAddress?.postcode
         };
     }
 

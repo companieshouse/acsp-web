@@ -30,7 +30,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang),
             currentUrl,
             acspType: acspData?.typeOfBusiness,
-            unincorporatedBusinessName: acspData?.businessName
+            unincorporatedBusinessName: acspData?.businessName,
+            roleType: acspData?.roleType
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

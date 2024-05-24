@@ -25,13 +25,19 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        // collect selectedAMLs to render the page with saved data
+        const selectedAMLSupervisoryBodies: string[] = [];
+        const amlSupervisoryBody = new AmlSupervisoryBodyService();
+        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
+
         res.render(config.SELECT_AML_SUPERVISOR, {
             previousPage: addLangToUrl(getPreviousPage(session), lang),
             title: "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
             ...getLocaleInfo(locales, lang),
             acspType: acspData?.typeOfBusiness,
             currentUrl,
-            AMLSupervisoryBodies
+            AMLSupervisoryBodies,
+            selectedAMLSupervisoryBodies
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

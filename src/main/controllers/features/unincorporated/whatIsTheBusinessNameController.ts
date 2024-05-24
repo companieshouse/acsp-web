@@ -24,11 +24,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        const payload = {
+            whatIsTheBusinessName: acspData.businessName
+        };
+
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             previousPage: addLangToUrl(getPreviousPage(session), lang),
             title: "What is the name of the business?",
             ...getLocaleInfo(locales, lang),
-            payload: acspData.businessName,
+            payload,
             currentUrl
         });
     } catch {

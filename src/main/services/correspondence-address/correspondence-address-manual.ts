@@ -17,16 +17,15 @@ export class CorrespondenceAddressManualService {
         acspData.correspondenceAddress = correspondenceAddress;
     }
 
-    public getCorrespondenceManualAddress (acspData: AcspData): Address {
-        const payload: Address = {
+    public getCorrespondenceManualAddress (acspData: AcspData) {
+        return {
             propertyDetails: acspData?.correspondenceAddress?.propertyDetails,
-            line1: acspData?.correspondenceAddress?.line1,
-            line2: acspData?.correspondenceAddress?.line2,
-            town: acspData?.correspondenceAddress?.town,
-            county: acspData?.correspondenceAddress?.county,
-            country: acspData?.correspondenceAddress?.country,
-            postcode: acspData?.correspondenceAddress?.postcode
+            addressLine1: acspData?.correspondenceAddress?.line1,
+            addressLine2: acspData?.correspondenceAddress?.line2,
+            addressTown: acspData?.correspondenceAddress?.town,
+            addressCounty: acspData?.correspondenceAddress?.county,
+            addressCountry: acspData?.correspondenceAddress?.country,
+            addressPostcode: acspData?.correspondenceAddress?.postcode
         };
-        return payload;
     }
 }
