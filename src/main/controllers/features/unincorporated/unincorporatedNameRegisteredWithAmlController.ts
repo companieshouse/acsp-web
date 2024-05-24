@@ -34,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
             title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
             ...getLocaleInfo(locales, lang),
-            nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAML,
+            nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAml,
             currentUrl
         });
     } catch {
@@ -70,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             // Save to MongoDB
             if (acspData) {
-                acspData.howAreYouRegisteredWithAML = req.body.nameRegisteredWithAml;
+                acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             }
 

@@ -32,7 +32,7 @@ export class AddressLookUpService {
 
     public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businesAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
-        var nextPage = getAddressFromPostcode(postcode).then((ukAddresses) => {
+        return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                 if (businesAddress) {
                     this.saveBusinessAddress(req, ukAddresses, inputPremise, acspData);
@@ -63,7 +63,6 @@ export class AddressLookUpService {
         }).catch((err) => {
             throw err;
         });
-        return nextPage;
     }
 
     public saveAddressListToSession (req: Request, ukAddresses: UKAddress[]): void {

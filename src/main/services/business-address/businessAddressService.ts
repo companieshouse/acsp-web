@@ -19,7 +19,7 @@ export class BusinessAddressService {
     }
 
     public getBusinessManualAddress (acspData: AcspData): Address {
-        const payload: Address = {
+        return {
             propertyDetails: acspData?.businessAddress?.propertyDetails,
             line1: acspData?.businessAddress?.line1,
             line2: acspData?.businessAddress?.line2,
@@ -28,7 +28,6 @@ export class BusinessAddressService {
             country: acspData?.businessAddress?.country,
             postcode: acspData?.businessAddress?.postcode
         };
-        return payload;
     }
 
 }
