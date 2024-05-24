@@ -1,0 +1,48 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% set errors = pageProperties.errors %}
+{% extends "layouts/default.njk" %}
+{% block main_content %}
+<main class="govuk-main-wrapper" id="main-content" role="main">
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form class="saved-application" method="post">
+        <div class="govuk-form-group">
+          <fieldset class="govuk-fieldset" aria-describedby="startingNew-hint">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+              <h1 class="govuk-fieldset__heading">
+                Do you want to continue with a saved application?
+              </h1>
+            </legend>
+            <div id="startingNew-hint" class="govuk-hint">
+              If you have saved applications, you can continue with one of these or start a new one.
+            </div>
+            <div class="govuk-radios" data-module="govuk-radios">
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="startingNew" name="startingNew" type="radio" value="yes" aria-describedby="startingNew-item-hint">
+                <label class="govuk-label govuk-radios__label" for="startingNew">
+                  Yes - continue with a saved application
+                </label>
+                <div id="startingNew-item-hint" class="govuk-hint govuk-radios__hint">
+                  You’ll be able to choose which application you want to continue with.
+                </div>
+              </div>
+              <div class="govuk-radios__item">
+                <input class="govuk-radios__input" id="startingNew-2" name="startingNew" type="radio" value="no" aria-describedby="startingNew-2-item-hint">
+                <label class="govuk-label govuk-radios__label" for="startingNew-2">
+                  No - start a new application
+                </label>
+                <div id="startingNew-2-item-hint" class="govuk-hint govuk-radios__hint">
+                  This will not delete any saved applications.
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <button class="govuk-button">{{ i18n.Continue }}</button>
+      </form>
+    </div>
+  </div>
+</main>
+{% endblock main_content %}
