@@ -38,12 +38,11 @@
                         classes: "govuk-fieldset__legend--l govuk-!-width-two-thirds"
                     }
                 },
-                value: addressSelected,
+                value: addressOption,
                 items: [
                     {
                         value: "CORRESPONDANCE_ADDRESS",
                         text: optionalFields + businessAddress.postcode,
-                        checked: address-correspondance-selector == CORRESPONDANCE_ADDRESS,
                         attributes: {
                             "data-event-id": "correspondance-address"
                         }
@@ -51,7 +50,6 @@
                     {
                         value: "DIFFERENT_ADDRESS",
                         text: i18n.addressSelectorDifferentAddress,
-                        checked: address-correspondance-selector == DIFFERENT_ADDRESS,
                         attributes: {
                             "data-event-id": "different-address"
                         }
