@@ -20,7 +20,7 @@ export class BusinessAddressService {
 
     public getBusinessManualAddress (acspData: AcspData) {
         return {
-            propertyDetails: acspData?.businessAddress?.propertyDetails,
+            addressPropertyDetails: acspData?.businessAddress?.propertyDetails,
             addressLine1: acspData?.businessAddress?.line1,
             addressLine2: acspData?.businessAddress?.line2,
             addressTown: acspData?.businessAddress?.town,

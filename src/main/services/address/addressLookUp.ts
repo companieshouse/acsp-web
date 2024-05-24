@@ -88,14 +88,12 @@ export class AddressLookUpService {
 
     public async saveCorrespondenceAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
         // save correspondence addess to model to be saved in mongoDB
-        const address: Address = this.getAddress(ukAddresses, inputPremise);
-        acspData.correspondenceAddress = address;
+        acspData.correspondenceAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
     public async saveBusinessAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
         // save business addess to model to be saved in mongoDB
-        const address: Address = this.getAddress(ukAddresses, inputPremise);
-        acspData.businessAddress = address;
+        acspData.businessAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string) {

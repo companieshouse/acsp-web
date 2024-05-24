@@ -65,7 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
+            await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
                 UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
                 try {
                     // save data to mongodb
