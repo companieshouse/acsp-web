@@ -67,15 +67,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
                 UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
-                try {
-                    // save data to mongodb
-                    postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                    res.redirect(nextPageUrl);
-                } catch {
-                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                    const error = new ErrorService();
-                    error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP);
-                }
+
+                // save data to mongodb
+                postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
