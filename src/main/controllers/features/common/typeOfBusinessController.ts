@@ -16,7 +16,6 @@ import { isActiveFeature } from "../../../utils/feature.flag";
 import { postAcspRegistration, getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -88,17 +87,23 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
             // eslint-disable-next-line camelcase
             const userId = session?.data?.signin_info?.user_profile?.id!;
+            let acspData : AcspData = session?.getExtraData(USER_DATA)!;
             if (selectedOption !== "OTHER") {
-                const acspData: AcspData = {
-                    id: userId,
-                    typeOfBusiness: selectedOption,
-                    email: email
-                };
+                if (acspData === undefined) {
+                    acspData = {
+                        id: userId,
+                        typeOfBusiness: selectedOption,
+                        email: email
+                    };
+                } else {
+                    acspData.id = userId;
+                    acspData.typeOfBusiness = selectedOption;
+                    acspData.email = email;
+                }
                 try {
                     // save data to mongodb
                     await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
