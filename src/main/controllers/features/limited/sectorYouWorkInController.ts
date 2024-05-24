@@ -25,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         var previousPage : string = "";
-        if (acspData.correspondenceAddress === acspData.businessAddress) {
+        if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
             previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
         } else {
             previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;

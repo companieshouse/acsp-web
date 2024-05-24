@@ -27,10 +27,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         // set addressoption to render the page with saved data
         let addressOption = "";
-        if (acspData.correspondenceAddress === acspData.businessAddress) {
-            addressOption = "CORRESPONDANCE_ADDRESS";
-        } else {
-            addressOption = "DIFFERENT_ADDRESS";
+        if (acspData.correspondenceAddress !== null) {
+            if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+                addressOption = "CORRESPONDANCE_ADDRESS";
+            } else {
+                addressOption = "DIFFERENT_ADDRESS";
+            }
         }
 
         res.render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
