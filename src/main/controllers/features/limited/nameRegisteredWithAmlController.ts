@@ -22,13 +22,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
         res.render(config.NAME_REGISTERED_WITH_AML, {
             previousPage,
             title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAML
+            nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAml
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -58,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (acspData) {
-                acspData.howAreYouRegisteredWithAML = req.body.nameRegisteredWithAml;
+                acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
             }
             try {
                 //  save data to mongodb
