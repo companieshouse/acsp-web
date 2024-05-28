@@ -1,4 +1,6 @@
-{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <form action="" method="POST">
@@ -48,8 +50,13 @@
                 }) }}
         </div>
         <div class="govuk-button-group"> 
-            <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
-            <a href={{ whichSectorLink }} class="govuk-link">{{ i18n.whichSectorOtherGoBack }}</a>
+            {{ govukButton({
+                text: i18n.SaveAndContinue,
+                attributes: {
+                  "data-event-id": "SAVE AND CONTINUE - OTHER SECTOR"
+                }
+              }) }}
+            <a href={{ whichSectorLink }} class="govuk-link" data-event-id="Back to main business sector list">{{ i18n.whichSectorOtherGoBack }}</a>
         </div>
     </form>
 {% endblock main_content %}

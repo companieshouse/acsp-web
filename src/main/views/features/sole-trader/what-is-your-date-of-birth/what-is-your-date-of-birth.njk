@@ -65,7 +65,10 @@
         }) }}
 
       {{ govukButton({
-        text: i18n.Continue
+        text: i18n.Continue,
+        attributes: {
+          "data-event-id": "SAVE AND CONTINUE - DOB"
+      }
       }) }}
     </form>
   </div>

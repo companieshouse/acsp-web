@@ -1,4 +1,5 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 
 {% set errors = pageProperties.errors %}
@@ -44,11 +45,16 @@
                 items: ITEMS
             }) }}
         </div>
-        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+        {{ govukButton({
+            text: i18n.SaveAndContinue,
+            attributes: {
+              "data-event-id": "SAVE AND CONTINUE - Address Correspondence"
+            }
+          }) }}
     </form>
     
     {# Manual address entry link #}
     <p>
-        <a href= {{ correspondenceAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+        <a href= {{ correspondenceAddressManualLink }} class="govuk-link" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
 {% endblock main_content %}

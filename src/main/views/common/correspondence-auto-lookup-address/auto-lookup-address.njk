@@ -1,5 +1,7 @@
-{% extends "layouts/default.njk" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
 {% set errors = pageProperties.errors %}
 {% block main_content %}
   <div class="govuk-grid-row">
@@ -44,11 +46,14 @@
                 }
             }) }}
         </div>
-        <button type="submit" class="govuk-button govuk-button--p" data-module="govuk-button">
-          {{ i18n.correspondenceLookUpAddressFindAddressBtn }}
-        </button>
+        {{ govukButton({
+          text: i18n.correspondenceLookUpAddressFindAddressBtn,
+          attributes: {
+            "data-event-id": "FIND ADDRESS"
+          }
+        }) }}
         <p>
-          <a href={{correspondenceAddressManualLink}} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+          <a href={{correspondenceAddressManualLink}} class="govuk-link" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
         </p>
       </form>
     </div>

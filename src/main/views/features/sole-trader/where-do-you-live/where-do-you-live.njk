@@ -18,7 +18,12 @@
           {% set errorMessage = errors %}
           {% include "../../../partials/country-typeahead-input.njk" %}
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
+        {{ govukButton({
+          text: i18n.Continue,
+          attributes: {
+            "data-event-id": "SAVE AND CONTINUE - Location lives"
+          }
+        }) }}
       </form>
     </div>
   </div>

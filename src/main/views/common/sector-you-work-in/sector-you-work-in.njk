@@ -1,4 +1,6 @@
-{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <form action="" method="POST">
@@ -65,6 +67,11 @@
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
+        {{ govukButton({
+            text: i18n.Continue,
+            attributes: {
+              "data-event-id": "SAVE AND CONTINUE - Sector"
+            }
+          }) }}
     </form>
 {% endblock main_content %}
