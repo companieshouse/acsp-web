@@ -1,4 +1,6 @@
-{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <form action="" method="POST">
@@ -19,7 +21,10 @@
                 items: [
                     {
                       value: "SOLE_TRADER",
-                      text: i18n.soleTrader
+                      text: i18n.soleTrader,
+                      attributes: {
+                        "data-event-id": "I am the sole trader"
+                      }
                     } if (acspType == "SOLE_TRADER"),
 
                     {
@@ -59,11 +64,19 @@
 
                     {
                       value: "SOMEONE_ELSE",
-                      text: i18n.someoneElse
+                      text: i18n.someoneElse,
+                      attributes: {
+                        "data-event-id": "I am someone else"
+                      }
                     }
                 ]
                 }) }}
         </div>
-        <button class="govuk-button">{{ i18n.Continue }}</button>
+        {{ govukButton({
+          text: i18n.Continue,
+          attributes: {
+            "data-event-id": "SAVE AND CONTINUE - ROLE"
+          }
+        }) }}
     </form>
 {% endblock %}

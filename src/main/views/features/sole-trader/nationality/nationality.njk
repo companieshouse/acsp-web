@@ -65,8 +65,11 @@
                         </div>
                     </div>
                     {{ govukButton({
-             text: i18n.Continue
-            }) }}
+                        text: i18n.Continue,
+                        attributes: {
+                            "data-event-id": "SAVE AND CONTINUE - Nationality"
+                        }
+                    }) }}
                 </div>
             </fieldset>
         </div>

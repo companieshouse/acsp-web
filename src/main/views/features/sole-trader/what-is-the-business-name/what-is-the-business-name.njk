@@ -1,5 +1,6 @@
-{% from "govuk/components/input/macro.njk"           import govukInput %}
-{% from "govuk/components/radios/macro.njk"          import govukRadios %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
@@ -49,6 +50,9 @@
               text: i18n.whatIsTheBusinessNameDifferentName,
               conditional: {
                 html: textHtml
+              },
+              attributes: {
+                "data-event-id": "A different name"
               }
             }
           ]
@@ -59,7 +63,12 @@
         </div>
 
         </div>
-          <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+        {{ govukButton({
+          text: i18n.SaveAndContinue,
+          attributes: {
+              "data-event-id": "SAVE AND CONTINUE - Business name"
+          }
+        }) }}
      </form>
    </div>
  </div>
