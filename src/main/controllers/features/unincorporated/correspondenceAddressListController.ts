@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ADDRESS_LIST, USER_DATA } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import {
@@ -11,24 +11,39 @@ import {
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import logger from "../../../../../lib/Logger";
+import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { ErrorService } from "../../../services/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const addressList = session.getExtraData(ADDRESS_LIST);
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const currentUrl = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST;
 
-    res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
-        title: "Select the correspondence address",
-        ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST,
-        previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
-        addresses: addressList,
-        businessName: acspData?.businessName,
-        correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
+    try {
+
+        // get data from mongo and save to session
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        saveDataInSession(req, USER_DATA, acspData);
+
+        res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
+            title: "Select the correspondence address",
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
+            addresses: addressList,
+            businessName: acspData?.businessName,
+            correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
+        }
+        );
+    } catch {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
-    );
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -55,11 +70,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const selectedPremise = req.body.correspondenceAddress;
 
-            // Save selected address to the session
+            // Save selected address
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
+            // redirect to next page
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }
