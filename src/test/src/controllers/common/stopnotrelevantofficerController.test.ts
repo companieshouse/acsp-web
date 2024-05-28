@@ -1,7 +1,7 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-import { BASE_URL, STOP_NOT_RELEVANT_OFFICER } from "../../../main/types/pageURL";
+import app from "../../../../main/app";
+import { BASE_URL, STOP_NOT_RELEVANT_OFFICER } from "../../../../main/types/pageURL";
 
 import assert from "assert";
 
