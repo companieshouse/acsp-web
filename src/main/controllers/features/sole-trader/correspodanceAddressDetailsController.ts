@@ -8,7 +8,7 @@ import {
     BASE_URL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS
 } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, TYPE_OF_BUSINESS, SOLE_TRADER_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
+import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, SOLE_TRADER_SELECT_AML_SUPERVISOR } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
