@@ -43,6 +43,23 @@
       },
       {
         key: {
+          text: i18n.correspondeceAddress
+        },
+        value: {
+          html: detailsAnswers.correspondenceAddress
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/limited/what-is-the-correspondence-address" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
           text: i18n.businessSector
         },
         value: {
