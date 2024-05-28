@@ -22,40 +22,47 @@ export class AddressLookUpService {
         saveDataInSession(req, USER_DATA, acspData);
     }
 
-    public saveBusinessAddressFromList (req: Request, businessAddress: Address): void {
-        const session: Session = req.session as any as Session;
-        // const acspData: ACSPData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : { id: "" };
-        const acspData: AcspData = session.getExtraData(USER_DATA)!;
-
+    public saveBusinessAddressFromList (businessAddress: Address, acspData: AcspData): void {
         acspData.businessAddress = businessAddress;
-        saveDataInSession(req, USER_DATA, acspData);
     }
 
     public saveCorrespondenceAddressFromList (req: Request, correspondenceAddress: Address, acspData: AcspData): void {
         acspData.correspondenceAddress = correspondenceAddress;
     }
 
-    public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, ...nexPageUrls: string[]) : Promise<string> {
+    public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
-        var nextPage = getAddressFromPostcode(postcode).then((ukAddresses) => {
+        return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                this.saveCorrespondenceAddress(req, ukAddresses, inputPremise, acspData);
+                if (businessAddress) {
+                    this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
+                } else {
+                    this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
+                }
+
                 return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
-                // update ascpData with postcode to save to DB
-                const correspondenceAddress: Address = {
-                    postcode: req.body.postCode
-                };
-                acspData.correspondenceAddress = correspondenceAddress;
+                if (businessAddress) {
+                    // update ascpData with postcode to save to DB
+                    const address: Address = {
+                        postcode: req.body.postCode
+                    };
+                    acspData.businessAddress = address;
+                } else {
+                    // update ascpData with postcode to save to DB
+                    const correspondenceAddress: Address = {
+                        postcode: req.body.postCode
+                    };
+                    acspData.correspondenceAddress = correspondenceAddress;
+                }
                 return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
             }
 
         }).catch((err) => {
             throw err;
         });
-        return nextPage;
     }
 
     public saveAddressListToSession (req: Request, ukAddresses: UKAddress[]): void {
@@ -79,33 +86,25 @@ export class AddressLookUpService {
         saveDataInSession(req, ADDRESS_LIST, addressList);
     }
 
-    public async saveCorrespondenceAddress (req: Request, ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
+    public async saveCorrespondenceAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
         // save correspondence addess to model to be saved in mongoDB
-        const address: Address = this.getAddress(ukAddresses, inputPremise);
-        acspData.correspondenceAddress = address;
+        acspData.correspondenceAddress = this.getAddress(ukAddresses, inputPremise);
+    }
+
+    public async saveBusinessAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
+        // save business addess to model to be saved in mongoDB
+        acspData.businessAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string) {
-        let address: Address = {
-            propertyDetails: "",
-            line1: "",
-            line2: "",
-            town: "",
-            country: "",
-            postcode: ""
+        const address = ukAddresses.find((address) => address.premise === inputPremise);
+        return {
+            propertyDetails: address?.premise,
+            line1: address?.addressLine1,
+            line2: address?.addressLine2,
+            town: address?.postTown,
+            country: getCountryFromKey(address?.country!),
+            postcode: address?.postcode
         };
-        for (const ukAddress of ukAddresses) {
-            if (ukAddress.premise === inputPremise) {
-                address = {
-                    propertyDetails: ukAddress.premise,
-                    line1: ukAddress.addressLine1,
-                    line2: ukAddress.addressLine2!,
-                    town: ukAddress.postTown,
-                    country: getCountryFromKey(ukAddress.country),
-                    postcode: ukAddress.postcode
-                };
-            }
-        }
-        return address;
     }
 }
