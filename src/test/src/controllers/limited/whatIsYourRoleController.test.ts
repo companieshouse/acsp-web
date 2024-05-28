@@ -1,16 +1,16 @@
-import mocks from "../../mocks/all_middleware_mock";
-import app from "../../../main/app";
+import mocks from "../../../mocks/all_middleware_mock";
+import app from "../../../../main/app";
 import supertest from "supertest";
-import { sessionMiddleware } from "../../../../src/main/middleware/session_middleware";
-import { getSessionRequestWithPermission } from "../../mocks/session.mock";
-import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../main/types/pageURL";
-import { USER_DATA } from "../../../../src/main/common/__utils/constants";
+import { sessionMiddleware } from "../../../../../src/main/middleware/session_middleware";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../../main/types/pageURL";
+import { USER_DATA } from "../../../../../src/main/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 let customMockSessionMiddleware: any;
 

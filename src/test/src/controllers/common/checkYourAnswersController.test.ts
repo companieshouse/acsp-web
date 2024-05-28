@@ -1,19 +1,19 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-import { dummyPayment, PAYMENT_JOURNEY_URL } from "../../mocks/payment_mock";
-import { BASE_URL, CHECK_YOUR_ANSWERS, CONFIRMATION } from "../../../main/types/pageURL";
-import { closeTransaction } from "../../../main/services/transactions/transaction_service";
-import { startPaymentsSession } from "../../../main/services/paymentService";
+import app from "../../../../main/app";
+import { dummyPayment, PAYMENT_JOURNEY_URL } from "../../../mocks/payment_mock";
+import { BASE_URL, CHECK_YOUR_ANSWERS, CONFIRMATION } from "../../../../main/types/pageURL";
+import { closeTransaction } from "../../../../main/services/transactions/transaction_service";
+import { startPaymentsSession } from "../../../../main/services/paymentService";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/transactions/transaction_service");
-jest.mock("../../../main/services/paymentService");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/transactions/transaction_service");
+jest.mock("../../../../main/services/paymentService");
+jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockCloseTransaction = closeTransaction as jest.Mock;

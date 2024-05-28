@@ -1,6 +1,6 @@
 import supertest from "supertest";
-import app from "../../../main/app";
-import { BASE_URL, HOME_URL } from "../../../main/types/pageURL";
+import app from "../../../../main/app";
+import { BASE_URL, HOME_URL } from "../../../../main/types/pageURL";
 const router = supertest(app);
 
 describe("Home Page tests -", () => {

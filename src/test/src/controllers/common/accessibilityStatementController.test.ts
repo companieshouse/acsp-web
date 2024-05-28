@@ -1,6 +1,6 @@
 import supertest from "supertest";
-import app from "../../../main/app";
-import { BASE_URL, ACCESSIBILITY_STATEMENT } from "../../../main/types/pageURL";
+import app from "../../../../main/app";
+import { BASE_URL, ACCESSIBILITY_STATEMENT } from "../../../../main/types/pageURL";
 
 const router = supertest(app);
 

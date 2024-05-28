@@ -1,15 +1,15 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LIST, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../main/types/pageURL";
-import { getAddressFromPostcode } from "../../../main/services/postcode-lookup-service";
+import app from "../../../../main/app";
+import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LIST, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../main/types/pageURL";
+import { getAddressFromPostcode } from "../../../../main/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/postcode-lookup-service.ts");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/postcode-lookup-service.ts");
+jest.mock("../../../../main/services/acspRegistrationService");
 
 const router = supertest(app);
 

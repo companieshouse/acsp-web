@@ -1,8 +1,8 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
+import app from "../../../../main/app";
 
-import { LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, BASE_URL, AML_REGISTRATION, TYPE_OF_BUSINESS } from "../../../main/types/pageURL";
+import { LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, BASE_URL, AML_REGISTRATION, TYPE_OF_BUSINESS } from "../../../../main/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);

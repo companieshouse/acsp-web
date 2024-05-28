@@ -1,12 +1,12 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
-import { AML_BODY_DETAILS_CONFIRM, CHECK_YOUR_ANSWERS, BASE_URL } from "../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import app from "../../../../main/app";
+import { AML_BODY_DETAILS_CONFIRM, CHECK_YOUR_ANSWERS, BASE_URL } from "../../../../main/types/pageURL";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
