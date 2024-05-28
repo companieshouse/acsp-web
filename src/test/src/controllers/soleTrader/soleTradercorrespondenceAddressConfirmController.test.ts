@@ -12,6 +12,8 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "SOLE_TRADER",
+    firstName: "John",
+    lastName: "Doe",
     correspondenceAddress: {
         propertyDetails: "Property Details"
     }
@@ -24,6 +26,7 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(200);
+        expect(res.text).toContain("John Doe");
         expect(res.text).toContain("Confirm the correspondence address");
         expect(res.text).toContain("Property Details");
     });

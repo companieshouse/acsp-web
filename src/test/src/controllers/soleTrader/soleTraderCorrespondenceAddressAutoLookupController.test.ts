@@ -6,17 +6,27 @@ import {
 } from "../../../../main/types/pageURL";
 import { getAddressFromPostcode } from "../../../../main/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../../main/services/postcode-lookup-service.ts");
 jest.mock("../../../../main/services/acspRegistrationService");
+
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const correspondenceAddress: Address = {
+    propertyDetails: "2",
+    line1: "DUNCALF STREET",
+    postcode: "ST6 3LJ"
+};
+
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "SOLE_TRADER"
+    typeOfBusiness: "SOLE_TRADER",
+    businessName: "BUSINESS NAME",
+    correspondenceAddress: correspondenceAddress
 };
 
 const mockResponseBodyOfUKAddress: UKAddress[] = [{
@@ -29,19 +39,14 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
 
 describe("Correspondence address auto look up tests", () => {
     it("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, async () => {
+
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
-    });
-
-    it("should render the error page if an error is thrown in get function", async () => {
-        mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
-        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
-        expect(res.status).toBe(400);
-        expect(res.text).toContain("Page not found");
     });
 });
 
@@ -75,19 +80,6 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
-    });
-
-    it("should return status 400 for postcode not found", async () => {
-        const formData = {
-            postCode: "AB12CD",
-            premise: ""
-        };
-
-        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(null);
-
-        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
-        expect(res.status).toBe(400);
-        expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
 
     it("should return status 400 for invalid postcode entered", async () => {

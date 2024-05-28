@@ -11,7 +11,9 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "SOLE_TRADER"
+    typeOfBusiness: "SOLE_TRADER",
+    firstName: "John",
+    lastName: "Doe"
 };
 
 describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
@@ -39,7 +41,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
     // Test for no addressPropertyDetails, will return 400.

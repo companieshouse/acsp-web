@@ -86,18 +86,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.businessName = businessName;
             }
-            try {
-            //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                detailsAnswers.businessName = businessName;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            detailsAnswers.businessName = businessName;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
+
         }
     } catch (error) {
         next(error);

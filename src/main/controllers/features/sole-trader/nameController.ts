@@ -68,21 +68,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.middleName = req.body["middle-names"];
                 acspData.lastName = req.body["last-name"];
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                saveDataInSession(req, USER_DATA, acspData);
 
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.name = req.body["first-name"] + " " + req.body["last-name"];
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            saveDataInSession(req, USER_DATA, acspData);
 
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.name = req.body["first-name"] + " " + req.body["last-name"];
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH, lang));
+
         }
     } catch (error) {
         next(error);

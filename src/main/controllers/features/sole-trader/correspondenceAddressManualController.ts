@@ -70,16 +70,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             const addressManualservice = new CorrespondenceAddressManualService();
             addressManualservice.saveCorrespondenceManualAddress(req, acspData);
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
+
         }
     } catch (error) {
         next(error);

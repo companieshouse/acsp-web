@@ -64,21 +64,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                if (selectedRole === "SOLE_TRADER") {
-                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                    detailsAnswers.roleType = "I am the sole trader";
-                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
-                } else {
-                    res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
-                }
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            if (selectedRole === "SOLE_TRADER") {
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.roleType = "I am the sole trader";
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
+            } else {
+                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             }
         }
     } catch (error) {

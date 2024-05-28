@@ -25,9 +25,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-        // const payload = {
-        //     countryInput: acspData?.countryOfResidence
-        // };
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             title: "Where do you live?",
             ...getLocaleInfo(locales, lang),
@@ -37,7 +34,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
             countryInput: acspData?.countryOfResidence
-            // payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -69,19 +65,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.countryOfResidence = req.body.countryInput;
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.countryOfResidence = req.body.countryInput;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.countryOfResidence = req.body.countryInput;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
     } catch (error) {
         next(error);

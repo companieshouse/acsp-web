@@ -77,16 +77,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
-            try {
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-                res.redirect(nextPageUrl);
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+            const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+            res.redirect(nextPageUrl);
+
         }
     } catch (error) {
         next(error);

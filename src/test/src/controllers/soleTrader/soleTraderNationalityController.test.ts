@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../../main/types/pageURL";
-import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -12,8 +12,6 @@ jest.mock("../../../../../lib/Logger");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
-
 const nationalityData: Nationality = {
     firstNationality: "British",
     secondNationality: "",
@@ -116,7 +114,6 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should fail validation with invalid nationality", async () => {
-        mockPostAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" }).expect(400);
     });

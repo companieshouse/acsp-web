@@ -80,22 +80,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 acspData.dateOfBirth = dateOfBirth;
             }
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.dateOfBirth = new Date(req.body["dob-year"], req.body["dob-month"] - 1, req.body["dob-day"])
+                .toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.dateOfBirth = new Date(req.body["dob-year"], req.body["dob-month"] - 1, req.body["dob-day"])
-                    .toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang));
 
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, lang));
-
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
         }
     } catch (error) {
         next(error);

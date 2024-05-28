@@ -75,37 +75,33 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             });// determined from user not in banned list
         } else {
-            try {
-                let nationalityString = req.body.nationality_input_0;
-                if (req.body.nationality_input_1 !== "") {
-                    nationalityString += ", " + req.body.nationality_input_1;
-                }
-                if (req.body.nationality_input_2 !== "") {
-                    nationalityString += ", " + req.body.nationality_input_2;
-                }
 
-                const nationalityData: Nationality = {
-                    firstNationality: req.body.nationality_input_0,
-                    secondNationality: req.body.nationality_input_1,
-                    thirdNationality: req.body.nationality_input_2
-                };
-
-                if (acspData) {
-                    acspData.nationality = nationalityData;
-                }
-
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.nationality = nationalityString;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+            let nationalityString = req.body.nationality_input_0;
+            if (req.body.nationality_input_1 !== "") {
+                nationalityString += ", " + req.body.nationality_input_1;
             }
+            if (req.body.nationality_input_2 !== "") {
+                nationalityString += ", " + req.body.nationality_input_2;
+            }
+
+            const nationalityData: Nationality = {
+                firstNationality: req.body.nationality_input_0,
+                secondNationality: req.body.nationality_input_1,
+                thirdNationality: req.body.nationality_input_2
+            };
+
+            if (acspData) {
+                acspData.nationality = nationalityData;
+            }
+
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+            detailsAnswers.nationality = nationalityString;
+            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
+
         }
     } catch (error) {
         next(error);
