@@ -2,12 +2,14 @@
 <script type="text/javascript">
   const countryList = "{{countryList}}"
   const error = "{{pageProperties.errors.countryInput.text}}"
+  const countryDefaultValue = "{{countryInput}}"
 
   var autocompleteConfig = {
     element: document.querySelector('#my-autocomplete-container'),
     id: 'countryInput', // To match it to the existing <label>.
     source: countryList.split(";"),
-    name: 'countryInput'
+    name: 'countryInput',
+    defaultValue: countryDefaultValue
     }
     
     accessibleAutocomplete(autocompleteConfig)

@@ -22,12 +22,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
+
         res.render(config.WHAT_IS_YOUR_ROLE, {
             title: "What is your role in the business?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
-            acspType: acspData?.typeOfBusiness
+            acspType: acspData?.typeOfBusiness,
+            roleType: acspData?.roleType
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -79,7 +81,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 error.renderErrorPage(res, locales, lang, currentUrl);
             }
         }
-
     } catch (error) {
         next(error);
     }

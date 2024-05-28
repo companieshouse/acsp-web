@@ -25,7 +25,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
+        // const payload = {
+        //     countryInput: acspData?.countryOfResidence
+        // };
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             title: "Where do you live?",
             ...getLocaleInfo(locales, lang),
@@ -33,7 +35,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             countryList: countryList,
             firstName: acspData?.firstName,
-            lastName: acspData?.lastName
+            lastName: acspData?.lastName,
+            countryInput: acspData?.countryOfResidence
+            // payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -58,12 +62,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 title: "Where do you live?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
-                pageProperties: pageProperties,
-                countryList: countryList
+                countryList: countryList,
+                ...pageProperties
             });
         } else {
             if (acspData) {
-                // Need to check
                 acspData.countryOfResidence = req.body.countryInput;
             }
             try {

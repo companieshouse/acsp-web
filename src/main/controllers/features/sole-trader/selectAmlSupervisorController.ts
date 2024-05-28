@@ -20,12 +20,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+    // const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
+
+        // collect selectedAMLs to render the page with saved data
+        const selectedAMLSupervisoryBodies: string[] = [];
+        const amlSupervisoryBody = new AmlSupervisoryBodyService();
+        amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
         res.render(config.SELECT_AML_SUPERVISOR, {
             previousPage,
@@ -35,7 +40,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
             acspType: acspData?.typeOfBusiness,
-            AMLSupervisoryBodies
+            AMLSupervisoryBodies,
+            selectedAMLSupervisoryBodies
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

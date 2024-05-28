@@ -24,14 +24,24 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save it to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
+        let payload;
+        if (acspData.dateOfBirth) {
+            const dateOfBirth = new Date(acspData.dateOfBirth);
+            payload = {
+                "dob-year": dateOfBirth.getFullYear(),
+                "dob-month": dateOfBirth.getMonth() + 1,
+                "dob-day": dateOfBirth.getDate()
+            };
+        }
         res.render(config.SOLE_TRADER_DATE_OF_BIRTH, {
             title: "What is your date of Birth?",
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
             firstName: acspData?.firstName,
-            lastName: acspData?.lastName
+            lastName: acspData?.lastName,
+            dateOfBirth: acspData?.dateOfBirth,
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

@@ -26,6 +26,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        const payload = {
+            nationality_input_0: acspData.nationality?.firstNationality,
+            nationality_input_1: acspData.nationality?.secondNationality,
+            nationality_input_2: acspData.nationality?.thirdNationality
+        };
+
         res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
             title: "What is your nationality?",
             ...getLocaleInfo(locales, lang),
@@ -33,7 +39,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             nationalityList: nationalityList,
             firstName: acspData?.firstName,
-            lastName: acspData?.lastName
+            lastName: acspData?.lastName,
+            nationality: acspData?.nationality,
+            payload
 
         });
     } catch (err) {
@@ -60,10 +68,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 nationalityList: nationalityList,
-                pageProperties: pageProperties,
                 payload: req.body,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                lastName: acspData?.lastName,
+                ...pageProperties
 
             });// determined from user not in banned list
         } else {

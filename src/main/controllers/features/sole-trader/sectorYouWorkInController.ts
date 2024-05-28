@@ -33,7 +33,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            acspType: acspData?.typeOfBusiness
+            acspType: acspData?.typeOfBusiness,
+            workSector: acspData.workSector
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

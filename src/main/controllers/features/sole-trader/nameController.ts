@@ -24,11 +24,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        const payload = {
+            "first-name": acspData.firstName,
+            "middle-names": acspData.middleName,
+            "last-name": acspData.lastName
+        };
         res.render(config.WHAT_IS_YOUR_NAME, {
             previousPage,
             title: "What is your name?",
             ...getLocaleInfo(locales, lang),
-            currentUrl
+            currentUrl,
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -51,8 +57,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 previousPage,
                 currentUrl,
-                pageProperties: pageProperties,
-                payload: req.body
+                payload: req.body,
+                ...pageProperties
             });
         } else {
             const session: Session = req.session as any as Session;

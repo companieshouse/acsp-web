@@ -24,6 +24,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
+        let payload;
+        if (acspData.businessName === acspData.firstName + " " + acspData.lastName) {
+            payload = {
+                whatsTheBusinessNameRadio: "USERNAME"
+            };
+        } else {
+            payload = {
+                whatsTheBusinessNameRadio: "A Different Name",
+                whatIsTheBusinessNameInput: acspData.businessName
+            };
+        }
 
         res.render(config.SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, {
             previousPage,
@@ -31,8 +42,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             firstName: acspData?.firstName,
-            lastName: acspData?.lastName
+            lastName: acspData?.lastName,
+            payload
         });
+
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
