@@ -1,13 +1,13 @@
-import mocks from "../../mocks/all_middleware_mock";
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../main/app";
+import app from "../../../../main/app";
 import * as crypto from "crypto";
-import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST } from "../../../main/types/pageURL";
-import { getAddressFromPostcode } from "../../../main/services/postcode-lookup-service";
+import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST } from "../../../../main/types/pageURL";
+import { getAddressFromPostcode } from "../../../../main/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/postcode-lookup-service");
+jest.mock("../../../../main/services/postcode-lookup-service");
 
 const router = supertest(app);
 

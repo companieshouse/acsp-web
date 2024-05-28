@@ -1,6 +1,6 @@
-import app from "../../../main/app";
+import app from "../../../../main/app";
 import supertest from "supertest";
-import { HEALTHCHECK, BASE_URL } from "../../../main/types/pageURL";
+import { HEALTHCHECK, BASE_URL } from "../../../../main/types/pageURL";
 const router = supertest(app);
 
 describe("GET" + HEALTHCHECK, () => {

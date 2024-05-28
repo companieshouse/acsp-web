@@ -1,17 +1,17 @@
-import mocks from "../../mocks/all_middleware_mock";
-import { sessionMiddleware } from "../../../../src/main/middleware/session_middleware";
-import app from "../../../main/app";
+import mocks from "../../../mocks/all_middleware_mock";
+import { sessionMiddleware } from "../../../../../src/main/middleware/session_middleware";
+import app from "../../../../main/app";
 import supertest from "supertest";
-import { getSessionRequestWithPermission } from "../../mocks/session.mock";
-import { LIMITED_IS_THIS_YOUR_COMPANY, BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../main/types/pageURL";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { LIMITED_IS_THIS_YOUR_COMPANY, BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../../main/types/pageURL";
 import { NextFunction, Request, Response } from "express";
-import { validCompanyProfile, invalidCompanyProfile } from "../../mocks/company_profile_mock";
-import { COMPANY_DETAILS } from "../../../../src/main/common/__utils/constants";
-import { getAcspRegistration } from "../../../main/services/acspRegistrationService";
+import { validCompanyProfile, invalidCompanyProfile } from "../../../mocks/company_profile_mock";
+import { COMPANY_DETAILS } from "../../../../../src/main/common/__utils/constants";
+import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 let customMockSessionMiddleware : any;
 
