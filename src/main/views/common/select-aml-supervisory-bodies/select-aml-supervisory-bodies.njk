@@ -1,5 +1,6 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     <div class="govuk-grid-column-two-thirds-from-desktop">
@@ -13,7 +14,10 @@
           {% if value is string %}
             {% set checkboxItem = {
                     value: value,
-                    text: value
+                    text: value,
+                    attributes: {
+                      "data-event-id": value + "-option"
+                  }
             } %}
             {% set ITEMS = ITEMS.concat(checkboxItem) %}
           {% endif %}
@@ -42,7 +46,12 @@
            {{i18n.selectAmlSupervisorInfo}}
           </p>
         </div>
-        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+        {{ govukButton({
+          text: i18n.SaveAndContinue,
+          attributes: {
+            "data-event-id": "SAVE AND CONTINUE - Which AML Bodies " + acspType
+          }
+        }) }}
     </form>
     </div>
 {% endblock main_content %}
