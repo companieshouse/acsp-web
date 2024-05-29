@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
@@ -21,8 +21,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
     try {
-        // get data from mongo and save to session
+        // get data from mongo
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+
+        // save company authentication to DB
+        if (acspData) {
+            acspData.companyAuthCodeProvided = true;
+        }
+        await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+        // save to session
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.WHAT_IS_YOUR_ROLE, {
@@ -35,7 +43,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             roleType: acspData?.roleType
         });
     } catch (err) {
-        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         const error = new ErrorService();
         error.renderErrorPage(res, locales, lang, currentUrl);
     }
