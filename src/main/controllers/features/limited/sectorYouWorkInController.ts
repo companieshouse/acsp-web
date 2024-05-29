@@ -77,16 +77,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            if (acspData) {
-                acspData.workSector = req.body.sectorYouWorkIn;
-            }
             try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-
                 if (req.body.sectorYouWorkIn === "OTHER") {
                     res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
                 } else {
+                    //  save data to mongodb
+                    acspData.workSector = req.body.sectorYouWorkIn;
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
                     saveDataInSession(req, ANSWER_DATA, detailsAnswers);
