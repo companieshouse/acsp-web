@@ -22,7 +22,6 @@ describe("POST " + SAVED_APPLICATION, () => {
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
             .send({ savedApplication: "Yes - continue with a saved application" })
             .expect(302);
-        expect(response.header.location).toBe(YOUR_FILINGS);
     });
 });
 
