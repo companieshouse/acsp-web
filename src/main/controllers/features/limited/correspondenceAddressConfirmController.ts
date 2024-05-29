@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
-    await correspondenceAddressAnswers(req, acspData);
+    correspondenceAddressAnswers(req, acspData);
 
     res.redirect(addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang));
 };

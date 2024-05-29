@@ -42,7 +42,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-    await businessAddressAnswers(req, acspData);
+    businessAddressAnswers(req, acspData);
 
     res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang));
 };

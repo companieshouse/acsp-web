@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 // Save answers
-                await isThisYourCompanyAnswers(req, company);
+                isThisYourCompanyAnswers(req, company);
 
                 // Redirect to next page
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));

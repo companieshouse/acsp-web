@@ -40,6 +40,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-    await correspondenceAddressAnswers(req, acspData);
+    correspondenceAddressAnswers(req, acspData);
     res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
 };
