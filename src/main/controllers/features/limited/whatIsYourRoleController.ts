@@ -21,15 +21,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
     try {
+        // get data from mongo
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+
         // save company authentication to DB
-        let acspData: AcspData = session.getExtraData(USER_DATA)!;
         if (acspData) {
             acspData.companyAuthCodeProvided = true;
         }
         await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-        // get data from mongo and save to session
-        acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        // save to session
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.WHAT_IS_YOUR_ROLE, {
