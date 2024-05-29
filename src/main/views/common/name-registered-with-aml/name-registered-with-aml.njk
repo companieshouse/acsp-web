@@ -1,53 +1,60 @@
-{% from "govuk/components/radios/macro.njk"              import govukRadios %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="POST">
-                <div class="govuk-form-group">
-                    {{ govukRadios({
-                errorMessage: errors.nameRegisteredWithAml if errors,
-                classes: "govuk-radios",
-                id: "name-registered-with-aml-radios",
-                name: "nameRegisteredWithAml",
-                fieldset: {
-                    legend: {   
-                        text: i18n.nameRegisteredWithAmlTitle,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                    },
-                    hint: {
-                         text: i18n.nameRegisteredWithAmlBody
-                    },
-                    value: nameRegisteredWithAml,
-                items: [
-                    {
-                        value: "NAME_OF_THE_BUSINESS",
-                        text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
-                        attributes: {
-                            "data-event-id": "name-of-the-business-option"
-                        }
-                    },
-                    {
-                        value: "YOUR_NAME",
-                        text: i18n.nameRegisteredWithAmlYourNameOption,
-                        attributes: {
-                            "data-event-id": "your-company-option"
-                        }
-                    },
-                    {
-                        value: "BOTH",
-                        text: i18n.nameRegisteredWithAmlBothOption,
-                        attributes: {
-                            "data-event-id": "both-option"
-                        }
-                    }
-                ]
-                }) }}
-                </div>
-                <button class="govuk-button">{{ i18n.nameRegisteredWithAmlContinueBtn }}</button>
-            </form>
-        </div>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST">
+        <div class="govuk-form-group">
+          {{ govukRadios({
+             errorMessage: errors.nameRegisteredWithAml if errors,
+              classes: "govuk-radios",
+              id: "name-registered-with-aml-radios",
+              name: "nameRegisteredWithAml",
+              fieldset: {
+                legend: {   
+                  text: i18n.nameRegisteredWithAmlTitle,
+                  isPageHeading: true,
+                  classes: "govuk-fieldset__legend--l"
+                }
+              },
+              hint: {
+                text: i18n.nameRegisteredWithAmlBody
+              },
+              value: nameRegisteredWithAml,
+              items: [
+                {
+                  value: "NAME_OF_THE_BUSINESS",
+                  text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
+                  attributes: {
+                    "data-event-id": "name-of-the-business-option"
+                  }
+                },
+                {
+                  value: "YOUR_NAME",
+                  text: i18n.nameRegisteredWithAmlYourNameOption,
+                  attributes: {
+                    "data-event-id": "your-company-option"
+                  }
+                },
+                {
+                  value: "BOTH",
+                  text: i18n.nameRegisteredWithAmlBothOption,
+                  attributes: {
+                    "data-event-id": "both-option"
+                  }
+                }
+              ]
+            }) }}
+          </div>
+            {{ govukButton({
+              text: i18n.Continue,
+              attributes: {
+                "data-event-id": "SAVE AND CONTINUE - Name registered with AML"
+              }
+            }) }}
+      </form>
     </div>
+  </div>
 {% endblock main_content %}

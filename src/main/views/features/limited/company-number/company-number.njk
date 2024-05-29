@@ -1,39 +1,32 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
 {% set errors = pageProperties.errors %}
 {% block main_content %}
 
-
   <form action="" method="POST">
     <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-    <div id="typeahead-form-group-0" class="govuk-form-group">
-
       {{ govukInput({
-      label: {
-      text: i18n.companyNumberTitle,
-      classes: "govuk-label--l",
-      isPageHeading: true
-      },
-      classes: "govuk-input--width-10",
-      hint: {
-      text: i18n.companyNumberHint
-      },
-      id: "companyNumber",
-      name: "companyNumber",
-      value: payload["companyNumber"],
-      errorMessage: {
-      text: errors["companyNumber"].text
-      } if errors
-      
-
+        label: {
+          text: i18n.companyNumberTitle,
+          classes: "govuk-label--l",
+          isPageHeading: true
+        },
+        classes: "govuk-input--width-10",
+        hint: {
+          text: i18n.companyNumberHint
+        },
+        id: "companyNumber",
+        name: "companyNumber",
+        value: payload["companyNumber"],
+        errorMessage: {
+          text: errors["companyNumber"].text
+        } if errors
       }) }}
-</div>
+    </div>
 
-<div id="typeahead-form-group-1" class="govuk-form-group">
-
+    <div class="govuk-form-group">
       <details class="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
@@ -41,16 +34,19 @@
           </span>
         </summary>
         <div class="govuk-details__text">{{i18n.infoToGetCompanyNumer}}<br>
-            <a href="https://find-and-update.company-information.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank"> {{i18n.linkWhereToHowGetCompanyNumer}}</a>.
+          <a href="https://find-and-update.company-information.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank" data-event-id="How do I find the company number">
+            {{i18n.linkWhereToHowGetCompanyNumer}}
+          </a>.
         </div>
       </details>
-      </div>
-
-
-       </fieldset>
-        {{ govukButton({
-          text: i18n.Continue
-        }) }}
-      </div>
-    </form>
-  {% endblock %}
+    </div>
+    
+    {{ govukButton({
+      text: i18n.Continue,
+      attributes: {
+        "data-event-id": "SAVE AND CONTINUE - Company Number"
+      }
+    }) }}
+     
+  </form>
+{% endblock %}

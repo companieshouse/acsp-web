@@ -53,7 +53,7 @@
             {{ govukButton({
                 text: i18n.SaveAndContinue,
                 attributes: {
-                  "data-event-id": "SAVE AND CONTINUE - OTHER SECTOR"
+                  "data-event-id": "SAVE AND CONTINUE - OTHER SECTOR " + acspType
                 }
               }) }}
             <a href={{ whichSectorLink }} class="govuk-link" data-event-id="Back to main business sector list">{{ i18n.whichSectorOtherGoBack }}</a>
