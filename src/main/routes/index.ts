@@ -53,7 +53,8 @@ import {
     yourResponsibilitiesController,
     amlBodyMembershipNumberController,
     checkAmlDetailsController,
-    paymentCallbackController
+    paymentCallbackController,
+    savedApplicationController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -79,6 +80,7 @@ import { addressCorrespondanceSelectorValidator } from "../validation/addressCor
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 import { selectsignOutValidator } from "../validation/signOut";
+import { selectSavedApplicationValidator } from "../validation/savedApplication";
 
 const routes = Router();
 
@@ -107,6 +109,9 @@ routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidat
 
 routes.get(urls.AML_BODY_DETAILS_CONFIRM, checkAmlDetailsController.get);
 routes.post(urls.AML_BODY_DETAILS_CONFIRM, checkAmlDetailsController.post);
+
+routes.get(urls.SAVED_APPLICATION, savedApplicationController.get);
+routes.post(urls.SAVED_APPLICATION, selectSavedApplicationValidator, savedApplicationController.post);
 
 routes.get(urls.PAYMENT_CALLBACK_URL, paymentCallbackController.get);
 
