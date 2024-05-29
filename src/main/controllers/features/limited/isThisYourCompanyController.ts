@@ -3,15 +3,14 @@ import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { LIMITED_WHAT_IS_THE_COMPANY_NUMBER, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL } from "../../../types/pageURL";
-import { ANSWER_DATA, COMPANY_DETAILS, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { COMPANY_DETAILS, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { ACSPData } from "../../../../main/model/ACSPData";
 import { CompanyDetailsService } from "../../../../main/services/company-details/companyDetailsService";
+import { isThisYourCompanyAnswers } from "../../../services/checkYourAnswersService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -70,13 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 // Save answers
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.businessName = company.companyName;
-                detailsAnswers.companyNumber = company.companyNumber;
-                detailsAnswers.businessAddress = company.registeredOfficeAddress?.addressLineOne! +
-                "<br>" + company.registeredOfficeAddress?.country! +
-                "<br>" + company.registeredOfficeAddress?.postalCode!;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                await isThisYourCompanyAnswers(req, company);
 
                 // Redirect to next page
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
