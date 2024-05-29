@@ -10,6 +10,7 @@ export * as typeOfBusinessController from "./features/common/typeOfBusinessContr
 export * as otherTypeOfBusinessController from "./features/common/otherTypeOfBusinessController";
 export * as checkAmlDetailsController from "./features/common/checkAmlDetailsController";
 export * as paymentCallbackController from "./features/common/paymentCallbackController";
+export * as savedApplicationController from "./features/common/savedApplicationController";
 
 // Sole trader
 
