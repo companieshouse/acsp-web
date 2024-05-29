@@ -1,59 +1,67 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
 {% extends "layouts/default.njk" %}
-
 {% block main_content %}
-
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds-from-desktop">
-      <!-- The action will need to change depending on the location of the confirm-company page -->
-      <form action="" method="post">
-        <h1 class="govuk-heading-l">{{i18n.isThisYourCompany}}</h1>
-  <dl class="govuk-summary-list">
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.companyName}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.companyName }}</dd>
-    </div>
-    <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.companyNumber}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.companyNumber }}</dd>
-    </div>
+  <div class="govuk-grid-column-two-thirds-from-desktop">
+    <!-- The action will need to change depending on the location of the confirm-company page -->
+    <form action="" method="post">
+      <h1 class="govuk-heading-l">{{i18n.isThisYourCompany}}</h1>
+      <dl class="govuk-summary-list">
       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.status}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.status }}</dd>
-    </div>
-       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.incorporationDate}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.incorporationDate }}</dd>
-    </div>
-       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.companyType}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.companyType | capitalize }}</dd>
-    </div>
-       <div class="govuk-summary-list__row">
-      <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
-      <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.addressLineOne }}<br>
+        <dt class="govuk-summary-list__key">{{i18n.companyName}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.companyName }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{i18n.companyNumber}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.companyNumber }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{i18n.status}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.status }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{i18n.incorporationDate}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.incorporationDate }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{i18n.companyType}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.companyType | capitalize }}</dd>
+      </div>
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">{{i18n.registeredOfficeAddress}}</dt>
+        <dd class="govuk-summary-list__value">{{ company.registeredOfficeAddress.addressLineOne }}<br>
         {% if company.registeredOfficeAddress.addressLineTwo %}
-        {{ company.registeredOfficeAddress.addressLineTwo }}<br>
-      {% endif %}
-      {% if company.registeredOfficeAddress.locality %}
-        {{ company.registeredOfficeAddress.locality }}<br>
-      {% endif %}
-      {% if company.registeredOfficeAddress.region %}
-        {{ company.registeredOfficeAddress.region }}<br>
-      {% endif %}
-      {% if company.registeredOfficeAddress.country %}
-        {{ company.registeredOfficeAddress.country }}<br>
-      {% endif %}
-      {{ company.registeredOfficeAddress.postalCode }}</dd>
-    </div>
-  </dl>
-
-   <div class="govuk-inset-text">
-   <h2>{{i18n.publicInformationAgents}}</h2>
-   <p>{{i18n.companyNameAndCity}}</p>       
+          {{ company.registeredOfficeAddress.addressLineTwo }}<br>
+        {% endif %}
+        {% if company.registeredOfficeAddress.locality %}
+          {{ company.registeredOfficeAddress.locality }}<br>
+        {% endif %}
+        {% if company.registeredOfficeAddress.region %}
+          {{ company.registeredOfficeAddress.region }}<br>
+        {% endif %}
+        {% if company.registeredOfficeAddress.country %}
+          {{ company.registeredOfficeAddress.country }}<br>
+        {% endif %}
+        {{ company.registeredOfficeAddress.postalCode }}</dd>
+      </div>
+      </dl>
+      <div class="govuk-inset-text">
+        <h2>{{i18n.publicInformationAgents}}</h2>
+        <p>{{i18n.companyNameAndCity}}</p>       
+      </div>
+      {{ govukButton({
+        text: i18n.confirm,
+        attributes: {
+          "data-event-id": "SAVE AND CONTINUE - Is this your company"
+        }
+      }) }}
+      <p class="govuk-body">
+        <a href={{chooseDifferentCompany}} data-event-id="Chose a different company">
+          {{i18n.chooseADifferentCompany}}
+        </a>
+      </p>
+    </form>
   </div>
-  
-<button class="govuk-button" data-module="govuk-button">
-  {{i18n.confirm}}
-</button>
- <p class="govuk-body"> <a href={{chooseDifferentCompany}}>{{i18n.chooseADifferentCompany}}</a> </p>
+</div>
 {% endblock main_content %}

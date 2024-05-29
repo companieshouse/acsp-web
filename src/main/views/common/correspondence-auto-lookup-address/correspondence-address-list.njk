@@ -14,7 +14,7 @@
             text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.country + ", " + addressOption.postcode,
             checked: addressOption.propertyDetails == currentPremises,
             attributes: {
-                "data-event-id": "address-option-" + addressOption.premise
+                "data-event-id": "address-option-" + addressOption.propertyDetails
             }
         } %}
         {% set ITEMS = ITEMS.concat(addressObject) %}
