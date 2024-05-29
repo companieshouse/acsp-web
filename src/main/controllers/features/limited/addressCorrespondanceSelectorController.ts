@@ -10,7 +10,7 @@ import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -92,6 +92,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     error.renderErrorPage(res, locales, lang, currentUrl);
                 }
             } else {
+                if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
+                    acspData.correspondenceAddress = {};
+                    //  save data to mongodb
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                }
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
         }

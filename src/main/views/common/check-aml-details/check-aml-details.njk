@@ -5,12 +5,12 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
          <form class="form" action="" method="post">
-            {% if businessName %}
-                {% include "partials/business_name.njk" %}
+            {% if typeOfBusiness === "SOLE_TRADER" %}
+               {% include "partials/user_name.njk" %}
+            {% else %}   
+               {% include "partials/business_name.njk" %}
             {% endif %}
-            {% if firstName %}
-                {% include "partials/user_name.njk" %}
-            {% endif %}
+
             <h1 class="govuk-fieldset__heading">
                <label class="govuk-label govuk-label--l">{{ i18n.checkAmlDetailsTitle }}</label>
             </h1>

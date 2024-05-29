@@ -5,7 +5,6 @@ import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
 import { SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 
@@ -25,7 +24,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
+            typeOfBusiness: acspData?.typeOfBusiness,
             firstName: acspData?.firstName,
+            lastName: acspData?.lastName,
             businessName: acspData?.businessName,
             url
         });
