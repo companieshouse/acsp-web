@@ -20,8 +20,9 @@ describe("POST " + SAVED_APPLICATION, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
-            .send({ savedApplication: "Yes - continue with a saved application" })
+            .send({ savedApplication: "yes" })
             .expect(302);
+        expect(response.header.location).toBe(YOUR_FILINGS);
     });
 });
 
@@ -29,7 +30,7 @@ describe("POST " + SAVED_APPLICATION, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
-            .send({ savedApplication: "No - start a new application" })
+            .send({ savedApplication: "no" })
             .expect(302);
         expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS);
     });
