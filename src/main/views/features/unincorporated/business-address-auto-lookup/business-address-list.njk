@@ -1,4 +1,5 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% set errors = pageProperties.errors %}
 
@@ -42,7 +43,12 @@
             <h2 class="govuk-heading-m">{{ i18n.businessAddressShowOnPublicList }}</h2>
             <p>{{ i18n.businessAddressShowTownOrCity }}</p>
         </div> 
-        <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+         {{ govukButton({
+             text: i18n.SaveAndContinue,
+             attributes: {
+               "data-event-id": "SAVE AND CONTINUE - Address business"
+             }
+           }) }}
     </form>
     {# Manual address entry link #}
     <p>

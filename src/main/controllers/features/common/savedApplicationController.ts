@@ -12,7 +12,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         title: "Do you want to continue with a saved application?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL, lang),
-        currentUrl: SAVED_APPLICATION
+        currentUrl: BASE_URL + SAVED_APPLICATION
     });
 };
 
@@ -28,7 +28,7 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
                 title: "Do you want to continue with a saved application?",
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL, lang),
-                currentUrl: SAVED_APPLICATION,
+                currentUrl: BASE_URL + SAVED_APPLICATION,
                 ...pageProperties
             });
         } else {

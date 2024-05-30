@@ -26,6 +26,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        let workSector;
+        if (acspData.workSector === "ESTATE_AGENTS" || acspData.workSector === "HIGH_VALUE_DEALERS" || acspData.workSector === "CASINOS") {
+            workSector = "OTHER";
+        } else {
+            workSector = acspData.workSector;
+        }
+
         res.render(config.SECTOR_YOU_WORK_IN, {
             previousPage,
             title: "Which sector do you work in?",
@@ -34,7 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
             acspType: acspData?.typeOfBusiness,
-            workSector: acspData.workSector
+            workSector
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

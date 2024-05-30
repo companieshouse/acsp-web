@@ -25,27 +25,39 @@
                       attributes: {
                         "data-event-id": "I am the sole trader"
                       }
-                    } if (acspType == "SOLE_TRADER"),
+                    } if acspType == "SOLE_TRADER",
 
                     {
                       value: "MEMBER_OF_PARTNERSHIP",
-                      text: i18n.member + unincorporatedBusinessName
-                    } if (acspType == "PARTNERSHIP"),
+                      text: i18n.member + unincorporatedBusinessName,
+                      attributes: {
+                        "data-event-id": "I am a member of " + unincorporatedBusinessName
+                      }
+                    } if acspType == "PARTNERSHIP",
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
-                      text: i18n.memberOfGoverningBody + unincorporatedBusinessName
-                    } if (acspType == "UNINCORPORATED_ENTITY"),
+                      text: i18n.memberOfGoverningBody + unincorporatedBusinessName,
+                      attributes: {
+                        "data-event-id": "I am a member of the governing body of " + unincorporatedBusinessName
+                      }
+                    } if acspType == "UNINCORPORATED_ENTITY",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
-                      text: i18n.equivalentToDirector + unincorporatedBusinessName
-                    } if (acspType == "CORPORATE_BODY"),
+                      text: i18n.equivalentToDirector + unincorporatedBusinessName,
+                      attributes: {
+                        "data-event-id": "I am the equivalent of a director of " + unincorporatedBusinessName
+                      }
+                    } if acspType == "CORPORATE_BODY",
 
                     {
                       value: "MEMBER_OF_ENTITY",
-                      text: i18n.member + unincorporatedBusinessName
-                    } if (acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY" ),
+                      text: i18n.member + unincorporatedBusinessName,
+                      attributes: {
+                        "data-event-id": "I am a member of " + unincorporatedBusinessName
+                      }
+                    } if acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY",
 
                     {
                       value: "DIRECTOR",
@@ -53,7 +65,7 @@
                       attributes: {
                         "data-event-id": "I am a director of " + company.companyName
                       }
-                    } if (acspType == "LIMITED_COMPANY"),
+                    } if acspType == "LIMITED_COMPANY",
 
                     {
                       value: "MEMBER_OF_LLP",
@@ -61,7 +73,7 @@
                       attributes: {
                         "data-event-id": "I am a member of " + company.companyName
                       }
-                    } if (acspType == "LIMITED_LIABILITY_PARTNERSHIP"),
+                    } if acspType == "LIMITED_LIABILITY_PARTNERSHIP",
 
                     {
                       value: "GENERAL_PARTNER",
@@ -69,7 +81,7 @@
                       attributes: {
                         "data-event-id": "I am a general partner of " + company.companyName
                       }
-                    } if (acspType == "LIMITED_PARTNERSHIP"),
+                    } if acspType == "LIMITED_PARTNERSHIP",
 
                     {
                       value: "SOMEONE_ELSE",
@@ -79,7 +91,7 @@
                       }
                     }
                 ]
-                }) }}
+            }) }}
         </div>
         {{ govukButton({
           text: i18n.Continue,
