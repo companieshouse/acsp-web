@@ -30,21 +30,33 @@
                     {
                       value: "MEMBER_OF_PARTNERSHIP",
                       text: i18n.member + unincorporatedBusinessName
+                      attributes: {
+                        "data-event-id": "I am a member of " + unincorporatedBusinessName
+                      }
                     } if (acspType == "PARTNERSHIP"),
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
                       text: i18n.memberOfGoverningBody + unincorporatedBusinessName
+                      attributes: {
+                        "data-event-id": "I am a member of " + unincorporatedBusinessName
+                      }
                     } if (acspType == "UNINCORPORATED_ENTITY"),
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
                       text: i18n.equivalentToDirector + unincorporatedBusinessName
+                      attributes: {
+                        "data-event-id": "I am a director of " + unincorporatedBusinessName
+                      }
                     } if (acspType == "CORPORATE_BODY"),
 
                     {
                       value: "MEMBER_OF_ENTITY",
                       text: i18n.member + unincorporatedBusinessName
+                      attributes: {
+                        "data-event-id": "I am a member of " + unincorporatedBusinessName
+                      }
                     } if (acspType == "UNINCORPORATED_ENTITY" or acspType == "CORPORATE_BODY" ),
 
                     {
