@@ -2,91 +2,86 @@
 {% from "govuk/components/button/macro.njk"              import govukButton %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form action="" method="POST">
-                {% include "partials/user_name.njk" %}
-                <div class="govuk-form-group">
-                    {{ govukRadios({
-                errorMessage: errors.typeOfBusinessRadio if errors,
-                classes: "govuk-radios",
-                id: "type-of-business-radios",
-                name: "typeOfBusinessRadio",
-                fieldset: {
-                    legend: {
-                        text: i18n.typeOfBusinessTitle,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                },
-                value: typeOfBusiness,
-                items: [
-                    {
-                        value: "LIMITED_COMPANY",
-                        text: i18n.typeOfBusinessLimitedCompanyOption
-                    }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
-                    {
-                        value: "LIMITED_PARTNERSHIP",
-                        text: i18n.typeOfBusinessLimitedPartnershipOption
-                    },
-                    {
-                        value: "LIMITED_LIABILITY_PARTNERSHIP",
-                        text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption
-                    },
-                    {
-                        value: "PARTNERSHIP",
-                        text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption
-                    }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
-                    {
-                        value: "SOLE_TRADER",
-                        text: i18n.typeOfBusinessSoleTraderOption
-                    },
-                    {
-                        value: "OTHER",
-                        text: i18n.typeOfBusinessOtherOption
-                    }
-                ]
-                }) }}
-                </div>
-                {{ govukButton({
-                    text: i18n.Continue,
-                    attributes: {
-                        "onClick": "continueOnClick()"
-                    }
-                }) }}
-            </form>
-        </div>
-    </div>
-    <script type="text/javascript">
-        function continueOnClick() {
-            const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
-            if (selectedOption){
-                const selectedValue = selectedOption.value;
-                if (selectedValue !== "OTHER") {
-                    trackGoal(selectedValue);
-                }
-            }
+  <form action="" method="POST">
+    {% include "partials/user_name.njk" %}
+    {{ govukRadios({
+      errorMessage: errors.typeOfBusinessRadio if errors,
+      classes: "govuk-radios",
+      id: "type-of-business-radios",
+      name: "typeOfBusinessRadio",
+      fieldset: {
+        legend: {
+          text: i18n.typeOfBusinessTitle,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
         }
-        function trackGoal(goal){
-            let goalId;
-            switch(goal) {
-                case "LIMITED_COMPANY":
-                    goalId = 1;
-                    break;
-                case "LIMITED_PARTNERSHIP":
-                    goalId = 2;
-                    break;
-                case "LIMITED_LIABILITY_PARTNERSHIP":
-                    goalId = 3;
-                    break;
-                case "PARTNERSHIP":
-                    goalId = 4;
-                    break;
-                case "SOLE_TRADER":
-                    goalId = 5;
-                    break;
-            }
-            _paq.push(['trackGoal', goalId]);
+      },
+      value: typeOfBusiness,
+      items: [
+        {
+          value: "LIMITED_COMPANY",
+          text: i18n.typeOfBusinessLimitedCompanyOption
+        }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
+        {
+          value: "LIMITED_PARTNERSHIP",
+          text: i18n.typeOfBusinessLimitedPartnershipOption
+        },
+        {
+          value: "LIMITED_LIABILITY_PARTNERSHIP",
+          text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption
+        },
+        {
+          value: "PARTNERSHIP",
+          text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption
+        }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
+        {
+          value: "SOLE_TRADER",
+          text: i18n.typeOfBusinessSoleTraderOption
+        },
+        {
+          value: "OTHER",
+          text: i18n.typeOfBusinessOtherOption
         }
-    </script>
+      ]
+    }) }}
+    
+    {{ govukButton({
+      text: i18n.Continue,
+      attributes: {
+        "onClick": "continueOnClick()"
+      }
+    }) }}
+  </form>
+  <script type="text/javascript">
+    function continueOnClick() {
+      const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
+      if (selectedOption){
+        const selectedValue = selectedOption.value;
+        if (selectedValue !== "OTHER") {
+          trackGoal(selectedValue);
+        }
+      }
+    }
+    function trackGoal(goal){
+      let goalId;
+      switch(goal) {
+        case "LIMITED_COMPANY":
+          goalId = 1;
+          break;
+        case "LIMITED_PARTNERSHIP":
+          goalId = 2;
+          break;
+        case "LIMITED_LIABILITY_PARTNERSHIP":
+          goalId = 3;
+          break;
+        case "PARTNERSHIP":
+          goalId = 4;
+          break;
+        case "SOLE_TRADER":
+          goalId = 5;
+          break;
+      }
+      _paq.push(['trackGoal', goalId]);
+    }
+  </script>
 {% endblock main_content %}

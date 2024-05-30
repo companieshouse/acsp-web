@@ -1,45 +1,43 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% extends "layouts/default.njk" %}
 {% set errors = pageProperties.errors %}
+
+{# Prepare address items #}
+{% set ITEMS = [] %}
+{% for addressOption in addresses %}
+    {% set addressObject = {
+        id: addressOption.propertyDetails,
+        value: addressOption.propertyDetails,
+        text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.country + ", " + addressOption.postcode,
+        checked: addressOption.propertyDetails == currentPremises,
+        attributes: {
+            "data-event-id": "address-option-" + addressOption.propertyDetails
+        }
+    } %}
+    {% set ITEMS = ITEMS.concat(addressObject) %}
+{% endfor %}
+
 {% block main_content %}
-    {# Prepare address items #}
-    {% set ITEMS = [] %}
-    {% for addressOption in addresses %}
-        {% set addressObject = {
-            id: addressOption.propertyDetails,
-            value: addressOption.propertyDetails,
-            text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.country + ", " + addressOption.postcode,
-            checked: addressOption.propertyDetails == currentPremises,
-            attributes: {
-                "data-event-id": "address-option-" + addressOption.propertyDetails
-            }
-        } %}
-        {% set ITEMS = ITEMS.concat(addressObject) %}
-    {% endfor %}
     {# Form section #}
-<div class="govuk-grid-column-two-thirds">
     <form action="" method="POST">
         {% if businessName %}
             {% include "partials/business_name.njk" %}
         {% endif %}
-        <div
-            class="govuk-form-group">
-            {# Render radios #}
-            {{ govukRadios({
-                errorMessage: errors.businessLookUpAddressList if errors,
-                classes: "govuk-radios",
-                id: "business-address-in-radios",
-                name: "businessAddress",
-                fieldset: {
-                    legend: {
-                        text: i18n.businessLookUpAddressListTitle,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                },
-                items: ITEMS
-            }) }}
-        </div>
+        {# Render radios #}
+        {{ govukRadios({
+            errorMessage: errors.businessLookUpAddressList if errors,
+            classes: "govuk-radios",
+            id: "business-address-in-radios",
+            name: "businessAddress",
+            fieldset: {
+                legend: {
+                    text: i18n.businessLookUpAddressListTitle,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--l"
+                }
+            },
+            items: ITEMS
+        }) }}
         <div class="govuk-inset-text">
             <h2 class="govuk-heading-m">{{ i18n.businessAddressShowOnPublicList }}</h2>
             <p>{{ i18n.businessAddressShowTownOrCity }}</p>
@@ -50,5 +48,4 @@
     <p>
         <a href={{ businessAddressManualLink }} class="govuk-link">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
-</div>
 {% endblock main_content %}
