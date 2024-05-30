@@ -1,6 +1,6 @@
 import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
-const address1: Address = {
+export const address1: Address = {
     propertyDetails: "1",
     line1: "Mock Street",
     town: "Mock Town",
@@ -9,7 +9,7 @@ const address1: Address = {
     postcode: "AB12CD"
 };
 
-const address2: Address = {
+export const address2: Address = {
     propertyDetails: "2",
     line1: "Mock Street",
     town: "Mock Town",
