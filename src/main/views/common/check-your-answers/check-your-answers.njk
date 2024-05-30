@@ -41,7 +41,10 @@
                 })
             }}
             {{ govukButton({
-                text: i18n.continueToPayment
+                text: i18n.continueToPayment,
+                attributes: {
+                  "onClick": "_paq.push(['trackGoal', '11']);"
+              }
             }) }}
         </form>
     </div>

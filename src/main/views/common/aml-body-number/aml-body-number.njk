@@ -51,8 +51,11 @@
                     }) }}
 
                     {{ govukButton({
-                                text: i18n.SaveAndContinue
-                                }) }}
+                        text: i18n.SaveAndContinue,
+                        attributes: {
+                            "data-event-id": "SAVE AND CONTINUE - AML number"
+                        }
+                    }) }}
                 </fieldset>
             </form>
         </div>
