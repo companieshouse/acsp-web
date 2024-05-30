@@ -24,12 +24,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-        let payload;
-        if (acspData.businessName === acspData.firstName + " " + acspData.lastName) {
+        let payload = {};
+        // Check if business name matches the first name and last name
+        if (acspData.businessName === `${acspData.firstName} ${acspData.lastName}`) {
             payload = {
                 whatsTheBusinessNameRadio: "USERNAME"
             };
-        } else {
+        } else if (acspData.businessName) {
             payload = {
                 whatsTheBusinessNameRadio: "A Different Name",
                 whatIsTheBusinessNameInput: acspData.businessName
