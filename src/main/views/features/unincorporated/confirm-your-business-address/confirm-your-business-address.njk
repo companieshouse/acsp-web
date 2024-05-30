@@ -1,3 +1,4 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
   <div class="govuk-grid-row">
@@ -15,13 +16,18 @@
           <li>{{ businessAddress.postcode }}</li>
         </ul>
         <p class="govuk-body">
-          <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
+          <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state" data-event-id="Edit address">{{ i18n.EditAddress }}</a>
         </p>
         <div class="govuk-inset-text">
           <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
           <p>{{ i18n.businessLocationInfo }}</p>
         </div>
-        <button class="govuk-button">{{ i18n.ConfirmAndContinue }}</button>
+         {{ govukButton({
+           text: i18n.ConfirmAndContinue,
+           attributes: {
+             "data-event-id": "CONFIRM AND CONTINUE - address business confirm"
+           }
+         }) }}
       </form>
     </div>
   </div>
