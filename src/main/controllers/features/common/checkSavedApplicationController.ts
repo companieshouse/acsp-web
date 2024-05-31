@@ -6,6 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, SAVED_APPLICATION, TYPE_OF_BUSINESS, YOUR_FILINGS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getSavedApplication, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { createAndLogError, logger } from "../../../utils/logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -17,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     } else if (savedApplication.status === 204) {
         nextPageUrl = addLangToUrl(BASE_URL + SAVED_APPLICATION, lang);
     } else {
-        console.log("error handling");
+        logger.error(`internal server error: ` + savedApplication.status);
     }
 
     res.redirect(nextPageUrl);

@@ -5,7 +5,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { HttpStatusCode } from "@companieshouse/api-sdk-node/dist/services/overseas-entities";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 /**
