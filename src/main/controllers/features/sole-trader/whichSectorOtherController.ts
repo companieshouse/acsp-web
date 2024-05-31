@@ -34,6 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
             acspType: acspData?.typeOfBusiness,
+            workSector: acspData?.workSector,
             whichSectorLink: addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang)
         });
     } catch (err) {
