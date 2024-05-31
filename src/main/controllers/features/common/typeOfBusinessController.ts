@@ -104,33 +104,29 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     acspData.typeOfBusiness = selectedOption;
                     acspData.email = email;
                 }
-                try {
-                    // save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                    const answersArray: Answers = {
-                        typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
-                    };
-                    saveDataInSession(req, ANSWER_DATA, answersArray);
+                // save data to mongodb
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                    switch (selectedOption) {
-                    case "LIMITED_COMPANY":
-                    case "LIMITED_PARTNERSHIP":
-                    case "LIMITED_LIABILITY_PARTNERSHIP":
-                        res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
-                        break;
-                    case "PARTNERSHIP":
-                        res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
-                        break;
-                    case "SOLE_TRADER":
-                        res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
-                        break;
-                    }
-                } catch (err) {
-                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                    const error = new ErrorService();
-                    error.renderErrorPage(res, locales, lang, currentUrl);
+                const answersArray: Answers = {
+                    typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+                };
+                saveDataInSession(req, ANSWER_DATA, answersArray);
+
+                switch (selectedOption) {
+                case "LIMITED_COMPANY":
+                case "LIMITED_PARTNERSHIP":
+                case "LIMITED_LIABILITY_PARTNERSHIP":
+                    res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
+                    break;
+                case "PARTNERSHIP":
+                    res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
+                    break;
+                case "SOLE_TRADER":
+                    res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
+                    break;
                 }
+
             } else {
                 res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
             }

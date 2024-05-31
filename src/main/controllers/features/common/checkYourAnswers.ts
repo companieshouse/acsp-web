@@ -31,7 +31,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             typeOfBusiness: acspData.typeOfBusiness,
             detailsAnswers,
             lang,
-            amlDetails: acspData?.amlSupervisoryBodies
+            amlDetails: acspData?.amlSupervisoryBodies,
+            amlName: acspData.howAreYouRegisteredWithAml
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
