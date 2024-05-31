@@ -20,28 +20,23 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
-
+    let otherTypeOfBusiness = "";
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
-        res.render(config.OTHER_TYPE_OF_BUSINESS, {
-            previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-            title: "What other type of business are you registering?",
-            ...getLocaleInfo(locales, lang),
-            currentUrl,
-            otherTypeOfBusiness: acspData?.typeOfBusiness
-        });
-
+        otherTypeOfBusiness = acspData.typeOfBusiness!;
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
     }
-
+    res.render(config.OTHER_TYPE_OF_BUSINESS, {
+        previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
+        title: "What other type of business are you registering?",
+        ...getLocaleInfo(locales, lang),
+        currentUrl,
+        otherTypeOfBusiness: otherTypeOfBusiness
+    });
 };
-
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
