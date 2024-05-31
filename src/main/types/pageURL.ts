@@ -52,6 +52,8 @@ export const SAVED_APPLICATION = "/saved-application";
 
 export const YOUR_FILINGS = "//find-and-update.company-information.service.gov.uk/user/transactions";
 
+export const CHECK_SAVED_APPLICATION = "/dummy";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 

@@ -54,7 +54,8 @@ import {
     amlBodyMembershipNumberController,
     checkAmlDetailsController,
     paymentCallbackController,
-    savedApplicationController
+    savedApplicationController,
+    checkSavedApplicationController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -114,6 +115,8 @@ routes.get(urls.SAVED_APPLICATION, savedApplicationController.get);
 routes.post(urls.SAVED_APPLICATION, selectSavedApplicationValidator, savedApplicationController.post);
 
 routes.get(urls.PAYMENT_CALLBACK_URL, paymentCallbackController.get);
+
+routes.get(urls.CHECK_SAVED_APPLICATION, checkSavedApplicationController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
