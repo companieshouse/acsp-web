@@ -76,15 +76,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.sectorYouWorkIn === "OTHER") {
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER, lang));
             } else {
-                //  save data to mongodb
-                acspData.workSector = req.body.sectorYouWorkIn;
+                if (acspData) {
+                    acspData.workSector = req.body.sectorYouWorkIn;
+                }
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
                 saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
+
             }
         }
     } catch (error) {
