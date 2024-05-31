@@ -65,6 +65,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.nameRegisteredWithAML = NameRegisteredWithAML[selectedOption as keyof typeof NameRegisteredWithAML];
+            if (selectedOption === "NAME_OF_THE_BUSINESS") {
+                detailsAnswers.name = "";
+            }
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             saveDataInSession(req, UNINCORPORATED_AML_SELECTED_OPTION, selectedOption);
 

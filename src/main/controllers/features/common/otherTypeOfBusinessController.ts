@@ -6,7 +6,6 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { ACSPData } from "../../../model/ACSPData";
 import { Session } from "@companieshouse/node-session-handler";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
@@ -23,8 +22,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        saveDataInSession(req, USER_DATA, acspData);
+        let acspData;
+        try {
+            acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            if (acspData !== undefined) {
+                saveDataInSession(req, USER_DATA, acspData);
+            }
+        } catch (err) {
+            logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        }
 
         res.render(config.OTHER_TYPE_OF_BUSINESS, {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
@@ -60,30 +66,33 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-
             // eslint-disable-next-line camelcase
             const email = session?.data?.signin_info?.user_profile?.email!;
             // eslint-disable-next-line camelcase
             const userId = session?.data?.signin_info?.user_profile?.id!;
-            const acspData: AcspData = {
-                id: userId,
-                typeOfBusiness: selectedOption
-            };
-            try {
-                // save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            let acspData : AcspData = session?.getExtraData(USER_DATA)!;
 
-                const answersArray: Answers = {
-                    typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+            if (acspData === undefined) {
+                acspData = {
+                    id: userId,
+                    typeOfBusiness: selectedOption,
+                    email: email
                 };
-                saveDataInSession(req, ANSWER_DATA, answersArray);
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang)); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
-
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+            } else {
+                acspData.id = userId;
+                acspData.typeOfBusiness = selectedOption;
+                acspData.email = email;
             }
+
+            // save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+            const answersArray: Answers = {
+                typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
+            };
+            saveDataInSession(req, ANSWER_DATA, answersArray);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang)); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
+
         }
     } catch (error) {
         next(error);
