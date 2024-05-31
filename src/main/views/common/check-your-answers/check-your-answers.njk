@@ -1,51 +1,49 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-{% block main_content %}
+
 
 {% set amlList = [] %}
-  {% for body in amlDetails %}
-      {% set amlSummaryObject = {
-          key: {
-            text:  i18n.checkYourAnswersAMLTab
-          },
-          value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.amlSupervisoryBody + "</li><li>" + body.membershipId + "</li></ul>"
-          },
-          actions: {
-            items: [
-              {
-                href: editAML + "#" + "membershipnumber_" + loop.index,
-                text: i18n.checkYourAnswersChange,
-                visuallyHiddenText: body.amlSupervisoryBody
-              }
-            ]
-          }
-        } %}
-      {% set amlList = amlList.concat(amlSummaryObject) %}
-  {% endfor %}
+{% for body in amlDetails %}
+  {% set amlSummaryObject = {
+    key: {
+      text:  i18n.checkYourAnswersAMLTab
+    },
+    value: {
+      html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.amlSupervisoryBody + "</li><li>" + body.membershipId + "</li></ul>"
+    },
+    actions: {
+      items: [
+        {
+          href: editAML + "#" + "membershipnumber_" + loop.index,
+          text: i18n.checkYourAnswersChange,
+          visuallyHiddenText: body.amlSupervisoryBody
+        }
+      ]
+    }
+  } %}
+  {% set amlList = amlList.concat(amlSummaryObject) %}
+{% endfor %}
 
-    <div class="govuk-grid-column-two-thirds-from-desktop">
-        <form method="post">
-            <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
-            {% if typeOfBusiness === "SOLE_TRADER" %}
-                {% include "partials/check-your-answers/sole-trader-answers.njk" %}
-            {% elif typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
-                {% include "partials/check-your-answers/limited-answers.njk" %}
-            {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
-                {% include "partials/check-your-answers/unincorporated-answers.njk" %}
-            {% endif %}
-            <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
-            {{ govukSummaryList({
-                rows: amlList
-                })
-            }}
-            {{ govukButton({
-                text: i18n.continueToPayment,
-                attributes: {
-                  "onClick": "_paq.push(['trackGoal', '11']);"
-              }
-            }) }}
-        </form>
-    </div>
+{% block main_content %}
+  <form method="post">
+    <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
+    {% if typeOfBusiness === "SOLE_TRADER" %}
+      {% include "partials/check-your-answers/sole-trader-answers.njk" %}
+    {% elif typeOfBusiness === "LIMITED_COMPANY" or typeOfBusiness === "LIMITED_PARTNERSHIP" or typeOfBusiness === "LIMITED_LIABILITY_PARTNERSHIP" %}
+      {% include "partials/check-your-answers/limited-answers.njk" %}
+    {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED_ENTITY" or typeOfBusiness === "CORPORATE_BODY" %}
+      {% include "partials/check-your-answers/unincorporated-answers.njk" %}
+    {% endif %}
+    <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+    {{ govukSummaryList({
+      rows: amlList
+    })}}
+    {{ govukButton({
+      text: i18n.continueToPayment,
+      attributes: {
+        "onClick": "_paq.push(['trackGoal', '11']);"
+      }
+    }) }}
+  </form>
 {% endblock main_content %}
