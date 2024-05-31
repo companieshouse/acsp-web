@@ -1,5 +1,5 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { createAndLogError, logger } from "../utils/logger";
+import { logger } from "../utils/logger";
 import { createPublicOAuthApiClient } from "./api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
@@ -73,6 +73,5 @@ export const postAcspRegistration = async (session: Session, transactionId: stri
 
 export const getSavedApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    const httpResponse = await apiClient.acsp.getSavedApplication(userId);
-    return httpResponse;
+    return await apiClient.acsp.getSavedApplication(userId);
 };
