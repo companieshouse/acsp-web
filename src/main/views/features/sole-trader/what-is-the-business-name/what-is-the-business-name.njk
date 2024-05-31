@@ -14,7 +14,7 @@
           text: errors["whatIsTheBusinessNameInput"].text
         } if errors["whatIsTheBusinessNameInput"] | length,
         classes: "govuk-input",
-        id: "what-is-the-business-name-input",
+        id: "whatIsTheBusinessNameInput",
         name: "whatIsTheBusinessNameInput",
         value: payload["whatIsTheBusinessNameInput"]
       }) }}
@@ -24,7 +24,6 @@
       errorMessage: errors.whatsTheBusinessNameRadio if errors,
       name: "whatsTheBusinessNameRadio",
       value: payload["whatsTheBusinessNameRadio"],
-      id: "what-is-the-business-name-radio",
       classes: "govuk-radios",
       fieldset: {
         legend: {
