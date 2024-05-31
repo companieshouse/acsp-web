@@ -3,52 +3,45 @@
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
-<main class="govuk-main-wrapper" id="main-content" role="main">
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-    <form action="" method="POST">
-    <div class="govuk-form-group">
-            {{ govukRadios({
-                errorMessage: errors.savedApplication if errors,
-                classes: "govuk-radios--inline",
-                id: "savedApplication",
-                name: "savedApplication",
-                fieldset: {
-                    legend: {
-                        text: i18n.savedTitle,
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
-                    }
-                },
-                hint: {
-                    text: i18n.savedHintText
-                },
-                items: [
-                    {
-                        value: "yes",
-                        text: i18n.savedYesButtonText,
-                        "hint": {
-                          "text": i18n.savedYesHintText
-                        }, 
-                        attributes: {
-                            "data-event-id": "savedApplication-yes"
-                        }
-                    },
-                    {
-                        value: "no",
-                        text: i18n.savedNoButtonText,
-                        "hint": {
-                          "text": i18n.savedNoHintText
-                        },
-                        attributes: {
-                            "data-event-id": "savedApplication-no"
-                        }
-                    }
-                ]
-            }) }}
-          </div>
-            <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
-        </form>
-        </div>
-    </div>
+  <form action="" method="POST">
+    {{ govukRadios({
+      errorMessage: errors.savedApplication if errors,
+      classes: "govuk-radios--inline",
+      id: "savedApplication",
+      name: "savedApplication",
+      fieldset: {
+        legend: {
+          text: i18n.savedTitle,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: {
+        text: i18n.savedHintText
+      },
+      items: [
+        {
+          value: "yes",
+          text: i18n.savedYesButtonText,
+          "hint": {
+            "text": i18n.savedYesHintText
+          }, 
+          attributes: {
+            "data-event-id": "savedApplication-yes"
+          }
+        },
+        {
+          value: "no",
+          text: i18n.savedNoButtonText,
+          "hint": {
+            "text": i18n.savedNoHintText
+          },
+          attributes: {
+            "data-event-id": "savedApplication-no"
+          }
+        }
+      ]
+    }) }}
+    <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+  </form>
 {% endblock main_content %}

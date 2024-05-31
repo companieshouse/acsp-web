@@ -4,60 +4,57 @@
 {% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <form class="form" action="" method="post">
-                {% if businessName %}
-                    {% include "partials/business_name.njk" %}
-                {% endif %}
-                {% if firstName %}
-                    {% include "partials/user_name.njk" %}
-                {% endif %}
-                <fieldset class="govuk-fieldset">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        {% include "partials/user_name.njk" %}
-                        <h1 class="govuk-fieldset__heading">
-                            <p class="govuk-label govuk-label--l">{{i18n.amlMembershipTitle}}</p>
-                        </h1>
-                    </legend>
-                    <p class="govuk-body">{{i18n.amlMembershipdescription}}</p>
-                    <ul class="govuk-list govuk-list--bullet">
-                        <li>{{i18n.amlMembershipLisit1}}</li>
-                        <li>{{i18n.amlMembershipLisit2}}</li>
-                        <li>{{i18n.amlMembershipLisit3}}</li>
-                    </ul>
-                    <p class="govuk-body">{{i18n.amlcontactinfo}}
-                    </p>
 
-                    {% for body in amlSupervisoryBodies %}
-                        {{ govukInput({
-                            label: {
-                                text: body.amlSupervisoryBody,
-                                classes: "govuk-label l govuk-label--m",
-                                isPageHeading: true
-                            },
-                            id: "membershipNumber_" + loop.index,
-                            name: "membershipNumber_" + loop.index,
-                            value: body.membershipId,
-                            errorMessage: {
-                                text: errors["membershipNumber_" + loop.index].text
-                            } if errors["membershipNumber_" + loop.index]
-                        }) }}
-                    {% endfor %}
+    <form action="" method="post">
+        {% if businessName %}
+            {% include "partials/business_name.njk" %}
+        {% endif %}
+        {% if firstName %}
+            {% include "partials/user_name.njk" %}
+        {% endif %}
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                {% include "partials/user_name.njk" %}
+                <h1 class="govuk-fieldset__heading">
+                    <p class="govuk-label govuk-label--l">{{i18n.amlMembershipTitle}}</p>
+                </h1>
+            </legend>
+            <p class="govuk-body">{{i18n.amlMembershipdescription}}</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{i18n.amlMembershipLisit1}}</li>
+                <li>{{i18n.amlMembershipLisit2}}</li>
+                <li>{{i18n.amlMembershipLisit3}}</li>
+            </ul>
+            <p class="govuk-body">{{i18n.amlcontactinfo}}
+            </p>
+
+            {% for body in amlSupervisoryBodies %}
+                {{ govukInput({
+                    label: {
+                        text: body.amlSupervisoryBody,
+                        classes: "govuk-label l govuk-label--m",
+                        isPageHeading: true
+                    },
+                    id: "membershipNumber_" + loop.index,
+                    name: "membershipNumber_" + loop.index,
+                    value: body.membershipId,
+                    errorMessage: {
+                        text: errors["membershipNumber_" + loop.index].text
+                    } if errors["membershipNumber_" + loop.index]
+                }) }}
+            {% endfor %}
 
 
-                    {{ govukInsetText({
-                    text: i18n.amlAdditionalInfo
-                    }) }}
+            {{ govukInsetText({
+            text: i18n.amlAdditionalInfo
+            }) }}
 
-                    {{ govukButton({
-                        text: i18n.SaveAndContinue,
-                        attributes: {
-                            "data-event-id": "SAVE AND CONTINUE - AML number"
-                        }
-                    }) }}
-                </fieldset>
-            </form>
-        </div>
-    </div>
+            {{ govukButton({
+                text: i18n.SaveAndContinue,
+                attributes: {
+                    "data-event-id": "SAVE AND CONTINUE - AML number"
+                }
+            }) }}
+        </fieldset>
+    </form>
 {% endblock %}

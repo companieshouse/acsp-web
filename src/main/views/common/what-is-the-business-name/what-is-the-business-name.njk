@@ -1,38 +1,28 @@
-{% from "govuk/components/input/macro.njk"           import govukInput %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% extends "layouts/default.njk" %}
 
 {% block main_content %}
+  <form action="" method="POST">    
+    {{ govukInput({
+      label: {
+        text: i18n.whatIsTheBusinessNameTitle,
+        classes: "govuk-label--l",
+        isPageHeading: true
+      },
+      errorMessage: {
+        text: errors["whatIsTheBusinessName"].text
+      } if errors["whatIsTheBusinessName"] | length,
+      classes: "govuk-input",
+      id: "whatIsTheBusinessName",
+      name: "whatIsTheBusinessName",
+      value: payload["whatIsTheBusinessName"]     
+    }) }}
 
-<div class="govuk-main-wrapper">
-  <div class="govuk-grid-row">
-   <div class="govuk-grid-column-two-thirds">
-    <form action="" method="POST">
-        <div class="govuk-form-group">
-            
-            {{ govukInput({
-                label: {
-                    text: i18n.whatIsTheBusinessNameTitle,
-                    classes: "govuk-label--l",
-                    isPageHeading: true
-                },
-                 errorMessage: {
-                    text: errors["whatIsTheBusinessName"].text
-              } if errors["whatIsTheBusinessName"] | length,
-                classes: "govuk-input",
-                id: "whatIsTheBusinessName",
-                name: "whatIsTheBusinessName",
-                value: payload["whatIsTheBusinessName"]     
-             }) }}
-
-             <div class="govuk-inset-text">
-                <p>{{i18n.whatIsTheBusinessNamePublic}}</p>   
-            </div>
-        </div>
-            <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
-     </form>
-   </div>
- </div>
-</div>
-
+    {{ govukInsetText({
+      text: i18n.whatIsTheBusinessNamePublic
+    }) }}
     
+    <button class="govuk-button">{{i18n.whatIsTheBusinessNameSaveAndContinue}}</button>
+  </form>
 {% endblock main_content %}
