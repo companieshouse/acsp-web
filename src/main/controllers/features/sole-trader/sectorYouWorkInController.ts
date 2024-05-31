@@ -79,7 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData) {
                     acspData.workSector = req.body.sectorYouWorkIn;
                 }
-                //  save data to mongodb
+                // save data to mongodb
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
