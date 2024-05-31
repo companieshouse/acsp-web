@@ -1,10 +1,11 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { createAndLogError, logger } from "../utils/logger";
+import { logger } from "../utils/logger";
 import { createPublicOAuthApiClient } from "./api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 /**
  * GET an acsp registration object with the given transaction ID and emailId.
@@ -68,4 +69,9 @@ export const postAcspRegistration = async (session: Session, transactionId: stri
 
     logger.debug(`acsp registration ${JSON.stringify(sdkResponse)}`);
     return Promise.resolve(castedSdkResponse.resource);
+};
+
+export const getSavedApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+    return await apiClient.acsp.getSavedApplication(userId);
 };

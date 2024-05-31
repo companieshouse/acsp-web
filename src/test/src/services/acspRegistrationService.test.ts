@@ -3,11 +3,13 @@ import { Session } from "@companieshouse/node-session-handler";
 import { createPublicOAuthApiClient } from "../../../main/services/api/api_service";
 import {
     getAcspRegistration,
-    postAcspRegistration
+    postAcspRegistration,
+    getSavedApplication
 } from "../../../main/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { AcspData, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../main/services/api/api_service");
@@ -15,11 +17,13 @@ jest.mock("../../../main/services/api/api_service");
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostAcspRegistration = jest.fn();
 const mockGetAcspRegistration = jest.fn();
+const mockGetSavedApplication = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     acsp: {
         getAcsp: mockGetAcspRegistration,
-        postACSP: mockPostAcspRegistration
+        postACSP: mockPostAcspRegistration,
+        getSavedApplication: mockGetSavedApplication
     }
 });
 
@@ -30,6 +34,7 @@ const acsp: AcspData = {
     id: EMAIL_ID,
     typeOfBusiness: "LIMITED"
 };
+const USER_ID = "Y2VkZWVlMzhlZWFjY2M4MzQ3MT";
 
 describe("acsp service tests", () => {
 
@@ -130,6 +135,17 @@ describe("acsp service tests", () => {
             });
 
             await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+        });
+    });
+
+    describe("getSavedApplication tests", () => {
+        it("Should return status 404", async () => {
+            mockGetSavedApplication.mockResolvedValueOnce({
+                status: 404
+            }as HttpResponse);
+
+            const httpResponse = await getSavedApplication(session, USER_ID);
+            expect(httpResponse.status).toStrictEqual(404);
         });
     });
 });
