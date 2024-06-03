@@ -7,20 +7,33 @@ $govuk-global-styles: true;
 }
 
 @font-face {
-    font-family: "GDS Transport";
-    font-weight: bold;
-    src: url("../fonts/bold-b542beb274-v2.woff2") format("woff2");
+  font-family: "GDS Transport";
+  font-weight: bold;
+  src: url("../fonts/bold-b542beb274-v2.woff2") format("woff2");
 }
 
 @font-face {
-    font-family: "GDS Transport";
-    font-weight: normal;
-    src: url("../fonts/light-94a07e06a1-v2.woff2") format("woff2");
+  font-family: "GDS Transport";
+  font-weight: normal;
+  src: url("../fonts/light-94a07e06a1-v2.woff2") format("woff2");
 }
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */
 
-.grid-row:after, fieldset:after, .form-section:after, .form-group:after, .form-block:after, .notice:after, #content:after, .panel:after, #global-nav .inner:after, .navigation-list:after, .pager ul:after, ol.breadcrumb:after, ul.pager:after, .section-tabs:after {
+.grid-row:after,
+fieldset:after,
+.form-section:after,
+.form-group:after,
+.form-block:after,
+.notice:after,
+#content:after,
+.panel:after,
+#global-nav .inner:after,
+.navigation-list:after,
+.pager ul:after,
+ol.breadcrumb:after,
+ul.pager:after,
+.section-tabs:after {
   content: "";
   display: block;
   clear: both;
@@ -35,7 +48,8 @@ $govuk-global-styles: true;
   color: #fff;
 }
 
-#chs-customer-insights-top a:link, #chs-customer-insights-top a:visited {
+#chs-customer-insights-top a:link,
+#chs-customer-insights-top a:visited {
   color: #fff;
 }
 
@@ -61,7 +75,8 @@ $govuk-global-styles: true;
   border-bottom: 10px solid #005ea5;
 }
 
-#chs-customer-insights a:link, #chs-customer-insights a:visited {
+#chs-customer-insights a:link,
+#chs-customer-insights a:visited {
   color: #fff;
 }
 
@@ -93,6 +108,7 @@ $govuk-global-styles: true;
     margin-top: 1em;
   }
 }
+
 @media (max-width: 959px) and (min-width: 700px) {
   #chs-customer-insights {
     padding-bottom: 0.5em;
@@ -103,23 +119,6 @@ $govuk-global-styles: true;
 
 .blue-footer-border {
   border-bottom: 10px solid #005ea5;
-}
-
-ul#navigation {
-  font-size: 0.9em;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  text-align: right;
-  display: inline-block;
-  float: right;
-}
-ul#navigation li {
-  display: inline;
-  font-size: 16px;
-  overflow-wrap: break-word;
-}
-ul#navigation li a {
-  margin-left: 0.9em;
 }
 
 .js-signout {
