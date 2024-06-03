@@ -21,6 +21,12 @@
     <p class="govuk-body">
       <a href={{editPage}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
     </p>
+     {% if typeOfBusiness === "SOLE_TRADER" %}
+    <div class="govuk-inset-text">
+      <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
+      <p>{{ i18n.correspondenceLocationInfo }}</p>
+    </div>
+    {% endif %}
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
       attributes: {

@@ -35,7 +35,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            payload
+            payload,
+            typeOfBusiness: acspData?.typeOfBusiness
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -64,7 +65,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                lastName: acspData?.lastName,
+                typeOfBusiness: acspData?.typeOfBusiness
             });
         } else {
             // update acspData
