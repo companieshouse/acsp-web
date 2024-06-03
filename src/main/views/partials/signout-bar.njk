@@ -4,13 +4,18 @@
         {% set signoutURL = signoutURL ~ "?lang=" ~ lang %}
     {% endif %}
     {% set email = userEmail | default("Not signed in") %}
-    <ul id="navigation">
-        <li id="signed-in-user">{{email}}</li>
-        <li>
-            <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">
+    <ul
+        id="navigation"
+        style="font-size: .9em; margin-top: 15px; margin-bottom: 15px; text-align: right; display: inline-block; float: right;
+            font-family: 'GDS Transport', Arial, sans-serif;">
+        <li id="signed-in-user" style="display: inline; font-size: 16px; overflow-wrap: break-word;">
+            {{ email }}
+        </li>
+        <li style="display: inline; font-size: 16px; overflow-wrap: break-word;">
+            <a href="{{ signoutURL }}" data-event-id="signout" id="user-signout" style="margin-left: .9em; font-family: 'GDS Transport', Arial, sans-serif;">
                 {{ i18n.SignOut }}
             </a>
         </li>
     </ul>
-    <script src="{{cdnHost}}/javascripts/app/session-timeout.js"></script>
+    <script src="{{ cdnHost }}/javascripts/app/session-timeout.js"></script>
 {% endif %}
