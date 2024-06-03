@@ -1,4 +1,4 @@
-import { ACCOUNT_URL } from "../utils/properties";
+import { ACCOUNT_URL, CHS_URL } from "../utils/properties";
 
 const SEPARATOR = "/";
 
@@ -50,7 +50,7 @@ export const YOUR_RESPONSIBILITIES = "/your-responsibilities";
 
 export const SAVED_APPLICATION = "/saved-application";
 
-export const YOUR_FILINGS = "//find-and-update.company-information.service.gov.uk/user/transactions";
+export const YOUR_FILINGS = `${CHS_URL}/user/transactions`;
 
 export const CHECK_SAVED_APPLICATION = "/check-saved-application";
 
