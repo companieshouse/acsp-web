@@ -34,6 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             businessName: acspData?.businessName,
+            typeOfBusiness: acspData?.typeOfBusiness,
             payload
         });
     } catch (err) {
@@ -62,7 +63,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                businessName: acspData?.businessName
+                businessName: acspData?.businessName,
+                typeOfBusiness: acspData?.typeOfBusiness
             });
         } else {
             // update acspData
