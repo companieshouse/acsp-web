@@ -5,12 +5,12 @@
     {% endif %}
     {% set email = userEmail | default("Not signed in") %}
     <ul id="navigation">
-        <li id="signed-in-user">{{email}}</li>
+        <li id="signed-in-user">{{ email }}</li>
         <li>
-            <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">
+            <a href="{{ signoutURL }}" data-event-id="signout" id="user-signout">
                 {{ i18n.SignOut }}
             </a>
         </li>
     </ul>
-    <script src="{{cdnHost}}/javascripts/app/session-timeout.js"></script>
+    <script src="{{ cdnHost }}/javascripts/app/session-timeout.js"></script>
 {% endif %}
