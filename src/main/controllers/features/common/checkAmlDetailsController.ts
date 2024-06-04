@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { BASE_URL, AML_MEMBERSHIP_NUMBER, AML_BODY_DETAILS_CONFIRM, CHECK_YOUR_ANSWERS } from "../../../types/pageURL";
+import { BASE_URL, AML_MEMBERSHIP_NUMBER, AML_BODY_DETAILS_CONFIRM, YOUR_RESPONSIBILITIES } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
@@ -39,6 +39,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    const nextPageUrl = addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang);
+    const nextPageUrl = addLangToUrl(BASE_URL + YOUR_RESPONSIBILITIES, lang);
     res.redirect(nextPageUrl);
 };
