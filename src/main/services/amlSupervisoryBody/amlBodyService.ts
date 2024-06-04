@@ -5,16 +5,18 @@ export class AmlSupervisoryBodyService {
     public saveSelectedAML = (req: Request, acspData: AcspData) => {
         const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"];
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
-
-        if (selectedAMLSupervisoryBodies instanceof Array) {
-            for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
-                amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies[i] });
+        // Only when the user does not change the selection. The condtion needs to be changed as part of changed selection scenarios
+        if (acspData.amlSupervisoryBodies === null || acspData.amlSupervisoryBodies === undefined) {
+            if (selectedAMLSupervisoryBodies instanceof Array) {
+                for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
+                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies[i] });
+                }
+            } else {
+                amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
             }
-        } else {
-            amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
-        }
-        if (acspData) {
-            acspData.amlSupervisoryBodies = amlSupervisoryBodies;
+            if (acspData) {
+                acspData.amlSupervisoryBodies = amlSupervisoryBodies;
+            }
         }
     }
 
