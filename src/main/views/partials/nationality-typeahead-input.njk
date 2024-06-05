@@ -2,7 +2,7 @@
 <script type="text/javascript">
   const nationalityList = "{{ nationalityList }}"
   const nationalityValue = ["{{payload.nationality_input_0}}", "{{payload.nationality_input_1}}", "{{payload.nationality_input_2}}"]
-  const error = ["{{ pageProperties.errors.nationality_input_0.text }}", "{{ pageProperties.errors.nationality_input_1.text }}", "{{ pageProperties.errors.nationality_input_2.text }}"];
+  const errors = "{{ errors }}";
   for (let i = 0; i < nationalityList.length; i++) {
     const autocompleteConfig = {
       element: document.querySelector(`#nationality-${i}`),
@@ -14,6 +14,27 @@
     accessibleAutocomplete(autocompleteConfig);
     const nationality = document.getElementById(`nationality-${i}`);
   }
+
+  // Mimic nunjucks error generation
+  for (let i = 0; i < error.length; i++) {
+    if (errors && errors["nationality_input_" + i]) {
+        const currentErrors = errors["nationality_input_" + i];
+        document
+            .getElementById("typeahead-form-group-" + i)
+            .classList
+            .add("govuk-form-group--error");
+        // Add error message
+        const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors +
+                '</p>';
+        const element = document.getElementById("typeahead-hint-" + i);
+        element.insertAdjacentHTML("afterend", errorHtml);
+        // Add error class to input
+        document
+            .getElementById("nationality_input_" + i)
+            .classList
+            .add("govuk-input--error");
+    }
+}
 </script>
 <!-- Javascript disabled -->
 <noscript>

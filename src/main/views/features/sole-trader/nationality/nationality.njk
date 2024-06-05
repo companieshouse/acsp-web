@@ -1,6 +1,5 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
-{% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
 {% block main_content %}
     {% if errors %}
@@ -70,26 +69,4 @@
             }) }}
         </fieldset>
     </form>
-<script>
-// Mimic nunjucks error generation
-for (let i = 0; i < error.length; i++) {
-    const currentErrors = error[i];
-    if (currentErrors) { // Add error class to form group
-        document
-            .getElementById("typeahead-form-group-" + i)
-            .classList
-            .add("govuk-form-group--error");
-        // Add error message
-        const errorHtml = '<p class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span>' + currentErrors +
-                '</p>';
-        const element = document.getElementById("typeahead-hint-" + i);
-        element.insertAdjacentHTML("afterend", errorHtml);
-        // Add error class to input
-        document
-            .getElementById("nationality_input_" + i)
-            .classList
-            .add("govuk-input--error");
-    }
-}
-</script>
 {% endblock main_content %}

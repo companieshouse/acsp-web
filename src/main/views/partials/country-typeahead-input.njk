@@ -1,7 +1,7 @@
 <script type="text/javascript" src="{{cdnHost}}/javascripts/app/accessible-autocomplete.min.js"></script>
 <script type="text/javascript">
   const countryList = "{{countryList}}"
-  const error = "{{pageProperties.errors.countryInput.text}}"
+  const error = "{{errors.countryInput}}"
   const countryDefaultValue = "{{countryInput}}"
 
   var autocompleteConfig = {
@@ -19,7 +19,7 @@
   window.onload = function () {
       if (error) {
         document.getElementById("typeahead-form-group").className = "govuk-form-group govuk-form-group--error";
-        const errorHtml = '<p class="govuk-error-message"> <span class="govuk-visually-hidden">Error:</span> ' + error + '</p>'
+        const errorHtml = '<p class="govuk-error-message"> <span class="govuk-visually-hidden">Error:</span> ' + error.text + '</p>'
         const element = document.getElementById("typeahead-hint");
         element.insertAdjacentHTML("afterend", errorHtml);
         document.getElementById("countryInput").classList.add("govuk-input--error");

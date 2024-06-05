@@ -13,7 +13,7 @@
     {% endfor %}
   
     {{ govukSelect({
-      errorMessage: errorMessage.countryInput if errorMessage,
+      errorMessage: errorMessage.text if errorMessage,
       label: {
         html: dropdownTitle
       },
