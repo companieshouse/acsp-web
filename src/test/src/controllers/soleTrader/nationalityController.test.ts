@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
-import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../../main/types/pageURL";
+import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../../main/types/pageURL";
 import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
@@ -33,6 +33,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is your nationality?");
     });
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
@@ -50,71 +51,97 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: "French", nationality_input_2: "German" });
         expect(res.status).toBe(302);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE + "?lang=en");
     });
 });
 
 // Test for correct form with valid input only first input populated, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 302 after redirect", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "British", nationality_input_1: "", nationality_input_2: "" }).expect(302);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: "", nationality_input_2: "" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE + "?lang=en");
     });
 });
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "fewrfw", nationality_input_1: "rwerf", nationality_input_2: "pqfrgr" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "fewrfw", nationality_input_1: "rwerf", nationality_input_2: "pqfrgr" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a nationality from the list");
     });
 });
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "rgwaet", nationality_input_1: "British", nationality_input_2: "erjfg" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "rgwaet", nationality_input_1: "British", nationality_input_2: "erjfg" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a nationality from the list");
     });
 });
 
 // Test for  invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "ergverb", nationality_input_1: "erbetb", nationality_input_2: "British" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "ergverb", nationality_input_1: "erbetb", nationality_input_2: "British" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a nationality from the list");
     });
 });
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should return status 400", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "British", nationality_input_1: "erbetb", nationality_input_2: "gjscjqechk" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: "erbetb", nationality_input_2: "gjscjqechk" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a nationality from the list");
     });
 });
 
 // Test for empty input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should fail validation with empty first nationality", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: " ", nationality_input_1: " ", nationality_input_2: " " }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: " ", nationality_input_1: " ", nationality_input_2: " " });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter your nationality");
     });
 });
 
 // Test for same inputs
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should fail validation with same inputs", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "British", nationality_input_1: "British", nationality_input_2: "British" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: "British", nationality_input_2: "" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a different second nationality");
+    });
+});
+
+// Test for same inputs
+describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    it("should fail validation with same inputs", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: "American", nationality_input_2: "British" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a different third nationality");
     });
 });
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     it("should fail validation with invalid nationality", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
-            .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a nationality from the list");
+
     });
 });

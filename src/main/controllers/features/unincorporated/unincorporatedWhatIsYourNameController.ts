@@ -59,7 +59,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME,
-                pageProperties: pageProperties,
+                ...pageProperties,
                 payload: req.body
             });
         } else {
