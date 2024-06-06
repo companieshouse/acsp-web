@@ -31,6 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
+            title: "What is the Anti-Money Laundering (AML) membership number?",
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies
