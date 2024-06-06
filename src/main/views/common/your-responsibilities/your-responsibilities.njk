@@ -3,10 +3,10 @@
 {% extends "layouts/default.njk" %}
 {% block main_content %}
   <form method="post">
-    {% if businessName %}
-      {% include "partials/business_name.njk" %}
-    {% elif firstName %}
-      {% include "partials/user_name.njk" %}
+    {% if typeOfBusiness === "SOLE_TRADER" %}
+        {% include "partials/user_name.njk" %}
+    {% else %}   
+        {% include "partials/business_name.njk" %}
     {% endif %}
     <h1 class="govuk-heading-l">{{i18n.yourResponsibilitiesTitle}}</h1>
     <p class="govuk-body">{{i18n.yourResponsibilitiesText1}}</p>
