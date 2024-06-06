@@ -20,7 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         currentUrl: BASE_URL + YOUR_RESPONSIBILITIES,
         firstName: acspData?.firstName,
         lastName: acspData?.lastName,
-        businessName: acspData?.businessName
+        businessName: acspData?.businessName,
+        typeOfBusiness: acspData?.typeOfBusiness
     });
 };
 
