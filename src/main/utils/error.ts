@@ -1,8 +1,12 @@
 import { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
-
-const pageNotFoundView: string = "partials/error_404";
+import * as config from "../config";
+import { getLocaleInfo, getLocalesService, selectLang } from "./localise";
 
 export const pageNotFound = (req: Request, res: Response) => {
-    return res.status(StatusCodes.NOT_FOUND).render(pageNotFoundView);
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    return res.status(404).render(config.ERROR_404, {
+        title: "Page not Found",
+        ...getLocaleInfo(locales, lang)
+    });
 };

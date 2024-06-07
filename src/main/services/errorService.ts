@@ -5,8 +5,8 @@ import * as config from "../config";
 
 export class ErrorService {
     public renderErrorPage = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {
-        res.status(400).render(config.ERROR_404, {
-            title: "Page not found",
+        res.status(500).render(config.ERROR_500, {
+            title: "Sorry we are experiencing technical difficulties",
             ...getLocaleInfo(locales, lang),
             currentUrl: currentUrl
         });

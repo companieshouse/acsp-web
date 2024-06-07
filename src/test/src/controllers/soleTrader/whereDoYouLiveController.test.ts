@@ -37,9 +37,9 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     });
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
-        const resp = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
-        expect(resp.status).toEqual(400);
-        expect(resp.text).toContain("Page not found");
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
 
     });
 });

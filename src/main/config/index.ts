@@ -45,7 +45,9 @@ export const CORRESPONDENCE_ADDRESS_LIST = `${BASE_COMMON_URL}/correspondence-au
 export const SIGN_OUT_PAGE = `${BASE_COMMON_URL}/sign-out-page/sign-out`;
 export const SAVED_APPLICATION = `${BASE_COMMON_URL}/saved-application/saved-application`;
 
-export const ERROR_404 = `${BASE_PARTIALS_URL}/error_400`;
+export const ERROR_400 = `${BASE_PARTIALS_URL}/error_400`;
+export const ERROR_404 = `${BASE_PARTIALS_URL}/error_404`;
+export const ERROR_500 = `${BASE_PARTIALS_URL}/error_500`;
 
 export const PIWIK_URL = getEnvironmentValue("PIWIK_URL");
 export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID");
