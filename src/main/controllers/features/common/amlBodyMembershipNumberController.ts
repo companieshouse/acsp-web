@@ -87,7 +87,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string) => {
-    return errors.forEach((element, index) => {
+    return errors.forEach((element) => {
+        const index = element.param.substr((element.param).length - 1) - 1;
         const selection = amlSupervisoryBodies[index].amlSupervisoryBody;
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selection;
