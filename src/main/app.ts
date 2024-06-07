@@ -4,7 +4,6 @@ import path from "path";
 import logger from "../../lib/Logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
-import { pageNotFound } from "./utils/error";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { sessionMiddleware } from "./middleware/session_middleware";
 
@@ -87,7 +86,5 @@ app.use(commonTemplateVariablesMiddleware);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
-
-app.use(pageNotFound);
 
 export default app;
