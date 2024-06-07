@@ -1,9 +1,9 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
-import { BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../../main/types/pageURL";
+import { BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME } from "../../../../main/types/pageURL";
 import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
-import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../main/services/acspRegistrationService");
@@ -33,6 +33,7 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Where do you live?");
     });
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
@@ -50,23 +51,22 @@ describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
             .send({ countryInput: "Wales" });
         expect(res.status).toBe(302);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME + "?lang=en");
     });
-});
 
-// Test for invalid input
-describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
+    // Test for invalid input
     it("should return status 400", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: "fewrfw" }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
+            .send({ countryInput: "fewrfw" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select where you live");
     });
-});
 
-// Test for empty input
-describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
+    // Test for empty input
     it("should fail validation with empty first nationality", async () => {
-        await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: " " }).expect(400);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
+            .send({ countryInput: "" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select where you live");
     });
 });

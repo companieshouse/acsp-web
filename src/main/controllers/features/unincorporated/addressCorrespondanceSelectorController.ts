@@ -23,6 +23,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
+        // set addressoption to render the page with saved data
+        let addressOption = "";
+        if (acspData.correspondenceAddress !== null) {
+            if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+                addressOption = "CORRESPONDANCE_ADDRESS";
+            } else {
+                addressOption = "DIFFERENT_ADDRESS";
+            }
+        }
+
         res.render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
             title: "What is the correspondence address?",
@@ -30,7 +40,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             businessName: acspData?.businessName,
             businessAddress: acspData?.businessAddress,
-            payload: req.body
+            addressOption
 
         });
     } catch {
@@ -60,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties,
                 businessName: acspData?.businessName,
                 businessAddress: acspData?.businessAddress,
-                payload: req.body
+                addressOption
             });
         } else {
 
@@ -78,6 +88,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // redirect
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
+                if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
+                    acspData.correspondenceAddress = {};
+                    //  save data to mongodb
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                }
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
         }

@@ -9,7 +9,7 @@
     {% set addressObject = {
         id: addressOption.propertyDetails,
         value: addressOption.propertyDetails,
-        text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.country + ", " + addressOption.postcode,
+        text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.postcode,
         checked: addressOption.propertyDetails == currentPremises,
         attributes: {
             "data-event-id": "address-option-" + addressOption.propertyDetails
