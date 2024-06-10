@@ -8,7 +8,7 @@ import { UNINCORPORATED_NAME_REGISTERED_WITH_AML, UNINCORPORATED_WHAT_IS_THE_BUS
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, UNINCORPORATED_AML_SELECTED_OPTION, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // Save to MongoDB
             if (acspData) {
                 acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             }
 
             // Redirection logic based on selected option

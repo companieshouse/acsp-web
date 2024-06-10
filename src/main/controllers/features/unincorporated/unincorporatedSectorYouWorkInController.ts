@@ -10,7 +10,7 @@ import { SectorOfWork } from "../../../model/SectorOfWork";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
@@ -70,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // save in mongodb
                 if (acspData) {
                     acspData.workSector = req.body.sectorYouWorkIn;
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 }
 
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

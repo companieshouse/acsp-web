@@ -9,7 +9,7 @@ import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ER
 import { Session } from "@companieshouse/node-session-handler";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -78,14 +78,27 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     typeOfBusiness: selectedOption,
                     email: email
                 };
+
+                // save data to mongo for the first time
+                try {
+                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                } catch (error: any) {
+                    logger.error("Error posting ACSP " + JSON.stringify(error));
+                    if (error.httpStatusCode === 409) {
+                        // retry with put request
+                        await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    } else {
+                        next(error);
+                    }
+                }
             } else {
                 acspData.id = userId;
                 acspData.typeOfBusiness = selectedOption;
                 acspData.email = email;
-            }
 
-            // save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                // save data to mongodb
+                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            }
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

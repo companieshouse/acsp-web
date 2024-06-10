@@ -11,7 +11,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -79,7 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.correspondenceAddress = acspData.businessAddress;
                 try {
                     //  save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;
@@ -95,7 +95,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 }
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }

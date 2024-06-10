@@ -6,7 +6,7 @@ import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH, SOLE_TRADER_WHAT_IS_YOUR_ROLE, SOL
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import logger from "../../../../../lib/Logger";
@@ -70,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
 
             //  save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             saveDataInSession(req, USER_DATA, acspData);
 
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

@@ -12,7 +12,7 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import logger from "../../../../../lib/Logger";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
 
@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
             // redirect to next page
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);

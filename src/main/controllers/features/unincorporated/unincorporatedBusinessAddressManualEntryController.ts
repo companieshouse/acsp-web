@@ -9,7 +9,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             businessAddressService.saveBusinessAddress(req, acspData);
 
             //  save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang));
         }

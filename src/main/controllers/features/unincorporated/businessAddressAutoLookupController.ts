@@ -9,7 +9,7 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { LocalesService } from "@companieshouse/ch-node-utils";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, true,
                 UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then((nextPageUrl) => {
                 // save data to mongodb
-                postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 res.redirect(nextPageUrl);
 
             }).catch(() => {

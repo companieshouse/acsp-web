@@ -10,7 +10,7 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
@@ -77,7 +77,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             try {
                 //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

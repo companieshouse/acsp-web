@@ -10,7 +10,7 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
@@ -72,7 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveBusinessAddressFromList(businessAddress, acspData);
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);

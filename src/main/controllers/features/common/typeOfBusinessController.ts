@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, ANSWER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -13,7 +13,7 @@ import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
-import { postAcspRegistration, getAcspRegistration } from "../../../services/acspRegistrationService";
+import { putAcspRegistration, getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 
@@ -99,14 +99,27 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                         typeOfBusiness: selectedOption,
                         email: email
                     };
+
+                    // save data to mongo for the first time
+                    try {
+                        await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    } catch (error: any) {
+                        logger.error("Error posting ACSP " + JSON.stringify(error));
+                        if (error.httpStatusCode === 409) {
+                            // retry with put request
+                            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                        } else {
+                            next(error);
+                        }
+                    }
                 } else {
                     acspData.id = userId;
                     acspData.typeOfBusiness = selectedOption;
                     acspData.email = email;
-                }
 
-                // save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    // save data to mongodb
+                    await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                }
 
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

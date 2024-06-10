@@ -10,7 +10,7 @@ import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -87,7 +87,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // save data in mongodb
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             }
 
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));

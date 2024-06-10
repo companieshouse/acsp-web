@@ -13,7 +13,7 @@ import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -79,7 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
                 try {
                     // save data to mongodb
-                    postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                     res.redirect(nextPageUrl);
                 } catch (err) {
                     logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);

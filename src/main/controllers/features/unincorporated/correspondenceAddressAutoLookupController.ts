@@ -13,7 +13,7 @@ import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERR
 import { logger } from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { LocalesService } from "@companieshouse/ch-node-utils";
 
@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
 
                 // save data to mongodb
-                postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{
