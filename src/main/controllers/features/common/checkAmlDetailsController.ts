@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         const url = "/register-as-companies-house-authorised-agent/aml-membership-number";
         res.render(config.CHECK_AML_DETAILS, {
-            title: "Check the AML details",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).checkAmlDetailsTabHeading,
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
             currentUrl,

@@ -25,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang),
             soleTrader: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
             amlRegistration: addLangToUrl(AML_REGISTRATION, lang),
-            title: "Your business must be registered with an AML supervisory body",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).amlInterruptTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl
         });

@@ -31,7 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         };
 
         res.render(config.WHAT_IS_YOUR_NAME, {
-            title: "What is your name?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).whatIsYourNameTitle,
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang),
             payload,
@@ -55,7 +55,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_NAME, {
-                title: "What is your name?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).whatIsYourNameTitle,
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME,

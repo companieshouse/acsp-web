@@ -35,7 +35,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
-            title: "What is the correspondence address?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).correspondenceLookUpAddressTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             payload,
@@ -91,7 +91,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 const buildErrorResponse = (req: Request, res: Response, next: NextFunction, locales: LocalesService, lang: string, acspData: AcspData, pageProperties: any) => {
     res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang),
-        title: "What is the correspondence address?",
+        title: locales.i18nCh.resolveNamespacesKeys(lang).correspondenceLookUpAddressTitle,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP,
         pageProperties: pageProperties,

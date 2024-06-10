@@ -34,7 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.SECTOR_YOU_WORK_IN, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang),
-            title: "Which sector do you work in?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).sectorYouWorkInTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             workSector
@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SECTOR_YOU_WORK_IN, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang),
-                title: "Which sector do you work in?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).sectorYouWorkInTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR,
                 ...pageProperties

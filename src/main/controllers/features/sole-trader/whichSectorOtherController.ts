@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.WHICH_SECTOR_OTHER, {
             previousPage,
-            title: "Which other sector do you work in?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).whichSectorOtherTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             firstName: acspData?.firstName,
@@ -58,7 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHICH_SECTOR_OTHER, {
                 previousPage,
-                title: "Which other sector do you work in?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).whichSectorOtherTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 firstName: acspData?.firstName,

@@ -31,7 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
-            title: "What is the Anti-Money Laundering (AML) membership number?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).amlMembershipTitle,
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies
@@ -59,7 +59,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
-                title: "What is the Anti-Money Laundering (AML) membership number?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).amlMembershipTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,
