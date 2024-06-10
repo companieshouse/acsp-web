@@ -37,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
             previousPage,
-            title: "What is the correspondence address?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).addressSelectorTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
                 previousPage,
-                title: "What is the correspondence address?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).addressSelectorTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 ...pageProperties,

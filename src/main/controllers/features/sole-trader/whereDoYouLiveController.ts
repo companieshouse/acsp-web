@@ -26,7 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
-            title: "Where do you live?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).whereDoYouLiveTitle,
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
@@ -55,7 +55,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
                 previousPage,
-                title: "Where do you live?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).whereDoYouLiveTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 countryList: countryList,

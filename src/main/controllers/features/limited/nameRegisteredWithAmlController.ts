@@ -24,7 +24,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
         res.render(config.NAME_REGISTERED_WITH_AML, {
             previousPage,
-            title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).nameRegisteredWithAmlTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAml
@@ -50,7 +50,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.NAME_REGISTERED_WITH_AML, {
                 previousPage,
-                title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).nameRegisteredWithAmlTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 ...pageProperties

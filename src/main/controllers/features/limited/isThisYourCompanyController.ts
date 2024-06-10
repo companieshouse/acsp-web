@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.LIMITED_IS_THIS_YOUR_COMPANY, {
             previousPage,
             chooseDifferentCompany: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
-            title: "Is this your company?",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).isThisYourCompany,
             company,
             ...getLocaleInfo(locales, lang),
             currentUrl

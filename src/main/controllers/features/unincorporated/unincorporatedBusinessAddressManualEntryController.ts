@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const payload = businessAddressService.getBusinessManualAddress(acspData);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
-            title: "Enter the business address",
+            title: locales.i18nCh.resolveNamespacesKeys(lang).businessAddressManualTitle,
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
             currentUrl,
@@ -54,7 +54,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
-                title: "Enter the business address",
+                title: locales.i18nCh.resolveNamespacesKeys(lang).businessAddressManualTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL,
                 pageProperties: pageProperties,
