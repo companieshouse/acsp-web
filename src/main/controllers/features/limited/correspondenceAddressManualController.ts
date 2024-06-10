@@ -29,7 +29,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const payload = addressManualservice.getCorrespondenceManualAddress(acspData);
 
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
-            title: locales.i18nCh.resolveNamespacesKeys(lang).correspondenceAddressManualTitle,
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
@@ -58,7 +57,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
                 previousPage,
-                title: locales.i18nCh.resolveNamespacesKeys(lang).correspondenceAddressManualTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,

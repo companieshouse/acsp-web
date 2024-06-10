@@ -34,7 +34,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.WHAT_IS_YOUR_ROLE, {
-            title: locales.i18nCh.resolveNamespacesKeys(lang).title,
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
@@ -61,7 +60,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             return res.status(400).render(config.WHAT_IS_YOUR_ROLE, {
-                title: locales.i18nCh.resolveNamespacesKeys(lang).title,
                 ...getLocaleInfo(locales, lang),
                 previousPage,
                 currentUrl,

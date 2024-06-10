@@ -34,7 +34,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.SELECT_AML_SUPERVISOR, {
             previousPage,
-            title: locales.i18nCh.resolveNamespacesKeys(lang).selectAmlSupervisorTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             firstName: acspData?.firstName,
@@ -64,7 +63,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
                 previousPage,
-                title: locales.i18nCh.resolveNamespacesKeys(lang).selectAmlSupervisorTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 AMLSupervisoryBodies,

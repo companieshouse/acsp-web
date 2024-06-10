@@ -5,6 +5,7 @@
   {# Remove signout Bar on this page by replacing it with nothing #}
 {% endblock %}
 
+{% set title = i18n.signoutTitle %}
 {% block main_content %}
 	<form action="" method="POST">
 		{{ govukRadios({

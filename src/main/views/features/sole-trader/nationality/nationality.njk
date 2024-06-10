@@ -1,6 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/select/macro.njk" import govukSelect %}
 {% extends "layouts/default.njk" %}
+{% set title = i18n.nationalityTitle %}
 {% block main_content %}
     {% if errors %}
         {% set dropdownOneError =  errors.nationality_input_0 %}

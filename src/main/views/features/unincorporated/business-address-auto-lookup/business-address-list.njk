@@ -18,6 +18,7 @@
     {% set ITEMS = ITEMS.concat(addressObject) %}
 {% endfor %}
 
+{% set title = i18n.businessLookUpAddressListTitle %}
 {% block main_content %}
     {# Form section #}
     <form action="" method="POST">

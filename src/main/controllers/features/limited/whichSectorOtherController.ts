@@ -28,7 +28,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.WHICH_SECTOR_OTHER, {
             previousPage,
-            title: locales.i18nCh.resolveNamespacesKeys(lang).whichSectorOtherTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             acspType: acspData?.typeOfBusiness,
@@ -56,7 +55,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHICH_SECTOR_OTHER, {
                 previousPage,
-                title: locales.i18nCh.resolveNamespacesKeys(lang).whichSectorOtherTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 acspType: acspData?.typeOfBusiness,

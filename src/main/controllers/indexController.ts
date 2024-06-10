@@ -13,7 +13,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
 
     res.render(config.HOME, {
-        title: "",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL
     });
