@@ -13,8 +13,7 @@ import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
 import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
-import { putAcspRegistration, getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -69,13 +68,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
+    const errorList = validationResult(req);
+    const selectedOption = req.body.typeOfBusinessRadio;
+    const previousPage: string = addLangToUrl(BASE_URL, lang);
+    const session: Session = req.session as any as Session;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const errorList = validationResult(req);
-        const selectedOption = req.body.typeOfBusinessRadio;
-        const previousPage: string = addLangToUrl(BASE_URL, lang);
-        const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.TYPE_OF_BUSINESS, {
@@ -86,40 +87,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const session: Session = req.session as any as Session;
-            // eslint-disable-next-line camelcase
-            const email = session?.data?.signin_info?.user_profile?.email!;
-            // eslint-disable-next-line camelcase
-            const userId = session?.data?.signin_info?.user_profile?.id!;
-            let acspData : AcspData = session?.getExtraData(USER_DATA)!;
             if (selectedOption !== "OTHER") {
-                if (acspData === undefined) {
-                    acspData = {
-                        id: userId,
-                        typeOfBusiness: selectedOption,
-                        email: email
-                    };
-
-                    // save data to mongo for the first time
-                    try {
-                        await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                    } catch (error: any) {
-                        logger.error("Error posting ACSP " + JSON.stringify(error));
-                        if (error.httpStatusCode === 409) {
-                            // retry with put request
-                            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                        } else {
-                            next(error);
-                        }
-                    }
-                } else {
-                    acspData.id = userId;
-                    acspData.typeOfBusiness = selectedOption;
-                    acspData.email = email;
-
-                    // save data to mongodb
-                    await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                }
+                const typeOfBusinessService = new TypeOfBusinessService();
+                await typeOfBusinessService.saveAcspData(session, selectedOption);
 
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
@@ -144,7 +114,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch {
+        const errorService = new ErrorService();
+        errorService.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

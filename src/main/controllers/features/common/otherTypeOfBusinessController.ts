@@ -5,14 +5,14 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
-import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -49,12 +49,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const errorList = validationResult(req);
+    const selectedOption = req.body.otherTypeOfBusinessRadio;
+    const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
+    const session: Session = req.session as any as Session;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const errorList = validationResult(req);
-        const selectedOption = req.body.otherTypeOfBusinessRadio;
-        const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.OTHER_TYPE_OF_BUSINESS, {
@@ -65,49 +67,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const session: Session = req.session as any as Session;
-            // eslint-disable-next-line camelcase
-            const email = session?.data?.signin_info?.user_profile?.email!;
-            // eslint-disable-next-line camelcase
-            const userId = session?.data?.signin_info?.user_profile?.id!;
-            let acspData : AcspData = session?.getExtraData(USER_DATA)!;
-
-            if (acspData === undefined) {
-                acspData = {
-                    id: userId,
-                    typeOfBusiness: selectedOption,
-                    email: email
-                };
-
-                // save data to mongo for the first time
-                try {
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                } catch (error: any) {
-                    logger.error("Error posting ACSP " + JSON.stringify(error));
-                    if (error.httpStatusCode === 409) {
-                        // retry with put request
-                        await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                    } else {
-                        next(error);
-                    }
-                }
-            } else {
-                acspData.id = userId;
-                acspData.typeOfBusiness = selectedOption;
-                acspData.email = email;
-
-                // save data to mongodb
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-            }
+            const typeOfBusinessService = new TypeOfBusinessService();
+            await typeOfBusinessService.saveAcspData(session, selectedOption);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
             };
             saveDataInSession(req, ANSWER_DATA, answersArray);
-            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang)); // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
+            // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
 
         }
     } catch (error) {
-        next(error);
+        const errorService = new ErrorService();
+        errorService.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

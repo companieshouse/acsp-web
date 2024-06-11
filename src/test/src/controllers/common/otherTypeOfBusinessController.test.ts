@@ -66,6 +66,15 @@ describe("POST " + OTHER_TYPE_OF_BUSINESS, () => {
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML + "?lang=en");
     });
+
+    // Test for calling PUT endpoint and failing
+    it("should return status 500 after calling PUT endpoint and failing", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" });
+        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
@@ -82,6 +91,15 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML + "?lang=en");
     });
 
+    // Test for calling POST endpoint and failing
+    it("should return status 500 after calling POST and failing", async () => {
+        mockPostAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" });
+        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
     // Test for calling PUT endpoint if POST endpoint returns 409.
     it("should return status 302 after calling POST then PUT endpoint", async () => {
         mockPostAcspRegistration.mockRejectedValueOnce({ httpStatusCode: 409 });
@@ -91,6 +109,17 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML + "?lang=en");
+    });
+
+    // Test for calling POST and PUT endpoints and failing
+    it("should return status 500 after calling POST AND PUT then failing", async () => {
+        mockPostAcspRegistration.mockRejectedValueOnce({ httpStatusCode: 409 });
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" });
+        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
