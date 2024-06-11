@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             //  save data to mongodb
             const saveService = new SaveService();
-            await saveService.saveAcspData(session); ;
+            await saveService.saveAcspData(session);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.workSector = SectorOfWork[req.body.whichSectorOther as keyof typeof SectorOfWork];
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
