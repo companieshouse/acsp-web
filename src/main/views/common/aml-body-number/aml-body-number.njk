@@ -36,7 +36,7 @@
                     },
                     id: "membershipNumber_" + loop.index,
                     name: "membershipNumber_" + loop.index,
-                    value: body.membershipId,
+                    value: payload["membershipNumber_" + loop.index],
                     errorMessage: {
                         text: errors["membershipNumber_" + loop.index].text
                     } if errors["membershipNumber_" + loop.index]
