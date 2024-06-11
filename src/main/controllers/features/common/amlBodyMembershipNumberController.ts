@@ -29,11 +29,18 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
 
+        const payload = {
+            membershipNumber_1: acspData.amlSupervisoryBodies?.[0].membershipId,
+            membershipNumber_2: acspData.amlSupervisoryBodies?.[1].membershipId,
+            membershipNumber_3: acspData.amlSupervisoryBodies?.[2].membershipId
+        };
+
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
-            amlSupervisoryBodies: acspData?.amlSupervisoryBodies
+            amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
