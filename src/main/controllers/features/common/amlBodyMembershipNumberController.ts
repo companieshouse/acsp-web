@@ -65,7 +65,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                lastName: acspData?.lastName,
+                payload: req.body
             });
         } else {
             // update acspData
