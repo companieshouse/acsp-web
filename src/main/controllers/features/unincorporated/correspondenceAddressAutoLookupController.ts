@@ -16,7 +16,7 @@ import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { LocalesService } from "@companieshouse/ch-node-utils";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -70,8 +70,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 // save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{

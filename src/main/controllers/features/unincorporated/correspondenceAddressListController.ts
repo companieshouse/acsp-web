@@ -15,7 +15,7 @@ import logger from "../../../../../lib/Logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -75,8 +75,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
-            const saveService = new SaveService();
-            await saveService.saveAcspData(session);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session);
 
             // redirect to next page
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);

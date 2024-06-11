@@ -13,7 +13,7 @@ import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -71,8 +71,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // save in mongodb
                 if (acspData) {
                     acspData.workSector = req.body.sectorYouWorkIn;
-                    const saveService = new SaveService();
-                    await saveService.saveAcspData(session);
+                    const acspDataService = new AcspDataService();
+                    await acspDataService.saveAcspData(session);
                 }
 
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

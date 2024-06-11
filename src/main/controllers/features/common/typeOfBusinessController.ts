@@ -15,7 +15,7 @@ import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_
 import { isActiveFeature } from "../../../utils/feature.flag";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -89,8 +89,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (selectedOption !== "OTHER") {
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session, selectedOption);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, selectedOption);
 
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

@@ -13,7 +13,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -65,8 +65,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, true,
                 UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
                 // save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
                 res.redirect(nextPageUrl);
 
             }).catch(() => {

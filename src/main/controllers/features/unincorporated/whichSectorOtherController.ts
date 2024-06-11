@@ -13,7 +13,7 @@ import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -65,8 +65,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.workSector = req.body.whichSectorOther;
             }
             // save to MongoDB
-            const saveService = new SaveService();
-            await saveService.saveAcspData(session);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session);
 
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.workSector = SectorOfWork[req.body.whichSectorOther as keyof typeof SectorOfWork];

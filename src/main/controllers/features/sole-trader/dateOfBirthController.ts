@@ -12,7 +12,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -82,8 +82,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.dateOfBirth = dateOfBirth;
             }
             //  save data to mongodb
-            const saveService = new SaveService();
-            await saveService.saveAcspData(session);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.dateOfBirth = new Date(req.body["dob-year"], req.body["dob-month"] - 1, req.body["dob-day"])
                 .toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });

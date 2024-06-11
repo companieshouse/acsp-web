@@ -11,7 +11,7 @@ import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/ac
 import { ErrorService } from "../../../services/errorService";
 import { CompanyDetailsService } from "../../../../main/services/company-details/companyDetailsService";
 import { isThisYourCompanyAnswers } from "../../../services/checkYourAnswersService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -67,8 +67,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
 
                 // Save answers
                 isThisYourCompanyAnswers(req, company);

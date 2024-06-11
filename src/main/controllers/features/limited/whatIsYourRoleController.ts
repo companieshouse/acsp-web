@@ -12,7 +12,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -29,8 +29,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         if (acspData) {
             acspData.companyAuthCodeProvided = true;
         }
-        const saveService = new SaveService();
-        await saveService.saveAcspData(session);
+        const acspDataService = new AcspDataService();
+        await acspDataService.saveAcspData(session);
 
         // save to session
         saveDataInSession(req, USER_DATA, acspData);
@@ -77,8 +77,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
 
                 if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                     res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));

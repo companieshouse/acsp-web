@@ -4,7 +4,7 @@ import { SUBMISSION_ID, USER_DATA } from "../common/__utils/constants";
 import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
 import logger from "../../../lib/Logger";
 
-export class SaveService {
+export class AcspDataService {
     async saveAcspData (session: Session, selectedOption?: string): Promise<void> {
         // eslint-disable-next-line camelcase
         const email = session?.data?.signin_info?.user_profile?.email!;

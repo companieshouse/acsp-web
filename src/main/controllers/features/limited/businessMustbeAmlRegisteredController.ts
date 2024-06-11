@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -18,8 +18,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // update typeOfBusiness in DB
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         acspData.typeOfBusiness = "SOLE_TRADER";
-        const saveService = new SaveService();
-        await saveService.saveAcspData(session);
+        const acspDataService = new AcspDataService();
+        await acspDataService.saveAcspData(session);
 
         res.render(config.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, {
             previousPage: addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang),

@@ -12,7 +12,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -101,8 +101,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();

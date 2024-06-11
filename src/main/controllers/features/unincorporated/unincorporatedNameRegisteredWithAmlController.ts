@@ -12,7 +12,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 enum NameRegisteredWithAML {
     NAME_OF_THE_BUSINESS = "Name of the business",
@@ -75,8 +75,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // Save to MongoDB
             if (acspData) {
                 acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
             }
 
             // Redirection logic based on selected option

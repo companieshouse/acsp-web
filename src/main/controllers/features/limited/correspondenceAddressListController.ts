@@ -15,7 +15,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -78,8 +78,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             try {
                 //  save data to mongodb
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

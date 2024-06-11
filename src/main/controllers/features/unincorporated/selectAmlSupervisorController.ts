@@ -13,7 +13,7 @@ import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -72,8 +72,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             amlSupervisoryBody.saveSelectedAML(req, acspData);
 
             //  save data to mongodb
-            const saveService = new SaveService();
-            await saveService.saveAcspData(session);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session);
 
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }

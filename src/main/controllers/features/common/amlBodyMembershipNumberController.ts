@@ -12,7 +12,7 @@ import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { SaveService } from "../../../services/saveService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 const selectedAMLSupervisoryBodies: string[] = [];
 const amlSupervisoryBody = new AmlSupervisoryBodyService();
@@ -72,8 +72,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
             try {
-                const saveService = new SaveService();
-                await saveService.saveAcspData(session);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
                 res.redirect(nextPageUrl);
