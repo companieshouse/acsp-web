@@ -10,8 +10,6 @@ import { GenericService } from "./generic";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
 import { SUBMISSION_ID, USER_DATA } from "../common/__utils/constants";
-import { ErrorService } from "./errorService";
-import { LocalesService } from "@companieshouse/ch-node-utils";
 
 export class TypeOfBusinessService extends GenericService {
     constructor () {
