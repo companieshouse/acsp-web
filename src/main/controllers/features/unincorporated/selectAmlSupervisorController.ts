@@ -32,7 +32,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.SELECT_AML_SUPERVISOR, {
             previousPage: addLangToUrl(getPreviousPage(session), lang),
-            title: locales.i18nCh.resolveNamespacesKeys(lang).selectAmlSupervisorTitle,
             ...getLocaleInfo(locales, lang),
             acspType: acspData?.typeOfBusiness,
             currentUrl,
@@ -57,7 +56,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
                 previousPage: addLangToUrl(getPreviousPage(session), lang),
-                title: locales.i18nCh.resolveNamespacesKeys(lang).selectAmlSupervisorTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
                 firstName: acspData?.firstName,

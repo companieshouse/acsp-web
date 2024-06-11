@@ -5,6 +5,7 @@
 
 {% extends "layouts/default.njk" %}
 
+{% set title = i18n.dateOfBirthTitle %}
 {% block main_content %}
 
   {% if errors["dob-day"] %}

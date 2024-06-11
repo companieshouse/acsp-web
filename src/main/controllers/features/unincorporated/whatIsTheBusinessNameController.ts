@@ -30,7 +30,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             previousPage: addLangToUrl(getPreviousPage(session), lang),
-            title: locales.i18nCh.resolveNamespacesKeys(lang).whatIsTheBusinessNameTitle,
             ...getLocaleInfo(locales, lang),
             payload,
             currentUrl
@@ -53,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(getPreviousPage(session), lang),
-                title: locales.i18nCh.resolveNamespacesKeys(lang).whatIsTheBusinessNameTitle,
                 payload: req.body,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME,

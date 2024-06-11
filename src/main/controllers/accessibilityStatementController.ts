@@ -7,6 +7,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
 
     res.render(config.ACCESSIBILITY_STATEMENT, {
-        title: locales.i18nCh.resolveNamespacesKeys(lang).accessibilityStatementTitle
+
     });
 };

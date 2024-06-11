@@ -15,7 +15,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.YOUR_RESPONSIBILITIES, {
         previousPage: addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang),
-        title: locales.i18nCh.resolveNamespacesKeys(lang).yourResponsibilitiesTitle,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + YOUR_RESPONSIBILITIES,
         firstName: acspData?.firstName,
