@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         acspData.typeOfBusiness = "SOLE_TRADER";
         const acspDataService = new AcspDataService();
-        await acspDataService.saveAcspData(session);
+        await acspDataService.saveAcspData(session, acspData);
 
         res.render(config.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, {
             previousPage: addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang),

@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.businessName = req.body.whatIsTheBusinessName;
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
             }
 
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang));

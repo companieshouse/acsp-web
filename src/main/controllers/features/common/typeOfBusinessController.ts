@@ -16,6 +16,7 @@ import { isActiveFeature } from "../../../utils/feature.flag";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -76,6 +77,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const selectedOption = req.body.typeOfBusinessRadio;
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const session: Session = req.session as any as Session;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     try {
 
         if (!errorList.isEmpty()) {
@@ -90,7 +92,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             if (selectedOption !== "OTHER") {
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, selectedOption);
+                await acspDataService.saveAcspData(session, acspData, selectedOption);
 
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

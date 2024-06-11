@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             // save to MongoDB
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
 
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.workSector = SectorOfWork[req.body.whichSectorOther as keyof typeof SectorOfWork];

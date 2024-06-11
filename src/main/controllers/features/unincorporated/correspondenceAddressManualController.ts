@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             //  save data to mongodb
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
 
             // redirect to confirm address page
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));

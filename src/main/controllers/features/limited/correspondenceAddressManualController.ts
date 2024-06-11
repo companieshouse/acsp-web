@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             try {
                 //  save data to mongodb
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
 
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
             } catch (err) {

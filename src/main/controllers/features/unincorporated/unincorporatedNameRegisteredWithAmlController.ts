@@ -76,7 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
             }
 
             // Redirection logic based on selected option

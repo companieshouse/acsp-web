@@ -81,7 +81,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     // save data to mongodb
                     const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session);
+                    await acspDataService.saveAcspData(session, acspData);
                     res.redirect(nextPageUrl);
                 } catch (err) {
                     logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);

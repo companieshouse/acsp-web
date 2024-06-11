@@ -72,7 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData) {
                     acspData.workSector = req.body.sectorYouWorkIn;
                     const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session);
+                    await acspDataService.saveAcspData(session, acspData);
                 }
 
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

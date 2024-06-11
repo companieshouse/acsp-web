@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.middleName = req.body["middle-names"];
                 acspData.lastName = req.body["last-name"];
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
             }
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang));
         }

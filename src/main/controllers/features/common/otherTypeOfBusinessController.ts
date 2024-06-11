@@ -13,6 +13,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -55,6 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const selectedOption = req.body.otherTypeOfBusinessRadio;
     const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
     const session: Session = req.session as any as Session;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     try {
 
         if (!errorList.isEmpty()) {
@@ -68,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, selectedOption);
+            await acspDataService.saveAcspData(session, acspData, selectedOption);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

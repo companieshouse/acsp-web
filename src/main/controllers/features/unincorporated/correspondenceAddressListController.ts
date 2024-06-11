@@ -76,7 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
 
             // redirect to next page
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);

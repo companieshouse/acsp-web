@@ -68,7 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             //  save data to mongodb
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
             if (selectedRole === "SOLE_TRADER") {
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.roleType = "I am the sole trader";

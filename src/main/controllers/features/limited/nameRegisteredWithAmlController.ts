@@ -63,7 +63,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             try {
                 //  save data to mongodb
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang);
                 const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);

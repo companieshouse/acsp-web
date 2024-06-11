@@ -5,12 +5,11 @@ import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationSer
 import logger from "../../../lib/Logger";
 
 export class AcspDataService {
-    async saveAcspData (session: Session, selectedOption?: string): Promise<void> {
+    async saveAcspData (session: Session, acspData: AcspData, selectedOption?: string): Promise<void> {
         // eslint-disable-next-line camelcase
         const email = session?.data?.signin_info?.user_profile?.email!;
         // eslint-disable-next-line camelcase
         const userId = session?.data?.signin_info?.user_profile?.id!;
-        let acspData: AcspData = session?.getExtraData(USER_DATA)!;
         try {
             if (acspData === undefined) {
                 acspData = {

@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
                 // save data to mongodb
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
                 res.redirect(nextPageUrl);
 
             }).catch(() => {

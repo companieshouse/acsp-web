@@ -30,7 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspData.companyAuthCodeProvided = true;
         }
         const acspDataService = new AcspDataService();
-        await acspDataService.saveAcspData(session);
+        await acspDataService.saveAcspData(session, acspData);
 
         // save to session
         saveDataInSession(req, USER_DATA, acspData);
@@ -78,7 +78,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             try {
                 //  save data to mongodb
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
 
                 if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                     res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));

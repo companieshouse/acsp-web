@@ -80,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
 
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
 
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);

@@ -82,7 +82,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 try {
                     //  save data to mongodb
 
-                    await acspDataService.saveAcspData(session);
+                    await acspDataService.saveAcspData(session, acspData);
 
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;
@@ -98,7 +98,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
-                    await acspDataService.saveAcspData(session);
+                    await acspDataService.saveAcspData(session, acspData);
                 }
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }

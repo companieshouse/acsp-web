@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveBusinessAddressFromList(businessAddress, acspData);
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
 
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);

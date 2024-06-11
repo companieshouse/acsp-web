@@ -73,7 +73,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
             try {
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

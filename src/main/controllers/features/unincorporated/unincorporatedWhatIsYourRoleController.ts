@@ -89,7 +89,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
             }
 
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));

@@ -83,7 +83,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session);
+            await acspDataService.saveAcspData(session, acspData);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.dateOfBirth = new Date(req.body["dob-year"], req.body["dob-month"] - 1, req.body["dob-day"])
                 .toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });

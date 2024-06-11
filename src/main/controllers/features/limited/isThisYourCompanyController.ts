@@ -68,7 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             try {
                 //  save data to mongodb
                 const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session);
+                await acspDataService.saveAcspData(session, acspData);
 
                 // Save answers
                 isThisYourCompanyAnswers(req, company);
