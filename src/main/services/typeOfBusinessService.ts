@@ -47,24 +47,17 @@ export class TypeOfBusinessService extends GenericService {
                     typeOfBusiness: selectedOption,
                     email: email
                 };
-
                 // save data to mongo for the first time
-                try {
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                } catch (error: any) {
-                    logger.error("Error posting ACSP " + JSON.stringify(error));
-                    return Promise.reject(error);
-                }
+                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             } else {
                 acspData.id = userId;
                 acspData.typeOfBusiness = selectedOption;
                 acspData.email = email;
-
                 // save data to mongodb
                 await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             }
         } catch (error) {
-            logger.error("Error updating ACSP data");
+            logger.error("Error saving ACSP data " + JSON.stringify(error));
             return Promise.reject(error);
         }
     }
