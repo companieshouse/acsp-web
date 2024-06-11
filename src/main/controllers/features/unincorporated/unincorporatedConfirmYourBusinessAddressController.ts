@@ -25,7 +25,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
             editAddress: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang),
-            title: "Confirm the business address",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,

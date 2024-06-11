@@ -1,6 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% extends "layouts/default.njk" %}
+{% set title = i18n.isThisYourCompany %}
 {% block main_content %}
   <!-- The action will need to change depending on the location of the confirm-company page -->
   <form action="" method="post">

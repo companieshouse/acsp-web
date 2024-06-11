@@ -34,7 +34,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.OTHER_TYPE_OF_BUSINESS, {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-            title: "What other type of business are you registering?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             otherTypeOfBusiness: acspData?.typeOfBusiness
@@ -59,7 +58,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.OTHER_TYPE_OF_BUSINESS, {
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-                title: "What other type of business are you registering?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 ...pageProperties

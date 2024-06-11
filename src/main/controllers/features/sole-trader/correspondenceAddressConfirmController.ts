@@ -24,7 +24,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage,
             editPage: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),
-            title: "Confirm the correspondence address",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             firstName: acspData?.firstName,

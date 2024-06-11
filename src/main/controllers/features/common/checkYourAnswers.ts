@@ -23,7 +23,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA)!;
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         res.render(config.CHECK_YOUR_ANSWERS, {
-            title: "Check your answers before sending your application",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage: addLangToUrl(BASE_URL + YOUR_RESPONSIBILITIES, lang),

@@ -4,5 +4,6 @@
     "checkAmlDetailsText2": "Check the details are correct and change them if you need to. welsh",
     "checkAmlDetailsText3": "You must have been registered with the AML supervisory body for at least 2 weeks. welsh",
     "checkAmlDetailsChange": "Change welsh",
-    "checkAmlDetailsText4": "If the details do not match, we will reject your application. welsh"
+    "checkAmlDetailsText4": "If the details do not match, we will reject your application. welsh",
+    "checkAmlDetailsTabHeading": "Check the AML details welsh"
 }

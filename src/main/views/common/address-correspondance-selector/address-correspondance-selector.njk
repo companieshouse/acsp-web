@@ -1,5 +1,6 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% extends "layouts/default.njk" %}
+{% set title = i18n.addressSelectorTitle %}
 {% block main_content %}
 {% set optionalFields = "" %}
     {% if businessAddress.propertyDetails %}

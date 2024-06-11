@@ -30,8 +30,8 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
-        expect(res.status).toBe(400);
-        expect(res.text).toContain("Page not found");
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 

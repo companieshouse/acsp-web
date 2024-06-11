@@ -33,7 +33,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         };
 
         res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
-            title: "What is your nationality?",
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
@@ -64,7 +63,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
                 previousPage,
-                title: "What is your nationality?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 nationalityList: nationalityList,

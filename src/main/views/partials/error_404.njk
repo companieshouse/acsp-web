@@ -1,14 +1,12 @@
-{% extends "layouts/layout.njk" %}	
+{% extends "layouts/default.njk" %}	
 
 {% block main_content %}	
 
-  <div class="govuk-grid-row">	
-    <h1 class="govuk-heading-xl">	
-      Page not found	
-    </h1>	
-    <p>If you typed the web address, check it is correct.</p>	
-    <p>If you pasted the web address, check you copied the entire address.</p>	
-    <p>If the web address is correct or you selected a link or button,	
-    <a href="https://www.gov.uk/contact-companies-house" data-event-id="contact-companies-house-link" class="govuk-link">contact Companies House</a>.	
-  </div>	
+  <h1 class="govuk-heading-l">{{ i18n.pageNotFoundTitle}}</h1>
+  <p>{{ i18n.pageNotFoundText1 }}</p>
+  <p>{{ i18n.pageNotFoundText3 }}</p>
+  <p>
+      {{ i18n.pageNotFoundText3 }}
+      <a href="/register-as-companies-house-authorised-agent">{{ i18n.pageNotFoundLink }}</a>.
+  </p>
 {% endblock %}	

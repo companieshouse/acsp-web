@@ -2,6 +2,8 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% set errors = pageProperties.errors %}
+
+{% set title = i18n.businessLookUpAddressTitle %}
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="" method="POST">

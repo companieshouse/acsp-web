@@ -31,7 +31,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         };
         res.render(config.WHAT_IS_YOUR_NAME, {
             previousPage,
-            title: "What is your name?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             payload
@@ -53,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_NAME, {
-                title: "What is your name?",
                 ...getLocaleInfo(locales, lang),
                 previousPage,
                 currentUrl,

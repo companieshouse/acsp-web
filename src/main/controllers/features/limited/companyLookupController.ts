@@ -31,7 +31,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.LIMITED_COMPANY_NUMBER, {
             previousPage,
-            title: "What is the company number?",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             payload
@@ -59,7 +58,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
                 previousPage,
                 payload: req.body,
-                title: "What is the company number?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties

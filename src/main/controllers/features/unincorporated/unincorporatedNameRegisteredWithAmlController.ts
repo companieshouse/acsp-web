@@ -32,7 +32,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.NAME_REGISTERED_WITH_AML, {
             previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-            title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
             ...getLocaleInfo(locales, lang),
             nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAml,
             currentUrl
@@ -57,7 +56,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.NAME_REGISTERED_WITH_AML, {
                 previousPage: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
-                title: "Which name is registered with your Anti-Money Laundering (AML) supervisory body?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML,
                 ...pageProperties

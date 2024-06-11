@@ -18,7 +18,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
 
         res.render(config.APPLICATION_CONFIRMATION, {
-            title: "Application submitted",
             ...getLocaleInfo(locales, lang),
             currentUrl,
             email: acspData?.email,

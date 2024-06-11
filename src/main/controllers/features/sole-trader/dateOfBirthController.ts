@@ -34,7 +34,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             };
         }
         res.render(config.SOLE_TRADER_DATE_OF_BIRTH, {
-            title: "What is your date of Birth?",
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
@@ -63,7 +62,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SOLE_TRADER_DATE_OF_BIRTH, {
                 previousPage,
-                title: "What is your date of Birth?",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,

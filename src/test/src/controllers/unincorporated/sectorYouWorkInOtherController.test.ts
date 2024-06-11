@@ -28,8 +28,8 @@ describe("GET" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER);
-        expect(res.status).toBe(400);
-        expect(res.text).toContain("Page not found");
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 

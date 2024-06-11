@@ -9,7 +9,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     res.render(config.SAVED_APPLICATION, {
-        title: "Do you want to continue with a saved application?",
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(BASE_URL, lang),
         currentUrl: BASE_URL + SAVED_APPLICATION
@@ -25,7 +24,6 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
 
             res.render(config.SAVED_APPLICATION, {
-                title: "Do you want to continue with a saved application?",
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL, lang),
                 currentUrl: BASE_URL + SAVED_APPLICATION,

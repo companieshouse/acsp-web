@@ -17,7 +17,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     saveDataInSession(req, PREVIOUS_PAGE_URL, previousPageUrl);
     res.render(config.SIGN_OUT_PAGE, {
         previousPage: (previousPageUrl),
-        title: "Are you sure you want to sign out?",
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + SIGN_OUT_URL
     });
@@ -35,7 +34,6 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
 
             res.render(config.SIGN_OUT_PAGE, {
-                title: "Are you sure you want to sign out?",
                 ...getLocaleInfo(locales, lang),
                 previousPage: (previousPageUrl),
                 currentUrl: BASE_URL + SIGN_OUT_URL,
