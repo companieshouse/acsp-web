@@ -7,9 +7,6 @@ import {
 } from "../config";
 import logger from "../../../lib/Logger";
 import { GenericService } from "./generic";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
-import { SUBMISSION_ID, USER_DATA } from "../common/__utils/constants";
 
 export class TypeOfBusinessService extends GenericService {
     constructor () {
@@ -31,34 +28,6 @@ export class TypeOfBusinessService extends GenericService {
             logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while create transaction record`);
             const errorData = this.processServiceException(err);
             return Promise.reject(errorData);
-        }
-    }
-
-    async saveAcspData (session: Session, selectedOption: string): Promise<void> {
-        // eslint-disable-next-line camelcase
-        const email = session?.data?.signin_info?.user_profile?.email!;
-        // eslint-disable-next-line camelcase
-        const userId = session?.data?.signin_info?.user_profile?.id!;
-        let acspData: AcspData = session?.getExtraData(USER_DATA)!;
-        try {
-            if (acspData === undefined) {
-                acspData = {
-                    id: userId,
-                    typeOfBusiness: selectedOption,
-                    email: email
-                };
-                // save data to mongo for the first time
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-            } else {
-                acspData.id = userId;
-                acspData.typeOfBusiness = selectedOption;
-                acspData.email = email;
-                // save data to mongodb
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-            }
-        } catch (error) {
-            logger.error("Error saving ACSP data " + JSON.stringify(error));
-            return Promise.reject(error);
         }
     }
 }

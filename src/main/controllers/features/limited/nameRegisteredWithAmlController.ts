@@ -4,13 +4,14 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { LIMITED_NAME_REGISTERED_WITH_AML, LIMITED_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -61,7 +62,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang);
                 const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);

@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validationResult } from "express-validator";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
@@ -9,10 +9,11 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { LocalesService } from "@companieshouse/ch-node-utils";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -62,9 +63,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, true,
-                UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then((nextPageUrl) => {
+                UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
                 // save data to mongodb
-                putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
                 res.redirect(nextPageUrl);
 
             }).catch(() => {

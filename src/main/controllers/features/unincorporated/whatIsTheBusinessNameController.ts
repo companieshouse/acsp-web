@@ -9,9 +9,10 @@ import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, UNINCO
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -67,7 +68,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // save to MongoDB
             if (acspData) {
                 acspData.businessName = req.body.whatIsTheBusinessName;
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
             }
 
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE, lang));

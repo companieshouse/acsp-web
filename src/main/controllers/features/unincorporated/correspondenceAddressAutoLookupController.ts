@@ -13,9 +13,10 @@ import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERR
 import { logger } from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { LocalesService } from "@companieshouse/ch-node-utils";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -66,10 +67,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
-                UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then((nextPageUrl) => {
+                UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 // save data to mongodb
-                putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{

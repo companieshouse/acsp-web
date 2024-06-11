@@ -8,10 +8,11 @@ import { CompanyLookupService } from "../../../services/companyLookupService";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import logger from "../../../../../lib/Logger";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -100,7 +101,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             try {
                 //  save data to mongodb
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
             } catch (err) {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 const error = new ErrorService();

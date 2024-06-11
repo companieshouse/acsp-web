@@ -9,10 +9,11 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -95,7 +96,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
 
             //  save data to mongodb
-            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const saveService = new SaveService();
+            await saveService.saveAcspData(session);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.nationality = nationalityString;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);

@@ -10,8 +10,9 @@ import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { SaveService } from "../../../services/saveService";
 
 const selectedAMLSupervisoryBodies: string[] = [];
 const amlSupervisoryBody = new AmlSupervisoryBodyService();
@@ -71,8 +72,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
             try {
-                //  save data to mongodb
-                await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const saveService = new SaveService();
+                await saveService.saveAcspData(session);
 
                 const nextPageUrl = addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang);
                 res.redirect(nextPageUrl);

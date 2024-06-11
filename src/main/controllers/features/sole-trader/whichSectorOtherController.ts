@@ -9,10 +9,11 @@ import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_D
 import { Answers } from "../../../model/Answers";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, putAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -72,7 +73,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.workSector = req.body.whichSectorOther;
             }
             //  save data to mongodb
-            await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const saveService = new SaveService();
+            await saveService.saveAcspData(session); ;
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.workSector = SectorOfWork[req.body.whichSectorOther as keyof typeof SectorOfWork];
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);

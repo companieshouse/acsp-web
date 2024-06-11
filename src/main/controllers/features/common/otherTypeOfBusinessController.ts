@@ -12,7 +12,7 @@ import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
+import { SaveService } from "../../../services/saveService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -67,8 +67,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const typeOfBusinessService = new TypeOfBusinessService();
-            await typeOfBusinessService.saveAcspData(session, selectedOption);
+            const saveService = new SaveService();
+            await saveService.saveAcspData(session, selectedOption);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
