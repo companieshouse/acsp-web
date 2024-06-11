@@ -53,16 +53,7 @@ export class TypeOfBusinessService extends GenericService {
                     await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
                 } catch (error: any) {
                     logger.error("Error posting ACSP " + JSON.stringify(error));
-                    if (error.httpStatusCode === 409) {
-                        // retry with put request
-                        await putAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData).catch(() => {
-                            logger.error("Error updating ACSP data");
-                            return Promise.reject(error);
-                        });
-                    } else {
-                        logger.error("Error saving ACSP data for the first time");
-                        return Promise.reject(error);
-                    }
+                    return Promise.reject(error);
                 }
             } else {
                 acspData.id = userId;

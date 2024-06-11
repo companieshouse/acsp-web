@@ -110,28 +110,6 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
-
-    // Test for calling PUT endpoint if POST endpoint returns 409.
-    it("should return status 302 after calling POST then PUT endpoint", async () => {
-        mockPostAcspRegistration.mockRejectedValueOnce({ httpStatusCode: 409 });
-        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
-    });
-
-    // Test for calling PUT endpoint failure, after POST endpoint 409.
-    it("should return status 500 after calling PUT endpoint and failing", async () => {
-        mockPostAcspRegistration.mockRejectedValueOnce({ httpStatusCode: 409 });
-        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LIMITED_COMPANY" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
 });
 
 function createMockSessionMiddleware () {
