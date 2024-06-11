@@ -76,10 +76,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             session.setExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS, addressOption);
+            const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
                 acspData.correspondenceAddress = acspData.businessAddress;
-                const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session);
 
                 // Save answers
@@ -93,7 +93,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
-                    const acspDataService = new AcspDataService();
                     await acspDataService.saveAcspData(session);
                 }
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
