@@ -25,6 +25,7 @@
   {% set amlList = amlList.concat(amlSummaryObject) %}
 {% endfor %}
 
+{% set title = i18n.checkYourAnswersHeading %}
 {% block main_content %}
   <form method="post">
     <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>

@@ -1,6 +1,7 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% extends "layouts/default.njk" %}
+{% set title = i18n.yourResponsibilitiesTitle %}
 {% block main_content %}
   <form method="post">
     {% if typeOfBusiness === "SOLE_TRADER" %}

@@ -1,6 +1,7 @@
 {% from "govuk/components/radios/macro.njk"              import govukRadios %}
 {% from "govuk/components/button/macro.njk"              import govukButton %}
 {% extends "layouts/default.njk" %}
+{% set title = i18n.otherTypeOfBusinessTitle %}
 {% block main_content %}
     <form action="" method="POST">
        {% include "partials/user_name.njk" %}

@@ -31,7 +31,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
-            title: locales.i18nCh.resolveNamespacesKeys(lang).amlMembershipTitle,
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies
@@ -59,13 +58,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
-                title: locales.i18nCh.resolveNamespacesKeys(lang).amlMembershipTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,
                 amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
                 firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                lastName: acspData?.lastName,
+                payload: req.body
             });
         } else {
             // update acspData

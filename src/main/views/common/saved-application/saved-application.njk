@@ -1,7 +1,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% extends "layouts/default.njk" %}
-
+{% set title = i18n.savedTitle %}
 {% block main_content %}
   <form action="" method="POST">
     {{ govukRadios({

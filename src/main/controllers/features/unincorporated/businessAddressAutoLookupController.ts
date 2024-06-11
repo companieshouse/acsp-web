@@ -31,7 +31,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
-            title: locales.i18nCh.resolveNamespacesKeys(lang).businessLookUpAddressTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             payload,
@@ -87,7 +86,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 const buildErrorResponse = (req: Request, res: Response, locales: LocalesService, lang: string, acspData: AcspData, pageProperties: any) => {
     res.status(400).render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
         previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
-        title: locales.i18nCh.resolveNamespacesKeys(lang).businessLookUpAddressTitle,
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP,
         pageProperties: pageProperties,

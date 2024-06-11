@@ -4,6 +4,7 @@
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
+{% set title = i18n.applicationSubmittedTitle %}
 {% block main_content %}
   {{ govukPanel({
     titleText: i18n.applicationSubmittedTitle,

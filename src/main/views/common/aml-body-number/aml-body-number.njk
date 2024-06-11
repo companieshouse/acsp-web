@@ -3,6 +3,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% set errors = pageProperties.errors %}
 {% extends "layouts/default.njk" %}
+{% set title = i18n.amlMembershipTitle %}
 {% block main_content %}
     <form action="" method="post">
         {% if businessName %}
@@ -35,7 +36,7 @@
                     },
                     id: "membershipNumber_" + loop.index,
                     name: "membershipNumber_" + loop.index,
-                    value: body.membershipId,
+                    value: payload["membershipNumber_" + loop.index],
                     errorMessage: {
                         text: errors["membershipNumber_" + loop.index].text
                     } if errors["membershipNumber_" + loop.index]

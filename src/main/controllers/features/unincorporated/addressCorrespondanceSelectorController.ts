@@ -35,7 +35,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
-            title: locales.i18nCh.resolveNamespacesKeys(lang).addressSelectorTitle,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
@@ -64,7 +63,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
-                title: locales.i18nCh.resolveNamespacesKeys(lang).addressSelectorTitle,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
                 ...pageProperties,
