@@ -55,7 +55,8 @@ import {
     checkAmlDetailsController,
     paymentCallbackController,
     savedApplicationController,
-    checkSavedApplicationController
+    checkSavedApplicationController,
+    resumeJourneyController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -253,5 +254,7 @@ routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddre
 
 routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSupervisorController.get);
 routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);
+
+routes.get(urls.RESUME_JOURNEY, resumeJourneyController.get);
 
 export default routes;

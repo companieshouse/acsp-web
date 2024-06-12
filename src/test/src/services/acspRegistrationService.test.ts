@@ -4,7 +4,8 @@ import { createPublicOAuthApiClient } from "../../../main/services/api/api_servi
 import {
     getAcspRegistration,
     postAcspRegistration,
-    getSavedApplication
+    getSavedApplication,
+    putAcspRegistration
 } from "../../../main/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -18,11 +19,13 @@ const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostAcspRegistration = jest.fn();
 const mockGetAcspRegistration = jest.fn();
 const mockGetSavedApplication = jest.fn();
+const mockPutAcspRegistration = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     acsp: {
         getAcsp: mockGetAcspRegistration,
         postACSP: mockPostAcspRegistration,
+        putACSP: mockPutAcspRegistration,
         getSavedApplication: mockGetSavedApplication
     }
 });
@@ -78,6 +81,15 @@ describe("acsp service tests", () => {
                 .rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
 
+        it("Should throw an error when acsp api returns status 409", async () => {
+            mockPostAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: StatusCodes.CONFLICT
+            });
+
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+                .rejects.toEqual({ httpStatusCode: StatusCodes.CONFLICT });
+        });
+
         it("Should throw an error if SERVICE UNAVAILABLE returned from SDK", async () => {
             const HTTP_STATUS_CODE = StatusCodes.SERVICE_UNAVAILABLE;
             mockPostAcspRegistration.mockResolvedValueOnce({
@@ -94,6 +106,61 @@ describe("acsp service tests", () => {
             });
 
             await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+        });
+    });
+
+    describe("putAcspRegistration tests", () => {
+
+        it("Should successfully put an Acsp Registration", async () => {
+            mockPutAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: 200,
+                resource: {
+                    data: {
+                        id: "example@example.com",
+                        typeOfBusiness: "LIMITED"
+                    }
+                }
+            });
+
+            const acspResponse: AcspResponse = await putAcspRegistration(session, TRANSACTION_ID, acsp);
+
+            expect(acspResponse.data.id).toEqual(EMAIL_ID);
+            expect(acspResponse.data.typeOfBusiness).toEqual("LIMITED");
+        });
+
+        it("Should throw an error when no acsp api response", async () => {
+            mockPostAcspRegistration.mockResolvedValueOnce(undefined);
+
+            await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
+                .rejects.toBe(undefined);
+        });
+
+        it("Should throw an error when acsp api returns a status greater than 400", async () => {
+            mockPutAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: StatusCodes.NOT_FOUND
+            });
+
+            await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
+                .rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
+        });
+
+        it("Should throw an error if SERVICE UNAVAILABLE returned from SDK", async () => {
+            const HTTP_STATUS_CODE = StatusCodes.SERVICE_UNAVAILABLE;
+            mockPutAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: HTTP_STATUS_CODE
+            } as Resource<CompanyProfile>);
+
+            await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
+                .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
+        });
+
+        it("Should throw an error when acsp api returns no resource", async () => {
+            mockPutAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
+            });
+
+            await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
         });
     });

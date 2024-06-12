@@ -8,10 +8,11 @@ import { Session } from "@companieshouse/node-session-handler";
 import { POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { Answers } from "../../../model/Answers";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -28,7 +29,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         if (acspData) {
             acspData.companyAuthCodeProvided = true;
         }
-        await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+        const acspDataService = new AcspDataService();
+        await acspDataService.saveAcspData(session, acspData);
 
         // save to session
         saveDataInSession(req, USER_DATA, acspData);
@@ -71,8 +73,29 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
             }
+
             //  save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
+
+            if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
+                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
+            } else {
+                let role;
+                switch (req.body.WhatIsYourRole) {
+                case "DIRECTOR":
+                    role = "I am a director";
+                    break;
+                case "MEMBER_OF_LLP":
+                    role = "I am a member of the partnership";
+                    break;
+                case "GENERAL_PARTNER":
+                    role = "I am a general partner";
+                    break;
+                }
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.roleType = role;
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
             if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));

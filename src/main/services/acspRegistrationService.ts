@@ -41,7 +41,7 @@ export const getAcspRegistration = async (session: Session, transactionId:string
 };
 
 /**
- * POST an acsp registration object for the given transaction ID. The information within this registration can be built upon using patches.
+ * POST an acsp registration object for the given transaction ID. The information within this registration can be built upon using put requests.
  * @param session The current session to connect to the api
  * @param transactionId The filings associated transaction ID
  * @returns The AcspResponse contains the submission ID for the newly created registration
@@ -49,15 +49,20 @@ export const getAcspRegistration = async (session: Session, transactionId:string
 export const postAcspRegistration = async (session: Session, transactionId: string, acsp: AcspData): Promise<AcspResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
-    logger.debug(`Posting acsp registration for transaction ${transactionId}`);
+    logger.debug(`POSTing acsp registration for transaction ${transactionId}`);
     const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.postACSP(transactionId, acsp);
 
     if (!sdkResponse) {
         logger.error(`acsp registration POST request returned no response for transaction ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
-    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
-        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to post acsp registration for transaction ${transactionId}`);
+    if (!sdkResponse.httpStatusCode || (sdkResponse.httpStatusCode >= 400 && sdkResponse.httpStatusCode !== 409)) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to POST acsp registration for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    if (sdkResponse.httpStatusCode === 409) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - A document already exists with the id ${acsp.id}`);
         return Promise.reject(sdkResponse);
     }
 
@@ -71,7 +76,38 @@ export const postAcspRegistration = async (session: Session, transactionId: stri
     return Promise.resolve(castedSdkResponse.resource);
 };
 
+/**
+ * PUT an acsp registration object for the given transaction ID.
+ * @param session The current session to connect to the api
+ * @param transactionId The filings associated transaction ID
+ * @returns The AcspResponse contains the submission ID for the updated registration
+ */
+export const putAcspRegistration = async (session: Session, transactionId: string, acsp: AcspData): Promise<AcspResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+
+    logger.debug(`PUTing acsp registration for transaction ${transactionId}`);
+    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.putACSP(transactionId, acsp);
+
+    if (!sdkResponse) {
+        logger.error(`acsp registration PUT request returned no response for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to PUT acsp registration for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    const castedSdkResponse: Resource<AcspResponse> = sdkResponse as Resource<AcspResponse>;
+    if (!castedSdkResponse.resource) {
+        logger.error(`acsp registration API PUT request returned no resource for transaction ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    logger.debug(`acsp registration ${JSON.stringify(sdkResponse)}`);
+    return Promise.resolve(castedSdkResponse.resource);
+};
+
 export const getSavedApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    return await apiClient.acsp.getSavedApplication(userId);
+    return apiClient.acsp.getSavedApplication(userId);
 };

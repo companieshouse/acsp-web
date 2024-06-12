@@ -10,8 +10,9 @@ import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
 import logger from "../../../../../lib/Logger";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -74,10 +75,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             session.setExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS, addressOption);
+            const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
                 acspData.correspondenceAddress = acspData.businessAddress;
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                await acspDataService.saveAcspData(session, acspData);
 
                 // Save answers
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
@@ -90,7 +92,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await acspDataService.saveAcspData(session, acspData);
                 }
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
