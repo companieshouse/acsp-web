@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
@@ -44,19 +44,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl = BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST;
     try {
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UNINCORPORATED_BUSINESS_ADDRESS_LIST, {
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST,
+                currentUrl,
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang),
                 addresses: addressList,
                 businessName: acspData?.businessName,
@@ -75,7 +76,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

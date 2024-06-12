@@ -77,8 +77,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 buildErrorResponse(req, res, locales, lang, acspData, pageProperties);
             });
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
     }
 
 };

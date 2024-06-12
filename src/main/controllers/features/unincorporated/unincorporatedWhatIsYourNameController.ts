@@ -6,7 +6,7 @@ import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_NAME
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import logger from "../../../../../lib/Logger";
 import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
@@ -48,6 +48,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session.getExtraData(USER_DATA)!;
+    const currentUrl = BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME;
     try {
         const errorList = validationResult(req);
         console.log(errorList);
@@ -56,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.WHAT_IS_YOUR_NAME, {
                 ...getLocaleInfo(locales, lang),
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME,
+                currentUrl,
                 ...pageProperties,
                 payload: req.body
             });
@@ -74,7 +75,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

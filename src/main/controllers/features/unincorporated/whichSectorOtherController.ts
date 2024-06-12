@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -45,6 +45,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const currentUrl = BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -52,7 +53,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.WHICH_SECTOR_OTHER, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER,
+                currentUrl,
                 acspType: acspData?.typeOfBusiness,
                 whichSectorLink: addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang),
                 ...pageProperties
@@ -69,7 +70,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

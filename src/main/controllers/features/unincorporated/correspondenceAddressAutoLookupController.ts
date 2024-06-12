@@ -52,10 +52,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -81,8 +80,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 buildErrorResponse(req, res, next, locales, lang, acspData, pageProperties);
             });
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP);
     }
 
 };

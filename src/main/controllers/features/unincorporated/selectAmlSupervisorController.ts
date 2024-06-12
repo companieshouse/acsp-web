@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -46,9 +46,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl = BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
@@ -57,7 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
                 previousPage: addLangToUrl(getPreviousPage(session), lang),
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR,
+                currentUrl,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
                 acspType: acspData?.typeOfBusiness,
@@ -73,8 +74,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
 
