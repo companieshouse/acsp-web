@@ -77,12 +77,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
                 SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then(async (nextPageUrl) => {
-
-                // save data to mongodb
-                const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, acspData);
-                res.redirect(nextPageUrl);
-
+                try {
+                    // save data to mongodb
+                    const acspDataService = new AcspDataService();
+                    await acspDataService.saveAcspData(session, acspData);
+                    res.redirect(nextPageUrl);
+                } catch (err) {
+                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                    const error = new ErrorService();
+                    error.renderErrorPage(res, locales, lang, currentUrl);
+                }
             }).catch(() => {
                 const validationError: ValidationError[] = [{
                     value: postcode,
