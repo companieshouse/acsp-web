@@ -40,11 +40,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
     try {
-        const lang = selectLang(req.query.lang);
         const session: Session = req.session as any as Session;
-        const locales = getLocalesService();
-        const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
         const companyDetailsService = new CompanyDetailsService();
         const status = company?.status;
@@ -63,24 +63,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspData.companyDetails = company;
                 acspData.businessName = company.companyName;
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                // Save answers
-                isThisYourCompanyAnswers(req, company);
+            // Save answers
+            isThisYourCompanyAnswers(req, company);
 
-                // Redirect to next page
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            // Redirect to next page
+            res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
         } else {
             res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

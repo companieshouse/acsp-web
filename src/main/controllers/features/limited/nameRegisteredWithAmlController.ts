@@ -36,13 +36,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedOption = req.body.nameRegisteredWithAml;
         const previousPage: string = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang);
-        const currentUrl: string = BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML;
         const session: Session = req.session as any as Session;
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
         if (!errorList.isEmpty()) {
@@ -57,24 +57,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang);
-                const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
-                if (selectedOption === "YOUR_NAME") {
-                    res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
-                } else {
-                    res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
-                }
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang);
+            const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
+            if (selectedOption === "YOUR_NAME") {
+                res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
+            } else {
+                res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

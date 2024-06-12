@@ -68,13 +68,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const errorList = validationResult(req);
+    const selectedOption = req.body.typeOfBusinessRadio;
+    const previousPage: string = addLangToUrl(BASE_URL, lang);
+    const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const errorList = validationResult(req);
-        const selectedOption = req.body.typeOfBusinessRadio;
-        const previousPage: string = addLangToUrl(BASE_URL, lang);
-        const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.TYPE_OF_BUSINESS, {
@@ -129,7 +129,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

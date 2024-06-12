@@ -48,14 +48,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session!;
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
         const previousPage: string = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
-        const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -71,38 +71,34 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
             }
-            try {
-                //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            //  save data to mongodb
+            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
 
-                if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
-                    res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
-                } else {
-                    let role;
-                    switch (req.body.WhatIsYourRole) {
-                    case "DIRECTOR":
-                        role = "I am a director";
-                        break;
-                    case "MEMBER_OF_LLP":
-                        role = "I am a member of the partnership";
-                        break;
-                    case "GENERAL_PARTNER":
-                        role = "I am a general partner";
-                        break;
-                    }
-                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                    detailsAnswers.roleType = role;
-                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
-                    res.redirect(addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang));
+            if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
+                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
+            } else {
+                let role;
+                switch (req.body.WhatIsYourRole) {
+                case "DIRECTOR":
+                    role = "I am a director";
+                    break;
+                case "MEMBER_OF_LLP":
+                    role = "I am a member of the partnership";
+                    break;
+                case "GENERAL_PARTNER":
+                    role = "I am a general partner";
+                    break;
                 }
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.roleType = role;
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
