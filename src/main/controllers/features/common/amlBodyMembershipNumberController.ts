@@ -22,6 +22,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const currentUrl: string = BASE_URL + AML_MEMBERSHIP_NUMBER;
 
+    const createPayload = (amlSupervisoryBodies: AmlSupervisoryBody[]): { [key: string]: string | undefined } => {
+        const payload: { [key: string]: string | undefined } = {};
+        amlSupervisoryBodies.forEach((body, index) => {
+            payload[`membershipNumber_${index + 1}`] = body.membershipId;
+        });
+        return payload;
+    };
+
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
@@ -29,11 +37,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
 
-        const payload = {
-            membershipNumber_1: acspData.amlSupervisoryBodies?.[0].membershipId,
-            membershipNumber_2: acspData.amlSupervisoryBodies?.[1].membershipId,
-            membershipNumber_3: acspData.amlSupervisoryBodies?.[2].membershipId
-        };
+        /* const payload = {
+            membershipNumber_1: acspData.amlSupervisoryBodies?.[0]?.membershipId,
+            membershipNumber_2: acspData.amlSupervisoryBodies?.[1]?.membershipId,
+            membershipNumber_3: acspData.amlSupervisoryBodies?.[2]?.membershipId
+        }; */
+
+        const payload = createPayload(acspData.amlSupervisoryBodies || []);
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
