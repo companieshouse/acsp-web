@@ -9,10 +9,11 @@ import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from ".
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../main/services/amlSupervisoryBody/amlBodyService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -75,7 +76,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
             amlSupervisoryBody.saveSelectedAML(req, acspData);
             //  save data to mongodb
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
             res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
     } catch (error) {

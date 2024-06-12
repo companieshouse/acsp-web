@@ -2,7 +2,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { StatusCodes } from "http-status-codes";
 import logger from "../../../../lib/Logger";
-import { createPublicOAuthApiClient } from "../api/api_service";
+import { createPublicApiKeyClient } from "../api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 
 /**
@@ -11,7 +11,7 @@ import { Session } from "@companieshouse/node-session-handler";
  * @param companyNumber the company number to look up
  */
 export const getCompanyProfile = async (session: Session, companyNumber: string): Promise<CompanyProfile> => {
-    const apiClient = createPublicOAuthApiClient(session);
+    const apiClient = createPublicApiKeyClient();
 
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);
 

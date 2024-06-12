@@ -12,6 +12,7 @@ export * as checkAmlDetailsController from "./features/common/checkAmlDetailsCon
 export * as paymentCallbackController from "./features/common/paymentCallbackController";
 export * as savedApplicationController from "./features/common/savedApplicationController";
 export * as checkSavedApplicationController from "./features/common/checkSavedApplicationController";
+export * as resumeJourneyController from "./features/common/resumeJourneyController";
 
 // Sole trader
 
