@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
 import { BASE_URL, SOLE_TRADER_DATE_OF_BIRTH } from "../../../../main/types/pageURL";
-import { getAcspRegistration, postAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -12,7 +12,7 @@ jest.mock("../../../../../lib/Logger");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
+const mockputAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
@@ -58,7 +58,7 @@ describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
 // Test for incorrect form details entered, will return 400.
 describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     it("should return status 400", async () => {
-        mockPostAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
+        mockputAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.post(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(res.status).toBe(400);
     });

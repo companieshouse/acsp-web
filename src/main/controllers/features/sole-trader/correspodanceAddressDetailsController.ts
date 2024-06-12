@@ -10,11 +10,12 @@ import {
 import { Session } from "@companieshouse/node-session-handler";
 import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../main/services/address/addressLookUp";
 import logger from "../../../../../lib/Logger";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -76,7 +77,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
 
-            await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
 
             const nextPageUrl = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);

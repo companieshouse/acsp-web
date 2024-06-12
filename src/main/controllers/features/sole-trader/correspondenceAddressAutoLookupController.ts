@@ -11,10 +11,11 @@ import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../../../lib/Logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -76,10 +77,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
             await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
-                SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then((nextPageUrl) => {
+                SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 // save data to mongodb
-                postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
                 res.redirect(nextPageUrl);
 
             }).catch(() => {
