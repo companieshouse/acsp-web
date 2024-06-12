@@ -10,8 +10,9 @@ import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACS
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -70,7 +71,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             addressManualservice.saveCorrespondenceManualAddress(req, acspData);
             try {
                 //  save data to mongodb
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
 
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
             } catch (err) {

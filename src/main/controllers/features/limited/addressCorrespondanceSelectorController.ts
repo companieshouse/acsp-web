@@ -10,8 +10,9 @@ import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
-import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration, postAcspRegistration } from "../../../services/acspRegistrationService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
+import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -73,11 +74,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addressOption
             });
         } else {
+            const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 acspData.correspondenceAddress = acspData.businessAddress;
                 try {
                     //  save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+
+                    await acspDataService.saveAcspData(session, acspData);
 
                     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                     detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;
@@ -93,7 +96,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
-                    await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
+                    await acspDataService.saveAcspData(session, acspData);
                 }
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
