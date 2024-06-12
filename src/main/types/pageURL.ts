@@ -6,9 +6,6 @@ export const START = "/"; // Domain name will go here
 
 export const HOME_URL = "";
 
-const TRANSACTION = "transaction";
-const TRANSACTION_PATH = TRANSACTION + "/:transactionId";
-
 export const SIGN_OUT_PAGE = `signout`;
 
 export const SIGN_OUT_URL = `/${SIGN_OUT_PAGE}`;
