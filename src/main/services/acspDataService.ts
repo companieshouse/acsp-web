@@ -20,8 +20,6 @@ export class AcspDataService {
                 // save data to mongo for the first time
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
             } else {
-                acspData.id = userId;
-                acspData.email = email;
                 if (selectedOption !== undefined) {
                     acspData.typeOfBusiness = selectedOption;
                 }
