@@ -67,9 +67,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const { companyNumber } = req.body;
             const companyLookupService = new CompanyLookupService();
             companyLookupService.getCompanyDetails(session, companyNumber, req).then(
-                () => {
+                async () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+                        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+                        const companyDetails: Company = { companyNumber: companyNumber };
+                        if (acspData) {
+                            acspData.companyDetails = companyDetails;
+                        }
+                        //  save data to mongodb
+                        const acspDataService = new AcspDataService();
+                        await acspDataService.saveAcspData(session, acspData);
                         res.redirect(nextPageUrl);
                     }
                 }).catch(() => {
@@ -90,16 +98,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     pageProperties: pageProperties
                 });
             });
-
-            const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-            const companyDetails: Company = { companyNumber: companyNumber };
-            if (acspData) {
-                acspData.companyDetails = companyDetails;
-            }
-            //  save data to mongodb
-            const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData);
-
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

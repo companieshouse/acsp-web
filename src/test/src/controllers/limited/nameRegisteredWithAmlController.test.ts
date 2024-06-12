@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 import { LIMITED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../../main/types/pageURL";
@@ -11,6 +11,7 @@ jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
@@ -27,15 +28,21 @@ describe("GET" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
     });
 });
 
-// Test when radio btn selected, will return 302 after redirecting to the next page.
 describe("POST" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
+    // Test when radio btn selected, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send({ nameRegisteredWithAml: "NAME_OF_THE_BUSINESS" }).expect(302);
     });
-});
-// Test for no radio btn value selected, will return 400.
-describe("POST" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
+
+    // Test for no radio btn value selected, will return 400.
     it("should return status 400 after incorrect data entered", async () => {
         await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send({ nameRegisteredWithAml: "" }).expect(400);
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send({ nameRegisteredWithAml: "NAME_OF_THE_BUSINESS" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

@@ -6,7 +6,7 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../../main/types/pageURL";
 import { USER_DATA } from "../../../../../src/main/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -15,6 +15,7 @@ const router = supertest(app);
 let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
@@ -43,6 +44,14 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE, () => {
         expect(response.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: "SOMEONE_ELSE"
+        });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
