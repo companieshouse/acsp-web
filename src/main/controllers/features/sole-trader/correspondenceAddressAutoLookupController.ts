@@ -57,10 +57,43 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS;
     const locales = getLocalesService();
-    try {
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+    const errorList = validationResult(req);
+    if (!errorList.isEmpty()) {
+        const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+        res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
+            previousPage,
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            pageProperties: pageProperties,
+            payload: req.body,
+            firstName: acspData?.firstName,
+            lastName: acspData?.lastName,
+            correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+        });
+    } else {
+        const postcode = req.body.postCode;
+        const inputPremise = req.body.premise;
+        const addressLookUpService = new AddressLookUpService();
+        await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
+            SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then(async (nextPageUrl) => {
+            try {
+                // save data to mongodb
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
+                res.redirect(nextPageUrl);
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, currentUrl);
+            }
+        }).catch(() => {
+            const validationError: ValidationError[] = [{
+                value: postcode,
+                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                param: "postCode",
+                location: "body"
+            }];
+            const pageProperties = getPageProperties(formatValidationError(validationError, lang));
             res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
                 previousPage,
                 ...getLocaleInfo(locales, lang),
@@ -71,45 +104,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.lastName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
-        } else {
-            const postcode = req.body.postCode;
-            const inputPremise = req.body.premise;
-            const addressLookUpService = new AddressLookUpService();
-            await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, false,
-                SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).then(async (nextPageUrl) => {
-                try {
-                    // save data to mongodb
-                    const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session, acspData);
-                    res.redirect(nextPageUrl);
-                } catch (err) {
-                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                    const error = new ErrorService();
-                    error.renderErrorPage(res, locales, lang, currentUrl);
-                }
-            }).catch(() => {
-                const validationError: ValidationError[] = [{
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postCode",
-                    location: "body"
-                }];
-                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
-                res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
-                    previousPage,
-                    ...getLocaleInfo(locales, lang),
-                    currentUrl,
-                    pageProperties: pageProperties,
-                    payload: req.body,
-                    firstName: acspData?.firstName,
-                    lastName: acspData?.lastName,
-                    correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
-                });
-            });
-        }
-    } catch (err) {
-        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        });
     }
 };

@@ -51,45 +51,37 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-
-    try {
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+    const errorList = validationResult(req);
+    if (!errorList.isEmpty()) {
+        const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+        buildErrorResponse(req, res, locales, lang, acspData, pageProperties);
+    } else {
+        const postcode = req.body.postCode;
+        const inputPremise = req.body.premise;
+        const addressLookUpService = new AddressLookUpService();
+        await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, true,
+            UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
+            try {
+                // save data to mongodb
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
+                res.redirect(nextPageUrl);
+            } catch (err) {
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+                const error = new ErrorService();
+                error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+            }
+        }).catch(() => {
+            const validationError : ValidationError[] = [{
+                value: postcode,
+                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                param: "postCode",
+                location: "body"
+            }];
+            const pageProperties = getPageProperties(formatValidationError(validationError, lang));
             buildErrorResponse(req, res, locales, lang, acspData, pageProperties);
-        } else {
-            const postcode = req.body.postCode;
-            const inputPremise = req.body.premise;
-            const addressLookUpService = new AddressLookUpService();
-            await addressLookUpService.getAddressFromPostcode(req, postcode, inputPremise, acspData, true,
-                UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
-                try {
-                    // save data to mongodb
-                    const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session, acspData);
-                    res.redirect(nextPageUrl);
-                } catch (err) {
-                    logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-                    const error = new ErrorService();
-                    error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
-                }
-            }).catch(() => {
-                const validationError : ValidationError[] = [{
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postCode",
-                    location: "body"
-                }];
-                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
-                buildErrorResponse(req, res, locales, lang, acspData, pageProperties);
-            });
-        }
-    } catch (err) {
-        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+        });
     }
-
 };
 
 const buildErrorResponse = (req: Request, res: Response, locales: LocalesService, lang: string, acspData: AcspData, pageProperties: any) => {
