@@ -96,26 +96,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
                 detailsAnswers.roleType = role;
                 saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
-            if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
-                res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
-            } else {
-                let role;
-                switch (req.body.WhatIsYourRole) {
-                case "DIRECTOR":
-                    role = "I am a director";
-                    break;
-                case "MEMBER_OF_LLP":
-                    role = "I am a member of the partnership";
-                    break;
-                case "GENERAL_PARTNER":
-                    role = "I am a general partner";
-                    break;
-                }
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.roleType = role;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang));
             }
         }
