@@ -23,14 +23,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        let acspData;
-        try {
-            acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-            if (acspData !== undefined) {
-                saveDataInSession(req, USER_DATA, acspData);
-            }
-        } catch (err) {
-            logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        if (acspData !== undefined) {
+            saveDataInSession(req, USER_DATA, acspData);
         }
 
         res.render(config.OTHER_TYPE_OF_BUSINESS, {

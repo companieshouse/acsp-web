@@ -27,8 +27,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
 
-    // create transaction record
     try {
+        // create transaction record
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
                 // get transaction record data
@@ -38,18 +38,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         let typeOfBusiness = "";
         // get data from mongo and save to session
-        try {
-            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-            if (acspData !== undefined) {
-                saveDataInSession(req, USER_DATA, acspData);
-                if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-                    typeOfBusiness = "OTHER";
-                } else {
-                    typeOfBusiness = acspData.typeOfBusiness!;
-                }
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        if (acspData !== undefined) {
+            saveDataInSession(req, USER_DATA, acspData);
+            if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                typeOfBusiness = "OTHER";
+            } else {
+                typeOfBusiness = acspData.typeOfBusiness!;
             }
-        } catch (err) {
-            logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         }
 
         res.render(config.TYPE_OF_BUSINESS, {
