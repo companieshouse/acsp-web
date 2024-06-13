@@ -34,6 +34,15 @@ describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("What other type of business are you registering?");
     });
+
+    it("should return status 500 after calling GET endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + OTHER_TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
