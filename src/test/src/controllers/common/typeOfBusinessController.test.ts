@@ -30,6 +30,7 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(200);
         expect(res.text).toContain("What type of business are you registering?");
     });
@@ -39,6 +40,7 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });

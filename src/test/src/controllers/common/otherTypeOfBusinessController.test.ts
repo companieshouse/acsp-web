@@ -3,7 +3,6 @@ import supertest from "supertest";
 import app from "../../../../main/app";
 import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
-
 import { BASE_URL, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../../main/types/pageURL";
 import { sessionMiddleware } from "../../../../main/middleware/session_middleware";
 import { USER_DATA } from "../../../../main/common/__utils/constants";
@@ -26,11 +25,12 @@ const acspData: AcspData = {
 };
 
 describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
     it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + OTHER_TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(200);
         expect(res.text).toContain("What other type of business are you registering?");
     });
@@ -40,6 +40,7 @@ describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
         const res = await router.get(BASE_URL + OTHER_TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });

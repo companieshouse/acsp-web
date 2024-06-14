@@ -37,14 +37,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         let typeOfBusiness = "";
+        if (!session?.getExtraData("new_application")) {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        if (acspData !== undefined) {
-            saveDataInSession(req, USER_DATA, acspData);
-            if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-                typeOfBusiness = "OTHER";
-            } else {
-                typeOfBusiness = acspData.typeOfBusiness!;
+            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            if (acspData !== undefined) {
+                saveDataInSession(req, USER_DATA, acspData);
+                if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                    typeOfBusiness = "OTHER";
+                } else {
+                    typeOfBusiness = acspData.typeOfBusiness!;
+                }
             }
         }
 
@@ -86,6 +88,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (selectedOption !== "OTHER") {
                 const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session, acspData, selectedOption);
+                saveDataInSession(req, "new_application", false);
 
                 const answersArray: Answers = {
                     typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]

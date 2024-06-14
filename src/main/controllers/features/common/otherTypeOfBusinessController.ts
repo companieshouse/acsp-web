@@ -22,10 +22,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
 
     try {
-        // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
-        if (acspData !== undefined) {
-            saveDataInSession(req, USER_DATA, acspData);
+        let acspData;
+        if (!session?.getExtraData("new_application")) {
+            // get data from mongo and save to session
+            acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            if (acspData !== undefined) {
+                saveDataInSession(req, USER_DATA, acspData);
+            }
         }
 
         res.render(config.OTHER_TYPE_OF_BUSINESS, {
@@ -63,6 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData, selectedOption);
+            saveDataInSession(req, "new_application", false);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
