@@ -6,4 +6,4 @@ PORT=3000
 
 export NODE_PORT=${PORT}
 
-exec node /opt/dist/src/main/server.js -- ${PORT}
+exec node /opt/dist/src/server.js -- ${PORT}
