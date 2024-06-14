@@ -35,7 +35,7 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(SUBMISSION_ID, "validTransactionId");
     session.setExtraData(PREVIOUS_PAGE_URL, "register-as-companies-house-authorised-agent/what-business-type");
     session.setExtraData("payment-nonce", "123456");
-    session.setExtraData("new_application", false);
+    session.setExtraData("resume_application", true);
     session.setExtraData(ADDRESS_LIST, addressList);
     req.session = session;
     next();

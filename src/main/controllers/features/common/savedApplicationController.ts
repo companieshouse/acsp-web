@@ -32,10 +32,10 @@ export const post = (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             if (req.body.savedApplication === "yes") {
-                saveDataInSession(req, "new_application", false);
+                saveDataInSession(req, "resume_application", true);
                 res.redirect((YOUR_FILINGS));
             } else {
-                saveDataInSession(req, "new_application", true);
+                saveDataInSession(req, "resume_application", false);
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }

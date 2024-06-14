@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         let acspData;
-        if (!session?.getExtraData("new_application")) {
+        if (session?.getExtraData("resume_application")) {
             // get data from mongo and save to session
             acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
             if (acspData !== undefined) {
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData, selectedOption);
-            saveDataInSession(req, "new_application", false);
+            saveDataInSession(req, "resume_application", true);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
