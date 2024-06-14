@@ -5,7 +5,8 @@ import {
     getAcspRegistration,
     postAcspRegistration,
     getSavedApplication,
-    putAcspRegistration
+    putAcspRegistration,
+    deleteAcspApplication
 } from "../../../main/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -20,13 +21,15 @@ const mockPostAcspRegistration = jest.fn();
 const mockGetAcspRegistration = jest.fn();
 const mockGetSavedApplication = jest.fn();
 const mockPutAcspRegistration = jest.fn();
+const mockDeleteAcspApplication = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     acsp: {
         getAcsp: mockGetAcspRegistration,
         postACSP: mockPostAcspRegistration,
         putACSP: mockPutAcspRegistration,
-        getSavedApplication: mockGetSavedApplication
+        getSavedApplication: mockGetSavedApplication,
+        deleteSavedApplication: mockDeleteAcspApplication
     }
 });
 
@@ -213,6 +216,31 @@ describe("acsp service tests", () => {
 
             const httpResponse = await getSavedApplication(session, USER_ID);
             expect(httpResponse.status).toStrictEqual(404);
+        });
+    });
+
+    describe("deleteAcspApplication tests", () => {
+        it("Should return status 204", async () => {
+            mockDeleteAcspApplication.mockResolvedValueOnce({
+                status: 204
+            }as HttpResponse);
+
+            const httpResponse = await deleteAcspApplication(session, USER_ID);
+            expect(httpResponse.status).toStrictEqual(204);
+        });
+
+        it("Should throw an error when no acsp api response", async () => {
+            mockDeleteAcspApplication.mockResolvedValueOnce(undefined);
+
+            await expect(deleteAcspApplication(session, USER_ID)).rejects.toBe(undefined);
+        });
+
+        it("Should throw an error when status code is > 400", async () => {
+            mockDeleteAcspApplication.mockResolvedValueOnce({
+                status: 404
+            }as HttpResponse);
+
+            await expect(deleteAcspApplication(session, USER_ID)).rejects.toEqual({ status: StatusCodes.NOT_FOUND });
         });
     });
 });
