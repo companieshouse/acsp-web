@@ -4,7 +4,7 @@ import app from "../../../../main/app";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../../main/types/pageURL";
 import { getAddressFromPostcode } from "../../../../main/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -12,6 +12,7 @@ jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
@@ -123,4 +124,17 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("Enter a postcode");
     });
 
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "2"
+        };
+
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
+
+        const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });

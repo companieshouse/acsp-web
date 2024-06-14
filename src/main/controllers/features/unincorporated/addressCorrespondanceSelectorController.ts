@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
@@ -52,9 +52,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const addressOption = req.body.addressSelectorRadio;
         const session: Session = req.session as any as Session;
@@ -65,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.status(400).render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, lang),
                 ...getLocaleInfo(locales, lang),
-                currentUrl: BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS,
+                currentUrl,
                 ...pageProperties,
                 businessName: acspData?.businessName,
                 businessAddress: acspData?.businessAddress,
@@ -96,7 +97,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

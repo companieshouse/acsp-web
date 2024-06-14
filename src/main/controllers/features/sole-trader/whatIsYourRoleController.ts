@@ -5,7 +5,7 @@ import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOL
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
@@ -39,13 +39,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const selectedRole = req.body.WhatIsYourRole;
         const previousPage: string = addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang);
-        const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE;
         const session: Session = req.session as any as Session;
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
 
@@ -76,7 +76,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

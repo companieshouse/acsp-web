@@ -53,19 +53,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
         var previousPage : string = "";
+
         if (acspData.correspondenceAddress === acspData.businessAddress) {
             previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
         } else {
             previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
         }
-        const currentUrl = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
 
@@ -76,28 +77,24 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            try {
-                if (req.body.sectorYouWorkIn === "OTHER") {
-                    res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
-                } else {
-                    //  save data to mongodb
-                    acspData.workSector = req.body.sectorYouWorkIn;
-                    const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session, acspData);
+            if (req.body.sectorYouWorkIn === "OTHER") {
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHICH_SECTOR_OTHER, lang));
+            } else {
+                //  save data to mongodb
+                acspData.workSector = req.body.sectorYouWorkIn;
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
 
-                    const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                    detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
-                    saveDataInSession(req, ANSWER_DATA, detailsAnswers);
+                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
+                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
+                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 
-                    res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
-                }
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
             }
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

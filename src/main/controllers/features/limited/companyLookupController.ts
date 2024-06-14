@@ -44,14 +44,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl = BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER;
     try {
-
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
         const previousPage = addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang);
-        const currentUrl = BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -68,9 +67,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const { companyNumber } = req.body;
             const companyLookupService = new CompanyLookupService();
             companyLookupService.getCompanyDetails(session, companyNumber, req).then(
-                () => {
+                async () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
+                        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+                        const companyDetails: Company = { companyNumber: companyNumber };
+                        if (acspData) {
+                            acspData.companyDetails = companyDetails;
+                        }
+                        //  save data to mongodb
+                        const acspDataService = new AcspDataService();
+                        await acspDataService.saveAcspData(session, acspData);
                         res.redirect(nextPageUrl);
                     }
                 }).catch(() => {
@@ -91,23 +98,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     pageProperties: pageProperties
                 });
             });
-
-            const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-            const companyDetails: Company = { companyNumber: companyNumber };
-            if (acspData) {
-                acspData.companyDetails = companyDetails;
-            }
-            try {
-                //  save data to mongodb
-                const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, acspData);
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
         }
-    } catch (error : any) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

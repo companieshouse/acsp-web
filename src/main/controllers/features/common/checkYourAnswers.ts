@@ -41,9 +41,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const session: Session = req.session as any as Session;
+    const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
-        const lang = selectLang(req.query.lang);
-        const session: Session = req.session as any as Session;
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
         const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
 
@@ -60,7 +62,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.redirect(paymentResponse.resource.links.journey);
         }
 
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error("Error starting payment session " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
 import { Answers } from "../../../model/Answers";
@@ -22,15 +22,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + OTHER_TYPE_OF_BUSINESS;
 
     try {
-        // get data from mongo and save to session
         let acspData;
-        try {
+        if (session?.getExtraData("resume_application")) {
+            // get data from mongo and save to session
             acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
             }
-        } catch (err) {
-            logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
         }
 
         res.render(config.OTHER_TYPE_OF_BUSINESS, {
@@ -57,7 +55,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     try {
-
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.OTHER_TYPE_OF_BUSINESS, {
@@ -69,6 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData, selectedOption);
+            saveDataInSession(req, "resume_application", true);
 
             const answersArray: Answers = {
                 typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
@@ -78,8 +76,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
 
         }
-    } catch (error) {
-        const errorService = new ErrorService();
-        errorService.renderErrorPage(res, locales, lang, currentUrl);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

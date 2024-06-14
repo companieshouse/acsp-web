@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
 import { UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, BASE_URL, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -10,6 +10,7 @@ jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP"
@@ -57,5 +58,14 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .send({ addressSelectorRadio: "DIFFERENT_ADDRESS" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP + "?lang=en");
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router
+            .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
+            .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

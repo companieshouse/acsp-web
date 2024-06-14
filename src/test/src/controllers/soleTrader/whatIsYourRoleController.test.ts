@@ -6,7 +6,7 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../main/types/pageURL";
 import { USER_DATA } from "../../../../main/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -15,6 +15,7 @@ const router = supertest(app);
 let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
@@ -44,12 +45,6 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
-});
-
-describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
-    beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_PARTNERSHIP");
-    });
 
     it("should respond with status 302 on form submission with sole trader", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
@@ -58,12 +53,6 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
         expect(response.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-    });
-});
-
-describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
-    beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_PARTNERSHIP");
     });
 
     it("should respond with status 400 on form submission with empty role", async () => {
@@ -74,6 +63,15 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
         expect(response.text).toContain("Select if you are a general partner or someone else");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: "MEMBER_OF_LLP"
+        });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
 });

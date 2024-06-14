@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
 import { UNINCORPORATED_WHICH_SECTOR, BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_WHICH_SECTOR_OTHER } from "../../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -10,6 +10,7 @@ jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
@@ -54,5 +55,12 @@ describe("POST" + UNINCORPORATED_WHICH_SECTOR, () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select which sector you work in");
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

@@ -3,13 +3,14 @@ import supertest from "supertest";
 import app from "../../../../main/app";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM } from "../../../../main/types/pageURL";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../main/services/acspRegistrationService");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
@@ -207,5 +208,13 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a full UK postcode");
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
