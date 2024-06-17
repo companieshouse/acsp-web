@@ -38,12 +38,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
 
-        /* const payload = {
-            membershipNumber_1: acspData.amlSupervisoryBodies?.[0]?.membershipId,
-            membershipNumber_2: acspData.amlSupervisoryBodies?.[1]?.membershipId,
-            membershipNumber_3: acspData.amlSupervisoryBodies?.[2]?.membershipId
-        }; */
-
         const payload = createPayload(acspData.amlSupervisoryBodies || []);
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
