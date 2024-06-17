@@ -10,4 +10,4 @@ do
   echo "$entry"
 done
 
-exec node /opt/src/main/server.js -- ${PORT}
+exec node /opt/src/server.js -- ${PORT}

@@ -2,7 +2,7 @@
   "name": "acsp-web",
   "version": "1.0.0",
   "description": "A web application for the Authorized Corporate Service Providers (ACSP)",
-  "main": "dist/src/main/server.js",
+  "main": "dist/src/server.js",
   "engines": {
     "node": ">=20.0.0",
     "npm": "^10"
@@ -10,13 +10,13 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build:assets": "gulp build",
-    "build:server": "tsc && cp -r src/main/views dist/src/main && cp -r config dist/",
+    "build:server": "tsc && cp -r src/views dist/src && cp -r config dist/",
     "build": "npm run build:assets && npm run build:server",
-    "lint": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts'",
-    "lint:fix": "eslint 'src/**/*.ts' 'src/test/src/**/*.ts' --fix",
+    "lint": "eslint 'src/**/*.ts' 'test/src/**/*.ts'",
+    "lint:fix": "eslint 'src/**/*.ts' 'test/src/**/*.ts' --fix",
     "test:coverage": "jest --coverage --forceExit --passWithNoTests",
     "test": "jest",
-    "start": "npm run build && source ./dist/config/.env && node dist/src/main/server.js",
+    "start": "npm run build && source ./dist/config/.env && node dist/src/server.js",
     "start:watch": "nodemon",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
@@ -108,7 +108,7 @@
     "ignore": [
       "**/*.test.ts"
     ],
-    "exec": "npm run build && source ./dist/config/.env && node dist/src/main/server.js"
+    "exec": "npm run build && source ./dist/config/.env && node dist/src/server.js"
   },
   "directories": {
     "test": "test"
