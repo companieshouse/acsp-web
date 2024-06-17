@@ -5,7 +5,7 @@ import { SAVED_APPLICATION, BASE_URL, TYPE_OF_BUSINESS, YOUR_FILINGS } from "../
 import { deleteAcspApplication } from "../../../src/services/acspRegistrationService";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
-jest.mock("../../../main/services/acspRegistrationService");
+jest.mock("../../../src/services/acspRegistrationService");
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 

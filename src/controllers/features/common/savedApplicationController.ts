@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, SAVED_APPLICATION, TYPE_OF_BUSINESS, YOUR_FILINGS } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
-import logger from "../../../../../lib/Logger";
+import logger from "../../../../lib/Logger";
 import { deleteAcspApplication } from "../../../services/acspRegistrationService";
 import { Session } from "@companieshouse/node-session-handler";
 
