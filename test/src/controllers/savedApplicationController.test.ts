@@ -2,9 +2,13 @@ import mocks from "../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../src/app";
 import { SAVED_APPLICATION, BASE_URL, TYPE_OF_BUSINESS, YOUR_FILINGS } from "../../../src/types/pageURL";
+import { deleteAcspApplication } from "../../../src/services/acspRegistrationService";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../src/services/acspRegistrationService");
 const router = supertest(app);
+
+const mockDeleteAcspApplication = deleteAcspApplication as jest.Mock;
 
 describe("GET" + SAVED_APPLICATION, () => {
     it("should return status 200", async () => {
@@ -15,33 +19,37 @@ describe("GET" + SAVED_APPLICATION, () => {
     });
 });
 
-// Test will return 302 after redirecting to the next page.
 describe("POST " + SAVED_APPLICATION, () => {
     it("should return status 302 after redirect", async () => {
-        // Make a POST request with signout: "yes" to trigger redirection
+        // Make a POST request with signout: "yes" to trigger redirection to filings
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
             .send({ savedApplication: "yes" })
             .expect(302);
         expect(response.header.location).toBe(YOUR_FILINGS);
     });
-});
 
-describe("POST " + SAVED_APPLICATION, () => {
     it("should return status 302 after redirect", async () => {
-        // Make a POST request with signout: "yes" to trigger redirection
+        // Make a POST request with signout: "no" to trigger redirection to type of business page
+        mockDeleteAcspApplication.mockResolvedValueOnce({ staus: 204 });
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
-            .send({ savedApplication: "no" })
-            .expect(302);
+            .send({ savedApplication: "no" });
+        expect(response.status).toBe(302);
         expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS);
     });
-});
 
-describe("POST " + SAVED_APPLICATION, () => {
     it("should return status 400 after incorrect data entered", async () => {
         const response = await router.post(BASE_URL + SAVED_APPLICATION).send({ signout: "" });
         expect(400);
         expect(response.text).toContain("Select yes if you want to continue with saved application");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 500 after calling DELETE endpoint and failing", async () => {
+        mockDeleteAcspApplication.mockRejectedValueOnce(new Error("Error deleting data"));
+        const res = await router.post(BASE_URL + SAVED_APPLICATION).send({ savedApplication: "no" });
+        expect(mockDeleteAcspApplication).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
