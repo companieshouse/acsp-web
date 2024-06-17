@@ -4,7 +4,7 @@ import app from "../../../../src/app";
 import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../../src/types/pageURL";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
-import { CompanyLookupService } from "../../../../main/services/companyLookupService";
+import { CompanyLookupService } from "../../../../src/services/companyLookupService";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");

@@ -1,10 +1,10 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
-import app from "../../../../main/app";
-import { BASE_URL, TYPE_OF_BUSINESS } from "../../../../main/types/pageURL";
+import app from "../../../../src/app";
+import { BASE_URL, TYPE_OF_BUSINESS } from "../../../../src/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../../main/services/acspRegistrationService");
+jest.mock("../../../../src/services/acspRegistrationService");
 const router = supertest(app);
 
 describe("GET resume journey", () => {

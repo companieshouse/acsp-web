@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { BASE_URL, SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../../src/types/pageURL";
-import { getAcspRegistration, putAcspRegistration,  } from "../../../../src/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");

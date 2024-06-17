@@ -3,7 +3,7 @@ import { BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
-import logger from "../../../../../lib/Logger";
+import logger from "../../../../lib/Logger";
 
 export const get = async (req: Request, res: Response) => {
     const lang = selectLang(req.query.lang);
