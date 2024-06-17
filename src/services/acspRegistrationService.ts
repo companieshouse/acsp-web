@@ -122,7 +122,7 @@ export const deleteAcspApplication = async (session: Session, userId: string): P
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Deleting acsp registration for user ${userId}`);
-    const sdkResponse: HttpResponse = await apiClient.acsp.getSavedApplication(userId);
+    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(userId);
 
     if (!sdkResponse) {
         logger.error(`acsp registration DELETE request returned no response for user ${userId}`);
