@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../main/app";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../../main/types/pageURL";
-import { getAcspRegistration } from "../../../../main/services/acspRegistrationService";
+import { getAcspRegistration, putAcspRegistration } from "../../../../main/services/acspRegistrationService";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -12,6 +12,8 @@ jest.mock("../../../../../lib/Logger");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
+
 const nationalityData: Nationality = {
     firstNationality: "British",
     secondNationality: "",
@@ -142,6 +144,13 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
             .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select a nationality from the list");
+    });
 
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
+            .send({ nationality_input_0: "British", nationality_input_1: "French", nationality_input_2: "German" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

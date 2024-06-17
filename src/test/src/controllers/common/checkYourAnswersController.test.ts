@@ -44,6 +44,14 @@ describe("GET" + CHECK_YOUR_ANSWERS, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("Check your answers before sending your application");
     });
+
+    it("should return status 500 after calling getAcspRegistration endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + CHECK_YOUR_ANSWERS);
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST" + CHECK_YOUR_ANSWERS, () => {
@@ -64,6 +72,25 @@ describe("POST" + CHECK_YOUR_ANSWERS, () => {
 
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(PAYMENT_JOURNEY_URL);
+    });
+
+    it("should return status 500 after calling closeTransaction endpoint and failing", async () => {
+        mockCloseTransaction.mockRejectedValueOnce(new Error("Error closing transaction"));
+        const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
+        expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
+        expect(mockStartPaymentsSession).toHaveBeenCalledTimes(0);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    it("should return status 500 after calling closeTransaction endpoint and failing", async () => {
+        mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
+        mockStartPaymentsSession.mockRejectedValueOnce(new Error("Error starting payment session"));
+        const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
+        expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
+        expect(mockStartPaymentsSession).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
 });

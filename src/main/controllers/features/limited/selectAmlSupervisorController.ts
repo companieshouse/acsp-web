@@ -47,14 +47,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl: string = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
         const previousPage: string = addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang);
-        const currentUrl: string = BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
@@ -69,19 +69,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             const amlSupervisoryBody = new AmlSupervisoryBodyService();
             amlSupervisoryBody.saveSelectedAML(req, acspData);
-            try {
-                //  save data to mongodb
-                const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, acspData);
 
-                res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            //  save data to mongodb
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
+
+            res.redirect(addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };

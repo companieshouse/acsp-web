@@ -12,7 +12,7 @@ jest.mock("../../../../../lib/Logger");
 const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
-const mockputAcspRegistration = putAcspRegistration as jest.Mock;
+const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
@@ -68,5 +68,13 @@ describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
             .send({ countryInput: "" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select where you live");
+    });
+
+    it("should show the error page if an error occurs during PUT request", async () => {
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
+            .send({ countryInput: "Wales" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

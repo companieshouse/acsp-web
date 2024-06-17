@@ -46,15 +46,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
+    const currentUrl:string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
     try {
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
         const previousPage:string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
-        const currentUrl:string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -74,20 +74,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
-            try {
-                //  save data to mongodb
-                const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, acspData);
 
-                const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
-                res.redirect(nextPageUrl);
-            } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
-            }
+            //  save data to mongodb
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
+            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+            res.redirect(nextPageUrl);
         }
-    } catch (error) {
-        next(error);
+    } catch (err) {
+        logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+        const error = new ErrorService();
+        error.renderErrorPage(res, locales, lang, currentUrl);
     }
 };
