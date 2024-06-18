@@ -111,3 +111,28 @@ export const getSavedApplication = async (session: Session, userId: string): Pro
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
     return apiClient.acsp.getSavedApplication(userId);
 };
+
+/**
+ * DELETE an acsp registration object for the given user ID.
+ * @param session The current session to connect to the api
+ * @param userId The user ID of for the document of be delete.
+ * @returns The AcspResponse contains the submission ID for the updated registration
+ */
+export const deleteAcspApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+
+    logger.debug(`Deleting acsp registration for user ${userId}`);
+    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(userId);
+
+    if (!sdkResponse) {
+        logger.error(`acsp registration DELETE request returned no response for user ${userId}`);
+        return Promise.reject(sdkResponse);
+    }
+    if (!sdkResponse.status || sdkResponse.status >= 400) {
+        logger.error(`Http status code ${sdkResponse.status} - Failed to DELETE acsp registration for user ${userId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    logger.debug(`acsp registration for user ${userId} has been deleted`);
+    return Promise.resolve(sdkResponse);
+};
