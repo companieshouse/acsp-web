@@ -6,14 +6,8 @@ import {
     CREATE_DESCRIPTION, REFERENCE
 } from "../config";
 import logger from "../../lib/Logger";
-import { GenericService } from "./generic";
 
-export class TypeOfBusinessService extends GenericService {
-    constructor () {
-        super();
-        this.viewData.title = "You cannot use this service";
-        this.viewData.title = "";
-    }
+export class TypeOfBusinessService {
 
     async createTransaction (req: Request, res: Response): Promise<string> {
         const session = req.session as Session;
@@ -24,10 +18,9 @@ export class TypeOfBusinessService extends GenericService {
             });
             logger.info("Transaction created ---> " + transactionId);
             return Promise.resolve(transactionId);
-        } catch (err) {
+        } catch (error) {
             logger.error(`register acsp: ${StatusCodes.INTERNAL_SERVER_ERROR} - error while create transaction record`);
-            const errorData = this.processServiceException(err);
-            return Promise.reject(errorData);
+            return Promise.reject(error);
         }
     }
 }

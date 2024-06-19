@@ -25,10 +25,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const lang = selectLang(req.query.lang);
-        res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
-    } catch (error) {
-        next(error);
-    }
+    const lang = selectLang(req.query.lang);
+    res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
 };

@@ -34,6 +34,10 @@ const dummyPaymentResponse: ApiResponse<Payment> = {
     httpStatusCode: 200,
     resource: dummyPayment
 };
+const dummyPaymentResponseNoResource: ApiResponse<Payment> = {
+    headers: dummyHeaders,
+    httpStatusCode: 200
+};
 
 describe("GET" + CHECK_YOUR_ANSWERS, () => {
     it("should return status 200", async () => {
@@ -55,6 +59,9 @@ describe("GET" + CHECK_YOUR_ANSWERS, () => {
 });
 
 describe("POST" + CHECK_YOUR_ANSWERS, () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     it("should return status 302 after redirect to confirmation page", async () => {
         mockCloseTransaction.mockResolvedValueOnce(undefined);
@@ -86,6 +93,16 @@ describe("POST" + CHECK_YOUR_ANSWERS, () => {
     it("should return status 500 after calling closeTransaction endpoint and failing", async () => {
         mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
         mockStartPaymentsSession.mockRejectedValueOnce(new Error("Error starting payment session"));
+        const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
+        expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
+        expect(mockStartPaymentsSession).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    xit("should return status 500 after calling startPaymentSession endpoint and getting no resource", async () => {
+        mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
+        mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponseNoResource);
         const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
         expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
         expect(mockStartPaymentsSession).toHaveBeenCalledTimes(1);
