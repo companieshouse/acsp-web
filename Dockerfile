@@ -5,6 +5,7 @@ COPY locales ./locales
 COPY assets ./assets
 COPY dist docker_start.sh ./package.json ./package-lock.json ./
 
+RUN rm -rf node_modules
 CMD ["./docker_start.sh"]
 
 EXPOSE 3000
