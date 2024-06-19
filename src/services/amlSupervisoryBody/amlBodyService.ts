@@ -4,7 +4,15 @@ import logger from "../../../lib/Logger";
 
 export class AmlSupervisoryBodyService {
     public saveSelectedAML = (req: Request, acspData: AcspData) => {
-        const selectedAMLSupervisoryBodies = req.body["AML-supervisory-bodies"];
+        const selectedAMLSupervisoryBodiesFromForm = req.body["AML-supervisory-bodies"];
+        var selectedAMLSupervisoryBodies : Array<string>;
+        selectedAMLSupervisoryBodies = [];
+
+        if (!(selectedAMLSupervisoryBodiesFromForm instanceof Array)) {
+            selectedAMLSupervisoryBodies.push(selectedAMLSupervisoryBodiesFromForm);
+        } else {
+            selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm;
+        }
         logger.info("saveSelectedAML called--->" + JSON.stringify(selectedAMLSupervisoryBodies));
         var amlSupervisoryBodies : Array<AmlSupervisoryBody>;
         if (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0) {
@@ -40,7 +48,7 @@ export class AmlSupervisoryBodyService {
             amlSupervisoryBodiesNotInCurrentSelection = [];
             amlSupervisoryBodies.forEach(amlSupervisoryBody => {
                 logger.info("in forEach--->");
-                if (!selectedAMLSupervisoryBodies.includes(amlSupervisoryBody.amlSupervisoryBody)) {
+                if (!selectedAMLSupervisoryBodies.includes(amlSupervisoryBody.amlSupervisoryBody!)) {
                     logger.info("selectedAMLSupervisoryBodies does not include amlSupervisoryBody--->" + amlSupervisoryBody.amlSupervisoryBody);
                     amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
                 }
@@ -54,26 +62,27 @@ export class AmlSupervisoryBodyService {
                     logger.info("Item removed from amlSupervisoryBodies--->" + JSON.stringify(amlSupervisoryBodies));
                 });
             }
-        } else {
-            logger.info("in outside else");
-            amlSupervisoryBodiesNotInCurrentSelection = [];
-            amlSupervisoryBodies.forEach(amlSupervisoryBody => {
-                if (amlSupervisoryBody.amlSupervisoryBody !== selectedAMLSupervisoryBodies) {
-                    amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
-                }
-            });
-            if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
-                logger.info("amlSupervisoryBodiesNotInCurrentSelection to be removed--->" + JSON.stringify(amlSupervisoryBodiesNotInCurrentSelection));
-                amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
-                    var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
-                    amlSupervisoryBodies.splice(index, 1);
-                    logger.info("Item removed from amlSupervisoryBodies--->" + JSON.stringify(amlSupervisoryBodies));
-                });
-            }
-            if (amlSupervisoryBodies.length === 0) {
-                amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
-            }
         }
+        // else {
+        //     logger.info("in outside else");
+        //     amlSupervisoryBodiesNotInCurrentSelection = [];
+        //     amlSupervisoryBodies.forEach(amlSupervisoryBody => {
+        //         if (amlSupervisoryBody.amlSupervisoryBody != selectedAMLSupervisoryBodies) {
+        //             amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
+        //         }
+        //     });
+        //     if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
+        //         logger.info("amlSupervisoryBodiesNotInCurrentSelection to be removed--->" + JSON.stringify(amlSupervisoryBodiesNotInCurrentSelection));
+        //         amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
+        //             var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
+        //             amlSupervisoryBodies.splice(index, 1);
+        //             logger.info("Item removed from amlSupervisoryBodies--->" + JSON.stringify(amlSupervisoryBodies));
+        //         });
+        //     }
+        //     if (amlSupervisoryBodies.length === 0) {
+        //         amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
+        //     }
+        // }
         if (acspData) {
             acspData.amlSupervisoryBodies = amlSupervisoryBodies;
         }
@@ -103,5 +112,23 @@ export class AmlSupervisoryBodyService {
             }
         }
     }
+
+    // removeNotSelectedItemsFromAcspData = (amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>,
+    //     amlSupervisoryBodies : Array<AmlSupervisoryBody>) => {
+    //     amlSupervisoryBodiesNotInCurrentSelection = [];
+    //         amlSupervisoryBodies.forEach(amlSupervisoryBody => {
+    //             if (amlSupervisoryBody.amlSupervisoryBody !== selectedAMLSupervisoryBodies) {
+    //                 amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
+    //             }
+    //         });
+    //         if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
+    //             logger.info("amlSupervisoryBodiesNotInCurrentSelection to be removed--->" + JSON.stringify(amlSupervisoryBodiesNotInCurrentSelection));
+    //             amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
+    //                 var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
+    //                 amlSupervisoryBodies.splice(index, 1);
+    //                 logger.info("Item removed from amlSupervisoryBodies--->" + JSON.stringify(amlSupervisoryBodies));
+    //             });
+    //         }
+    // }
 
 }
