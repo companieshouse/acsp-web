@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import * as nunjucks from "nunjucks";
 import path from "path";
-import logger from "../lib/Logger";
+import logger from "./utils/logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";

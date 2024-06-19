@@ -10,7 +10,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ANSWER_DATA, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";

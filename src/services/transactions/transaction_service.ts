@@ -1,6 +1,6 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
-import logger from "../../../lib/Logger";
+import logger from "../../utils/logger";
 import { createPublicOAuthApiClient } from "../api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";

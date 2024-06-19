@@ -9,7 +9,7 @@ import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/amlBodyService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";

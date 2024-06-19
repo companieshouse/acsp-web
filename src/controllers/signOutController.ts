@@ -8,7 +8,7 @@ import { PREVIOUS_PAGE_URL } from "../common/__utils/constants";
 import { selectLang, getLocalesService, getLocaleInfo } from "../utils/localise";
 import { BASE_URL, SIGN_OUT_URL, ACCOUNTS_SIGNOUT_PATH } from "../types/pageURL";
 import { saveDataInSession } from "../common/__utils/sessionHelper";
-import { logger } from "../utils/logger";
+import logger from "../utils/logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);

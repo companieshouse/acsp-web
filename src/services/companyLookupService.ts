@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import logger from "../../lib/Logger";
+import logger from "../utils/logger";
 import { Request } from "express";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "./company/company_profile_service";

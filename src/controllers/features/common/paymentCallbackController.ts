@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
-import { createAndLogError, logger } from "../../../utils/logger";
+import logger, { createAndLogError } from "../../../utils/logger";
 import { addLangToUrl, selectLang } from "../../../utils/localise";
 import { BASE_URL, CONFIRMATION, CHECK_YOUR_ANSWERS } from "../../../types/pageURL";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";

@@ -2,7 +2,7 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { CreatePaymentRequest, Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Session } from "@companieshouse/node-session-handler";
-import { createAndLogError, logger } from "../utils/logger";
+import logger, { createAndLogError } from "../utils/logger";
 import { createPaymentApiClient } from "./api-services";
 import { API_URL, CHS_URL } from "../utils/properties";
 import { v4 as uuidv4 } from "uuid";

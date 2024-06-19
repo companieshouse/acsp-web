@@ -11,7 +11,7 @@ import { LocalesService } from "@companieshouse/ch-node-utils";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 

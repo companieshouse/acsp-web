@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
 import { validationResult } from "express-validator";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/amlBodyService";

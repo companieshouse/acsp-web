@@ -2,10 +2,8 @@ import { Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { postTransaction } from "./transactions/transaction_service";
 import { StatusCodes } from "http-status-codes";
-import {
-    CREATE_DESCRIPTION, REFERENCE
-} from "../config";
-import logger from "../../lib/Logger";
+import { CREATE_DESCRIPTION, REFERENCE } from "../config";
+import logger from "../utils/logger";
 
 export class TypeOfBusinessService {
 

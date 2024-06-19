@@ -1,5 +1,5 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { logger } from "../utils/logger";
+import logger from "../utils/logger";
 import { createPublicOAuthApiClient } from "./api/api_service";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
@@ -31,7 +31,7 @@ export const getAcspRegistration = async (session: Session, transactionId:string
     }
 
     const castedSdkResponse: Resource<AcspData> = sdkResponse as Resource<AcspData>;
-    if (!castedSdkResponse.resource) {
+    if (castedSdkResponse.resource === undefined) {
         logger.error(`acsp registration API GET request returned no resource for emailId ${emailId}`);
         return Promise.reject(sdkResponse);
     }
@@ -67,7 +67,7 @@ export const postAcspRegistration = async (session: Session, transactionId: stri
     }
 
     const castedSdkResponse: Resource<AcspResponse> = sdkResponse as Resource<AcspResponse>;
-    if (!castedSdkResponse.resource) {
+    if (castedSdkResponse.resource === undefined) {
         logger.error(`acsp registration API POST request returned no resource for transaction ${transactionId}`);
         return Promise.reject(sdkResponse);
     }
@@ -98,7 +98,7 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
     }
 
     const castedSdkResponse: Resource<AcspResponse> = sdkResponse as Resource<AcspResponse>;
-    if (!castedSdkResponse.resource) {
+    if (castedSdkResponse.resource === undefined) {
         logger.error(`acsp registration API PUT request returned no resource for transaction ${transactionId}`);
         return Promise.reject(sdkResponse);
     }

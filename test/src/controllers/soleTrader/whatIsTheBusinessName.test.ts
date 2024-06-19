@@ -7,7 +7,6 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
-jest.mock("../../../../lib/Logger");
 
 const router = supertest(app);
 
