@@ -13,11 +13,8 @@ export class AmlSupervisoryBodyService {
             selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm;
         }
         var amlSupervisoryBodies : Array<AmlSupervisoryBody>;
-        if (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0) {
-            amlSupervisoryBodies = [];
-        } else {
-            amlSupervisoryBodies = acspData.amlSupervisoryBodies!;
-        }
+        amlSupervisoryBodies = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
+            ? [] : amlSupervisoryBodies = acspData.amlSupervisoryBodies!;
 
         var previouslySelectedAmlBodiesName : Array<string>;
         previouslySelectedAmlBodiesName = [];
@@ -29,14 +26,13 @@ export class AmlSupervisoryBodyService {
 
         var amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>;
         if (selectedAMLSupervisoryBodies instanceof Array) {
-            for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
-                if (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBodies[i])) {
-                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies[i] });
+            selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
+                if (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody)) {
+                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
                 } else if (previouslySelectedAmlBodiesName.length === 0) {
-                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies[i] });
+                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
                 }
-            }
-
+            });
             amlSupervisoryBodiesNotInCurrentSelection = [];
             amlSupervisoryBodies.forEach(amlSupervisoryBody => {
                 if (!selectedAMLSupervisoryBodies.includes(amlSupervisoryBody.amlSupervisoryBody!)) {
