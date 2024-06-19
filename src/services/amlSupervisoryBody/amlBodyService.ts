@@ -14,7 +14,7 @@ export class AmlSupervisoryBodyService {
         }
         var amlSupervisoryBodies : Array<AmlSupervisoryBody>;
         amlSupervisoryBodies = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
-            ? [] : amlSupervisoryBodies = acspData.amlSupervisoryBodies!;
+            ? [] : acspData.amlSupervisoryBodies!;
 
         var previouslySelectedAmlBodiesName : Array<string>;
         previouslySelectedAmlBodiesName = [];
@@ -27,9 +27,7 @@ export class AmlSupervisoryBodyService {
         var amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>;
         if (selectedAMLSupervisoryBodies instanceof Array) {
             selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
-                if (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody)) {
-                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
-                } else if (previouslySelectedAmlBodiesName.length === 0) {
+                if (previouslySelectedAmlBodiesName.length === 0 || (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody))) {
                     amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
                 }
             });
