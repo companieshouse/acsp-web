@@ -24,6 +24,7 @@ export class AmlSupervisoryBodyService {
             });
         }
 
+        var amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>;
         if (selectedAMLSupervisoryBodies instanceof Array) {
             logger.info("selectedAMLSupervisoryBodies is array--->");
             for (let i = 0; i < selectedAMLSupervisoryBodies.length; i++) {
@@ -35,7 +36,7 @@ export class AmlSupervisoryBodyService {
                     amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies[i] });
                 }
             }
-            var amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>;
+
             amlSupervisoryBodiesNotInCurrentSelection = [];
             amlSupervisoryBodies.forEach(amlSupervisoryBody => {
                 logger.info("in forEach--->");
@@ -55,14 +56,30 @@ export class AmlSupervisoryBodyService {
             }
         } else {
             logger.info("in outside else");
-            amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
+            amlSupervisoryBodiesNotInCurrentSelection = [];
+            amlSupervisoryBodies.forEach(amlSupervisoryBody => {
+                if (amlSupervisoryBody.amlSupervisoryBody !== selectedAMLSupervisoryBodies) {
+                    amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
+                }
+            });
+            if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
+                logger.info("amlSupervisoryBodiesNotInCurrentSelection to be removed--->" + JSON.stringify(amlSupervisoryBodiesNotInCurrentSelection));
+                amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
+                    var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
+                    amlSupervisoryBodies.splice(index, 1);
+                    logger.info("Item removed from amlSupervisoryBodies--->" + JSON.stringify(amlSupervisoryBodies));
+                });
+            }
+            if (amlSupervisoryBodies.length === 0) {
+                amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBodies });
+            }
         }
         if (acspData) {
             acspData.amlSupervisoryBodies = amlSupervisoryBodies;
         }
     }
 
-    public saveAmlSupervisoryBodies = (req: Request, acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>) => {
+    public saveAmlSupervisoryBodies = (req: Request, acspData: AcspData) => {
         const amlSupervisoryBodiesNew: Array<AmlSupervisoryBody> = [];
         for (let i = 0; i < acspData.amlSupervisoryBodies!.length; i++) {
             const j = i + 1;

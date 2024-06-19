@@ -71,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             // update acspData
-            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
+            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData);
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
