@@ -40,7 +40,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            dateOfBirth: acspData?.dateOfBirth,
             payload
         });
     } catch (err) {

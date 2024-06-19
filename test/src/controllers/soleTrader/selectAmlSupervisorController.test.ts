@@ -25,6 +25,14 @@ describe("GET" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
+
+    it("catch error when rendering the page", async () => {
+        mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
+        const res = await router.get(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+
+    });
 });
 
 describe("POST" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {

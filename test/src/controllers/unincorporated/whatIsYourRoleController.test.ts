@@ -50,9 +50,25 @@ describe("POST " + UNINCORPORATED_WHAT_IS_YOUR_ROLE, () => {
         expect(response.header.location).toBe(BASE_URL + STOP_NOT_RELEVANT_OFFICER + "?lang=en");
     });
 
-    it("should respond with status 302 on form submission with sole trader", async () => {
+    it("should respond with status 302 on form submission", async () => {
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "MEMBER_OF_PARTNERSHIP"
+        });
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHICH_SECTOR + "?lang=en");
+    });
+
+    it("should respond with status 302 on form submission", async () => {
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: "MEMBER_OF_GOVERNING_BODY"
+        });
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHICH_SECTOR + "?lang=en");
+    });
+
+    it("should respond with status 302 on form submission", async () => {
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: "EQUIVALENT_OF_DIRECTOR"
         });
         expect(response.status).toBe(302);
         expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHICH_SECTOR + "?lang=en");
