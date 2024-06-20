@@ -3,7 +3,7 @@ import { CreatePaymentRequest, Payment } from "@companieshouse/api-sdk-node/dist
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Session } from "@companieshouse/node-session-handler";
 import logger, { createAndLogError } from "../utils/logger";
-import { createPaymentApiClient } from "./api-services";
+import { createPaymentApiClient } from "./apiService";
 import { API_URL, CHS_URL } from "../utils/properties";
 import { v4 as uuidv4 } from "uuid";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../types/pageURL";

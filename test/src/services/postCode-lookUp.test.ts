@@ -1,9 +1,9 @@
 /* eslint-disable import/first */
-jest.mock("../../../src/services/api-services");
+jest.mock("../../../src/services/apiService");
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../src/utils/logger");
 
-import { createPublicApiKeyClient } from "../../../src/services/api-services";
+import { createPublicApiKeyClient } from "../../../src/services/apiService";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 import { getUKAddressesFromPostcode, getIsValidUKPostcode, getAddressFromPostcode } from "../../../src/services/postcode-lookup-service";
 import { createAndLogError } from "../../../src/utils/logger";

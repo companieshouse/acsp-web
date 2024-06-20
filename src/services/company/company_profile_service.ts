@@ -2,7 +2,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { StatusCodes } from "http-status-codes";
 import logger from "../../utils/logger";
-import { createPublicApiKeyClient } from "../api/api_service";
+import { createPublicApiKeyClient } from "../apiService";
 import { Session } from "@companieshouse/node-session-handler";
 
 /**

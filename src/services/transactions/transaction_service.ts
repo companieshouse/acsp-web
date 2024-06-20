@@ -1,7 +1,7 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import logger from "../../utils/logger";
-import { createPublicOAuthApiClient } from "../api/api_service";
+import { createPublicOAuthApiClient } from "../apiService";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";

@@ -1,5 +1,5 @@
-import { createPublicApiKeyClient, createPublicApiKeyClientWithToken, createPublicOAuthApiClient } from "../../../../src/services/api/api_service";
-import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { createPublicApiKeyClient, createPublicApiKeyClientWithToken, createPublicOAuthApiClient } from "../../../src/services/apiService";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 
 const session = getSessionRequestWithPermission();
 

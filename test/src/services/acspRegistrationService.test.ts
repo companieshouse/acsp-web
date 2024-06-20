@@ -1,6 +1,6 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Session } from "@companieshouse/node-session-handler";
-import { createPublicOAuthApiClient } from "../../../src/services/api/api_service";
+import { createPublicOAuthApiClient } from "../../../src/services/apiService";
 import {
     getAcspRegistration,
     postAcspRegistration,
@@ -14,7 +14,7 @@ import { AcspData, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/di
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../src/services/api/api_service");
+jest.mock("../../../src/services/apiService");
 
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostAcspRegistration = jest.fn();

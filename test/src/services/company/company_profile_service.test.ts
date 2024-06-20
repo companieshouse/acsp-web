@@ -1,13 +1,13 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Session } from "@companieshouse/node-session-handler";
-import { createPublicApiKeyClient } from "../../../../src/services/api/api_service";
+import { createPublicApiKeyClient } from "../../../../src/services/apiService";
 import { getCompanyProfile } from "../../../../src/services/company/company_profile_service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { validCompanyProfile } from "../../../mocks/company_profile_mock";
 import { StatusCodes } from "http-status-codes";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../../src/services/api/api_service");
+jest.mock("../../../../src/services/apiService");
 
 const mockCreatePublicApiClient = createPublicApiKeyClient as jest.Mock;
 const mockGetCompanyProfile = jest.fn();
