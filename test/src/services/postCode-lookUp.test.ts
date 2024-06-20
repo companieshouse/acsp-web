@@ -73,9 +73,14 @@ describe("getAddressFromPostcode", () => {
         const invalidPostcode = "AB12AB"; // Example Invalid postcode
         await expect(getAddressFromPostcode(invalidPostcode)).rejects.toThrow();
     });
+    it("Should throw an error for no address returned", async () => {
+        mockGetUKAddressesFromPostcode.mockResolvedValueOnce({ httpStatusCode: 200, resource: [] });
+
+        await expect(getAddressFromPostcode("ST63LJ")).rejects.toThrow();
+    });
     it("should return UK addresses for a valid postcode", async () => {
         mockGetUKAddressesFromPostcode.mockResolvedValueOnce({ httpStatusCode: 200, resource: mockResponseBodyOfUKAddresses });
-        const result = await getUKAddressesFromPostcode("http://example.postcode.lookup/", "ST63LJ");
+        const result = await getAddressFromPostcode("ST63LJ");
 
         expect(result).toHaveLength(2);
         expect(JSON.stringify(result[0])).toEqual(JSON.stringify(mockResponseBodyOfUKAddress1));
