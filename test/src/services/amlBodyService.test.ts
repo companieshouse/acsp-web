@@ -1,6 +1,5 @@
 import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
-import { AML_SUPERVISOR_SELECTED } from "../../../src/common/__utils/constants";
 import { AmlSupervisoryBodyService } from "../../../src/services/amlSupervisoryBody/amlBodyService";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 

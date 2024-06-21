@@ -30,6 +30,15 @@ describe("Limited Company Controller Tests", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+
+    it("should return status 500 after calling GET endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {

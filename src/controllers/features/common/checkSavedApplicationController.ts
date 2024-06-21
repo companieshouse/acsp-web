@@ -3,7 +3,7 @@ import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/loca
 import { BASE_URL, CHECK_SAVED_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getSavedApplication } from "../../../services/acspRegistrationService";
-import { logger } from "../../../utils/logger";
+import logger from "../../../utils/logger";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
 

@@ -9,7 +9,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";

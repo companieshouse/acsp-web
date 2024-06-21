@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import * as nunjucks from "nunjucks";
 import path from "path";
-import logger from "../lib/Logger";
+import logger from "./utils/logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
@@ -17,9 +17,9 @@ import {
     PIWIK_SITE_ID
 } from "./utils/properties";
 import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
-import * as config from "./config";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
-import { getLocaleInfo, getLocalesService, selectLang } from "./utils/localise";
+import { getLocalesService, selectLang } from "./utils/localise";
+import { ErrorService } from "./services/errorService";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -51,15 +51,24 @@ app.use(express.urlencoded({ extended: false }));
 // Serve static files
 app.use(express.static(path.join(__dirname, "/../assets/public")));
 
+// Apply middleware
+app.use(cookieParser());
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+app.use(commonTemplateVariablesMiddleware);
+
+// Company Auth redirect
+// const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
+// app.use(companyAuthRegex, companyAuthenticationMiddleware);
+
+// Channel all requests through router dispatch
+routerDispatch(app);
+
 // Unhandled errors
-app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    res.status(500).render(config.ERROR_500, {
-        title: "Sorry we are experiencing technical difficulties",
-        ...getLocaleInfo(locales, lang)
-    });
+    const errorService = new ErrorService();
+    errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
 });
 
 // Unhandled exceptions
@@ -73,18 +82,5 @@ process.on("unhandledRejection", (err: any) => {
     logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
-
-// Apply middleware
-app.use(cookieParser());
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
-app.use(commonTemplateVariablesMiddleware);
-
-// Company Auth redirect
-// const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
-// app.use(companyAuthRegex, companyAuthenticationMiddleware);
-
-// Channel all requests through router dispatch
-routerDispatch(app);
 
 export default app;

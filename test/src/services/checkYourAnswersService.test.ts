@@ -57,7 +57,7 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         expect(session.getExtraData(ANSWER_DATA)).toEqual({
-            correspondenceAddress: "1 Mock Street<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
+            correspondenceAddress: "1 Mock Street<br>Mock Line 2<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
         });
     });
 
@@ -66,7 +66,7 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         expect(session.getExtraData(ANSWER_DATA)).toEqual({
-            businessAddress: "2 Mock Street<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
+            businessAddress: "2 Mock Street<br>Mock Line 2<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
         });
     });
 });

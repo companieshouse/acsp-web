@@ -53,4 +53,7 @@ describe("Valid data input tests", () => {
     test("Error if date given is less than 16 ago", async () => {
         expect(() => validDataChecker("29", "01", "2024")).toThrow(new Error("tooYoung"));
     });
+    test("Error if date given is non-numeric", async () => {
+        expect(() => validDataChecker("a", "01", "2024")).toThrow(new Error("nonNumeric"));
+    });
 });

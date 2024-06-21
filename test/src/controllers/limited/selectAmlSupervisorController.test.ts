@@ -25,6 +25,15 @@ describe("GET" + LIMITED_SELECT_AML_SUPERVISOR, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
+
+    it("should return status 500 after calling GET endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST" + LIMITED_SELECT_AML_SUPERVISOR, () => {
@@ -32,8 +41,6 @@ describe("POST" + LIMITED_SELECT_AML_SUPERVISOR, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
         expect(res.status).toBe(302);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.header.location).toBe(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
     });
 

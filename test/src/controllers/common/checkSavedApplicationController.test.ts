@@ -1,9 +1,8 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { TYPE_OF_BUSINESS, BASE_URL, CHECK_SAVED_APPLICATION } from "../../../../src/types/pageURL";
+import { TYPE_OF_BUSINESS, BASE_URL, CHECK_SAVED_APPLICATION, SAVED_APPLICATION } from "../../../../src/types/pageURL";
 import { getSavedApplication } from "../../../../src/services/acspRegistrationService";
-import { SAVED_APPLICATION } from "../../../../src/config";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("@companieshouse/api-sdk-node");

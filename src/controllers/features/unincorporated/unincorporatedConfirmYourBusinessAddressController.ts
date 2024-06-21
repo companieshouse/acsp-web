@@ -7,7 +7,7 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { businessAddressAnswers } from "../../../services/checkYourAnswersService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
