@@ -10,7 +10,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ANSWER_DATA, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
@@ -24,14 +24,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-
-        var previousPage : string = "";
-        if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
-            previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
-        } else {
-            previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
-        }
-
         let workSector;
         if (acspData.workSector === "ESTATE_AGENTS" || acspData.workSector === "HIGH_VALUE_DEALERS" || acspData.workSector === "CASINOS") {
             workSector = "OTHER";
@@ -40,7 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         res.render(config.SECTOR_YOU_WORK_IN, {
-            previousPage: addLangToUrl(previousPage, lang),
+            previousPage: addLangToUrl(getPreviousPage(acspData), lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
             workSector
@@ -60,18 +52,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
-        var previousPage : string = "";
-
-        if (acspData.correspondenceAddress === acspData.businessAddress) {
-            previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
-        } else {
-            previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
-        }
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
 
             res.status(400).render(config.SECTOR_YOU_WORK_IN, {
-                previousPage: addLangToUrl(previousPage, lang),
+                previousPage: addLangToUrl(getPreviousPage(acspData), lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 ...pageProperties
@@ -97,4 +82,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const error = new ErrorService();
         error.renderErrorPage(res, locales, lang, currentUrl);
     }
+};
+
+const getPreviousPage = (acspData: AcspData): string => {
+    let previousPage: string;
+    if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+        previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
+    } else {
+        previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
+    }
+    return previousPage;
 };

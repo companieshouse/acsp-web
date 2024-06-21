@@ -15,7 +15,6 @@ describe("GET" + SIGN_OUT_URL, () => {
     });
 });
 
-// Test will return 302 after redirecting to the next page.
 describe("POST " + SIGN_OUT_URL, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
@@ -24,9 +23,7 @@ describe("POST " + SIGN_OUT_URL, () => {
             .expect(302);
         expect(response.header.location).toBe("false/signout");
     });
-});
 
-describe("POST " + SIGN_OUT_URL, () => {
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
         const response = await router.post(BASE_URL + SIGN_OUT_URL)
@@ -34,9 +31,7 @@ describe("POST " + SIGN_OUT_URL, () => {
             .expect(302);
         expect(response.header.location).toBe("register-as-companies-house-authorised-agent/what-business-type");
     });
-});
 
-describe("POST " + SIGN_OUT_URL, () => {
     it("should return status 400 after incorrect data entered", async () => {
         const response = await router.post(BASE_URL + SIGN_OUT_URL).send({ signout: "" });
         expect(400);

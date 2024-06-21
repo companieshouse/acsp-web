@@ -5,7 +5,7 @@ import { SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, SOLE_TRADER_MANUAL_CORRESPO
 import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { correspondenceAddressAnswers } from "../../../services/checkYourAnswersService";

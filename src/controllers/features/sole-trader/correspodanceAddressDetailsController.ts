@@ -12,7 +12,7 @@ import { ADDRESS_LIST, USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSIO
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AddressLookUpService } from "../../../../src/services/address/addressLookUp";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";

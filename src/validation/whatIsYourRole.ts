@@ -5,7 +5,7 @@ import { USER_DATA } from "../common/__utils/constants";
 
 export const whatIsYourRoleValidator: ValidationChain[] = [
     body("WhatIsYourRole").trim().custom((value, { req }) => {
-        const session: Session = req.session as any as Session;
+        const session: Session = req.session;
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         if (value === "") {
             switch (acspData.typeOfBusiness!.toString()) {

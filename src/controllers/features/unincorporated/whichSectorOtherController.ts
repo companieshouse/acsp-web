@@ -9,7 +9,7 @@ import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATIO
 import { Answers } from "../../../model/Answers";
 import { SectorOfWork } from "../../../model/SectorOfWork";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";

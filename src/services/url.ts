@@ -1,5 +1,5 @@
 import { Request } from "express";
-import logger from "../../lib/Logger";
+import logger from "../utils/logger";
 
 export function getPreviousPageUrl (req: Request, basePath: string) {
     const headers = req.rawHeaders;

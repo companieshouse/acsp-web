@@ -8,7 +8,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";

@@ -5,7 +5,7 @@ import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
 import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {

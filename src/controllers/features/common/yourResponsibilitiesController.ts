@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
 import * as config from "../../../config";
-import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { AML_BODY_DETAILS_CONFIRM, YOUR_RESPONSIBILITIES, BASE_URL, CHECK_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
@@ -25,10 +23,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const lang = selectLang(req.query.lang);
-        res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
-    } catch (error) {
-        next(error);
-    }
+    const lang = selectLang(req.query.lang);
+    res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
 };

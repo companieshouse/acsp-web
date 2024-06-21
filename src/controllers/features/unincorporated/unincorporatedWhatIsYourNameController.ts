@@ -8,7 +8,7 @@ import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -52,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME;
     try {
         const errorList = validationResult(req);
-        console.log(errorList);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_NAME, {

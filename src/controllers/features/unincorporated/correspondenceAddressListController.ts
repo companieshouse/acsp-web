@@ -11,7 +11,7 @@ import {
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
