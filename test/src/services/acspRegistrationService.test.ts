@@ -105,11 +105,11 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockPostAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
+                httpStatusCode: StatusCodes.NO_CONTENT
             } as Resource<AcspResponse>);
 
             await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
-                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+                .rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 
@@ -160,11 +160,11 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockPutAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
+                httpStatusCode: StatusCodes.NO_CONTENT
             } as Resource<AcspResponse>);
 
             await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
-                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+                .rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 
@@ -201,10 +201,10 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockGetAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
+                httpStatusCode: StatusCodes.NO_CONTENT
             } as Resource<AcspResponse>);
 
-            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 

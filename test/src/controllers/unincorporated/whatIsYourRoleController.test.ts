@@ -83,6 +83,24 @@ describe("POST " + UNINCORPORATED_WHAT_IS_YOUR_ROLE, () => {
         expect(response.text).toContain("Select if you are a member of the partnership or someone else");
     });
 
+    it("should respond with status 400 on form submission with empty role", async () => {
+        createMockSessionMiddleware("UNINCORPORATED_ENTITY");
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: ""
+        });
+        expect(response.status).toBe(400);
+        expect(response.text).toContain("Select your role");
+    });
+
+    it("should respond with status 400 on form submission with empty role", async () => {
+        createMockSessionMiddleware("CORPORATE_BODY");
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
+            WhatIsYourRole: ""
+        });
+        expect(response.status).toBe(400);
+        expect(response.text).toContain("Select your role");
+    });
+
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const res = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({

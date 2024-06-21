@@ -65,6 +65,24 @@ describe("getUKAddressesFromPostcode", () => {
     });
 });
 
+describe("getIsValidUKPostcode test", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("Should return true if postcode exists", async () => {
+        mockIsValidUKPostcode.mockResolvedValueOnce(true);
+        const responce = await getIsValidUKPostcode("http://example.postcode.lookup", "SW1A1XZ");
+        expect(responce).toBe(true);
+    });
+
+    it("Should throw an error for an invalid postcode", async () => {
+        mockIsValidUKPostcode.mockResolvedValueOnce(undefined);
+        const responce = await getIsValidUKPostcode("http://example.postcode.lookup", "SW1A1XZ");
+        expect(responce).toBe(false);
+    });
+});
+
 describe("getAddressFromPostcode", () => {
     beforeEach(() => {
         jest.clearAllMocks();

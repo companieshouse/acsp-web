@@ -100,7 +100,7 @@ describe("POST" + CHECK_YOUR_ANSWERS, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
-    xit("should return status 500 after calling startPaymentSession endpoint and getting no resource", async () => {
+    it("should return status 500 after calling startPaymentSession endpoint and getting no resource", async () => {
         mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
         mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponseNoResource);
         const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);

@@ -40,6 +40,7 @@ describe("getCompany tests", () => {
 
 describe("getCompanyDetails tests", () => {
     let req: MockRequest<Request>;
+    const companyLookupService = new CompanyLookupService();
     beforeEach(() => {
         req = createRequest({
             method: "POST",
@@ -51,7 +52,6 @@ describe("getCompanyDetails tests", () => {
     it("should save company details to session", async () => {
         const session: Session = req.session as any as Session;
         mockGetCompanyProfie.mockResolvedValueOnce(companyProfile);
-        const companyLookupService = new CompanyLookupService();
         await companyLookupService.getCompanyDetails(session, "12345678", req);
         expect(session.getExtraData(COMPANY_DETAILS)).toEqual({
             companyName: validCompanyProfile.companyName,
@@ -71,5 +71,12 @@ describe("getCompanyDetails tests", () => {
             status: "Active",
             companyType: "Private Limited Company"
         });
+    });
+    it("should throw an eror if getCompany returns a promise reject", async () => {
+        const session: Session = req.session as any as Session;
+        jest.spyOn(companyLookupService, "getCompany").mockImplementation(() => {
+            return Promise.reject(new Error("Error getting company"));
+        });
+        await expect(companyLookupService.getCompanyDetails(session, "12345678", req)).rejects.toThrow("Company Not Found");
     });
 });

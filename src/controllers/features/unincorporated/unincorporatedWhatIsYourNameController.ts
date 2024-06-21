@@ -52,7 +52,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME;
     try {
         const errorList = validationResult(req);
-        console.log(errorList);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_YOUR_NAME, {
