@@ -25,11 +25,10 @@ const acspData: AcspData = {
     correspondenceAddress: correspondenceAddress
 };
 
-describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
-
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 
     it("should render the confirmation page with status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(200);
         expect(res.text).toContain("Confirm the correspondence address");
@@ -37,17 +36,21 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should render the confirmation page with user data", async () => {
-        const userSession = { businessName: "Abc", correspondenceAddress: "123 Main St" };
-        await router
-            .get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM)
-            .set("Cookie", [`userSession=${JSON.stringify(userSession)}`])
-            .expect(200);
+    it("should return status 500 after calling GET endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
-describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
+describe("POST " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
+
     it("should redirect to /select-aml-supervisor with status 302", async () => {
-        await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM).expect(302).expect("Location", BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
     });
 });

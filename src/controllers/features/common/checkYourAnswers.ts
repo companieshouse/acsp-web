@@ -9,8 +9,7 @@ import { closeTransaction } from "../../../services/transactions/transaction_ser
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { startPaymentsSession } from "../../../services/paymentService";
-import { createAndLogError } from "../../../utils/logger";
-import logger from "../../../../lib/Logger";
+import logger, { createAndLogError } from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 

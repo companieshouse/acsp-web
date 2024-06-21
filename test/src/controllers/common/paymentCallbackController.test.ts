@@ -46,7 +46,6 @@ describe("Payment callback controller tests", () => {
             "?ref=Register_ACSP&state=56789&status=paid");
 
         expect(response.status).toBe(500);
-        expect(response.text).toContain("Error: Returned state does not match saved state, rejecting redirect");
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

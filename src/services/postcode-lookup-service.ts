@@ -1,8 +1,8 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
-import { createAndLogError, logger } from "../utils/logger";
+import logger, { createAndLogError } from "../utils/logger";
 import { Resource } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
-import { createPublicApiKeyClient } from "./api-services";
+import { createPublicApiKeyClient } from "./apiService";
 import { POSTCODE_ADDRESSES_LOOKUP_URL } from "../utils/properties";
 
 export const getUKAddressesFromPostcode = async (postcodeAddressesLookupURL: string, postcode: string): Promise<UKAddress[]> => {

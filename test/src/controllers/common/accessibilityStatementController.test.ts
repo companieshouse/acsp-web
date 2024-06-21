@@ -6,8 +6,6 @@ const router = supertest(app);
 
 describe("GET" + ACCESSIBILITY_STATEMENT, () => {
     it("should return status 200 and render the accessibility statement page", async () => {
-        console.log("router---------->", router);
-        console.log("url--------->", BASE_URL + ACCESSIBILITY_STATEMENT);
         const response = await router.get(BASE_URL + ACCESSIBILITY_STATEMENT);
 
         expect(response.status).toBe(200);
