@@ -61,14 +61,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            let countryOfResidence;
+            if (req.body.whereDoYouLiveRadio === "countryoutsideUK") {
+                countryOfResidence = req.body.countryInput;
+            } else {
+                countryOfResidence = req.body.whereDoYouLiveRadio;
+            }
             if (acspData) {
-                acspData.countryOfResidence = req.body.countryInput;
+                acspData.countryOfResidence = countryOfResidence;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.countryOfResidence = req.body.countryInput;
+            detailsAnswers.countryOfResidence = countryOfResidence;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
