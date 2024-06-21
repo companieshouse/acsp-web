@@ -62,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             let countryOfResidence;
-            if (req.body.whereDoYouLiveRadio === "countryoutsideUK") {
+            if (req.body.whereDoYouLiveRadio === "countryOutsideUK") {
                 countryOfResidence = req.body.countryInput;
             } else {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
