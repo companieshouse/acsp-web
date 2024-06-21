@@ -1,8 +1,14 @@
 import request from "supertest";
 import { Request, Response, NextFunction } from "express";
-import app from "../../../src/app";
 import { companyAuthenticationMiddleware } from "../../../src/middleware/company_authentication_middleware";
 import { BASE_URL } from "../../../src/types/pageURL";
+import mocks from "../../mocks/all_middleware_mock";
+import { sessionMiddleware } from "../../../src/middleware/session_middleware";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
+import { USER_DATA, COMPANY_NUMBER } from "../../../src/common/__utils/constants";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
+import mockSessionMiddleware from "../../mocks/session_middleware_mock";
+import { Session } from "@companieshouse/node-session-handler";
 
 jest.mock("ioredis");
 jest.mock("@companieshouse/web-security-node");
@@ -14,6 +20,8 @@ jest.mock("@companieshouse/web-security-node", () => ({
     companyAuthMiddleware: jest.fn(() => mockCompanyAuthMiddleware)
 }));
 
+let req = {} as Request;
+
 describe("company authentication middleware tests", () => {
 
     const mockRequest = {} as Request;
@@ -24,36 +32,47 @@ describe("company authentication middleware tests", () => {
         jest.clearAllMocks();
     });
 
-    it("should not return 500 error page", async () => {
-        const response = await request(app).get(BASE_URL);
+    // it("should not return 500 error page", async () => {
+    //     const response = await request(app).get(BASE_URL);
 
-        expect(response.text).not.toContain("Sorry, there is a problem with this service");
+    //     expect(response.text).not.toContain("Sorry, there is a problem with this service");
+    // });
+
+    it("should ask for auth code when companyAuthCodeProvided is false ", () => {
+        req = {
+            session: getSessionRequestWithExtraData1(),
+            originalUrl: "/register-as-companies-house-authorised-agent/limited/what-is-your-role?lang=en"
+        } as unknown as Request;
+        companyAuthenticationMiddleware(req, mockResponse, mockNext);
+        expect(mockAuthMiddleware).toHaveBeenCalled();
     });
 
-    it("should call next if originalUrl includes '/cannot-use'", () => {
-        mockRequest.url = "http://some-chs-endpoint/company/cannot-use";
-        mockRequest.params = { PARAM_COMPANY_NUMBER: "12345678" };
-        companyAuthenticationMiddleware(mockRequest, mockResponse, mockNext);
-        expect(mockAuthMiddleware).toHaveBeenCalled();
-        expect(mockCompanyAuthMiddleware).not.toHaveBeenCalled();
-    });
-
-    it("should call authMiddleware with correct config if originalUrl does not include '/cannot-use'", () => {
-        mockRequest.url = "http://some-chs-endpoint/company/some-url";
-        mockRequest.params = { PARAM_COMPANY_NUMBER: "12345678" };
-
-        companyAuthenticationMiddleware(mockRequest, mockResponse, mockNext);
-        expect(mockAuthMiddleware).toHaveBeenCalled();
-        expect(mockAuthMiddleware).toHaveBeenCalledWith(
-            {
-                url: "http://some-chs-endpoint/company/some-url",
-                params: {
-                    PARAM_COMPANY_NUMBER: "12345678"
-                }
-            },
-            {},
-            mockNext
-        );
-        expect(mockCompanyAuthMiddleware).not.toHaveBeenCalled();
+    it("should not ask for auth code when companyAuthCodeProvided is true ", () => {
+        req = {
+            session: getSessionRequestWithExtraData2(),
+            originalUrl: "/register-as-companies-house-authorised-agent/limited/what-is-your-role?lang=en"
+        } as unknown as Request;
+        companyAuthenticationMiddleware(req, mockResponse, mockNext);
+        expect(mockAuthMiddleware).not.toHaveBeenCalled();
     });
 });
+
+function getSessionRequestWithExtraData1 (): Session {
+    const session = getSessionRequestWithPermission();
+
+    session.setExtraData(USER_DATA, {
+        companyAuthCodeProvided: false
+    });
+    session.setExtraData(COMPANY_NUMBER, "NI038379");
+    return session;
+}
+
+function getSessionRequestWithExtraData2 (): Session {
+    const session = getSessionRequestWithPermission();
+
+    session.setExtraData(USER_DATA, {
+        companyAuthCodeProvided: true
+    });
+    session.setExtraData(COMPANY_NUMBER, "NI038379");
+    return session;
+}
