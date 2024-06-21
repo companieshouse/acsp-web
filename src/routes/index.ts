@@ -186,7 +186,7 @@ routes.get(urls.LIMITED_COMPANY_INACTIVE, limitedCompanyInactiveController.get);
 routes.get(urls.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, limitedBusinessMustbeAmlRegisteredController.get);
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_ROLE, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.get);
-routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, companyAuthenticationMiddleware, limitedWhatIsYourRoleController.post);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, limitedWhatIsYourRoleController.post);
 
 routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorController.get);
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);

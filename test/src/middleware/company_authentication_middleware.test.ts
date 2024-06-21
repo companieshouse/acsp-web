@@ -1,59 +1,54 @@
-import request from "supertest";
 import { Request, Response, NextFunction } from "express";
-import app from "../../../src/app";
 import { companyAuthenticationMiddleware } from "../../../src/middleware/company_authentication_middleware";
-import { BASE_URL } from "../../../src/types/pageURL";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
+import { USER_DATA, COMPANY_NUMBER } from "../../../src/common/__utils/constants";
+import { Session } from "@companieshouse/node-session-handler"; import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../src/types/pageURL";
 
 jest.mock("ioredis");
 jest.mock("@companieshouse/web-security-node");
 
 const mockAuthMiddleware = jest.fn();
-const mockCompanyAuthMiddleware = jest.fn();
 jest.mock("@companieshouse/web-security-node", () => ({
-    authMiddleware: jest.fn(() => mockAuthMiddleware),
-    companyAuthMiddleware: jest.fn(() => mockCompanyAuthMiddleware)
+    authMiddleware: jest.fn(() => mockAuthMiddleware)
 }));
+
+let req = {} as Request;
 
 describe("company authentication middleware tests", () => {
 
-    const mockRequest = {} as Request;
     const mockResponse = {} as Response;
     const mockNext = jest.fn() as NextFunction;
+    const Url = BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE;
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should not return 500 error page", async () => {
-        const response = await request(app).get(BASE_URL);
-
-        expect(response.text).not.toContain("Sorry, there is a problem with this service");
+    it("should ask for auth code when companyAuthCodeProvided is false ", () => {
+        req = {
+            session: getSessionRequestWithExtraData(false),
+            originalUrl: Url
+        } as unknown as Request;
+        companyAuthenticationMiddleware(req, mockResponse, mockNext);
+        expect(mockAuthMiddleware).toHaveBeenCalled();
     });
 
-    it("should call next if originalUrl includes '/cannot-use'", () => {
-        mockRequest.url = "http://some-chs-endpoint/company/cannot-use";
-        mockRequest.params = { PARAM_COMPANY_NUMBER: "12345678" };
-        companyAuthenticationMiddleware(mockRequest, mockResponse, mockNext);
-        expect(mockAuthMiddleware).toHaveBeenCalled();
-        expect(mockCompanyAuthMiddleware).not.toHaveBeenCalled();
-    });
-
-    it("should call authMiddleware with correct config if originalUrl does not include '/cannot-use'", () => {
-        mockRequest.url = "http://some-chs-endpoint/company/some-url";
-        mockRequest.params = { PARAM_COMPANY_NUMBER: "12345678" };
-
-        companyAuthenticationMiddleware(mockRequest, mockResponse, mockNext);
-        expect(mockAuthMiddleware).toHaveBeenCalled();
-        expect(mockAuthMiddleware).toHaveBeenCalledWith(
-            {
-                url: "http://some-chs-endpoint/company/some-url",
-                params: {
-                    PARAM_COMPANY_NUMBER: "12345678"
-                }
-            },
-            {},
-            mockNext
-        );
-        expect(mockCompanyAuthMiddleware).not.toHaveBeenCalled();
+    it("should not ask for auth code when companyAuthCodeProvided is true ", () => {
+        req = {
+            session: getSessionRequestWithExtraData(true),
+            originalUrl: Url
+        } as unknown as Request;
+        companyAuthenticationMiddleware(req, mockResponse, mockNext);
+        expect(mockAuthMiddleware).not.toHaveBeenCalled();
     });
 });
+
+function getSessionRequestWithExtraData (value: Boolean): Session {
+    const session = getSessionRequestWithPermission();
+
+    session.setExtraData(USER_DATA, {
+        companyAuthCodeProvided: value
+    });
+    session.setExtraData(COMPANY_NUMBER, "NI038379");
+    return session;
+}
