@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 typeOfBusiness: acspData.typeOfBusiness
             });
         } else {
-           
+
             if (acspData) {
                 acspData.firstName = req.body["first-name"];
                 acspData.middleName = req.body["middle-names"];
