@@ -36,16 +36,23 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
     country: "GB-ENG"
 }];
 
-describe("Correspondence address auto look up tests", () => {
-    it("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, async () => {
-
+describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
+    it("should return 200 and render the page", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should return status 500 after calling GET endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
@@ -112,6 +119,18 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a postcode");
+    });
+
+    it("should return status 400 for no postcode found", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: ""
+        };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Postcode not found"));
+
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {

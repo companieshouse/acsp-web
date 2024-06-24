@@ -3,12 +3,12 @@
 
 {% set title = i18n.businessAddressConfirmTitle %}
 {% block main_content %}
+ {% set businessAddressField = businessAddress.propertyDetails + " " + businessAddress.line1 + ", " %}
   <form action="" method="post">
     {% include "partials/business_name.njk" %}
     <h1 class="govuk-heading-l">{{ i18n.businessAddressConfirmTitle }}</h1>
     <ul class="govuk-list">
-      <li>{{ businessAddress.propertyDetails }}</li>
-      <li>{{ businessAddress.line1 }}</li>
+      <li>{{ businessAddressField }}</li>
       <li>{{ businessAddress.line2 }}</li>
       <li>{{ businessAddress.town }}</li>
       <li>{{ businessAddress.county }}</li>

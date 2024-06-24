@@ -39,7 +39,6 @@ describe("Correspondence Address Auto Lookup Validator", () => {
         }
 
         const errors = validationResult(req);
-        console.log(errors);
         expect(errors.isEmpty()).toBe(true);
     });
 

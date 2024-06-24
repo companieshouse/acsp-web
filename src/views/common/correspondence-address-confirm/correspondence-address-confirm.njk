@@ -9,10 +9,11 @@
     {% elif firstName %}
       {% include "partials/user_name.njk" %}
     {% endif %}
+
+    {% set addressField = correspondenceAddress.propertyDetails + " " + correspondenceAddress.line1 + ", " %}
     <h1 class="govuk-heading-l">{{ i18n.correspondenceAddressConfirmTitle }}</h1>
     <ul class="govuk-list">
-      <li>{{ correspondenceAddress.propertyDetails }}</li>
-      <li>{{ correspondenceAddress.line1 }}</li>
+      <li>{{ addressField }}</li>
       <li>{{ correspondenceAddress.line2 }}</li>
       <li>{{ correspondenceAddress.town }}</li>
       <li>{{ correspondenceAddress.county }}</li>

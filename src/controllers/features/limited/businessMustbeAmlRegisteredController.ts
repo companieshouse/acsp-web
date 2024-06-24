@@ -5,7 +5,6 @@ import { BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_NAME_
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
-import logger from "../../../../lib/Logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 

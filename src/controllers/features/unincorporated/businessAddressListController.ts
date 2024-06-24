@@ -8,7 +8,7 @@ import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";

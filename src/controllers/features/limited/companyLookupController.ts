@@ -7,7 +7,7 @@ import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUM
 import { CompanyLookupService } from "../../../services/companyLookupService";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";

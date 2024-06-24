@@ -6,7 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
 import { validationResult } from "express-validator";
-import logger from "../../../../lib/Logger";
+import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/amlBodyService";
@@ -29,12 +29,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
+        const payload = createPayload(acspData.amlSupervisoryBodies || []);
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
-            amlSupervisoryBodies: acspData?.amlSupervisoryBodies
+            amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -69,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             // update acspData
-            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData, selectedAMLSupervisoryBodies);
+            amlSupervisoryBody.saveAmlSupervisoryBodies(req, acspData);
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
@@ -107,4 +109,12 @@ const getPreviousPage = (ascpType: string): string => {
     default:
         return BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR;
     }
+};
+
+const createPayload = (amlSupervisoryBodies: AmlSupervisoryBody[]): { [key: string]: string | undefined } => {
+    const payload: { [key: string]: string | undefined } = {};
+    amlSupervisoryBodies.forEach((body, index) => {
+        payload[`membershipNumber_${index + 1}`] = body.membershipId;
+    });
+    return payload;
 };

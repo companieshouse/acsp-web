@@ -138,4 +138,23 @@ describe("CompanyDetailsService", () => {
         expect(retrievedDetails).toEqual(mockCompanyDetails);
     });
 
+    test("Return company type -> plc", () => {
+        const returnedType = service.determineCompanyType("plc");
+        expect(returnedType).toEqual("Public Limited Company");
+    });
+
+    test("Return company type -> ltd", () => {
+        const returnedType = service.determineCompanyType("ltd");
+        expect(returnedType).toEqual("Private Limited Company");
+    });
+
+    test("Return company type -> lp", () => {
+        const returnedType = service.determineCompanyType("lp");
+        expect(returnedType).toEqual("Limited Partnership");
+    });
+
+    test("Return company type -> llp", () => {
+        const returnedType = service.determineCompanyType("llp");
+        expect(returnedType).toEqual("Limited Liability Partnership");
+    });
 });

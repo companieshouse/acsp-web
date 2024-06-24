@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { createAndLogError } from "../../../src/utils/logger";
-import { createPaymentApiClient } from "../../../src/services/api-services";
+import { createPaymentApiClient } from "../../../src/services/apiService";
 import { startPaymentsSession } from "../../../src/services/paymentService";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { CreatePaymentRequest, Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
@@ -11,7 +11,7 @@ import { BASE_URL, PAYMENT_CALLBACK_URL } from "../../../src/types/pageURL";
 import { PAYEMNT_REFERENCE } from "../../../src/common/__utils/constants";
 
 jest.mock("../../../src/utils/logger");
-jest.mock("../../../src/services/api-services");
+jest.mock("../../../src/services/apiService");
 jest.mock("uuid");
 
 const TRANSACTION_ID = "987654321";

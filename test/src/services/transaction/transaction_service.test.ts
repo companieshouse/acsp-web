@@ -1,6 +1,6 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Session } from "@companieshouse/node-session-handler";
-import { createPublicOAuthApiClient } from "../../../../src/services/api/api_service";
+import { createPublicOAuthApiClient } from "../../../../src/services/apiService";
 import {
     closeTransaction,
     postTransaction,
@@ -13,7 +13,7 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { REFERENCE } from "../../../../src/config";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../../src/services/api/api_service");
+jest.mock("../../../../src/services/apiService");
 
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostTransaction = jest.fn();

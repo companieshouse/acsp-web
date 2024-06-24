@@ -3,7 +3,7 @@ import app from "../../../../src/app";
 import supertest from "supertest";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
+import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE, STOP_NOT_RELEVANT_OFFICER } from "../../../../src/types/pageURL";
 import { USER_DATA } from "../../../../src/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
@@ -31,28 +31,33 @@ describe("Statement Relevant Officer Router", () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(response.text).toContain("What is your role in the business?");
     });
+
+    it("catch error when rendering the page", async () => {
+        mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
     beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_PARTNERSHIP");
+        createMockSessionMiddleware("SOLE_TRADER");
     });
     it("should respond with status 302 on form submission with someone-else role", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "SOMEONE_ELSE"
         });
         expect(response.status).toBe(302);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.header.location).toBe(BASE_URL + STOP_NOT_RELEVANT_OFFICER + "?lang=en");
     });
 
     it("should respond with status 302 on form submission with sole trader", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
-            WhatIsYourRole: "MEMBER_OF_LLP"
+            WhatIsYourRole: "SOLE_TRADER"
         });
         expect(response.status).toBe(302);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME + "?lang=en");
     });
 
     it("should respond with status 400 on form submission with empty role", async () => {
@@ -60,7 +65,7 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
             WhatIsYourRole: ""
         });
         expect(response.status).toBe(400);
-        expect(response.text).toContain("Select if you are a general partner or someone else");
+        expect(response.text).toContain("Select if you are the sole trader or someone else");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
@@ -68,7 +73,7 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
-            WhatIsYourRole: "MEMBER_OF_LLP"
+            WhatIsYourRole: "SOLE_TRADER"
         });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
@@ -76,45 +81,10 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
 
 });
 
-describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
-    beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_COMPANY");
-    });
-
-    it("should respond with status 400 on form submission with empty role", async () => {
-        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
-            WhatIsYourRole: ""
-        });
-        expect(response.status).toBe(400);
-        expect(response.text).toContain("Select if you are a director or someone else");
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-    });
-
-});
-
-describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
-    beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_LIABILITY_PARTNERSHIP");
-    });
-
-    it("should respond with status 400 on form submission with empty role", async () => {
-        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({
-            WhatIsYourRole: ""
-        });
-        expect(response.status).toBe(400);
-        expect(response.text).toContain("Select if you are a member of the partnership or someone else");
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-    });
-
-});
-
-function createMockSessionMiddleware (businessName: string, typeOfBusiness: string) {
+function createMockSessionMiddleware (typeOfBusiness: string) {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, {
-        businessName: businessName,
         typeOfBusiness: typeOfBusiness
     });
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {

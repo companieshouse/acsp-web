@@ -1,11 +1,12 @@
 import { Resource } from "@companieshouse/api-sdk-node";
 import { Session } from "@companieshouse/node-session-handler";
-import { createPublicOAuthApiClient } from "../../../src/services/api/api_service";
+import { createPublicOAuthApiClient } from "../../../src/services/apiService";
 import {
     getAcspRegistration,
     postAcspRegistration,
     getSavedApplication,
-    putAcspRegistration
+    putAcspRegistration,
+    deleteAcspApplication
 } from "../../../src/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -13,20 +14,22 @@ import { AcspData, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/di
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../src/services/api/api_service");
+jest.mock("../../../src/services/apiService");
 
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostAcspRegistration = jest.fn();
 const mockGetAcspRegistration = jest.fn();
 const mockGetSavedApplication = jest.fn();
 const mockPutAcspRegistration = jest.fn();
+const mockDeleteSavedApplication = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     acsp: {
         getAcsp: mockGetAcspRegistration,
         postACSP: mockPostAcspRegistration,
         putACSP: mockPutAcspRegistration,
-        getSavedApplication: mockGetSavedApplication
+        getSavedApplication: mockGetSavedApplication,
+        deleteSavedApplication: mockDeleteSavedApplication
     }
 });
 
@@ -102,11 +105,11 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockPostAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
-            });
+                httpStatusCode: StatusCodes.NO_CONTENT
+            } as Resource<AcspResponse>);
 
             await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
-                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+                .rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 
@@ -157,11 +160,11 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockPutAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
-            });
+                httpStatusCode: StatusCodes.NO_CONTENT
+            } as Resource<AcspResponse>);
 
             await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
-                .rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+                .rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 
@@ -198,10 +201,10 @@ describe("acsp service tests", () => {
 
         it("Should throw an error when acsp api returns no resource", async () => {
             mockGetAcspRegistration.mockResolvedValueOnce({
-                httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR
-            });
+                httpStatusCode: StatusCodes.NO_CONTENT
+            } as Resource<AcspResponse>);
 
-            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+            await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
 
@@ -213,6 +216,34 @@ describe("acsp service tests", () => {
 
             const httpResponse = await getSavedApplication(session, USER_ID);
             expect(httpResponse.status).toStrictEqual(404);
+        });
+    });
+
+    describe("deleteAcspRegistration tests", () => {
+        it("Should return a HttpResponse", async () => {
+            const dummySuccessResponce: HttpResponse = {
+                status: 204
+            };
+
+            mockDeleteSavedApplication.mockResolvedValueOnce({ status: 204 });
+
+            const acspDto = await deleteAcspApplication(session, EMAIL_ID);
+
+            expect(acspDto).toStrictEqual(dummySuccessResponce);
+        });
+
+        it("Should throw an error when no acsp api response", async () => {
+            mockDeleteSavedApplication.mockResolvedValueOnce(undefined);
+
+            await expect(deleteAcspApplication(session, EMAIL_ID)).rejects.toBe(undefined);
+        });
+
+        it("Should throw an error when acsp api returns a status greater than 400", async () => {
+            mockDeleteSavedApplication.mockResolvedValueOnce({
+                httpStatusCode: 404
+            });
+
+            await expect(deleteAcspApplication(session, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
     });
 });
