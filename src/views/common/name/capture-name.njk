@@ -47,6 +47,11 @@
                 value: payload["last-name"]
             }) }}
         </div>
+        {%if typeOfBusiness === "SOLE_TRADER"%}
+        {{ govukInsetText({
+            text: i18n.whatIsYourNameInsetText
+        }) }}
+        {%endif%}
         {{ govukButton({
             text: i18n.Continue,
             attributes: {
