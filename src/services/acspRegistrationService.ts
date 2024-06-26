@@ -136,3 +136,29 @@ export const deleteAcspApplication = async (session: Session, userId: string): P
     logger.debug(`acsp registration for user ${userId} has been deleted`);
     return Promise.resolve(sdkResponse);
 };
+
+/**
+ * POST an acsp application confirmation email.
+ * @param session The current session to connect to the api
+ * @param userId The user ID associated with the application.
+ * @param applicationReference The transaction ID of the current application
+ * @returns The HttpResponse of the request
+ */
+export const postConfirmationEmail = async (session: Session, userId: string, applicationReference: string): Promise<HttpResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+
+    logger.debug(`Sending confirmation email to user ${userId} for application ${applicationReference}`);
+    const sdkResponse: HttpResponse = await apiClient.acsp.sendConfirmationEmail(userId, applicationReference);
+
+    if (!sdkResponse) {
+        logger.error(`acsp confirmation email POST request returned no response for user ${userId} and application ${applicationReference}`);
+        return Promise.reject(sdkResponse);
+    }
+    if (!sdkResponse.status || sdkResponse.status >= 400) {
+        logger.error(`Http status code ${sdkResponse.status} - Failed to POST acsp onfirmation email for user ${userId} and application ${applicationReference}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    logger.debug(`acsp confirmation email for user ${userId} and application ${applicationReference}, has been sent`);
+    return Promise.resolve(sdkResponse);
+};

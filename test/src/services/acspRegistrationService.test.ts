@@ -6,7 +6,8 @@ import {
     postAcspRegistration,
     getSavedApplication,
     putAcspRegistration,
-    deleteAcspApplication
+    deleteAcspApplication,
+    postConfirmationEmail
 } from "../../../src/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -22,6 +23,7 @@ const mockGetAcspRegistration = jest.fn();
 const mockGetSavedApplication = jest.fn();
 const mockPutAcspRegistration = jest.fn();
 const mockDeleteSavedApplication = jest.fn();
+const mockPostConfirmationEmail = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     acsp: {
@@ -29,7 +31,8 @@ mockCreatePublicOAuthApiClient.mockReturnValue({
         postACSP: mockPostAcspRegistration,
         putACSP: mockPutAcspRegistration,
         getSavedApplication: mockGetSavedApplication,
-        deleteSavedApplication: mockDeleteSavedApplication
+        deleteSavedApplication: mockDeleteSavedApplication,
+        sendConfirmationEmail: mockPostConfirmationEmail
     }
 });
 
@@ -244,6 +247,34 @@ describe("acsp service tests", () => {
             });
 
             await expect(deleteAcspApplication(session, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
+        });
+    });
+
+    describe("postConfirmationEmail tests", () => {
+        it("Should return a HttpResponse", async () => {
+            const dummySuccessResponce: HttpResponse = {
+                status: 200
+            };
+
+            mockPostConfirmationEmail.mockResolvedValueOnce({ status: 200 });
+
+            const acspDto = await postConfirmationEmail(session, USER_ID, TRANSACTION_ID);
+
+            expect(acspDto).toStrictEqual(dummySuccessResponce);
+        });
+
+        it("Should throw an error when no acsp api response", async () => {
+            mockPostConfirmationEmail.mockResolvedValueOnce(undefined);
+
+            await expect(postConfirmationEmail(session, USER_ID, TRANSACTION_ID)).rejects.toBe(undefined);
+        });
+
+        it("Should throw an error when acsp api returns a status greater than 400", async () => {
+            mockPostConfirmationEmail.mockResolvedValueOnce({
+                httpStatusCode: 404
+            });
+
+            await expect(postConfirmationEmail(session, USER_ID, TRANSACTION_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
     });
 });
