@@ -3,7 +3,7 @@ import { Address } from "./Address";
 import { Company } from "./Company";
 import { Nationality } from "./Nationality";
 import { RoleType } from "./RoleType";
-import { SectorOfWork } from "./SectorOfWork";
+import { SectorOfWork } from "./BusinessSector";
 import { TypeOfBusiness } from "./TypeOfBusiness";
 
 export interface ACSPData {

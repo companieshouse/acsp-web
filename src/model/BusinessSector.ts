@@ -1,4 +1,4 @@
-export enum BusinessSector {
+export enum SectorOfWork {
     AIA = "Auditors, insolvency practitioners, external accountants and tax advisers",
     ILP = "Independent legal professionals",
     TCSP = "Trust or company service providers",
@@ -7,4 +7,4 @@ export enum BusinessSector {
     EA = "Estate agents",
     HVD = "High value dealers",
     CASINOS = "Casinos",
-  }
+}
