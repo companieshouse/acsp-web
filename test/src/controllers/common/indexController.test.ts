@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { BASE_URL, HOME_URL, TYPE_OF_BUSINESS } from "../../../../src/types/pageURL";
+import { BASE_URL, HOME_URL, CHECK_SAVED_APPLICATION } from "../../../../src/types/pageURL";
 const router = supertest(app);
 
 describe("GET " + HOME_URL, () => {
@@ -14,6 +14,6 @@ describe("POST " + HOME_URL, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + CHECK_SAVED_APPLICATION + "?lang=en");
     });
 });

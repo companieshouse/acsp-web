@@ -34,7 +34,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            payload
+            payload,
+            typeOfBusiness: acspData.typeOfBusiness
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -47,6 +48,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME;
+    const session: Session = req.session as any as Session;
+    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang);
@@ -57,11 +60,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 currentUrl,
                 payload: req.body,
-                ...pageProperties
+                ...pageProperties,
+                typeOfBusiness: acspData.typeOfBusiness
             });
         } else {
-            const session: Session = req.session as any as Session;
-            const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+
             if (acspData) {
                 acspData.firstName = req.body["first-name"];
                 acspData.middleName = req.body["middle-names"];
