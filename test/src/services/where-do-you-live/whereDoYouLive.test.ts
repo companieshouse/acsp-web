@@ -1,8 +1,7 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
-import { WhereDoYouLivBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive"
+import { WhereDoYouLivBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
 
 describe("WhereDoYouLiveBodyService", () => {
-
 
     it("should return payload for England", () => {
         const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();

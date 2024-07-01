@@ -196,5 +196,4 @@ describe("AmlSupervisoryBodyService", () => {
         expect(acspData.amlSupervisoryBodies).toEqual(amlSupervisoryBodiesExpected);
     });
 
-    
 });
