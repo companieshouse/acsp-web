@@ -15,7 +15,9 @@
     </div>
     {% endset -%}
     {{ govukRadios({
+    errorMessage: errors.whereDoYouLiveRadio if errors,
   name: "whereDoYouLiveRadio",
+  value: payload["whereDoYouLiveRadio"],
   fieldset: {
     legend: {
       text: i18n.whereDoYouLiveTitle,
@@ -23,7 +25,6 @@
       classes: "govuk-fieldset__legend--l"
     }
   },
-  errorMessage: errors.whereDoYouLiveRadio if errors,
   items: [
     {
       value: "England",
