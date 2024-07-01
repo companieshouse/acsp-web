@@ -195,4 +195,86 @@ describe("AmlSupervisoryBodyService", () => {
         amlSupervisoryBodyService.saveAmlSupervisoryBodies(requestMock as Request, acspData as AcspData);
         expect(acspData.amlSupervisoryBodies).toEqual(amlSupervisoryBodiesExpected);
     });
+
+    describe("getCountryPayload", () => {
+        let amlSupervisoryBodyService: AmlSupervisoryBodyService;
+
+        beforeEach(() => {
+            amlSupervisoryBodyService = new AmlSupervisoryBodyService();
+        });
+
+        it("should return payload for England", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: "England"
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({ whereDoYouLiveRadio: "England" });
+            expect(countryInput).toBeUndefined();
+        });
+
+        it("should return payload for Scotland", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: "Scotland"
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({ whereDoYouLiveRadio: "Scotland" });
+            expect(countryInput).toBeUndefined();
+        });
+    
+
+        it("should return payload for Wales", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: "Wales"
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({ whereDoYouLiveRadio: "Wales" });
+            expect(countryInput).toBeUndefined();
+        });
+
+        it("should return payload for Northern Ireland", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: "Northern-Ireland"
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({ whereDoYouLiveRadio: "Northern-Ireland" });
+            expect(countryInput).toBeUndefined();
+        });
+
+        it("should return payload and countryInput for country outside UK", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: "France"
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({ whereDoYouLiveRadio: "countryOutsideUK" });
+            expect(countryInput).toEqual("France");
+        });
+
+        it("should return empty payload if countryOfResidence is not valid", () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                countryOfResidence: undefined
+            };
+
+            const { payload, countryInput } = amlSupervisoryBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual({});
+            expect(countryInput).toBeUndefined();
+        });
+    });
 });
+
