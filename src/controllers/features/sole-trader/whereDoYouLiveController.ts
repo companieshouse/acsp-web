@@ -26,9 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
-        
+
         const payload = {
-            "whereDoYouLiveRadio": acspData?.countryOfResidence,
+            whereDoYouLiveRadio: acspData?.countryOfResidence
         };
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
