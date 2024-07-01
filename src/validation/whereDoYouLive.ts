@@ -17,4 +17,3 @@ export const whereDoYouLiveValidator = [
     body("whereDoYouLiveRadio", "whereDoYouLiveEmptyInput")
         .notEmpty()
 ];
- 
