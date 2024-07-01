@@ -42,7 +42,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
-                if (acspData.typeOfBusiness === "UNINCORPORATED_ENTITY" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {
                     typeOfBusiness = "OTHER";
                 } else {
                     typeOfBusiness = acspData.typeOfBusiness!;
@@ -96,9 +96,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 saveDataInSession(req, ANSWER_DATA, answersArray);
 
                 switch (selectedOption) {
-                case "LIMITED_COMPANY":
-                case "LIMITED_PARTNERSHIP":
-                case "LIMITED_LIABILITY_PARTNERSHIP":
+                case "LC":
+                case "LP":
+                case "LLP":
                     res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
                     break;
                 case "PARTNERSHIP":

@@ -9,17 +9,17 @@ export const whatIsYourRoleValidator: ValidationChain[] = [
         const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
         if (value === "") {
             switch (acspData.typeOfBusiness!.toString()) {
-            case "LIMITED_COMPANY":
+            case "LC":
                 throw new Error("limitedCompanyWhatIsYourRoleRadio");
-            case "LIMITED_PARTNERSHIP":
+            case "LP":
                 throw new Error("limitedPWhatIsYourRoleRadio");
-            case "LIMITED_LIABILITY_PARTNERSHIP":
+            case "LLP":
                 throw new Error("llppartnershipWhatIsYourRoleRadio");
             case "PARTNERSHIP":
                 throw new Error("nonRegistrablePartnership");
             case "SOLE_TRADER":
                 throw new Error("soleTraderWhatIsYourRoleRadio");
-            case "UNINCORPORATED_ENTITY":
+            case "UNINCORPORATED":
                 throw new Error("unincorporatedEntityWhatIsYourRoleRadio");
             case "CORPORATE_BODY":
                 throw new Error("unincorporatedEntityWhatIsYourRoleRadio");
