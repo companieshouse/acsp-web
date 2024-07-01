@@ -84,7 +84,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_YOUR_ROLE, () => {
     });
 
     it("should respond with status 400 on form submission with empty role", async () => {
-        createMockSessionMiddleware("UNINCORPORATED_ENTITY");
+        createMockSessionMiddleware("UNINCORPORATED");
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: ""
         });

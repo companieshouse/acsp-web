@@ -41,9 +41,9 @@ describe("GET " + LIMITED_WHAT_IS_YOUR_ROLE, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
-describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMTED_COMPANY", () => {
+describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LC", () => {
     beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_COMPANY");
+        createMockSessionMiddleware("Example Business", "LC");
     });
 
     it("should respond with status 302 on form submission with someone-else role", async () => {
@@ -63,7 +63,7 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMTED_COMPANY", () => {
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
-        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
+        mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error Putting data"));
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "DIRECTOR"
         });
@@ -81,9 +81,9 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMTED_COMPANY", () => {
 
 });
 
-describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMITED_PARTNERSHIP", () => {
+describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LP", () => {
     beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_PARTNERSHIP");
+        createMockSessionMiddleware("Example Business", "LP");
     });
 
     it("should respond with status 302 on form submission with someone-else role", async () => {
@@ -104,9 +104,9 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMITED_PARTNERSHIP", () => {
 
 });
 
-describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LIMITED_LIABILITY_PARTNERSHIP", () => {
+describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LLP", () => {
     beforeEach(() => {
-        createMockSessionMiddleware("Example Business", "LIMITED_LIABILITY_PARTNERSHIP");
+        createMockSessionMiddleware("Example Business", "LLP");
     });
 
     it("should respond with status 302 on form submission with someone-else role", async () => {

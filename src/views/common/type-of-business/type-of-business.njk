@@ -20,15 +20,15 @@
       value: typeOfBusiness,
       items: [
         {
-          value: "LIMITED_COMPANY",
+          value: "LC",
           text: i18n.typeOfBusinessLimitedCompanyOption
         }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
         {
-          value: "LIMITED_PARTNERSHIP",
+          value: "LP",
           text: i18n.typeOfBusinessLimitedPartnershipOption
         },
         {
-          value: "LIMITED_LIABILITY_PARTNERSHIP",
+          value: "LLP",
           text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption
         },
         {
@@ -66,13 +66,13 @@
     function trackGoal(goal){
       let goalId;
       switch(goal) {
-        case "LIMITED_COMPANY":
+        case "LC":
           goalId = 1;
           break;
-        case "LIMITED_PARTNERSHIP":
+        case "LP":
           goalId = 2;
           break;
-        case "LIMITED_LIABILITY_PARTNERSHIP":
+        case "LLP":
           goalId = 3;
           break;
         case "PARTNERSHIP":
