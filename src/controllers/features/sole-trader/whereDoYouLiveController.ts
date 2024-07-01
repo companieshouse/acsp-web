@@ -35,10 +35,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             };
         } else if (acspData.countryOfResidence) {
             payload = {
-                whereDoYouLiveRadio: "countryOutsideUK",
-                
+                whereDoYouLiveRadio: "countryOutsideUK"
+
             };
-            countryInput = acspData.countryOfResidence
+            countryInput = acspData.countryOfResidence;
         }
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
