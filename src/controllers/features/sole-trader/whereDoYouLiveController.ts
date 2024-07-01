@@ -27,9 +27,19 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
 
-        const payload = {
-            whereDoYouLiveRadio: acspData?.countryOfResidence
-        };
+        let payload = {};
+        let countryInput;
+        if (acspData.countryOfResidence === "England" || acspData.countryOfResidence === "Scotland" || acspData.countryOfResidence === "Wales" || acspData.countryOfResidence === "Northern Ireland") {
+            payload = {
+                whereDoYouLiveRadio: acspData?.countryOfResidence
+            };
+        } else if (acspData.countryOfResidence) {
+            payload = {
+                whereDoYouLiveRadio: "countryOutsideUK",
+                
+            };
+            countryInput = acspData.countryOfResidence
+        }
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
@@ -37,7 +47,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             countryList: countryList,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            countryInput: acspData?.countryOfResidence,
+            countryInput,
             payload
         });
     } catch (err) {
