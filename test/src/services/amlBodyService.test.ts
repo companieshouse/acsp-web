@@ -75,11 +75,11 @@ describe("AmlSupervisoryBodyService", () => {
             amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
         });
 
-        const amlBody1 : AmlSupervisoryBody = {
+        const amlBody1: AmlSupervisoryBody = {
             amlSupervisoryBody: "HMRC",
             membershipId: "12345678"
         };
-        const amlBody2 : AmlSupervisoryBody = {
+        const amlBody2: AmlSupervisoryBody = {
             amlSupervisoryBody: "HMRC",
             membershipId: "12345678"
         };
@@ -113,11 +113,11 @@ describe("AmlSupervisoryBodyService", () => {
             membershipId: "12345678"
         });
 
-        const amlBody1 : AmlSupervisoryBody = {
+        const amlBody1: AmlSupervisoryBody = {
             amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
             membershipId: "12345678"
         };
-        const amlBody2 : AmlSupervisoryBody = {
+        const amlBody2: AmlSupervisoryBody = {
             amlSupervisoryBody: "HMRC",
             membershipId: "12345678"
         };
@@ -146,11 +146,11 @@ describe("AmlSupervisoryBodyService", () => {
             }
         );
 
-        const amlBody1 : AmlSupervisoryBody = {
+        const amlBody1: AmlSupervisoryBody = {
             amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
             membershipId: "12345678"
         };
-        const amlBody2 : AmlSupervisoryBody = {
+        const amlBody2: AmlSupervisoryBody = {
             amlSupervisoryBody: "HMRC",
             membershipId: "12345678"
         };
@@ -181,7 +181,7 @@ describe("AmlSupervisoryBodyService", () => {
             amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
         });
 
-        const amlBody1 : AmlSupervisoryBody = {
+        const amlBody1: AmlSupervisoryBody = {
             amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
         };
 
@@ -226,7 +226,6 @@ describe("AmlSupervisoryBodyService", () => {
             expect(payload).toEqual({ whereDoYouLiveRadio: "Scotland" });
             expect(countryInput).toBeUndefined();
         });
-    
 
         it("should return payload for Wales", () => {
             const acspData: AcspData = {
@@ -277,4 +276,3 @@ describe("AmlSupervisoryBodyService", () => {
         });
     });
 });
-
