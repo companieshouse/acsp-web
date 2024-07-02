@@ -14,6 +14,7 @@ import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,6 +27,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
+
+        const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
@@ -33,7 +36,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             countryList: countryList,
             firstName: acspData?.firstName,
             lastName: acspData?.lastName,
-            countryInput: acspData?.countryOfResidence
+            countryInput,
+            payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -58,17 +62,24 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 countryList: countryList,
-                ...pageProperties
+                ...pageProperties,
+                payload: req.body
             });
         } else {
+            let countryOfResidence;
+            if (req.body.whereDoYouLiveRadio === "countryOutsideUK") {
+                countryOfResidence = req.body.countryInput;
+            } else {
+                countryOfResidence = req.body.whereDoYouLiveRadio;
+            }
             if (acspData) {
-                acspData.countryOfResidence = req.body.countryInput;
+                acspData.countryOfResidence = countryOfResidence;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.countryOfResidence = req.body.countryInput;
+            detailsAnswers.countryOfResidence = countryOfResidence;
             saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
         }

@@ -4,7 +4,7 @@ import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/
 export class AmlSupervisoryBodyService {
     public saveSelectedAML = (req: Request, acspData: AcspData) => {
         const selectedAMLSupervisoryBodiesFromForm = req.body["AML-supervisory-bodies"];
-        var selectedAMLSupervisoryBodies : Array<string>;
+        var selectedAMLSupervisoryBodies: Array<string>;
         selectedAMLSupervisoryBodies = [];
 
         if (!(selectedAMLSupervisoryBodiesFromForm instanceof Array)) {
@@ -12,11 +12,11 @@ export class AmlSupervisoryBodyService {
         } else {
             selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm;
         }
-        var amlSupervisoryBodies : Array<AmlSupervisoryBody>;
+        var amlSupervisoryBodies: Array<AmlSupervisoryBody>;
         amlSupervisoryBodies = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
             ? [] : acspData.amlSupervisoryBodies;
 
-        var previouslySelectedAmlBodiesName : Array<string>;
+        var previouslySelectedAmlBodiesName: Array<string>;
         previouslySelectedAmlBodiesName = [];
         if (amlSupervisoryBodies.length > 0) {
             amlSupervisoryBodies.forEach((amlSupervisoryBody) => {
@@ -24,7 +24,7 @@ export class AmlSupervisoryBodyService {
             });
         }
 
-        var amlSupervisoryBodiesNotInCurrentSelection : Array<AmlSupervisoryBody>;
+        var amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
         if (selectedAMLSupervisoryBodies instanceof Array) {
             selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
                 if (previouslySelectedAmlBodiesName.length === 0 || (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody))) {
@@ -73,6 +73,7 @@ export class AmlSupervisoryBodyService {
                 selectedAMLSupervisoryBodies.push(amlSupervisoryBody.amlSupervisoryBody!);
             }
         }
+
     }
 
 }

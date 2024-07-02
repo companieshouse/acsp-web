@@ -48,23 +48,39 @@ describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: "Wales" });
+            .send({ whereDoYouLiveRadio: "Wales" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME + "?lang=en");
     });
 
     // Test for invalid input
-    it("should return status 400", async () => {
+    it("should return status 400 for invalid countryInput", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: "fewrfw" });
+            .send({ whereDoYouLiveRadio: "countryOutsideUK", countryInput: "invalidCountry" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select where you live");
+    });
+
+    // Test for invalid input
+    it("should return status 400 for empty countryInput", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
+            .send({ whereDoYouLiveRadio: "countryOutsideUK", countryInput: "" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select where you live");
     });
 
     // Test for empty input
-    it("should fail validation with empty first nationality", async () => {
+    it("should handle countryInput for empty whereDoYouLiveRadio", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: "" });
+            .send({ whereDoYouLiveRadio: "", countryInput: "" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select where you live");
+    });
+
+    // Test for empty input
+    it("should handle countryInput for users outside the UK", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
+            .send({ whereDoYouLiveRadio: "", countryInput: "Canada" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select where you live");
     });
@@ -72,7 +88,7 @@ describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)
-            .send({ countryInput: "Wales" });
+            .send({ whereDoYouLiveRadio: "United Kingdom" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
