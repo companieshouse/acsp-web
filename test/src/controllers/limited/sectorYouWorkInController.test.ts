@@ -14,7 +14,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AUDITORS_INSOLVENCY_PRACTITIONERS"
+    workSector: "AIA"
 };
 
 describe("GET" + LIMITED_SECTOR_YOU_WORK_IN, () => {
@@ -38,7 +38,7 @@ describe("GET" + LIMITED_SECTOR_YOU_WORK_IN, () => {
 
 describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" });
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIA" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
     });
@@ -58,7 +58,7 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
 
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
-        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" });
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIA" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
