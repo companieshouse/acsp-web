@@ -38,7 +38,7 @@ describe("GET" + UNINCORPORATED_WHICH_SECTOR, () => {
 describe("POST" + UNINCORPORATED_WHICH_SECTOR, () => {
     // Test for not "Other" radio button will return 302 after redirect to business address lookup page .
     it("should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" });
+        const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "AIA" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP + "?lang=en");
     });
@@ -59,7 +59,7 @@ describe("POST" + UNINCORPORATED_WHICH_SECTOR, () => {
 
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
-        const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "AUDITORS_INSOLVENCY_PRACTITIONERS" });
+        const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "AIA" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
