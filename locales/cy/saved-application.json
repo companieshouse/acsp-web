@@ -1,13 +1,8 @@
 {
-    "savedTitle": "Do you want to continue with a saved application? welsh",
-    "savedHintText": "If you have saved applications, you can continue with one of these or start a new one. welsh",
-    "savedYesButtonText": "Yes - continue with a saved application welsh",
-    "savedYesHintText": "You will be able to choose which application you want to continue with. welsh",
-    "savedNoButtonText": "No - start a new application welsh",
-    "savedNoHintText": "This will not delete any saved applications. welsh",
-
-    "error-signoutDetailsErrorMsg": "Select yes if you want to continue with saved application welsh",
-    "error-signoutErrorSummaryTitle": "There is a problem welsh",
-    "error-signoutErrorSummaryText": "Select yes if you want to continue with saved application welsh",
-    "error-savedNoInputError": "Select yes if you want to continue with saved application welsh"
+    "savedTitle": "Do you want to start a new application? Welsh",
+    "savedYesButtonText": "Yes, start a new application Welsh",
+    "savedYesHintText": "If you have a saved application, this will be deleted. Welsh",
+    "savedNoButtonText": "No, continue with a saved application Welsh",
+    
+    "error-savedNoInputError": "Select yes if you want to start a new application Welsh"
 }

@@ -39,7 +39,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            if (req.body.savedApplication === "yes") {
+            if (req.body.savedApplication === "no") {
                 saveDataInSession(req, "resume_application", true);
                 res.redirect((YOUR_FILINGS));
             } else {
