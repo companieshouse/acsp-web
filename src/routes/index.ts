@@ -56,7 +56,8 @@ import {
     paymentCallbackController,
     savedApplicationController,
     checkSavedApplicationController,
-    resumeJourneyController
+    resumeJourneyController,
+    cannotSubmitAnotherApplicationController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -118,6 +119,8 @@ routes.post(urls.SAVED_APPLICATION, selectSavedApplicationValidator, savedApplic
 routes.get(urls.PAYMENT_CALLBACK_URL, paymentCallbackController.get);
 
 routes.get(urls.CHECK_SAVED_APPLICATION, checkSavedApplicationController.get);
+
+routes.get(urls.CANNOT_SUBMIT_ANOTHER_APPLICATION, cannotSubmitAnotherApplicationController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
