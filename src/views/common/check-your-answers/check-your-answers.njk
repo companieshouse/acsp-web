@@ -31,9 +31,9 @@
     <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
     {% if typeOfBusiness === "SOLE_TRADER" %}
       {% include "partials/check-your-answers/sole-trader-answers.njk" %}
-    {% elif typeOfBusiness === "LC" or typeOfBusiness === "LP" or typeOfBusiness === "LLP" %}
+    {% elif typeOfBusiness === "LC" or typeOfBusiness === "LLP" %}
       {% include "partials/check-your-answers/limited-answers.njk" %}
-    {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "CORPORATE_BODY" %}
+    {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "CORPORATE_BODY" or typeOfBusiness === "LP" %}
       {% include "partials/check-your-answers/unincorporated-answers.njk" %}
     {% endif %}
     <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>

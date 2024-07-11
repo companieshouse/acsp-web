@@ -97,11 +97,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
                 switch (selectedOption) {
                 case "LC":
-                case "LP":
                 case "LLP":
                     res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
                     break;
                 case "PARTNERSHIP":
+                case "LP":
                     res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
                     break;
                 case "SOLE_TRADER":
