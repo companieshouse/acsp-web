@@ -5,16 +5,14 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.amlMembershipTitle %}
 {% block main_content %}
-    <form
-        action="" method="post">
-        {% if typeOfBusiness === "SOLE_TRADER" %}
-            {% include "partials/user_name.njk" %}
-        {% else %}
-            {% include "partials/business_name.njk" %}
-        {% endif %}
+    <form action="" method="post">
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                {% include "partials/user_name.njk" %}
+                {% if acspType === "SOLE_TRADER" %}
+                    {% include "partials/user_name.njk" %}
+                {% else %}
+                    {% include "partials/business_name.njk" %}
+                {% endif %}
                 <h1 class="govuk-fieldset__heading">
                     <p class="govuk-label govuk-label--l">{{ i18n.amlMembershipTitle }}</p>
                 </h1>

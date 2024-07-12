@@ -37,7 +37,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspType: acspData?.typeOfBusiness,
             currentUrl,
             AMLSupervisoryBodies,
-            selectedAMLSupervisoryBodies
+            selectedAMLSupervisoryBodies,
+            businessName: acspData?.businessName
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -60,9 +61,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(getPreviousPage(session), lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
                 acspType: acspData?.typeOfBusiness,
+                businessName: acspData?.businessName,
                 AMLSupervisoryBodies,
                 ...pageProperties
             });

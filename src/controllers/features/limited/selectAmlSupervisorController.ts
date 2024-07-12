@@ -37,6 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             AMLSupervisoryBodies,
             acspType: acspData?.typeOfBusiness,
+            businessName: acspData?.businessName,
             selectedAMLSupervisoryBodies
         });
     } catch (err) {
@@ -63,6 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 AMLSupervisoryBodies,
                 acspType: acspData?.typeOfBusiness,
+                businessName: acspData?.businessName,
                 ...pageProperties
             });
         } else {
