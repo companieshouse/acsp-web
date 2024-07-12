@@ -13,9 +13,9 @@ export * as paymentCallbackController from "./features/common/paymentCallbackCon
 export * as savedApplicationController from "./features/common/savedApplicationController";
 export * as checkSavedApplicationController from "./features/common/checkSavedApplicationController";
 export * as resumeJourneyController from "./features/common/resumeJourneyController";
+export * as cannotSubmitAnotherApplicationController from "./features/common/cannotSubmitAnotherApplicationController";
 
 // Sole trader
-
 export * as soleTraderCorrespodanceAddressDetailsController from "./features/sole-trader/correspodanceAddressDetailsController";
 export * as soleTraderCorrespondenceAddressAutoLookupController from "./features/sole-trader/correspondenceAddressAutoLookupController";
 export * as soleTraderCorrespondenceAddressConfirmController from "./features/sole-trader/correspondenceAddressConfirmController";

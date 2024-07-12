@@ -65,3 +65,4 @@ export const ADDRESS_CORRESPONDANCE_SELECTOR = `${BASE_COMMON_URL}/address-corre
 export const TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/type-of-business/type-of-business`;
 export const OTHER_TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/other-type-of-business/other-type-of-business`;
 export const CHECK_AML_DETAILS = `${BASE_COMMON_URL}/check-aml-details/check-aml-details`;
+export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-submit-another-application/cannot-submit-another-application`;
