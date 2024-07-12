@@ -19,10 +19,11 @@
 {% set title = i18n.selectAmlSupervisorTitle %}
 {% block main_content %}
   <form action="" method="POST">
-    {% if acspType == "SOLE_TRADER" %}
+    {% if typeOfBusiness == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
+    {% else %}   
+        {% include "partials/business_name.njk" %}
     {% endif %}
-
     {{ govukCheckboxes({
       name: "AML-supervisory-bodies",
       fieldset: {
