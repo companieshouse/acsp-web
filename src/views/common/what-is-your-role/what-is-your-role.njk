@@ -78,9 +78,9 @@
 
                     {
                       value: "GENERAL_PARTNER",
-                      text: i18n.generalPartner + company.companyName + " (" + company.companyNumber + ")",
+                      text: i18n.generalPartner + unincorporatedBusinessName,
                       attributes: {
-                        "data-event-id": "I am a general partner of " + company.companyName
+                        "data-event-id": "I am a general partner of " + unincorporatedBusinessName
                       }
                     } if acspType == "LP",
 
