@@ -42,7 +42,7 @@
                       attributes: {
                         "data-event-id": "I am a member of the governing body of " + unincorporatedBusinessName
                       }
-                    } if acspType == "UNINCORPORATED" or acspType == "LP",
+                    } if acspType == "UNINCORPORATED",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
@@ -58,7 +58,7 @@
                       attributes: {
                         "data-event-id": "I am a member of " + unincorporatedBusinessName
                       }
-                    } if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" or acspType == "LP",
+                    } if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY",
 
                     {
                       value: "DIRECTOR",
@@ -75,6 +75,14 @@
                         "data-event-id": "I am a member of " + company.companyName
                       }
                     } if acspType == "LLP",
+
+                    {
+                      value: "GENERAL_PARTNER",
+                      text: i18n.generalPartner + company.companyName + " (" + company.companyNumber + ")",
+                      attributes: {
+                        "data-event-id": "I am a general partner of " + company.companyName
+                      }
+                    } if acspType == "LP",
 
                     {
                       value: "SOMEONE_ELSE",
