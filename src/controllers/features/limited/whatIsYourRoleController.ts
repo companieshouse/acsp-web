@@ -41,6 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             acspType: acspData?.typeOfBusiness,
             company: acspData?.companyDetails,
+            unincorporatedBusinessName: acspData?.businessName,
             roleType: acspData?.roleType
         });
     } catch (err) {
@@ -67,6 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 acspType: acspData?.typeOfBusiness,
                 company: acspData?.companyDetails,
+                unincorporatedBusinessName: acspData?.businessName,
                 ...pageProperties
             });
         } else {
