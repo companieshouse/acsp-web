@@ -48,10 +48,10 @@ export const postTransaction = async (session: Session, description: string, ref
 /**
  * Close transaction
  */
-export const closeTransaction = async (session: Session, transactionId: string,companyName: string, companyNumber: string): Promise<string | undefined> => {
+export const closeTransaction = async (session: Session, transactionId: string, companyName: string, companyNumber: string): Promise<string | undefined> => {
     const apiResponse: ApiResponse<Transaction> = await putTransaction(session, transactionId, CREATE_DESCRIPTION, companyName, companyNumber, transactionStatuses.CLOSED);
     return apiResponse.headers?.[headers.PAYMENT_REQUIRED];
-    
+
 };
 
 /**
