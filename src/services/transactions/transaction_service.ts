@@ -8,7 +8,7 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { StatusCodes } from "http-status-codes";
 
 import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config";
-import { COMPANY_NUMBER, headers } from "../../common/__utils/constants";
+import { headers } from "../../common/__utils/constants";
 
 /**
  * Post transaction
