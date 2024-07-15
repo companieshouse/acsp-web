@@ -8,17 +8,15 @@ import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist
 import { StatusCodes } from "http-status-codes";
 
 import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config";
-import { headers } from "../../common/__utils/constants";
+import { COMPANY_NUMBER, headers } from "../../common/__utils/constants";
 
 /**
  * Post transaction
  */
-export const postTransaction = async (session: Session, description: string, reference: string, companyName?: string, companyNumber?: string): Promise<Transaction> => {
+export const postTransaction = async (session: Session, description: string, reference: string): Promise<Transaction> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     const transaction: Transaction = {
-        companyName,
-        companyNumber,
         reference,
         description
     };
@@ -50,9 +48,10 @@ export const postTransaction = async (session: Session, description: string, ref
 /**
  * Close transaction
  */
-export const closeTransaction = async (session: Session, transactionId: string): Promise<string | undefined> => {
-    const apiResponse: ApiResponse<Transaction> = await putTransaction(session, transactionId, CREATE_DESCRIPTION, transactionStatuses.CLOSED);
+export const closeTransaction = async (session: Session, transactionId: string,companyName: string, companyNumber: string): Promise<string | undefined> => {
+    const apiResponse: ApiResponse<Transaction> = await putTransaction(session, transactionId, CREATE_DESCRIPTION, companyName, companyNumber, transactionStatuses.CLOSED);
     return apiResponse.headers?.[headers.PAYMENT_REQUIRED];
+    
 };
 
 /**
@@ -61,6 +60,8 @@ export const closeTransaction = async (session: Session, transactionId: string):
 export const putTransaction = async (session: Session,
     transactionId: string,
     transactionDescription: string,
+    companyName: string,
+    companyNumber: string,
     transactionStatus: string): Promise<ApiResponse<Transaction>> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
@@ -68,7 +69,9 @@ export const putTransaction = async (session: Session,
         description: transactionDescription,
         id: transactionId,
         reference: REFERENCE,
-        status: transactionStatus
+        status: transactionStatus,
+        companyName: companyName,
+        companyNumber: companyNumber
     };
 
     logger.debug(`Updating transaction id: ${transactionId}, status ${transactionStatus}`);

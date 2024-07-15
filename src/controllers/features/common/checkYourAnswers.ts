@@ -3,7 +3,7 @@ import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../.
 import * as config from "../../../config";
 import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, CONFIRMATION, YOUR_RESPONSIBILITIES } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -12,6 +12,7 @@ import { startPaymentsSession } from "../../../services/paymentService";
 import logger, { createAndLogError } from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -46,7 +47,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
-        const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
+        const acspData: AcspData = session.getExtraData(USER_DATA)!;
+        const paymentUrl: string | undefined = await closeTransaction(session, transactionId, acspData.companyDetails?.companyName!, acspData.companyDetails?.companyNumber!);
 
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
