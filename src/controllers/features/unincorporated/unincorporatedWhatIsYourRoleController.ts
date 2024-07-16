@@ -79,6 +79,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             case "EQUIVALENT_OF_DIRECTOR":
                 role = "I am the equivalent to a director";
                 break;
+            case "GENERAL_PARTNER":
+                role = "I am a general partner";
+                break;
             }
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             detailsAnswers.roleType = role;
