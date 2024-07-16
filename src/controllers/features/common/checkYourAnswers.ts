@@ -21,6 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
         const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA)!;
+        console.log("detailsAnswers-------------->", detailsAnswers);
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         res.render(config.CHECK_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
