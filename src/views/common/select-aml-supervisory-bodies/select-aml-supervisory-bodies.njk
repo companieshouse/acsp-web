@@ -21,8 +21,9 @@
   <form action="" method="POST">
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
+    {% else %}   
+        {% include "partials/business_name.njk" %}
     {% endif %}
-
     {{ govukCheckboxes({
       name: "AML-supervisory-bodies",
       fieldset: {

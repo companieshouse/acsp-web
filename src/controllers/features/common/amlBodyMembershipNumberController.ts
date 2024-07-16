@@ -36,6 +36,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
+            firstName: acspData?.firstName,
+            lastName: acspData?.lastName,
+            acspType: acspData?.typeOfBusiness,
+            businessName: acspData?.businessName,
             payload
         });
     } catch (err) {
@@ -67,6 +71,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
                 firstName: acspData?.firstName,
                 lastName: acspData?.lastName,
+                acspType: acspData?.typeOfBusiness,
+                businessName: acspData?.businessName,
                 payload: req.body
             });
         } else {
