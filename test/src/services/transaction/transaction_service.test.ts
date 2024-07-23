@@ -158,6 +158,7 @@ describe("transaction service tests", () => {
             } as ApiResponse<Transaction>);
 
             const url = await closeTransaction(session, TRANSACTION_ID);
+            
             expect(url).toBe(paymentUrl);
         });
 
