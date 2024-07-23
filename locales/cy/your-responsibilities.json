@@ -1,12 +1,9 @@
 {
   "yourResponsibilitiesTitle": "Eich cyfrifoldebau fel asiant awdurdodedig",
-  "yourResponsibilitiesText1": "1. You must tell us within 14 days if there is a change to the Anti-Money Laundering (AML): welsh",
-  "registrationStatus": "registration status welsh",
-  "supervisoryBody": "supervisory body welsh",
-  "membershipNum": "membership number or ID welsh",
-  "yourResponsibilitiesText2": "2. If we request it, you must provide more information about: welsh",
-  "yourBusiness": "your business welsh",
-  "recordsFilings": "records of your filings with Companies House welsh",
-  "yourResponsibilitiesText3": "3. If you verify the identity of clients for Companies House, you must keep records of the identity verification checks you carry out. You must keep these for 7 years from the date you complete the checks. welsh",
-  "yourResponsibilitiesWarningText": "We could suspend or stop your business from acting as an authorised agent if you do not comply with the requirements. You could also get a fine or face criminal prosecution. welsh"
+  "yourResponsibilitiesText1": "1. Rhaid i chi ddweud wrthym os oes newid i unrhyw ran o'r wybodaeth rydych wedi'i darparu yn y cais hwn. Os oes newidiadau i'ch statws neu fanylion cofrestru AML, rhaid i chi ddweud wrthym o fewn 14 diwrnod.",
+  "yourResponsibilitiesText2": "2. Os byddwn yn gofyn amdano, rhaid i chi ddarparu mwy o wybodaeth am:",
+  "yourFilings": "eich ffeilio gyda Thŷ'r Cwmnïau",
+  "identityChecks": "gwiriadau hunaniaeth, os ydych wedi gwirio hunaniaeth rhywun ar gyfer Tŷ'r Cwmnïau",
+  "yourResponsibilitiesText3": "3. Os ydych chi'n gwirio hunaniaeth cleientiaid ar gyfer Tŷ'r Cwmnïau, rhaid i chi gadw cofnodion o'r gwiriadau rydych chi'n eu cynnal. Mae'n rhaid i chi gadw'r rhain am 7 mlynedd o'r dyddiad y byddwch yn cwblhau'r gwiriadau.",
+  "yourResponsibilitiesWarningText": "Gallem atal dros dro neu stopio eich busnes rhag gweithredu fel asiant awdurdodedig os nad ydych yn cydymffurfio â'r gofynion. Gallwch hefyd gael dirwy neu wynebu erlyniad troseddol."
 }
