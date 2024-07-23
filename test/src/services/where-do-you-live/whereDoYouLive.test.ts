@@ -47,11 +47,11 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "Northern-Ireland"
+            countryOfResidence: "Northern Ireland"
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({ whereDoYouLiveRadio: "Northern-Ireland" });
+        expect(payload).toEqual({ whereDoYouLiveRadio: "Northern Ireland" });
         expect(countryInput).toBeUndefined();
     });
 
