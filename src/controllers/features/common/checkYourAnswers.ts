@@ -49,7 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
-        const paymentUrl: string | undefined = await closeTransaction(session, transactionId, acspData.companyDetails?.companyName!, acspData.companyDetails?.companyNumber!);
+        const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
 
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
