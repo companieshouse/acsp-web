@@ -1,11 +1,11 @@
 {
-  "amlInterruptTitle": "Your company must be registered with an AML supervisory body welsh",
-  "text1": "To confirm your anti-money laundering (AML) registration, we need to check the name of your company is the same as the one your supervisory body holds welsh.",
+  "amlInterruptTitle": "Rhaid i'ch cwmni fod wedi cofrestru gyda chorff goruchwylio AML",
+  "text1": "I gadarnhau eich cofrestriad Atal Gwyngalchu Arian (AML), mae angen i ni wirio bod enw'ch cwmni yr un fath â'r un sydd gan eich corff goruchwylio.",
   "text2": "If the AML registration is in your name, the details will not match and we will reject your application welsh.",
-  "text5": "What to do next welsh",
-  "text3": "To register your company as an authorised agent, you'll need to welsh",
+  "text5": "Beth i'w wneud nesaf",
+  "text3": "I gofrestru eich cwmni fel asiant awdurdodedig, bydd angen i chi",
   "link1": "register the company with an AML supervisory body welsh",
-  "first": "first welsh.",
-  "text4": "Or, to register yourself as an authorised agent, you can welsh",
-  "link2": "apply as a sole trader welsh."
+  "first": "yn gyntaf.",
+  "text4": "Neu, i gofrestru'ch hun fel asiant awdurdodedig, ",
+  "link2": "gallwch wneud cais fel unig fasnachwr."
 }

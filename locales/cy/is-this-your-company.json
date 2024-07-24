@@ -1,13 +1,13 @@
 {
-    "isThisYourCompany": "Is this your company? welsh",
-    "companyName": "Company name welsh",
-    "companyNumber": "Company number welsh",
-    "status": "Status welsh",
-    "incorporationDate": "Incorporation date welsh",
+    "isThisYourCompany": "Ai hwn yw eich cwmni?",
+    "companyName": "Enw'r cwmni",
+    "companyNumber": "Rhif y cwmni",
+    "status": "Statws",
+    "incorporationDate": "Dyddiad corffori",
     "companyType": "Company type welsh",
-    "registeredOfficeAddress": "Registered office address welsh",
+    "registeredOfficeAddress": "Cyfeiriad swyddfa gofrestredig",
     "correspondeceAddress": "Correspondence address welsh",
-    "chooseADifferentCompany": "Choose a different company welsh",
-    "publicInformationAgents": "What information we'll show on the public list of authorised agents welsh",
-    "companyNameAndCity": "We'll show the company name and the town or city of the registered office address welsh."
+    "chooseADifferentCompany": "Dewis cwmni gwahanol",
+    "publicInformationAgents": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
+    "companyNameAndCity": "Byddwn yn dangos enw'r cwmni a thref neu ddinas o gyfeiriad y swyddfa gofrestredig."
 }
