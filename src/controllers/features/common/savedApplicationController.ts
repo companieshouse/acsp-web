@@ -9,6 +9,7 @@ import { deleteAcspApplication } from "../../../services/acspRegistrationService
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { Session } from "@companieshouse/node-session-handler";
+import { USER_DATA } from "common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);

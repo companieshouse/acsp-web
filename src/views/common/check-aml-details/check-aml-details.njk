@@ -34,15 +34,15 @@
     {% endfor %}
 
     {{ govukTable({
-      caption: "Anti-Money Laundering (AML) details",
+      caption: i18n.checkAmlDetailsAntiMoney,
       captionClasses: "govuk-table__caption--m",
       firstCellIsHeader: true,
       head: [
         {
-          text: "AML supervisory body"
+          text: i18n.checkAmlDetailsSupervisoryBody
         },
         {
-          text: "AML membership number"
+          text: i18n.checkAmlDetailsMemberShip
         },
         {
           text: ""

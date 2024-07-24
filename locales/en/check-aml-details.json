@@ -2,6 +2,10 @@
     "checkAmlDetailsTitle": "Check the Anti-Money Laundering (AML) details",
     "checkAmlDetailsText1": "We’ll confirm the AML supervisory body holds the same details for",
     "checkAmlDetailsText2": "Check the details are correct and change them if you need to.",
+
+    "checkAmlDetailsAntiMoney": "Anti-Money Laundering (AML) details",
+    "checkAmlDetailsSupervisoryBody": "AML supervisory body",
+    "checkAmlDetailsMemberShip": "AML membership number",
     "checkAmlDetailsText3": "You must have been registered with the AML supervisory body for at least 2 weeks.",
     "checkAmlDetailsChange": "Change",
     "checkAmlDetailsText4": "If the details do not match, we will reject your application."
