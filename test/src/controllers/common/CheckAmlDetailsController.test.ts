@@ -22,7 +22,7 @@ describe("GET" + AML_BODY_DETAILS_CONFIRM, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Check the AML details");
+        expect(res.text).toContain("Check the Anti-Money Laundering (AML) details");
     });
 
     it("should return status 500 after calling GET endpoint and failing", async () => {

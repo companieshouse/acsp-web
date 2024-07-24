@@ -2,7 +2,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-{% set title = i18n.checkAmlDetailsTabHeading %}
+{% set title = i18n.checkAmlDetailsTitle %}
 {% block main_content %}
 
   <form class="form" action="" method="post">
@@ -34,15 +34,15 @@
     {% endfor %}
 
     {{ govukTable({
-      caption: "Anti-Money Laundering (AML) details",
+      caption: i18n.checkAmlDetailsAntiMoney,
       captionClasses: "govuk-table__caption--m",
       firstCellIsHeader: true,
       head: [
         {
-          text: "AML supervisory body"
+          text: i18n.checkAmlDetailsSupervisoryBody
         },
         {
-          text: "AML membership number"
+          text: i18n.checkAmlDetailsMemberShip
         },
         {
           text: ""
