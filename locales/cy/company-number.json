@@ -1,15 +1,15 @@
 {
-    "companyNumberTitle": "What is the company number welsh?",
-    "companyNumberHint": "A company number is 8 characters long welsh.",
-    "textHowGetCompanyNumer": "How do I find the company number welsh?",
-    "infoToGetCompanyNumer": "You can find this by searching for the company on the welsh",
-    "linkWhereToHowGetCompanyNumer": "Companies House register (opens in new tab) welsh",
+    "companyNumberTitle": "Beth yw rhif y cwmni?",
+    "companyNumberHint": "Mae rhif cwmni yn 8 nod o hyd.",
+    "textHowGetCompanyNumer": "Sut ydw i'n dod o hyd i rif y cwmni?",
+    "infoToGetCompanyNumer": "Gallwch ddod o hyd i hyn trwy chwilio am y cwmni ar",
+    "linkWhereToHowGetCompanyNumer": "gofrestr Tŷ'r Cwmnïau (yn agor mewn tab newydd).",
 
 
-    "error-invalidcompanyNumberNoData": "Enter the company number welsh",
-    "error-invalidcompanyNumbercharacterLimit": "Company number must be 8 characters welsh",
-    "error-invalidcompanyNumberPattern": "Company number must only include letters a to z and numbers welsh",
-    "error-companyNumberDontExsits" : "Enter a valid company number welsh"
+    "error-invalidcompanyNumberNoData": "Cofnodwch rif y cwmni",
+    "error-invalidcompanyNumbercharacterLimit": "Rhaid i rif y cwmni fod yn 8 nod",
+    "error-invalidcompanyNumberPattern": "Rhaid i rif y cwmni gynnwys llythrennau a i z a rhifau yn unig",
+    "error-companyNumberDontExsits" : "Cofnodwch rif cwmni dilys"
 
 
 }
