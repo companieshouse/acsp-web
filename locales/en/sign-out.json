@@ -6,8 +6,5 @@
     "signoutHowHintText": "How do I find my saved applications?",
     "signoutHowHintDetailsText": "Sign in to your Companies House account and select Your filings to access your saved applications.",
 
-    "error-signoutDetailsErrorMsg": "Select yes if you want to sign out",
-    "error-signoutErrorSummaryTitle": "There is a problem",
-    "error-signoutErrorSummaryText": "Select yes if you want to sign out",
     "error-signoutNoInputError": "Select yes if you want to sign out"
 }
