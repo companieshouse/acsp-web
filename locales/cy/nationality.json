@@ -1,13 +1,13 @@
 {
-    "nationalityTitle": "What is your nationality? Welsh",
-    "firstNationalityHint": "Start typing a nationality, then choose from the list. Welsh",
-    "secondNationalityHint": "Second nationality (if relevant) Welsh",
-    "secondNationalityHintDetails": "Dual citizenship (also known as dual nationality) is allowed in some countries. This means you can be a citizen of your own country and another country. Welsh",
-    "thirdNationalityHint": "Third nationality (if relevant) Welsh",
-    "thirdNationalityHintDetails": "Multiple citizenship (also known as multiple nationality) is allowed in some countries. This means you can be a citizen of your own country and two other countries. Welsh",
+    "nationalityTitle": "Beth yw eich cenedligrwydd?",
+    "firstNationalityHint": "Dechreuwch deipio cenedligrwydd, yna dewiswch o'r rhestr.",
+    "secondNationalityHint": "Ail genedligrwydd (os yn berthnasol)",
+    "secondNationalityHintDetails": "Caniateir dinasyddiaeth ddeuol (a elwir hefyd yn genedligrwydd deuol) mewn rhai gwledydd. Mae hyn yn golygu y gallwch fod yn ddinesydd o'ch gwlad eich hun ac o wlad arall.",
+    "thirdNationalityHint": "Trydydd cenedligrwydd (os yn berthnasol)",
+    "thirdNationalityHintDetails": "Caniateir dinasyddiaeth luosog (a elwir hefyd yn genedligrwydd lluosog) mewn rhai gwledydd. Mae hyn yn golygu y gallwch fod yn ddinesydd o'ch gwlad eich hun a dwy wlad arall.",
     "whatIsYourNationalityDefaultDropdownText" : "Select your nationality welsh",
-    "error-invalidNationalityNoData": "Enter your nationality Welsh",
-    "error-invalidNationalityNoNationality": "Select a nationality from the list Welsh",
-    "error-invalidNationalityDoubleSecondNationality": "Enter a different second nationality Welsh",
-    "error-invalidNationalityDoubleThirdNationality": "Enter a different third nationality Welsh"
+    "error-invalidNationalityNoData": "Cofnodwch eich cenedligrwydd",
+    "error-invalidNationalityNoNationality": "Dewiswch genedligrwydd o'r rhestr",
+    "error-invalidNationalityDoubleSecondNationality": "Cofnodwch ail genedligrwydd gwahanol",
+    "error-invalidNationalityDoubleThirdNationality": "Cofnodwch trydydd cenedligrwydd gwahanol"
 }

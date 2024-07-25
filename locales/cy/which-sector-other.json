@@ -1,9 +1,9 @@
 {
-    "whichSectorOtherTitle" : "Which other sector do you work in? welsh",
-    "whichSectorOtherEstateAgentsOption": "Estate agents welsh",
-    "whichSectorOtherHighValueDealersOption": "High value dealers welsh",
-    "whichSectorOtherCasinosOption": "Casinos welsh",
-    "whichSectorOtherGoBack": "Go back to main business sector list welsh",
+    "whichSectorOtherTitle" : "Ar gyfer pa sector arall ydych chi'n gweithio?",
+    "whichSectorOtherEstateAgentsOption": "Asiantau tai",
+    "whichSectorOtherHighValueDealersOption": "Delwyr gwerth uchel",
+    "whichSectorOtherCasinosOption": "Casinos",
+    "whichSectorOtherGoBack": "Ewch yn ôl i’r prif dudalen sector busnes",
    
-    "error-whichSectorOtherSelectRadio" : "Select which other sector you work in welsh"
+    "error-whichSectorOtherSelectRadio" : "Dewiswch pa sector arall rydych chi'n gweithio ynddo"
 }

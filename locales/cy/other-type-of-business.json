@@ -1,7 +1,7 @@
 {
-    "otherTypeOfBusinessTitle" : "What other type of business are you registering? welsh",
-    "otherTypeOfBusinessUnincorporatedEntity": "Unincorporated entity welsh",
-    "otherTypeOfBusinessCorporateBody": "Corporate body (registered with Companies House) welsh",
-    "otherTypeOfBusinessCorporateBodyHint": "This does not include limited companies or registrable partnerships. welsh",
-    "error-otherTypeOfBusinessSelectRadio" : "Select the type of business you are registering welsh"
+    "otherTypeOfBusinessTitle" : "Pa fath arall o fusnes ydych chi'n ei gofrestru?",
+    "otherTypeOfBusinessUnincorporatedEntity": "Endid anghorfforedig",
+    "otherTypeOfBusinessCorporateBody": "Corff corfforedig (wedi'i gofrestru gyda Thŷ'r Cwmnïau)",
+    "otherTypeOfBusinessCorporateBodyHint": "Nid yw hyn yn cynnwys cwmnïau cyfyngedig neu bartneriaethau cofrestradwy.",
+    "error-otherTypeOfBusinessSelectRadio" : "Dewiswch y math arall o fusnes rydych chi'n ei gofrestru"
 }
