@@ -1,12 +1,12 @@
 {
-    "typeOfBusinessTitle" : "What type of business are you registering? welsh",
+    "typeOfBusinessTitle" : "Pa fath o fusnes ydych chi'n ei gofrestru?",
     
-    "typeOfBusinessLimitedCompanyOption": "Limited company welsh",
-    "typeOfBusinessLimitedLiabilityPartnershipsOption": "Limited liability partnership (LLP) welsh",
-    "typeOfBusinessLimitedPartnershipOption": "Limited partnership (LP) welsh",
-    "typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption": "Partnership (not registered with Companies House) welsh",
-    "typeOfBusinessSoleTraderOption": "Sole trader welsh",
-    "typeOfBusinessOtherOption": "Other welsh",
+    "typeOfBusinessLimitedCompanyOption": "Cwmni cyfyngedig",
+    "typeOfBusinessLimitedLiabilityPartnershipsOption": "Partneriaeth Atebolrwydd Cyfyngedig (PAC)",
+    "typeOfBusinessLimitedPartnershipOption": "Partneriaeth gyfyngedig",
+    "typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption": "Partneriaeth (heb gofrestru gyda Thŷ'r Cwmnïau)",
+    "typeOfBusinessSoleTraderOption": "Unig fasnachwr",
+    "typeOfBusinessOtherOption": "Arall",
     
-    "error-typeOfBusinessSelectRadio" : "Select what type of business are you registering welsh"
+    "error-typeOfBusinessSelectRadio" : "Dewiswch y math o fusnes rydych chi'n ei gofrestru"
 }

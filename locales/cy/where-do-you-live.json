@@ -1,13 +1,13 @@
 {
-    "whereDoYouLiveTitle" : "Where do you live? welsh",
-    "whereDoYouLiveHint" : "Start typing a country, then choose from the list. welsh",
-    "whereDoYouLiveDefaultDropdownText" : "Select where you live welsh",
-    "error-whereDoYouLiveNoData" : "Select where you live welsh",
+    "whereDoYouLiveTitle" : "Ble rydych chi'n byw?",
+    "whereDoYouLiveHint" : "Dechreuwch deipio gwlad, yna dewiswch o'r rhestr.",
+    "whereDoYouLiveDefaultDropdownText" : "Dewiswch lle rydych chi'n byw",
+    "error-whereDoYouLiveNoData" : "Dewiswch lle rydych chi'n byw",
     "error-whereDoYouLiveEmptyInput" :"Enter a country welsh",
-    "whereDoYouLiveText1" : "England  welsh",
-    "whereDoYouLiveText2" : "Scotland  welsh",
-    "whereDoYouLiveText3" : "Wales  welsh",
-    "whereDoYouLiveText4" : "Northern Ireland  welsh",
-    "whereDoYouLiveText5" : "or  welsh",
-    "whereDoYouLiveText6" : "Country or territory outside of the UK  welsh"
+    "whereDoYouLiveText1" : "Lloegr",
+    "whereDoYouLiveText2" : "Yr Alban",
+    "whereDoYouLiveText3" : "Cymru",
+    "whereDoYouLiveText4" : "Gogledd Iwerddon",
+    "whereDoYouLiveText5" : "Neu",
+    "whereDoYouLiveText6" : "Gwlad neu diriogaeth y tu allan i'r Deyrnas Unedig"
 }

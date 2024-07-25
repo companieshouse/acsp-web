@@ -1,9 +1,9 @@
 {
-    "nameRegisteredWithAmlTitle" : "Which name is registered with your Anti-Money Laundering (AML) supervisory body? welsh",
-    "nameRegisteredWithAmlBody": "We'll check this matches what the AML supervisory body holds welsh",
-    "nameRegisteredWithAmlNameOfTheBusinessOption": "Name of the business welsh",
-    "nameRegisteredWithAmlYourNameOption": "Your name welsh",
-    "nameRegisteredWithAmlBothOption": "Both welsh",
+    "nameRegisteredWithAmlTitle" : "Pa enw sydd wedi'i gofrestru gyda'ch corff goruchwylio Atal Gwyngalchu Arian (AML)?",
+    "nameRegisteredWithAmlBody": "Byddwn yn gwirio bod hyn yn cyd-fynd â'r hyn sydd gan gorff goruchwylio AML. ",
+    "nameRegisteredWithAmlNameOfTheBusinessOption": "Enw'r busnes",
+    "nameRegisteredWithAmlYourNameOption": "Eich enw",
+    "nameRegisteredWithAmlBothOption": "Y ddau",
    
-    "error-nameRegisteredWithAmlSelectRadio" : "Select which name is registered with your AML supervisory body welsh"
+    "error-nameRegisteredWithAmlSelectRadio" : "Dewiswch pa enw sydd wedi'i gofrestru gyda'ch corff goruchwylio AML"
 }
