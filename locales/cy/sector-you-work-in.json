@@ -1,11 +1,11 @@
 {
-    "sectorYouWorkInTitle" : "Which sector do you work in? welsh",
-    "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Auditors, insolvency practitioners, external accountants and tax advisers welsh",
-    "sectorYouWorkInIndependentLegalProfessionalsOption": "Independent legal professionals welsh",
-    "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Trust or company service providers welsh",
-    "sectorYouWorkInCreditInstitutionsOption": "Credit institutions welsh",
-    "sectorYouWorkInFinancialInstitutionsOption": "Financial institutions welsh",
-    "sectorYouWorkInOtherOption": "Other welsh",
+    "sectorYouWorkInTitle" : "Ym mha sector ydych chi'n gweithio?",
+    "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Archwilwyr, ymarferwyr ansolfedd, cyfrifwyr allanol a chynghorwyr treth",
+    "sectorYouWorkInIndependentLegalProfessionalsOption": "Gweithwyr cyfreithiol annibynnol proffesiynol",
+    "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Ymddiriedolaeth neu ddarparwyr gwasanaeth cwmni",
+    "sectorYouWorkInCreditInstitutionsOption": "Sefydliadau credyd",
+    "sectorYouWorkInFinancialInstitutionsOption": "Sefydliadau ariannol",
+    "sectorYouWorkInOtherOption": "Arall",
    
-    "error-sectorYouWorkInSelectRadio" : "Select which sector you work in welsh"
+    "error-sectorYouWorkInSelectRadio" : "Dewiswch pa sector rydych chi'n gweithio ynddo"
 }
