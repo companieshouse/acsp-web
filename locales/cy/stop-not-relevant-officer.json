@@ -1,10 +1,10 @@
 {
-    "cannotUseServiceTitle" : "You cannot use this service welsh",
-    "listOfAuthorisedAgent" : "To register an authorised agent, you must be one of the following for the business you are registering:welsh",
-    "kickoutDirector": "director welsh",
-    "kickoutGeneralPartner": "general partner welsh",
-    "kickoutMember": "member welsh",
-    "kickoutSoleTrader": "sole trader welsh",
-    "guidancePageText": "Read the guidance about applying to register as an authorised agent welsh",
-    "moreInformation": "for more information.welsh"
+    "cannotUseServiceTitle" : "Ni allwch ddefnyddio'r gwasanaeth hwn",
+    "listOfAuthorisedAgent" : "I gofrestru asiant awdurdodedig, rhaid i chi fod yn un o'r canlynol ar gyfer y busnes rydych yn ei gofrestru:",
+    "kickoutDirector": "cyfarwyddwr",
+    "kickoutGeneralPartner": "partner gyffredinol",
+    "kickoutMember": "aelod",
+    "kickoutSoleTrader": "unig fasnachwr",
+    "guidancePageText": "Darllenwch y canllawiau ynghylch gwneud cais i gofrestru fel asiant awdurdodedig",
+    "moreInformation": " i gael rhagor o wybodaeth."
 }
