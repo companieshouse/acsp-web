@@ -48,9 +48,10 @@
             }) }}
         </div>
         {%if typeOfBusiness === "SOLE_TRADER"%}
-        {{ govukInsetText({
-            text: i18n.whatIsYourNameInsetText
-        }) }}
+        <div class="govuk-inset-text">
+            <h2 class="govuk-heading-m">{{ i18n.whatIsYourNameInsetHeading }}</h2>
+            <p>{{ i18n.whatIsYourNameInsetText }}</p>
+          </div>
         {%endif%}
         {{ govukButton({
             text: i18n.SaveAndContinue,

@@ -1,17 +1,17 @@
 {
-    "title": "What is your role in the business? welsh",
-    "soleTrader":"I am the sole trader welsh",
-    "someoneElse":"I am someone else welsh",
-    "member": "welsh I am a member of ",
-    "memberOfGoverningBody": "welsh I am a member of the governing body of ",
-    "equivalentToDirector": "welsh I am the equivalent to a director of ",
-    "director": "welsh I am a director of ",
-    "generalPartner": "welsh I am a general partner of ",
+    "title": "Beth yw eich rôl yn y busnes?",
+    "soleTrader":"Fi yw'r unig fasnachwr",
+    "someoneElse":"Rwy'n rhywun arall",
+    "member": "Rwy'n aelod o ",
+    "memberOfGoverningBody": "Rwy'n aelod o'r corff llywodraethu ar gyfer ",
+    "equivalentToDirector": "Rwy'n gyfwerth i gyfarwyddwr o ",
+    "director": "Rwy'n gyfarwyddwr ar ",
+    "generalPartner": "Rwy'n bartner cyffredinol o ",
 
-    "error-limitedCompanyWhatIsYourRoleRadio" : "Select if you are a director or someone else welsh",
-    "error-limitedPWhatIsYourRoleRadio" : "Select if you are a general partner or someone else welsh",
-    "error-llppartnershipWhatIsYourRoleRadio" : "Select if you are a member of the partnership or someone else welsh",
-    "error-nonRegistrablePartnership" : "Select if you are a member of the partnership or someone else welsh",
-    "error-unincorporatedEntityWhatIsYourRoleRadio" : "Select your role welsh",
-    "error-soleTraderWhatIsYourRoleRadio" : "Select if you are the sole trader or someone else welsh"
+    "error-limitedCompanyWhatIsYourRoleRadio" : "Dewiswch os ydych chi'n gyfarwyddwr neu'n rhywun arall",
+    "error-limitedPWhatIsYourRoleRadio" : "Dewiswch os ydych chi'n bartner cyffredinol neu'n rhywun arall",
+    "error-llppartnershipWhatIsYourRoleRadio" : "Dewiswch os ydych yn aelod o'r bartneriaeth neu rywun arall",
+    "error-nonRegistrablePartnership" : "Dewiswch os ydych yn aelod o'r bartneriaeth neu rywun arall",
+    "error-unincorporatedEntityWhatIsYourRoleRadio" : "Dewiswch eich rôl",
+    "error-soleTraderWhatIsYourRoleRadio" : "Dewiswch os mai chi yw'r unig fasnachwr neu rywun arall"
 }
