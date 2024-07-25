@@ -1,43 +1,31 @@
 {% from "govuk/components/footer/macro.njk" import govukFooter %}
 
-        {{ govukFooter({
-          meta: {
-            items: [
-              {
-                href: "/help",
-                text: "Help"
-              },
-              {
-                href: "/help/privacy-notice",
-                text: "Privacy"
-              },
-              {
-                href: "/cookies",
-                text: "Cookies"
-              },
-              {
-                href: "/register-as-companies-house-authorised-agent/accessibility-statement",
-                text: "Accessibility statement"
-              },
-              {
-                href: "/contact",
-                text: "Contact"
-              },
-              {
-                href: "/help/terms-conditions",
-                text: "Terms and conditions"
-              },
-              {
-                href: "/cymraeg",
-                text: "Rhestr o Wasanaethau Cymraeg"
-              },
-              {
-                href: "/government/organisations/government-digital-service",
-                text: "Government Digital Service"
-              }
-            ]
-          }
-        }) }}
+{{ govukFooter({
+    meta: {
+        items: [
+            {
+            href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml",
+            text: "Policies"
+            },
+            {
+            href: "/help/cookies",
+            text: "Cookies"
+            },
+            {
+            href: "https://find-and-update.company-information.service.gov.uk/help/contact-us",
+            text: "Contact us"
+            },
+            {
+            href: "/register-as-companies-house-authorised-agent/accessibility-statement",
+            text: "Accessibility statement"
+            },
+            {
+            href: "https://developer.company-information.service.gov.uk/",
+            text: "Developers"
+            }
+        ]
+    }
+}) }}
   <!-- Matomo -->
   <script>
     var _paq = window._paq = window._paq || [];
@@ -59,5 +47,4 @@
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
 <script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js"></script>
-<!--<script src="/all.js"></script>-->
 <script>window.GOVUKFrontend.initAll()</script>
