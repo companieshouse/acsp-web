@@ -1,23 +1,23 @@
 {
-    "correspondenceLookUpAddressTitle" : "What is the correspondence address? welsh",
+    "correspondenceLookUpAddressTitle" : "Beth yw'r cyfeiriad gohebiaeth?",
     "businessLookUpAddressTitle": "Beth yw'r cyfeiriad busnes?",
     "correspondenceLookUpAddressPostCodeInput": "Cod post y DU",
     "correspondenceLookUpAddressInputHint1": "Enw neu rif eiddo",
     "correspondenceLookUpAddressInputHint2": "Er enghraifft, 'Y Felin', '116' neu 'Fflat 37a'",
     "correspondenceLookUpAddressFindAddressBtn": "Dod o hyd i gyfeiriad",
     "correspondenceLookUpAddressManuallyBtn": "Cofnodwch y cyfeiriad â llaw",
-    "correspondenceLookUpAddressListTitle": "Select the correspondence address welsh",
+    "correspondenceLookUpAddressListTitle": "Dewiswch y cyfeiriad gohebiaeth",
     "businessAddressShowOnPublicList": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
     "businessAddressShowTownOrCity": "Byddwn yn dangos tref neu ddinas o’r cyfeiriad busnes.",
     "businessLookUpAddressListTitle": "Dewiswch gyfeiriad",
 
-    "error-correspondenceLookUpAddressNoAddress" : "Select the correspondence address welsh",
+    "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-correspondenceLookUpAddressNoPostCode" : "Cofnodwch god post",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "We cannot find this postcode. Enter a different one, or enter the address manually welsh",
     "error-invalidPostcodeFormat": "Rhaid i'r cod post gynnwys llythrennau a i z a rhifau a bylchau yn unig",
     "error-invalidAddressPostcode": "Cofnodwch  god post llawn yn y Deyrnas Unedig",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address welsh",
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address welsh"
 
 
