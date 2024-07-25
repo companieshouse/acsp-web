@@ -154,7 +154,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmno@", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("County or region must only include letters a to z and spaces");
+        expect(res.text).toContain("County, state, province or region must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
     });
 
     // Test for incorrect addressCounty Length entered, will return 400.
@@ -178,7 +178,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmno@", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Country must only include letters a to z and spaces");
+        expect(res.text).toContain("Country must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
     });
 
     // Test for incorrect addressCountry Length entered, will return 400.
