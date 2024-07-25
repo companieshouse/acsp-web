@@ -1,12 +1,12 @@
 {
-  "amlMembershipTitle": "What is the Anti-Money Laundering (AML) membership number? Welsh",
-  "amlMembershipdescription": "Your AML supervisory body may have a different name for this, such as:Welsh",
-  "amlMembershipLisit1": "a firm ID or number Welsh",
-  "amlMembershipLisit2": "a regulation ID Welsh",
-  "amlMembershipLisit3": "an AML ID Welsh",
-  "amlcontactinfo": "Contact the AML supervisory body if you need to check your details.Welsh",
-  "amlAdditionalInfo": "You must have been registered with the AML supervisory body for at least 2 weeks.Welsh",
+  "amlMembershipTitle": "Beth yw'r rhif aelodaeth Atal Gwyngalchu Arian (AML)?",
+  "amlMembershipdescription": "Efallai y bydd gan eich corff goruchwylio AML enw gwahanol ar gyfer hyn, fel:",
+  "amlMembershipLisit1": "ID neu rif cwmni",
+  "amlMembershipLisit2": "ID rheoliad",
+  "amlMembershipLisit3": "ID AML",
+  "amlcontactinfo": "Cysylltwch â'r corff goruchwylio AML os oes angen i chi wirio'ch manylion.",
+  "amlAdditionalInfo": "Mae'n rhaid eich bod wedi cofrestru gyda'r corff goruchwylio AML am o leiaf 2 wythnos.",
 
 
-  "error-amlIDNumberInput": "Enter the details for Welsh "
+  "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer "
 }

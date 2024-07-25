@@ -1,8 +1,8 @@
 {
-    "savedTitle": "Do you want to start a new application? Welsh",
-    "savedYesButtonText": "Yes, start a new application Welsh",
-    "savedYesHintText": "If you have a saved application, this will be deleted. Welsh",
-    "savedNoButtonText": "No, continue with a saved application Welsh",
+    "savedTitle": "Ydych chi eisiau dechrau cais newydd?",
+    "savedYesButtonText": "Ydw, dechrau cais newydd",
+    "savedYesHintText": "Os oes gennych gais wedi'i gadw, bydd hyn yn cael ei ddileu.",
+    "savedNoButtonText": "Nac ydw, parhau â chais wedi'i gadw",
     
     "error-savedNoInputError": "Select yes if you want to start a new application Welsh"
 }

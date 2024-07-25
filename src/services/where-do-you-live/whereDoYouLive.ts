@@ -9,7 +9,7 @@ export class WhereDoYouLivBodyService {
         case "England":
         case "Scotland":
         case "Wales":
-        case "Northern-Ireland":
+        case "Northern Ireland":
             payload = { whereDoYouLiveRadio: ascpData?.countryOfResidence };
             break;
         default:

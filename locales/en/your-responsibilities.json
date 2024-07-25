@@ -1,12 +1,9 @@
 {
   "yourResponsibilitiesTitle": "Your responsibilities as an authorised agent",
-  "yourResponsibilitiesText1": "1. You must tell us within 14 days if there is a change to the Anti-Money Laundering (AML):",
-  "registrationStatus": "registration status",
-  "supervisoryBody": "supervisory body",
-  "membershipNum": "membership number or ID",
+  "yourResponsibilitiesText1": "1. You must tell us if there is a change to any of the information you have provided in this application. If there are changes to your AML registration status or details, you must tell us within 14 days.",
   "yourResponsibilitiesText2": "2. If we request it, you must provide more information about:",
-  "yourBusiness": "your business",
-  "recordsFilings": "records of your filings with Companies House",
-  "yourResponsibilitiesText3": "3. If you verify the identity of clients for Companies House, you must keep records of the identity verification checks you carry out. You must keep these for 7 years from the date you complete the checks.",
+  "yourFilings": "your filings with Companies House",
+  "identityChecks": "identity checks, if you have verified someone's identity for Companies House",
+  "yourResponsibilitiesText3": "3. If you verify the identity of clients for Companies House, you must keep records of the checks you carry out. You must keep these for 7 years from the date you complete the checks.",
   "yourResponsibilitiesWarningText": "We could suspend or stop your business from acting as an authorised agent if you do not comply with the requirements. You could also get a fine or face criminal prosecution."
 }
