@@ -10,5 +10,5 @@ export const sessionMiddleware = SessionMiddleware({
     cookieName: COOKIE_NAME,
     cookieSecret: COOKIE_SECRET,
     cookieSecureFlag: undefined,
-    cookieTimeToLiveInSeconds: parseInt(DEFAULT_SESSION_EXPIRATION, 10)
+    cookieTimeToLiveInSeconds: 120
 }, sessionStore, true);
