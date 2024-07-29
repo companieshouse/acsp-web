@@ -16,6 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     res.render(config.LIMITED_COMPANY_INACTIVE, {
         previousPage: addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang),
+        feedbackLink: "https://www.smartsurvey.co.uk/s/reg-as-acsp-co-not-active/",
         startPage: addLangToUrl(BASE_URL, lang),
         companyName: company?.companyName,
         ...getLocaleInfo(locales, lang),
