@@ -13,7 +13,7 @@
     "error-noDay" : "Rhaid i'r dyddiad geni gynnwys diwrnod",
     "error-noMonth" : "Rhaid i'r dyddiad geni gynnwys mis",
     "error-noYear" : "Rhaid i'r dyddiad geni gynnwys blwyddyn",
-    "error-tooOld" : "You must be less than 110 years old welsh",
+    "error-tooOld" : "Rhaid i chi fod yn llai na 110 mlwydd oed",
     "error-tooYoung" : "Rhaid i chi fod yn 16 oed o leiaf",
     "error-nonNumeric" : "Rhaid i'r dyddiad geni gynnwys rhifau yn unig"
 }
