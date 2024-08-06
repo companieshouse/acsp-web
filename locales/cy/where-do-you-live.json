@@ -3,7 +3,7 @@
     "whereDoYouLiveHint" : "Dechreuwch deipio gwlad, yna dewiswch o'r rhestr.",
     "whereDoYouLiveDefaultDropdownText" : "Dewiswch lle rydych chi'n byw",
     "error-whereDoYouLiveNoData" : "Dewiswch lle rydych chi'n byw",
-    "error-whereDoYouLiveEmptyInput" :"Enter a country welsh",
+    "error-whereDoYouLiveEmptyInput" : "Cofnodwch wlad",
     "whereDoYouLiveText1" : "Lloegr",
     "whereDoYouLiveText2" : "Yr Alban",
     "whereDoYouLiveText3" : "Cymru",

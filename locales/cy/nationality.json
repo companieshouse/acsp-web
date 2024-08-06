@@ -5,7 +5,7 @@
     "secondNationalityHintDetails": "Caniateir dinasyddiaeth ddeuol (a elwir hefyd yn genedligrwydd deuol) mewn rhai gwledydd. Mae hyn yn golygu y gallwch fod yn ddinesydd o'ch gwlad eich hun ac o wlad arall.",
     "thirdNationalityHint": "Trydydd cenedligrwydd (os yn berthnasol)",
     "thirdNationalityHintDetails": "Caniateir dinasyddiaeth luosog (a elwir hefyd yn genedligrwydd lluosog) mewn rhai gwledydd. Mae hyn yn golygu y gallwch fod yn ddinesydd o'ch gwlad eich hun a dwy wlad arall.",
-    "whatIsYourNationalityDefaultDropdownText" : "Select your nationality welsh",
+    "whatIsYourNationalityDefaultDropdownText" : "Dewiswch eich cenedligrwydd",
     "error-invalidNationalityNoData": "Cofnodwch eich cenedligrwydd",
     "error-invalidNationalityNoNationality": "Dewiswch genedligrwydd o'r rhestr",
     "error-invalidNationalityDoubleSecondNationality": "Cofnodwch ail genedligrwydd gwahanol",

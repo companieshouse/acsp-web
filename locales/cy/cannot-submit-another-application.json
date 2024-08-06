@@ -1,6 +1,6 @@
 {
-    "cannotSubmitHeading": "You have already submitted an application Welsh",
-    "oneApplication": "You can only have one application at a time. Welsh",
-    "applicationBeingProcessed": "Welsh Your application is currently being processed. You can ",
-    "viewApplicationInFilings": "view your application status in YourFilings Welsh"
+    "cannotSubmitHeading": "Rydych eisoes wedi cyflwyno cais",
+    "oneApplication": "Gallwch gyflwyno un cais yn unig ar y tro.",
+    "applicationBeingProcessed": "Mae eich cais yn cael ei brosesu ar hyn o bryd. Gallwch ",
+    "viewApplicationInFilings": "gweld eich statws cais yn 'Eich Ffeilio'."
 }
