@@ -61,7 +61,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     country: company.registeredOfficeAddress?.country!,
                     postcode: company.registeredOfficeAddress?.postalCode!
                 };
-                acspData.companyDetails = company;
+                acspData.companyDetails = {
+                    companyName: company.companyName,
+                    companyNumber: company.companyNumber
+                };
                 acspData.businessName = company.companyName;
             }
 
