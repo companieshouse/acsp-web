@@ -2,10 +2,11 @@ import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 import { businessAddressAnswers, correspondenceAddressAnswers, isThisYourCompanyAnswers } from "../../../src/services/checkYourAnswersService";
-import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA } from "../../../src/common/__utils/constants";
 import { address1, address2 } from "../../mocks/address.mock";
+import { Company } from "../../../src/model/Company";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;

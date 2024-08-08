@@ -7,11 +7,12 @@ import { COMPANY_DETAILS, SUBMISSION_ID, USER_DATA, GET_ACSP_REGISTRATION_DETAIL
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
-import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import { isThisYourCompanyAnswers } from "../../../services/checkYourAnswersService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { Company } from "../../../model/Company";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
