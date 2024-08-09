@@ -35,9 +35,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             previousPage,
             addresses: addressList,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
-            correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
+            correspondenceAddressManualLink: addLangToUrl(
+                BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
+                lang
+            )
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -64,8 +67,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 previousPage,
                 addresses: addressList,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),
                 pageProperties: pageProperties
             });

@@ -26,9 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             editPage: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
-            correspondenceAddress: acspData?.correspondenceAddress,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
+            correspondenceAddress: acspData?.applicantDetails?.correspondenceAddress,
             typeOfBusiness: acspData?.typeOfBusiness
         });
     } catch (err) {

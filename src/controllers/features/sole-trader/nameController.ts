@@ -26,9 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {
-            "first-name": acspData.firstName,
-            "middle-names": acspData.middleName,
-            "last-name": acspData.lastName
+            "first-name": acspData.applicantDetails?.firstName,
+            "middle-names": acspData.applicantDetails?.middleName,
+            "last-name": acspData.applicantDetails?.lastName
         };
         res.render(config.WHAT_IS_YOUR_NAME, {
             previousPage,
@@ -66,9 +66,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             if (acspData) {
-                acspData.firstName = req.body["first-name"];
-                acspData.middleName = req.body["middle-names"];
-                acspData.lastName = req.body["last-name"];
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.firstName = req.body["first-name"];
+                applicantDetails.middleName = req.body["middle-names"];
+                applicantDetails.lastName = req.body["last-name"];
+                acspData.applicantDetails = applicantDetails;
             }
 
             //  save data to mongodb

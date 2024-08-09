@@ -15,10 +15,12 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
-    firstName: "John",
-    middleName: "",
-    lastName: "Doe",
-    dateOfBirth: new Date(1989, 11, 25)
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe",
+        dateOfBirth: new Date(1989, 11, 25)
+    }
 };
 describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     beforeEach(() => {

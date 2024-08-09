@@ -15,8 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang),
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL + YOUR_RESPONSIBILITIES,
-        firstName: acspData?.firstName,
-        lastName: acspData?.lastName,
+        firstName: acspData?.applicantDetails?.firstName,
+        lastName: acspData?.applicantDetails?.lastName,
         businessName: acspData?.businessName,
         typeOfBusiness: acspData?.typeOfBusiness
     });

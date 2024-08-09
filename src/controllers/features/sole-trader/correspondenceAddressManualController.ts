@@ -33,8 +33,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             payload,
             typeOfBusiness: acspData?.typeOfBusiness
         });
@@ -62,8 +62,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 typeOfBusiness: acspData?.typeOfBusiness
             });
         } else {

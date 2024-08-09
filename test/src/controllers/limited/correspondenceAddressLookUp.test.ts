@@ -25,7 +25,9 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME",
-    correspondenceAddress: correspondenceAddress
+    applicantDetails: {
+        correspondenceAddress: correspondenceAddress
+    }
 };
 
 const mockResponseBodyOfUKAddress: UKAddress[] = [{

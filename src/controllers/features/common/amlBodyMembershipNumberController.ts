@@ -36,8 +36,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(previousPage, lang),
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             acspType: acspData?.typeOfBusiness,
             businessName: acspData?.businessName,
             payload
@@ -69,8 +69,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 acspType: acspData?.typeOfBusiness,
                 businessName: acspData?.businessName,
                 payload: req.body

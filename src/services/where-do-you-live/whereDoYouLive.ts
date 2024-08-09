@@ -5,17 +5,17 @@ export class WhereDoYouLivBodyService {
         let payload = {};
         let countryInput: string | undefined;
 
-        switch (ascpData.countryOfResidence) {
+        switch (ascpData.applicantDetails?.countryOfResidence) {
         case "England":
         case "Scotland":
         case "Wales":
         case "Northern Ireland":
-            payload = { whereDoYouLiveRadio: ascpData?.countryOfResidence };
+            payload = { whereDoYouLiveRadio: ascpData?.applicantDetails?.countryOfResidence };
             break;
         default:
-            if (ascpData.countryOfResidence) {
+            if (ascpData.applicantDetails?.countryOfResidence) {
                 payload = { whereDoYouLiveRadio: "countryOutsideUK" };
-                countryInput = ascpData.countryOfResidence;
+                countryInput = ascpData.applicantDetails?.countryOfResidence;
             }
             break;
 

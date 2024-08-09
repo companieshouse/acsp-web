@@ -23,14 +23,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY;
 
     try {
-        // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+    // get data from mongo and save to session
+        const acspData = await getAcspRegistration(
+            session,
+      session.getExtraData(SUBMISSION_ID)!,
+      res.locals.userId
+        );
         saveDataInSession(req, USER_DATA, acspData);
-
         const payload = {
-            nationality_input_0: acspData.nationality?.firstNationality,
-            nationality_input_1: acspData.nationality?.secondNationality,
-            nationality_input_2: acspData.nationality?.thirdNationality
+            nationality_input_0:
+        acspData.applicantDetails?.nationality?.firstNationality,
+            nationality_input_1:
+        acspData.applicantDetails?.nationality?.secondNationality,
+            nationality_input_2:
+        acspData.applicantDetails?.nationality?.thirdNationality
         };
 
         res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
@@ -38,9 +44,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             nationalityList: nationalityList,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
-            nationality: acspData?.nationality,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
+            nationality: acspData?.applicantDetails?.nationality,
             payload
 
         });
@@ -68,8 +74,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 nationalityList: nationalityList,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 ...pageProperties
 
             });// determined from user not in banned list
@@ -90,7 +96,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
 
             if (acspData) {
-                acspData.nationality = nationalityData;
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.nationality = nationalityData;
+                acspData.applicantDetails = applicantDetails;
             }
 
             //  save data to mongodb

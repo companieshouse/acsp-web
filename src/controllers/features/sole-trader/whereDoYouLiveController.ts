@@ -34,8 +34,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             countryList: countryList,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             countryInput,
             payload
         });
@@ -73,7 +73,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
             }
             if (acspData) {
-                acspData.countryOfResidence = countryOfResidence;
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.countryOfResidence = countryOfResidence;
+                acspData.applicantDetails = applicantDetails;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();

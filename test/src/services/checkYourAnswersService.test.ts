@@ -13,7 +13,9 @@ describe("CheckYourAnswersService", () => {
 
     const mockAcspData: AcspData = {
         id: "123",
-        correspondenceAddress: address1,
+        applicantDetails: {
+            correspondenceAddress: address1
+        },
         businessAddress: address2
     };
 

@@ -13,19 +13,23 @@ export class CorrespondenceAddressManualService {
             country: req.body.addressCountry,
             postcode: req.body.addressPostcode
         };
-
-        acspData.correspondenceAddress = correspondenceAddress;
+        const applicantDetails = acspData.applicantDetails || {};
+        applicantDetails.correspondenceAddress = correspondenceAddress;
+        acspData.applicantDetails = applicantDetails;
     }
 
     public getCorrespondenceManualAddress (acspData: AcspData) {
         return {
-            propertyDetails: acspData?.correspondenceAddress?.propertyDetails,
-            addressLine1: acspData?.correspondenceAddress?.line1,
-            addressLine2: acspData?.correspondenceAddress?.line2,
-            addressTown: acspData?.correspondenceAddress?.town,
-            addressCounty: acspData?.correspondenceAddress?.county,
-            addressCountry: acspData?.correspondenceAddress?.country,
-            addressPostcode: acspData?.correspondenceAddress?.postcode
+            propertyDetails:
+            acspData?.applicantDetails?.correspondenceAddress?.propertyDetails,
+            addressLine1: acspData?.applicantDetails?.correspondenceAddress?.line1,
+            addressLine2: acspData?.applicantDetails?.correspondenceAddress?.line2,
+            addressTown: acspData?.applicantDetails?.correspondenceAddress?.town,
+            addressCounty: acspData?.applicantDetails?.correspondenceAddress?.county,
+            addressCountry:
+              acspData?.applicantDetails?.correspondenceAddress?.country,
+            addressPostcode:
+              acspData?.applicantDetails?.correspondenceAddress?.postcode
         };
     }
 }
