@@ -15,8 +15,10 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
     businessName: "Test Business",
-    correspondenceAddress: {
-        propertyDetails: "Property Details"
+    applicantDetails: {
+        correspondenceAddress: {
+            propertyDetails: "Property Details"
+        }
     }
 };
 

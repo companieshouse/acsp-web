@@ -22,7 +22,9 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS_NAME",
-    correspondenceAddress: correspondenceAddress
+    applicantDetails: {
+        correspondenceAddress: correspondenceAddress
+    }
 };
 
 describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {

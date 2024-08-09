@@ -21,10 +21,12 @@ const nationalityData: Nationality = {
 
 const acspData: AcspData = {
     id: "abc",
-    firstName: "John",
-    middleName: "",
-    lastName: "Doe",
-    nationality: nationalityData
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe",
+        nationality: nationalityData
+    }
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
