@@ -1,9 +1,10 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { ANSWER_DATA } from "../common/__utils/constants";
 import { Answers } from "../model/Answers";
-import { AcspData, Company } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { saveDataInSession } from "../common/__utils/sessionHelper";
 import { Request } from "express";
+import { Company } from "../model/Company";
 
 export const isThisYourCompanyAnswers = (req: Request, company: Company): void => {
     const session: Session = req.session as any as Session;

@@ -2,7 +2,7 @@ import { Request } from "express";
 import { COMPANY_DETAILS, COMPANY_NUMBER } from "../../common/__utils/constants";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { Session } from "@companieshouse/node-session-handler";
-import { Company } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
+import { Company } from "../../model/Company";
 
 export class CompanyDetailsService {
     public saveToSession (req: Request, details: CompanyProfile): void {
