@@ -96,9 +96,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
 
             if (acspData) {
-                const applicantDetails = acspData.applicantDetails!;
-                applicantDetails.nationality = nationalityData;
-                acspData.applicantDetails = applicantDetails;
+                acspData.applicantDetails!.nationality = nationalityData;
             }
 
             //  save data to mongodb
