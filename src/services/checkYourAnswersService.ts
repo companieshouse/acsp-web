@@ -36,33 +36,31 @@ export const isThisYourCompanyAnswers = (req: Request, company: Company): void =
 export const correspondenceAddressAnswers = (req: Request, acspData: AcspData): void => {
     const session: Session = req.session as any as Session;
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-    const applicantDetails = acspData.applicantDetails || {};
     let correspondenceAddressAnswer =
-      applicantDetails.correspondenceAddress?.propertyDetails +
+      acspData.applicantDetails!.correspondenceAddress?.propertyDetails +
       " " +
-      applicantDetails.correspondenceAddress?.line1;
+      acspData.applicantDetails!.correspondenceAddress?.line1;
 
-    if (applicantDetails.correspondenceAddress?.line2) {
+    if (acspData.applicantDetails!.correspondenceAddress?.line2) {
         correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.line2;
+        "<br>" + acspData.applicantDetails!.correspondenceAddress.line2;
     }
-    if (applicantDetails.correspondenceAddress?.town) {
+    if (acspData.applicantDetails!.correspondenceAddress?.town) {
         correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.town;
+        "<br>" + acspData.applicantDetails!.correspondenceAddress.town;
     }
-    if (applicantDetails.correspondenceAddress?.county) {
+    if (acspData.applicantDetails!.correspondenceAddress?.county) {
         correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.county;
+        "<br>" + acspData.applicantDetails!.correspondenceAddress.county;
     }
-    if (applicantDetails.correspondenceAddress?.country) {
+    if (acspData.applicantDetails!.correspondenceAddress?.country) {
         correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.country;
+        "<br>" + acspData.applicantDetails!.correspondenceAddress.country;
     }
-    if (applicantDetails.correspondenceAddress?.postcode) {
+    if (acspData.applicantDetails!.correspondenceAddress?.postcode) {
         correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.postcode;
+        "<br>" + acspData.applicantDetails!.correspondenceAddress.postcode;
     }
-    acspData.applicantDetails = applicantDetails;
 
     detailsAnswers.correspondenceAddress = correspondenceAddressAnswer;
     saveDataInSession(req, ANSWER_DATA, detailsAnswers);

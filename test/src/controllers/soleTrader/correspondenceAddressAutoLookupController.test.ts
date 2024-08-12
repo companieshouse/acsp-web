@@ -67,12 +67,17 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",
-            premise: ""
+            premise: "",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE",
+                correspondenceAddress: correspondenceAddress
+            }
         };
-
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
         expect(res.status).toBe(302); // Expect a redirect status code
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

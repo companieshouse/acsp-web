@@ -13,7 +13,7 @@ export class CorrespondenceAddressManualService {
             country: req.body.addressCountry,
             postcode: req.body.addressPostcode
         };
-        const applicantDetails = acspData.applicantDetails || {};
+        const applicantDetails = acspData.applicantDetails!;
         applicantDetails.correspondenceAddress = correspondenceAddress;
         acspData.applicantDetails = applicantDetails;
     }

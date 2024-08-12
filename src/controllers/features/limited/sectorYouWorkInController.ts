@@ -85,7 +85,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const getPreviousPage = (acspData: AcspData): string => {
-    const applicantDetails = acspData.applicantDetails || {};
+    const applicantDetails = acspData.applicantDetails!;
     let previousPage: string;
     if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
         previousPage = BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;

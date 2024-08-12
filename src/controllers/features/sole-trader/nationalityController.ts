@@ -96,7 +96,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
 
             if (acspData) {
-                const applicantDetails = acspData.applicantDetails || {};
+                const applicantDetails = acspData.applicantDetails!;
                 applicantDetails.nationality = nationalityData;
                 acspData.applicantDetails = applicantDetails;
             }

@@ -76,9 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     req.body["dob-month"] - 1,
                     req.body["dob-day"]);
 
-                const applicantDetails = acspData.applicantDetails || {};
-                applicantDetails.dateOfBirth = dateOfBirth;
-                acspData.applicantDetails = applicantDetails;
+                acspData.applicantDetails!.dateOfBirth = dateOfBirth;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();

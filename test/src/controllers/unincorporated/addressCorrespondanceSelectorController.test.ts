@@ -13,7 +13,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "PARTNERSHIP"
+    typeOfBusiness: "PARTNERSHIP",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
