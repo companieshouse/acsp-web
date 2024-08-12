@@ -95,7 +95,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
           acspData.applicantDetails?.correspondenceAddress?.postcode ===
           acspData.businessAddress?.postcode
                 ) {
-                    const applicantDetails = acspData.applicantDetails || {};
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
             true;
