@@ -16,9 +16,9 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const correspondenceAddress: Address = {
-    propertyDetails: "2",
-    line1: "DUNCALF STREET",
-    postcode: "ST6 3LJ"
+    premises: "2",
+    addressLine1: "DUNCALF STREET",
+    postalCode: "ST6 3LJ"
 };
 
 const acspData: AcspData = {

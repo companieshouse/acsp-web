@@ -17,7 +17,7 @@ const acspData: AcspData = {
     businessName: "Test Business",
     applicantDetails: {
         correspondenceAddress: {
-            propertyDetails: "Property Details"
+            premises: "Property Details"
         }
     }
 };

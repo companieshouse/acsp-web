@@ -92,7 +92,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // redirect
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
-                if (applicantDetails.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
+                if (applicantDetails.correspondenceAddress?.postalCode === acspData.businessAddress?.postalCode) {
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
                       true;
