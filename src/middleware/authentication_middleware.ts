@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
+import { acspProfileCreateAuthMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { CHS_URL } from "../utils/properties";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
 
@@ -9,5 +9,6 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
         chsWebUrl: CHS_URL,
         returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
     };
-    return authMiddleware(authMiddlewareConfig)(req, res, next);
+
+    return acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
 };
