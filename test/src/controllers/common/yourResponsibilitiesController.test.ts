@@ -2,9 +2,21 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { YOUR_RESPONSIBILITIES, BASE_URL, CHECK_YOUR_ANSWERS } from "../../../../src/types/pageURL";
+import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
+
+const acspData: AcspData = {
+    id: "abc",
+    typeOfBusiness: "SOLE_TRADER",
+    businessName: "BUSINESS NAME",
+    applicantDetails: {
+        firstName: "JOHN",
+        lastName: "DOE"
+    }
+};
 
 describe("GET" + YOUR_RESPONSIBILITIES, () => {
     it("should return status 200", async () => {

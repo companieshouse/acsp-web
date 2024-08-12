@@ -77,9 +77,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             session.setExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS, addressOption);
             const acspDataService = new AcspDataService();
+            const applicantDetails = acspData.applicantDetails || {};
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
-                const applicantDetails = acspData.applicantDetails || {};
                 applicantDetails.correspondenceAddress = acspData.businessAddress;
                 acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
@@ -93,7 +93,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
                 if (acspData.applicantDetails?.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
-                    const applicantDetails = acspData.applicantDetails || {};
                     applicantDetails.correspondenceAddress = {};
                     acspData.applicantDetails = applicantDetails;
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =

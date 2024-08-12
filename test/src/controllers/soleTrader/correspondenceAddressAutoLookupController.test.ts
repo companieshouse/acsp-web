@@ -28,6 +28,8 @@ const acspData: AcspData = {
     typeOfBusiness: "SOLE_TRADER",
     businessName: "BUSINESS NAME",
     applicantDetails: {
+        firstName: "JOHN",
+        lastName: "DOE",
         correspondenceAddress: correspondenceAddress
     }
 };
