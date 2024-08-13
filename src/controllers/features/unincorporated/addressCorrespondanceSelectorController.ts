@@ -62,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const addressOption = req.body.addressSelectorRadio;
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-        
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.ADDRESS_CORRESPONDANCE_SELECTOR, {
