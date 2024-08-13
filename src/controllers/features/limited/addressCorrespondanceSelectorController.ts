@@ -93,12 +93,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang));
             } else {
                 if (
-          acspData.applicantDetails?.correspondenceAddress?.postcode ===
-          acspData.businessAddress?.postcode
+                    applicantDetails.correspondenceAddress?.postcode ===
+                    acspData.businessAddress?.postcode
                 ) {
                     applicantDetails.correspondenceAddress = {};
-                    applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
-            true;
+                    applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress = true;
                     acspData.applicantDetails = applicantDetails;
                     //  save data to mongodb
                     await acspDataService.saveAcspData(session, acspData);

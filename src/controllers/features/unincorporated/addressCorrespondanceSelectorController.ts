@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let addressOption = "";
         const applicantDetails = acspData.applicantDetails || {};
         if (applicantDetails.correspondenceAddress !== null) {
-            if (JSON.stringify(acspData.applicantDetails?.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+            if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
                 acspData.applicantDetails = applicantDetails;
             } else {
