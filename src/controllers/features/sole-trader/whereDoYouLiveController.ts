@@ -74,7 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
             if (acspData) {
                 const applicantDetails = acspData.applicantDetails || {};
-                acspData.applicantDetails!.countryOfResidence = countryOfResidence;
+                applicantDetails.countryOfResidence = countryOfResidence;
                 acspData.applicantDetails = applicantDetails;
             }
             //  save data to mongodb

@@ -13,7 +13,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "LIMITED",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
@@ -33,9 +37,19 @@ describe("GET" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
 });
 
 describe("POST" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
+    const formData = {
+        whichSectorOther: "EA",
+        sectorYouWorkIn: "AIA",
+        typeOfBusiness: "SOLE_TRADER",
+        applicantDetails: {
+            firstName: "John",
+            middleName: "",
+            lastName: "Doe"
+        }
+    };
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).send({ whichSectorOther: "EA" });
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).send(formData);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en");
     });
@@ -49,7 +63,7 @@ describe("POST" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
 
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
-        const res = await router.post(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).send({ whichSectorOther: "EA" });
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).send(formData);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });

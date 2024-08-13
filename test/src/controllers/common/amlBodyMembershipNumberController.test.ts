@@ -13,7 +13,12 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "LIMITED",
+    businessName: "Business",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
@@ -37,8 +42,18 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
 });
 
 describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
+    const formData = {
+        membershipNumber_1: "ABC", membershipNumber_2: "CBA", membershipNumber__3: "Finance",
+        sectorYouWorkIn: "AIA",
+        typeOfBusiness: "SOLE_TRADER",
+        applicantDetails: {
+            firstName: "John",
+            middleName: "",
+            lastName: "Doe"
+        }
+    };
     it("Test for valid input, should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "ABC", membershipNumber_2: "CBA", membershipNumber__3: "Finance" });
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(302);
@@ -55,7 +70,7 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
 
     it("should return status 500 after calling POST endpoint and failing", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
-        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "ABC", membershipNumber_2: "CBA", membershipNumber__3: "Finance" });
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");

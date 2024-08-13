@@ -87,7 +87,12 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should redirect to confirm page status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",
-            premise: "2"
+            premise: "2",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE",
+                correspondenceAddress: correspondenceAddress
+            }
         };
 
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
@@ -102,7 +107,12 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
-            premise: "2"
+            premise: "2",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE",
+                correspondenceAddress: correspondenceAddress
+            }
         };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
@@ -113,7 +123,12 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should return status 400 for no postcode entered", async () => {
         const formData = {
             postCode: "",
-            premise: "6"
+            premise: "6",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE",
+                correspondenceAddress: correspondenceAddress
+            }
         };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
@@ -124,8 +139,12 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should return status 400 for no data entered", async () => {
         const formData = {
             postCode: "",
-            premise: ""
-        };
+            premise: "",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
+        }
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
         expect(res.status).toBe(400);
@@ -135,7 +154,11 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should return status 400 for no postcode found", async () => {
         const formData = {
             postCode: "AB12CD",
-            premise: ""
+            premise: "",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
         };
         (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Postcode not found"));
 
@@ -148,7 +171,11 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const formData = {
             postCode: "ST63LJ",
-            premise: "2"
+            premise: "2",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
         };
 
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
@@ -161,7 +188,11 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should handle a case where an invalid premise is entered", async () => {
         const formData = {
             postCode: "ST63LJ",
-            premise: "Invalid premise"
+            premise: "Invalid premise",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
         };
 
         (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Invalid premise"));
@@ -173,7 +204,11 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should validate and ensure all fields are correctly handled", async () => {
         const formData = {
             postCode: "ST63LJ",
-            premise: "2"
+            premise: "2",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
         };
 
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);

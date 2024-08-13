@@ -45,7 +45,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "Company",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -59,7 +64,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: "USERNAME"
+            whatsTheBusinessNameRadio: "USERNAME",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -73,7 +83,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: ""
+            whatsTheBusinessNameRadio: "",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -87,7 +102,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -101,7 +121,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for invalid characters in business name", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "Camp<<<<,,,,,",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -115,7 +140,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for business name length more 200 characters", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -130,7 +160,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: "USERNAME"
+            whatsTheBusinessNameRadio: "USERNAME",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);

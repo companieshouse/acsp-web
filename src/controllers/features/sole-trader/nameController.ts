@@ -64,12 +64,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 typeOfBusiness: acspData.typeOfBusiness
             });
         } else {
-
+            const applicantDetails = acspData?.applicantDetails || {};
             if (acspData) {
-                acspData.applicantDetails!.firstName = req.body["first-name"];
-                acspData.applicantDetails!.middleName = req.body["middle-names"];
-                acspData.applicantDetails!.lastName = req.body["last-name"];
+                applicantDetails.firstName = req.body["first-name"];
+                applicantDetails.middleName = req.body["middle-names"];
+                applicantDetails.lastName = req.body["last-name"];
             }
+            acspData.applicantDetails = applicantDetails;
 
             //  save data to mongodb
             const acspDataService = new AcspDataService();
