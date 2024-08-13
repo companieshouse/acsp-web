@@ -157,4 +157,31 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    it("should handle a case where an invalid premise is entered", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "Invalid premise"
+        };
+
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Invalid premise"));
+
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        expect(res.status).toBe(400);
+    });
+
+    it("should validate and ensure all fields are correctly handled", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "2"
+        };
+
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
+
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        expect(res.status).toBe(302); // Expect a redirect status code
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
 });

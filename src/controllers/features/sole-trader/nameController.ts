@@ -66,11 +66,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             if (acspData) {
-                const applicantDetails = acspData.applicantDetails || {};
-                applicantDetails.firstName = req.body["first-name"];
-                applicantDetails.middleName = req.body["middle-names"];
-                applicantDetails.lastName = req.body["last-name"];
-                acspData.applicantDetails = applicantDetails;
+                acspData.applicantDetails!.firstName = req.body["first-name"];
+                acspData.applicantDetails!.middleName = req.body["middle-names"];
+                acspData.applicantDetails!.lastName = req.body["last-name"];
             }
 
             //  save data to mongodb
