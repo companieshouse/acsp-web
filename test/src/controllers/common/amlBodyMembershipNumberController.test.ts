@@ -43,7 +43,9 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
 
 describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
     const formData = {
-        membershipNumber_1: "ABC", membershipNumber_2: "CBA", membershipNumber__3: "Finance",
+        membershipNumber_1: "ABC",
+        membershipNumber_2: "CBA",
+        membershipNumber__3: "Finance",
         sectorYouWorkIn: "AIA",
         typeOfBusiness: "SOLE_TRADER",
         applicantDetails: {

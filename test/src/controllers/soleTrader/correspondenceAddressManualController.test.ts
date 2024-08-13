@@ -42,7 +42,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" })
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });

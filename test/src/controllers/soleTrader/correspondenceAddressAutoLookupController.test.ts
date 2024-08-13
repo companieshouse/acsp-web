@@ -144,7 +144,7 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
                 firstName: "JOHN",
                 lastName: "DOE"
             }
-        }
+        };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
         expect(res.status).toBe(400);
