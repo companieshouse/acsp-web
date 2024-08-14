@@ -29,6 +29,19 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("Enter the correspondence address");
     });
 
+    it("should return status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Enter the correspondence address");
+    });
+
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
@@ -40,13 +53,24 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
+
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB"});
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+    it("should return status 302 after redirect with applicantDetails", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB", applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            } });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
+    
     // Test for no addressPropertyDetails, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)

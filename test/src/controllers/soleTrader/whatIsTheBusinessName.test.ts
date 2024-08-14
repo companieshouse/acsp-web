@@ -32,6 +32,18 @@ describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
@@ -70,6 +82,20 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
                 middleName: "",
                 lastName: "Doe"
             }
+        };
+
+        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN + "?lang=en");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should redirect with status 302 on successful form submission", async () => {
+        const formData = {
+            whatIsTheBusinessNameInput: "",
+            whatsTheBusinessNameRadio: "USERNAME"
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);

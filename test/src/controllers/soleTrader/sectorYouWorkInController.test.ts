@@ -29,6 +29,19 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
+    it("should return status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    
+
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN);
@@ -55,6 +68,15 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en");
     });
 
+    it("should return status 302 without applicantDetails", async () => {
+        const formData = {
+            sectorYouWorkIn: "AIA",
+            typeOfBusiness: "SOLE_TRADER"
+        };
+        const res = await router.post(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).send(formData);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en");
+    });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const formData = {

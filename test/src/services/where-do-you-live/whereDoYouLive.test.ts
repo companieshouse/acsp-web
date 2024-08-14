@@ -32,6 +32,20 @@ describe("WhereDoYouLiveBodyService", () => {
         expect(countryInput).toBeUndefined();
     });
 
+    it("should return payload with countryOfResidence when applicantDetails is defined", () => {
+        const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
+        const acspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+    
+        const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
+    
+        expect(payload).toEqual({});
+        expect(countryInput).toBeUndefined();
+    });
+    
+
     it("should return payload for Wales", () => {
         const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
         const acspData: AcspData = {
