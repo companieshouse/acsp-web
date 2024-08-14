@@ -30,6 +30,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
     });
+
     it("should render the correspondence address selector page with status 200", async () => {
         const acspData2: AcspData = {
             id: "abc",

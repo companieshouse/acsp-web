@@ -17,7 +17,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "PARTNERSHIP"
+    typeOfBusiness: "PARTNERSHIP",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 let customMockSessionMiddleware: any;
 
@@ -31,6 +35,27 @@ describe("GET " + UNINCORPORATED_WHAT_IS_YOUR_ROLE, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(response.text).toContain("What is your role in the business?");
     });
+
+    it("should render what is your role page", async () => {
+        const response = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE);
+        expect(response.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should render what is your role page", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "PARTNERSHIP"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const response = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE);
+        expect(response.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.text).toContain("What is your role in the business?");
+    });
+
 
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });

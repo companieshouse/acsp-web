@@ -31,10 +31,17 @@ describe("GET" + YOUR_RESPONSIBILITIES, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Your responsibilities as an authorised agent");
     });
+
+    it("should return status 200", async () => {
+        const res = await router.get(BASE_URL + YOUR_RESPONSIBILITIES);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("should return status 200 applicantDetails is undefined", async () => {
         const acspData2: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED"
+            id: "abc"
         };
         mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
         const res = await router.get(BASE_URL + YOUR_RESPONSIBILITIES);

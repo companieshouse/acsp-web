@@ -32,6 +32,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+
     it("should return status 200 when applicantDetails is undefined", async () => {
         const acspData2: AcspData = {
             id: "abc",
