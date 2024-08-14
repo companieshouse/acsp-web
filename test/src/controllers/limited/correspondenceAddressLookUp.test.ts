@@ -26,6 +26,9 @@ const acspData: AcspData = {
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME",
     applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe",
         correspondenceAddress: correspondenceAddress
     }
 };
