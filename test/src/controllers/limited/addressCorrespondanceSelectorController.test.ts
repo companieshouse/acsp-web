@@ -118,4 +118,25 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    it("should redirect to sector-you-work-in page when address option is CORRESPONDANCE_ADDRESS and postcodes are the same", async () => {
+        const acspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            businessAddress: { postcode: "AB1 2CD" },
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: { postcode: "AB1 2CD" }
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router
+            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
+            .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+    });
 });

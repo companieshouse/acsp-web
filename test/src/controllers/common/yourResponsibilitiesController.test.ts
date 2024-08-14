@@ -31,9 +31,6 @@ describe("GET" + YOUR_RESPONSIBILITIES, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Your responsibilities as an authorised agent");
     });
-});
-
-describe("GET" + YOUR_RESPONSIBILITIES, () => {
     it("should return status 200 applicantDetails is undefined", async () => {
         const acspData2: AcspData = {
             id: "abc",
