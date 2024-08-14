@@ -52,6 +52,18 @@ describe("Correspondence address auto look up tests", () => {
         expect(res.text).toContain("What is the correspondence address?");
     });
 
+    it("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
@@ -104,6 +116,21 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
+    it("should redirect to confirm page status 302 on successful form submission", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "2"
+        };
+
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
+
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        expect(res.status).toBe(302); // Expect a redirect status code
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
@@ -113,6 +140,17 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
                 lastName: "DOE",
                 correspondenceAddress: correspondenceAddress
             }
+        };
+
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a full UK postcode");
+    });
+
+    it("should return status 400 for invalid postcode entered", async () => {
+        const formData = {
+            postCode: "S6",
+            premise: "2"
         };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
