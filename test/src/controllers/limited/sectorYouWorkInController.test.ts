@@ -29,7 +29,6 @@ describe("GET" + LIMITED_SECTOR_YOU_WORK_IN, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
-
     it("should return status 200", async () => {
         const acspData2: AcspData = {
             id: "abc",

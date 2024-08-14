@@ -12,12 +12,37 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "LIMITED",
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe"
+    }
 };
 
 describe("GET" + AML_BODY_DETAILS_CONFIRM, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + AML_BODY_DETAILS_CONFIRM);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Check the Anti-Money Laundering (AML) details");
+    });
+
+    it("should return status 200", async () => {
+        const res = await router.get(BASE_URL + AML_BODY_DETAILS_CONFIRM);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
         const res = await router.get(BASE_URL + AML_BODY_DETAILS_CONFIRM);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

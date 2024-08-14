@@ -33,6 +33,14 @@ describe("GET" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
         expect(res.text).toContain("Which name is registered with your Anti-Money Laundering (AML) supervisory body?");
     });
 
+    it("should return status 200", async () => {
+        const res = await router.get(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Which name is registered with your Anti-Money Laundering (AML) supervisory body?");
+    });
+
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML);
