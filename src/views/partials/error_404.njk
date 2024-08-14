@@ -1,4 +1,5 @@
 {% extends "layouts/default.njk" %}
+
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
@@ -7,7 +8,7 @@
 
   <h1 class="govuk-heading-l">{{ i18n.pageNotFoundTitle}}</h1>
   <p>{{ i18n.pageNotFoundText1 }}</p>
-  <p>{{ i18n.pageNotFoundText3 }}</p>
+  <p>{{ i18n.pageNotFoundText2 }}</p>
   <p>
       {{ i18n.pageNotFoundText3 }}
       <a href="/register-as-companies-house-authorised-agent">{{ i18n.pageNotFoundLink }}</a>.
