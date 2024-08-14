@@ -28,10 +28,30 @@ const acspData: AcspData = {
 };
 
 describe("Limited Company Controller Tests", () => {
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+
+    it("should render the view with company details", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
+        expect(res.status).toBe(200);// render company number page
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("should render the view with company details", async () => {
         const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
         expect(res.status).toBe(200);// render company number page
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should render the view with company details", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
+        expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
