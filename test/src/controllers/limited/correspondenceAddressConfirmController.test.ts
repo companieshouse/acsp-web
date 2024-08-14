@@ -41,7 +41,6 @@ describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-
     it("should render the confirmation page with status 200", async () => {
         const acspData2: AcspData = {
             id: "abc",

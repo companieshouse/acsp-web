@@ -38,13 +38,12 @@ describe("WhereDoYouLiveBodyService", () => {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-    
+
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
-    
+
         expect(payload).toEqual({});
         expect(countryInput).toBeUndefined();
     });
-    
 
     it("should return payload for Wales", () => {
         const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();

@@ -53,24 +53,31 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 
-
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB"});
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
     it("should return status 302 after redirect with applicantDetails", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB", applicantDetails: {
-                firstName: "John",
-                lastName: "Doe"
-            } });
+            .send({
+                addressPropertyDetails: "abc",
+                addressLine1: "pqr",
+                addressLine2: "pqr",
+                addressTown: "lmn",
+                addressCounty: "lmnop",
+                addressCountry: "lmnop",
+                addressPostcode: "MK9 3GB",
+                applicantDetails: {
+                    firstName: "John",
+                    lastName: "Doe"
+                }
+            });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
-    
     // Test for no addressPropertyDetails, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)

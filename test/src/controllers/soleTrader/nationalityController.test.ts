@@ -51,7 +51,6 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);

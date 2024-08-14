@@ -18,7 +18,7 @@ const acspData: AcspData = {
         firstName: "John",
         middleName: "",
         lastName: "Doe"
-    },
+    }
 };
 
 describe("GET" + CONFIRMATION, () => {

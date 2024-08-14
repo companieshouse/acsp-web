@@ -64,6 +64,19 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
+    it("should redirect to next page with status 302", async () => {
+        const formData = {
+            correspondenceAddress: "1",
+            applicantDetails: {
+                firstName: "JOHN",
+                lastName: "DOE"
+            }
+        };
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST).send(formData);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+
     it("should return status 400 after no data entered", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST).send({ correspondenceAddress: "" });
         expect(res.status).toBe(400);

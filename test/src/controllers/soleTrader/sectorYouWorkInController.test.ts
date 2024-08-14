@@ -40,8 +40,6 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    
-
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN);

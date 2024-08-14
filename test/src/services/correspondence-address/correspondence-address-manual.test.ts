@@ -43,7 +43,6 @@ describe("CorrespondenceAddressManualService", () => {
             addressPostcode: "EX1 1EX"
         };
 
-
         service.saveCorrespondenceManualAddress(req, acspData);
 
         expect(acspData.applicantDetails?.correspondenceAddress).toEqual({

@@ -82,7 +82,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     });
 
     it("should render the correspondence address selector page with validation errors", async () => {
-        const acspData2: AcspData =  {
+        const acspData2: AcspData = {
             id: "abc",
             typeOfBusiness: "SOLE_TRADER"
         };

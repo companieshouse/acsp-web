@@ -30,7 +30,7 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
-    
+
     it("should render the AML membership number page with status 200", async () => {
         const acspData2: AcspData = {
             id: "abc",
