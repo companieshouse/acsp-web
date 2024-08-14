@@ -65,6 +65,31 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
         expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
     });
 
+    it("should return status 302 after redirect", async () => {
+        const formData = {
+            sectorYouWorkIn: "OTHER",
+            typeOfBusiness: "LIMITED",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
+        };
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send(formData);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
+    });
+
+    it("should return status 302 after redirect", async () => {
+        const formData = {
+            sectorYouWorkIn: "OTHER",
+            typeOfBusiness: "LIMITED"
+        };
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send(formData);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
+    });
+
     // Test for incorrect form details entered, will return 400.
     it("should return status 400 after incorrect data entered", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "" });

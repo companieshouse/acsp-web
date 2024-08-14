@@ -14,6 +14,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
+    businessName: "Business",
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
@@ -57,6 +58,37 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         const res = await router
             .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the correspondence address?");
+
+    });
+
+    it("should render the correspondence address selector page with validation errors", async () => {
+        const formData = {
+            typeOfBusiness: "SOLE_TRADER",
+            addressSelectorRadio: "",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
+        };
+        const res = await router
+            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
+            .send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the correspondence address?");
+
+    });
+
+    it("should render the correspondence address selector page with validation errors", async () => {
+        const acspData2: AcspData =  {
+            id: "abc",
+            typeOfBusiness: "SOLE_TRADER"
+        };
+        const res = await router
+            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
+            .send(acspData2);
         expect(res.status).toBe(400);
         expect(res.text).toContain("What is the correspondence address?");
 
