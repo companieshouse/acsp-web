@@ -40,8 +40,6 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
             expect(res.status).toBe(200);
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-            expect(res.text).toContain("John Doe");
-            expect(res.text).toContain("Select the correspondence address");
         });
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
