@@ -18,7 +18,7 @@ const acspData: AcspData = {
     applicantDetails: {
         firstName: "John",
         middleName: "",
-        lastName: "Doe"
+        lastName: "Do"
     },
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME"
