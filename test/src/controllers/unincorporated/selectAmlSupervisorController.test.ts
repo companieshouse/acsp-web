@@ -30,7 +30,7 @@ describe("GET" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
-   
+
     it("should return status 200", async () => {
         const acspData2: AcspData = {
             id: "abc",

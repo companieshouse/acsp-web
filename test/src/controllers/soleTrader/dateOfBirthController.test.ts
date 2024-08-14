@@ -36,7 +36,7 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is your date of birth?");
     });
-    
+
     it("should handle missing applicantDetails", async () => {
         const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc"

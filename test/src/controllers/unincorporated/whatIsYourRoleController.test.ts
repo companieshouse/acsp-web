@@ -56,7 +56,6 @@ describe("GET " + UNINCORPORATED_WHAT_IS_YOUR_ROLE, () => {
         expect(response.text).toContain("What is your role in the business?");
     });
 
-
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE);
