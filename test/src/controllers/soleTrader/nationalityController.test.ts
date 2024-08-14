@@ -38,6 +38,20 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is your nationality?");
     });
+
+    it("should return status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);

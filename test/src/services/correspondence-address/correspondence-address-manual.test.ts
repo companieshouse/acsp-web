@@ -23,9 +23,9 @@ describe("CorrespondenceAddressManualService", () => {
                     propertyDetails: "Suite 100",
                     line1: "123 Test St",
                     line2: "Apt 4",
-                    town: "town",
-                    county: "county",
-                    country: "country",
+                    town: "Test",
+                    county: "Test",
+                    country: "Test",
                     postcode: "TE5 5TL"
                 }
             }
@@ -37,20 +37,22 @@ describe("CorrespondenceAddressManualService", () => {
             addressPropertyDetails: "Suite 200",
             addressLine1: "456 Example St",
             addressLine2: "Suite 300",
-            addressTown: "Town",
-            addressCounty: "county",
-            addressCountry: "country",
+            addressTown: "Example",
+            addressCounty: "Example",
+            addressCountry: "Example",
             addressPostcode: "EX1 1EX"
         };
 
+
         service.saveCorrespondenceManualAddress(req, acspData);
+
         expect(acspData.applicantDetails?.correspondenceAddress).toEqual({
             propertyDetails: "Suite 200",
             line1: "456 Example St",
             line2: "Suite 300",
-            town: "town",
-            county: "county",
-            country: "country",
+            town: "Example",
+            county: "Example",
+            country: "Example",
             postcode: "EX1 1EX"
         });
     });
@@ -60,9 +62,9 @@ describe("CorrespondenceAddressManualService", () => {
             propertyDetails: "Suite 100",
             line1: "123 Test St",
             line2: "Apt 4",
-            town: "town",
-            county: "county",
-            country: "country",
+            town: "Test",
+            county: "Test",
+            country: "Test",
             postcode: "TE5 5TL"
         };
 
@@ -72,9 +74,9 @@ describe("CorrespondenceAddressManualService", () => {
             propertyDetails: "Suite 100",
             addressLine1: "123 Test St",
             addressLine2: "Apt 4",
-            town: "town",
-            county: "county",
-            country: "country",
+            addressTown: "Test",
+            addressCounty: "Test",
+            addressCountry: "Test",
             addressPostcode: "TE5 5TL"
         });
     });
