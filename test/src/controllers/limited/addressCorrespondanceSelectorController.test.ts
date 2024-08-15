@@ -125,7 +125,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             id: "abc",
             typeOfBusiness: "LIMITED",
             businessName: "Business",
-            businessAddress: { postalCode: "AB1 2CD" },
+            registeredOfficeAddress: { postalCode: "AB1 2CD" },
             applicantDetails: {
                 firstName: "John",
                 lastName: "Doe",
