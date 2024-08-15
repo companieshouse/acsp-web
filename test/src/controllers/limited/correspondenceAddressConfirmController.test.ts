@@ -12,11 +12,11 @@ const router = supertest(app);
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const correspondenceAddress: Address = {
-    propertyDetails: "2",
-    line1: "DUNCALF STREET",
-    town: "STOKE-ON-TRENT",
+    premises: "2",
+    addressLine1: "DUNCALF STREET",
+    locality: "STOKE-ON-TRENT",
     country: "England",
-    postcode: "ST6 3LJ"
+    postalCode: "ST6 3LJ"
 };
 const acspData: AcspData = {
     id: "abc",

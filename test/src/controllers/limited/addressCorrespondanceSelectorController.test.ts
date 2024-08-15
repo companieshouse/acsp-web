@@ -121,19 +121,19 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     });
 
     it("should redirect to sector-you-work-in page when address option is CORRESPONDANCE_ADDRESS and postcodes are the same", async () => {
-        const acspData: AcspData = {
+        const returnedAcspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
             businessName: "Business",
-            businessAddress: { postcode: "AB1 2CD" },
+            businessAddress: { postalCode: "AB1 2CD" },
             applicantDetails: {
                 firstName: "John",
                 lastName: "Doe",
-                correspondenceAddress: { postcode: "AB1 2CD" }
+                correspondenceAddress: { postalCode: "AB1 2CD" }
             }
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
+        mockGetAcspRegistration.mockResolvedValueOnce(returnedAcspData);
+        mockPutAcspRegistration.mockResolvedValueOnce(returnedAcspData);
         const res = await router
             .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });

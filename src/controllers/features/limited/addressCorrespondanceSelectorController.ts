@@ -92,8 +92,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang));
             } else {
                 if (
-                    applicantDetails.correspondenceAddress?.postcode ===
-                    acspData.businessAddress?.postcode
+                    applicantDetails.correspondenceAddress?.postalCode ===
+                    acspData.businessAddress?.postalCode
                 ) {
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress = true;

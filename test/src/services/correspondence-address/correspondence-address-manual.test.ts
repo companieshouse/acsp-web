@@ -20,13 +20,13 @@ describe("CorrespondenceAddressManualService", () => {
                 firstName: "John",
                 lastName: "Doe",
                 correspondenceAddress: {
-                    propertyDetails: "Suite 100",
-                    line1: "123 Test St",
-                    line2: "Apt 4",
-                    town: "Test",
-                    county: "Test",
+                    premises: "Suite 100",
+                    addressLine1: "123 Test St",
+                    addressLine2: "Apt 4",
+                    locality: "Test",
+                    region: "Test",
                     country: "Test",
-                    postcode: "TE5 5TL"
+                    postalCode: "TE5 5TL"
                 }
             }
         };
@@ -46,25 +46,25 @@ describe("CorrespondenceAddressManualService", () => {
         service.saveCorrespondenceManualAddress(req, acspData);
 
         expect(acspData.applicantDetails?.correspondenceAddress).toEqual({
-            propertyDetails: "Suite 200",
-            line1: "456 Example St",
-            line2: "Suite 300",
-            town: "Example",
-            county: "Example",
+            premises: "Suite 200",
+            addressLine1: "456 Example St",
+            addressLine2: "Suite 300",
+            locality: "Example",
+            region: "Example",
             country: "Example",
-            postcode: "EX1 1EX"
+            postalCode: "EX1 1EX"
         });
     });
 
     test("getCorrespondenceManualAddress retrieves the correct address from acspData", () => {
         acspData.applicantDetails!.correspondenceAddress = {
-            propertyDetails: "Suite 100",
-            line1: "123 Test St",
-            line2: "Apt 4",
-            town: "Test",
-            county: "Test",
+            premises: "Suite 100",
+            addressLine1: "123 Test St",
+            addressLine2: "Apt 4",
+            locality: "Test",
+            region: "Test",
             country: "Test",
-            postcode: "TE5 5TL"
+            postalCode: "TE5 5TL"
         };
 
         const retrievedAddress = service.getCorrespondenceManualAddress(acspData);

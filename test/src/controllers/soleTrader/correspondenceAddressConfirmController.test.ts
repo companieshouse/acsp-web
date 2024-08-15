@@ -16,7 +16,7 @@ const acspData: AcspData = {
         firstName: "John",
         lastName: "Doe",
         correspondenceAddress: {
-            propertyDetails: "Property Details"
+            premises: "Property Details"
         }
     }
 };

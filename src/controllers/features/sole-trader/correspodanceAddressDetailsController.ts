@@ -76,7 +76,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const selectPremise = req.body.correspondenceAddress;
 
             // Save selected address to the session
-            const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectPremise)[0];
+            const correspondenceAddress: Address = addressList.filter((address) => address.premises === selectPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
 

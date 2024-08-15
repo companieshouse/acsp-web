@@ -49,13 +49,13 @@ export class AddressLookUpService {
                 if (businessAddress) {
                     // update ascpData with postcode to save to DB
                     const address: Address = {
-                        postcode: req.body.postCode
+                        postalCode: req.body.postCode
                     };
                     acspData.businessAddress = address;
                 } else {
                     // update ascpData with postcode to save to DB
                     const correspondenceAddress: Address = {
-                        postcode: req.body.postCode
+                        postalCode: req.body.postCode
                     };
                     const applicantDetails = acspData.applicantDetails || {};
                     applicantDetails.correspondenceAddress = correspondenceAddress;

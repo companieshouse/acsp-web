@@ -2,23 +2,23 @@ import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup";
 
 export const address1: Address = {
-    propertyDetails: "1",
-    line1: "Mock Street",
-    line2: "Mock Line 2",
-    town: "Mock Town",
-    county: "Mock County",
+    premises: "1",
+    addressLine1: "Mock Street",
+    addressLine2: "Mock Line 2",
+    locality: "Mock Town",
+    region: "Mock County",
     country: "Mock Country",
-    postcode: "AB12CD"
+    postalCode: "AB12CD"
 };
 
 export const address2: Address = {
-    propertyDetails: "2",
-    line1: "Mock Street",
-    line2: "Mock Line 2",
-    town: "Mock Town",
-    county: "Mock County",
+    premises: "2",
+    addressLine1: "Mock Street",
+    addressLine2: "Mock Line 2",
+    locality: "Mock Town",
+    region: "Mock County",
     country: "Mock Country",
-    postcode: "AB12CD"
+    postalCode: "AB12CD"
 };
 
 export const addressList: Array<Address> = [address1, address2];
