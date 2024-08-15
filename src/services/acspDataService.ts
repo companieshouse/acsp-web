@@ -7,15 +7,12 @@ import logger from "../utils/logger";
 export class AcspDataService {
     async saveAcspData (session: Session, acspData: AcspData, selectedOption?: string): Promise<void> {
         // eslint-disable-next-line camelcase
-        const email = session?.data?.signin_info?.user_profile?.email!;
-        // eslint-disable-next-line camelcase
         const userId = session?.data?.signin_info?.user_profile?.id!;
         try {
             if (acspData === undefined) {
                 acspData = {
                     id: userId,
-                    typeOfBusiness: selectedOption,
-                    email: email
+                    typeOfBusiness: selectedOption
                 };
                 // save data to mongo for the first time
                 await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);

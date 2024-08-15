@@ -54,7 +54,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             const acspData: AcspData = session.getExtraData(USER_DATA)!;
             if (acspData) {
-                acspData.businessAddress = {
+                acspData.registeredOfficeAddress = {
                     line1: company.registeredOfficeAddress?.addressLineOne!,
                     line2: company.registeredOfficeAddress?.addressLineTwo!,
                     town: company.registeredOfficeAddress?.locality!,

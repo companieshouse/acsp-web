@@ -62,23 +62,23 @@ export const correspondenceAddressAnswers = (req: Request, acspData: AcspData): 
 export const businessAddressAnswers = (req: Request, acspData: AcspData): void => {
     const session: Session = req.session as any as Session;
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-    let businessAddressAnswer = acspData.businessAddress?.propertyDetails +
-    " " + acspData.businessAddress?.line1;
+    let businessAddressAnswer = acspData.registeredOfficeAddress?.propertyDetails +
+    " " + acspData.registeredOfficeAddress?.line1;
 
-    if (acspData.businessAddress?.line2) {
-        businessAddressAnswer += "<br>" + acspData.businessAddress.line2;
+    if (acspData.registeredOfficeAddress?.line2) {
+        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.line2;
     }
-    if (acspData.businessAddress?.town) {
-        businessAddressAnswer += "<br>" + acspData.businessAddress.town;
+    if (acspData.registeredOfficeAddress?.town) {
+        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.town;
     }
-    if (acspData.businessAddress?.county) {
-        businessAddressAnswer += "<br>" + acspData.businessAddress.county;
+    if (acspData.registeredOfficeAddress?.county) {
+        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.county;
     }
-    if (acspData.businessAddress?.country) {
-        businessAddressAnswer += "<br>" + acspData.businessAddress.country;
+    if (acspData.registeredOfficeAddress?.country) {
+        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.country;
     }
-    if (acspData.businessAddress?.postcode) {
-        businessAddressAnswer += "<br>" + acspData.businessAddress.postcode;
+    if (acspData.registeredOfficeAddress?.postcode) {
+        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.postcode;
     }
 
     detailsAnswers.businessAddress = businessAddressAnswer;

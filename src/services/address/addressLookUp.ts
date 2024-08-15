@@ -18,12 +18,12 @@ export class AddressLookUpService {
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
 
-        acspData.businessAddress = address;
+        acspData.registeredOfficeAddress = address;
         saveDataInSession(req, USER_DATA, acspData);
     }
 
     public saveBusinessAddressFromList (businessAddress: Address, acspData: AcspData): void {
-        acspData.businessAddress = businessAddress;
+        acspData.registeredOfficeAddress = businessAddress;
     }
 
     public saveCorrespondenceAddressFromList (req: Request, correspondenceAddress: Address, acspData: AcspData): void {
@@ -49,7 +49,7 @@ export class AddressLookUpService {
                     const address: Address = {
                         postcode: req.body.postCode
                     };
-                    acspData.businessAddress = address;
+                    acspData.registeredOfficeAddress = address;
                 } else {
                     // update ascpData with postcode to save to DB
                     const correspondenceAddress: Address = {
@@ -93,7 +93,7 @@ export class AddressLookUpService {
 
     public async saveBusinessAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
         // save business addess to model to be saved in mongoDB
-        acspData.businessAddress = this.getAddress(ukAddresses, inputPremise);
+        acspData.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string) {

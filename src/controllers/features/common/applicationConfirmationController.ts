@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             feedbackLink: "https://www.smartsurvey.co.uk/s/reg-as-acsp-confirmation/",
-            email: acspData?.email,
+            email: res.locals.userEmail,
             transactionId
         });
 

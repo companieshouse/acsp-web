@@ -29,7 +29,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // set addressoption to render the page with saved data
         let addressOption = "";
         if (acspData.correspondenceAddress !== null) {
-            if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+            if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.registeredOfficeAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
@@ -41,7 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            businessAddress: acspData?.businessAddress,
+            businessAddress: acspData?.registeredOfficeAddress,
             addressOption
         });
     } catch (err) {
@@ -70,13 +70,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 ...pageProperties,
                 businessName: acspData?.businessName,
-                businessAddress: acspData?.businessAddress,
+                businessAddress: acspData?.registeredOfficeAddress,
                 addressOption
             });
         } else {
             const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
-                acspData.correspondenceAddress = acspData.businessAddress;
+                acspData.correspondenceAddress = acspData.registeredOfficeAddress;
 
                 //  save data to mongodb
                 await acspDataService.saveAcspData(session, acspData);
@@ -88,7 +88,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang));
 
             } else {
-                if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
+                if (acspData.correspondenceAddress?.postcode === acspData.registeredOfficeAddress?.postcode) {
                     acspData.correspondenceAddress = {};
                     //  save data to mongodb
                     await acspDataService.saveAcspData(session, acspData);
