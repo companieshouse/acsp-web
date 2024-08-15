@@ -92,6 +92,5 @@ const getPreviousPage = (acspData: AcspData): string => {
     } else {
         previousPage = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM;
     }
-    acspData.applicantDetails = applicantDetails;
     return previousPage;
 };

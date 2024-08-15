@@ -33,7 +33,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             if (JSON.stringify(applicantDetails?.correspondenceAddress) ===
             JSON.stringify(acspData.businessAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
-                acspData.applicantDetails = applicantDetails;
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
             }

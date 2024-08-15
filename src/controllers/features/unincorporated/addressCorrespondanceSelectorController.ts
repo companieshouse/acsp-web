@@ -30,7 +30,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         if (applicantDetails.correspondenceAddress !== null) {
             if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
-                acspData.applicantDetails = applicantDetails;
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
             }
@@ -97,6 +96,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
                       true;
+                    acspData.applicantDetails = applicantDetails;
                     //  save data to mongodb
                     await acspDataService.saveAcspData(session, acspData);
                 }
