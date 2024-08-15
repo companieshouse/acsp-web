@@ -36,25 +36,33 @@ export const isThisYourCompanyAnswers = (req: Request, company: Company): void =
 export const correspondenceAddressAnswers = (req: Request, acspData: AcspData): void => {
     const session: Session = req.session as any as Session;
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-    let correspondenceAddressAnswer = acspData.correspondenceAddress?.propertyDetails +
-    " " + acspData.correspondenceAddress?.line1;
+    const applicantDetails = acspData.applicantDetails || {};
+    let correspondenceAddressAnswer =
+      applicantDetails.correspondenceAddress?.propertyDetails +
+      " " +
+      applicantDetails.correspondenceAddress?.line1;
 
-    if (acspData.correspondenceAddress?.line2) {
-        correspondenceAddressAnswer += "<br>" + acspData.correspondenceAddress.line2;
+    if (applicantDetails.correspondenceAddress?.line2) {
+        correspondenceAddressAnswer +=
+        "<br>" + applicantDetails.correspondenceAddress.line2;
     }
-    if (acspData.correspondenceAddress?.town) {
-        correspondenceAddressAnswer += "<br>" + acspData.correspondenceAddress.town;
+    if (applicantDetails.correspondenceAddress?.town) {
+        correspondenceAddressAnswer +=
+        "<br>" + applicantDetails.correspondenceAddress.town;
     }
-    if (acspData.correspondenceAddress?.county) {
-        correspondenceAddressAnswer += "<br>" + acspData.correspondenceAddress.county;
+    if (applicantDetails.correspondenceAddress?.county) {
+        correspondenceAddressAnswer +=
+        "<br>" + applicantDetails.correspondenceAddress.county;
     }
-    if (acspData.correspondenceAddress?.country) {
-        correspondenceAddressAnswer += "<br>" + acspData.correspondenceAddress.country;
+    if (applicantDetails.correspondenceAddress?.country) {
+        correspondenceAddressAnswer +=
+        "<br>" + applicantDetails.correspondenceAddress.country;
     }
-    if (acspData.correspondenceAddress?.postcode) {
-        correspondenceAddressAnswer += "<br>" + acspData.correspondenceAddress.postcode;
+    if (applicantDetails.correspondenceAddress?.postcode) {
+        correspondenceAddressAnswer +=
+        "<br>" + applicantDetails.correspondenceAddress.postcode;
     }
-
+    acspData.applicantDetails = applicantDetails;
     detailsAnswers.correspondenceAddress = correspondenceAddressAnswer;
     saveDataInSession(req, ANSWER_DATA, detailsAnswers);
 };

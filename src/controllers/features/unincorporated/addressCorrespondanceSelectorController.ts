@@ -26,8 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         // set addressoption to render the page with saved data
         let addressOption = "";
-        if (acspData.correspondenceAddress !== null) {
-            if (JSON.stringify(acspData.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+        const applicantDetails = acspData.applicantDetails || {};
+        if (applicantDetails.correspondenceAddress !== null) {
+            if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
@@ -76,9 +77,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             session.setExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS, addressOption);
             const acspDataService = new AcspDataService();
+            const applicantDetails = acspData.applicantDetails || {};
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
-                acspData.correspondenceAddress = acspData.businessAddress;
+                applicantDetails.correspondenceAddress = acspData.businessAddress;
+                acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
 
                 // Save answers
@@ -89,8 +92,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // redirect
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
-                if (acspData.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
-                    acspData.correspondenceAddress = {};
+                if (applicantDetails.correspondenceAddress?.postcode === acspData.businessAddress?.postcode) {
+                    applicantDetails.correspondenceAddress = {};
+                    applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
+                      true;
+                    acspData.applicantDetails = applicantDetails;
                     //  save data to mongodb
                     await acspDataService.saveAcspData(session, acspData);
                 }

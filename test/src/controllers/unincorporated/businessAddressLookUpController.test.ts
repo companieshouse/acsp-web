@@ -16,7 +16,11 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
-    businessName: "Test Business"
+    businessName: "Test Business",
+    applicantDetails: {
+        firstName: "JOHN",
+        lastName: "DOE"
+    }
 };
 
 const mockResponseBodyOfUKAddress: UKAddress[] = [{

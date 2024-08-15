@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
         let payload = {};
         // Check if business name matches the first name and last name
-        if (acspData.businessName === `${acspData.firstName} ${acspData.lastName}`) {
+        if (acspData.businessName === `${acspData.applicantDetails?.firstName} ${acspData.applicantDetails?.lastName}`) {
             payload = {
                 whatsTheBusinessNameRadio: "USERNAME"
             };
@@ -42,8 +42,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             payload
         });
 
@@ -72,8 +72,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 ...pageProperties,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName
             });
         } else {
             const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};

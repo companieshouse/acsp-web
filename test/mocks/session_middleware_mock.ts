@@ -27,9 +27,11 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(COMPANY, company);
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
     session.setExtraData(USER_DATA, {
-        firstName: "John",
-        lastName: "Doe",
-        amlSupervisoryBodies: amlSupervisoryBodies
+        amlSupervisoryBodies: amlSupervisoryBodies,
+        applicantDetails:{
+            firstName: "John",
+            lastName: "Doe"
+        }
     }
     );
     session.setExtraData(SUBMISSION_ID, "validTransactionId");

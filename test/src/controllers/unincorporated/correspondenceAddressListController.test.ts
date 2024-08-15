@@ -27,6 +27,14 @@ describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.text).toContain("Test Business");
         expect(res.text).toContain("Select the correspondence address");
     });
+
+    it("should return status 200", async () => {
+        const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST);

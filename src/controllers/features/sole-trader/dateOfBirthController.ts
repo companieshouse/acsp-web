@@ -26,8 +26,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
         let payload;
-        if (acspData.dateOfBirth) {
-            const dateOfBirth = new Date(acspData.dateOfBirth);
+        if (acspData.applicantDetails?.dateOfBirth) {
+            const dateOfBirth = new Date(acspData.applicantDetails?.dateOfBirth);
             payload = {
                 "dob-year": dateOfBirth.getFullYear(),
                 "dob-month": dateOfBirth.getMonth() + 1,
@@ -38,8 +38,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             payload
         });
     } catch (err) {
@@ -66,8 +66,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName
             });
         } else {
             if (acspData) {
@@ -75,8 +75,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     req.body["dob-year"],
                     req.body["dob-month"] - 1,
                     req.body["dob-day"]);
-
-                acspData.dateOfBirth = dateOfBirth;
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.dateOfBirth = dateOfBirth;
+                acspData.applicantDetails = applicantDetails;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();

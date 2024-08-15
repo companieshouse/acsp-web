@@ -27,7 +27,9 @@ export class AddressLookUpService {
     }
 
     public saveCorrespondenceAddressFromList (req: Request, correspondenceAddress: Address, acspData: AcspData): void {
-        acspData.correspondenceAddress = correspondenceAddress;
+        const applicantDetails = acspData.applicantDetails || {};
+        applicantDetails.correspondenceAddress = correspondenceAddress;
+        acspData.applicantDetails = applicantDetails;
     }
 
     public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
@@ -55,7 +57,9 @@ export class AddressLookUpService {
                     const correspondenceAddress: Address = {
                         postcode: req.body.postCode
                     };
-                    acspData.correspondenceAddress = correspondenceAddress;
+                    const applicantDetails = acspData.applicantDetails || {};
+                    applicantDetails.correspondenceAddress = correspondenceAddress;
+                    acspData.applicantDetails = applicantDetails;
                 }
                 return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
             }
@@ -88,7 +92,9 @@ export class AddressLookUpService {
 
     public async saveCorrespondenceAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {
         // save correspondence addess to model to be saved in mongoDB
-        acspData.correspondenceAddress = this.getAddress(ukAddresses, inputPremise);
+        const applicantDetails = acspData.applicantDetails || {};
+        applicantDetails.correspondenceAddress = this.getAddress(ukAddresses, inputPremise);
+        acspData.applicantDetails = applicantDetails;
     }
 
     public async saveBusinessAddress (ukAddresses: UKAddress[], inputPremise: string, acspData: AcspData): Promise<void> {

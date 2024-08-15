@@ -22,7 +22,12 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS_NAME",
-    correspondenceAddress: correspondenceAddress
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe",
+        correspondenceAddress: correspondenceAddress
+    }
 };
 
 describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
@@ -32,6 +37,18 @@ describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(200);
         expect(res.text).toContain("Confirm the correspondence address");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should render the confirmation page with status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
