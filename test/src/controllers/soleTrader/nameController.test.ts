@@ -15,9 +15,11 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
-    firstName: "John",
-    middleName: "",
-    lastName: "Doe"
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe"
+    }
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
@@ -28,6 +30,18 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+
+    it("should return status 200", async () => {
+        const acspData2: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);

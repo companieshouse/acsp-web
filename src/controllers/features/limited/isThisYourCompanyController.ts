@@ -55,12 +55,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const acspData: AcspData = session.getExtraData(USER_DATA)!;
             if (acspData) {
                 acspData.registeredOfficeAddress = {
-                    line1: company.registeredOfficeAddress?.addressLineOne!,
-                    line2: company.registeredOfficeAddress?.addressLineTwo!,
-                    town: company.registeredOfficeAddress?.locality!,
-                    county: company.registeredOfficeAddress?.region!,
+                    addressLine1: company.registeredOfficeAddress?.addressLineOne!,
+                    addressLine2: company.registeredOfficeAddress?.addressLineTwo!,
+                    locality: company.registeredOfficeAddress?.locality!,
+                    region: company.registeredOfficeAddress?.region!,
                     country: company.registeredOfficeAddress?.country!,
-                    postcode: company.registeredOfficeAddress?.postalCode!
+                    postalCode: company.registeredOfficeAddress?.postalCode!
                 };
                 acspData.companyDetails = {
                     companyName: company.companyName,

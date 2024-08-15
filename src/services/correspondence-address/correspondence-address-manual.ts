@@ -5,27 +5,30 @@ export class CorrespondenceAddressManualService {
     public saveCorrespondenceManualAddress (req: Request, acspData: AcspData): void {
         // Extract correspondence address details from request body
         const correspondenceAddress: Address = {
-            propertyDetails: req.body.addressPropertyDetails,
-            line1: req.body.addressLine1,
-            line2: req.body.addressLine2,
-            town: req.body.addressTown,
-            county: req.body.addressCounty,
+            premises: req.body.addressPropertyDetails,
+            addressLine1: req.body.addressLine1,
+            addressLine2: req.body.addressLine2,
+            locality: req.body.addressTown,
+            region: req.body.addressCounty,
             country: req.body.addressCountry,
-            postcode: req.body.addressPostcode
+            postalCode: req.body.addressPostcode
         };
-
-        acspData.correspondenceAddress = correspondenceAddress;
+        const applicantDetails = acspData.applicantDetails || {};
+        applicantDetails.correspondenceAddress = correspondenceAddress;
+        acspData.applicantDetails = applicantDetails;
     }
 
     public getCorrespondenceManualAddress (acspData: AcspData) {
         return {
-            propertyDetails: acspData?.correspondenceAddress?.propertyDetails,
-            addressLine1: acspData?.correspondenceAddress?.line1,
-            addressLine2: acspData?.correspondenceAddress?.line2,
-            addressTown: acspData?.correspondenceAddress?.town,
-            addressCounty: acspData?.correspondenceAddress?.county,
-            addressCountry: acspData?.correspondenceAddress?.country,
-            addressPostcode: acspData?.correspondenceAddress?.postcode
+            propertyDetails: acspData?.applicantDetails?.correspondenceAddress?.premises,
+            addressLine1: acspData?.applicantDetails?.correspondenceAddress?.addressLine1,
+            addressLine2: acspData?.applicantDetails?.correspondenceAddress?.addressLine2,
+            addressTown: acspData?.applicantDetails?.correspondenceAddress?.locality,
+            addressCounty: acspData?.applicantDetails?.correspondenceAddress?.region,
+            addressCountry:
+              acspData?.applicantDetails?.correspondenceAddress?.country,
+            addressPostcode:
+              acspData?.applicantDetails?.correspondenceAddress?.postalCode
         };
     }
 }

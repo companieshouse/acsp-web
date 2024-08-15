@@ -30,16 +30,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {
-            postCode: acspData.correspondenceAddress?.postcode,
-            premise: acspData.correspondenceAddress?.propertyDetails
+            postCode: acspData.applicantDetails?.correspondenceAddress?.postalCode,
+            premise: acspData.applicantDetails?.correspondenceAddress?.premises
         };
 
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             payload,
             correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
         });
@@ -66,8 +66,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             pageProperties: pageProperties,
             payload: req.body,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
         });
     } else {
@@ -100,8 +100,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
             });
         });

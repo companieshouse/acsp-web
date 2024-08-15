@@ -15,9 +15,11 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
-    firstName: "John",
-    middleName: "",
-    lastName: "Doe",
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Do"
+    },
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME"
 };
@@ -30,6 +32,19 @@ describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("catch error when rendering the page", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME);
@@ -43,7 +58,31 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "Company",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
+        };
+
+        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN + "?lang=en");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should redirect with status 302 on successful form submission", async () => {
+        const formData = {
+            whatIsTheBusinessNameInput: "",
+            whatsTheBusinessNameRadio: "USERNAME",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -71,7 +110,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: ""
+            whatsTheBusinessNameRadio: "",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -85,7 +129,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -99,7 +148,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for invalid characters in business name", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "Camp<<<<,,,,,",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -113,7 +167,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 for business name length more 200 characters", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            whatsTheBusinessNameRadio: "A Different Name"
+            whatsTheBusinessNameRadio: "A Different Name",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
@@ -128,7 +187,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const formData = {
             whatIsTheBusinessNameInput: "",
-            whatsTheBusinessNameRadio: "USERNAME"
+            whatsTheBusinessNameRadio: "USERNAME",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);

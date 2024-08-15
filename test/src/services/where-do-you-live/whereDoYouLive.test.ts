@@ -2,13 +2,14 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 import { WhereDoYouLivBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
 
 describe("WhereDoYouLiveBodyService", () => {
-
     it("should return payload for England", () => {
         const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "England"
+            applicantDetails: {
+                countryOfResidence: "England"
+            }
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
@@ -21,11 +22,26 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "Scotland"
+            applicantDetails: {
+                countryOfResidence: "Scotland"
+            }
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
         expect(payload).toEqual({ whereDoYouLiveRadio: "Scotland" });
+        expect(countryInput).toBeUndefined();
+    });
+
+    it("should return payload with countryOfResidence when applicantDetails is defined", () => {
+        const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
+        const acspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+
+        const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
+
+        expect(payload).toEqual({});
         expect(countryInput).toBeUndefined();
     });
 
@@ -34,7 +50,9 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "Wales"
+            applicantDetails: {
+                countryOfResidence: "Wales"
+            }
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
@@ -47,7 +65,9 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "Northern Ireland"
+            applicantDetails: {
+                countryOfResidence: "Northern Ireland"
+            }
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
@@ -60,10 +80,13 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: "France"
+            applicantDetails: {
+                countryOfResidence: "France"
+            }
         };
 
-        const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);
+        const { payload, countryInput } =
+      whereDoYouLiveBodyService.getCountryPayload(acspData);
         expect(payload).toEqual({ whereDoYouLiveRadio: "countryOutsideUK" });
         expect(countryInput).toEqual("France");
     });
@@ -73,7 +96,9 @@ describe("WhereDoYouLiveBodyService", () => {
         const acspData: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            countryOfResidence: undefined
+            applicantDetails: {
+                countryOfResidence: undefined
+            }
         };
 
         const { payload, countryInput } = whereDoYouLiveBodyService.getCountryPayload(acspData);

@@ -26,7 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            correspondenceAddress: acspData?.correspondenceAddress
+            correspondenceAddress: acspData?.applicantDetails?.correspondenceAddress
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

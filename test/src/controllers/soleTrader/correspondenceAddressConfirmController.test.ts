@@ -12,10 +12,12 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "SOLE_TRADER",
-    firstName: "John",
-    lastName: "Doe",
-    correspondenceAddress: {
-        propertyDetails: "Property Details"
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe",
+        correspondenceAddress: {
+            premises: "Property Details"
+        }
     }
 };
 
@@ -29,6 +31,25 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(res.text).toContain("John Doe");
         expect(res.text).toContain("Confirm the correspondence address");
         expect(res.text).toContain("Property Details");
+    });
+
+    it("should render the confirmation page with status 200", async () => {
+        const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+    });
+
+    it("should render the confirmation page with status 200 without applicantDetails", async () => {
+        const acspData2: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
     });
 
     it("should render the error page if an error is thrown in get function", async () => {

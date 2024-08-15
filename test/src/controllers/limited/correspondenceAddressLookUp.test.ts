@@ -16,16 +16,21 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const correspondenceAddress: Address = {
-    propertyDetails: "2",
-    line1: "DUNCALF STREET",
-    postcode: "ST6 3LJ"
+    premises: "2",
+    addressLine1: "DUNCALF STREET",
+    postalCode: "ST6 3LJ"
 };
 
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
     businessName: "BUSINESS NAME",
-    correspondenceAddress: correspondenceAddress
+    applicantDetails: {
+        firstName: "John",
+        middleName: "",
+        lastName: "Doe",
+        correspondenceAddress: correspondenceAddress
+    }
 };
 
 const mockResponseBodyOfUKAddress: UKAddress[] = [{
@@ -77,6 +82,26 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         const formData = {
             postCode: "ST63LJ",
             premise: "2"
+        };
+
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
+
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(302); // Expect a redirect status code
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+
+    it("should redirect to confirm page status 302 on successful form submission", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "2",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
         };
 
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
