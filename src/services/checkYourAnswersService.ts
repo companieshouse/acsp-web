@@ -38,7 +38,7 @@ export const correspondenceAddressAnswers = (req: Request, acspData: AcspData): 
     const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
     const applicantDetails = acspData.applicantDetails || {};
     let correspondenceAddressAnswer =
-      applicantDetails.correspondenceAddress?.postalCode +
+      applicantDetails.correspondenceAddress?.premises +
       " " +
       applicantDetails.correspondenceAddress?.addressLine1;
 

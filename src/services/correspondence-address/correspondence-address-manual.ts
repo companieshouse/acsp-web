@@ -20,8 +20,7 @@ export class CorrespondenceAddressManualService {
 
     public getCorrespondenceManualAddress (acspData: AcspData) {
         return {
-            propertyDetails:
-            acspData?.applicantDetails?.correspondenceAddress?.postalCode,
+            propertyDetails: acspData?.applicantDetails?.correspondenceAddress?.premises,
             addressLine1: acspData?.applicantDetails?.correspondenceAddress?.addressLine1,
             addressLine2: acspData?.applicantDetails?.correspondenceAddress?.addressLine2,
             addressTown: acspData?.applicantDetails?.correspondenceAddress?.locality,
