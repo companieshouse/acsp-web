@@ -24,7 +24,7 @@ describe("saveBusinessAddressToSession tests", () => {
         session.setExtraData(USER_DATA, {});
         service.saveBusinessAddressToSession(req, ukAddressList, "1");
         expect(session.getExtraData(USER_DATA)).toEqual({
-            businessAddress: {
+            registeredOfficeAddress: {
                 propertyDetails: ukAddress1.premise,
                 line1: ukAddress1.addressLine1,
                 line2: ukAddress1.addressLine2,

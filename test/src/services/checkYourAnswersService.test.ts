@@ -16,7 +16,7 @@ describe("CheckYourAnswersService", () => {
         applicantDetails: {
             correspondenceAddress: address1
         },
-        businessAddress: address2
+        registeredOfficeAddress: address2
     };
 
     beforeEach(() => {

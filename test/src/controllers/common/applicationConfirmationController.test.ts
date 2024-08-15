@@ -12,7 +12,6 @@ const router = supertest(app);
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    email: "test@email.com",
     typeOfBusiness: "LIMITED",
     applicantDetails: {
         firstName: "John",
@@ -29,7 +28,6 @@ describe("GET" + CONFIRMATION, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Application submitted");
-        expect(res.text).toContain("test@email.com");
     });
 
     it("should render the error page if an error is thrown in get function", async () => {

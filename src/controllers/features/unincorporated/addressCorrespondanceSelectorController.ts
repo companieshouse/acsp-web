@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let addressOption = "";
         const applicantDetails = acspData.applicantDetails || {};
         if (applicantDetails.correspondenceAddress !== null) {
-            if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.businessAddress)) {
+            if (JSON.stringify(applicantDetails.correspondenceAddress) === JSON.stringify(acspData.registeredOfficeAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
@@ -40,7 +40,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            businessAddress: acspData?.businessAddress,
+            businessAddress: acspData?.registeredOfficeAddress,
             addressOption
 
         });
@@ -70,7 +70,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 ...pageProperties,
                 businessName: acspData?.businessName,
-                businessAddress: acspData?.businessAddress,
+                businessAddress: acspData?.registeredOfficeAddress,
                 addressOption
             });
         } else {
@@ -80,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const applicantDetails = acspData.applicantDetails || {};
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
-                applicantDetails.correspondenceAddress = acspData.businessAddress;
+                applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
                 acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
 
@@ -92,7 +92,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // redirect
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
-                if (applicantDetails.correspondenceAddress?.postalCode === acspData.businessAddress?.postalCode) {
+                if (applicantDetails.correspondenceAddress?.postalCode === acspData.registeredOfficeAddress?.postalCode) {
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
                       true;

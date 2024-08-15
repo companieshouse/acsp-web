@@ -14,7 +14,7 @@ export interface ACSPData {
     roleType?: RoleType;
     verified?: boolean;
     businessName?: string;
-    businessAddress?: Address;
+    registeredOfficeAddress?: Address;
     workSector?: SectorOfWork;
     amlSupervisoryBodies?: Map<AMLSupervisoryBodies, number>;
     companyDetails?: Company;

@@ -15,18 +15,18 @@ export class BusinessAddressService {
             country: req.body.addressCountry,
             postalCode: req.body.addressPostcode
         };
-        acspData.businessAddress = businessAddress;
+        acspData.registeredOfficeAddress = businessAddress;
     }
 
     public getBusinessManualAddress (acspData: AcspData) {
         return {
-            addressPropertyDetails: acspData?.businessAddress?.premises,
-            addressLine1: acspData?.businessAddress?.addressLine1,
-            addressLine2: acspData?.businessAddress?.addressLine2,
-            addressTown: acspData?.businessAddress?.locality,
-            addressCounty: acspData?.businessAddress?.region,
-            addressCountry: acspData?.businessAddress?.country,
-            addressPostcode: acspData?.businessAddress?.postalCode
+            addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
+            addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
+            addressLine2: acspData?.registeredOfficeAddress?.addressLine2,
+            addressTown: acspData?.registeredOfficeAddress?.locality,
+            addressCounty: acspData?.registeredOfficeAddress?.region,
+            addressCountry: acspData?.registeredOfficeAddress?.country,
+            addressPostcode: acspData?.registeredOfficeAddress?.postalCode
         };
     }
 

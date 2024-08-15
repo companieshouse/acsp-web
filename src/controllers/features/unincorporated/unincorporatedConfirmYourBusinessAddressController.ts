@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            businessAddress: acspData?.businessAddress
+            businessAddress: acspData?.registeredOfficeAddress
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

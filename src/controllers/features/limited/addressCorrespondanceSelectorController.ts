@@ -31,7 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const applicantDetails = acspData?.applicantDetails || {};
         if (applicantDetails?.correspondenceAddress !== null) {
             if (JSON.stringify(applicantDetails?.correspondenceAddress) ===
-            JSON.stringify(acspData.businessAddress)) {
+            JSON.stringify(acspData.registeredOfficeAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
             } else {
                 addressOption = "DIFFERENT_ADDRESS";
@@ -43,7 +43,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            businessAddress: acspData?.businessAddress,
+            businessAddress: acspData?.registeredOfficeAddress,
             addressOption
         });
     } catch (err) {
@@ -72,14 +72,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 ...pageProperties,
                 businessName: acspData?.businessName,
-                businessAddress: acspData?.businessAddress,
+                businessAddress: acspData?.registeredOfficeAddress,
                 addressOption
             });
         } else {
             const applicantDetails = acspData.applicantDetails || {};
             const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
-                applicantDetails.correspondenceAddress = acspData.businessAddress;
+                applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
                 acspData.applicantDetails = applicantDetails;
 
                 //  save data to mongodb
@@ -93,7 +93,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 if (
                     applicantDetails.correspondenceAddress?.postalCode ===
-                    acspData.businessAddress?.postalCode
+                    acspData.registeredOfficeAddress?.postalCode
                 ) {
                     applicantDetails.correspondenceAddress = {};
                     applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress = true;
