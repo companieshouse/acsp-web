@@ -22,8 +22,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+   
     it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
