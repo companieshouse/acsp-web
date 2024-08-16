@@ -16,7 +16,7 @@ export const getCountryFromKey = (country: string): string => {
 };
 
 export const getFullName = (acspData: AcspData): string | undefined => {
-    if (acspData.applicantDetails!.firstName === "" || acspData.applicantDetails!.firstName === null) {
+    if (acspData.applicantDetails!.firstName === undefined) {
         return undefined;
     }
     let name = acspData.applicantDetails!.firstName;

@@ -90,7 +90,7 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     answers.typeOfBusiness = typeOfBusinessTranslated(acspData.typeOfBusiness!, i18n);
     answers.roleType = roleTranslated(acspData.roleType!, i18n);
     answers.workSector = sectorTranslated(acspData.workSector!, i18n);
-    if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLC") {
+    if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP") {
         answers = limitedAnswers(req, answers, acspData);
     } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
         answers = soleTraderAnswers(answers, acspData);
