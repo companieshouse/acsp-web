@@ -112,11 +112,11 @@ const soleTraderAnswers = (answers: Answers, acspData: AcspData): Answers => {
     const dob = applicantDetails.dateOfBirth!;
     answers.dateOfBirth = new Date(dob).toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });
     let nationalityString = applicantDetails.nationality?.firstNationality!;
-    if (applicantDetails.nationality?.secondNationality !== "") {
+    if (applicantDetails.nationality?.secondNationality !== undefined) {
         nationalityString += ", " + applicantDetails.nationality?.secondNationality;
     }
-    if (applicantDetails.nationality?.thirdNationality !== "") {
-        nationalityString += ", " + applicantDetails!.nationality?.thirdNationality;
+    if (applicantDetails.nationality?.thirdNationality !== undefined) {
+        nationalityString += ", " + applicantDetails.nationality?.thirdNationality;
     }
     answers.nationality = nationalityString;
     answers.countryOfResidence = applicantDetails.countryOfResidence;

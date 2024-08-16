@@ -20,7 +20,7 @@ export const getFullName = (acspData: AcspData): string | undefined => {
         return undefined;
     }
     let name = acspData.applicantDetails!.firstName;
-    if (acspData.applicantDetails!.middleName !== "" || acspData.applicantDetails!.middleName !== null) {
+    if (acspData.applicantDetails!.middleName !== undefined) {
         name += " " + acspData.applicantDetails!.middleName;
     }
     name += " " + acspData.applicantDetails!.lastName!;
