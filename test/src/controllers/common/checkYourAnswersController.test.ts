@@ -22,7 +22,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "SOLE_TRADER",
+    applicantDetails: {
+        firstName: "Test",
+        lastName: "User"
+    }
 };
 
 const dummyHeaders = {

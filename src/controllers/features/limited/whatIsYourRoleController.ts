@@ -5,9 +5,8 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { POST_ACSP_REGISTRATION_DETAILS_ERROR, ANSWER_DATA, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { POST_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -83,18 +82,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             } else {
-                let role;
-                switch (req.body.WhatIsYourRole) {
-                case "DIRECTOR":
-                    role = "I am a director";
-                    break;
-                case "MEMBER_OF_LLP":
-                    role = "I am a member of the partnership";
-                    break;
-                }
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.roleType = role;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang));
             }
         }

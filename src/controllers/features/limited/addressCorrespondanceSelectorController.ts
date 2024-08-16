@@ -1,12 +1,11 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { USER_DATA, SUBMISSION_ID, ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, LIMITED_NAME_REGISTERED_WITH_AML, LIMITED_SECTOR_YOU_WORK_IN, LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { validationResult } from "express-validator";
-import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
@@ -81,14 +80,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
                 acspData.applicantDetails = applicantDetails;
-
                 //  save data to mongodb
                 await acspDataService.saveAcspData(session, acspData);
-
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN, lang));
             } else {
                 if (
