@@ -38,6 +38,13 @@ describe("CompanyLookupController", () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER);

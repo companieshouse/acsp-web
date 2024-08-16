@@ -37,10 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             addresses: addressList,
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
-            correspondenceAddressManualLink: addLangToUrl(
-                BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
-                lang
-            )
+            correspondenceAddressManualLink: addLangToUrl(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, lang)
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

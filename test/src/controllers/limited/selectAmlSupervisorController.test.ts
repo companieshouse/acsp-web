@@ -31,6 +31,18 @@ describe("GET" + LIMITED_SELECT_AML_SUPERVISOR, () => {
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
 
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
+    });
+
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR);

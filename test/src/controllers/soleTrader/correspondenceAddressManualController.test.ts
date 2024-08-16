@@ -29,7 +29,7 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("Enter the correspondence address");
     });
 
-    it("should return status 200", async () => {
+    it("should return status 200 when acspData is undefined", async () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -37,12 +37,12 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("Enter the correspondence address");
     });
 
-    it("should return status 200", async () => {
-        const acspData2: AcspData = {
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

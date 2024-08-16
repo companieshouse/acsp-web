@@ -34,7 +34,19 @@ describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(res.text).toContain("Test Business");
     });
 
-    it("should render the confirmation page with status 200 ans display the information on the screen", async () => {
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Confirm the correspondence address");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
         const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

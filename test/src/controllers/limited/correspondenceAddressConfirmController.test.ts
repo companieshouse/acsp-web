@@ -41,12 +41,20 @@ describe("GET " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should render the confirmation page with status 200", async () => {
-        const acspData2: AcspData = {
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Confirm the correspondence address");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -69,5 +77,21 @@ describe("POST " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+    });
+
+    it("should return status 302 with acspData", async () => {
+        const formData = {
+            typeOfBusiness: "LIMITED",
+            applicantDetails: {
+                correspondenceAddress: {
+                    addressLine1: "2 DUNCALF STREET",
+                    locality: "STOKE-ON-TRENT",
+                    country: "England",
+                    postalCode: "ST6 3LJ"
+                }
+            }
+        };
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM).send(formData);
+        expect(res.status).toBe(302);
     });
 });

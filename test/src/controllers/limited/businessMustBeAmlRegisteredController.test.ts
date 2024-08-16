@@ -32,12 +32,19 @@ describe("GET" + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, () => {
         expect(200);
     });
 
-    it("should return status 200", async () => {
-        const acspData2: AcspData = {
+    it("should return status 200 when acspData is undefined", async () => {
+        await router.get(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(200);
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

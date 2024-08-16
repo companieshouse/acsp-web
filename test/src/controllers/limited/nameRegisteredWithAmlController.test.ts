@@ -15,17 +15,21 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    howAreYouRegisteredWithAml: "business name",
-    applicantDetails: {
-        firstName: "John",
-        lastName: "Doe"
-    }
+    howAreYouRegisteredWithAml: "business name"
 };
 
 describe("GET" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Which name is registered with your Anti-Money Laundering (AML) supervisory body?");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
         const res = await router.get(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -51,7 +55,11 @@ describe("POST" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
     });
 
     it("should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send({ nameRegisteredWithAml: "YOUR_NAME" });
+        const formData = {
+            id: "abc",
+            nameRegisteredWithAml: "YOUR_NAME"
+        };
+        const res = await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send(formData);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT + "?lang=en");
     });

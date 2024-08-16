@@ -14,12 +14,7 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 const acspData: AcspData = {
-    id: "abc",
-    applicantDetails: {
-        firstName: "John",
-        middleName: "",
-        lastName: "Doe"
-    }
+    id: "abc"
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
@@ -32,10 +27,18 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
     });
 
     it("should return status 200", async () => {
-        const acspData2: AcspData = {
+        mockGetAcspRegistration.mockResolvedValueOnce({});
+        const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
