@@ -25,8 +25,8 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 
 describe("authentication middleware tests", () => {
     it("should call CH authentication library", () => {
-       // authenticationMiddleware(req, res, next);
-       // expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
-       // expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
+        // authenticationMiddleware(req, res, next);
+        // expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
+        // expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
     });
 });
