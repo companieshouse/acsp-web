@@ -14,7 +14,6 @@ export const UNINCORPORATED_AML_SELECTED_OPTION = "unincorporatedAmlSelectedOpti
 export const BUSINESS_NAME = "businessName";
 export const ADDRESS_LIST = "addressList";
 export const BUSINESS_ADDRESS = "businessAddress";
-export const ANSWER_DATA = "answerData";
 export const GET_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to get registration details for the transaction";
 export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post registration details for the transaction";
 export const AML_SUPERVISOR_SELECTED: string = "selectedamlsupervisors";

@@ -1,12 +1,11 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { validationResult } from "express-validator";
-import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
 import logger from "../../../utils/logger";
@@ -83,12 +82,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 applicantDetails.correspondenceAddress = acspData.businessAddress;
                 acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
-
-                // Save answers
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.correspondenceAddress = detailsAnswers.businessAddress;
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
                 // redirect
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
             } else {
