@@ -67,11 +67,14 @@
 
       {{ govukButton({
         text: i18n.SaveAndContinue,
+        id:"save-continue-button",
         attributes: {
           "data-event-id": "SAVE AND CONTINUE - DOB"
       }
       }) }}
     </form>
   </div>
-
+     <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - DOB");
+      </script>
 {% endblock main_content %}

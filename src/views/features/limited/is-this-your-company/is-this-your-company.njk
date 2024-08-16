@@ -51,14 +51,19 @@
     </div>
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
+      id: "save-continue-button",
       attributes: {
         "data-event-id": "CONFIRM AND CONTINUE - Is this your company"
       }
     }) }}
     <p class="govuk-body">
-      <a href={{chooseDifferentCompany}} data-event-id="Chose a different company">
+      <a href={{chooseDifferentCompany}} data-event-id="Chose a different company" id="choose-company-link">
         {{i18n.chooseADifferentCompany}}
       </a>
     </p>
   </form>
+        <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - Is this your company");
+        trackEventBasedOnPageTitle("choose-company-link", "click-link", "Chose a different company");
+      </script>
 {% endblock main_content %}

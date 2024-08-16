@@ -64,10 +64,14 @@
             </div>
             {{ govukButton({
                 text: i18n.SaveAndContinue,
+                id:"save-continue-button",
                 attributes: {
                     "data-event-id": "SAVE AND CONTINUE - Nationality"
                 }
             }) }}
         </fieldset>
     </form>
+         <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Nationality");
+      </script>
 {% endblock main_content %}

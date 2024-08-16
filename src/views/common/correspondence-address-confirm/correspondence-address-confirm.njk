@@ -31,9 +31,13 @@
     {% endif %}
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
+      id:"save-continue-button",
       attributes: {
         "data-event-id": "CONFIRM AND CONTINUE - address correspondence confirm"
       }
     }) }}
   </form>
+        <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - address correspondence confirm");
+        </script>
 {% endblock main_content %}

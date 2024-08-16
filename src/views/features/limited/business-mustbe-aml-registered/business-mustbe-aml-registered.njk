@@ -14,15 +14,19 @@
         <p class="govuk-body">{{ i18n.text2 }}</p>
         <h2 class="govuk-heading-m">{{ i18n.text5 }}</h2>
         <p class="govuk-body">{{ i18n.text3 }}
-            <a class="govuk-link" href={{amlRegistration}} target="”_blank”">
+            <a class="govuk-link" href={{amlRegistration}} target="”_blank”" id="register-company-link" data-event-id="Register company" >
                 {{ i18n.link1 }}
             </a>
             {{ i18n.first }}
         </p>
         <p class="govuk-body">{{ i18n.text4 }}
-            <a class="govuk-link" href={{soleTrader}}>
+            <a class="govuk-link" href={{soleTrader}} id="apply-sole-trader-link" data-event-id="Apply sole trader" >
                 {{ i18n.link2 }}
             </a>
         </p>
     </form>
+        <script>
+        trackEventBasedOnPageTitle("register-company-link", "click-link", "Register company");
+        trackEventBasedOnPageTitle("apply-sole-trader-link", "click-link", "Apply sole trader");
+      </script>
 {% endblock main_content %}

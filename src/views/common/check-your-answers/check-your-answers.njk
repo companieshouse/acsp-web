@@ -42,9 +42,12 @@
     })}}
     {{ govukButton({
       text: i18n.continueToPayment,
+      id: "continue-to-payment-button",
       attributes: {
-        "onClick": "_paq.push(['trackGoal', '11']);"
+        "data-event-id" : "continue-to-payment",
+        "onClick": "_paq.push(['trackGoal', '11']); trackEventBasedOnPageTitle('continue-to-payment-button', 'click-link', 'continue-to-payment-button');"
       }
     }) }}
   </form>
+  
 {% endblock main_content %}
