@@ -14,7 +14,6 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA",
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
@@ -28,12 +27,13 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
+
     it("should return status 200", async () => {
-        const acspData2: AcspData = {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

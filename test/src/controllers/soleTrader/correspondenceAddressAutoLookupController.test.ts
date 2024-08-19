@@ -19,14 +19,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const correspondenceAddress: Address = {
     premises: "2",
-    addressLine1: "DUNCALF STREET",
     postalCode: "ST6 3LJ"
 };
 
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "SOLE_TRADER",
-    businessName: "BUSINESS NAME",
     applicantDetails: {
         firstName: "JOHN",
         lastName: "DOE",
@@ -53,11 +50,20 @@ describe("Correspondence address auto look up tests", () => {
     });
 
     it("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, async () => {
-        const acspData2: AcspData = {
+        mockGetAcspRegistration.mockResolvedValueOnce({});
+        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

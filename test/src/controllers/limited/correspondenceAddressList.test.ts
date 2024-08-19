@@ -26,7 +26,6 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -34,17 +33,12 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.text).toContain("Select the correspondence address");
     });
 
-    it("should return status 200", async () => {
-        const acspData2: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED"
-        };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
-
+    it("should return status 200 when acspData is undefined", async () => {
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Select the correspondence address");
     });
 
     it("should return status 500 after calling GET endpoint and failing", async () => {
@@ -64,15 +58,19 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
 
-    it("should redirect to next page with status 302", async () => {
-        const formData = {
-            correspondenceAddress: "1",
+    it("should redirect to next page with status 302 with acspData", async () => {
+        const savedAcspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "BUSINESS_NAME",
             applicantDetails: {
                 firstName: "JOHN",
                 lastName: "DOE"
             }
         };
-        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST).send(formData);
+        mockGetAcspRegistration.mockResolvedValueOnce(savedAcspData);
+        mockPutAcspRegistration.mockResolvedValueOnce(savedAcspData);
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST).send({ correspondenceAddress: "123" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });

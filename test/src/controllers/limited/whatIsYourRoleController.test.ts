@@ -19,16 +19,25 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA",
-    applicantDetails: {
-        firstName: "John",
-        lastName: "Doe"
+    businessName: "business Limited",
+    roleType: "director",
+    companyDetails: {
+        companyNumber: "00006400",
+        companyName: "Company Name"
     }
 };
 
 describe("GET " + LIMITED_WHAT_IS_YOUR_ROLE, () => {
     it("should render what is your role page", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const response = await router.get(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
+        expect(response.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.text).toContain("What is your role in the business?");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
         const response = await router.get(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -54,6 +63,24 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LC", () => {
         const response = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({
             WhatIsYourRole: "DIRECTOR"
         });
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML + "?lang=en");
+    });
+
+    it("should respond with status 302 on form submission with someone-else role", async () => {
+        const formData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "business Limited",
+            roleType: "director",
+            companyDetails: {
+                companyNumber: "00006400",
+                companyName: "Company Name"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(formData);
+        mockPutAcspRegistration.mockResolvedValueOnce(formData);
+        const response = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({ WhatIsYourRole: "DIRECTOR" });
         expect(response.status).toBe(302);
         expect(response.header.location).toBe(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML + "?lang=en");
     });
@@ -130,7 +157,6 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LLP", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
-
 });
 
 function createMockSessionMiddleware (businessName: string, typeOfBusiness: string) {

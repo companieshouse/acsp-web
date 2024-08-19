@@ -42,6 +42,25 @@ describe("Business address auto look up tests", () => {
         expect(res.text).toContain("Test Business");
     });
 
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce({});
+        const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);

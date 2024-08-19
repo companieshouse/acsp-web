@@ -19,19 +19,22 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED",
-    applicantDetails: {
-        firstName: "John",
-        middleName: "",
-        lastName: "Doe"
-    }
+    typeOfBusiness: "LIMITED"
 };
 
 describe("Limited Company Controller Tests", () => {
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
     it("should render the view with company details", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
         expect(res.status).toBe(200);// render company number page
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Is this your company?");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
+        expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
@@ -56,6 +59,18 @@ describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.header.location).toContain(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
     });
+
+    it("should redirect to authentication code page for active company", async () => {
+        const formData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        const res = await router.post(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY).send(formData);
+        expect(customMockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toContain(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE);
+    });
+
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const res = await router.post(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);

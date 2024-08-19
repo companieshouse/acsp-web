@@ -18,8 +18,7 @@ const acspData: AcspData = {
     applicantDetails: {
         firstName: "John",
         middleName: "",
-        lastName: "Doe",
-        dateOfBirth: new Date(1989, 11, 25)
+        lastName: "Doe"
     }
 };
 
@@ -37,7 +36,16 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
         expect(res.text).toContain("What is your date of birth?");
     });
 
-    it("should handle missing applicantDetails", async () => {
+    it("should return status 200 when acspData is undefined", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce({});
+        const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is your date of birth?");
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
         const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc"
         };

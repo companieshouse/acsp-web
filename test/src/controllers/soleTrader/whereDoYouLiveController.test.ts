@@ -38,11 +38,11 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     });
 
     it("should return status 200", async () => {
-        const acspData2: AcspData = {
+        const acspDataWithoutApplicantDetails: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED"
         };
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData2);
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
