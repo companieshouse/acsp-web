@@ -10,7 +10,6 @@ import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
-import { isThisYourCompanyAnswers } from "../../../services/checkYourAnswersService";
 import { AcspDataService } from "../../../services/acspDataService";
 import { Company } from "../../../model/Company";
 
@@ -72,10 +71,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-
-            // Save answers
-            isThisYourCompanyAnswers(req, company);
-
             // Redirect to next page
             res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
         } else {

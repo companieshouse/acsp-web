@@ -7,6 +7,13 @@
     "equivalentToDirector": "I am the equivalent to a director of ",
     "director": "I am a director of ",
     "generalPartner": "I am a general partner of ",
+
+    "iAmADirector": "I am a director",
+    "iAmAmemberOfPartnership": "I am a member of the partnership",
+    "iAmAMember": "I am a member",
+    "iAmAMemberOfGoverningBody": "I am a member of the governing body",
+    "iAmEquivalentToDirector": "I am the equivalent to a director",
+    "IAmAGeneralPartner": "I am a general partner",
     
     "error-limitedCompanyWhatIsYourRoleRadio" : "Select if you are a director or someone else",
     "error-limitedPWhatIsYourRoleRadio" : "Select if you are a general partner or someone else",

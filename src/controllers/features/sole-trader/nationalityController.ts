@@ -6,9 +6,8 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import * as config from "../../../config";
 import { SOLE_TRADER_DATE_OF_BIRTH, BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -80,15 +79,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             });// determined from user not in banned list
         } else {
-
-            let nationalityString = req.body.nationality_input_0;
-            if (req.body.nationality_input_1 !== "") {
-                nationalityString += ", " + req.body.nationality_input_1;
-            }
-            if (req.body.nationality_input_2 !== "") {
-                nationalityString += ", " + req.body.nationality_input_2;
-            }
-
             const nationalityData: Nationality = {
                 firstNationality: req.body.nationality_input_0,
                 secondNationality: req.body.nationality_input_1,
@@ -104,12 +94,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.nationality = nationalityString;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

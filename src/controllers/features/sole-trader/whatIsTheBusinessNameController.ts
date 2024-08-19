@@ -5,8 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
@@ -76,12 +75,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.applicantDetails?.lastName
             });
         } else {
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
             let businessName;
             if (req.body.whatsTheBusinessNameRadio === "A Different Name") {
                 businessName = req.body.whatIsTheBusinessNameInput;
             } else {
-                businessName = detailsAnswers.name;
+                businessName = acspData.applicantDetails!.firstName! + " " + acspData.applicantDetails!.lastName!;
             }
             if (acspData) {
                 acspData.businessName = businessName;
@@ -90,11 +88,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-            detailsAnswers.businessName = businessName;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN, lang));
-
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

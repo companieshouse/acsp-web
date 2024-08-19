@@ -4,9 +4,7 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_WHAT_IS_YOUR_ROLE, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
-import { Answers } from "../../../model/Answers";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
-import { SectorOfWork } from "../../../model/BusinessSector";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
@@ -73,10 +71,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     const acspDataService = new AcspDataService();
                     await acspDataService.saveAcspData(session, acspData);
                 }
-
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
             }
         }

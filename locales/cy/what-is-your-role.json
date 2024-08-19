@@ -8,6 +8,13 @@
     "director": "Rwy'n gyfarwyddwr ar ",
     "generalPartner": "Rwy'n bartner cyffredinol o ",
 
+    "iAmADirector": "I am a director Welsh",
+    "iAmAmemberOfPartnership": "I am a member of the partnership Welsh",
+    "iAmAMember": "I am a member Welsh",
+    "iAmAMemberOfGoverningBody": "I am a member of the governing body Welsh",
+    "iAmEquivalentToDirector": "I am the equivalent to a director Welsh",
+    "IAmAGeneralPartner": "I am a general partner Welsh",
+
     "error-limitedCompanyWhatIsYourRoleRadio" : "Dewiswch os ydych chi'n gyfarwyddwr neu'n rhywun arall",
     "error-limitedPWhatIsYourRoleRadio" : "Dewiswch os ydych chi'n bartner cyffredinol neu'n rhywun arall",
     "error-llppartnershipWhatIsYourRoleRadio" : "Dewiswch os ydych yn aelod o'r bartneriaeth neu rywun arall",

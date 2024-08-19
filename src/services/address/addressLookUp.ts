@@ -74,12 +74,12 @@ export class AddressLookUpService {
         const addressList : Array<Address> = [];
         for (const ukAddress of ukAddresses) {
             const address = {
-                propertyDetails: ukAddress.premise,
-                line1: ukAddress.addressLine1,
-                line2: ukAddress.addressLine2,
-                town: ukAddress.postTown,
+                premises: ukAddress.premise,
+                addressLine1: ukAddress.addressLine1,
+                addressLine2: ukAddress.addressLine2,
+                locality: ukAddress.postTown,
                 country: getCountryFromKey(ukAddress.country),
-                postcode: ukAddress.postcode,
+                postalCode: ukAddress.postcode,
                 formattedAddress: ukAddress.premise + ", " + ukAddress.addressLine1 + ", " + ukAddress.postTown + ", " + getCountryFromKey(ukAddress.country) + ", " + ukAddress.postcode
             };
 
@@ -102,15 +102,15 @@ export class AddressLookUpService {
         acspData.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
-    private getAddress (ukAddresses: UKAddress[], inputPremise: string) {
+    private getAddress (ukAddresses: UKAddress[], inputPremise: string): Address {
         const address = ukAddresses.find((address) => address.premise === inputPremise);
         return {
-            propertyDetails: address?.premise,
-            line1: address?.addressLine1,
-            line2: address?.addressLine2,
-            town: address?.postTown,
+            premises: address?.premise,
+            addressLine1: address?.addressLine1,
+            addressLine2: address?.addressLine2,
+            locality: address?.postTown,
             country: getCountryFromKey(address?.country!),
-            postcode: address?.postcode
+            postalCode: address?.postcode
         };
     }
 }

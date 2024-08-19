@@ -3,20 +3,20 @@
 {% set title = i18n.addressSelectorTitle %}
 {% block main_content %}
 {% set optionalFields = "" %}
-    {% if businessAddress.propertyDetails %}
-        {% set optionalFields = businessAddress.propertyDetails + ", " %}
+    {% if businessAddress.premises %}
+        {% set optionalFields = businessAddress.premises + ", " %}
     {% endif %}
-    {% if businessAddress.line1 %}
-        {% set optionalFields = optionalFields + businessAddress.line1 + ", " %}
+    {% if businessAddress.addressLine1 %}
+        {% set optionalFields = optionalFields + businessAddress.addressLine1 + ", " %}
     {% endif %}
-    {% if businessAddress.line2 %}
-        {% set optionalFields = optionalFields + businessAddress.line2 + ", " %}
+    {% if businessAddress.addressLine2 %}
+        {% set optionalFields = optionalFields + businessAddress.addressLine2 + ", " %}
     {% endif %}
-    {% if businessAddress.town %}
-        {% set optionalFields = optionalFields + businessAddress.town + ", " %}
+    {% if businessAddress.locality %}
+        {% set optionalFields = optionalFields + businessAddress.locality + ", " %}
     {% endif %}
-    {% if businessAddress.county %}
-        {% set optionalFields = optionalFields + businessAddress.county + ", " %}
+    {% if businessAddress.region %}
+        {% set optionalFields = optionalFields + businessAddress.region + ", " %}
     {% endif %}
         {% if businessAddress.country %}
         {% set optionalFields = optionalFields + businessAddress.country + ", " %}
@@ -43,7 +43,7 @@
                 items: [
                     {
                         value: "CORRESPONDANCE_ADDRESS",
-                        text: optionalFields + businessAddress.postcode,
+                        text: optionalFields + businessAddress.postalCode,
                         attributes: {
                             "data-event-id": "correspondance-address"
                         }

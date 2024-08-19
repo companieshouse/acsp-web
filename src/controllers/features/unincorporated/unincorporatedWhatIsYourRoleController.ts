@@ -5,8 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_WHAT_IS_YOUR_ROLE, UNINCORPORATED_WHICH_SECTOR, STOP_NOT_RELEVANT_OFFICER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
@@ -66,34 +65,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (req.body.WhatIsYourRole === "SOMEONE_ELSE") {
             res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
         } else {
-
-            let role;
-            switch (req.body.WhatIsYourRole) {
-            case "MEMBER_OF_PARTNERSHIP":
-            case "MEMBER_OF_ENTITY":
-                role = "I am a member";
-                break;
-            case "MEMBER_OF_GOVERNING_BODY":
-                role = "I am a member of the governing body";
-                break;
-            case "EQUIVALENT_OF_DIRECTOR":
-                role = "I am the equivalent to a director";
-                break;
-            case "GENERAL_PARTNER":
-                role = "I am a general partner";
-                break;
-            }
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.roleType = role;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
             // save data in mongodb
             if (acspData) {
                 acspData.roleType = req.body.WhatIsYourRole;
                 const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session, acspData);
             }
-
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR, lang));
         }
 

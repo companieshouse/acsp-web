@@ -5,10 +5,8 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
-import { TypeOfBusiness } from "../../../model/TypeOfBusiness";
-import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
@@ -70,11 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             await acspDataService.saveAcspData(session, acspData, selectedOption);
             saveDataInSession(req, "resume_application", true);
 
-            const answersArray: Answers = {
-                typeOfBusiness: TypeOfBusiness[selectedOption as keyof typeof TypeOfBusiness]
-            };
-            saveDataInSession(req, ANSWER_DATA, answersArray);
-            // Redirect to Unincorporated journey] Which name is registered with your Anti-Money Laundering (AML) supervisory body?
+            // Redirect to Unincorporated journey Which name is registered with your Anti-Money Laundering (AML) supervisory body?
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
 
         }

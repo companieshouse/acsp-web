@@ -5,8 +5,7 @@ import { BASE_URL, STOP_NOT_RELEVANT_OFFICER, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOL
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
@@ -68,9 +67,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
             if (selectedRole === "SOLE_TRADER") {
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.roleType = "I am the sole trader";
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang));
             } else {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
