@@ -25,12 +25,12 @@ describe("saveBusinessAddressToSession tests", () => {
         service.saveBusinessAddressToSession(req, ukAddressList, "1");
         expect(session.getExtraData(USER_DATA)).toEqual({
             registeredOfficeAddress: {
-                propertyDetails: ukAddress1.premise,
-                line1: ukAddress1.addressLine1,
-                line2: ukAddress1.addressLine2,
-                town: ukAddress1.postTown,
+                premises: ukAddress1.premise,
+                addressLine1: ukAddress1.addressLine1,
+                addressLine2: ukAddress1.addressLine2,
+                locality: ukAddress1.postTown,
                 country: getCountryFromKey(ukAddress1.country!),
-                postcode: ukAddress1.postcode
+                postalCode: ukAddress1.postcode
             }
         });
     });
