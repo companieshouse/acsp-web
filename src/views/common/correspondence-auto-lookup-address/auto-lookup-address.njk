@@ -46,12 +46,17 @@
     }) }}
     {{ govukButton({
       text: i18n.correspondenceLookUpAddressFindAddressBtn,
+      id:"find-address-id",
       attributes: {
         "data-event-id": "FIND ADDRESS"
       }
     }) }}
     <p>
-      <a href={{correspondenceAddressManualLink}} class="govuk-link" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+      <a href={{correspondenceAddressManualLink}} class="govuk-link" id="manual-address-id" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
   </form>
+        <script>
+          trackEventBasedOnPageTitle("find-address-id", "click-button", "FIND ADDRESS");
+        trackEventBasedOnPageTitle("manual-address-id", "click-link", "Enter address manually");
+        </script>
 {% endblock %}

@@ -54,9 +54,13 @@
 }) }}
     {{ govukButton({
       text: i18n.SaveAndContinue,
+      id:"save-continue-button",
       attributes: {
         "data-event-id": "SAVE AND CONTINUE - Location lives"
       }
     }) }}
   </form>
+          <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Location lives");
+        </script>
 {% endblock main_content %}

@@ -25,6 +25,7 @@
         {
           value: "AIA",
           text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
+          id:"AIA-id",
           attributes: {
             "data-event-id": "auditors-insolvency-practitioners-option"
           }
@@ -32,6 +33,7 @@
         {
           value: "ILP",
           text: i18n.sectorYouWorkInIndependentLegalProfessionalsOption,
+          id:"ILP-id",
           attributes: {
             "data-event-id": "independent-legal-professionals-option"
           }
@@ -39,6 +41,7 @@
         {
           value: "TCSP",
           text: i18n.sectorYouWorkInTrustOrCompanyServiceProvidersOption,
+          id:"TCSP-id",
           attributes: {
             "data-event-id": "trust-or-company-service-providers-option"
           }
@@ -46,6 +49,7 @@
         {
           value: "CI",
           text: i18n.sectorYouWorkInCreditInstitutionsOption,
+          id:"CI-id",
           attributes: {
             "data-event-id": "credit-institutions-option"
           }
@@ -53,6 +57,7 @@
         {
           value: "FI",
           text: i18n.sectorYouWorkInFinancialInstitutionsOption,
+          id:"FI-id",
           attributes: {
             "data-event-id": "financial-institutions-option"
           }
@@ -60,6 +65,7 @@
         {
           value: "OTHER",
           text: i18n.sectorYouWorkInOtherOption,
+          id:"OTHER-id",
           attributes: {
             "data-event-id": "other-option"
           }
@@ -68,9 +74,19 @@
     }) }}
     {{ govukButton({
         text: i18n.SaveAndContinue,
+        id:"save-continue-button",
         attributes: {
           "data-event-id": "SAVE AND CONTINUE - Sector you work in"
         }
     }) }}
   </form>
+        <script>
+          trackEventBasedOnPageTitle("AIA-id",  "select-option", "auditors-insolvency-practitioners-option");
+          trackEventBasedOnPageTitle("ILP-id", "select-option", "independent-legal-professionals-option");
+          trackEventBasedOnPageTitle("TCSP-id", "select-option", "trust-or-company-service-providers-option");
+          trackEventBasedOnPageTitle("CI-id", "select-option", "credit-institutions-option");
+          trackEventBasedOnPageTitle("FI-id", "select-option", "financial-institutions-option");
+        trackEventBasedOnPageTitle("OTHER-id", "select-option", "other-option");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+      </script>
 {% endblock main_content %}

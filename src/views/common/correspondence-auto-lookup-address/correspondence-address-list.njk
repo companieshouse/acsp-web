@@ -47,6 +47,7 @@
         </div>
         {{ govukButton({
             text: i18n.SaveAndContinue,
+            id: "save-continue-button",
             attributes: {
               "data-event-id": "SAVE AND CONTINUE - Address Correspondence"
             }
@@ -55,6 +56,10 @@
     
     {# Manual address entry link #}
     <p>
-        <a href= {{ correspondenceAddressManualLink }} class="govuk-link" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+        <a href= {{ correspondenceAddressManualLink }} class="govuk-link" id ="manual-address-id" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
+        <script>
+        trackEventBasedOnPageTitle("manual-address-id", "click-link", "Enter address manually");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Address Correspondence");
+        </script>
 {% endblock main_content %}

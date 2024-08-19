@@ -20,6 +20,7 @@
         {
           value: "yes",
           text: i18n.savedYesButtonText,
+          id: "yes-id",
           hint: {
             "text": i18n.savedYesHintText
           }, 
@@ -30,12 +31,18 @@
         {
           value: "no",
           text: i18n.savedNoButtonText,
+          id:"no-id",
           attributes: {
             "data-event-id": "savedApplication-no"
           }
         }
       ]
     }) }}
-    <button class="govuk-button">{{ i18n.SaveAndContinue }}</button>
+    <button class="govuk-button" data-event-id="SAVE AND CONTINUE" id="save-continue-button" >{{ i18n.SaveAndContinue }}</button>
   </form>
+      <script>
+        trackEventBasedOnPageTitle("yes-id", "select-option", "savedApplication-yes");
+        trackEventBasedOnPageTitle("no-id", "select-option", "savedApplication-no");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE");
+      </script>
 {% endblock main_content %}

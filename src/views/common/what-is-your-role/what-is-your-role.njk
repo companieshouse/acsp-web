@@ -63,6 +63,7 @@
                     {
                       value: "DIRECTOR",
                       text: i18n.director + company.companyName + " (" + company.companyNumber + ")",
+                      id:"I-am-director-id",
                       attributes: {
                         "data-event-id": "I am a director of " + company.companyName
                       }
@@ -87,6 +88,7 @@
                     {
                       value: "SOMEONE_ELSE",
                       text: i18n.someoneElse,
+                      id: "someoneelse-id",
                       attributes: {
                         "data-event-id": "I am someone else"
                       }
@@ -96,9 +98,15 @@
         </div>
         {{ govukButton({
           text: i18n.SaveAndContinue,
+          id:"save-continue-button",
           attributes: {
             "data-event-id": "SAVE AND CONTINUE - ROLE " + acspType
           }
         }) }}
     </form>
+      <script>
+        trackEventBasedOnPageTitle("I-am-director-id", "select-option", "I am a director of ");
+        trackEventBasedOnPageTitle("someoneelse-id", "select-option", "I am someone else");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - ROLE ");
+      </script>
 {% endblock %}
