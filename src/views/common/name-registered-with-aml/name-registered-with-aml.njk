@@ -27,15 +27,15 @@
           text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
           id:"name-of-the-business-option-id",
           attributes: {
-            "data-event-id": "name-of-the-business-option"
+            "data-event-id": "name-of-the-business"
           }
         },
         {
           value: "YOUR_NAME",
           text: i18n.nameRegisteredWithAmlYourNameOption,
-          id:"your-company-option-id",
+          id:"your-name-option-id",
           attributes: {
-            "data-event-id": "your-company-option"
+            "data-event-id": "your-name"
           }
         },
         {
@@ -43,7 +43,7 @@
           text: i18n.nameRegisteredWithAmlBothOption,
           id:"both-option-id",
           attributes: {
-            "data-event-id": "both-option"
+            "data-event-id": "both"
           }
         }
       ]
@@ -57,9 +57,9 @@
       }) }}
   </form>
         <script>
-        trackEventBasedOnPageTitle("name-of-the-business-option-id",  "select-option", "name-of-the-business-option");
-        trackEventBasedOnPageTitle("your-company-option-id", "select-option", "your-company-option");
-        trackEventBasedOnPageTitle("both-option-id", "select-option", "both-option");
+        trackEventBasedOnPageTitle("name-of-the-business-option-id",  "select-option", "name-of-the-business");
+        trackEventBasedOnPageTitle("your-name-option-id", "select-option", "your-name");
+        trackEventBasedOnPageTitle("both-option-id", "select-option", "both");
         trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Name registered with AML");
       </script>
 {% endblock main_content %}

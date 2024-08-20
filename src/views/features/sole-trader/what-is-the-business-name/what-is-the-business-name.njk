@@ -41,6 +41,7 @@
         {
           value: "A Different Name",
           text: i18n.whatIsTheBusinessNameDifferentName,
+          id: "a-different-name-radio", 
           conditional: {
             html: textHtml
           },
@@ -65,5 +66,6 @@
   </form>
          <script>
         trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Business name");
+        trackEventBasedOnPageTitle("save-a-different-name-radio-button", "click-radio", "A different name");
       </script>
 {% endblock main_content %}

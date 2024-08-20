@@ -28,7 +28,7 @@
                         text: i18n.whichSectorOtherEstateAgentsOption,
                         id: "EA-id",
                         attributes: {
-                            "data-event-id": "estate-agents-option"
+                            "data-event-id": "estate-agents"
                         }
                     },
                     {
@@ -36,7 +36,7 @@
                         text: i18n.whichSectorOtherHighValueDealersOption,
                         id: "HVD-id",
                         attributes: {
-                            "data-event-id": "high-value-dealers-option"
+                            "data-event-id": "high-value-dealers"
                         }
                     },
                     {
@@ -44,7 +44,7 @@
                         text: i18n.whichSectorOtherCasinosOption,
                         id: "CASINOS-id",
                         attributes: {
-                            "data-event-id": "casinos-option"
+                            "data-event-id": "casinos"
                         }
                     }
                 ]
@@ -62,9 +62,9 @@
         </div>
     </form>
             <script>
-          trackEventBasedOnPageTitle("EA-id", "select-option", "estate-agents-option");
-          trackEventBasedOnPageTitle("HVD-id", "select-option", "high-value-dealers-option");
-          trackEventBasedOnPageTitle("CASINOS-id", "select-option", "casinos-option");
+          trackEventBasedOnPageTitle("EA-id", "select-option", "estate-agents");
+          trackEventBasedOnPageTitle("HVD-id", "select-option", "high-value-dealers");
+          trackEventBasedOnPageTitle("CASINOS-id", "select-option", "casinos");
         trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR " + acspType);
         trackEventBasedOnPageTitle("back-link-id", "click-link", "Back to main business sector list");
       </script>
