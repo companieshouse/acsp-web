@@ -38,7 +38,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
             correspondenceAddressManualLink: addLangToUrl(
-                BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, 
+                BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS,
                 lang
             )
         });
