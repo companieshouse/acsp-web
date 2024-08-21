@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
@@ -68,9 +68,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             await acspDataService.saveAcspData(session, acspData, selectedOption);
             saveDataInSession(req, "resume_application", true);
 
-            // Redirect to Unincorporated journey Which name is registered with your Anti-Money Laundering (AML) supervisory body?
-            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
-
+            if(selectedOption === "CORPORATE_BODY"){
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
+            } else {
+                // Redirect to Unincorporated journey Which name is registered with your Anti-Money Laundering (AML) supervisory body?
+                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
+            }
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

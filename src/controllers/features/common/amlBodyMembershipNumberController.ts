@@ -109,6 +109,7 @@ const getPreviousPage = (ascpType: string): string => {
     case "SOLE_TRADER":
         return BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
     case "LC":
+    case "CORPORATE_BODY":    
     case "LLP":
         return BASE_URL + LIMITED_SELECT_AML_SUPERVISOR;
     default:
