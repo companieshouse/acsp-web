@@ -14,12 +14,18 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA"
+    businessName: "Business"
 };
 
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL).expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
         await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -38,6 +44,20 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
     it("should return status 302 after redirect", async () => {
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+
+    it("should return status 302 after redirect with acspData", async () => {
+        const returnedAcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(returnedAcspData);
+        mockPutAcspRegistration.mockResolvedValueOnce(returnedAcspData);
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);

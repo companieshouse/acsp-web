@@ -25,31 +25,41 @@
         {
           value: "NAME_OF_THE_BUSINESS",
           text: i18n.nameRegisteredWithAmlNameOfTheBusinessOption,
+          id:"name-of-the-business-option-id",
           attributes: {
-            "data-event-id": "name-of-the-business-option"
+            "data-event-id": "name-of-the-business"
           }
         },
         {
           value: "YOUR_NAME",
           text: i18n.nameRegisteredWithAmlYourNameOption,
+          id:"your-name-option-id",
           attributes: {
-            "data-event-id": "your-company-option"
+            "data-event-id": "your-name"
           }
         },
         {
           value: "BOTH",
           text: i18n.nameRegisteredWithAmlBothOption,
+          id:"both-option-id",
           attributes: {
-            "data-event-id": "both-option"
+            "data-event-id": "both"
           }
         }
       ]
       }) }}
       {{ govukButton({
         text: i18n.SaveAndContinue,
+        id:"save-continue-button",
         attributes: {
           "data-event-id": "SAVE AND CONTINUE - Name registered with AML"
         }
       }) }}
   </form>
+        <script>
+        trackEventBasedOnPageTitle("name-of-the-business-option-id",  "select-option", "name-of-the-business");
+        trackEventBasedOnPageTitle("your-name-option-id", "select-option", "your-name");
+        trackEventBasedOnPageTitle("both-option-id", "select-option", "both");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Name registered with AML");
+      </script>
 {% endblock main_content %}

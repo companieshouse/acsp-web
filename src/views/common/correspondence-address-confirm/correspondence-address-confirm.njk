@@ -10,15 +10,15 @@
       {% include "partials/user_name.njk" %}
     {% endif %}
 
-    {% set addressField = correspondenceAddress.propertyDetails + " " + correspondenceAddress.line1 + ", " %}
+    {% set addressField = correspondenceAddress.premises + " " + correspondenceAddress.addressLine1 + ", " %}
     <h1 class="govuk-heading-l">{{ i18n.correspondenceAddressConfirmTitle }}</h1>
     <ul class="govuk-list">
       <li>{{ addressField }}</li>
-      <li>{{ correspondenceAddress.line2 }}</li>
-      <li>{{ correspondenceAddress.town }}</li>
-      <li>{{ correspondenceAddress.county }}</li>
+      <li>{{ correspondenceAddress.addressLine2 }}</li>
+      <li>{{ correspondenceAddress.locality }}</li>
+      <li>{{ correspondenceAddress.region }}</li>
       <li>{{ correspondenceAddress.country }}</li>
-      <li>{{ correspondenceAddress.postcode }}</li>
+      <li>{{ correspondenceAddress.postalCode }}</li>
     </ul>
     <p class="govuk-body">
       <a href={{editPage}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
@@ -31,9 +31,13 @@
     {% endif %}
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
+      id:"save-continue-button",
       attributes: {
         "data-event-id": "CONFIRM AND CONTINUE - address correspondence confirm"
       }
     }) }}
   </form>
+        <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - address correspondence confirm");
+        </script>
 {% endblock main_content %}

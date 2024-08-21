@@ -24,8 +24,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             amlSupervisoryBodies: acspData?.amlSupervisoryBodies,
             typeOfBusiness: acspData?.typeOfBusiness,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             businessName: acspData?.businessName,
             url
         });

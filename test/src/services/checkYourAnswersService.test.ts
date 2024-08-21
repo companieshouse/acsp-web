@@ -1,73 +1,150 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
-import { businessAddressAnswers, correspondenceAddressAnswers, isThisYourCompanyAnswers } from "../../../src/services/checkYourAnswersService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { getAnswers } from "../../../src/services/checkYourAnswersService";
+import { getLocalesService } from "../../../src/utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA } from "../../../src/common/__utils/constants";
-import { address1, address2 } from "../../mocks/address.mock";
-import { Company } from "../../../src/model/Company";
+import { COMPANY_DETAILS } from "../../../src/common/__utils/constants";
+import { mockCompany, mockCorporateBodyAcspData, mockLimitedAcspData, mockLLPAcspData, mockLPAcspData, mockPartnershipAcspData, mockSoleTrader2AcspData, mockSoleTraderAcspData, mockUnincorporatedAcspData } from "../../mocks/check_your_answers.mock";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
-
-    const mockAcspData: AcspData = {
-        id: "123",
-        correspondenceAddress: address1,
-        businessAddress: address2
-    };
+    let locales: any;
 
     beforeEach(() => {
     // initialize service and mock request object
         req = createRequest({
             method: "POST",
-            url: "/"
+            url: "/",
+            query: {
+                lang: "en"
+            }
         });
         const session = getSessionRequestWithPermission();
         req.session = session;
+        locales = getLocalesService();
     });
 
-    it("should save business details to session", () => {
-        const mockCompany: Company = {
-            companyName: "Test Company",
-            companyNumber: "12345678",
-            registeredOfficeAddress: {
-                addressLineOne: "Address 1",
-                addressLineTwo: "Address 2",
-                careOf: "",
-                country: "country",
-                locality: "locality",
-                poBox: "",
-                postalCode: "AB1 2CD",
-                premises: "premise",
-                region: "region"
-            }
-        };
-        isThisYourCompanyAnswers(req, mockCompany);
+    it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
+        session.setExtraData(COMPANY_DETAILS, mockCompany);
+        const limitedAnswers = getAnswers(req, mockLimitedAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
-        expect(session.getExtraData(ANSWER_DATA)).toEqual({
+        expect(limitedAnswers).toStrictEqual({
+            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
             businessName: "Test Company",
             companyNumber: "12345678",
-            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country"
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am a director",
+            typeOfBusiness: "Limited company",
+            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers"
         });
     });
 
-    it("should save correspondence address answer string to session", () => {
-        correspondenceAddressAnswers(req, mockAcspData);
+    it("should return answers for LLP journey", () => {
         const session: Session = req.session as any as Session;
+        session.setExtraData(COMPANY_DETAILS, mockCompany);
+        const limitedAnswers = getAnswers(req, mockLLPAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
-        expect(session.getExtraData(ANSWER_DATA)).toEqual({
-            correspondenceAddress: "1 Mock Street<br>Mock Line 2<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
+        expect(limitedAnswers).toStrictEqual({
+            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
+            correspondenceAddress: "",
+            businessName: "Test Company",
+            companyNumber: "12345678",
+            roleType: "I am a member of the partnership",
+            typeOfBusiness: "Limited liability partnership (LLP)",
+            workSector: "Financial institutions"
         });
     });
 
-    it("should save business address answer string to session", () => {
-        businessAddressAnswers(req, mockAcspData);
-        const session: Session = req.session as any as Session;
+    it("should return answers for sole trader journey", () => {
+        const soleTraderAnswers = getAnswers(req, mockSoleTraderAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
-        expect(session.getExtraData(ANSWER_DATA)).toEqual({
-            businessAddress: "2 Mock Street<br>Mock Line 2<br>Mock Town<br>Mock County<br>Mock Country<br>AB12CD"
+        expect(soleTraderAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am the sole trader",
+            typeOfBusiness: "Sole trader",
+            workSector: "Independent legal professionals",
+            countryOfResidence: "England",
+            dateOfBirth: "15 November 1990",
+            name: "Unit Test User",
+            nationality: "British"
+        });
+    });
+
+    it("should return answers for sole trader journey with multiple nationalities", () => {
+        const soleTraderAnswers = getAnswers(req, mockSoleTrader2AcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(soleTraderAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "",
+            roleType: "I am a member of the governing body",
+            typeOfBusiness: "Sole trader",
+            workSector: "Casinos",
+            countryOfResidence: "England",
+            dateOfBirth: "15 November 1990",
+            name: "Unit Test User",
+            nationality: "British, German, Irish"
+        });
+    });
+
+    it("should return answers for partnership journey", () => {
+        const unincorporatedAnswers = getAnswers(req, mockPartnershipAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(unincorporatedAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am a member",
+            typeOfBusiness: "Partnership (not registered with Companies House)",
+            workSector: "Trust or company service providers",
+            nameRegisteredWithAML: "Name of the business"
+        });
+    });
+
+    it("should return answers for unincorporated journey", () => {
+        const unincorporatedAnswers = getAnswers(req, mockUnincorporatedAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(unincorporatedAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am a member",
+            typeOfBusiness: "Unincorporated entity",
+            workSector: "Credit institutions",
+            nameRegisteredWithAML: "Both",
+            name: "Test User"
+        });
+    });
+
+    it("should return answers for corporate body journey", () => {
+        const unincorporatedAnswers = getAnswers(req, mockCorporateBodyAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(unincorporatedAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            businessAddress: "",
+            roleType: "I am the equivalent to a director",
+            typeOfBusiness: "Corporate body (registered with Companies House)",
+            workSector: "Estate agents",
+            nameRegisteredWithAML: "Your name",
+            name: undefined
+        });
+    });
+
+    it("should return answers for Limited partnership journey", () => {
+        const unincorporatedAnswers = getAnswers(req, mockLPAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(unincorporatedAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am a general partner",
+            typeOfBusiness: "Limited partnership (LP)",
+            workSector: "High value dealers",
+            nameRegisteredWithAML: "Your name",
+            name: "Test User"
         });
     });
 });

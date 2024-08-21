@@ -13,7 +13,11 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "PARTNERSHIP"
+    typeOfBusiness: "PARTNERSHIP",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
@@ -24,6 +28,18 @@ describe("GET " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should render the correspondence address selector page with status 200", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
     it("should render the error page if an error is thrown in get function", async () => {
@@ -39,6 +55,26 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         const res = await router
             .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the correspondence address?");
+
+    });
+
+    it("should render the correspondence address selector page with validation errors", async () => {
+        const formData = {
+            whatIsTheBusinessNameInput: "Company",
+            whatsTheBusinessNameRadio: "A Different Name",
+            addressSelectorRadio: "",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
+        };
+
+        const res = await router
+            .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
+            .send(formData);
         expect(res.status).toBe(400);
         expect(res.text).toContain("What is the correspondence address?");
 

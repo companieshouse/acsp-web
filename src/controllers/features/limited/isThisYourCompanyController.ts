@@ -10,7 +10,6 @@ import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
-import { isThisYourCompanyAnswers } from "../../../services/checkYourAnswersService";
 import { AcspDataService } from "../../../services/acspDataService";
 import { Company } from "../../../model/Company";
 
@@ -54,13 +53,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // update acspData
             const acspData: AcspData = session.getExtraData(USER_DATA)!;
             if (acspData) {
-                acspData.businessAddress = {
-                    line1: company.registeredOfficeAddress?.addressLineOne!,
-                    line2: company.registeredOfficeAddress?.addressLineTwo!,
-                    town: company.registeredOfficeAddress?.locality!,
-                    county: company.registeredOfficeAddress?.region!,
+                acspData.registeredOfficeAddress = {
+                    addressLine1: company.registeredOfficeAddress?.addressLineOne!,
+                    addressLine2: company.registeredOfficeAddress?.addressLineTwo!,
+                    locality: company.registeredOfficeAddress?.locality!,
+                    region: company.registeredOfficeAddress?.region!,
                     country: company.registeredOfficeAddress?.country!,
-                    postcode: company.registeredOfficeAddress?.postalCode!
+                    postalCode: company.registeredOfficeAddress?.postalCode!
                 };
                 acspData.companyDetails = {
                     companyName: company.companyName,
@@ -72,10 +71,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-
-            // Save answers
-            isThisYourCompanyAnswers(req, company);
-
             // Redirect to next page
             res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE, lang));
         } else {

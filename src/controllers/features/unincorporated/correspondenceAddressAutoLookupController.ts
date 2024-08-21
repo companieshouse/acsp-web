@@ -30,8 +30,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {
-            postCode: acspData.correspondenceAddress?.postcode,
-            premise: acspData.correspondenceAddress?.propertyDetails
+            postCode: acspData.applicantDetails?.correspondenceAddress?.postalCode,
+            premise:
+        acspData.applicantDetails?.correspondenceAddress?.premises
         };
 
         res.render(config.AUTO_LOOKUP_ADDRESS, {

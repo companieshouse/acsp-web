@@ -12,15 +12,39 @@ const router = supertest(app);
 
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "LIMITED",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 
 describe("GET" + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, () => {
-    mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+
     it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        await router.get(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(200);
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        await router.get(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(200);
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();

@@ -8,7 +8,6 @@ import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { correspondenceAddressAnswers } from "../../../services/checkYourAnswersService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             businessName: acspData?.businessName,
-            correspondenceAddress: acspData?.correspondenceAddress
+            correspondenceAddress: acspData?.applicantDetails?.correspondenceAddress
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -37,8 +36,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-    correspondenceAddressAnswers(req, acspData);
     res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR, lang));
 };

@@ -1,11 +1,9 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
-
 {% set errors = pageProperties.errors %}
 {% set title = i18n.companyNumberTitle %}
 {% block main_content %}
-
   <form action="" method="POST">
     <div class="govuk-form-group">
       {{ govukInput({
@@ -26,28 +24,36 @@
         } if errors
       }) }}
     </div>
-
     <div class="govuk-form-group">
       <details class="govuk-details">
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text">
-            {{i18n.textHowGetCompanyNumer}}
+            {{ i18n.textHowGetCompanyNumer }}
           </span>
         </summary>
-        <div class="govuk-details__text">{{i18n.infoToGetCompanyNumer}}<br>
-          <a href="https://find-and-update.company-information.service.gov.uk/" class="govuk-link" rel="noreferrer noopener" target="_blank" data-event-id="How do I find the company number">
-            {{i18n.linkWhereToHowGetCompanyNumer}}
-          </a>
-        </div>
-      </details>
-    </div>
-    
-    {{ govukButton({
+        <div class="govuk-details__text">{{ i18n.infoToGetCompanyNumer }}<br>
+            <a
+              href="https://find-and-update.company-information.service.gov.uk/"
+              class="govuk-link"
+              rel="noreferrer noopener"
+              target="_blank"
+              id="find-company-number-link"
+              data-event-id="How do I find the company number">
+              {{ i18n.linkWhereToHowGetCompanyNumer }}
+            </a>
+          </div>
+        </details>
+      </div>
+      {{ govukButton({
       text: i18n.SaveAndContinue,
+      id : "save-continue-button",
       attributes: {
         "data-event-id": "SAVE AND CONTINUE - Company Number"
       }
     }) }}
-     
-  </form>
-{% endblock %}
+    </form>
+    <script>
+      trackEventBasedOnPageTitle("find-company-number-link","What is the company number?", "click-link", 'How do I find the company number');
+      trackEventBasedOnPageTitle("save-continue-button","click-button", 'SAVE AND CONTINUE - Company Number');
+    </script>
+  {% endblock %}

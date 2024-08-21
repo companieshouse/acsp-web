@@ -26,22 +26,25 @@
                     {
                         value: "EA",
                         text: i18n.whichSectorOtherEstateAgentsOption,
+                        id: "EA-id",
                         attributes: {
-                            "data-event-id": "estate-agents-option"
+                            "data-event-id": "estate-agents"
                         }
                     },
                     {
                         value: "HVD",
                         text: i18n.whichSectorOtherHighValueDealersOption,
+                        id: "HVD-id",
                         attributes: {
-                            "data-event-id": "high-value-dealers-option"
+                            "data-event-id": "high-value-dealers"
                         }
                     },
                     {
                         value: "CASINOS",
                         text: i18n.whichSectorOtherCasinosOption,
+                        id: "CASINOS-id",
                         attributes: {
-                            "data-event-id": "casinos-option"
+                            "data-event-id": "casinos"
                         }
                     }
                 ]
@@ -50,11 +53,19 @@
         <div class="govuk-button-group"> 
             {{ govukButton({
                 text: i18n.SaveAndContinue,
+                id:"save-continue-button",
                 attributes: {
                   "data-event-id": "SAVE AND CONTINUE - OTHER SECTOR " + acspType
                 }
               }) }}
-            <a href={{ whichSectorLink }} class="govuk-link" data-event-id="Back to main business sector list">{{ i18n.whichSectorOtherGoBack }}</a>
+            <a href={{ whichSectorLink }} class="govuk-link" id="back-link-id" data-event-id="Back to main business sector list">{{ i18n.whichSectorOtherGoBack }}</a>
         </div>
     </form>
+            <script>
+          trackEventBasedOnPageTitle("EA-id", "select-option", "estate-agents");
+          trackEventBasedOnPageTitle("HVD-id", "select-option", "high-value-dealers");
+          trackEventBasedOnPageTitle("CASINOS-id", "select-option", "casinos");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR " + acspType);
+        trackEventBasedOnPageTitle("back-link-id", "click-link", "Back to main business sector list");
+      </script>
 {% endblock main_content %}

@@ -42,9 +42,11 @@
     })}}
     {{ govukButton({
       text: i18n.continueToPayment,
+      id: "continue-to-payment-button",
       attributes: {
         "onClick": "_paq.push(['trackGoal', '11']);"
       }
     }) }}
   </form>
+  
 {% endblock main_content %}

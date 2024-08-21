@@ -28,6 +28,25 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, () => {
         expect(res.text).toContain("Confirm the business address");
     });
 
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Confirm the business address");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+    });
+
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM);

@@ -5,10 +5,8 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { SOLE_TRADER_SECTOR_YOU_WORK_IN, SOLE_TRADER_AUTO_LOOKUP_ADDRESS, BASE_URL, SOLE_TRADER_WHICH_SECTOR_OTHER, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { SectorOfWork } from "../../../model/BusinessSector";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -38,8 +36,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             acspType: acspData?.typeOfBusiness,
             workSector
         });
@@ -66,8 +64,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 acspType: acspType,
                 ...pageProperties
             });
@@ -81,11 +79,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // save data to mongodb
                 const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session, acspData);
-                const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-                detailsAnswers.workSector = SectorOfWork[req.body.sectorYouWorkIn as keyof typeof SectorOfWork];
-                saveDataInSession(req, ANSWER_DATA, detailsAnswers);
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
-
             }
         }
     } catch (err) {

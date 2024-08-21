@@ -6,9 +6,8 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import * as config from "../../../config";
 import { SOLE_TRADER_DATE_OF_BIRTH, BASE_URL, SOLE_TRADER_WHERE_DO_YOU_LIVE, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData, Nationality } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -23,14 +22,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY;
 
     try {
-        // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+    // get data from mongo and save to session
+        const acspData = await getAcspRegistration(
+            session,
+      session.getExtraData(SUBMISSION_ID)!,
+      res.locals.userId
+        );
         saveDataInSession(req, USER_DATA, acspData);
-
         const payload = {
-            nationality_input_0: acspData.nationality?.firstNationality,
-            nationality_input_1: acspData.nationality?.secondNationality,
-            nationality_input_2: acspData.nationality?.thirdNationality
+            nationality_input_0:
+        acspData.applicantDetails?.nationality?.firstNationality,
+            nationality_input_1:
+        acspData.applicantDetails?.nationality?.secondNationality,
+            nationality_input_2:
+        acspData.applicantDetails?.nationality?.thirdNationality
         };
 
         res.render(config.SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, {
@@ -38,9 +43,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             nationalityList: nationalityList,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
-            nationality: acspData?.nationality,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
+            nationality: acspData?.applicantDetails?.nationality,
             payload
 
         });
@@ -68,21 +73,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 nationalityList: nationalityList,
                 payload: req.body,
-                firstName: acspData?.firstName,
-                lastName: acspData?.lastName,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
                 ...pageProperties
 
             });// determined from user not in banned list
         } else {
-
-            let nationalityString = req.body.nationality_input_0;
-            if (req.body.nationality_input_1 !== "") {
-                nationalityString += ", " + req.body.nationality_input_1;
-            }
-            if (req.body.nationality_input_2 !== "") {
-                nationalityString += ", " + req.body.nationality_input_2;
-            }
-
             const nationalityData: Nationality = {
                 firstNationality: req.body.nationality_input_0,
                 secondNationality: req.body.nationality_input_1,
@@ -90,18 +86,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             };
 
             if (acspData) {
-                acspData.nationality = nationalityData;
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.nationality = nationalityData;
+                acspData.applicantDetails = applicantDetails;
             }
 
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.nationality = nationalityString;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang));
-
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

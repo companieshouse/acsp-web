@@ -3,17 +3,17 @@
 
 {% set title = i18n.businessAddressConfirmTitle %}
 {% block main_content %}
- {% set businessAddressField = businessAddress.propertyDetails + " " + businessAddress.line1 + ", " %}
+ {% set businessAddressField = businessAddress.premises + " " + businessAddress.addressLine1 + ", " %}
   <form action="" method="post">
     {% include "partials/business_name.njk" %}
     <h1 class="govuk-heading-l">{{ i18n.businessAddressConfirmTitle }}</h1>
     <ul class="govuk-list">
       <li>{{ businessAddressField }}</li>
-      <li>{{ businessAddress.line2 }}</li>
-      <li>{{ businessAddress.town }}</li>
-      <li>{{ businessAddress.county }}</li>
+      <li>{{ businessAddress.addressLine2 }}</li>
+      <li>{{ businessAddress.locality }}</li>
+      <li>{{ businessAddress.region }}</li>
       <li>{{ businessAddress.country }}</li>
-      <li>{{ businessAddress.postcode }}</li>
+      <li>{{ businessAddress.postalCode }}</li>
     </ul>
     <p class="govuk-body">
       <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state data-event-id="Edit address"">{{ i18n.EditAddress }}</a>
@@ -24,9 +24,13 @@
     </div>
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
+      id:"save-continue-button",
       attributes: {
         "data-event-id": "CONFIRM AND CONTINUE - address business confirm"
       }
     }) }}
   </form>
+          <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - address business confirm");
+        </script>
 {% endblock main_content %}

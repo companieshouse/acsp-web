@@ -12,10 +12,18 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "SOLE_TRADER",
-    firstName: "John",
-    lastName: "Doe",
-    correspondenceAddress: {
-        propertyDetails: "Property Details"
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe",
+        correspondenceAddress: {
+            premises: "Property Details",
+            addressLine1: "123 Test St",
+            addressLine2: "",
+            locality: "Test",
+            region: "Test",
+            country: "Test",
+            postalCode: "TE5 5TL"
+        }
     }
 };
 
@@ -31,6 +39,25 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(res.text).toContain("Property Details");
     });
 
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+    });
+
+    it("should render the confirmation page with status 200 without applicantDetails", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+    });
+
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
@@ -42,6 +69,28 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     it("should redirect to /select-aml-supervisor with status 302", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR + "?lang=en");
+    });
+
+    it("should return status 302 with acspData", async () => {
+        const formData = {
+            typeOfBusiness: "SOLE_TRADER",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: {
+                    premises: "Property Details",
+                    addressLine1: "123 Test St",
+                    addressLine2: "",
+                    locality: "Test",
+                    region: "Test",
+                    country: "Test",
+                    postalCode: "TE5 5TL"
+                }
+            }
+        };
+        const res = await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).send(formData);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR + "?lang=en");
     });

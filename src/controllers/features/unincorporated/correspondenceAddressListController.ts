@@ -71,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const selectedPremise = req.body.correspondenceAddress;
 
             // Save selected address
-            const correspondenceAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
+            const correspondenceAddress: Address = addressList.filter((address) => address.premises === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveCorrespondenceAddressFromList(req, correspondenceAddress, acspData);
             const acspDataService = new AcspDataService();

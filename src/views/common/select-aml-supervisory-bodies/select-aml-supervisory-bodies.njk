@@ -1,16 +1,15 @@
 {% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
-
 {% extends "layouts/default.njk" %}
-
 {% set ITEMS = [] %}
 {% for key,value in AMLSupervisoryBodies %}
   {% if value is string %}
     {% set checkboxItem = {
       value: value,
       text: value,
+      id: "aml" + loop.index,
       attributes: {
-        "data-event-id": value + "-option"
+        "data-event-id": value
       }
     } %}
     {% set ITEMS = ITEMS.concat(checkboxItem) %}
@@ -21,8 +20,8 @@
   <form action="" method="POST">
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
-    {% else %}   
-        {% include "partials/business_name.njk" %}
+    {% else %}
+      {% include "partials/business_name.njk" %}
     {% endif %}
     {{ govukCheckboxes({
       name: "AML-supervisory-bodies",
@@ -40,15 +39,21 @@
       items: ITEMS
     }) }}
     <div class="govuk-inset-text">
-      <h2 class="govuk-heading-m">{{i18n.selectAmlSupervisorInfoHeading}}</h2>
-      <p>{{i18n.selectAmlSupervisorInfo}}</p>
+      <h2 class="govuk-heading-m">{{ i18n.selectAmlSupervisorInfoHeading }}</h2>
+      <p>{{ i18n.selectAmlSupervisorInfo }}</p>
     </div>
     {{ govukButton({
       text: i18n.SaveAndContinue,
+      id: "save-continue-button",
       attributes: {
         "data-event-id": "SAVE AND CONTINUE - Which AML Bodies"
       }
     }) }}
   </form>
-
+  <script>
+    document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
+      trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.getAttribute('data-event-id'));
+    });
+    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Which AML Bodies");
+  </script>
 {% endblock main_content %}

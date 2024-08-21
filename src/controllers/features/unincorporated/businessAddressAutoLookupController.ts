@@ -26,8 +26,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {
-            postCode: acspData.businessAddress?.postcode,
-            premise: acspData.businessAddress?.propertyDetails
+            postCode: acspData.registeredOfficeAddress?.postalCode,
+            premise: acspData.registeredOfficeAddress?.premises
         };
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {

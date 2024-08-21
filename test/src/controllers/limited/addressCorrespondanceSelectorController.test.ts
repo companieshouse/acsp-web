@@ -13,12 +13,41 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "LIMITED"
+    typeOfBusiness: "LIMITED",
+    businessName: "Business",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe",
+        correspondenceAddress: {
+            postalCode: "ST6 3LJ"
+        }
+    }
 };
 
 describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
     it("should render the correspondence address selector page with status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce({});
+        const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -46,20 +75,34 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
 
     });
 
-    it("should redirect to correspondence-address-lookup page when address option is CORRESPONDANCE_ADDRESS", async () => {
-        const res = await router
-            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
-            .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+    it("should render the correspondence address selector page with validation errors", async () => {
+        const formData = {
+            typeOfBusiness: "SOLE_TRADER",
+            addressSelectorRadio: "",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe",
+                correspondenceAddress: {
+                    postalCode: "ST6 3LJ"
+                }
+            }
+        };
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the correspondence address?");
+
     });
 
-    it("should redirect to correspondence-address-lookup page when address option is DIFFERENT_ADDRESS", async () => {
-        const res = await router
-            .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
-            .send({ addressSelectorRadio: "DIFFERENT_ADDRESS" });
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP + "?lang=en");
+    it("should render the correspondence address selector page with validation errors", async () => {
+        const acspData2 = {
+            id: "abc",
+            typeOfBusiness: "SOLE_TRADER"
+        };
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send(acspData2);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the correspondence address?");
+
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
@@ -69,5 +112,43 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .send({ addressSelectorRadio: "DIFFERENT_ADDRESS" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    it("should redirect to sector-you-work-in page when address option is correspondance Address and postcodes are the same", async () => {
+        const formData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            registeredOfficeAddress: { postalCode: "AB1 2CD" },
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: { postalCode: "AB1 2CD" }
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(formData);
+        mockPutAcspRegistration.mockResolvedValueOnce(formData);
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+    });
+
+    it("should redirect to address look up page when address option is Different Address and postcodes are the same", async () => {
+        const returnedAcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            registeredOfficeAddress: { postalCode: "AB1 2CD" },
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: { postalCode: "HP1 2PD" }
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(returnedAcspData);
+        mockPutAcspRegistration.mockResolvedValueOnce(returnedAcspData);
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send({ addressSelectorRadio: "DIFFERENT_ADDRESS" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP + "?lang=en");
     });
 });

@@ -6,7 +6,7 @@ import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_NAME
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
@@ -26,9 +26,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {
-            "first-name": acspData.firstName,
-            "middle-names": acspData.middleName,
-            "last-name": acspData.lastName
+            "first-name": acspData.applicantDetails?.firstName,
+            "middle-names": acspData.applicantDetails?.middleName,
+            "last-name": acspData.applicantDetails?.lastName
         };
 
         res.render(config.WHAT_IS_YOUR_NAME, {
@@ -62,15 +62,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.name = req.body["first-name"] + " " + req.body["last-name"];
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
-
             // save to MongoDB
             if (acspData) {
-                acspData.firstName = req.body["first-name"];
-                acspData.middleName = req.body["middle-names"];
-                acspData.lastName = req.body["last-name"];
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.firstName = req.body["first-name"];
+                applicantDetails.middleName = req.body["middle-names"];
+                applicantDetails.lastName = req.body["last-name"];
+                acspData.applicantDetails = applicantDetails;
                 const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session, acspData);
             }

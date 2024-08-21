@@ -7,26 +7,26 @@ export class BusinessAddressService {
 
         // Extract business address details from request body
         const businessAddress: Address = {
-            propertyDetails: req.body.addressPropertyDetails,
-            line1: req.body.addressLine1,
-            line2: req.body.addressLine2,
-            town: req.body.addressTown,
-            county: req.body.addressCounty,
+            premises: req.body.addressPropertyDetails,
+            addressLine1: req.body.addressLine1,
+            addressLine2: req.body.addressLine2,
+            locality: req.body.addressTown,
+            region: req.body.addressCounty,
             country: req.body.addressCountry,
-            postcode: req.body.addressPostcode
+            postalCode: req.body.addressPostcode
         };
-        acspData.businessAddress = businessAddress;
+        acspData.registeredOfficeAddress = businessAddress;
     }
 
     public getBusinessManualAddress (acspData: AcspData) {
         return {
-            addressPropertyDetails: acspData?.businessAddress?.propertyDetails,
-            addressLine1: acspData?.businessAddress?.line1,
-            addressLine2: acspData?.businessAddress?.line2,
-            addressTown: acspData?.businessAddress?.town,
-            addressCounty: acspData?.businessAddress?.county,
-            addressCountry: acspData?.businessAddress?.country,
-            addressPostcode: acspData?.businessAddress?.postcode
+            addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
+            addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
+            addressLine2: acspData?.registeredOfficeAddress?.addressLine2,
+            addressTown: acspData?.registeredOfficeAddress?.locality,
+            addressCounty: acspData?.registeredOfficeAddress?.region,
+            addressCountry: acspData?.registeredOfficeAddress?.country,
+            addressPostcode: acspData?.registeredOfficeAddress?.postalCode
         };
     }
 

@@ -13,9 +13,10 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
-    typeOfBusiness: "SOLE_TRADER",
-    firstName: "John",
-    lastName: "Doe"
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
@@ -28,6 +29,31 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
         expect(res.text).toContain("John Doe");
         expect(res.text).toContain("Select the correspondence address");
     });
+
+    it("should return status 200 when acspData is undefined", async () => {
+        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 200", async () => {
+        const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
     it("should render the error page if an error is thrown in get function", async () => {
         mockGetAcspRegistration.mockImplementationOnce(() => { throw new Error(); });
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
@@ -39,6 +65,21 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
 describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
     // Test for correct form details entered, will return 302.
     it("should return status 302 and redirect to correspondence address confirm screen", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "1" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+
+    it("should return status 302 and redirect to correspondence address confirm screen", async () => {
+        const formData = {
+            id: "abc",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(formData);
+        mockPutAcspRegistration.mockResolvedValueOnce(formData);
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "1" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");

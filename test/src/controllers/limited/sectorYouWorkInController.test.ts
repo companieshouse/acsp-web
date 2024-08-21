@@ -14,13 +14,27 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA"
+    workSector: "AIA",
+    applicantDetails: {
+        firstName: "John",
+        lastName: "Doe"
+    }
 };
 
 describe("GET" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        await router.get(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
 
+    it("should return status 200 when applicantDetails is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -45,6 +59,31 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
 
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "OTHER" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
+    });
+
+    it("should return status 302 after redirect", async () => {
+        const formData = {
+            sectorYouWorkIn: "OTHER",
+            typeOfBusiness: "LIMITED",
+            applicantDetails: {
+                firstName: "John",
+                middleName: "",
+                lastName: "Doe"
+            }
+        };
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send(formData);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
+    });
+
+    it("should return status 302 after redirect", async () => {
+        const formData = {
+            sectorYouWorkIn: "OTHER",
+            typeOfBusiness: "LIMITED"
+        };
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send(formData);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
     });

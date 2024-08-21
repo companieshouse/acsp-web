@@ -4,11 +4,10 @@ import countryList from "../../../../lib/countryList";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ANSWER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, SOLE_TRADER_WHERE_DO_YOU_LIVE } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { Answers } from "../../../model/Answers";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -34,8 +33,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             countryList: countryList,
-            firstName: acspData?.firstName,
-            lastName: acspData?.lastName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             countryInput,
             payload
         });
@@ -73,14 +72,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
             }
             if (acspData) {
-                acspData.countryOfResidence = countryOfResidence;
+                const applicantDetails = acspData.applicantDetails || {};
+                applicantDetails.countryOfResidence = countryOfResidence;
+                acspData.applicantDetails = applicantDetails;
             }
             //  save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-            const detailsAnswers: Answers = session.getExtraData(ANSWER_DATA) || {};
-            detailsAnswers.countryOfResidence = countryOfResidence;
-            saveDataInSession(req, ANSWER_DATA, detailsAnswers);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, lang));
         }
     } catch (err) {
