@@ -27,7 +27,7 @@
           text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
           id:"AIA-id",
           attributes: {
-            "data-event-id": "auditors-insolvency-practitioners-option"
+            "data-event-id": "auditors-insolvency-practitioners"
           }
         },
         {
@@ -35,7 +35,7 @@
           text: i18n.sectorYouWorkInIndependentLegalProfessionalsOption,
           id:"ILP-id",
           attributes: {
-            "data-event-id": "independent-legal-professionals-option"
+            "data-event-id": "independent-legal-professionals"
           }
         },
         {
@@ -43,7 +43,7 @@
           text: i18n.sectorYouWorkInTrustOrCompanyServiceProvidersOption,
           id:"TCSP-id",
           attributes: {
-            "data-event-id": "trust-or-company-service-providers-option"
+            "data-event-id": "trust-or-company-service-providers"
           }
         },
         {
@@ -51,7 +51,7 @@
           text: i18n.sectorYouWorkInCreditInstitutionsOption,
           id:"CI-id",
           attributes: {
-            "data-event-id": "credit-institutions-option"
+            "data-event-id": "credit-institutions"
           }
         },
         {
@@ -59,7 +59,7 @@
           text: i18n.sectorYouWorkInFinancialInstitutionsOption,
           id:"FI-id",
           attributes: {
-            "data-event-id": "financial-institutions-option"
+            "data-event-id": "financial-institutions"
           }
         },
         {
@@ -67,7 +67,7 @@
           text: i18n.sectorYouWorkInOtherOption,
           id:"OTHER-id",
           attributes: {
-            "data-event-id": "other-option"
+            "data-event-id": "other"
           }
         }
       ]
@@ -81,12 +81,12 @@
     }) }}
   </form>
         <script>
-          trackEventBasedOnPageTitle("AIA-id",  "select-option", "auditors-insolvency-practitioners-option");
-          trackEventBasedOnPageTitle("ILP-id", "select-option", "independent-legal-professionals-option");
-          trackEventBasedOnPageTitle("TCSP-id", "select-option", "trust-or-company-service-providers-option");
-          trackEventBasedOnPageTitle("CI-id", "select-option", "credit-institutions-option");
-          trackEventBasedOnPageTitle("FI-id", "select-option", "financial-institutions-option");
-        trackEventBasedOnPageTitle("OTHER-id", "select-option", "other-option");
+          trackEventBasedOnPageTitle("AIA-id",  "select-option", "auditors-insolvency-practitioners");
+          trackEventBasedOnPageTitle("ILP-id", "select-option", "independent-legal-professionals");
+          trackEventBasedOnPageTitle("TCSP-id", "select-option", "trust-or-company-service-providers");
+          trackEventBasedOnPageTitle("CI-id", "select-option", "credit-institutions");
+          trackEventBasedOnPageTitle("FI-id", "select-option", "financial-institutions");
+        trackEventBasedOnPageTitle("OTHER-id", "select-option", "other");
         trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
       </script>
 {% endblock main_content %}
