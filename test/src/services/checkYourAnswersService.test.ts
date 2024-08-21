@@ -119,17 +119,18 @@ describe("CheckYourAnswersService", () => {
     });
 
     it("should return answers for corporate body journey", () => {
-        const unincorporatedAnswers = getAnswers(req, mockCorporateBodyAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const session: Session = req.session as any as Session;
+        session.setExtraData(COMPANY_DETAILS, mockCompany);
+        const limitedAnswers = getAnswers(req, mockLimitedAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
-        expect(unincorporatedAnswers).toStrictEqual({
-            businessName: "Test Business 123",
+        expect(limitedAnswers).toStrictEqual({
+            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
+            businessName: "Test Company",
+            companyNumber: "12345678",
             correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
-            businessAddress: "",
-            roleType: "I am the equivalent to a director",
-            typeOfBusiness: "Corporate body (registered with Companies House)",
-            workSector: "Estate agents",
-            nameRegisteredWithAML: "Your name",
-            name: undefined
+            roleType: "I am a director",
+            typeOfBusiness: "Limited company",
+            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers"
         });
     });
 
