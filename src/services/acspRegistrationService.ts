@@ -8,31 +8,31 @@ import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/di
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 /**
- * GET an acsp registration object with the given transaction ID and emailId.
+ * GET an acsp registration object with the given transaction ID and acspApplicationId.
  * @param session The current session to connect to the api
  * @param transactionId The acsp registration associated transaction ID
  * @param emailId The Id set on the acsp registration object
  * @returns The acsp registration details
  */
 
-export const getAcspRegistration = async (session: Session, transactionId:string, emailId: string): Promise<AcspData> => {
+export const getAcspRegistration = async (session: Session, transactionId:string, acspApplicationId: string): Promise<AcspData> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
-    logger.debug(`Retrieving acsp registration details for emailId ${emailId}`);
-    const sdkResponse: Resource<AcspDto> | ApiErrorResponse = await apiClient.acsp.getAcsp(transactionId, emailId);
+    logger.debug(`Retrieving acsp registration details for emailId ${acspApplicationId}`);
+    const sdkResponse: Resource<AcspDto> | ApiErrorResponse = await apiClient.acsp.getAcsp(transactionId, acspApplicationId);
 
     if (!sdkResponse) {
-        logger.error(`acsp registration GET request returned no response for emailId ${emailId}`);
+        logger.error(`acsp registration GET request returned no response for emailId ${acspApplicationId}`);
         return Promise.reject(sdkResponse);
     }
     if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
-        logger.error(`Http status code ${sdkResponse.httpStatusCode} and error ${JSON.stringify(sdkResponse)} - Failed to get acsp registration for emailId ${emailId}`);
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} and error ${JSON.stringify(sdkResponse)} - Failed to get acsp registration for emailId ${acspApplicationId}`);
         return Promise.reject(sdkResponse);
     }
 
     const castedSdkResponse: Resource<AcspData> = sdkResponse as Resource<AcspData>;
     if (castedSdkResponse.resource === undefined) {
-        logger.error(`acsp registration API GET request returned no resource for emailId ${emailId}`);
+        logger.error(`acsp registration API GET request returned no resource for emailId ${acspApplicationId}`);
         return Promise.reject(sdkResponse);
     }
 
@@ -86,7 +86,8 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`PUTing acsp registration for transaction ${transactionId}`);
-    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.putACSP(transactionId, acsp);
+
+    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.putACSP(transactionId, acsp.id, acsp);
 
     if (!sdkResponse) {
         logger.error(`acsp registration PUT request returned no response for transaction ${transactionId}`);
@@ -107,9 +108,9 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
     return Promise.resolve(castedSdkResponse.resource);
 };
 
-export const getSavedApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
+export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<HttpResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    return apiClient.acsp.getSavedApplication(userId);
+    return apiClient.acsp.getSavedApplication(acspApplicationId);
 };
 
 /**
@@ -118,21 +119,21 @@ export const getSavedApplication = async (session: Session, userId: string): Pro
  * @param userId The user ID of for the document of be delete.
  * @returns The AcspResponse contains the submission ID for the updated registration
  */
-export const deleteAcspApplication = async (session: Session, userId: string): Promise<HttpResponse> => {
+export const deleteAcspApplication = async (session: Session, acspApplicationId: string): Promise<HttpResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
-    logger.debug(`Deleting acsp registration for user ${userId}`);
-    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(userId);
+    logger.debug(`Deleting acsp registration for user ${acspApplicationId}`);
+    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(acspApplicationId);
 
     if (!sdkResponse) {
-        logger.error(`acsp registration DELETE request returned no response for user ${userId}`);
+        logger.error(`acsp registration DELETE request returned no response for user ${acspApplicationId}`);
         return Promise.reject(sdkResponse);
     }
     if (!sdkResponse.status || sdkResponse.status >= 400) {
-        logger.error(`Http status code ${sdkResponse.status} - Failed to DELETE acsp registration for user ${userId}`);
+        logger.error(`Http status code ${sdkResponse.status} - Failed to DELETE acsp registration for user ${acspApplicationId}`);
         return Promise.reject(sdkResponse);
     }
 
-    logger.debug(`acsp registration for user ${userId} has been deleted`);
+    logger.debug(`acsp registration for user ${acspApplicationId} has been deleted`);
     return Promise.resolve(sdkResponse);
 };
