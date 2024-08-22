@@ -43,23 +43,17 @@
                 items: [
                     {
                         value: "CORRESPONDANCE_ADDRESS",
-                        text: optionalFields + businessAddress.postalCode,
-                        attributes: {
-                            "data-event-id": "correspondance-address"
-                        }
+                        text: optionalFields + businessAddress.postalCode
                     },
                     {
                         value: "DIFFERENT_ADDRESS",
                         text: i18n.addressSelectorDifferentAddress,
-                        id: "different-address-id",
-                        attributes: {
-                            "data-event-id": "different-address"
-                        }
+                        id: "different-address-id"
                     }
                 ]
                 }) }}
         </div>
-        <button class="govuk-button" id="save-continue-button" data-event-id="SAVE AND CONTINUE">{{ i18n.SaveAndContinue}}</button>
+        <button class="govuk-button" id="save-continue-button">{{ i18n.SaveAndContinue}}</button>
     </form>
         <script>
         trackEventBasedOnPageTitle("different-address-id", "select-option", "different-address");

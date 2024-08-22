@@ -68,7 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             await acspDataService.saveAcspData(session, acspData, selectedOption);
             saveDataInSession(req, "resume_application", true);
 
-            if(selectedOption === "CORPORATE_BODY"){
+            if (selectedOption === "CORPORATE_BODY") {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
             } else {
                 // Redirect to Unincorporated journey Which name is registered with your Anti-Money Laundering (AML) supervisory body?

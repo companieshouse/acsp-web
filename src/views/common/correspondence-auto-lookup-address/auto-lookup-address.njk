@@ -46,13 +46,10 @@
     }) }}
     {{ govukButton({
       text: i18n.correspondenceLookUpAddressFindAddressBtn,
-      id:"find-address-id",
-      attributes: {
-        "data-event-id": "FIND ADDRESS"
-      }
+      id:"find-address-id"
     }) }}
     <p>
-      <a href={{correspondenceAddressManualLink}} class="govuk-link" id="manual-address-id" data-event-id="Enter address manually">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
+      <a href={{correspondenceAddressManualLink}} class="govuk-link" id="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
   </form>
         <script>
