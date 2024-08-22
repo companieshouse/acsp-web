@@ -4,7 +4,7 @@ import app from "../../../../src/app";
 import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
-import { BASE_URL, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../../src/types/pageURL";
+import { BASE_URL, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../../src/types/pageURL";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { USER_DATA } from "../../../../src/common/__utils/constants";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
@@ -58,6 +58,13 @@ describe("POST " + OTHER_TYPE_OF_BUSINESS, () => {
     it("should return status 302 after redirect", async () => {
         // Add this line to include middleware checks for the 400 case
         const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "CORPORATE_BODY" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
+    });
+
+    it("should return status 302 after redirect", async () => {
+        // Add this line to include middleware checks for the 400 case
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML + "?lang=en");
     });
