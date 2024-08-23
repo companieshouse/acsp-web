@@ -10,7 +10,7 @@ import {
 } from "../../../src/services/acspRegistrationService";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
-import { AcspData, AcspDto, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -57,7 +57,7 @@ describe("acsp service tests", () => {
                 resource: {
                     data: {
                         id: "example@example.com",
-                        typeOfBusiness: "LIMITED"
+                        type_of_business: "LIMITED"
                     }
                 }
             });
@@ -65,7 +65,7 @@ describe("acsp service tests", () => {
             const acspResponse: AcspResponse = await postAcspRegistration(session, TRANSACTION_ID, acsp);
 
             expect(acspResponse.data.id).toEqual(EMAIL_ID);
-            expect(acspResponse.data.typeOfBusiness).toEqual("LIMITED");
+            expect(acspResponse.data.type_of_business).toEqual("LIMITED");
         });
 
         it("Should throw an error when no acsp api response", async () => {
@@ -121,7 +121,7 @@ describe("acsp service tests", () => {
                 resource: {
                     data: {
                         id: "example@example.com",
-                        typeOfBusiness: "LIMITED"
+                        type_of_business: "LIMITED"
                     }
                 }
             });
@@ -129,7 +129,7 @@ describe("acsp service tests", () => {
             const acspResponse: AcspResponse = await putAcspRegistration(session, TRANSACTION_ID, acsp);
 
             expect(acspResponse.data.id).toEqual(EMAIL_ID);
-            expect(acspResponse.data.typeOfBusiness).toEqual("LIMITED");
+            expect(acspResponse.data.type_of_business).toEqual("LIMITED");
         });
 
         it("Should throw an error when no acsp api response", async () => {
@@ -170,19 +170,19 @@ describe("acsp service tests", () => {
 
     describe("getAcspRegistration tests", () => {
         it("Should return a acspRegistration", async () => {
-            const dummyAcspDto: AcspDto = {
+            const dummyAcspData: AcspData = {
                 id: EMAIL_ID,
                 typeOfBusiness: "LIMITED"
             };
 
             mockGetAcspRegistration.mockResolvedValueOnce({
                 httpStatusCode: 200,
-                resource: dummyAcspDto
-            } as Resource<AcspDto>);
+                resource: dummyAcspData
+            } as Resource<AcspData>);
 
-            const acspDto: AcspDto = await getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID);
+            const acspData: AcspData = await getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID);
 
-            expect(acspDto).toStrictEqual(dummyAcspDto);
+            expect(acspData).toStrictEqual(dummyAcspData);
         });
 
         it("Should throw an error when no acsp api response", async () => {
@@ -227,9 +227,9 @@ describe("acsp service tests", () => {
 
             mockDeleteSavedApplication.mockResolvedValueOnce({ status: 204 });
 
-            const acspDto = await deleteAcspApplication(session, EMAIL_ID);
+            const acspData = await deleteAcspApplication(session, EMAIL_ID);
 
-            expect(acspDto).toStrictEqual(dummySuccessResponce);
+            expect(acspData).toStrictEqual(dummySuccessResponce);
         });
 
         it("Should throw an error when no acsp api response", async () => {

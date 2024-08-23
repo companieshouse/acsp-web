@@ -7,10 +7,7 @@
     {% set checkboxItem = {
       value: value,
       text: value,
-      id: "aml" + loop.index,
-      attributes: {
-        "data-event-id": value
-      }
+      id: "aml" + loop.index
     } %}
     {% set ITEMS = ITEMS.concat(checkboxItem) %}
   {% endif %}
@@ -44,15 +41,12 @@
     </div>
     {{ govukButton({
       text: i18n.SaveAndContinue,
-      id: "save-continue-button",
-      attributes: {
-        "data-event-id": "SAVE AND CONTINUE - Which AML Bodies"
-      }
+      id: "save-continue-button"
     }) }}
   </form>
   <script>
     document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
-      trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.getAttribute('data-event-id'));
+      trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.value);
     });
     trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Which AML Bodies");
   </script>

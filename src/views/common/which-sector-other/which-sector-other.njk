@@ -26,26 +26,17 @@
                     {
                         value: "EA",
                         text: i18n.whichSectorOtherEstateAgentsOption,
-                        id: "EA-id",
-                        attributes: {
-                            "data-event-id": "estate-agents"
-                        }
+                        id: "EA-id"
                     },
                     {
                         value: "HVD",
                         text: i18n.whichSectorOtherHighValueDealersOption,
-                        id: "HVD-id",
-                        attributes: {
-                            "data-event-id": "high-value-dealers"
-                        }
+                        id: "HVD-id"
                     },
                     {
                         value: "CASINOS",
                         text: i18n.whichSectorOtherCasinosOption,
-                        id: "CASINOS-id",
-                        attributes: {
-                            "data-event-id": "casinos"
-                        }
+                        id: "CASINOS-id"
                     }
                 ]
                 }) }}
@@ -53,12 +44,9 @@
         <div class="govuk-button-group"> 
             {{ govukButton({
                 text: i18n.SaveAndContinue,
-                id:"save-continue-button",
-                attributes: {
-                  "data-event-id": "SAVE AND CONTINUE - OTHER SECTOR " + acspType
-                }
+                id:"save-continue-button"
               }) }}
-            <a href={{ whichSectorLink }} class="govuk-link" id="back-link-id" data-event-id="Back to main business sector list">{{ i18n.whichSectorOtherGoBack }}</a>
+            <a href={{ whichSectorLink }} class="govuk-link" id="back-link-id">{{ i18n.whichSectorOtherGoBack }}</a>
         </div>
     </form>
             <script>

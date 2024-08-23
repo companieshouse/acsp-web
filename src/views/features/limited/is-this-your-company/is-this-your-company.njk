@@ -51,13 +51,10 @@
     </div>
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
-      id: "save-continue-button",
-      attributes: {
-        "data-event-id": "CONFIRM AND CONTINUE - Is this your company"
-      }
+      id: "save-continue-button"
     }) }}
     <p class="govuk-body">
-      <a href={{chooseDifferentCompany}} data-event-id="Chose a different company" id="choose-company-link">
+      <a href={{chooseDifferentCompany}} id="choose-company-link">
         {{i18n.chooseADifferentCompany}}
       </a>
     </p>

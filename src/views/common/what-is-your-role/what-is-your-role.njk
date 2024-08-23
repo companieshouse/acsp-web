@@ -23,91 +23,60 @@
                     {
                       value: "SOLE_TRADER",
                       text: i18n.soleTrader,
-                      id:"sole-trader-id",
-                      attributes: {
-                        "data-event-id": "I am the sole trader"
-                      }
+                      id:"sole-trader-id"
                     } if acspType == "SOLE_TRADER",
 
                     {
                       value: "MEMBER_OF_PARTNERSHIP",
                       text: i18n.member + unincorporatedBusinessName,
-                      id: "member-of-partnership-id",
-                      attributes: {
-                        "data-event-id": "I am a member of"
-                      }
+                      id: "member-of-partnership-id"
                     } if acspType == "PARTNERSHIP",
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
                       text: i18n.memberOfGoverningBody + unincorporatedBusinessName,
-                      id: "governing-body-id",
-                      attributes: {
-                        "data-event-id": "I am a member of the governing body of"
-                      }
+                      id: "governing-body-id"
                     } if acspType == "UNINCORPORATED",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
                       text: i18n.equivalentToDirector + unincorporatedBusinessName,
-                      id: "director-equivalent-id",
-                      attributes: {
-                        "data-event-id": "I am the equivalent of a director of"
-                      }
+                      id: "director-equivalent-id"
                     } if acspType == "CORPORATE_BODY",
 
                     {
                       value: "MEMBER_OF_ENTITY",
                       text: i18n.member + unincorporatedBusinessName,
-                      id: "member-of-entity-id",
-                      attributes: {
-                        "data-event-id": "I am a member of"
-                      }
+                      id: "member-of-entity-id"
                     } if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY",
 
                     {
                       value: "DIRECTOR",
                       text: i18n.director + company.companyName + " (" + company.companyNumber + ")",
-                      id:"I-am-director-id",
-                      attributes: {
-                        "data-event-id": "I am a director of " + company.companyName
-                      }
+                      id:"I-am-director-id"
                     } if acspType == "LC",
 
                     {
                       value: "MEMBER_OF_LLP",
-                      text: i18n.member + company.companyName + " (" + company.companyNumber + ")",
-                      attributes: {
-                        "data-event-id": "I am a member of " + company.companyName
-                      }
+                      text: i18n.member + company.companyName + " (" + company.companyNumber + ")"
                     } if acspType == "LLP",
 
                     {
                       value: "GENERAL_PARTNER",
-                      text: i18n.generalPartner + unincorporatedBusinessName,
-                      id: "general-partner-id",
-                      attributes: {
-                        "data-event-id": "I am a general partner of"
-                      }
+                      text: i18n.generalPartner + unincorporatedBusinessName
                     } if acspType == "LP",
 
                     {
                       value: "SOMEONE_ELSE",
                       text: i18n.someoneElse,
-                      id: "someoneelse-id",
-                      attributes: {
-                        "data-event-id": "I am someone else"
-                      }
+                      id: "someoneelse-id"
                     }
                 ]
             }) }}
         </div>
         {{ govukButton({
           text: i18n.SaveAndContinue,
-          id:"save-continue-button",
-          attributes: {
-            "data-event-id": "SAVE AND CONTINUE - ROLE " + acspType
-          }
+          id:"save-continue-button"
         }) }}
     </form>
       <script>
