@@ -4,7 +4,7 @@ import { createPublicOAuthApiClient } from "./apiService";
 import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
-import { AcspDto, AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 /**
@@ -19,7 +19,7 @@ export const getAcspRegistration = async (session: Session, transactionId:string
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Retrieving acsp registration details for emailId ${acspApplicationId}`);
-    const sdkResponse: Resource<AcspDto> | ApiErrorResponse = await apiClient.acsp.getAcsp(transactionId, acspApplicationId);
+    const sdkResponse: Resource<AcspData> | ApiErrorResponse = await apiClient.acsp.getAcsp(transactionId, acspApplicationId);
 
     if (!sdkResponse) {
         logger.error(`acsp registration GET request returned no response for emailId ${acspApplicationId}`);
