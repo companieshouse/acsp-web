@@ -164,9 +164,10 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.text).toContain("Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
     });
 
-    it("should return status 400 for business name length more 200 characters", async () => {
+    it("should return status 400 for business name length more 155 characters", async () => {
         const formData = {
-            whatIsTheBusinessNameInput: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            // 156 character string to test character length validation
+            whatIsTheBusinessNameInput: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             whatsTheBusinessNameRadio: "A Different Name",
             applicantDetails: {
                 firstName: "John",
@@ -180,7 +181,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.status).toBe(400);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(response.text).toContain("Business name must be 200 characters or less");
+        expect(response.text).toContain("Business name must be 155 characters or less");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {

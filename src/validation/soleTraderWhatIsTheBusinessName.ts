@@ -12,7 +12,7 @@ export const soleTraderWhatIsTheBusinessNameValidator = [
         return true;
     }).bail()
         .matches(businessNameFormat).withMessage("whatIsTheBusinessNameInvalidCharacters").bail()
-        .isLength({ max: 200 }).withMessage("whatIsTheBusinessNameCharactersLimit"),
+        .isLength({ max: 155 }).withMessage("whatIsTheBusinessNameCharactersLimit"),
 
     body("whatsTheBusinessNameRadio", "whatIsTheBusinessNameSelectRadio").notEmpty()
 ];
