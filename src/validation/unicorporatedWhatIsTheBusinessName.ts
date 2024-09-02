@@ -6,5 +6,5 @@ export const unicorporatedWhatIsTheBusinessNameValidator = [
 
     body("whatIsTheBusinessName").trim().notEmpty().withMessage("whatIsTheBusinessNameNoName").bail()
         .matches(businessNameFormat).withMessage("whatIsTheBusinessNameInvalidCharacters").bail()
-        .isLength({ max: 200 }).withMessage("whatIsTheBusinessNameCharactersLimit")
+        .isLength({ max: 155 }).withMessage("whatIsTheBusinessNameCharactersLimit")
 ];

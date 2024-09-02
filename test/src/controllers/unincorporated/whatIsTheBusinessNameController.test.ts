@@ -100,14 +100,15 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.text).toContain("Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
     });
 
-    it("should return status 400 for busines name too long", async () => {
+    it("should return status 400 for business name length more 155 characters", async () => {
         const formData = {
-            whatIsTheBusinessName: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            // 156 character string to test character length validation
+            whatIsTheBusinessName: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
         };
 
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);
         expect(response.status).toBe(400);
-        expect(response.text).toContain("Business name must be 200 characters or less");
+        expect(response.text).toContain("Business name must be 155 characters or less");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
