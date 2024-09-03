@@ -27,7 +27,7 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = `${BASE_UNINCORPORATED_UR
 export const ACSP_SERVICE_HOST = "http://chs.local";
 export const ACSP_SERVICE_PORT = "18644";
 export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}/acsp-api`;
-export const CREATE_DESCRIPTION = "Create an ACSP registration transaction";
+export const CREATE_DESCRIPTION = "Application to register a Companies House authorised agent";
 export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
     CLOSED: "closed"
