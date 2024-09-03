@@ -59,13 +59,15 @@
         id:"save-continue-button"
     }) }}
   </form>
-        <script>
-          trackEventBasedOnPageTitle("AIA-id",  "select-option", "auditors-insolvency-practitioners");
-          trackEventBasedOnPageTitle("ILP-id", "select-option", "independent-legal-professionals");
-          trackEventBasedOnPageTitle("TCSP-id", "select-option", "trust-or-company-service-providers");
-          trackEventBasedOnPageTitle("CI-id", "select-option", "credit-institutions");
-          trackEventBasedOnPageTitle("FI-id", "select-option", "financial-institutions");
-        trackEventBasedOnPageTitle("OTHER-id", "select-option", "other");
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
-      </script>
+
+<script>
+  trackEventBasedOnPageTitle("AIA-id",  "select-option", "Auditors, insolvency practitioners, external accountants and tax advisers");
+  trackEventBasedOnPageTitle("ILP-id", "select-option", "Independent-legal-professionals");
+  trackEventBasedOnPageTitle("TCSP-id", "select-option", "Trust-or-company-service-providers");
+  trackEventBasedOnPageTitle("CI-id", "select-option", "Credit-institutions");
+  trackEventBasedOnPageTitle("FI-id", "select-option", "Financial-institutions");
+  trackEventBasedOnPageTitle("OTHER-id", "select-option", "Other");
+  trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+</script>
+
 {% endblock main_content %}

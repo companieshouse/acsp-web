@@ -72,7 +72,7 @@
     <p class="govuk-body">
       {{ i18n.startTimeout }}
     </p>
-    <button class="govuk-button govuk-button--start" data-module="govuk-button">
+    <button class="govuk-button govuk-button--start" id="start-now" data-module="govuk-button">
       {{ i18n.startNow }}
       <svg
         class="govuk-button__start-icon"
@@ -89,9 +89,11 @@
       <a href="https://www.gov.uk/guidance/register-as-an-authorised-agent" id="Read the guidance-id">{{ i18n.readThe }}</a>.
     </p>
   </form>
-          <script>
-        trackEventBasedOnPageTitle("START NOW-id", "click-button", "START NOW");
-        trackEventBasedOnPageTitle("Read the guidance-id", "click-link", "Read the guidance");
-        trackEventBasedOnPageTitle("verify-id", "click-link", "Verfity your identity for Companies House");
-      </script>
+
+<script>
+  trackEventBasedOnPageTitle("start-now", "click-button", "START NOW");
+  trackEventBasedOnPageTitle("Read the guidance-id", "click-link", "Read the guidance");
+  trackEventBasedOnPageTitle("verify-id", "click-link", "Verfity your identity for Companies House");
+</script>
+
 {% endblock %}
