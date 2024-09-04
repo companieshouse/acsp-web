@@ -2,7 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% extends "layouts/default.njk" %}
-{% set title = i18n.title %}
+{% set title = i18n.whatIsYourRoleTitle %}
 {% block main_content %}
     <form action="" method="POST">
         <div class="govuk-form-group">
@@ -13,7 +13,7 @@
                 name: "WhatIsYourRole",
                 fieldset: {
                     legend: {
-                        text: i18n.title,
+                        text: i18n.whatIsYourRoleTitle,
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
@@ -21,57 +21,57 @@
                 value: roleType,
                 items: [
                     {
-                      value: "SOLE_TRADER",
-                      text: i18n.soleTrader,
-                      id:"sole-trader-id"
-                    } if acspType == "SOLE_TRADER",
+                      value: "MEMBER_OF_PARTNERSHIP",
+                      id: "member-of-partnership",
+                      text: i18n.member + unincorporatedBusinessName
+                    } if acspType == "PARTNERSHIP",
 
                     {
-                      value: "MEMBER_OF_PARTNERSHIP",
-                      text: i18n.member + unincorporatedBusinessName,
-                      id: "member-of-partnership-id"
-                    } if acspType == "PARTNERSHIP",
+                      value: "SOLE_TRADER",
+                      text: i18n.soleTrader,
+                      id: "sole-trader"
+                    } if acspType == "SOLE_TRADER",
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
                       text: i18n.memberOfGoverningBody + unincorporatedBusinessName,
-                      id: "governing-body-id"
+                      id: "member-of-governing-body"
                     } if acspType == "UNINCORPORATED",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
                       text: i18n.equivalentToDirector + unincorporatedBusinessName,
-                      id: "director-equivalent-id"
+                      id: "director-equivalent"
                     } if acspType == "CORPORATE_BODY",
 
                     {
                       value: "MEMBER_OF_ENTITY",
                       text: i18n.member + unincorporatedBusinessName,
-                      id: "member-of-entity-id"
+                      id: "member-of-entity"
                     } if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY",
 
                     {
                       value: "DIRECTOR",
                       text: i18n.director + company.companyName + " (" + company.companyNumber + ")",
-                      id:"I-am-director-id"
+                      id: "I-am-director"
                     } if acspType == "LC",
 
                     {
                       value: "MEMBER_OF_LLP",
                       text: i18n.member + company.companyName + " (" + company.companyNumber + ")",
-                      id: "member-of-llp-id"
+                      id: "member-of-llp"
                     } if acspType == "LLP",
 
                     {
                       value: "GENERAL_PARTNER",
                       text: i18n.generalPartner + unincorporatedBusinessName,
-                      id: "general-partner-id"
+                      id: "general-partner"
                     } if acspType == "LP",
 
                     {
                       value: "SOMEONE_ELSE",
                       text: i18n.someoneElse,
-                      id: "someoneelse-id"
+                      id: "someone-else"
                     }
                 ]
             }) }}
@@ -81,16 +81,29 @@
           id:"save-continue-button"
         }) }}
     </form>
-      <script>
-        trackEventBasedOnPageTitle("I-am-director-id", "select-option", "I am a director of");
-        trackEventBasedOnPageTitle("member-of-partnership-id", "select-option", "I am a member of");
-        trackEventBasedOnPageTitle("governing-body-id", "select-option", "I am a member of the governing body of");
-        trackEventBasedOnPageTitle("director-equivalent-id", "select-option", "I am the equivalent of a director of");
-        trackEventBasedOnPageTitle("general-partner-id", "select-option", "I am a general partner of");
-        trackEventBasedOnPageTitle("member-of-entity-id", "select-option", "I am a member of");
-        trackEventBasedOnPageTitle("sole-trader-id", "select-option", "I am the sole trader");
-        trackEventBasedOnPageTitle("someoneelse-id", "select-option", "I am someone else");
-        trackEventBasedOnPageTitle("member-of-llp-id", "select-option", "I am a member of");
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - ROLE ");
-      </script>
-{% endblock %}
+
+{# If/Else Logic to call specific Matomo event script based on the value of acspType (specific script runs depending on what busniess type the user had selected previously) #}
+{% if acspType == "PARTNERSHIP" %}
+  <script> trackEventBasedOnPageTitle("member-of-partnership", "select-option", "I am a member of partnership"); </script>
+{% elif acspType == "SOLE_TRADER" %}
+  <script> trackEventBasedOnPageTitle("sole-trader", "select-option", "I am the sole trader"); </script>
+{% elif acspType == "UNINCORPORATED" %}
+  <script> trackEventBasedOnPageTitle("member-of-governing-body", "select-option", "I am a member of the governing body of"); </script>
+{% elif acspType == "CORPORATE_BODY" %}
+  <script> trackEventBasedOnPageTitle("director-equivalent", "select-option", "I am the equivalent of a director of"); </script>
+{% elif acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
+  <script> trackEventBasedOnPageTitle("member-of-entity", "select-option", "I am a member of entity"); </script>
+{% elif acspType == "LC" %}
+  <script> trackEventBasedOnPageTitle("I-am-director", "select-option", "I am a director of"); </script>
+{% elif acspType == "LLP" %}
+  <script> trackEventBasedOnPageTitle("member-of-llp", "select-option", "I am a member of llp"); </script>
+{% elif acspType == "LP" %}
+  <script> trackEventBasedOnPageTitle("general-partner", "select-option", "I am a general partner of"); </script>
+{% endif %}
+
+<script>
+    trackEventBasedOnPageTitle("someone-else", "select-option", "I am someone else");
+    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - ROLE ");
+</script>
+
+{% endblock main_content %}
