@@ -9,7 +9,7 @@ jest.mock("@companieshouse/web-security-node");
 
 const mockAuthMiddleware = jest.fn();
 jest.mock("@companieshouse/web-security-node", () => ({
-    authMiddleware: jest.fn(() => mockAuthMiddleware)
+    acspProfileCreateAuthMiddleware: jest.fn(() => mockAuthMiddleware)
 }));
 
 let req = {} as Request;
