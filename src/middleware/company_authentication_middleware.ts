@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthOptions, acspProfileCreateAuthMiddleware } from "@companieshouse/web-security-node";
+import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { CHS_URL } from "../utils/properties";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY_NUMBER, USER_DATA } from "../common/__utils/constants";
@@ -17,7 +17,7 @@ export const companyAuthenticationMiddleware = async (req: Request, res: Respons
             returnUrl: req.originalUrl,
             companyNumber: companyNumber
         };
-        return acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
+        return authMiddleware(authMiddlewareConfig)(req, res, next);
     } else {
         next();
     }
