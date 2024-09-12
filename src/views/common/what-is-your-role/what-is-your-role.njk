@@ -91,14 +91,16 @@
   <script> trackEventBasedOnPageTitle("member-of-governing-body", "select-option", "I am a member of the governing body of"); </script>
 {% elif acspType == "CORPORATE_BODY" %}
   <script> trackEventBasedOnPageTitle("director-equivalent", "select-option", "I am the equivalent of a director of"); </script>
-{% elif acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
-  <script> trackEventBasedOnPageTitle("member-of-entity", "select-option", "I am a member of entity"); </script>
 {% elif acspType == "LC" %}
   <script> trackEventBasedOnPageTitle("I-am-director", "select-option", "I am a director of"); </script>
 {% elif acspType == "LLP" %}
   <script> trackEventBasedOnPageTitle("member-of-llp", "select-option", "I am a member of llp"); </script>
 {% elif acspType == "LP" %}
   <script> trackEventBasedOnPageTitle("general-partner", "select-option", "I am a general partner of"); </script>
+{% endif %}
+
+{% if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
+  <script> trackEventBasedOnPageTitle("member-of-entity", "select-option", "I am a member of entity"); </script>
 {% endif %}
 
 <script>
