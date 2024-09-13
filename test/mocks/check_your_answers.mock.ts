@@ -67,11 +67,55 @@ export const mockSoleTraderAcspData: AcspData = {
     },
     businessName: "Test Business 123"
 };
+export const mockSoleTraderAcspDataWorkSectorNotProvided: AcspData = {
+    id: "1234",
+    typeOfBusiness: "SOLE_TRADER",
+    roleType: "SOLE_TRADER",
+    workSector: undefined,
+    applicantDetails: {
+        correspondenceAddress: {
+            premises: "premises",
+            addressLine1: "addressLine1",
+            addressLine2: "addressLine2",
+            locality: "locality",
+            region: "region",
+            postalCode: "postalcode"
+        },
+        firstName: "Unit",
+        middleName: "Test",
+        lastName: "User",
+        dateOfBirth: new Date(1990, 10, 15),
+        nationality: {
+            firstNationality: "British"
+        },
+        countryOfResidence: "England"
+    },
+    businessName: "Test Business 123"
+};
 export const mockSoleTrader2AcspData: AcspData = {
     id: "1234",
     typeOfBusiness: "SOLE_TRADER",
     roleType: "MEMBER_OF_GOVERNING_BODY",
     workSector: "CASINOS",
+    applicantDetails: {
+        firstName: "Unit",
+        middleName: "Test",
+        lastName: "User",
+        dateOfBirth: new Date(1990, 10, 15),
+        nationality: {
+            firstNationality: "British",
+            secondNationality: "German",
+            thirdNationality: "Irish"
+        },
+        countryOfResidence: "England"
+    },
+    businessName: "Test Business 123"
+};
+export const mockSoleTrader3AcspData: AcspData = {
+    id: "1234",
+    typeOfBusiness: "SOLE_TRADER",
+    roleType: "MEMBER_OF_GOVERNING_BODY",
+    workSector: "EA",
     applicantDetails: {
         firstName: "Unit",
         middleName: "Test",

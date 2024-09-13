@@ -91,8 +91,8 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     let answers: Answers = {};
     answers.typeOfBusiness = typeOfBusinessTranslated(acspData.typeOfBusiness!, i18n);
     answers.roleType = roleTranslated(acspData.roleType!, i18n);
-    if (acspData.workSector !== null) {
-        answers.workSector = sectorTranslated(acspData.workSector!, i18n);
+    if (acspData.workSector != null) {
+        answers.workSector = sectorTranslated(acspData.workSector, i18n);
     } else {
         const notProvidedText = "Not provided";
         answers.workSector = sectorTranslated(notProvidedText, i18n);
