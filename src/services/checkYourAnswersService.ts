@@ -67,6 +67,8 @@ const sectorTranslated = (sector: string, i18n: any): string => {
         return i18n.whichSectorOtherHighValueDealersOption;
     case "CASINOS":
         return i18n.whichSectorOtherCasinosOption;
+    case "Not provided":
+        return i18n.sectorYouWorkInNotProvided;
     default:
         return sector;
     }
@@ -89,7 +91,12 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     let answers: Answers = {};
     answers.typeOfBusiness = typeOfBusinessTranslated(acspData.typeOfBusiness!, i18n);
     answers.roleType = roleTranslated(acspData.roleType!, i18n);
-    answers.workSector = sectorTranslated(acspData.workSector!, i18n);
+    if (acspData.workSector !== null) {
+        answers.workSector = sectorTranslated(acspData.workSector!, i18n);
+    } else {
+        const notProvidedText = "Not provided";
+        answers.workSector = sectorTranslated(notProvidedText, i18n);
+    }
     if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
         answers = limitedAnswers(req, answers, acspData);
     } else if (acspData.typeOfBusiness === "SOLE_TRADER") {

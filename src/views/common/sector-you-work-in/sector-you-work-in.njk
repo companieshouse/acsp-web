@@ -20,6 +20,11 @@
           classes: "govuk-fieldset__legend--l"
         }
       },
+      hint: {
+        text: i18n.sectorYouWorkInHintText,
+        id: "what-sector-hint",
+        classes: "govuk-hint govuk-!-padding-bottom-2"
+      },
       value: workSector,
       items: [
         {
@@ -61,13 +66,34 @@
   </form>
 
 <script>
-  trackEventBasedOnPageTitle("AIA-id",  "select-option", "Auditors, insolvency practitioners, external accountants and tax advisers");
-  trackEventBasedOnPageTitle("ILP-id", "select-option", "Independent-legal-professionals");
-  trackEventBasedOnPageTitle("TCSP-id", "select-option", "Trust-or-company-service-providers");
-  trackEventBasedOnPageTitle("CI-id", "select-option", "Credit-institutions");
-  trackEventBasedOnPageTitle("FI-id", "select-option", "Financial-institutions");
-  trackEventBasedOnPageTitle("OTHER-id", "select-option", "Other");
-  trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+let selectedRadio = null;
+
+// Function to track Matomo analytics based on the selected radio button
+function trackRadioSelection() {
+  const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]'); 
+  radioButtons.forEach((radio) => {
+    radio.addEventListener("click", (event) => {
+      // Set selectedRadio to the capture the properties of the selected radio button 
+      selectedRadio = event.target;
+      // Capture the text content of the selected radio button
+      const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();     
+      // Track event based on the selected radio button id and text content
+      trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
+      trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+    });
+  });
+}
+
+// Run trackRadioSelection function
+trackRadioSelection();
+
+// EventListener to track the value of selectedRadio when save and continue button is clicked
+document.getElementById("save-continue-button").addEventListener("click", () => {
+  // If no radio button has been selected then work sector has not been provided
+  if (!selectedRadio) {
+    trackEventWorkSectorNotProvided("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
+  }
+});
 </script>
 
 {% endblock main_content %}
