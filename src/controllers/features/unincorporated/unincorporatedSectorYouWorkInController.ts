@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validationResult } from "express-validator";
 import * as config from "../../../config";
-import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_WHAT_IS_YOUR_ROLE, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
@@ -47,32 +45,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const currentUrl = BASE_URL + UNINCORPORATED_WHICH_SECTOR;
     try {
-        const errorList = validationResult(req);
-        if (!errorList.isEmpty()) {
-            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SECTOR_YOU_WORK_IN, {
-                title: locales.i18nCh.resolveNamespacesKeys(lang).sectorYouWorkInTitle,
-                ...getLocaleInfo(locales, lang),
-                currentUrl,
-                ...pageProperties
-            });
+        const session: Session = req.session as any as Session;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+        if (req.body.sectorYouWorkIn === "OTHER") {
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER, lang));
         } else {
-            if (req.body.sectorYouWorkIn === "OTHER") {
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER, lang));
-            } else {
-
-                // save in mongodb
-                if (acspData) {
-                    acspData.workSector = req.body.sectorYouWorkIn;
-                    const acspDataService = new AcspDataService();
-                    await acspDataService.saveAcspData(session, acspData);
-                }
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
+            if (acspData) {
+                acspData.workSector = req.body.sectorYouWorkIn;
             }
+            // save data to mongodb
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
+            res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
