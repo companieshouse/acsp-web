@@ -119,10 +119,10 @@ const soleTraderAnswers = (answers: Answers, acspData: AcspData): Answers => {
     const dob = applicantDetails.dateOfBirth!;
     answers.dateOfBirth = new Date(dob).toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });
     let nationalityString = applicantDetails.nationality?.firstNationality!;
-    if (applicantDetails.nationality?.secondNationality !== undefined) {
+    if (applicantDetails.nationality?.secondNationality !== "") {
         nationalityString += ", " + applicantDetails.nationality?.secondNationality;
     }
-    if (applicantDetails.nationality?.thirdNationality !== undefined) {
+    if (applicantDetails.nationality?.thirdNationality !== "") {
         nationalityString += ", " + applicantDetails.nationality?.thirdNationality;
     }
     answers.nationality = nationalityString;

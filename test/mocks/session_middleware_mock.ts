@@ -28,7 +28,7 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
     session.setExtraData(USER_DATA, {
         amlSupervisoryBodies: amlSupervisoryBodies,
-        applicantDetails:{
+        applicantDetails: {
             firstName: "John",
             lastName: "Doe"
         }
