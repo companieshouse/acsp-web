@@ -22,10 +22,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         console.log("transactionlistResource-------->", transactionlistResource);
         const transactionList =  transactionlistResource.resource;
         console.log("transactionList-------->", transactionList);
-        if (transactionList?.items.length === 0){
-           console.log("its a new application-------->");
-           res.redirect(addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang));
-        } else {
            const transaction = transactionList?.items[transactionList?.items.length - 1];
            if (transaction?.status !== "closed"){
              console.log("application is in progress-------->");
@@ -38,11 +34,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
              console.log("application is approved-------->");
              //redirect to kickout screen
            }
-        }
      } else if (savedApplication.httpStatusCode === 404) {
-         logger.error(`not found: ` + savedApplication.httpStatusCode);
-         const error = new ErrorService();
-         error.renderErrorPage(res, locales, lang, BASE_URL + CHECK_SAVED_APPLICATION);
+        console.log("its a new application-------->");
+        res.redirect(addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang));
      } else {
          logger.error(`internal server error: ` + savedApplication.httpStatusCode);
          const error = new ErrorService();
