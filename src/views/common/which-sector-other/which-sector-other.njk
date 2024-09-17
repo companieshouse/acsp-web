@@ -46,14 +46,20 @@
                 text: i18n.SaveAndContinue,
                 id:"save-continue-button"
               }) }}
-            <a href={{ whichSectorLink }} class="govuk-link" id="back-link-id">{{ i18n.whichSectorOtherGoBack }}</a>
+            <a 
+            href={{whichSectorLink}} 
+            class="govuk-link" 
+            id="back-link-id">
+                {{ i18n.whichSectorOtherGoBack }}
+
+            </a>
         </div>
     </form>
             <script>
           trackEventBasedOnPageTitle("EA-id", "select-option", "estate-agents");
           trackEventBasedOnPageTitle("HVD-id", "select-option", "high-value-dealers");
           trackEventBasedOnPageTitle("CASINOS-id", "select-option", "casinos");
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR " + acspType);
-        trackEventBasedOnPageTitle("back-link-id", "click-link", "Back to main business sector list");
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR ");
+        trackEventBasedOnPageTitle("back-link-id","Which other sector do you work in?", "click-link", "Back to main business sector list");
       </script>
 {% endblock main_content %}
