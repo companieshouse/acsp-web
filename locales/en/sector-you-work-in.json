@@ -1,10 +1,11 @@
 {
     "sectorYouWorkInTitle" : "Which sector do you work in?",
+    "sectorYouWorkInHintText" : "This is optional. If you want to skip the question, select the 'Save and continue' button without selecting an option.",
     "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Auditors, insolvency practitioners, external accountants and tax advisers",
     "sectorYouWorkInIndependentLegalProfessionalsOption": "Independent legal professionals",
     "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Trust or company service providers",
     "sectorYouWorkInCreditInstitutionsOption": "Credit institutions",
     "sectorYouWorkInFinancialInstitutionsOption": "Financial institutions",
     "sectorYouWorkInOtherOption": "Other",
-    "error-sectorYouWorkInSelectRadio" : "Select which sector you work in"
+    "sectorYouWorkInNotProvided": "Not provided"
 }
