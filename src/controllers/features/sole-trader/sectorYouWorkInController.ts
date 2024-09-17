@@ -58,10 +58,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             if (acspData) {
                 acspData.workSector = req.body.sectorYouWorkIn;
+                // save data to mongodb
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
             }
-            // save data to mongodb
-            const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData);
             res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang));
         }
     } catch (err) {

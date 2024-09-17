@@ -54,10 +54,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             if (acspData) {
                 acspData.workSector = req.body.sectorYouWorkIn;
+                // save data to mongodb
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
             }
-            // save data to mongodb
-            const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData);
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
         }
     } catch (err) {
