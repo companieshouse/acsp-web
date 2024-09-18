@@ -55,6 +55,24 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("What is the correspondence address?");
     });
 
+    it("should return status 200 when correspondence address is undefined", async () => {
+        const acspDataWithoutApplicantDetails: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
+        const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
