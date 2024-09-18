@@ -22,6 +22,19 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
         saveDataInSession(req, USER_DATA, acspData);
+
+        let payload = {};
+        if (acspData.applicantDetails?.correspondenceEmail === res.locals.userEmail) {
+            payload = {
+                whatIsYourEmailRadio: acspData.applicantDetails?.correspondenceEmail
+            };
+        } else if (acspData.applicantDetails?.correspondenceEmail !== undefined) {
+            payload = {
+                whatIsYourEmailRadio: "A Different Email",
+                whatIsYourEmailInput: acspData.applicantDetails?.correspondenceEmail
+            };
+        }
+
         res.render(config.WHAT_IS_YOUR_EMAIL, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
@@ -29,7 +42,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             loginEmail: res.locals.userEmail,
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
-            typeOfBusiness: acspData?.typeOfBusiness
+            typeOfBusiness: acspData?.typeOfBusiness,
+            payload
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -58,11 +72,20 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 loginEmail: res.locals.userEmail,
                 firstName: acspData?.applicantDetails?.firstName,
                 lastName: acspData?.applicantDetails?.lastName,
-                typeOfBusiness: acspData?.typeOfBusiness
+                typeOfBusiness: acspData?.typeOfBusiness,
+                payload: req.body
             });
         } else {
             if (acspData) {
-                // TODO: add email to acspData
+                const applicantDetails = acspData.applicantDetails || {};
+                let correspondenceEmail;
+                if (req.body.whatIsYourEmailRadio === "A Different Email") {
+                    correspondenceEmail = req.body.whatIsYourEmailInput;
+                } else {
+                    correspondenceEmail = req.body.whatIsYourEmailRadio;
+                }
+                applicantDetails.correspondenceEmail = correspondenceEmail;
+                acspData.applicantDetails = applicantDetails;
             }
 
             //  save data to mongodb

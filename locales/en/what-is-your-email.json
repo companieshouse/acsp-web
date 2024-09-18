@@ -1,14 +1,14 @@
 {
-    "whatIsYourEmailAddressTitle": "What email address should we use for correspondence?",
-    "emailAddressHintText": "We'll use this to send information about the authorised agent account once the business is registered.",
-    "aDifferentEmailAddress": "A different email address",
-    "emailAddressTextInput": "Email Address",
-    "whatCorrespondenceDetail": "What correspondence we'll send to the email address",
-    "wellUseThisTo": "We'll use this to send essential emails about the agent account. For example, if we need to:",
-    "asForMoreInformation": "ask for more information about the agent’s filings",
+    "whatIsYourEmailAddressTitle": "Correspondence email address",
+    "youNeedToProvideAnEmail": "You need to provide an email address for the business you are registering.",
+    "wellUseThisTo": "We'll use this to send essential emails about the authorised agent. For example, if we need to:",
+    "askForMoreInformation":"ask for more information about the agent’s filings",
     "checkTheAgentIsComplying": "check the agent is complying with its legal responsibilities",
     "suspendTheAgentAccount": "suspend the agent account, or take other enforcement action",
     "updateEmailAddressAfter": "You’ll be able to update the email address after you’ve registered the authorised agent.",
+    "whatEmailForCorrespondence": "What email address should we use for correspondence?",
+    "aDifferentEmailAddress": "A different email address",
+    "emailAddressTextInput": "Email address",
 
     "error-noEmail": "Enter an email address",
     "error-emailFormatIncorrect": "Enter an email address in the correct format, like name@example.com"

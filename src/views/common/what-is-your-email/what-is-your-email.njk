@@ -22,36 +22,33 @@
         }) }}
     {% endset -%}
 
-    {% set detailsHtml %}
-        <p>{{ i18n.wellUseThisTo }}</p>
-        <ul class="govuk-list govuk-list--bullet">
-            <li>{{ i18n.asForMoreInformation }}</li>
-            <li>{{ i18n.checkTheAgentIsComplying }}</li>
-            <li>{{ i18n.suspendTheAgentAccount }}</li>
-        </ul>
-        <p>{{ i18n.updateEmailAddressAfter }}</p>
-    {% endset -%}
-
     {% if typeOfBusiness === "SOLE_TRADER" %}
         {% include "partials/user_name.njk" %}
     {% else %}   
         {% include "partials/business_name.njk" %}
     {% endif %}
 
+    <h1 class="govuk-heading-l">{{ i18n.whatIsYourEmailAddressTitle }}</h1>
+
+    <p>{{ i18n.youNeedToProvideAnEmail }}</p>
+    <p>{{ i18n.wellUseThisTo }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.askForMoreInformation }}</li>
+        <li>{{ i18n.checkTheAgentIsComplying }}</li>
+        <li>{{ i18n.suspendTheAgentAccount }}</li>
+    </ul>
+    <p>{{ i18n.updateEmailAddressAfter }}</p>
+
     {{ govukRadios({
         errorMessage: errors.whatIsYourEmailRadio if errors,
         name: "whatIsYourEmailRadio",
-        value: payload["whatIsYourEmailRadio"],
+        value: payload.whatIsYourEmailRadio,
         classes: "govuk-radios",
         fieldset: {
             legend: {
-                text: i18n.whatIsYourEmailAddressTitle,
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
+                text: i18n.whatEmailForCorrespondence,
+                classes: "govuk-fieldset__legend--m"
             }
-        },
-        hint: {
-            text: i18n.emailAddressHintText
         },
         items: [
         {
@@ -64,15 +61,9 @@
             id: "a-different-email-radio", 
             conditional: {
                 html: textHtml
-            },
-            checked: true if errors.whatIsYourEmailInput
+            }
         }
       ]
-    }) }}
-
-    {{ govukDetails({
-        summaryText: i18n.whatCorrespondenceDetail,
-        html: detailsHtml
     }) }}
 
     {{ govukButton({
