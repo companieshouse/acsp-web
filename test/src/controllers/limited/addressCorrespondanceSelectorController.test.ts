@@ -86,7 +86,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
                 }
             },
             registeredOfficeAddress: {
-                    postalCode: "ST6 3LJ"
+                postalCode: "ST6 3LJ"
             }
         };
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataSameCorrespondenAndRegisteredAddress);
@@ -105,12 +105,10 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             applicantDetails: {
                 firstName: "John",
                 lastName: "Doe",
-                correspondenceAddress: {
-                    
-                }
+                correspondenceAddress: {}
             },
             registeredOfficeAddress: {
-                    postalCode: "ST6 3LJ"
+                postalCode: "ST6 3LJ"
             }
         };
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataDifferentCorrespondenAndRegisteredAddress);
