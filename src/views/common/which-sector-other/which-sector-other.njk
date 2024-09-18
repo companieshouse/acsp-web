@@ -10,7 +10,6 @@
         {% endif %}
         <div class="govuk-form-group">
             {{ govukRadios({
-                errorMessage: errors.whichSectorOther if errors,
                 classes: "govuk-radios",
                 id: "which-sector-other-radios",
                 name: "whichSectorOther",
@@ -20,6 +19,11 @@
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
+                },
+                hint: {
+                    text: i18n.sectorYouWorkOtherHintText,
+                    id: "what-sector-other-hint",
+                    classes: "govuk-hint govuk-!-padding-bottom-2"
                 },
                 value: workSector,
                 items: [
@@ -46,14 +50,43 @@
                 text: i18n.SaveAndContinue,
                 id:"save-continue-button"
               }) }}
-            <a href={{ whichSectorLink }} class="govuk-link" id="back-link-id">{{ i18n.whichSectorOtherGoBack }}</a>
+            <a 
+            href={{whichSectorLink}} 
+            class="govuk-link" 
+            id="back-link-id">
+                {{ i18n.whichSectorOtherGoBack }}
+
+            </a>
         </div>
     </form>
-            <script>
-          trackEventBasedOnPageTitle("EA-id", "select-option", "estate-agents");
-          trackEventBasedOnPageTitle("HVD-id", "select-option", "high-value-dealers");
-          trackEventBasedOnPageTitle("CASINOS-id", "select-option", "casinos");
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR " + acspType);
-        trackEventBasedOnPageTitle("back-link-id", "click-link", "Back to main business sector list");
-      </script>
+     <script>
+let selectedRadio = null;
+
+// Function to track Matomo analytics based on the selected radio button
+function trackRadioSelection() {
+  const radioButtons = document.querySelectorAll('input[name="whichSectorOther"]'); 
+  radioButtons.forEach((radio) => {
+    radio.addEventListener("click", (event) => {
+      // Set selectedRadio to the capture the properties of the selected radio button 
+      selectedRadio = event.target;
+      // Capture the text content of the selected radio button
+      const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();     
+      // Track event based on the selected radio button id and text content
+      trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
+      trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR");
+    });
+  });
+}
+
+// Run trackRadioSelection function
+trackRadioSelection();
+
+// EventListener to track the value of selectedRadio when save and continue button is clicked
+document.getElementById("save-continue-button").addEventListener("click", () => {
+  // If no radio button has been selected then work sector has not been provided
+  if (!selectedRadio) {
+    trackEventWorkSectorNotProvided("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER SECTOR - Not provided");
+  }
+});
+</script>
 {% endblock main_content %}

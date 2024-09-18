@@ -4,6 +4,7 @@
     "whichSectorOtherHighValueDealersOption": "High value dealers",
     "whichSectorOtherCasinosOption": "Casinos",
     "whichSectorOtherGoBack": "Go back to main business sector list",
+    "sectorYouWorkOtherHintText" : "This is optional. If you want to skip the question, select the 'Save and continue' button without selecting an option.",
    
     "error-whichSectorOtherSelectRadio" : "Select which other sector you work in"
 }

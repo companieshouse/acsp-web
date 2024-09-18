@@ -76,7 +76,6 @@ import { soleTraderWhatIsTheBusinessNameValidator } from "../validation/soleTrad
 import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
-import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
@@ -132,7 +131,7 @@ routes.get(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, soleTraderSectorYouWorkInControl
 routes.post(urls.SOLE_TRADER_SECTOR_YOU_WORK_IN, soleTraderSectorYouWorkInController.post);
 
 routes.get(urls.SOLE_TRADER_WHICH_SECTOR_OTHER, soleTraderWhichSectorOtherController.get);
-routes.post(urls.SOLE_TRADER_WHICH_SECTOR_OTHER, whichSectorOtherValidator, soleTraderWhichSectorOtherController.post);
+routes.post(urls.SOLE_TRADER_WHICH_SECTOR_OTHER, soleTraderWhichSectorOtherController.post);
 
 routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveController.get);
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
@@ -178,7 +177,7 @@ routes.get(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.get
 routes.post(urls.LIMITED_SECTOR_YOU_WORK_IN, limitedSectorYouWorkInController.post);
 
 routes.get(urls.LIMITED_WHICH_SECTOR_OTHER, limitedWhichSectorOtherController.get);
-routes.post(urls.LIMITED_WHICH_SECTOR_OTHER, whichSectorOtherValidator, limitedWhichSectorOtherController.post);
+routes.post(urls.LIMITED_WHICH_SECTOR_OTHER, limitedWhichSectorOtherController.post);
 
 routes.get(urls.LIMITED_IS_THIS_YOUR_COMPANY, limitedIsThisYourCompanyController.get);
 routes.post(urls.LIMITED_IS_THIS_YOUR_COMPANY, limitedIsThisYourCompanyController.post);
@@ -225,7 +224,7 @@ routes.get(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInContro
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR, unincorporatedSectorYouWorkInController.post);
 
 routes.get(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, unincorporatedWhichSectorOtherController.get);
-routes.post(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, whichSectorOtherValidator, unincorporatedWhichSectorOtherController.post);
+routes.post(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, unincorporatedWhichSectorOtherController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, unincorporatedBusinessAddressAutoLookupController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedBusinessAddressAutoLookupController.post);

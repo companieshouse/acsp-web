@@ -9,7 +9,6 @@
       {% include "partials/user_name.njk" %}
     {% endif %}
     {{ govukRadios({
-      errorMessage: errors.sectorYouWorkIn if errors,
       classes: "govuk-radios",
       id: "sector-you-work-in-radios",
       name: "sectorYouWorkIn",

@@ -1,6 +1,6 @@
 {
     "sectorYouWorkInTitle" : "Ym mha sector ydych chi'n gweithio?",
-    "sectorYouWorkInOptionalHintText" : "This is optional. If you want to skip the question, select the 'Save and continue' button without selecting an option. Welsh",
+    "sectorYouWorkInHintText" : "This is optional. If you want to skip the question, select the 'Save and continue' button without selecting an option. Welsh",
     "sectorYouWorkInAuditorsInsolvencyPractitionersOption": "Archwilwyr, ymarferwyr ansolfedd, cyfrifwyr allanol a chynghorwyr treth",
     "sectorYouWorkInIndependentLegalProfessionalsOption": "Gweithwyr cyfreithiol annibynnol proffesiynol",
     "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Ymddiriedolaeth neu ddarparwyr gwasanaeth cwmni",
