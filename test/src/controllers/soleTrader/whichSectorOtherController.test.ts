@@ -74,7 +74,7 @@ describe("POST" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
     it("should return status 302 after redirect no sector selected", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).send({ whichSectorOther: "" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en")
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
