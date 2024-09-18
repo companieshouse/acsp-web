@@ -50,50 +50,59 @@
         </p>
         <p class="govuk-body" style="display: flex; align-items: center;">
           <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" style="max-width:100%; margin-top: 5px; margin-right: 0px;">
-          <strong>
-            <a class="govuk-link govuk-link--no-visited-state" href="/v7/verify-identity-prototype" style="margin-left:10px;" id="verify-id">
-              {{ i18n.verifyIdentityLink }}
-            </a>
-          </strong>
-        </p>
+            <strong>
+              <a
+                class="govuk-link govuk-link--no-visited-state"
+                href="/v7/verify-identity-prototype"
+                style="margin-left:10px;"
+                id="verify-id">
+                {{ i18n.verifyIdentityLink }}
+              </a>
+            </strong>
+          </p>
+        </div>
       </div>
-    </div>
-    <h2 class="govuk-heading-m">{{ i18n.whatYoullNeedHeading }}</h2>
-    <p class="govuk-body">{{ i18n.youllNeed }}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{ i18n.giveDetailsText }}</li>
-      <li>{{ i18n.startNameOfAML }}</li>
-      <li>{{ i18n.startAMLNumbers }}</li>
-      <li>{{ i18n.startPayFee }}</li>
-    </ul>
-    <div class="govuk-inset-text">
-      {{ i18n.startCheckAMLParagraph }}
-    </div>
-    <p class="govuk-body">
-      {{ i18n.startTimeout }}
-    </p>
-    <button class="govuk-button govuk-button--start" id="start-now" data-module="govuk-button">
-      {{ i18n.startNow }}
-      <svg
-        class="govuk-button__start-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        width="17.5"
-        height="19"
-        viewBox="0 0 33 40"
-        aria-hidden="true"
-        focusable="false">
-        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
-      </svg>
-    </button>
-    <p>
-      <a href="https://www.gov.uk/guidance/register-as-an-authorised-agent" id="Read the guidance-id">{{ i18n.readThe }}</a>.
-    </p>
-  </form>
-
-<script>
-  trackEventBasedOnPageTitle("start-now", "click-button", "START NOW");
-  trackEventBasedOnPageTitle("Read the guidance-id", "click-link", "Read the guidance");
-  trackEventBasedOnPageTitle("verify-id", "click-link", "Verfity your identity for Companies House");
-</script>
-
-{% endblock %}
+      <h2 class="govuk-heading-m">{{ i18n.whatYoullNeedHeading }}</h2>
+      <p class="govuk-body">{{ i18n.youllNeed }}</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.giveDetailsText }}</li>
+        <li>{{ i18n.startNameOfAML }}</li>
+        <li>{{ i18n.startAMLNumbers }}</li>
+        <li>{{ i18n.startPayFee }}</li>
+      </ul>
+      <div class="govuk-inset-text">
+        {{ i18n.startCheckAMLParagraph }}
+      </div>
+      <p class="govuk-body">
+        {{ i18n.startTimeout }}
+      </p>
+      <button
+        class="govuk-button govuk-button--start"
+        id="start-now"
+        data-module="govuk-button"
+        onClick="trackStartNowEvent()">
+        {{ i18n.startNow }}
+        <svg
+          class="govuk-button__start-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="17.5"
+          height="19"
+          viewBox="0 0 33 40"
+          aria-hidden="true"
+          focusable="false">
+          <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"></path>
+        </svg>
+      </button>
+      <p>
+        <a href="https://www.gov.uk/guidance/register-as-an-authorised-agent" id="Read the guidance-id">{{ i18n.readThe }}</a>.
+      </p>
+    </form>
+    <script>
+      function trackStartNowEvent() {
+        trackEventBasedOnPageTitle("start-now", "click-button", "START NOW");
+        _paq.push(['trackGoal', 2]);
+      };
+      trackEventBasedOnPageTitle("Read the guidance-id", "click-link", "Read the guidance");
+      trackEventBasedOnPageTitle("verify-id", "click-link", "Verfity your identity for Companies House");
+    </script>
+  {% endblock %}
