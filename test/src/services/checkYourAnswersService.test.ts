@@ -5,7 +5,7 @@ import { getAnswers } from "../../../src/services/checkYourAnswersService";
 import { getLocalesService } from "../../../src/utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY_DETAILS } from "../../../src/common/__utils/constants";
-import { mockCompany, mockCorporateBodyAcspData, mockLimitedAcspData, mockLLPAcspData, mockLPAcspData, mockPartnershipAcspData, mockSoleTrader2AcspData, mockSoleTraderAcspData, mockUnincorporatedAcspData } from "../../mocks/check_your_answers.mock";
+import { mockCompany, mockCorporateBodyAcspData, mockLimitedAcspData, mockLLPAcspData, mockLPAcspData, mockPartnershipAcspData, mockSoleTrader2AcspData, mockSoleTrader3AcspData, mockSoleTraderAcspData, mockSoleTraderAcspDataWorkSectorNotProvided, mockUnincorporatedAcspData } from "../../mocks/check_your_answers.mock";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
@@ -73,6 +73,22 @@ describe("CheckYourAnswersService", () => {
         });
     });
 
+    it("should return answers for sole trader journey with work sector not provided", () => {
+        const soleTraderAnswers = getAnswers(req, mockSoleTraderAcspDataWorkSectorNotProvided, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(soleTraderAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            roleType: "I am the sole trader",
+            typeOfBusiness: "Sole trader",
+            workSector: "Not provided",
+            countryOfResidence: "England",
+            dateOfBirth: "15 November 1990",
+            name: "Unit Test User",
+            nationality: "British"
+        });
+    });
+
     it("should return answers for sole trader journey with multiple nationalities", () => {
         const soleTraderAnswers = getAnswers(req, mockSoleTrader2AcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
@@ -82,6 +98,22 @@ describe("CheckYourAnswersService", () => {
             roleType: "I am a member of the governing body",
             typeOfBusiness: "Sole trader",
             workSector: "Casinos",
+            countryOfResidence: "England",
+            dateOfBirth: "15 November 1990",
+            name: "Unit Test User",
+            nationality: "British, German, Irish"
+        });
+    });
+
+    it("should return answers for sole trader journey with Estate agents work sector", () => {
+        const soleTraderAnswers = getAnswers(req, mockSoleTrader3AcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+
+        expect(soleTraderAnswers).toStrictEqual({
+            businessName: "Test Business 123",
+            correspondenceAddress: "",
+            roleType: "I am a member of the governing body",
+            typeOfBusiness: "Sole trader",
+            workSector: "Estate agents",
             countryOfResidence: "England",
             dateOfBirth: "15 November 1990",
             name: "Unit Test User",
