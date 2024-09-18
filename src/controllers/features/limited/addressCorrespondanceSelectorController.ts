@@ -28,8 +28,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // set addressoption to render the page with saved data
         let addressOption = "";
         const applicantDetails = acspData?.applicantDetails || {};
-        if (applicantDetails?.correspondenceAddress !== null && applicantDetails?.correspondenceAddress !== undefined) {
-            if (JSON.stringify(applicantDetails?.correspondenceAddress) ===
+        if (applicantDetails.correspondenceAddress !== null && applicantDetails.correspondenceAddress !== undefined) {
+            if (JSON.stringify(applicantDetails.correspondenceAddress) ===
             JSON.stringify(acspData.registeredOfficeAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
             } else {
@@ -41,8 +41,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            businessName: acspData?.businessName,
-            businessAddress: acspData?.registeredOfficeAddress,
+            businessName: acspData.businessName,
+            businessAddress: acspData.registeredOfficeAddress,
             addressOption
         });
     } catch (err) {
