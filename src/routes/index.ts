@@ -57,7 +57,8 @@ import {
     savedApplicationController,
     checkSavedApplicationController,
     resumeJourneyController,
-    cannotSubmitAnotherApplicationController
+    cannotSubmitAnotherApplicationController,
+    limitedWhatIsYourEmailController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -84,6 +85,7 @@ import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor"
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 import { selectsignOutValidator } from "../validation/signOut";
 import { selectSavedApplicationValidator } from "../validation/savedApplication";
+import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 
 const routes = Router();
 
@@ -208,6 +210,9 @@ routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAd
 
 routes.get(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, limitedAddressCorrespondanceSelectorController.get);
 routes.post(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, limitedAddressCorrespondanceSelectorController.post);
+
+routes.get(urls.LIMITED_WHAT_IS_YOUR_EMAIL, limitedWhatIsYourEmailController.get);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, limitedWhatIsYourEmailController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);

@@ -85,6 +85,8 @@ export const SOLE_TRADER_NAME_REGISTERED_WITH_AML = SOLE_TRADER + "/name-registe
 
 export const SOLE_TRADER_SELECT_AML_SUPERVISOR = SOLE_TRADER + "/select-aml-supervisor";
 
+export const SOLE_TRADER_WHAT_IS_YOUR_EMAIL = SOLE_TRADER + "/what-email-should-we-use";
+
 // limited journey urls
 export const LIMITED_ONE_LOGIN_PASSWORD = LIMITED + "/one-login-enter-password";
 
@@ -120,6 +122,8 @@ export const LIMITED_CORRESPONDENCE_ADDRESS_LIST = LIMITED + "/select-your-corre
 
 export const LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS = LIMITED + "/what-is-the-correspondence-address";
 
+export const LIMITED_WHAT_IS_YOUR_EMAIL = LIMITED + "/what-email-should-we-use";
+
 // unincorporated journey urls
 export const UNINCORPORATED_NAME_REGISTERED_WITH_AML = UNINCORPORATED + "/name-registered-with-aml";
 
@@ -152,5 +156,7 @@ export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP = UNINCORPORATED + "/c
 export const UNINCORPORATED_SELECT_AML_SUPERVISOR = UNINCORPORATED + "/select-aml-supervisor";
 
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST = UNINCORPORATED + "/select-your-correspondence-address";
+
+export const UNINCORPORATED_WHAT_IS_YOUR_EMAIL = UNINCORPORATED + "/what-email-should-we-use";
 
 export const RESUME_JOURNEY = "/resume";

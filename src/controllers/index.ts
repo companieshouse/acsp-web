@@ -45,6 +45,7 @@ export * as limitedCorrespondenceAddressAutoLookupController from "./features/li
 export * as limitedCorrespondenceAddressListController from "./features/limited/correspondenceAddressListController";
 export * as limitedCorrespondenceAddressConfirmController from "./features/limited/correspondenceAddressConfirmController";
 export * as limitedAddressCorrespondanceSelectorController from "./features/limited/addressCorrespondanceSelectorController";
+export * as limitedWhatIsYourEmailController from "./features/limited/whatIsYourEmailAddress";
 
 // unincorporated
 export * as stopNotRelevantOfficerController from "./features/common/stopNotRelevantOfficerController";

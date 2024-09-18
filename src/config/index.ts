@@ -66,3 +66,4 @@ export const TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/type-of-business/type-of-bus
 export const OTHER_TYPE_OF_BUSINESS = `${BASE_COMMON_URL}/other-type-of-business/other-type-of-business`;
 export const CHECK_AML_DETAILS = `${BASE_COMMON_URL}/check-aml-details/check-aml-details`;
 export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-submit-another-application/cannot-submit-another-application`;
+export const WHAT_IS_YOUR_EMAIL = `${BASE_COMMON_URL}/what-is-your-email/what-is-your-email`;

@@ -1,6 +1,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 {% extends "layouts/default.njk" %}
 
 {% set title = i18n.whatIsYourEmailAddressTitle %}
@@ -9,15 +10,15 @@
     {% set textHtml %}
         {{ govukInput({
             label: {
-            text: i18n.whatIsTheBusinessNameTitleInput
+            text: i18n.emailAddressTextInput
             },
             errorMessage: {
-            text: errors["whatIsTheBusinessNameInput"].text
-            } if errors["whatIsTheBusinessNameInput"] | length,
+            text: errors.whatIsYourEmailInput.text
+            } if errors.whatIsYourEmailInput | length,
             classes: "govuk-input",
-            id: "whatIsTheBusinessNameInput",
-            name: "whatIsTheBusinessNameInput",
-            value: payload["whatIsTheBusinessNameInput"]
+            id: "whatIsYourEmailInput",
+            name: "whatIsYourEmailInput",
+            value: payload.whatIsYourEmailInput
         }) }}
     {% endset -%}
 
@@ -31,6 +32,11 @@
         <p>{{ i18n.updateEmailAddressAfter }}</p>
     {% endset -%}
 
+    {% if typeOfBusiness === "SOLE_TRADER" %}
+        {% include "partials/user_name.njk" %}
+    {% else %}   
+        {% include "partials/business_name.njk" %}
+    {% endif %}
 
     {{ govukRadios({
         errorMessage: errors.whatIsYourEmailRadio if errors,
@@ -58,7 +64,8 @@
             id: "a-different-email-radio", 
             conditional: {
                 html: textHtml
-            }
+            },
+            checked: true if errors.whatIsYourEmailInput
         }
       ]
     }) }}
