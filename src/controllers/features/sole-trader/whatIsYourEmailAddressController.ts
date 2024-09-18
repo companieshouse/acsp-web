@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { BASE_URL, LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, LIMITED_WHAT_IS_YOUR_EMAIL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
+import { BASE_URL, SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_WHAT_IS_YOUR_EMAIL, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
@@ -16,7 +16,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL;
+    const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL;
     const session: Session = req.session as any as Session;
     try {
         // get data from mongo and save to session
@@ -24,10 +24,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
         res.render(config.WHAT_IS_YOUR_EMAIL, {
             ...getLocaleInfo(locales, lang),
-            previousPage: addLangToUrl(getPreviousPage(acspData?.workSector), lang),
+            previousPage: addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang),
             currentUrl,
             loginEmail: res.locals.userEmail,
-            businessName: acspData?.businessName,
+            firstName: acspData?.applicantDetails?.firstName,
+            lastName: acspData?.applicantDetails?.lastName,
             typeOfBusiness: acspData?.typeOfBusiness
         });
     } catch {
@@ -40,12 +41,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const currentUrl: string = BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL;
+    const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL;
     try {
         const errorList = validationResult(req);
         const session: Session = req.session!;
         const acspData: AcspData = session.getExtraData(USER_DATA)!;
-        const previousPage: string = addLangToUrl(getPreviousPage(acspData?.workSector), lang);
+        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -54,7 +55,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties,
                 previousPage,
                 currentUrl,
-                loginEmail: res.locals.userEmail
+                loginEmail: res.locals.userEmail,
+                firstName: acspData?.applicantDetails?.firstName,
+                lastName: acspData?.applicantDetails?.lastName,
+                typeOfBusiness: acspData?.typeOfBusiness
             });
         } else {
             if (acspData) {
@@ -65,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
 
-            res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
+            res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR, lang));
 
         }
     } catch (err) {
@@ -73,14 +77,4 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const error = new ErrorService();
         error.renderErrorPage(res, locales, lang, currentUrl);
     }
-};
-
-const getPreviousPage = (workSector: string | undefined): string => {
-    let previousPage: string;
-    if (workSector === "EA" || workSector === "HVD" || workSector === "CASINOS") {
-        previousPage = BASE_URL + LIMITED_WHICH_SECTOR_OTHER;
-    } else {
-        previousPage = BASE_URL + LIMITED_SECTOR_YOU_WORK_IN;
-    }
-    return previousPage;
 };

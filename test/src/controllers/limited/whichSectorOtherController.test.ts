@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { LIMITED_WHICH_SECTOR_OTHER, BASE_URL, LIMITED_SELECT_AML_SUPERVISOR } from "../../../../src/types/pageURL";
+import { LIMITED_WHICH_SECTOR_OTHER, BASE_URL, LIMITED_WHAT_IS_YOUR_EMAIL } from "../../../../src/types/pageURL";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
@@ -60,7 +60,7 @@ describe("POST" + LIMITED_WHICH_SECTOR_OTHER, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "EA" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     it("should return status 302 after redirect", async () => {
@@ -73,7 +73,7 @@ describe("POST" + LIMITED_WHICH_SECTOR_OTHER, () => {
         mockPutAcspRegistration.mockResolvedValueOnce(formData);
         const res = await router.post(BASE_URL + LIMITED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "AIA" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     // Test for incorrect form details entered, will return 400.

@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { LIMITED_SECTOR_YOU_WORK_IN, LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, LIMITED_WHICH_SECTOR_OTHER } from "../../../types/pageURL";
+import { LIMITED_SECTOR_YOU_WORK_IN, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_WHAT_IS_YOUR_EMAIL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             // save data to mongodb
             const acspDataService = new AcspDataService();
             await acspDataService.saveAcspData(session, acspData);
-            res.redirect(addLangToUrl(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR, lang));
+            res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL, lang));
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));

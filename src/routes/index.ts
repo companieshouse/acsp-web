@@ -58,7 +58,8 @@ import {
     checkSavedApplicationController,
     resumeJourneyController,
     cannotSubmitAnotherApplicationController,
-    limitedWhatIsYourEmailController
+    limitedWhatIsYourEmailController,
+    soleTraderWhatIsYourEmailAddressController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -169,6 +170,9 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, soleTra
 
 routes.get(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, soleTraderSelectAmlSupervisorController.get);
 routes.post(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, soleTraderSelectAmlSupervisorController.post);
+
+routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, soleTraderWhatIsYourEmailAddressController.get);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, soleTraderWhatIsYourEmailAddressController.post);
 
 // LIMITED
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, limitedNameRegisteredWithAmlController.get);

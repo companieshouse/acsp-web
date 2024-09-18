@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, AML_MEMBERSHIP_NUMBER } from "../../../types/pageURL";
+import { SOLE_TRADER_SELECT_AML_SUPERVISOR, SOLE_TRADER_WHAT_IS_YOUR_EMAIL, BASE_URL, AML_MEMBERSHIP_NUMBER } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+    const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
     // const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
@@ -56,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR;
     try {
 
-        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
+        const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL, lang);
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
