@@ -21,31 +21,36 @@
       items: [
         {
           value: "LC",
-          text: i18n.typeOfBusinessLimitedCompanyOption
+          text: i18n.typeOfBusinessLimitedCompanyOption,
+          id:"LC"
         }if not FEATURE_FLAG_DISABLE_LIMITED_JOURNEY,
         {
           value: "LP",
-          text: i18n.typeOfBusinessLimitedPartnershipOption
+          text: i18n.typeOfBusinessLimitedPartnershipOption,
+          id:"LP"
         },
         {
           value: "LLP",
-          text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption
+          text: i18n.typeOfBusinessLimitedLiabilityPartnershipsOption,
+          id: "LLP"
         },
         {
           value: "PARTNERSHIP",
-          text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption
+          text: i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption,
+          id:"PARTNERSHIP"
         }if not FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY,
         {
           value: "SOLE_TRADER",
-          text: i18n.typeOfBusinessSoleTraderOption
+          text: i18n.typeOfBusinessSoleTraderOption,
+          id:"SOLE_TRADER"
         },
         {
           value: "OTHER",
-          text: i18n.typeOfBusinessOtherOption
+          text: i18n.typeOfBusinessOtherOption,
+          id:"OTHER"
         }
       ]
     }) }}
-    
     {{ govukButton({
       text: i18n.SaveAndContinue,
       id:"save-continue-button",
@@ -57,33 +62,37 @@
   <script type="text/javascript">
     function continueOnClick() {
       const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
-      if (selectedOption){
+      if (selectedOption) {
         const selectedValue = selectedOption.value;
         if (selectedValue !== "OTHER") {
           trackGoal(selectedValue);
         }
       }
     }
-    function trackGoal(goal){
+    function trackGoal(goal) {
       let goalId;
-      switch(goal) {
-        case "LC":
-          goalId = 1;
+      switch (goal) {
+        case "LC": goalId = 1;
           break;
-        case "LP":
-          goalId = 2;
+        case "LP": goalId = 2;
           break;
-        case "LLP":
-          goalId = 3;
+        case "LLP": goalId = 3;
           break;
-        case "PARTNERSHIP":
-          goalId = 4;
+        case "PARTNERSHIP": goalId = 4;
           break;
-        case "SOLE_TRADER":
-          goalId = 5;
+        case "SOLE_TRADER": goalId = 5;
           break;
       }
       _paq.push(['trackGoal', goalId]);
     }
+  </script>
+  <script>
+    trackEventBasedOnPageTitle("LC", "select-option", "Limited Company");
+    trackEventBasedOnPageTitle("LP", "select-option", "Limited Partnership");
+    trackEventBasedOnPageTitle("LLP", "select-option", "Limited Liability Partnerships");
+    trackEventBasedOnPageTitle("PARTNERSHIP", "select-option", "Partnership Not Registered With CH");
+    trackEventBasedOnPageTitle("SOLE_TRADER", "select-option", "Sole Trader");
+    trackEventBasedOnPageTitle("OTHER", "select-option", "Other");
+    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - TYPE");
   </script>
 {% endblock main_content %}

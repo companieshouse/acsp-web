@@ -31,5 +31,20 @@ function trackEventBasedOnPageTitle(elementId, eventCategory, eventAction, event
         _paq.push(["trackEvent", eventCategory, eventAction, eventName]);
     });
 }
+
+// Matomo function for use on Work Sector page when page is skipped
+function trackEventWorkSectorNotProvided(elementId, eventCategory, eventAction, eventName) {
+  document.getElementById(elementId);
+        _paq.push(["trackEvent", eventCategory, eventAction, eventName]);
+}
+
+// Matomo function to capture radio button selection
+function trackEventBasedOnRadioId(elementId, eventCategory, eventAction) {
+    const radioButton = document.getElementById(elementId);
+    if (radioButton) {
+      const labelText = document.querySelector(`label[for="${radioButton.id}"]`).textContent.trim();
+      _paq.push(["trackEvent", eventCategory, eventAction, labelText]);
+    }
+}
 </script>
 <!-- Matomo Ends -->

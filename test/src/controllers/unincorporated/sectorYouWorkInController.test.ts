@@ -50,11 +50,11 @@ describe("POST" + UNINCORPORATED_WHICH_SECTOR, () => {
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER + "?lang=en");
     });
 
-    // Test for incorrect form details entered, will return 400.
-    it("should return status 400 after incorrect data entered", async () => {
+    // Test for no value selected, it will return 302 and redirect to the next page when no work sector is selected.
+    it("should return status 302 after no work sector selected", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR).send({ sectorYouWorkIn: "" });
-        expect(res.status).toBe(400);
-        expect(res.text).toContain("Select which sector you work in");
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP + "?lang=en");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
