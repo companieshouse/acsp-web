@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 
-import { UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, UNINCORPORATED_SELECT_AML_SUPERVISOR } from "../../../../src/types/pageURL";
+import { UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, BASE_URL, UNINCORPORATED_WHAT_IS_YOUR_EMAIL } from "../../../../src/types/pageURL";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "../../../../src/services/acspRegistrationService";
 
@@ -65,6 +65,6 @@ describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     it("should redirect to /select-aml-supervisor with status 302", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 });

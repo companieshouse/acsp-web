@@ -66,3 +66,4 @@ export * as unincorporatedCorrespondenceAddressConfirmController from "./feature
 export * as unincorporatedCorrespondenceAddressAutoLookupController from "./features/unincorporated/correspondenceAddressAutoLookupController";
 export * as unincorporatedCorrespondenceAddressListController from "./features/unincorporated/correspondenceAddressListController";
 export * as unincorporatedSelectAmlSupervisorController from "./features/unincorporated/selectAmlSupervisorController";
+export * as unincorporatedWhatIsYourEmailController from "./features/unincorporated/whatIsYourEmailAddressController";
