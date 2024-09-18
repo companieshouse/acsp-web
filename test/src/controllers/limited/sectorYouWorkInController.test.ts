@@ -92,7 +92,7 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 302 after no work sector selected", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
