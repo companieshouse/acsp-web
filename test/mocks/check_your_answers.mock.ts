@@ -88,7 +88,9 @@ export const mockSoleTraderAcspDataWorkSectorNotProvided: AcspData = {
         lastName: "User",
         dateOfBirth: new Date(1990, 10, 15),
         nationality: {
-            firstNationality: "British"
+            firstNationality: "British",
+            secondNationality: "",
+            thirdNationality: ""
         },
         countryOfResidence: "England"
     },
