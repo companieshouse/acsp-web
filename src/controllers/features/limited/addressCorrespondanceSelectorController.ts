@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // set addressoption to render the page with saved data
         let addressOption = "";
         const applicantDetails = acspData?.applicantDetails || {};
-        if (applicantDetails?.correspondenceAddress !== null) {
+        if (applicantDetails?.correspondenceAddress !== null && applicantDetails?.correspondenceAddress !== undefined) {
             if (JSON.stringify(applicantDetails?.correspondenceAddress) ===
             JSON.stringify(acspData.registeredOfficeAddress)) {
                 addressOption = "CORRESPONDANCE_ADDRESS";
