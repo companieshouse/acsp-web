@@ -57,7 +57,10 @@ import {
     savedApplicationController,
     checkSavedApplicationController,
     resumeJourneyController,
-    cannotSubmitAnotherApplicationController
+    cannotSubmitAnotherApplicationController,
+    limitedWhatIsYourEmailController,
+    soleTraderWhatIsYourEmailAddressController,
+    unincorporatedWhatIsYourEmailController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -82,6 +85,7 @@ import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor"
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 import { selectsignOutValidator } from "../validation/signOut";
 import { selectSavedApplicationValidator } from "../validation/savedApplication";
+import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 
 const routes = Router();
 
@@ -166,6 +170,9 @@ routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_ROLE, whatIsYourRoleValidator, soleTra
 routes.get(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, soleTraderSelectAmlSupervisorController.get);
 routes.post(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, soleTraderSelectAmlSupervisorController.post);
 
+routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, soleTraderWhatIsYourEmailAddressController.get);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, soleTraderWhatIsYourEmailAddressController.post);
+
 // LIMITED
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, limitedNameRegisteredWithAmlController.get);
 routes.post(urls.LIMITED_NAME_REGISTERED_WITH_AML, nameRegisteredWithAmlValidator, limitedNameRegisteredWithAmlController.post);
@@ -206,6 +213,9 @@ routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAd
 
 routes.get(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, limitedAddressCorrespondanceSelectorController.get);
 routes.post(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, limitedAddressCorrespondanceSelectorController.post);
+
+routes.get(urls.LIMITED_WHAT_IS_YOUR_EMAIL, limitedWhatIsYourEmailController.get);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, limitedWhatIsYourEmailController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
@@ -255,6 +265,9 @@ routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddre
 
 routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSupervisorController.get);
 routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);
+
+routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, unincorporatedWhatIsYourEmailController.get);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, unincorporatedWhatIsYourEmailController.post);
 
 routes.get(urls.RESUME_JOURNEY, resumeJourneyController.get);
 

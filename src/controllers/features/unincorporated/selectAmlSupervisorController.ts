@@ -3,9 +3,9 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { UNINCORPORATED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, UNINCORPORATED_WHAT_IS_YOUR_EMAIL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
+import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/amlBodyService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -32,7 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
 
         res.render(config.SELECT_AML_SUPERVISOR, {
-            previousPage: addLangToUrl(getPreviousPage(session), lang),
+            previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL, lang),
             ...getLocaleInfo(locales, lang),
             acspType: acspData?.typeOfBusiness,
             currentUrl,
@@ -58,7 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SELECT_AML_SUPERVISOR, {
-                previousPage: addLangToUrl(getPreviousPage(session), lang),
+                previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL, lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 acspType: acspData?.typeOfBusiness,
@@ -81,15 +81,4 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const error = new ErrorService();
         error.renderErrorPage(res, locales, lang, currentUrl);
     }
-};
-
-const getPreviousPage = (session: Session): string => {
-    const correspondenceAddress: string = session?.getExtraData(UNINCORPORATED_CORRESPONDENCE_ADDRESS)!;
-    let previousPage;
-    if (correspondenceAddress === "CORRESPONDANCE_ADDRESS") {
-        previousPage = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
-    } else {
-        previousPage = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM;
-    }
-    return previousPage;
 };

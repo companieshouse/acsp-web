@@ -1,0 +1,77 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.whatIsYourEmailAddressTitle %}
+{% block main_content %}
+    <form action="" method="POST">      
+    {% set textHtml %}
+        {{ govukInput({
+            label: {
+            text: i18n.emailAddressTextInput
+            },
+            errorMessage: {
+            text: errors.whatIsYourEmailInput.text
+            } if errors.whatIsYourEmailInput | length,
+            classes: "govuk-input",
+            id: "whatIsYourEmailInput",
+            name: "whatIsYourEmailInput",
+            value: payload.whatIsYourEmailInput
+        }) }}
+    {% endset -%}
+
+    {% if typeOfBusiness === "SOLE_TRADER" %}
+        {% include "partials/user_name.njk" %}
+    {% else %}   
+        {% include "partials/business_name.njk" %}
+    {% endif %}
+
+    <h1 class="govuk-heading-l">{{ i18n.whatIsYourEmailAddressTitle }}</h1>
+
+    <p>{{ i18n.youNeedToProvideAnEmail }}</p>
+    <p>{{ i18n.wellUseThisTo }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.askForMoreInformation }}</li>
+        <li>{{ i18n.checkTheAgentIsComplying }}</li>
+        <li>{{ i18n.suspendTheAgentAccount }}</li>
+    </ul>
+    <p>{{ i18n.updateEmailAddressAfter }}</p>
+
+    {{ govukRadios({
+        errorMessage: errors.whatIsYourEmailRadio if errors,
+        name: "whatIsYourEmailRadio",
+        value: payload.whatIsYourEmailRadio,
+        classes: "govuk-radios",
+        fieldset: {
+            legend: {
+                text: i18n.whatEmailForCorrespondence,
+                classes: "govuk-fieldset__legend--m"
+            }
+        },
+        items: [
+        {
+            value: loginEmail,
+            text: loginEmail
+        },
+        {
+            value: "A Different Email",
+            text: i18n.aDifferentEmailAddress,
+            id: "a-different-email-radio", 
+            conditional: {
+                html: textHtml
+            }
+        }
+      ]
+    }) }}
+
+    {{ govukButton({
+        text: i18n.SaveAndContinue,
+        id:"save-continue-button"
+    }) }}
+    </form>
+    <script>
+        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - email address");
+    </script>
+{% endblock main_content %}

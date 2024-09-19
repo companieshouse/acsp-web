@@ -1,0 +1,15 @@
+{
+    "whatIsYourEmailAddressTitle": "Correspondence email address Welsh",
+    "youNeedToProvideAnEmail": "You need to provide an email address for the business you are registering. Welsh",
+    "wellUseThisTo": "We'll use this to send essential emails about the authorised agent. For example, if we need to: Welsh",
+    "askForMoreInformation":"ask for more information about the agent’s filings Welsh",
+    "checkTheAgentIsComplying": "check the agent is complying with its legal responsibilities Welsh",
+    "suspendTheAgentAccount": "suspend the agent account, or take other enforcement action Welsh",
+    "updateEmailAddressAfter": "You’ll be able to update the email address after you’ve registered the authorised agent. Welsh",
+    "whatEmailForCorrespondence": "What email address should we use for correspondence? Welsh",
+    "aDifferentEmailAddress": "A different email address Welsh",
+    "emailAddressTextInput": "Email address Welsh",
+
+    "error-noEmail": "Enter an email address Welsh",
+    "error-emailFormatIncorrect": "Enter an email address in the correct format, like name@example.com Welsh"
+}

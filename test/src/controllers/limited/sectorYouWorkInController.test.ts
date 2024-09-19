@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { LIMITED_SECTOR_YOU_WORK_IN, BASE_URL, LIMITED_SELECT_AML_SUPERVISOR, LIMITED_WHICH_SECTOR_OTHER } from "../../../../src/types/pageURL";
+import { LIMITED_SECTOR_YOU_WORK_IN, BASE_URL, LIMITED_WHICH_SECTOR_OTHER, LIMITED_WHAT_IS_YOUR_EMAIL } from "../../../../src/types/pageURL";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
@@ -54,7 +54,7 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIA" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     it("should return status 302 after redirect", async () => {
@@ -92,7 +92,7 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 302 after no work sector selected", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
