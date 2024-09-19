@@ -40,16 +40,15 @@
                     } if errors["membershipNumber_" + loop.index]
                 }) }}
             {% endfor %}
-            {{ govukInsetText({
-            text: i18n.amlAdditionalInfo
-            }) }}
             {{ govukButton({
                 text: i18n.SaveAndContinue,
                 id: "save-continue-button"
             }) }}
         </fieldset>
     </form>
-        <script>
-        trackEventBasedOnPageTitle("save-continue-button",  "click-button", "SAVE AND CONTINUE - AML number");
-      </script>
+
+<script>
+    trackEventBasedOnPageTitle("save-continue-button",  "click-button", "SAVE AND CONTINUE - AML number");
+</script>
+
 {% endblock %}

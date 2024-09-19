@@ -1,7 +1,5 @@
 {
     "selectAmlSupervisorTitle" : "Pa gyrff goruchwylio Atal Gwyngalchu Arian (AML) rydych chi wedi cofrestru â nhw?",
-    "selectAmlSupervisorHint": "Mae'n rhaid eich bod wedi cofrestru gyda'r corff goruchwylio AML am o leiaf 2 wythnos. Dewiswch bopeth sy'n berthnasol.",
-    "selectAmlSupervisorInfoHeading": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
-    "selectAmlSupervisorInfo": "Byddwn yn dangos enwau'r cyrff goruchwylio y mae'r busnes wedi'u cofrestru â nhw.",
+    "selectAmlSupervisorHint": "Dewiswch bopeth sy'n berthnasol.",
     "error-selectAmlSupervisor": "Dewiswch yr holl gyrff goruchwylio AML rydych chi wedi'u cofrestru â nhw"
 }

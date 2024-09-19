@@ -3,8 +3,6 @@
     "whatIsYourNameFirstName" : "Enw cyntaf",
     "whatIsYourNameMiddleNames" : "Enwau canol",
     "whatIsYourNameLastName" : "Cyfenw",
-    "whatIsYourNameInsetHeading": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
-    "whatIsYourNameInsetText":"Byddwn yn dangos eich enw ar y rhestr gyhoeddus o asiantau awdurdodedig, oni bai bod gennych enw busnes gwahanol yr ydych yn masnachu o dan.",
     "error-enterFullName" : "Cofnodwch eich enw llawn",
     "error-enterFirstName" : "Cofnodwch eich enw cyntaf",
     "error-enterLastName": "Cofnodwch eich cyfenw",

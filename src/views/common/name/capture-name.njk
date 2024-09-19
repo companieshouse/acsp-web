@@ -47,12 +47,6 @@
                 value: payload["last-name"]
             }) }}
         </div>
-        {%if typeOfBusiness === "SOLE_TRADER"%}
-        <div class="govuk-inset-text">
-            <h2 class="govuk-heading-m">{{ i18n.whatIsYourNameInsetHeading }}</h2>
-            <p>{{ i18n.whatIsYourNameInsetText }}</p>
-          </div>
-        {%endif%}
         {{ govukButton({
             text: i18n.SaveAndContinue,
             id:"save-continue-button"

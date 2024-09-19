@@ -47,19 +47,17 @@
           }
         }
       ]
-    }) }}  
-
-    <div class="govuk-inset-text">
-      <p>{{i18n.whatIsTheBusinessNamePublic}}</p>       
-    </div>
+    }) }}
 
     {{ govukButton({
       text: i18n.SaveAndContinue,
       id:"save-continue-button"
     }) }}
   </form>
-         <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Business name");
-        trackEventBasedOnPageTitle("save-a-different-name-radio-button", "click-radio", "A different name");
-      </script>
+
+<script>
+  trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Business name");
+  trackEventBasedOnPageTitle("save-a-different-name-radio-button", "click-radio", "A different name");
+</script>
+
 {% endblock main_content %}

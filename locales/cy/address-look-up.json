@@ -7,8 +7,6 @@
     "correspondenceLookUpAddressFindAddressBtn": "Dod o hyd i gyfeiriad",
     "correspondenceLookUpAddressManuallyBtn": "Cofnodwch y cyfeiriad â llaw",
     "correspondenceLookUpAddressListTitle": "Dewiswch y cyfeiriad gohebiaeth",
-    "businessAddressShowOnPublicList": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
-    "businessAddressShowTownOrCity": "Byddwn yn dangos tref neu ddinas o’r cyfeiriad busnes.",
     "businessLookUpAddressListTitle": "Dewiswch gyfeiriad",
 
     "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",

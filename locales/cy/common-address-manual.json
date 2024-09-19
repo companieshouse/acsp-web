@@ -10,7 +10,6 @@
     "addressCountry": "Gwlad",
     "addressPostcode": "Cod post",
     "infoShowOnPublic": "Pa wybodaeth byddwn yn dangos ar y rhestr gyhoeddus o asiantau awdurdodedig",
-    "businessLocationInfo": "Byddwn yn dangos tref neu ddinas o’r cyfeiriad busnes.",
     "correspondenceLocationInfo": "Byddwn yn dangos tref neu ddinas y cyfeiriad gohebiaeth.",
     "error-noPropertyDetails": "Cofnodwch enw neu rif eiddo",
     "error-noAddressLine1": "Cofnodwch gyfeiriad",

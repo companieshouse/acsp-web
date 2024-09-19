@@ -103,14 +103,12 @@
                 text: errors["addressPostcode"].text
               } if errors.addressPostcode
           }) }}
-        <div class="govuk-inset-text">
-          <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
-          <p>{{ i18n.businessLocationInfo }}</p>
-        </div>
     </div>
     <button class="govuk-button" id="save-continue-button">{{ i18n.SaveAndContinue }}</button>
   </form>
-                <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE");
-      </script>
+
+<script>
+  trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE");
+</script>
+
 {% endblock main_content %}

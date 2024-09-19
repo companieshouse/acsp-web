@@ -12,13 +12,16 @@
     {% endif %}
     
     <h1 class="govuk-heading-l">{{ i18n.yourResponsibilitiesTitle }}</h1>
+    <p class="govuk-body">{{ i18n.yourResponsibilitiesComplyText }}</p>
     <p class="govuk-body">{{ i18n.yourResponsibilitiesText1 }}</p>
     <p class="govuk-body">{{ i18n.yourResponsibilitiesText2 }}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{ i18n.yourFilings }}</li>
-      <li>{{ i18n.identityChecks }}</li>
-    </ul>
     <p class="govuk-body">{{ i18n.yourResponsibilitiesText3 }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>{{ i18n.yourFilingsBulletPoint }}</li>
+      <li>{{ i18n.identityChecksBulletPoint }}</li>
+      <li>{{ i18n.legalResponsibilitiesBulletPoint }}</li>
+    </ul>
+    <p class="govuk-body">{{ i18n.yourResponsibilitiesText4 }}</p>
     
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
