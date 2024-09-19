@@ -22,11 +22,13 @@
                 items: [
                     {
                         value: "UNINCORPORATED",
-                        text: i18n.otherTypeOfBusinessUnincorporatedEntity
+                        text: i18n.otherTypeOfBusinessUnincorporatedEntity,
+                        id:"UNINCORPORATED"
                     },
                     {
                         value: "CORPORATE_BODY",
                         text: i18n.otherTypeOfBusinessCorporateBody,
+                        id:"CORPORATE_BODY",
                         hint: {
                             text: i18n.otherTypeOfBusinessCorporateBodyHint
                         }
@@ -62,5 +64,10 @@
             }
             _paq.push(['trackGoal', goalId]);
         }
+    </script>
+    <script>
+    trackEventBasedOnPageTitle("UNINCORPORATED", "select-option", "Unincorporated Entity");
+    trackEventBasedOnPageTitle("CORPORATE_BODY", "select-option", "Corporate Body");
+    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
     </script>
 {% endblock main_content %}
