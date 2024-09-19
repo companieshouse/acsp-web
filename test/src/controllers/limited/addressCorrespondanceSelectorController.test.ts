@@ -97,7 +97,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("What is the correspondence address?");
     });
 
-    it("should return status 200 when correspondence address is same as registeredOfficeAddress", async () => {
+    it("should return status 200 when correspondence address is different to registeredOfficeAddress", async () => {
         const acspDataDifferentCorrespondenAndRegisteredAddress: AcspData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
