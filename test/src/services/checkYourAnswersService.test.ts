@@ -5,7 +5,7 @@ import { getAnswers } from "../../../src/services/checkYourAnswersService";
 import { getLocalesService } from "../../../src/utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { COMPANY_DETAILS } from "../../../src/common/__utils/constants";
-import { mockCompany, mockCorporateBodyAcspData, mockLimitedAcspData, mockLLPAcspData, mockLPAcspData, mockPartnershipAcspData, mockSoleTrader2AcspData, mockSoleTrader3AcspData, mockSoleTraderAcspData, mockSoleTraderAcspDataWorkSectorNotProvided, mockUnincorporatedAcspData } from "../../mocks/check_your_answers.mock";
+import { mockCompany, mockLimitedAcspData, mockLLPAcspData, mockLPAcspData, mockPartnershipAcspData, mockSoleTrader2AcspData, mockSoleTrader3AcspData, mockSoleTraderAcspData, mockSoleTraderAcspDataWorkSectorNotProvided, mockUnincorporatedAcspData } from "../../mocks/check_your_answers.mock";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
@@ -37,7 +37,8 @@ describe("CheckYourAnswersService", () => {
             correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
             roleType: "I am a director",
             typeOfBusiness: "Limited company",
-            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers"
+            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers",
+            correspondenceEmail: "test@email.com"
         });
     });
 
@@ -53,7 +54,8 @@ describe("CheckYourAnswersService", () => {
             companyNumber: "12345678",
             roleType: "I am a member of the partnership",
             typeOfBusiness: "Limited liability partnership (LLP)",
-            workSector: "Financial institutions"
+            workSector: "Financial institutions",
+            correspondenceEmail: "test@email.com"
         });
     });
 
@@ -69,7 +71,8 @@ describe("CheckYourAnswersService", () => {
             countryOfResidence: "England",
             dateOfBirth: "15 November 1990",
             name: "Unit Test User",
-            nationality: "British"
+            nationality: "British",
+            correspondenceEmail: "test@email.com"
         });
     });
 
@@ -85,7 +88,8 @@ describe("CheckYourAnswersService", () => {
             countryOfResidence: "England",
             dateOfBirth: "15 November 1990",
             name: "Unit Test User",
-            nationality: "British"
+            nationality: "British",
+            correspondenceEmail: "test@email.com"
         });
     });
 
@@ -101,7 +105,8 @@ describe("CheckYourAnswersService", () => {
             countryOfResidence: "England",
             dateOfBirth: "15 November 1990",
             name: "Unit Test User",
-            nationality: "British, German, Irish"
+            nationality: "British, German, Irish",
+            correspondenceEmail: undefined
         });
     });
 
@@ -117,7 +122,8 @@ describe("CheckYourAnswersService", () => {
             countryOfResidence: "England",
             dateOfBirth: "15 November 1990",
             name: "Unit Test User",
-            nationality: "British, German, Irish"
+            nationality: "British, German, Irish",
+            correspondenceEmail: undefined
         });
     });
 
@@ -131,7 +137,8 @@ describe("CheckYourAnswersService", () => {
             roleType: "I am a member",
             typeOfBusiness: "Partnership (not registered with Companies House)",
             workSector: "Trust or company service providers",
-            nameRegisteredWithAML: "Name of the business"
+            nameRegisteredWithAML: "Name of the business",
+            correspondenceEmail: undefined
         });
     });
 
@@ -146,7 +153,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "Unincorporated entity",
             workSector: "Credit institutions",
             nameRegisteredWithAML: "Both",
-            name: "Test User"
+            name: "Test User",
+            correspondenceEmail: undefined
         });
     });
 
@@ -162,7 +170,8 @@ describe("CheckYourAnswersService", () => {
             correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
             roleType: "I am a director",
             typeOfBusiness: "Limited company",
-            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers"
+            workSector: "Auditors, insolvency practitioners, external accountants and tax advisers",
+            correspondenceEmail: "test@email.com"
         });
     });
 
@@ -177,7 +186,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "Limited partnership (LP)",
             workSector: "High value dealers",
             nameRegisteredWithAML: "Your name",
-            name: "Test User"
+            name: "Test User",
+            correspondenceEmail: undefined
         });
     });
 });

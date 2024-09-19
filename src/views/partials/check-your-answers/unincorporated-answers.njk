@@ -108,7 +108,6 @@
             ]
           }
       },
-
       {
         key: {
           text: i18n.correspondeceAddress
@@ -122,6 +121,23 @@
                 href: "/register-as-companies-house-authorised-agent/unincorporated/what-is-the-correspondence-address" + "?lang=" + lang,
                 text: i18n.checkYourAnswersChange,
                 visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
+          text: i18n.checkYourAnswersEmail
+        },
+        value: {
+          html: detailsAnswers.correspondenceEmail
+        },
+        actions: {
+            items: [
+              {
+                href: "/register-as-companies-house-authorised-agent/unincorporated/what-email-should-we-use" + "?lang=" + lang,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: i18n.checkYourAnswersEmail
               }
             ]
           }
