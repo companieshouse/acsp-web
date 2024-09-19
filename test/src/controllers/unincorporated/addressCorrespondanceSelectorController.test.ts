@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, BASE_URL, UNINCORPORATED_SELECT_AML_SUPERVISOR, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../src/types/pageURL";
+import { UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, BASE_URL, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_WHAT_IS_YOUR_EMAIL } from "../../../../src/types/pageURL";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
@@ -85,7 +85,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "CORRESPONDANCE_ADDRESS" });
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_SELECT_AML_SUPERVISOR + "?lang=en");
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
     it("should redirect to correspondence-address-lookup page when address option is DIFFERENT_ADDRESS", async () => {

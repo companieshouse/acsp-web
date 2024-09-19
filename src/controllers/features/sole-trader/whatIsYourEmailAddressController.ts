@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             payload = {
                 whatIsYourEmailRadio: acspData.applicantDetails?.correspondenceEmail
             };
-        } else if (acspData.applicantDetails?.correspondenceEmail !== undefined) {
+        } else if (acspData.applicantDetails?.correspondenceEmail) {
             payload = {
                 whatIsYourEmailRadio: "A Different Email",
                 whatIsYourEmailInput: acspData.applicantDetails?.correspondenceEmail

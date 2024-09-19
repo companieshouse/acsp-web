@@ -1,6 +1,4 @@
-import { Address } from "./Address";
-
-export interface Answers{
+export interface Answers {
     typeOfBusiness? : string;
     roleType? : string;
     name?: string;
@@ -13,4 +11,5 @@ export interface Answers{
     businessAddress?: string;
     companyNumber?: string;
     nameRegisteredWithAML?: string;
+    correspondenceEmail?: string;
 }

@@ -30,7 +30,8 @@ export const mockLimitedAcspData: AcspData = {
             locality: "locality",
             region: "region",
             postalCode: "postalcode"
-        }
+        },
+        correspondenceEmail: "test@email.com"
     }
 };
 export const mockLLPAcspData: AcspData = {
@@ -39,7 +40,8 @@ export const mockLLPAcspData: AcspData = {
     roleType: "MEMBER_OF_LLP",
     workSector: "FI",
     applicantDetails: {
-        correspondenceAddress: {}
+        correspondenceAddress: {},
+        correspondenceEmail: "test@email.com"
     }
 };
 export const mockSoleTraderAcspData: AcspData = {
@@ -56,6 +58,7 @@ export const mockSoleTraderAcspData: AcspData = {
             region: "region",
             postalCode: "postalcode"
         },
+        correspondenceEmail: "test@email.com",
         firstName: "Unit",
         middleName: "Test",
         lastName: "User",
@@ -83,6 +86,7 @@ export const mockSoleTraderAcspDataWorkSectorNotProvided: AcspData = {
             region: "region",
             postalCode: "postalcode"
         },
+        correspondenceEmail: "test@email.com",
         firstName: "Unit",
         middleName: "Test",
         lastName: "User",
