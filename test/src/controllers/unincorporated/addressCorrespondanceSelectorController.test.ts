@@ -80,6 +80,70 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
 
     });
 
+    it("should return status 200 when correspondence address is undefined", async () => {
+        const acspDataWithoutCorrespondenAddress: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutCorrespondenAddress);
+        const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should return status 200 when correspondence address is same as registeredOfficeAddress", async () => {
+        const acspDataSameCorrespondenAndRegisteredAddress: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: {
+                    postalCode: "ST6 3LJ"
+                }
+            },
+            registeredOfficeAddress: {
+                postalCode: "ST6 3LJ"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataSameCorrespondenAndRegisteredAddress);
+        const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
+    it("should return status 200 when correspondence address is different to registeredOfficeAddress", async () => {
+        const acspDataDifferentCorrespondenAndRegisteredAddress: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED",
+            businessName: "Business",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: {}
+            },
+            registeredOfficeAddress: {
+                postalCode: "ST6 3LJ"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataDifferentCorrespondenAndRegisteredAddress);
+        const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+
     it("should redirect to correspondence-address-lookup page when address option is CORRESPONDANCE_ADDRESS", async () => {
         const res = await router
             .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
