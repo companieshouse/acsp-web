@@ -1,5 +1,5 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { Transaction, TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import logger from "../../utils/logger";
 import { createPublicOAuthApiClient } from "../apiService";
 import { Session } from "@companieshouse/node-session-handler";
@@ -87,4 +87,10 @@ export const putTransaction = async (session: Session,
     logger.debug(`Received transaction ${JSON.stringify(sdkResponse)}`);
 
     return Promise.resolve(castedSdkResponse);
+};
+
+// get transaction list for resource kind
+export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<Resource<TransactionList> | ApiErrorResponse> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+    return apiClient.transaction.getTransactionsForResourceKind(acspApplicationId, "acsp");
 };

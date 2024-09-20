@@ -11,6 +11,5 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
         returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
     };
 
-//     return acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
-    return authMiddleware(authMiddlewareConfig)(req, res, next);
+    return acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
 };

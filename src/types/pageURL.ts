@@ -56,6 +56,8 @@ export const CHECK_SAVED_APPLICATION = "/check-saved-application";
 
 export const CANNOT_SUBMIT_ANOTHER_APPLICATION = "/cannot-submit-another-application";
 
+export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 

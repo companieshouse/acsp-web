@@ -6,7 +6,6 @@ import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { AcspData, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
-import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 
 /**
  * GET an acsp registration object with the given transaction ID and acspApplicationId.
@@ -107,12 +106,6 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
 
     logger.debug(`acsp registration ${JSON.stringify(sdkResponse)}`);
     return Promise.resolve(castedSdkResponse.resource);
-};
-
-export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<Resource<TransactionList> | ApiErrorResponse> => {
-    const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    //  return apiClient.acsp.getSavedApplication(acspApplicationId);
-     return apiClient.transaction.getTransactionsForResourceKind(acspApplicationId, "acsp");
 };
 
 /**
