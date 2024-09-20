@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AuthOptions, acspProfileCreateAuthMiddleware, authMiddleware } from "@companieshouse/web-security-node";
+import { AuthOptions, acspProfileCreateAuthMiddleware } from "@companieshouse/web-security-node";
 
 import { CHS_URL } from "../utils/properties";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
