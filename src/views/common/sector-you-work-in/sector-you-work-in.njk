@@ -64,35 +64,34 @@
     }) }}
   </form>
 
-<script>
-let selectedRadio = null;
-
-// Function to track Matomo analytics based on the selected radio button
-function trackRadioSelection() {
-  const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]'); 
-  radioButtons.forEach((radio) => {
-    radio.addEventListener("click", (event) => {
-      // Set selectedRadio to the capture the properties of the selected radio button 
-      selectedRadio = event.target;
-      // Capture the text content of the selected radio button
-      const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();     
-      // Track event based on the selected radio button id and text content
-      trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
-      trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+  <script>
+    let selectedRadio = null;
+    
+    // Function to track Matomo analytics based on the selected radio button
+    function trackRadioSelection() {
+      const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]');
+      radioButtons.forEach((radio) => {
+        radio.addEventListener("click", (event) => {
+          selectedRadio = event.target;
+          const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();
+          trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
+        });
+      });
+    }
+    
+    // Run trackRadioSelection function
+    trackRadioSelection();
+    
+    // EventListener to track the value of selectedRadio when the save and continue button is clicked
+    document.getElementById("save-continue-button").addEventListener("click", () => {
+      // If no radio button has been selected, then work sector has not been provided
+      if (!selectedRadio) {
+        trackEventWorkSector("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
+      } else {
+        // Else a radio button has been selected and the below function is run
+        trackEventWorkSector("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+      }
     });
-  });
-}
-
-// Run trackRadioSelection function
-trackRadioSelection();
-
-// EventListener to track the value of selectedRadio when save and continue button is clicked
-document.getElementById("save-continue-button").addEventListener("click", () => {
-  // If no radio button has been selected then work sector has not been provided
-  if (!selectedRadio) {
-    trackEventWorkSectorNotProvided("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
-  }
-});
-</script>
+    </script>
 
 {% endblock main_content %}
