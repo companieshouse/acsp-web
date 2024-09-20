@@ -7,20 +7,14 @@
     "applicationSubmittedLink1": "Complete our quick survey (opens in a new tab)",
     "applicationSubmittedText3": "to help us improve it.",
     "applicationSubmittedHeading2": "What happens next",
-    "applicationSubmittedText4": "We'll email you to let you know if your application to register an authorised agent has been accepted or rejected.",
-    "applicationSubmittedText5": "We'll process the application as soon as possible. This is a new service, so we're not able to tell you exactly how long this will take.",
+    "applicationSubmittedText4": "We'll send an email to ",
+    "applicationSubmittedText5": " to let you know if your application to register an authorised agent has been accepted or rejected.",
+    "applicationSubmittedText6": "We'll process the application as soon as possible. This is a new service, so we're not able to tell you exactly how long this will take.",
     "applicationSubmittedHeading4": "If the application is accepted",
-    "applicationSubmittedText6": "We'll add your business to the list of Companies House authorised agents.",
-    "applicationSubmittedText7": "You'll be able to sign in to your Companies House account to access your authorised agent account. You can:",
-    "applicationSubmittedText8": "add people who work for the business to the account",
-    "applicationSubmittedText9": "file online as an authorised agent",
-    "applicationSubmittedText10": "tell us you have verified someone's identity",
-    "applicationSubmittedText11": "update the authorised agent details",
-    "applicationSubmittedText12": "We'll also send you an authorised agent number. You'll need this to file on paper or using software.",
-    "applicationSubmittedText13": "We'll email the authorised agent number to ",
-    "applicationSubmittedText14": "You should keep the number secure and must not share it with anyone outside of your organisation.",
+    "applicationSubmittedText7": "We'll register your business as an authorised agent and create an authorised agent account. You'll be able to to access the authorised agent account when you sign in to your Companies House account.",
+    "applicationSubmittedText8": "Read the ",
+    "applicationSubmittedGuidanceLink": "guidance for authorised agents",
+    "applicationSubmittedText9": " to find out how to manage the agent account, including how to add other users.",
     "applicationSubmittedHeading5": "If the application is rejected",
-    "applicationSubmittedText15": "We'll email you at",
-    "applicationSubmittedText16": "to explain what to do next."
-
+    "applicationSubmittedText10": "We'll explain why your application has been rejected and what you can do next."
 }

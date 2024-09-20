@@ -5,8 +5,6 @@
   "amlMembershipLisit2": "a regulation ID",
   "amlMembershipLisit3": "an AML ID",
   "amlcontactinfo": "Contact the AML supervisory body if you need to check your details.",
-  "amlAdditionalInfo": "You must have been registered with the AML supervisory body for at least 2 weeks.",
-
 
   "error-amlIDNumberInput": "Enter the details for "
 }

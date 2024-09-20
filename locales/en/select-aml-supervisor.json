@@ -1,7 +1,5 @@
 {
     "selectAmlSupervisorTitle" : "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
-    "selectAmlSupervisorHint": "You must have been registered with the AML supervisory body for at least 2 weeks. Select all that apply.",
-    "selectAmlSupervisorInfoHeading": "What information we’ll show on the public list of authorised agents",
-    "selectAmlSupervisorInfo": "We'll show the names of the supervisory bodies the business is registered with.",
+    "selectAmlSupervisorHint": "Select all that apply.",
     "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with"
 }

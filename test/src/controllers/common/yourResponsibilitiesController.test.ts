@@ -29,7 +29,7 @@ describe("GET" + YOUR_RESPONSIBILITIES, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Your responsibilities as an authorised agent");
+        expect(res.text).toContain("Authorised agent legal responsibilities");
     });
 
     it("should return status 200", async () => {
@@ -48,7 +48,7 @@ describe("GET" + YOUR_RESPONSIBILITIES, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Your responsibilities as an authorised agent");
+        expect(res.text).toContain("Authorised agent legal responsibilities");
     });
 });
 

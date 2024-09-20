@@ -40,10 +40,6 @@
             },
             items: ITEMS
         }) }}
-        <div class="govuk-inset-text">
-            <h2 class="govuk-heading-m">{{ i18n.businessAddressShowOnPublicList }}</h2>
-            <p>{{ i18n.businessAddressShowTownOrCity }}</p>
-        </div> 
          {{ govukButton({
              text: i18n.SaveAndContinue,
              id:"save-continue-button"
@@ -53,8 +49,10 @@
     <p>
         <a href={{ businessAddressManualLink }} class="govuk-link" id="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
-           <script>
-        trackEventBasedOnPageTitle("manual-address-id", "click-link", "Enter address manually");
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Address business");
-        </script>
+
+<script>
+    trackEventBasedOnPageTitle("manual-address-id", "click-link", "Enter address manually");
+    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Address business");
+</script>
+
 {% endblock main_content %}

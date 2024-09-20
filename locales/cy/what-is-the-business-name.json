@@ -1,7 +1,6 @@
 {
     "whatIsTheBusinessNameTitle" : "Beth yw enw'r busnes?",
     "whatIsTheBusinessNameTitleInput" : "Cofnodwch enw'r busnes",
-    "whatIsTheBusinessNamePublic": "Byddwn yn dangos enw'r busnes ar y rhestr gyhoeddus o asiantau awdurdodedig",
     "whatIsTheBusinessNameDifferentName" : "Enw gwahanol",
 
     "error-whatIsTheBusinessNameSelectRadio" : "Dewiswch enw busnes",

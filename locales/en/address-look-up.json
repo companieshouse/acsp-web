@@ -7,8 +7,6 @@
     "correspondenceLookUpAddressFindAddressBtn": "Find address",
     "correspondenceLookUpAddressManuallyBtn": "Enter address manually",
     "correspondenceLookUpAddressListTitle": "Select the correspondence address",
-    "businessAddressShowOnPublicList": "What information we'll show on the public list of authorised agents",
-    "businessAddressShowTownOrCity": "We'll show the town or city of the business address.",
     "businessLookUpAddressListTitle": "Choose an address",
 
     "error-correspondenceLookUpAddressNoAddress" : "Select the correspondence address",

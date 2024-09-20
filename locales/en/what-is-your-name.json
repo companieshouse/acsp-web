@@ -3,8 +3,6 @@
     "whatIsYourNameFirstName" : "First name",
     "whatIsYourNameMiddleNames" : "Middle names",
     "whatIsYourNameLastName" : "Last name",
-    "whatIsYourNameInsetHeading": "What information we'll show on the public list of authorised agents",
-    "whatIsYourNameInsetText":"We'll show your name on the public list of authorised agents, unless you have a different business name that you trade under.",
     "error-enterFullName" : "Enter your full name",
     "error-enterFirstName" : "Enter your first name",
     "error-enterLastName": "Enter your last name",

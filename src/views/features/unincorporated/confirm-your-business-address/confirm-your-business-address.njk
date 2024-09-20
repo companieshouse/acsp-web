@@ -18,16 +18,14 @@
     <p class="govuk-body">
       <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
     </p>
-    <div class="govuk-inset-text">
-      <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
-      <p>{{ i18n.businessLocationInfo }}</p>
-    </div>
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
       id:"save-continue-button"
     }) }}
   </form>
-          <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - address business confirm");
-        </script>
+
+<script>
+  trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - address business confirm");
+</script>
+
 {% endblock main_content %}
