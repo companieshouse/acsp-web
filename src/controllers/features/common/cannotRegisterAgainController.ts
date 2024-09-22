@@ -4,7 +4,6 @@ import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../.
 import * as config from "../../../config";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-     //TODO the kickout screen to be designed correctly once confirmed
     const lang = selectLang(req.query.lang);
     res.render(config.CANNOT_REGISTER_AGAIN, {
         ...getLocaleInfo(getLocalesService(), lang),
