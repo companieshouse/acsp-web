@@ -108,11 +108,6 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
     return Promise.resolve(castedSdkResponse.resource);
 };
 
-export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<HttpResponse> => {
-    const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    return apiClient.acsp.getSavedApplication(acspApplicationId);
-};
-
 /**
  * DELETE an acsp registration object for the given user ID.
  * @param session The current session to connect to the api

@@ -4,7 +4,6 @@ import { createPublicOAuthApiClient } from "../../../src/services/apiService";
 import {
     getAcspRegistration,
     postAcspRegistration,
-    getSavedApplication,
     putAcspRegistration,
     deleteAcspApplication
 } from "../../../src/services/acspRegistrationService";
@@ -19,7 +18,6 @@ jest.mock("../../../src/services/apiService");
 const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostAcspRegistration = jest.fn();
 const mockGetAcspRegistration = jest.fn();
-const mockGetSavedApplication = jest.fn();
 const mockPutAcspRegistration = jest.fn();
 const mockDeleteSavedApplication = jest.fn();
 
@@ -28,7 +26,6 @@ mockCreatePublicOAuthApiClient.mockReturnValue({
         getAcsp: mockGetAcspRegistration,
         postACSP: mockPostAcspRegistration,
         putACSP: mockPutAcspRegistration,
-        getSavedApplication: mockGetSavedApplication,
         deleteSavedApplication: mockDeleteSavedApplication
     }
 });
@@ -205,17 +202,6 @@ describe("acsp service tests", () => {
             } as Resource<AcspResponse>);
 
             await expect(getAcspRegistration(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
-        });
-    });
-
-    describe("getSavedApplication tests", () => {
-        it("Should return status 404", async () => {
-            mockGetSavedApplication.mockResolvedValueOnce({
-                status: 404
-            }as HttpResponse);
-
-            const httpResponse = await getSavedApplication(session, USER_ID);
-            expect(httpResponse.status).toStrictEqual(404);
         });
     });
 
