@@ -86,10 +86,10 @@
     document.getElementById("save-continue-button").addEventListener("click", () => {
       // If no radio button has been selected, then work sector has not been provided
       if (!selectedRadio) {
-        trackEventWorkSector("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
+        trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
       } else {
         // Else a radio button has been selected and the below function is run
-        trackEventWorkSector("save-continue-button", "click-button", "SAVE AND CONTINUE - Sector you work in");
+        trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in");
       }
     });
     </script>

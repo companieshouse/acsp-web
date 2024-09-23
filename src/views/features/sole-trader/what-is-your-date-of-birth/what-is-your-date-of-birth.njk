@@ -71,7 +71,9 @@
       }) }}
     </form>
   </div>
-     <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - DOB");
-      </script>
+
+  <script>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - DOB");
+  </script>
+
 {% endblock main_content %}

@@ -55,8 +55,10 @@
       </a>
     </p>
   </form>
-        <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "CONFIRM AND CONTINUE - Is this your company");
-        trackEventBasedOnPageTitle("choose-company-link", "click-link", "Chose a different company");
-      </script>
+
+  <script>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "CONFIRM AND CONTINUE - Is this your company");
+    trackEventBasedOnPageTitle("choose-company-link", "{{title}}", "click-link", "Choose a different company");
+  </script>
+  
 {% endblock main_content %}

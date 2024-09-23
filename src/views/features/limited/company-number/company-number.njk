@@ -48,8 +48,10 @@
       id : "save-continue-button"
     }) }}
     </form>
+
     <script>
-      trackEventBasedOnPageTitle("find-company-number-link","What is the company number?", "click-link", 'How do I find the company number');
-      trackEventBasedOnPageTitle("save-continue-button","click-button", 'SAVE AND CONTINUE - Company Number');
+      trackEventBasedOnPageTitle("find-company-number-link", "{{title}}", "click-link", 'How do I find the company number');
+      trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", 'SAVE AND CONTINUE - Company Number');
     </script>
+
   {% endblock %}

@@ -57,7 +57,9 @@
       id:"save-continue-button"
     }) }}
   </form>
-          <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Location lives");
-        </script>
+
+  <script>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Location lives");
+  </script>
+
 {% endblock main_content %}
