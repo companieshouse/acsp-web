@@ -71,7 +71,9 @@
         id:"save-continue-button"
     }) }}
     </form>
+
     <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - email address");
+        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - email address");
     </script>
+    
 {% endblock main_content %}

@@ -32,7 +32,7 @@ function trackEventBasedOnPageTitle(elementId, eventCategory, eventAction, event
     });
 }
 
-// Matomo function for use on Work Sector page when page is skipped
+// Matomo function for use on Work Sector page as it is now optional
 function trackEventWorkSector(elementId, eventCategory, eventAction, eventName) {
   document.getElementById(elementId);
         _paq.push(["trackEvent", eventCategory, eventAction, eventName]);
