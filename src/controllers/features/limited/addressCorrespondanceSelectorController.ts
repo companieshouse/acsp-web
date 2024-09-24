@@ -79,6 +79,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
+                applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
+                      true;
                 acspData.applicantDetails = applicantDetails;
                 //  save data to mongodb
                 await acspDataService.saveAcspData(session, acspData);
