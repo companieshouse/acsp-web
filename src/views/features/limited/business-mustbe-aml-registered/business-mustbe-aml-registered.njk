@@ -25,8 +25,10 @@
             </a>
         </p>
     </form>
-        <script>
-        trackEventBasedOnPageTitle("register-company-link", "click-link", "Register company");
-        trackEventBasedOnPageTitle("apply-sole-trader-link", "click-link", "Apply sole trader");
-      </script>
+
+    <script>
+        trackEventBasedOnPageTitle("register-company-link", "{{title}}", "click-link", "Register company");
+        trackEventBasedOnPageTitle("apply-sole-trader-link", "{{title}}", "click-link", "Apply sole trader");
+    </script>
+    
 {% endblock main_content %}

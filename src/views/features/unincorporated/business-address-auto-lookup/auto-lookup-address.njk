@@ -52,8 +52,10 @@
       </p>
     </form>
   </div>
-          <script>
-          trackEventBasedOnPageTitle("find-address-id", "click-button", "FIND ADDRESS");
-        trackEventBasedOnPageTitle("manual-address-id", "click-link", "Enter address manually");
-        </script>
+
+  <script>
+    trackEventBasedOnPageTitle("find-address-id", "{{title}}", "click-button", "FIND ADDRESS");
+    trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
+  </script>
+
 {% endblock %}

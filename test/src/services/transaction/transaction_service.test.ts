@@ -4,6 +4,7 @@ import { createPublicOAuthApiClient } from "../../../../src/services/apiService"
 import {
     closeTransaction,
     postTransaction,
+    getSavedApplication,
     putTransaction
 } from "../../../../src/services/transactions/transaction_service";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
@@ -11,6 +12,7 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { REFERENCE } from "../../../../src/config";
+import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http/http-client";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/apiService");
@@ -19,12 +21,16 @@ const mockCreatePublicOAuthApiClient = createPublicOAuthApiClient as jest.Mock;
 const mockPostTransaction = jest.fn();
 const mockPutTransaction = jest.fn();
 const mockGetTransaction = jest.fn();
+const mockGetSavedApplication = jest.fn();
+const mockGetTransactionForResourceKind = jest.fn();
 
 mockCreatePublicOAuthApiClient.mockReturnValue({
     transaction: {
         getTransaction: mockGetTransaction,
         postTransaction: mockPostTransaction,
-        putTransaction: mockPutTransaction
+        putTransaction: mockPutTransaction,
+        getSavedApplication: mockGetSavedApplication,
+        getTransactionsForResourceKind: mockGetTransactionForResourceKind
     }
 });
 
@@ -33,6 +39,7 @@ const TRANSACTION_ID = "2222";
 const OBJECT_ID = REFERENCE + "12345";
 const EXPECTED_REF = REFERENCE;
 const DESCRIPTION = "desc";
+const USER_ID = "Y2VkZWVlMzhlZWFjY2M4MzQ3MT";
 
 describe("transaction service tests", () => {
 
@@ -169,6 +176,18 @@ describe("transaction service tests", () => {
 
             await expect(closeTransaction(session, TRANSACTION_ID))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
+        });
+    });
+
+    describe("getSavedApplication tests", () => {
+        it("Should return status 404", async () => {
+            mockGetTransactionForResourceKind.mockResolvedValueOnce({
+                httpStatusCode: 404,
+                resource: { items: [[Object]] }
+            });
+
+            const httpResponse = await getSavedApplication(session, USER_ID);
+            expect(httpResponse.httpStatusCode).toStrictEqual(404);
         });
     });
 });

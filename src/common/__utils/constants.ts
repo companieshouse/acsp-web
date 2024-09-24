@@ -21,7 +21,10 @@ export const PREVIOUS_PAGE_URL: string = "previouspageurl";
 export const LIMITED_CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const NO_PAYMENT_RESOURCE_ERROR: string = "No resource in payment response";
 export const PAYEMNT_REFERENCE: string = "Register_ACSP_";
-
+export const CLOSED:string = "closed";
+export const REJECTED:string = "rejected";
+export const APPROVED:string = "approved";
+export const IN_PROGRESS:string = "in progress";
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };

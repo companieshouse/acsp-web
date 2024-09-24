@@ -111,14 +111,16 @@
     </p>
   </form>
     
-    <script>
-      function trackStartNowEvent() {
-        trackEventBasedOnPageTitle("start-now", "click-button", "START NOW");
-        _paq.push(['trackGoal', 2]);
-        _paq.push(['trackGoal', 17]);
-      };
-      trackEventBasedOnPageTitle("Read the guidance-id", "click-link", "Read the guidance");
-      trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "click-link", "Guidance for authorised agents");
-      trackEventBasedOnPageTitle("verify-id", "click-link", "Verify your identity for Companies House");
-    </script>
+  <script>
+    function trackStartNowEvent() {
+      trackEventBasedOnPageTitle("start-now", "{{title}}", "click-button", "START NOW");
+      _paq.push(['trackGoal', 2]);
+      _paq.push(['trackGoal', 17]);
+    };
+    
+    trackEventBasedOnPageTitle("Read the guidance-id", "{{title}}", "click-link", "Read the guidance");
+    trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "{{title}}", "click-link", "Guidance for authorised agents");
+    trackEventBasedOnPageTitle("verify-id", "{{title}}", "click-link", "Verify your identity for Companies House");
+  </script>
+
 {% endblock %}

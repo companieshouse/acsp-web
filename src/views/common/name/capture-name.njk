@@ -52,7 +52,9 @@
             id:"save-continue-button"
         }) }}
     </form>
-            <script>
-        trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - NAME");
-      </script>
+
+    <script>
+        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - NAME");
+    </script>
+
 {% endblock main_content %}

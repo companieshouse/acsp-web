@@ -20,7 +20,9 @@
     <a href="#" class="govuk-link govuk-link--no-visited-state" id= "guidance-link">{{ i18n.guidancePageText }} </a>
     {{ i18n.moreInformation }}
   </p>
-        <script>
-        trackEventBasedOnPageTitle("guidance-link", "click-link", "Read the guidance about applying to register as an authorised agent");
-      </script>
+
+  <script>
+    trackEventBasedOnPageTitle("guidance-link", "{{title}}", "click-link", "Read the guidance about applying to register as an authorised agent");
+  </script>
+
 {% endblock %}

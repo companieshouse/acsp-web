@@ -44,6 +44,7 @@
             }
         }) }}
     </form>
+
     <script type="text/javascript">
         function continueOnClick () {
             const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
@@ -65,9 +66,11 @@
             _paq.push(['trackGoal', goalId]);
         }
     </script>
+
     <script>
-    trackEventBasedOnPageTitle("UNINCORPORATED", "select-option", "Unincorporated Entity");
-    trackEventBasedOnPageTitle("CORPORATE_BODY", "select-option", "Corporate Body");
-    trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
+        trackEventBasedOnPageTitle("UNINCORPORATED", "{{title}}", "select-option", "Unincorporated Entity");
+        trackEventBasedOnPageTitle("CORPORATE_BODY", "{{title}}", "select-option", "Corporate Body");
+        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
     </script>
+
 {% endblock main_content %}

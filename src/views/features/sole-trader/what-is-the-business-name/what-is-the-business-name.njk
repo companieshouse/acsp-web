@@ -55,9 +55,9 @@
     }) }}
   </form>
 
-<script>
-  trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE - Business name");
-  trackEventBasedOnPageTitle("save-a-different-name-radio-button", "click-radio", "A different name");
-</script>
+  <script>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Business name");
+    trackEventBasedOnPageTitle("save-a-different-name-radio-button", "{{title}}", "click-radio", "A different name");
+  </script>
 
 {% endblock main_content %}
