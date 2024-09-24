@@ -1,4 +1,5 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -6,115 +7,139 @@
 {% set errors = pageProperties.errors %}
 {% set title = i18n.correspondenceAddressManualTitle %}
 {% block main_content %}
-  <form action="" method="POST">
-     {% if businessName %}
-          {% include "partials/business_name.njk" %}
-        {% endif %}
-        {% if firstName %}
-          {% include "partials/user_name.njk" %}
-        {% endif %}
-      <div class="govuk-form-group">
-      {{ govukFieldset({
-             legend: {
-             text: i18n.correspondenceAddressManualTitle,
-             classes: "govuk-fieldset__legend--l",
-             isPageHeading: true
-             }  
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressPropertyDetails
-              },
-              hint: {
-                text: i18n.addressPropertyDetailsHint
-              },
-              id: "addressPropertyDetails",
-              name: "addressPropertyDetails",
-              value: payload["propertyDetails"],
-              errorMessage: {
-                text: errors["addressPropertyDetails"].text
-              } if errors.addressPropertyDetails
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressLine1
-              },
-              id: "addressLine1",
-              name: "addressLine1",
-              value: payload["addressLine1"],
-              errorMessage: {
-                text: errors["addressLine1"].text
-              } if errors.addressLine1
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressLine2
-              },
-              id: "addressLine2",
-              name: "addressLine2",
-              value: payload["addressLine2"],
-              errorMessage: {
-                text: errors["addressLine2"].text
-              } if errors.addressLine2
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressTown
-              },
-              classes: "govuk-!-width-two-thirds",
-              id: "addressTown",
-              name: "addressTown",
-              value: payload["addressTown"],
-              errorMessage: {
-                text: errors["addressTown"].text
-              } if errors.addressTown
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressCounty
-              },
-              classes: "govuk-!-width-two-thirds",
-              id: "addressCounty",
-              name: "addressCounty",
-              value: payload["addressCounty"],
-              errorMessage: {
-                text: errors["addressCounty"].text
-              } if errors.addressCounty
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressCountry
-              },
-              classes: "govuk-!-width-two-thirds",
-              id: "addressCountry",
-              name: "addressCountry",
-              value: payload["addressCountry"],
-              errorMessage: {
-                text: errors["addressCountry"].text
-              } if errors.addressCountry
-          }) }}
-      {{ govukInput({
-              label: {
-                text: i18n.addressPostcode
-              },
-              classes: "govuk-input--width-10",
-              id: "addressPostcode",
-              name: "addressPostcode",
-              value: payload["addressPostcode"],
-              errorMessage: {
-                text: errors["addressPostcode"].text
-              } if errors.addressPostcode
-          }) }}
-    </div>
-     {% if typeOfBusiness === "LC" or typeOfBusiness === "LP" or typeOfBusiness === "LLP" %}
-    <div class="govuk-inset-text">
-      <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
-      <p>{{ i18n.correspondenceLocationInfo }}</p>
-    </div>
+<form action="" method="POST">
+    {% if businessName %}
+        {% include "partials/business_name.njk" %}
     {% endif %}
+    {% if firstName %}
+        {% include "partials/user_name.njk" %}
+    {% endif %}
+    <div class="govuk-form-group">
+    {{ govukFieldset({
+        legend: {
+            text: i18n.correspondenceAddressManualTitle,
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+        }  
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressPropertyDetails
+        },
+        hint: {
+            text: i18n.addressPropertyDetailsHint
+        },
+        id: "addressPropertyDetails",
+        name: "addressPropertyDetails",
+        value: payload["propertyDetails"],
+        errorMessage: {
+            text: errors["addressPropertyDetails"].text
+        } if errors.addressPropertyDetails
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressLine1
+        },
+        id: "addressLine1",
+        name: "addressLine1",
+        value: payload["addressLine1"],
+        errorMessage: {
+            text: errors["addressLine1"].text
+        } if errors.addressLine1
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressLine2
+        },
+        id: "addressLine2",
+        name: "addressLine2",
+        value: payload["addressLine2"],
+        errorMessage: {
+            text: errors["addressLine2"].text
+        } if errors.addressLine2
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressTown
+        },
+        classes: "govuk-!-width-two-thirds",
+        id: "addressTown",
+        name: "addressTown",
+        value: payload["addressTown"],
+        errorMessage: {
+            text: errors["addressTown"].text
+        } if errors.addressTown
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressCounty
+        },
+        classes: "govuk-!-width-two-thirds",
+        id: "addressCounty",
+        name: "addressCounty",
+        value: payload["addressCounty"],
+        errorMessage: {
+            text: errors["addressCounty"].text
+        } if errors.addressCounty
+    }) }}
+      
+    {{ govukSelect({
+        id: "addressCountry",
+        name: "addressCountry",
+        label: {
+            text: i18n.addressCountry
+        },
+        value: payload.addressCountry,
+        errorMessage: {
+            text: errors.addressCountry.text
+          } if errors.addressCountry,
+        items: [
+            {
+                value: "",
+                text: i18n.selectCountry
+            },
+            {
+                value: "England",
+                text: i18n.england
+            },
+            {
+                value: "Northern Ireland",
+                text: i18n.northernIreland
+            },
+            {
+                value: "Scotland",
+                text: i18n.scotland
+            },
+            {
+                value: "Wales",
+                text: i18n.wales
+            }
+        ]
+    }) }}
+    {{ govukInput({
+        label: {
+            text: i18n.addressPostcode
+        },
+        classes: "govuk-input--width-10",
+        id: "addressPostcode",
+        name: "addressPostcode",
+        value: payload["addressPostcode"],
+        errorMessage: {
+            text: errors["addressPostcode"].text
+        } if errors.addressPostcode
+    }) }}
+    </div>
+    
+    {% if typeOfBusiness === "LC" or typeOfBusiness === "LP" or typeOfBusiness === "LLP" %}
+        <div class="govuk-inset-text">
+            <h2 class="govuk-heading-m">{{ i18n.infoShowOnPublic }}</h2>
+            <p>{{ i18n.correspondenceLocationInfo }}</p>
+        </div>
+    {% endif %}
+
     <button class="govuk-button" id="save-continue-button">{{ i18n.SaveAndContinue }}</button>
-  </form>
-              <script>
+    </form>
+    <script>
         trackEventBasedOnPageTitle("save-continue-button", "click-button", "SAVE AND CONTINUE");
-      </script>
+    </script>
 {% endblock main_content %}
