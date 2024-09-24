@@ -80,6 +80,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
                 applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
+                applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
+                      true;
                 acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
                 // redirect
