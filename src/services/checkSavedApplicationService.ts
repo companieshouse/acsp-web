@@ -11,6 +11,7 @@ import { ErrorService } from "./errorService";
 export const getRedirectionUrl = async (transactionlistResource: Resource<TransactionList>, session: Session, res: Response, locales:any, lang:string): Promise<string> => {
     const transactionList = transactionlistResource.resource;
     const transaction = transactionList?.items[0];
+    logger.debug("transaction: " + transaction)
     var url = "";
     if (transaction?.status !== CLOSED) {
         logger.debug("application is open");
