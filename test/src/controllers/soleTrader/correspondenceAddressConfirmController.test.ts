@@ -24,6 +24,9 @@ const acspData: AcspData = {
             country: "Test",
             postalCode: "TE5 5TL"
         }
+    },
+    registeredOfficeAddress: {
+        postalCode: "TE5 5TL"
     }
 };
 
@@ -96,4 +99,47 @@ describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
+
+    it("should redirect to /select-aml-supervisor with status 302 same address", async () => {
+        const formData = {
+            typeOfBusiness: "SOLE_TRADER",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: {
+                    premises: "Property Details",
+                    addressLine1: "123 Test St",
+                    addressLine2: "",
+                    locality: "Test",
+                    region: "Test",
+                    country: "Test",
+                    postalCode: "TE5 5TL"
+                }
+            }
+        };
+        const acspDataSameAddress: AcspData = {
+            id: "abc",
+            typeOfBusiness: "SOLE_TRADER",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            },
+            registeredOfficeAddress: {
+                premises: "Property Details",
+                addressLine1: "123 Test St",
+                addressLine2: "",
+                locality: "Test",
+                region: "Test",
+                country: "Test",
+                postalCode: "TE5 5TL"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataSameAddress);
+        const res = await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM).send(formData);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL + "?lang=en");
+    });
+
 });

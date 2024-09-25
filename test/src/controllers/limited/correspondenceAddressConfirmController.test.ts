@@ -81,6 +81,48 @@ describe("POST " + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
     });
 
+    it("should redirect to /select-aml-supervisor with status 302 same address", async () => {
+        const formData = {
+            typeOfBusiness: "SOLE_TRADER",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe",
+                correspondenceAddress: {
+                    premises: "Property Details",
+                    addressLine1: "123 Test St",
+                    addressLine2: "",
+                    locality: "Test",
+                    region: "Test",
+                    country: "Test",
+                    postalCode: "TE5 5TL"
+                }
+            }
+        };
+        const acspDataSameAddress: AcspData = {
+            id: "abc",
+            typeOfBusiness: "SOLE_TRADER",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            },
+            registeredOfficeAddress: {
+                premises: "Property Details",
+                addressLine1: "123 Test St",
+                addressLine2: "",
+                locality: "Test",
+                region: "Test",
+                country: "Test",
+                postalCode: "TE5 5TL"
+            }
+        };
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataSameAddress);
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM).send(formData);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN + "?lang=en");
+    });
+
     it("should return status 302 with acspData", async () => {
         const formData = {
             typeOfBusiness: "LIMITED",
