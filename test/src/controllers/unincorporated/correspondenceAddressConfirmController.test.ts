@@ -64,6 +64,8 @@ describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     it("should redirect to /select-aml-supervisor with status 302", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });

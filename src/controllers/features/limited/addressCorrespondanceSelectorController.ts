@@ -95,9 +95,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     acspData.applicantDetails = applicantDetails;
                     //  save data to mongodb
                     await acspDataService.saveAcspData(session, acspData);
-                } else {
-                    applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
-                      false;
                 }
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang));
             }
