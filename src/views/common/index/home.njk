@@ -3,6 +3,7 @@
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
 {% set title = "" %}
+{% set matomoPageTitle = i18n.startPageTitle %}
 {% block main_content %}
   <form action="" method="POST">
     <h1 class="govuk-heading-l">
@@ -106,21 +107,22 @@
     <p class="govuk-body">{{ i18n.wellCreateAnAuthorisedAgentAccount }}</p>
     <p class="govuk-body">
       {{ i18n.readThe }}
-      <a href="#" id="guidance-for-authorised-agents-id">{{ i18n.guidanceOnApplyingLink }}</a>
+      <a href="#" id="guidance-for-authorised-agents-id">{{ i18n.guidanceForAuthorisedAgentsLink }}</a>
       {{ i18n.toFindOutHowToUse }}
     </p>
   </form>
     
   <script>
     function trackStartNowEvent() {
-      trackEventBasedOnPageTitle("start-now", "{{title}}", "click-button", "START NOW");
-      //_paq.push(['trackGoal', 2]); //This is for local testing
+      trackEventBasedOnPageTitle("start-now", "{{matomoPageTitle}}", "click-button", "START NOW");
+      _paq.push(['trackGoal', 2]);
       _paq.push(['trackGoal', 17]);
     };
     
-    trackEventBasedOnPageTitle("Read the guidance-id", "{{title}}", "click-link", "Read the guidance");
-    trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "{{title}}", "click-link", "Guidance for authorised agents");
-    trackEventBasedOnPageTitle("verify-id", "{{title}}", "click-link", "Verify your identity for Companies House");
+    trackEventBasedOnPageTitle("verify-client-identity-id", "{{matomoPageTitle}}", "click-link", "Verify your clients' identities for Companies House");
+    trackEventBasedOnPageTitle("verify-id", "{{matomoPageTitle}}", "click-link", "Verify your identity for Companies House");
+    trackEventBasedOnPageTitle("Read the guidance-id", "{{matomoPageTitle}}", "click-link", "Read the guidance on applying to register as an authorised agent");
+    trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "{{matomoPageTitle}}", "click-link", "Read the guidance for authorised agents");
   </script>
 
 {% endblock %}
