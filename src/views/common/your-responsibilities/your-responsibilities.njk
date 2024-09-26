@@ -13,15 +13,17 @@
     
     <h1 class="govuk-heading-l">{{ i18n.yourResponsibilitiesTitle }}</h1>
     <p class="govuk-body">{{ i18n.yourResponsibilitiesComplyText }}</p>
-    <p class="govuk-body">{{ i18n.yourResponsibilitiesText1 }}</p>
-    <p class="govuk-body">{{ i18n.yourResponsibilitiesText2 }}</p>
-    <p class="govuk-body">{{ i18n.yourResponsibilitiesText3 }}</p>
-    <ul class="govuk-list govuk-list--bullet">
-      <li>{{ i18n.yourFilingsBulletPoint }}</li>
-      <li>{{ i18n.identityChecksBulletPoint }}</li>
-      <li>{{ i18n.legalResponsibilitiesBulletPoint }}</li>
-    </ul>
-    <p class="govuk-body">{{ i18n.yourResponsibilitiesText4 }}</p>
+    <ol class="govuk-list govuk-list--number">
+      <li>{{ i18n.yourResponsibilitiesText1 }}</li>
+      <li>{{ i18n.yourResponsibilitiesText2 }}</li>
+      <li>{{ i18n.yourResponsibilitiesText3 }}</li>
+        <ul class="govuk-list govuk-list--bullet">
+          <li>{{ i18n.yourFilingsBulletPoint }}</li>
+          <li>{{ i18n.identityChecksBulletPoint }}</li>
+          <li>{{ i18n.legalResponsibilitiesBulletPoint }}</li>
+        </ul>
+      <li>{{ i18n.yourResponsibilitiesText4 }}</li>
+    </ol>
     
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
