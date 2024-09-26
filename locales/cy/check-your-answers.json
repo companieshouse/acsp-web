@@ -18,5 +18,10 @@
     "checkAnswersBusinessAddress": "Cyfeiriad busnes",
     "checkYourAnswersAMLTab": "Corff goruchwylio AML a rhif aelodaeth",
     "checkYourAnswersChange": "Newid",
-    "checkYourAnswersEmail": "Correspondence email address Welsh"
+    "checkYourAnswersEmail": "Correspondence email address Welsh",
+    "checkYourAnswersInsetText1": "We will not publish information to show that a business has registered as an authorised agent. Welsh",
+    "checkYourAnswersInsetText2": "However, if we need to suspend a business from acting as an authorised agent, or if a business stops being an authorised agent, we’ll publish the: Welsh",
+    "checkYourAnswersBulletPoint1": "name of the business Welsh",
+    "checkYourAnswersBulletPoint2": "status - to show if it has been suspended, or if it has stopped being an authorised agent Welsh",
+    "checkYourAnswersBulletPoint3": "date the status changed Welsh"
 }
