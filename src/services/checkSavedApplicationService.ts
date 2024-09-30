@@ -16,7 +16,7 @@ export const getRedirectionUrl = async (transactionlistResource: Resource<Transa
     }
     const transaction: TransactionData = transactionList!.items[0];
     logger.debug("transactionId: " + transaction?.id);
-    const applicationId = getApplicationId(transaction!);
+    const applicationId = getApplicationId(transaction);
     logger.debug("applicationId :" + applicationId);
 
     var url = "";
@@ -46,6 +46,5 @@ export const getRedirectionUrl = async (transactionlistResource: Resource<Transa
 
 const getApplicationId = (transaction:TransactionData): string => {
     const acspId = transaction.resumeJourneyUri!.match(/acspId=([^\s]+)/);
-    const applicationId = acspId![1];
-    return applicationId;
+    return acspId![1];
 };

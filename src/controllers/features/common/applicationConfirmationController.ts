@@ -15,7 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + CONFIRMATION;
     try {
         const applicationId: string = session.getExtraData(APPLICATION_ID)!;
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
+        await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
 
         res.render(config.APPLICATION_CONFIRMATION, {

@@ -3,7 +3,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import { APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
 import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
 import logger from "../utils/logger";
-import { saveDataInSession } from "common/__utils/sessionHelper";
 
 export class AcspDataService {
     async saveAcspData (session: Session, acspData: AcspData, selectedOption?: string): Promise<void> {
