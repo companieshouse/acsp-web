@@ -11,10 +11,15 @@ import app from "app";
 
 export const getRedirectionUrl = async (transactionlistResource: Resource<TransactionList>, session: Session, res: Response, locales:any, lang:string): Promise<string> => {
     const transactionList = transactionlistResource.resource;
-    const transaction: TransactionData = transactionList!.items[transactionList!.items.length - 1];
+    const length = transactionList!.items.length;
+    for(let i=0; i < length; i++){
+        logger.debug("element------>" +  transactionList!.items[i].id);
+    }
+    const transaction: TransactionData = transactionList!.items[0];
     logger.debug("transactionId: " + transaction?.id);
     const applicationId = getApplicationId(transaction!);
-    console.log("application id------>", applicationId);
+    logger.debug("applicationId :" + applicationId);
+
     var url = "";
     if (transaction?.status !== CLOSED) {
         logger.debug("application is open");
@@ -41,14 +46,7 @@ export const getRedirectionUrl = async (transactionlistResource: Resource<Transa
 };
 
 const getApplicationId = (transaction:TransactionData): string => {
-    console.log("transaction------->", transaction);
-    console.log("resume journey url--------->", transaction.resumeJourneyUri);
-    const acspId = transaction.resumeJourneyUri!.match(/^acspId=(\s+)/)!;
-    const acspId1 = transaction?.resumeJourneyUri!.match(/^acspId=(\s+)/)!;
-    console.log("acspId-------->", acspId);
-    let applicationId = "";
-    if(acspId !== null){
-       applicationId = acspId[0].split('=')[1];
-    }
+    const acspId = transaction.resumeJourneyUri!.match(/acspId=([^\s]+)/);
+    const applicationId = acspId![1];
     return applicationId;
 }

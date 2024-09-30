@@ -20,8 +20,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     if (savedApplication.httpStatusCode === 200) {
         logger.debug("saved application exists");
         const transactionlistResource = savedApplication as Resource<TransactionList>;
-        console.log("savedApplication resource0------->" + JSON.stringify(transactionlistResource));
-        console.log("savedApplication resource2--------->" + transactionlistResource.resource?.items[0].resumeJourneyUri);
         const redirectionUrl = getRedirectionUrl(transactionlistResource, session, res, locales, lang);
         res.redirect(addLangToUrl(await redirectionUrl, lang));
     } else if (savedApplication.httpStatusCode === 404) {

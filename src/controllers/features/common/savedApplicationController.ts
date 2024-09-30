@@ -40,15 +40,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
-            const applicationId: string = session.getExtraData(RESUME_APPLICATION_ID)!;
+            const resumeApplicationId: string = session.getExtraData(RESUME_APPLICATION_ID)!;
+            logger.debug("resumeApplicationId :" + resumeApplicationId);
             if (req.body.savedApplication === "no") {
                 saveDataInSession(req, "resume_application", true);
-                session.setExtraData(APPLICATION_ID, applicationId);
+                session.setExtraData(APPLICATION_ID, resumeApplicationId);
                 res.redirect((YOUR_FILINGS));
             } else {
                 saveDataInSession(req, "resume_application", false);
                 session.deleteExtraData(USER_DATA);
-                await deleteAcspApplication(session, applicationId);
+                await deleteAcspApplication(session, resumeApplicationId);
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }
