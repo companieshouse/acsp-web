@@ -22,8 +22,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY;
 
     try {
-    const applicationId: string = session.getExtraData(APPLICATION_ID)!;
-    // get data from mongo and save to session
+        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
+        // get data from mongo and save to session
         const acspData = await getAcspRegistration(
             session,
       session.getExtraData(SUBMISSION_ID)!,
