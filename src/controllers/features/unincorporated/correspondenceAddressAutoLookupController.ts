@@ -9,7 +9,7 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
@@ -25,8 +25,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP;
 
     try {
-    // get data from mongo
-        const acspData:AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
+        // get data from mongo
+        const acspData:AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {

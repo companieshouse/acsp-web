@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
-import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA, APPLICATION_ID } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -28,6 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // create transaction record
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+            
             await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
                 // get transaction record data
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
@@ -36,8 +37,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
-        // get data from mongo and save to session
-            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            const applicationId: string = session.getExtraData(APPLICATION_ID)!;
+            // get data from mongo and save to session
+            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
                 if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {

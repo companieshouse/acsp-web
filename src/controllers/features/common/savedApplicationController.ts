@@ -9,7 +9,7 @@ import { deleteAcspApplication } from "../../../services/acspRegistrationService
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { APPLICATION_ID, RESUME_APPLICATION_ID, USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -40,13 +40,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            const applicationId: string = session.getExtraData(RESUME_APPLICATION_ID)!;
             if (req.body.savedApplication === "no") {
                 saveDataInSession(req, "resume_application", true);
+                session.setExtraData(APPLICATION_ID, applicationId);
                 res.redirect((YOUR_FILINGS));
             } else {
                 saveDataInSession(req, "resume_application", false);
                 session.deleteExtraData(USER_DATA);
-                await deleteAcspApplication(session, userId);
+                await deleteAcspApplication(session, applicationId);
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }

@@ -4,7 +4,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_NAME_REGISTERED_WITH_AML, TYPE_OF_BUSINESS, AML_REGISTRATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { SUBMISSION_ID } from "../../../common/__utils/constants";
+import { APPLICATION_ID, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 
@@ -15,8 +15,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT;
 
     try {
+        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
         // update typeOfBusiness in DB
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
         acspData.typeOfBusiness = "SOLE_TRADER";
         const acspDataService = new AcspDataService();
         await acspDataService.saveAcspData(session, acspData);

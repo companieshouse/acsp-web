@@ -3,7 +3,7 @@ import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../.
 import * as config from "../../../config";
 import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, CONFIRMATION, YOUR_RESPONSIBILITIES } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
@@ -20,7 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
         const detailsAnswers: Answers = getAnswers(req, acspData, locales.i18nCh.resolveNamespacesKeys(lang));
         res.render(config.CHECK_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),

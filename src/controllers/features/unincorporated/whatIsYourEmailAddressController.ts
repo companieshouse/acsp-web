@@ -5,7 +5,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, UNINCORPORATED_CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
+import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, UNINCORPORATED_CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspDataService } from "../../../services/acspDataService";
 import { ErrorService } from "../../../services/errorService";
@@ -19,8 +19,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL;
     const session: Session = req.session as any as Session;
     try {
+        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         let payload = {};

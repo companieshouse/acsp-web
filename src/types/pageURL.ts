@@ -160,5 +160,3 @@ export const UNINCORPORATED_SELECT_AML_SUPERVISOR = UNINCORPORATED + "/select-am
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST = UNINCORPORATED + "/select-your-correspondence-address";
 
 export const UNINCORPORATED_WHAT_IS_YOUR_EMAIL = UNINCORPORATED + "/what-email-should-we-use";
-
-export const RESUME_JOURNEY = "/resume";

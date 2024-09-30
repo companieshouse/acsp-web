@@ -56,7 +56,6 @@ import {
     paymentCallbackController,
     savedApplicationController,
     checkSavedApplicationController,
-    resumeJourneyController,
     cannotSubmitAnotherApplicationController,
     limitedWhatIsYourEmailController,
     soleTraderWhatIsYourEmailAddressController,
@@ -271,7 +270,5 @@ routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValida
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, unincorporatedWhatIsYourEmailController.get);
 routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, unincorporatedWhatIsYourEmailController.post);
-
-routes.get(urls.RESUME_JOURNEY, resumeJourneyController.get);
 
 export default routes;
