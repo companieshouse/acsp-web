@@ -17,7 +17,6 @@ export const getRedirectionUrl = async (transactionlistResource: Resource<Transa
     const transaction: TransactionData = transactionList!.items[0];
     logger.debug("transactionId: " + transaction?.id);
     const applicationId = getApplicationId(transaction);
-    logger.debug("applicationId :" + applicationId);
 
     var url = "";
     if (transaction?.status !== CLOSED) {
