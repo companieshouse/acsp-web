@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { CompanyLookupService } from "../../../services/companyLookupService";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR, APPLICATION_ID } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";

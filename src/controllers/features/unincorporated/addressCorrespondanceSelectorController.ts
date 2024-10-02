@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, APPLICATION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, UNINCORPORATED_CORRESPONDENCE_ADDRESS, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, UNINCORPORATED_WHAT_IS_YOUR_EMAIL } from "../../../types/pageURL";

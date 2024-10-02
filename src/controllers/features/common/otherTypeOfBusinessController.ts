@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, APPLICATION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";

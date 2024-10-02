@@ -3,7 +3,7 @@ import { BASE_URL, AML_MEMBERSHIP_NUMBER, AML_BODY_DETAILS_CONFIRM, YOUR_RESPONS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, APPLICATION_ID } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";

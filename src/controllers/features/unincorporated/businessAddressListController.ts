@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ADDRESS_LIST, APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";

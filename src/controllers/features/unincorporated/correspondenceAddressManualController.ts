@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";

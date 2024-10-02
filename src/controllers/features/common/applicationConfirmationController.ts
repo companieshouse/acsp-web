@@ -3,7 +3,7 @@ import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/loc
 import * as config from "../../../config";
 import { CONFIRMATION, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";

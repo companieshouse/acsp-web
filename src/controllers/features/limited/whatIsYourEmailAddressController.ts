@@ -5,7 +5,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspDataService } from "../../../services/acspDataService";
 import { ErrorService } from "../../../services/errorService";

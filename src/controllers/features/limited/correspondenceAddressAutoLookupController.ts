@@ -9,7 +9,7 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, APPLICATION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";

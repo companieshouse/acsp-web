@@ -4,7 +4,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_NAME_REGISTERED_WITH_AML, TYPE_OF_BUSINESS, AML_REGISTRATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { APPLICATION_ID, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 

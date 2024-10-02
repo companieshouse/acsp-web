@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { LIMITED_SELECT_AML_SUPERVISOR, BASE_URL, AML_MEMBERSHIP_NUMBER, LIMITED_WHAT_IS_YOUR_EMAIL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, APPLICATION_ID } from "../../../common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBodyService } from "../../../../src/services/amlSupervisoryBody/amlBodyService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";

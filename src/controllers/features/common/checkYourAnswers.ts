@@ -3,7 +3,7 @@ import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../.
 import * as config from "../../../config";
 import { AML_MEMBERSHIP_NUMBER, BASE_URL, CHECK_YOUR_ANSWERS, CONFIRMATION, YOUR_RESPONSIBILITIES } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { APPLICATION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
