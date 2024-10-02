@@ -20,8 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE;
     try {
-        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.WHAT_IS_YOUR_ROLE, {

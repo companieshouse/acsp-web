@@ -15,9 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT;
 
     try {
-        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
         // update typeOfBusiness in DB
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         acspData.typeOfBusiness = "SOLE_TRADER";
         const acspDataService = new AcspDataService();
         await acspDataService.saveAcspData(session, acspData);

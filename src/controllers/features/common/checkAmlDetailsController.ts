@@ -15,9 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + AML_BODY_DETAILS_CONFIRM;
 
     try {
-        const applicationId: string = session.getExtraData(APPLICATION_ID)!;
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, applicationId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         const url = "/register-as-companies-house-authorised-agent/aml-membership-number";
         res.render(config.CHECK_AML_DETAILS, {
             ...getLocaleInfo(locales, lang),
