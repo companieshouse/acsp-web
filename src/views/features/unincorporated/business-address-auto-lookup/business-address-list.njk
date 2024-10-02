@@ -1,30 +1,30 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-{% set errors = pageProperties.errors %}
 
+{% set errors = pageProperties.errors %}
+{% set title = i18n.businessLookUpAddressListTitle %}
+{% block main_content %}
 {# Prepare address items #}
 {% set ITEMS = [] %}
 {% for addressOption in addresses %}
     {% set addressObject = {
-        id: addressOption.propertyDetails,
-        value: addressOption.propertyDetails,
-        text: addressOption.propertyDetails + ", " + addressOption.line1 + ", " + addressOption.town + ", " + addressOption.postcode,
-        checked: addressOption.propertyDetails == currentPremises,
+        id: addressOption.premises,
+        value: addressOption.premises,
+        text: addressOption.premises + ", " + addressOption.addressLine1 + ", " + addressOption.locality + ", " + addressOption.postalCode,
+        checked: addressOption.premises == currentPremises,
         attributes: {
-            "data-event-id": "address-option-" + addressOption.propertyDetails
+            "data-event-id": "address-option-" + addressOption.premises
         }
     } %}
     {% set ITEMS = ITEMS.concat(addressObject) %}
 {% endfor %}
-
-{% set title = i18n.businessLookUpAddressListTitle %}
-{% block main_content %}
     {# Form section #}
     <form action="" method="POST">
         {% if businessName %}
             {% include "partials/business_name.njk" %}
         {% endif %}
+        <div class="govuk-form-group">
         {# Render radios #}
         {{ govukRadios({
             errorMessage: errors.businessLookUpAddressList if errors,
@@ -40,6 +40,7 @@
             },
             items: ITEMS
         }) }}
+        </div>
          {{ govukButton({
              text: i18n.SaveAndContinue,
              id:"save-continue-button"
