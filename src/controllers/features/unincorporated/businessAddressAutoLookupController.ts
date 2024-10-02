@@ -22,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP;
     try {
         // get data from mongo
-        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {

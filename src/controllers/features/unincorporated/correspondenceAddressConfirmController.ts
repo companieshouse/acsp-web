@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo
-        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
 
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),

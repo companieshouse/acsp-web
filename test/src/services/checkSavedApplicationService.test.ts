@@ -28,7 +28,8 @@ const hasOpenApplication: Resource<TransactionList> = {
     resource: {
         items: [{
             id: "123",
-            status: ""
+            status: "",
+            resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
 };
@@ -39,7 +40,8 @@ const hasApprovedApplication: Resource<TransactionList> = {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: APPROVED } }
+            filings: { "123-1": { status: APPROVED } },
+            resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
 };
@@ -50,7 +52,8 @@ const hasApplicationInProgress: Resource<TransactionList> = {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: IN_PROGRESS } }
+            filings: { "123-1": { status: IN_PROGRESS } },
+            resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
 };
@@ -61,7 +64,8 @@ const hasRejectedApplication: Resource<TransactionList> = {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: REJECTED } }
+            filings: { "123-1": { status: REJECTED } },
+            resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
 };

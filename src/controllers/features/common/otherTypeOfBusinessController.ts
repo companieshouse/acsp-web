@@ -23,7 +23,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let acspData;
         if (session?.getExtraData("resume_application")) {
             // get data from mongo and save to session
-            acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
             }

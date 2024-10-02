@@ -14,7 +14,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const currentUrl = BASE_URL + CONFIRMATION;
     try {
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
 
         res.render(config.APPLICATION_CONFIRMATION, {

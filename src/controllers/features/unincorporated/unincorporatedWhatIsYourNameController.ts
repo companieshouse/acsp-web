@@ -4,7 +4,6 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { BASE_URL, UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, UNINCORPORATED_NAME_REGISTERED_WITH_AML, UNINCORPORATED_WHAT_IS_YOUR_NAME } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { Answers } from "../../../model/Answers";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
@@ -22,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {

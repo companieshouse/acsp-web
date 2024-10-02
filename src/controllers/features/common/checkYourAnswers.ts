@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         const detailsAnswers: Answers = getAnswers(req, acspData, locales.i18nCh.resolveNamespacesKeys(lang));
         res.render(config.CHECK_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),

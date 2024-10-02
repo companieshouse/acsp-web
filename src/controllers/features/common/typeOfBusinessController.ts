@@ -28,6 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // create transaction record
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+
             await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
                 // get transaction record data
                 saveDataInSession(req, SUBMISSION_ID, transactionId);
@@ -36,8 +37,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
-        // get data from mongo and save to session
-            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+            // get data from mongo and save to session
+            const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
                 if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {

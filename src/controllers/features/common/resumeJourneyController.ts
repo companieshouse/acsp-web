@@ -13,7 +13,9 @@ export const get = async (req: Request, res: Response) => {
     const infoMsg = `Transaction ID: ${transactionId}, Acsp Id ID: ${acspId}`;
     logger.infoRequest(req, `Resuming ACSP application - ${infoMsg}`);
     session.setExtraData(SUBMISSION_ID, transactionId);
-    res.locals.userId = acspId;
+    // eslint-disable-next-line camelcase
+    res.locals.userId = session?.data?.signin_info?.user_profile?.id;
+    res.locals.applicationId = acspId;
     const nextPageUrl = addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang);
     res.redirect(nextPageUrl);
 };
