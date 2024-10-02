@@ -14,7 +14,7 @@ import { Handler } from "express";
  */
 export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
     const session = req.session;
- 
+
     // Populate user email for use in signout bar.
     // eslint-disable-next-line camelcase
     const email = session?.data?.signin_info?.user_profile?.email;

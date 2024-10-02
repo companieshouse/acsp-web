@@ -1,4 +1,4 @@
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, AcspDataDto, AcspResponse } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { Session } from "@companieshouse/node-session-handler";
 import { APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
 import { postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
@@ -10,16 +10,13 @@ export class AcspDataService {
         const userId = session?.data?.signin_info?.user_profile?.id!;
         try {
             if (acspData === undefined) {
-                const { v4: uuidv4 } = require("uuid");
-                const applicationId = uuidv4();
-
                 acspData = {
-                    id: applicationId,
                     typeOfBusiness: selectedOption
                 };
                 // save data to mongo for the first time
-                await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData);
-                session.setExtraData(APPLICATION_ID, acspData.id);
+                const resp = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData) as unknown;
+                const response = resp as AcspDataDto;
+                session.setExtraData(APPLICATION_ID, response.id);
             } else {
                 if (selectedOption !== undefined) {
                     acspData.typeOfBusiness = selectedOption;

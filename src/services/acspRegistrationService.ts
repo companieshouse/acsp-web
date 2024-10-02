@@ -87,7 +87,7 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
 
     logger.debug(`PUTing acsp registration for transaction ${transactionId}`);
 
-    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.putACSP(transactionId, acsp.id, acsp);
+    const sdkResponse: Resource<AcspResponse> | ApiErrorResponse = await apiClient.acsp.putACSP(transactionId, acsp.id!, acsp);
 
     if (!sdkResponse) {
         logger.error(`acsp registration PUT request returned no response for transaction ${transactionId}`);
