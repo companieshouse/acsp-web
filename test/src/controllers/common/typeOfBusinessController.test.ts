@@ -23,6 +23,22 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED"
 };
+
+const acspDataLLP: AcspData = {
+    id: "llp",
+    typeOfBusiness: "LLP"
+};
+
+const acspDataLC: AcspData = {
+    id: "lc",
+    typeOfBusiness: "LC"
+};
+
+const acspDataCorp: AcspData = {
+    id: "corp",
+    typeOfBusiness: "CORPORATE_BODY"
+};
+
 describe("GET " + TYPE_OF_BUSINESS, () => {
 
     it("should return status 200", async () => {
@@ -37,6 +53,36 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS + "?lang=en&preselected=true");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataLLP);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS + "?lang=en&preselected=true");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataLC);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS + "?lang=en&preselected=true");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataCorp);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS + "?lang=en&preselected=true");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
