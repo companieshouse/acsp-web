@@ -39,24 +39,26 @@ describe("AcspDataService tests", () => {
     });
 
     describe("saveAcspData tests", () => {
-        it("should call POST registration if acspData is undefined", () => {
+        it("should call POST registration if acspData is undefined", async () => {
             const session: Session = req.session as any as Session;
-            const acspData: AcspData | undefined = undefined;
             mockPostAcspRegistration.mockResolvedValueOnce(mockPostResponce);
-            service.saveAcspData(session, acspData!, "SOLE_TRADER");
-            expect(mockPostAcspRegistration).toHaveBeenCalled();
+            await service.saveAcspData(session, undefined!, "SOLE_TRADER");
+            expect(postAcspRegistration).toHaveBeenCalled();
+            expect(session.getExtraData(APPLICATION_ID)).toBe("12345");
         });
 
-        it("should call PUT registration if acspData is not undefined", () => {
+        it("should call PUT registration if acspData is not undefined", async () => {
             const session: Session = req.session as any as Session;
-            service.saveAcspData(session, mockAcspData, "SOLE_TRADER");
-            expect(mockPutAcspRegistration).toHaveBeenCalled();
+            mockPutAcspRegistration.mockResolvedValue({});
+            await service.saveAcspData(session, mockAcspData, "SOLE_TRADER");
+            expect(putAcspRegistration).toHaveBeenCalled();
         });
 
-        it("should call PUT registration if acspData is not undefined", () => {
+        it("should call PUT registration if acspData is not undefined", async () => {
             const session: Session = req.session as any as Session;
-            service.saveAcspData(session, mockAcspData);
-            expect(mockPutAcspRegistration).toHaveBeenCalled();
+            mockPutAcspRegistration.mockResolvedValue({});
+            await service.saveAcspData(session, mockAcspData);
+            expect(putAcspRegistration).toHaveBeenCalled();
         });
     });
 
