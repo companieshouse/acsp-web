@@ -7,23 +7,27 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import logger from "../../../utils/logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT;
+    const redirectToDefault = "&preselected=true";
 
     try {
         // update typeOfBusiness in DB
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
-        acspData.typeOfBusiness = "SOLE_TRADER";
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        if (acspData.typeOfBusiness === "") {
+            acspData.typeOfBusiness = "OTHER";
+        }
         const acspDataService = new AcspDataService();
         await acspDataService.saveAcspData(session, acspData);
 
         res.render(config.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, {
             previousPage: addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang),
-            soleTrader: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
+            soleTrader: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang) + redirectToDefault,
             amlRegistration: addLangToUrl(AML_REGISTRATION, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl

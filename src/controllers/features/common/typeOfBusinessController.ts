@@ -18,6 +18,7 @@ import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
+    const defaultBusinessType = req.query.preselected;
     const locales = getLocalesService();
     const typeOfBusinessService = new TypeOfBusinessService();
     const session: Session = req.session as any as Session;
@@ -41,7 +42,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
-                if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+                if (defaultBusinessType === "true" && (acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "CORPORATE_BODY")) {
+                    typeOfBusiness = "SOLE_TRADER";
+                } else if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {
                     typeOfBusiness = "OTHER";
                 } else {
                     typeOfBusiness = acspData.typeOfBusiness!;
