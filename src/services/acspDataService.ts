@@ -46,8 +46,6 @@ export class AcspDataService {
                 applicantDetails: undefined
             };
             acspData = clearedAcspData;
-        } else {
-            acspData.typeOfBusiness = selectedOption;
         }
         return acspData;
     }
