@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { Session } from "@companieshouse/node-session-handler";
 import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
 
