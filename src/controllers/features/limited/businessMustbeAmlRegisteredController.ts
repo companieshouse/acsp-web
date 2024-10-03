@@ -7,7 +7,6 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
-import logger from "../../../utils/logger";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -19,9 +18,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // update typeOfBusiness in DB
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
-        if (acspData.typeOfBusiness === "") {
-            acspData.typeOfBusiness = "OTHER";
-        }
         const acspDataService = new AcspDataService();
         await acspDataService.saveAcspData(session, acspData);
 
