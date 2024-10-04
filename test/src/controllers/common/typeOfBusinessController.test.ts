@@ -109,7 +109,6 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {
         mockPostAcspRegistration.mockResolvedValueOnce(acspData);
-        mockPostTransaction.mockResolvedValueOnce({ id: "123456789" });
         const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
@@ -120,7 +119,6 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     // Test for calling POST endpoint failure.
     it("should return status 500 after calling POST endpoint and failing", async () => {
         mockPostAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
-        mockPostTransaction.mockResolvedValueOnce({ id: "123456789" });
         const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
