@@ -28,8 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const defaultSelectionCheckURL = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
     const previousPageUrl: string = getPreviousPageUrl(req, BASE_URL);
-    // const defaultBusinessType: boolean = previousPageUrl.includes("your-business-must-be-aml-registered");
-    // const defaultBusinessType: boolean = false;
+
     try {
         // create transaction record
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
