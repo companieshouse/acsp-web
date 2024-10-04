@@ -1,16 +1,18 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
+import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
 import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
 import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { getPreviousPageUrl } from "../../../../src/services/url";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
+jest.mock("../../../../src/services/url");
 const router = supertest(app);
 
 let customMockSessionMiddleware : any;
@@ -18,6 +20,7 @@ let customMockSessionMiddleware : any;
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
+const mockURL = getPreviousPageUrl as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
@@ -28,6 +31,7 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mockURL).toHaveBeenCalledTimes(1);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
