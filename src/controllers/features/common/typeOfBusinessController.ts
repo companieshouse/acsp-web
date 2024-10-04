@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, SOLE_TRADER_WHAT_IS_YOUR_ROLE, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
+import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
 import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
@@ -20,20 +20,30 @@ import { getPreviousPageUrl } from "../../../services/url";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
+    const typeOfBusinessService = new TypeOfBusinessService();
     const session: Session = req.session as any as Session;
+    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
 
-    const defaultSelectionCheckURL = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
-    const previousPageUrl: string = getPreviousPageUrl(req, BASE_URL);
+    const defaultBusinessType: boolean = getPreviousPageUrl(req, BASE_URL)?.includes(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
     try {
+        // create transaction record
+        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+
+            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
+                // get transaction record data
+                saveDataInSession(req, SUBMISSION_ID, transactionId);
+            });
+        }
+
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
             // get data from mongo and save to session
             const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
-                if (previousPageUrl === defaultSelectionCheckURL) {
+                if (defaultBusinessType) {
                     typeOfBusiness = "SOLE_TRADER";
                 } else if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {
                     typeOfBusiness = "OTHER";
@@ -68,17 +78,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-    const typeOfBusinessService = new TypeOfBusinessService();
-    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     try {
-        // create transaction record
-        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
-                // get transaction record data
-                saveDataInSession(req, SUBMISSION_ID, transactionId);
-            });
-        }
-
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.TYPE_OF_BUSINESS, {
