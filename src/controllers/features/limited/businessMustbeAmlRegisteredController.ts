@@ -13,7 +13,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT;
-    const redirectToDefault = "&preselected=true";
 
     try {
         // update typeOfBusiness in DB
@@ -23,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.LIMITED_BUSINESS_MUSTBE_AML_REGISTERED, {
             previousPage: addLangToUrl(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML, lang),
-            soleTrader: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang) + redirectToDefault,
+            soleTrader: addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang),
             amlRegistration: addLangToUrl(AML_REGISTRATION, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl
