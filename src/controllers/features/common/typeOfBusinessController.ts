@@ -20,25 +20,13 @@ import { getPreviousPageUrl } from "../../../services/url";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const typeOfBusinessService = new TypeOfBusinessService();
     const session: Session = req.session as any as Session;
-    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
 
     const defaultSelectionCheckURL = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
     const previousPageUrl: string = getPreviousPageUrl(req, BASE_URL);
-
     try {
-        // create transaction record
-        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-
-            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
-                // get transaction record data
-                saveDataInSession(req, SUBMISSION_ID, transactionId);
-            });
-        }
-
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
             // get data from mongo and save to session
@@ -80,7 +68,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
+    const typeOfBusinessService = new TypeOfBusinessService();
+    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     try {
+        // create transaction record
+        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
+                // get transaction record data
+                saveDataInSession(req, SUBMISSION_ID, transactionId);
+            });
+        }
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.TYPE_OF_BUSINESS, {
