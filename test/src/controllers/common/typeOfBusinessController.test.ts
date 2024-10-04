@@ -23,7 +23,6 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED"
 };
-const defaultBusinessType = true;
 
 describe("GET " + TYPE_OF_BUSINESS, () => {
 
