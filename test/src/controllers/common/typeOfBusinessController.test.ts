@@ -26,12 +26,23 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED"
 };
+
 describe("GET " + TYPE_OF_BUSINESS, () => {
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
-        expect(mockURL).toHaveBeenCalledTimes(1);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        mockURL.mockResolvedValue(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
