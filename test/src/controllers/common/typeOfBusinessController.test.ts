@@ -27,7 +27,37 @@ const acspData: AcspData = {
     typeOfBusiness: "LIMITED"
 };
 
+const acspDataUnIncorporated: AcspData = {
+    id: "unincorporated",
+    typeOfBusiness: "UNINCORPORATED"
+};
+
+const acspDataCorporateBody: AcspData = {
+    id: "corporatebody",
+    typeOfBusiness: "CORPORATE_BODY"
+};
+
 describe("GET " + TYPE_OF_BUSINESS, () => {
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataUnIncorporated);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataCorporateBody);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
