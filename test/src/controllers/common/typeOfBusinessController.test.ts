@@ -41,8 +41,8 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        mockURL.mockResolvedValueOnce(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
-        mockURL.mockResolvedValue(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
