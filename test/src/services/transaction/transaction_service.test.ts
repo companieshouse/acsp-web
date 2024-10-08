@@ -180,14 +180,50 @@ describe("transaction service tests", () => {
     });
 
     describe("getSavedApplication tests", () => {
-        it("Should return status 404", async () => {
-            mockGetTransactionForResourceKind.mockResolvedValueOnce({
+        it("Should return resolved responce for 200 status code", async () => {
+            const mockSuccessResponce = {
+                httpStatusCode: 200,
+                resource: { items: [[Object]] }
+            };
+            mockGetTransactionForResourceKind.mockResolvedValueOnce(mockSuccessResponce);
+
+            const httpResponse = await getSavedApplication(session, USER_ID);
+            expect(httpResponse.httpStatusCode).toStrictEqual(200);
+        });
+
+        it("Should return resolved responce for 404 status code", async () => {
+            const mockSuccessResponce = {
                 httpStatusCode: 404,
                 resource: { items: [[Object]] }
-            });
+            };
+            mockGetTransactionForResourceKind.mockResolvedValueOnce(mockSuccessResponce);
 
             const httpResponse = await getSavedApplication(session, USER_ID);
             expect(httpResponse.httpStatusCode).toStrictEqual(404);
+        });
+
+        it("Should throw an error when no transaction api response", async () => {
+            mockGetTransactionForResourceKind.mockResolvedValueOnce(undefined);
+
+            await expect(getSavedApplication(session, USER_ID)).rejects.toBe(undefined);
+        });
+
+        it("Should throw an error when status code is >=400 and not 404", async () => {
+            const mockFailedResponce = {
+                httpStatusCode: 500,
+                resource: { items: [[Object]] }
+            };
+            mockGetTransactionForResourceKind.mockResolvedValueOnce(mockFailedResponce);
+
+            await expect(getSavedApplication(session, USER_ID)).rejects.toBe(mockFailedResponce);
+        });
+        it("Should throw an error when no status code", async () => {
+            const mockFailedResponce = {
+                resource: { items: [[Object]] }
+            };
+            mockGetTransactionForResourceKind.mockResolvedValueOnce(mockFailedResponce);
+
+            await expect(getSavedApplication(session, USER_ID)).rejects.toBe(mockFailedResponce);
         });
     });
 });

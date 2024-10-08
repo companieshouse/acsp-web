@@ -7,7 +7,7 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -126,10 +126,25 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     });
 });
 
+describe("GET for SUBMISSION_ID = null" + TYPE_OF_BUSINESS, () => {
+    beforeEach(() => {
+        createMockSessionMiddleware();
+    });
+    it("should return status 200 and create a transaction", async () => {
+        mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+});
+
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, undefined);
+    session.setExtraData(SUBMISSION_ID, undefined);
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
