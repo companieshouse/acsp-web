@@ -7,7 +7,7 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { USER_DATA, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { getPreviousPageUrl } from "../../../../src/services/url";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -147,6 +147,7 @@ describe("POST " + TYPE_OF_BUSINESS, () => {
 describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     beforeEach(() => {
         createMockSessionMiddleware();
+        createMockSessionMiddleware1();
     });
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {
@@ -172,6 +173,17 @@ function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, undefined);
+    session.setExtraData(SUBMISSION_ID, undefined);
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
+function createMockSessionMiddleware1 () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(USER_DATA, undefined);
+    session.setExtraData(SUBMISSION_ID, "{}");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
