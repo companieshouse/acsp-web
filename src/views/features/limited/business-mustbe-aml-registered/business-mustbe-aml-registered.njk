@@ -6,6 +6,10 @@
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
+{% block signoutBar %}
+  {% include "partials/signout-bar.njk" %}
+  <hr class="govuk-section-break">
+{% endblock %}
 {% set title = i18n.amlInterruptTitle %}
 {% block main_content %}
     <form action="" method="POST">
