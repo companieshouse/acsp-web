@@ -1,4 +1,6 @@
 import mocks from "../../../mocks/all_middleware_mock";
+import { postTransaction } from "../../../../src/services/transactions/transaction_service";
+import { invalidTransactionEmptyID, invalidTransactionUndefinedID } from "../../../mocks/transaction_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
@@ -13,6 +15,8 @@ import { getPreviousPageUrl } from "../../../../src/services/url";
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("../../../../src/services/url");
+jest.mock("../../../../src/services/transactions/transaction_service");
+const mockPostTransaction = postTransaction as jest.Mock;
 const router = supertest(app);
 
 let customMockSessionMiddleware : any;
@@ -151,6 +155,7 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {
         mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        mockPostTransaction.mockResolvedValueOnce(invalidTransactionEmptyID);
         const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
@@ -170,35 +175,12 @@ describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
 
 describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
     beforeEach(() => {
-        createMockSessionMiddlewareUndefinedSubmissionID();
+        createMockSessionMiddleware();
     });
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {
         mockPostAcspRegistration.mockResolvedValueOnce(acspData);
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
-    });
-
-    // Test for calling POST endpoint failure.
-    it("should return status 500 after calling POST endpoint and failing", async () => {
-        mockPostAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
-});
-
-describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
-    beforeEach(() => {
-        createMockSessionMiddlewareEmptySubmissionID();
-    });
-    // Test for calling POST endpoint if acspData is null.
-    it("should return status 302 after calling POST endpoint", async () => {
-        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        mockPostTransaction.mockResolvedValueOnce(invalidTransactionUndefinedID);
         const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
@@ -220,28 +202,6 @@ function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, undefined);
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-        req.session = session;
-        next();
-    });
-}
-
-function createMockSessionMiddlewareEmptySubmissionID () {
-    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
-    const session = getSessionRequestWithPermission();
-    session.setExtraData(USER_DATA, undefined);
-    session.setExtraData(SUBMISSION_ID, "{}");
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-        req.session = session;
-        next();
-    });
-}
-
-function createMockSessionMiddlewareUndefinedSubmissionID () {
-    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
-    const session = getSessionRequestWithPermission();
-    session.setExtraData(USER_DATA, undefined);
-    session.setExtraData(SUBMISSION_ID, undefined);
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
