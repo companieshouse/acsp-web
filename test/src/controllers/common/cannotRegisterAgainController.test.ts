@@ -11,6 +11,6 @@ describe("GET " + CANNOT_REGISTER_AGAIN, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(200);
-        expect(res.text).toContain("Can not register again as the application is already approved");
+        expect(res.text).toContain("You cannot apply to register a business as an authorised agent as your email address has already been added to an authorised agent account.");
     });
 });
