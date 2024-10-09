@@ -95,8 +95,6 @@ describe("Sole Trader Pre Selection", () => {
     }
     );
     it("should return status 200", async () => {
-        const session1: Session = req.session as any as Session;
-        console.log(session1);
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
