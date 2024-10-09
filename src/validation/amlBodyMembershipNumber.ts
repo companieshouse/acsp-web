@@ -6,7 +6,7 @@ const amlBodyMembershipNumberControllerValidator = (): ValidationChain[] => {
     const numberOfamlSupervisoryBodies = Object.keys(AMLSupervisoryBodies).length / 2;
     for (let i = 1; i <= numberOfamlSupervisoryBodies; i++) {
         amlBodyMembershipNumberErrors.push(
-            (body(`membershipNumber_${i}`).if(body(`membershipNumber_${i}`).exists()).trim().notEmpty().withMessage("amlIDNumberInput")));
+            (body(`membershipNumber_${i}`).if(body(`membershipNumber_${i}`).exists()).trim().notEmpty().withMessage("amlIDNumberInput").bail().isLength({ max: 256 }).withMessage("amlIdLength")));
     }
     return amlBodyMembershipNumberErrors;
 };
