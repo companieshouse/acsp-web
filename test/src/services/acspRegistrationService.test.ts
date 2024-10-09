@@ -213,7 +213,7 @@ describe("acsp service tests", () => {
 
             mockDeleteSavedApplication.mockResolvedValueOnce({ status: 204 });
 
-            const acspData = await deleteAcspApplication(session, EMAIL_ID);
+            const acspData = await deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID);
 
             expect(acspData).toStrictEqual(dummySuccessResponce);
         });
@@ -221,7 +221,7 @@ describe("acsp service tests", () => {
         it("Should throw an error when no acsp api response", async () => {
             mockDeleteSavedApplication.mockResolvedValueOnce(undefined);
 
-            await expect(deleteAcspApplication(session, EMAIL_ID)).rejects.toBe(undefined);
+            await expect(deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID)).rejects.toBe(undefined);
         });
 
         it("Should throw an error when acsp api returns a status greater than 400", async () => {
@@ -229,7 +229,7 @@ describe("acsp service tests", () => {
                 httpStatusCode: 404
             });
 
-            await expect(deleteAcspApplication(session, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
+            await expect(deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
     });
 });

@@ -22,7 +22,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
+    const typeOfBusinessService = new TypeOfBusinessService();
+    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     try {
+        // create transaction record
+        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
+                // get transaction record data
+                saveDataInSession(req, SUBMISSION_ID, transactionId);
+            });
+        }
+
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
             // get data from mongo and save to session
@@ -62,16 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-    const typeOfBusinessService = new TypeOfBusinessService();
-    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     try {
-        // create transaction record
-        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
-                // get transaction record data
-                saveDataInSession(req, SUBMISSION_ID, transactionId);
-            });
-        }
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

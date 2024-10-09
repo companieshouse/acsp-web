@@ -114,11 +114,11 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
  * @param userId The user ID of for the document of be delete.
  * @returns The AcspResponse contains the submission ID for the updated registration
  */
-export const deleteAcspApplication = async (session: Session, acspApplicationId: string): Promise<HttpResponse> => {
+export const deleteAcspApplication = async (session: Session, transactionId: string, acspApplicationId: string): Promise<HttpResponse> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Deleting acsp registration for user ${acspApplicationId}`);
-    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(acspApplicationId);
+    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(transactionId, acspApplicationId);
 
     if (!sdkResponse) {
         logger.error(`acsp registration DELETE request returned no response for user ${acspApplicationId}`);
