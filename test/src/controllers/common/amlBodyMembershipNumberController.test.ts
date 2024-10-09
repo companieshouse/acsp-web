@@ -67,7 +67,7 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
             lastName: "Doe"
         }
     };
-    it("Test for valid input, should return status 302 after redirect", async () => {
+    it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -75,12 +75,20 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.header.location).toBe(BASE_URL + AML_BODY_DETAILS_CONFIRM + "?lang=en");
     });
 
-    it("Test for invalid input , empty value - should return status 400", async () => {
+    it("should return status 400 for invalid input, empty value", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: " " });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(400);
         expect(res.text).toContain("Enter the details for Association of Chartered Certified Accountants (ACCA)");
+    });
+
+    it("should return status 400 for invalid input, value is more than 256 characters", async () => {
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: "yHwml8BPxLQ5LoQeH5ScYkEEHe00NBIZO1j13EbozE9O7i2HJcTgKH4F97if95K6kptRglWGmzidTDTlRJAQcvx266KlEGtOQk8PTQ902oUpo0CxLDOBz7gQksTRKXLhYOB6cGgVikR7OARmY5n5xcGFbsNXyb26VzOz5HRCqs4lbGuWzw3Jmlf9R4y9NCAUttTic2YUCYvCijoibqtiHL5ZZr096PBmOIIUf9tYbpoXU5PE1N2eRTIO8xzLIUDZo" });
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(400);
+        expect(res.text).toContain("The Anti-Money Laundering (AML) membership number must be 256 characters or less for Association of Chartered Certified Accountants (ACCA)");
     });
 
     it("should return status 500 after calling POST endpoint and failing", async () => {

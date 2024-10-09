@@ -6,5 +6,6 @@
   "amlMembershipLisit3": "ID AML",
   "amlcontactinfo": "Cysylltwch â'r corff goruchwylio AML os oes angen i chi wirio'ch manylion.",
 
-  "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer "
+  "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer ",
+  "error-amlIdLength": "Welsh The Anti-Money Laundering (AML) membership number must be 256 characters or less for "
 }
