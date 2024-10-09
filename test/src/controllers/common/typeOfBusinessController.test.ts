@@ -7,14 +7,13 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
-import { getPreviousPageUrl } from "../../../../src/services/url";
+import { createRequest, MockRequest } from "node-mocks-http";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("../../../../src/services/transactions/transaction_service");
-jest.mock("../../../../src/services/url");
 const router = supertest(app);
 
 let customMockSessionMiddleware : any;
@@ -23,7 +22,6 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
 const mockPostTransaction = postTransaction as jest.Mock;
-const mockURL = getPreviousPageUrl as jest.Mock;
 
 const acspData: AcspData = {
     id: "abc",
@@ -72,17 +70,6 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
         expect(res.text).toContain("What type of business are you registering?");
     });
 
-    it("should return status 200", async () => {
-        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
-        mockURL.mockResolvedValueOnce(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
-        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(res.status).toBe(200);
-        expect(res.text).toContain("What type of business are you registering?");
-    });
-
     it("should return status 500 after calling GET endpoint and failing", async () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
@@ -92,6 +79,30 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+});
+
+describe("Sole Trader Pre Selection", () => {
+    let req: MockRequest<Request>;
+    beforeEach(() => {
+        req = createRequest({
+            method: "GET",
+            url: BASE_URL + TYPE_OF_BUSINESS
+        });
+        const session = getSessionRequestWithPermission();
+        req.session = session;
+        req.headers.referer = LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT;
+    }
+    );
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
 });
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
@@ -147,29 +158,17 @@ describe("POST " + TYPE_OF_BUSINESS, () => {
     });
 });
 
-describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
+describe("GET for SUBMISSION_ID = null" + TYPE_OF_BUSINESS, () => {
     beforeEach(() => {
         createMockSessionMiddleware();
     });
-    // Test for calling POST endpoint if acspData is null.
-    it("should return status 302 after calling POST endpoint", async () => {
-        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
-        mockPostTransaction.mockResolvedValueOnce({ id: "123456789" });
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
-    });
-
-    // Test for calling POST endpoint failure.
-    it("should return status 500 after calling POST endpoint and failing", async () => {
-        mockPostAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
-        mockPostTransaction.mockResolvedValueOnce({ id: "123456789" });
-        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
-        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    it("should return status 200 and create a transaction", async () => {
+        mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
     });
 });
 
@@ -177,6 +176,7 @@ function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, undefined);
+    session.setExtraData(SUBMISSION_ID, undefined);
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
