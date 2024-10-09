@@ -4,6 +4,7 @@ import app from "../../../../src/app";
 import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
 import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
+import { Session } from "@companieshouse/node-session-handler";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
@@ -94,6 +95,8 @@ describe("Sole Trader Pre Selection", () => {
     }
     );
     it("should return status 200", async () => {
+        const session1: Session = req.session as any as Session;
+        console.log(session1);
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
