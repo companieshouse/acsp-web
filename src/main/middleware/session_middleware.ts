@@ -4,7 +4,7 @@ import { CACHE_SERVER, COOKIE_DOMAIN, COOKIE_NAME, COOKIE_SECRET, DEFAULT_SESSIO
 
 const redis = new Redis(CACHE_SERVER);
 const sessionStore = new SessionStore(redis);
-
+redis.quit();
 export const sessionMiddleware = SessionMiddleware({
     cookieDomain: COOKIE_DOMAIN,
     cookieName: COOKIE_NAME,

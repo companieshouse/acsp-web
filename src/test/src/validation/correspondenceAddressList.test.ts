@@ -10,7 +10,7 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
 
     describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
         it("should return status 400 after no radio btn selected", async () => {
-            router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "" });
+            await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "" });
             expect(400);
         });
     });
