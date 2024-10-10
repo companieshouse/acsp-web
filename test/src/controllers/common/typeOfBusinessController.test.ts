@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
+import { TYPE_OF_BUSINESS, BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, SOLE_TRADER_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
 import { getAcspRegistration, postAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
@@ -26,7 +26,49 @@ const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED"
 };
+
+const acspDataUnIncorporated: AcspData = {
+    id: "unincorporated",
+    typeOfBusiness: "UNINCORPORATED"
+};
+
+const acspDataCorporateBody: AcspData = {
+    id: "corporatebody",
+    typeOfBusiness: "CORPORATE_BODY"
+};
+
 describe("GET " + TYPE_OF_BUSINESS, () => {
+
+    it("should return status for the 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS)
+            .set("Custom-Header", BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataUnIncorporated);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should return status 200", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspDataCorporateBody);
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
 
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -99,6 +141,20 @@ describe("POST " + TYPE_OF_BUSINESS, () => {
         expect(mockPutAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
+describe("GET for SUBMISSION_ID = null" + TYPE_OF_BUSINESS, () => {
+    beforeEach(() => {
+        createMockSessionMiddleware();
+    });
+    it("should return status 200 and create a transaction", async () => {
+        mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
     });
 });
 

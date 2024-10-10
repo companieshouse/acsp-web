@@ -18,7 +18,6 @@ export const validTransaction: Transaction = {
     },
     description: "Mandatory transaction description"
 };
-
 export const validTransactionSDKResource: Resource<Transaction> = {
     httpStatusCode: StatusCodes.OK,
     resource: validTransaction

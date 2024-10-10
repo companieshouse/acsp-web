@@ -17,7 +17,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // update typeOfBusiness in DB
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
-        acspData.typeOfBusiness = "SOLE_TRADER";
         const acspDataService = new AcspDataService();
         await acspDataService.saveAcspData(session, acspData);
 
