@@ -158,6 +158,30 @@ describe("GET for SUBMISSION_ID = null" + TYPE_OF_BUSINESS, () => {
     });
 });
 
+describe("POST for acspData = null" + TYPE_OF_BUSINESS, () => {
+    beforeEach(() => {
+        createMockSessionMiddleware();
+    });
+    // Test for calling POST endpoint if acspData is null.
+    it("should return status 302 after calling POST endpoint", async () => {
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
+        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(mockPutAcspRegistration).toHaveBeenCalledTimes(0);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
+    });
+
+    // Test for calling POST endpoint failure.
+    it("should return status 500 after calling POST endpoint and failing", async () => {
+        mockPostAcspRegistration.mockRejectedValueOnce(new Error("Error saving data"));
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
+        expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
