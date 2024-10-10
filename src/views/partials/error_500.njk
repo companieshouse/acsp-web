@@ -2,7 +2,10 @@
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
-
+{% block signoutBar %}
+  {% include "partials/signout-bar.njk" %}
+  <hr class="govuk-section-break">
+{% endblock %}
 {% block main_content %}
 
     <h1 class="govuk-heading-l">{{ i18n.technicalDifficuliesTitle}}</h1>
