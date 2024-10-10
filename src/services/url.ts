@@ -1,7 +1,7 @@
 import { Request } from "express";
 import logger from "../utils/logger";
 
-export async function getPreviousPageUrl (req: Request, basePath: string) {
+export function getPreviousPageUrl (req: Request, basePath: string) {
     const headers = req.rawHeaders;
     const absolutePreviousPageUrl = headers.filter(item => item.includes(basePath))[0];
     // Don't attempt to determine a relative previous page URL if no absolute URL is found

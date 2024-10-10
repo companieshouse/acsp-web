@@ -40,9 +40,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
-                const prevurl = await getPreviousPageUrl(req, BASE_URL);
-                const defaultBusinessType: boolean = prevurl?.includes(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
-                if (defaultBusinessType) {
+                const prevUrl = getPreviousPageUrl(req, BASE_URL);
+                const isRedirectedForSoleTrader: boolean = prevUrl?.includes(LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT);
+                if (isRedirectedForSoleTrader) {
                     typeOfBusiness = "SOLE_TRADER";
                 } else if (acspData.typeOfBusiness === "UNINCORPORATED" || acspData.typeOfBusiness === "CORPORATE_BODY") {
                     typeOfBusiness = "OTHER";

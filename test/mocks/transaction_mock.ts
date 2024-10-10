@@ -18,32 +18,6 @@ export const validTransaction: Transaction = {
     },
     description: "Mandatory transaction description"
 };
-export const invalidTransactionEmptyID: Transaction = {
-    id: "{}",
-    reference: REFERENCE,
-    companyName: "TEST-COMPANY-123",
-    companyNumber: "1234567",
-    createdAt: "27/10/2008",
-    createdBy: {
-        language: "tester",
-        id: "test123",
-        email: "test@email.test"
-    },
-    description: "Mandatory transaction description"
-};
-export const invalidTransactionUndefinedID: Transaction = {
-    id: undefined,
-    reference: REFERENCE,
-    companyName: "TEST-COMPANY-123",
-    companyNumber: "1234567",
-    createdAt: "27/10/2008",
-    createdBy: {
-        language: "tester",
-        id: "test123",
-        email: "test@email.test"
-    },
-    description: "Mandatory transaction description"
-};
 export const validTransactionSDKResource: Resource<Transaction> = {
     httpStatusCode: StatusCodes.OK,
     resource: validTransaction
