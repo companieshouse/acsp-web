@@ -5,7 +5,6 @@ import { correspondenceAddressAutoLookupValidator } from "../../../src/validatio
 import { validationResult } from "express-validator";
 
 jest.mock("@companieshouse/api-sdk-node");
-const router = supertest(app);
 
 describe("Correspondence Address Auto Lookup Validator", () => {
     it("Valid Address Data Should Pass Validation", async () => {

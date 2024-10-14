@@ -1,8 +1,9 @@
+import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { BASE_URL, HOME_URL, CHECK_SAVED_APPLICATION } from "../../../../src/types/pageURL";
 const router = supertest(app);
-
+mocks.mockSessionMiddleware;
 describe("GET " + HOME_URL, () => {
     it("should return status 200", async () => {
         await router.get(BASE_URL);

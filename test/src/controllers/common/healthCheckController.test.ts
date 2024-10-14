@@ -1,6 +1,8 @@
+import mocks from "../../../mocks/all_middleware_mock";
 import app from "../../../../src/app";
 import supertest from "supertest";
 import { HEALTHCHECK, BASE_URL } from "../../../../src/types/pageURL";
+mocks.mockSessionMiddleware;
 const router = supertest(app);
 
 describe("GET" + HEALTHCHECK, () => {
