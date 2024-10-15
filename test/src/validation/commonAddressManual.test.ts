@@ -3,8 +3,6 @@ import app from "../../../src/app";
 import { manualAddressValidator } from "../../../src/validation/commonAddressManual";
 import { validationResult } from "express-validator";
 
-const router = supertest(app);
-
 describe("Correspondence Address Manual Validator", () => {
     it("Valid Address Data Should Pass Validation", () => {
         const validAddressData = {
