@@ -1,7 +1,7 @@
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { TransactionData, TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Session } from "@companieshouse/node-session-handler";
-import { APPROVED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
+import { ACCEPTED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../types/pageURL";
 import logger from "../utils/logger";
 
@@ -23,8 +23,8 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
         session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
         session.setExtraData(SUBMISSION_ID, transactions[0].id);
         url = BASE_URL + SAVED_APPLICATION;
-    } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === APPROVED) {
-        logger.debug("application is approved");
+    } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
+        logger.debug("application is accepted");
         url = BASE_URL + CANNOT_REGISTER_AGAIN;
     } else {
         logger.debug("application is in progress");
