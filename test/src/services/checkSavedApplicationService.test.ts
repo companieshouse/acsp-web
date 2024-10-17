@@ -5,7 +5,7 @@ import { deleteAcspApplication } from "../../../src/services/acspRegistrationSer
 import { getRedirectionUrl } from "../../../src/services/checkSavedApplicationService";
 import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../../../src/types/pageURL";
-import { APPROVED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
+import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 import { createResponse, MockResponse } from "node-mocks-http";
 
@@ -37,7 +37,7 @@ const hasApprovedApplication: Resource<TransactionList> = {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: APPROVED } },
+            filings: { "123-1": { status: ACCEPTED } },
             resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
