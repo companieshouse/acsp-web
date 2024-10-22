@@ -5,7 +5,7 @@
 {% for key,value in AMLSupervisoryBodies %}
   {% if value is string %}
     {% set checkboxItem = {
-      value: value,
+      value: key,
       text: value,
       id: "aml" + loop.index
     } %}
