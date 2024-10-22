@@ -26,7 +26,7 @@
     {% set ROWS = [] %}
     {% for body in amlSupervisoryBodies %}
       {% set row = [
-        {text: body.amlSupervisoryBody},
+        {text: AMLSupervisoryBodies[body.amlSupervisoryBody]},
         {text: body.membershipId},
         {html: "<a href=" + url + "#" + "membershipNumber_" + loop.index + ">" + i18n.checkAmlDetailsChange + "</a>"}
       ] %}

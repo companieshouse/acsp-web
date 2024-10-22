@@ -13,6 +13,7 @@ import logger, { createAndLogError } from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -31,7 +32,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             detailsAnswers,
             lang,
             amlDetails: acspData?.amlSupervisoryBodies,
-            amlName: acspData.howAreYouRegisteredWithAml
+            amlName: acspData.howAreYouRegisteredWithAml,
+            AMLSupervisoryBodies
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

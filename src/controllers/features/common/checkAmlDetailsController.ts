@@ -7,6 +7,7 @@ import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../com
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -27,6 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
             businessName: acspData?.businessName,
+            AMLSupervisoryBodies,
             url
         });
     } catch (err) {
