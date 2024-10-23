@@ -4,6 +4,7 @@ jest.mock("@companieshouse/web-security-node");
 
 import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
+import { FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION } from "../../../src/utils/properties";
 import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../../../src/types/pageURL";
 
@@ -25,6 +26,14 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 
 describe("authentication middleware tests", () => {
     it("should call CH authentication library", () => {
+        process.env[FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION] = "false";
+        authenticationMiddleware(req, res, next);
+        expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
+        expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
+    });
+
+    it("should call CH authentication library", () => {
+        process.env[FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION] = "true";
         authenticationMiddleware(req, res, next);
         expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
         expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
