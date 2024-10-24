@@ -18,6 +18,21 @@ export const validTransaction: Transaction = {
     },
     description: "Mandatory transaction description"
 };
+
+export const mockOpenTransaction: Transaction = {
+    id: "119709-207817-181835",
+    status: "open",
+    reference: REFERENCE,
+    description: "Mandatory transaction description"
+};
+
+export const mockClosedPendingPaymentTransaction: Transaction = {
+    id: "119709-207817-181835",
+    status: "closed pending payment",
+    reference: REFERENCE,
+    description: "Mandatory transaction description"
+};
+
 export const validTransactionSDKResource: Resource<Transaction> = {
     httpStatusCode: StatusCodes.OK,
     resource: validTransaction
