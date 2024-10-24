@@ -3,7 +3,7 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { BASE_URL, TYPE_OF_BUSINESS } from "../../../../src/types/pageURL";
 import { getTransactionById } from "../../../../src/services/transactions/transaction_service";
-import { dummyPaymentResponse, PAYMENT_JOURNEY_URL } from "../../../mocks/payment_mock";
+import { dummyPaymentResponse, dummyPaymentResponseNoResource, PAYMENT_JOURNEY_URL } from "../../../mocks/payment_mock";
 import { startPaymentsSession } from "../../../../src/services/paymentService";
 import { mockClosedPendingPaymentTransaction, mockOpenTransaction } from "../../../mocks/transaction_mock";
 
@@ -48,6 +48,15 @@ describe("GET resume journey", () => {
     it("should return status 500 after calling startPaymentsSession and failing", async () => {
         mockGetTransaction.mockResolvedValueOnce(mockClosedPendingPaymentTransaction);
         mockStartPaymentsSession.mockRejectedValueOnce(new Error("Error starting payment session"));
+        const res = await router.get(BASE_URL + "/resume?transactionId=119709-207817-181835&acspId=Y2VkZWVlMzhlZWFjY2M4MzQ3MT");
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    // Test for startPaymentsSession returning no resource.
+    it("should return status 500 after calling getTransaction and failing", async () => {
+        mockGetTransaction.mockResolvedValueOnce(mockClosedPendingPaymentTransaction);
+        mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponseNoResource);
         const res = await router.get(BASE_URL + "/resume?transactionId=119709-207817-181835&acspId=Y2VkZWVlMzhlZWFjY2M4MzQ3MT");
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");

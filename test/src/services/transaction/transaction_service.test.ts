@@ -263,5 +263,13 @@ describe("transaction service tests", () => {
 
             await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(mockFailedResponce);
         });
+        it("Should throw an error when responce has no resource", async () => {
+            const mockResponceNoResource = {
+                httpStatusCode: 200
+            };
+            mockGetTransaction.mockResolvedValueOnce(mockResponceNoResource);
+
+            await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(mockResponceNoResource);
+        });
     });
 });

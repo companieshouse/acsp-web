@@ -35,3 +35,8 @@ export const dummyPaymentResponse: ApiResponse<Payment> = {
     httpStatusCode: 200,
     resource: dummyPayment
 };
+
+export const dummyPaymentResponseNoResource: ApiResponse<Payment> = {
+    headers: dummyHeaders,
+    httpStatusCode: 200
+};
