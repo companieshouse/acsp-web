@@ -5,14 +5,15 @@ import {
     closeTransaction,
     postTransaction,
     getSavedApplication,
-    putTransaction
+    putTransaction,
+    getTransactionById
 } from "../../../../src/services/transactions/transaction_service";
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { StatusCodes } from "http-status-codes";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { REFERENCE } from "../../../../src/config";
-import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http/http-client";
+import { validTransaction } from "../../../mocks/transaction_mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/apiService");
@@ -224,6 +225,51 @@ describe("transaction service tests", () => {
             mockGetTransactionForResourceKind.mockResolvedValueOnce(mockFailedResponce);
 
             await expect(getSavedApplication(session, USER_ID)).rejects.toBe(mockFailedResponce);
+        });
+    });
+
+    describe("getTransaction tests", () => {
+        it("should return resolved transaction for 200 status code", async () => {
+            const mockSuccessResponce = {
+                httpStatusCode: 200,
+                resource: validTransaction
+            };
+            mockGetTransaction.mockResolvedValueOnce(mockSuccessResponce);
+
+            const transactionResp = await getTransactionById(session, TRANSACTION_ID);
+            expect(transactionResp).toStrictEqual(validTransaction);
+        });
+
+        it("should throw an error when no transaction api response", async () => {
+            mockGetTransaction.mockResolvedValueOnce(undefined);
+
+            await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(undefined);
+        });
+
+        it("should throw an error when status code is >=400", async () => {
+            const mockFailedResponce = {
+                httpStatusCode: 500,
+                resource: { items: [[Object]] }
+            };
+            mockGetTransaction.mockResolvedValueOnce(mockFailedResponce);
+
+            await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(mockFailedResponce);
+        });
+        it("Should throw an error when no status code", async () => {
+            const mockFailedResponce = {
+                resource: { items: [[Object]] }
+            };
+            mockGetTransaction.mockResolvedValueOnce(mockFailedResponce);
+
+            await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(mockFailedResponce);
+        });
+        it("Should throw an error when responce has no resource", async () => {
+            const mockResponceNoResource = {
+                httpStatusCode: 200
+            };
+            mockGetTransaction.mockResolvedValueOnce(mockResponceNoResource);
+
+            await expect(getTransactionById(session, TRANSACTION_ID)).rejects.toBe(mockResponceNoResource);
         });
     });
 });
