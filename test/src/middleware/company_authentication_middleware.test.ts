@@ -7,9 +7,9 @@ import { Session } from "@companieshouse/node-session-handler"; import { BASE_UR
 jest.mock("ioredis");
 jest.mock("@companieshouse/web-security-node");
 
-const mockAuthMiddleware = jest.fn();
+const mockAcspProfileCreateAuthMiddleware = jest.fn();
 jest.mock("@companieshouse/web-security-node", () => ({
-    authMiddleware: jest.fn(() => mockAuthMiddleware)
+    acspProfileCreateAuthMiddleware: jest.fn(() => mockAcspProfileCreateAuthMiddleware)
 }));
 
 let req = {} as Request;
@@ -30,7 +30,7 @@ describe("company authentication middleware tests", () => {
             originalUrl: Url
         } as unknown as Request;
         companyAuthenticationMiddleware(req, mockResponse, mockNext);
-        expect(mockAuthMiddleware).toHaveBeenCalled();
+        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalled();
     });
 
     it("should not ask for auth code when companyAuthCodeProvided is true ", () => {
@@ -39,7 +39,7 @@ describe("company authentication middleware tests", () => {
             originalUrl: Url
         } as unknown as Request;
         companyAuthenticationMiddleware(req, mockResponse, mockNext);
-        expect(mockAuthMiddleware).not.toHaveBeenCalled();
+        expect(mockAcspProfileCreateAuthMiddleware).not.toHaveBeenCalled();
     });
 });
 
