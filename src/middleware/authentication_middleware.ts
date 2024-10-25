@@ -11,10 +11,7 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
         returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
     };
 
-    if(FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION === "true"){
-        return authMiddleware(authMiddlewareConfig)(req, res, next)
-    } else {
-        return acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
-    }
-
+    return FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION === "true"
+        ? authMiddleware(authMiddlewareConfig)(req, res, next)
+        : acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
 };
