@@ -70,3 +70,4 @@ export const CHECK_AML_DETAILS = `${BASE_COMMON_URL}/check-aml-details/check-aml
 export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-submit-another-application/cannot-submit-another-application`;
 export const WHAT_IS_YOUR_EMAIL = `${BASE_COMMON_URL}/what-is-your-email/what-is-your-email`;
 export const CANNOT_REGISTER_AGAIN = `${BASE_COMMON_URL}/cannot-register-again/cannot-register-again`;
+export const PAYMENT_FAILED = `${BASE_COMMON_URL}/payment-failed/payment-failed`;

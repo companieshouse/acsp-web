@@ -1,0 +1,25 @@
+{% extends "layouts/default.njk" %}
+{% set title = i18n.paymentFailedHeading %}
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+{% block main_content %}
+    <h1 class="govuk-heading-l">{{ i18n.paymentFailedHeading }}</h1>
+    <p>{{ i18n.paymentFailedApplicationNotSubmitted }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.paymenFailedBulletPoint1 }}</li>
+        <li>{{ i18n.paymenFailedBulletPoint2 }}</li>
+        <li>{{ i18n.paymenFailedBulletPoint3 }}</li>
+        <li>{{ i18n.paymenFailedBulletPoint4 }}</li>
+    </ul>
+    <p>
+        {{ i18n.paymentFailedSavedToFilings }}
+        <a id="your-filings-link-id" href={{yourFilingsUrl}}>{{ i18n.paymentFailedYourFilingsLink }}</a>.
+        {{ i18n.paymentFailedCompletePayment }}
+    </p>
+
+    <script>
+        trackEventBasedOnPageTitle("your-filings-link-id", "{{title}}", "click-link", "Your Filings link");
+    </script>
+
+{% endblock main_content %}

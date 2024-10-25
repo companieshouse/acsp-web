@@ -1,0 +1,11 @@
+{
+    "paymentFailedHeading": "Payment Failed Welsh",
+    "paymentFailedApplicationNotSubmitted": "Your application has not been submitted because we have not been able to take payment. This could be because: Welsh",
+    "paymenFailedBulletPoint1": "you cancelled the payment Welsh",
+    "paymenFailedBulletPoint2": "your payment was declined Welsh",
+    "paymenFailedBulletPoint3": "your payment expired Welsh",
+    "paymenFailedBulletPoint4": "there was an error (for example, a technical error) Welsh",
+    "paymentFailedSavedToFilings": "Your application has been saved in Your Filings. To submit the application, you will need to Welsh",
+    "paymentFailedYourFilingsLink": "find the application in Your Filings Welsh",
+    "paymentFailedCompletePayment": "and complete payment Welsh"
+}
