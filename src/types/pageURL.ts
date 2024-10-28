@@ -162,3 +162,5 @@ export const UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST = UNINCORPORATED + "/sel
 export const UNINCORPORATED_WHAT_IS_YOUR_EMAIL = UNINCORPORATED + "/what-email-should-we-use";
 
 export const RESUME_JOURNEY = "/resume";
+
+export const PAYMENT_FAILED = "/payment-failed";
