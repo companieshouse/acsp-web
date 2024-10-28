@@ -61,7 +61,8 @@ import {
     limitedWhatIsYourEmailController,
     soleTraderWhatIsYourEmailAddressController,
     unincorporatedWhatIsYourEmailController,
-    cannotRegisterAgainController
+    cannotRegisterAgainController,
+    paymentFailedController
 } from "../controllers";
 
 import * as urls from "../types/pageURL";
@@ -126,6 +127,8 @@ routes.get(urls.CHECK_SAVED_APPLICATION, checkSavedApplicationController.get);
 routes.get(urls.CANNOT_SUBMIT_ANOTHER_APPLICATION, cannotSubmitAnotherApplicationController.get);
 
 routes.get(urls.CANNOT_REGISTER_AGAIN, cannotRegisterAgainController.get);
+
+routes.get(urls.PAYMENT_FAILED, paymentFailedController.get);
 
 // SOLE_TRADER
 routes.get(urls.SOLE_TRADER_DATE_OF_BIRTH, soleTraderDateOfBirthController.get);
