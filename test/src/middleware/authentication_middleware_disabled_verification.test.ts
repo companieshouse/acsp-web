@@ -1,7 +1,7 @@
 /* eslint-disable import/first */
 jest.mock("@companieshouse/web-security-node");
 process.env.FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION = "true";
-import { authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
+import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../../../src/types/pageURL";
 import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
@@ -10,8 +10,12 @@ import { authenticationMiddleware } from "../../../src/middleware/authentication
 const mockAuthMiddleware = authMiddleware as jest.Mock;
 const mockAuthReturnedFunctionAuthMiddleware = jest.fn();
 
+const mockAcspProfileCreateAuthMiddleware = acspProfileCreateAuthMiddleware as jest.Mock;
+const mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware = jest.fn();
+
 // when the mocked authMiddleware is called, make it return a mocked function so we can verify it gets called
 mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAuthMiddleware);
+mockAcspProfileCreateAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware);
 
 const req: Request = {} as Request;
 const res: Response = {} as Response;
