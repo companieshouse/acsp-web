@@ -3,16 +3,22 @@ import { Session } from "@companieshouse/node-session-handler";
 import { AcspDataService } from "../../../src/services/acspDataService";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 import { createRequest, MockRequest } from "node-mocks-http";
-import { APPLICATION_ID, USER_DATA } from "../../../src/common/__utils/constants";
+import { APPLICATION_ID, RESUME_APPLICATION_ID, SUBMISSION_ID, USER_DATA } from "../../../src/common/__utils/constants";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { postAcspRegistration, putAcspRegistration } from "../../../src/services/acspRegistrationService";
+import { deleteAcspApplication, postAcspRegistration, putAcspRegistration } from "../../../src/services/acspRegistrationService";
+import { postTransaction } from "../../../src/services/transactions/transaction_service";
+import { validTransaction, transactionId } from "../../mocks/transaction_mock";
+import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 
 jest.mock("../../../src/services/acspRegistrationService");
+jest.mock("../../../src/services/transactions/transaction_service");
 
 const service = new AcspDataService();
 
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
+const mockDeleteAcspApplication = deleteAcspApplication as jest.Mock;
+const mockPostTransaction = postTransaction as jest.Mock;
 
 const mockAcspData: AcspData = {
     id: "1234",
@@ -25,6 +31,10 @@ const mockAcspData: AcspData = {
 
 const mockPostResponce = {
     id: "12345"
+};
+
+const mockDeleteResponce: HttpResponse = {
+    status: 204
 };
 
 describe("AcspDataService tests", () => {
@@ -41,6 +51,7 @@ describe("AcspDataService tests", () => {
     describe("saveAcspData tests", () => {
         it("should call POST registration if acspData is undefined", async () => {
             const session: Session = req.session as any as Session;
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
             mockPostAcspRegistration.mockResolvedValueOnce(mockPostResponce);
             await service.saveAcspData(session, undefined!, "SOLE_TRADER");
             expect(postAcspRegistration).toHaveBeenCalled();
@@ -49,6 +60,7 @@ describe("AcspDataService tests", () => {
 
         it("should call PUT registration if acspData is not undefined", async () => {
             const session: Session = req.session as any as Session;
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
             mockPutAcspRegistration.mockResolvedValue({});
             await service.saveAcspData(session, mockAcspData, "SOLE_TRADER");
             expect(putAcspRegistration).toHaveBeenCalled();
@@ -56,39 +68,42 @@ describe("AcspDataService tests", () => {
 
         it("should call PUT registration if acspData is not undefined", async () => {
             const session: Session = req.session as any as Session;
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
             mockPutAcspRegistration.mockResolvedValue({});
             await service.saveAcspData(session, mockAcspData);
             expect(putAcspRegistration).toHaveBeenCalled();
         });
     });
 
-    describe("typeOfBusinessChange tests", () => {
-        it("should return acspData if typeOfBusiness is the same", () => {
+    describe("createNewApplication tests", () => {
+        it("should delete the old application and create a new one", async () => {
+            // given
             const session: Session = req.session as any as Session;
-            session.setExtraData(USER_DATA, mockAcspData);
-            const retunredAcspData = service.typeOfBusinessChange(session, mockAcspData, "SOLE_TRADER");
-            expect(retunredAcspData).toEqual(mockAcspData);
+            mockDeleteAcspApplication.mockResolvedValueOnce(mockDeleteResponce);
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
+            mockPostAcspRegistration.mockResolvedValueOnce(mockPostResponce);
+            // when
+            await service.createNewApplication(session, "SOLE_TRADER");
+            // then
+            expect(mockDeleteAcspApplication).toHaveBeenCalled();
+            expect(mockPostTransaction).toHaveBeenCalled();
+            expect(mockPostAcspRegistration).toHaveBeenCalled();
         });
 
-        it("should clear USER_DATA and update acspData if typeOfBusiness changes", () => {
+        it("should clear the session data when creating a new application and set SUBMISSION_ID to the new transaction id", async () => {
+            // given
             const session: Session = req.session as any as Session;
-            session.setExtraData(USER_DATA, mockAcspData);
-            const retunredAcspData = service.typeOfBusinessChange(session, mockAcspData, "PARTNERSHIP");
-            expect(retunredAcspData).toEqual({
-                id: "1234",
-                typeOfBusiness: "PARTNERSHIP",
-                amlSupervisoryBodies: undefined,
-                applicantDetails: undefined,
-                businessName: undefined,
-                companyAuthCodeProvided: undefined,
-                companyDetails: undefined,
-                howAreYouRegisteredWithAml: undefined,
-                registeredOfficeAddress: undefined,
-                roleType: undefined,
-                verified: undefined,
-                workSector: undefined
-            });
-            expect(session.getExtraData(USER_DATA)).toEqual(undefined);
+            mockDeleteAcspApplication.mockResolvedValueOnce(mockDeleteResponce);
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
+            mockPostAcspRegistration.mockResolvedValueOnce(mockPostResponce);
+            // when
+            await service.createNewApplication(session, "SOLE_TRADER");
+            // then
+            expect(session.getExtraData(USER_DATA)).toBe(undefined);
+            expect(session.getExtraData(SUBMISSION_ID)).toBe(transactionId);
+            expect(session.getExtraData(RESUME_APPLICATION_ID)).toBe(undefined);
+            expect(session.getExtraData(APPLICATION_ID)).toBe("12345");
+
         });
     });
 });
