@@ -8,7 +8,6 @@ import * as config from "../../../config";
 import { AcspDataService } from "../../../services/acspDataService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { ErrorService } from "../../../services/errorService";
-import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
 import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import logger from "../../../utils/logger";

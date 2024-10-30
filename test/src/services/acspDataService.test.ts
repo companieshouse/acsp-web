@@ -105,5 +105,13 @@ describe("AcspDataService tests", () => {
             expect(session.getExtraData(APPLICATION_ID)).toBe("12345");
 
         });
+
+        it("should return a promise reject if an error occurs", async () => {
+            // given
+            const session: Session = req.session as any as Session;
+            mockDeleteAcspApplication.mockRejectedValueOnce(new Error("Error deleting application"));
+            // then
+            expect(service.createNewApplication(session, "SOLE_TRADER")).rejects.toEqual(Error("Error deleting application"));
+        });
     });
 });

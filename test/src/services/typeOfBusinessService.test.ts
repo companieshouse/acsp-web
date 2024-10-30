@@ -1,8 +1,8 @@
 import { postTransaction } from "../../../src/services/transactions/transaction_service";
 import { validTransaction } from "../../mocks/transaction_mock";
 import { TypeOfBusinessService } from "../../../src/services/typeOfBusinessService";
-import { createRequest, createResponse, MockRequest, MockResponse } from "node-mocks-http";
-import { Request, Response } from "express";
+import { createRequest, MockRequest } from "node-mocks-http";
+import { Request } from "express";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 import { Session } from "@companieshouse/node-session-handler";
 
