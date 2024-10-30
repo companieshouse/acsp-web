@@ -70,16 +70,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (acspData != null && acspData.typeOfBusiness !== selectedOption) {
                 await acspDataService.createNewApplication(session, selectedOption);
             } else {
-                // create transaction record if one does not already exist
-                const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
-                if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-                    const typeOfBusinessService = new TypeOfBusinessService();
-                    await typeOfBusinessService.createTransaction(session).then((transactionId) => {
-                        // get transaction record data
-                        session.setExtraData(SUBMISSION_ID, transactionId);
-                    });
-                }
-                // save data to MongoDB
                 await acspDataService.saveAcspData(session, acspData, selectedOption);
             }
 

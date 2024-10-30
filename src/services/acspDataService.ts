@@ -8,6 +8,15 @@ import { TypeOfBusinessService } from "./typeOfBusinessService";
 export class AcspDataService {
     async saveAcspData (session: Session, acspData: AcspData, selectedOption?: string): Promise<void> {
         try {
+            // create transaction record if one does not already exist
+            const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
+            if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
+                const typeOfBusinessService = new TypeOfBusinessService();
+                await typeOfBusinessService.createTransaction(session).then((transactionId) => {
+                    // get transaction record data
+                    session.setExtraData(SUBMISSION_ID, transactionId);
+                });
+            }
             if (acspData === undefined) {
                 acspData = {
                     typeOfBusiness: selectedOption
@@ -34,13 +43,6 @@ export class AcspDataService {
             session.deleteExtraData(SUBMISSION_ID);
             session.deleteExtraData(RESUME_APPLICATION_ID);
             session.deleteExtraData(APPLICATION_ID);
-
-            // create transaction record
-            const typeOfBusinessService = new TypeOfBusinessService();
-            await typeOfBusinessService.createTransaction(session).then((transactionId) => {
-            // set transaction ID to SUBMISSION_ID session variable
-                session.setExtraData(SUBMISSION_ID, transactionId);
-            });
 
             // Save the data to MongoDB
             const acspData = session.getExtraData(USER_DATA)!;
