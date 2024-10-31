@@ -4,7 +4,6 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
-import { TypeOfBusinessService } from "../../../services/typeOfBusinessService";
 import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { Session } from "@companieshouse/node-session-handler";
@@ -23,16 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const previousPage: string = addLangToUrl(BASE_URL, lang);
     const currentUrl: string = BASE_URL + TYPE_OF_BUSINESS;
-    const typeOfBusinessService = new TypeOfBusinessService();
-    const existingTransactionId = session?.getExtraData(SUBMISSION_ID);
     try {
-        // create transaction record
-        if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
-            await typeOfBusinessService.createTransaction(req, res).then((transactionId) => {
-                // get transaction record data
-                saveDataInSession(req, SUBMISSION_ID, transactionId);
-            });
-        }
 
         let typeOfBusiness = "";
         if (session?.getExtraData("resume_application")) {
@@ -89,9 +79,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else if (selectedOption !== "OTHER") {
 
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData, selectedOption);
-            saveDataInSession(req, "resume_application", true);
 
+            if (acspData != null && acspData.typeOfBusiness !== selectedOption) {
+                await acspDataService.createNewApplication(session, selectedOption);
+            } else {
+                await acspDataService.saveAcspData(session, acspData, selectedOption);
+            }
+            saveDataInSession(req, "resume_application", true);
             switch (selectedOption) {
             case "LC":
             case "LLP":
@@ -105,7 +99,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
                 break;
             }
-
         } else {
             res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
         }

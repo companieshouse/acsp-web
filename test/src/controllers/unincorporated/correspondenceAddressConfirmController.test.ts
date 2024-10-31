@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { Request, Response, NextFunction } from "express";
 
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
@@ -118,6 +118,7 @@ function createMockSessionMiddleware (acspData: AcspData) {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, acspData);
+    session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();

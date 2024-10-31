@@ -8,7 +8,7 @@ import { Request, Response, NextFunction } from "express";
 
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
@@ -168,6 +168,7 @@ function createMockSessionMiddleware (acspData: AcspData) {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, acspData);
+    session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();

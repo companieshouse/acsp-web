@@ -4,7 +4,7 @@ import supertest from "supertest";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { BASE_URL, LIMITED_WHAT_IS_YOUR_ROLE, STOP_NOT_RELEVANT_OFFICER, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../../src/types/pageURL";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
@@ -158,6 +158,7 @@ function createMockSessionMiddleware (businessName: string, typeOfBusiness: stri
         businessName: businessName,
         typeOfBusiness: typeOfBusiness
     });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
