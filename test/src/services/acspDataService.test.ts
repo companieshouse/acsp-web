@@ -72,7 +72,24 @@ describe("AcspDataService tests", () => {
             mockPutAcspRegistration.mockResolvedValue({});
             await service.saveAcspData(session, mockAcspData);
             expect(putAcspRegistration).toHaveBeenCalled();
+            expect(session.getExtraData(SUBMISSION_ID)).toBe(transactionId);
         });
+
+        it("should create a new transaction if SUBMISSION_ID is null", async () => {
+            const session: Session = req.session as any as Session;
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
+            await service.saveAcspData(session, mockAcspData);
+            expect(postTransaction).toHaveBeenCalled();
+        });
+
+        it("should not create a new transaction if SUBMISSION_ID is != null", async () => {
+            const session: Session = req.session as any as Session;
+            session.setExtraData(SUBMISSION_ID, "transactionID");
+            mockPostTransaction.mockResolvedValueOnce(validTransaction);
+            await service.saveAcspData(session, mockAcspData);
+            expect(postTransaction).toHaveBeenCalledTimes(0);
+        });
+
     });
 
     describe("createNewApplication tests", () => {
@@ -100,12 +117,9 @@ describe("AcspDataService tests", () => {
             await service.createNewApplication(session, "SOLE_TRADER");
             // then
             expect(session.getExtraData(USER_DATA)).toBe(undefined);
-            expect(session.getExtraData(SUBMISSION_ID)).toBe(transactionId);
             expect(session.getExtraData(RESUME_APPLICATION_ID)).toBe(undefined);
-            expect(session.getExtraData(APPLICATION_ID)).toBe("12345");
 
         });
-
         it("should return a promise reject if an error occurs", async () => {
             // given
             const session: Session = req.session as any as Session;
