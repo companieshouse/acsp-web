@@ -127,6 +127,15 @@ describe("POST for acsp != null " + TYPE_OF_BUSINESS, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    // Test for calling creating new transaction failure.
+    it("should return status 500 after calling PUT endpoint and failing", async () => {
+        mockDeleteAcspApplication.mockRejectedValueOnce(new Error("Error deleting application"));
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LP" });
+        expect(mockDeleteAcspApplication).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
 
 describe("POST for acspData = null & SUBMISSION_ID = null" + TYPE_OF_BUSINESS, () => {

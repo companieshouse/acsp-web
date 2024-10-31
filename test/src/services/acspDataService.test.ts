@@ -40,6 +40,7 @@ const mockDeleteResponce: HttpResponse = {
 describe("AcspDataService tests", () => {
     let req: MockRequest<Request>;
     beforeEach(() => {
+        jest.clearAllMocks();
         req = createRequest({
             method: "POST",
             url: "/"
