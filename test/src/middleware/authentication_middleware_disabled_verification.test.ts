@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 jest.mock("@companieshouse/web-security-node");
-process.env.FEATURE_FLAG_DISABLE_MANDATORY_VERIFICATION = "true";
+process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "true";
 import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../../../src/types/pageURL";
