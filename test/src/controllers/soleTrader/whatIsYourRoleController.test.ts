@@ -32,7 +32,7 @@ describe("Statement Relevant Officer Router", () => {
         const response = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(response.text).toContain("What is your role in the business?");
     });
 
@@ -40,7 +40,7 @@ describe("Statement Relevant Officer Router", () => {
         const response = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {
@@ -78,7 +78,7 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
         expect(response.status).toBe(400);
         expect(response.text).toContain("Select if you are the sole trader or someone else");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
