@@ -59,7 +59,7 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
         membershipNumber_1: "ABC",
         membershipNumber_2: "CBA",
         membershipNumber__3: "Finance",
-        sectorYouWorkIn: "AIA",
+        sectorYouWorkIn: "AIP",
         typeOfBusiness: "SOLE_TRADER",
         applicantDetails: {
             firstName: "John",

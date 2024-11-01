@@ -1,5 +1,5 @@
 export enum SectorOfWork {
-    AIA = "Auditors, insolvency practitioners, external accountants and tax advisers",
+    AIP = "Auditors, insolvency practitioners, external accountants and tax advisers",
     ILP = "Independent legal professionals",
     TCSP = "Trust or company service providers",
     CI = "Credit institutions",
@@ -7,4 +7,5 @@ export enum SectorOfWork {
     EA = "Estate agents",
     HVD = "High value dealers",
     CASINOS = "Casinos",
+    PNTS = "Prefer not to say"
 }

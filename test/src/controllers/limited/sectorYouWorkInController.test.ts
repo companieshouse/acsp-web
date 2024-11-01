@@ -14,7 +14,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA",
+    workSector: "AIP",
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
@@ -52,7 +52,7 @@ describe("GET" + LIMITED_SECTOR_YOU_WORK_IN, () => {
 
 describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
     it("should return status 302 after redirect", async () => {
-        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIA" });
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIP" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
@@ -88,16 +88,16 @@ describe("POST" + LIMITED_SECTOR_YOU_WORK_IN, () => {
         expect(res.header.location).toBe(BASE_URL + LIMITED_WHICH_SECTOR_OTHER + "?lang=en");
     });
 
-    // Test for no value selected, it will return 302 and redirect to the next page when no work sector is selected.
-    it("should return status 302 after no work sector selected", async () => {
+    // Test for incorrect form details entered, will return 400.
+    it("should return status 400 after no radio selected", async () => {
         const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "" });
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select which sector you work in or if you prefer not to say");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
-        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIA" });
+        const res = await router.post(BASE_URL + LIMITED_SECTOR_YOU_WORK_IN).send({ sectorYouWorkIn: "AIP" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
