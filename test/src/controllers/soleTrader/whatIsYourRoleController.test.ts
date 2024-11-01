@@ -4,7 +4,7 @@ import supertest from "supertest";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE, STOP_NOT_RELEVANT_OFFICER } from "../../../../src/types/pageURL";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
@@ -19,7 +19,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA",
+    workSector: "AIP",
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
@@ -98,6 +98,7 @@ function createMockSessionMiddleware (typeOfBusiness: string) {
     session.setExtraData(USER_DATA, {
         typeOfBusiness: typeOfBusiness
     });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();

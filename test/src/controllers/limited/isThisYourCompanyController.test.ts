@@ -6,7 +6,7 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { LIMITED_IS_THIS_YOUR_COMPANY, BASE_URL, LIMITED_COMPANY_INACTIVE, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../../src/types/pageURL";
 import { NextFunction, Request, Response } from "express";
 import { validCompanyProfile, invalidCompanyProfile } from "../../../mocks/company_profile_mock";
-import { COMPANY_DETAILS } from "../../../../src/common/__utils/constants";
+import { COMPANY_DETAILS, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
@@ -97,12 +97,14 @@ function createMockSessionMiddleware (companyStatus: string) {
     if (companyStatus === "Active") {
         customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
+            session.setExtraData(SUBMISSION_ID, "transactionID");
             req.session = session;
             next();
         });
     } else if (companyStatus === "invalid") {
         customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(COMPANY_DETAILS, invalidCompanyProfile);
+            session.setExtraData(SUBMISSION_ID, "transactionID");
             req.session = session;
             next();
         });

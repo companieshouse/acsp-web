@@ -1,17 +1,17 @@
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import * as config from "../../../config";
-import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER } from "../../../types/pageURL";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
-import { Session } from "@companieshouse/node-session-handler";
-import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
+import * as config from "../../../config";
 import { AcspDataService } from "../../../services/acspDataService";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { getAcspRegistration } from "../../../services/acspRegistrationService";
+import { ErrorService } from "../../../services/errorService";
+import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import logger from "../../../utils/logger";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -65,7 +65,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData, selectedOption);
+
+            if (acspData != null && acspData.typeOfBusiness !== selectedOption) {
+                await acspDataService.createNewApplication(session, selectedOption);
+            } else {
+                await acspDataService.saveAcspData(session, acspData, selectedOption);
+            }
+
             saveDataInSession(req, "resume_application", true);
 
             if (selectedOption === "CORPORATE_BODY") {

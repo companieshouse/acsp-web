@@ -9,6 +9,7 @@
       {% include "partials/user_name.njk" %}
     {% endif %}
     {{ govukRadios({
+      errorMessage: errors.sectorYouWorkIn if errors,
       classes: "govuk-radios",
       id: "sector-you-work-in-radios",
       name: "sectorYouWorkIn",
@@ -19,17 +20,12 @@
           classes: "govuk-fieldset__legend--l"
         }
       },
-      hint: {
-        text: i18n.sectorYouWorkInHintText,
-        id: "what-sector-hint",
-        classes: "govuk-hint govuk-!-padding-bottom-2"
-      },
       value: workSector,
       items: [
         {
-          value: "AIA",
+          value: "AIP",
           text: i18n.sectorYouWorkInAuditorsInsolvencyPractitionersOption,
-          id:"AIA-id"
+          id:"AIP-id"
         },
         {
           value: "ILP",
@@ -55,6 +51,14 @@
           value: "OTHER",
           text: i18n.sectorYouWorkInOtherOption,
           id:"OTHER-id"
+        },
+        {
+          divider: i18n.sectorYouWorkInOrText
+        },
+        {
+          value: "PNTS",
+          text: i18n.sectorYouWorkInPreferNotToSayOption,
+          id:"prefer-not-to-say-id"
         }
       ]
     }) }}
@@ -66,7 +70,7 @@
 
   <script>
     let selectedRadio = null;
-    
+
     // Function to track Matomo analytics based on the selected radio button
     function trackRadioSelection() {
       const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]');
@@ -81,17 +85,7 @@
     
     // Run trackRadioSelection function
     trackRadioSelection();
-    
-    // EventListener to track the value of selectedRadio when the save and continue button is clicked
-    document.getElementById("save-continue-button").addEventListener("click", () => {
-      // If no radio button has been selected, then work sector has not been provided
-      if (!selectedRadio) {
-        trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in - Not provided");
-      } else {
-        // Else a radio button has been selected and the below function is run
-        trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in");
-      }
-    });
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in");
     </script>
 
 {% endblock main_content %}
