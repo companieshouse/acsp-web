@@ -4,7 +4,6 @@
     "whichSectorOtherHighValueDealersOption": "Delwyr gwerth uchel",
     "whichSectorOtherCasinosOption": "Casinos",
     "whichSectorOtherGoBack": "Ewch yn ôl i’r prif dudalen sector busnes",
-    "sectorYouWorkOtherHintText" : "This is optional. If you want to skip the question, select the 'Save and continue' button without selecting an option. welsh",
 
-    "error-whichSectorOtherSelectRadio" : "Dewiswch pa sector arall rydych chi'n gweithio ynddo"
+    "error-whichSectorOtherSelectRadio" : "Select which sector you work in or if you prefer not to say welsh"
 }

@@ -14,7 +14,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA"
+    workSector: "AIP"
 };
 
 describe("GET" + LIMITED_WHICH_SECTOR_OTHER, () => {
@@ -67,20 +67,20 @@ describe("POST" + LIMITED_WHICH_SECTOR_OTHER, () => {
         const formData = {
             id: "abc",
             typeOfBusiness: "LIMITED",
-            workSector: "AIA"
+            workSector: "AIP"
         };
         mockGetAcspRegistration.mockResolvedValueOnce(formData);
         mockPutAcspRegistration.mockResolvedValueOnce(formData);
-        const res = await router.post(BASE_URL + LIMITED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "AIA" });
+        const res = await router.post(BASE_URL + LIMITED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "AIP" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
     });
 
-    // Test for no option selected should return status 302 and redirect.
-    it("should return status 302 after no radio selected", async () => {
+    // Test for incorrect form details entered, will return 400.
+    it("should return status 400 after no radio selected", async () => {
         const res = await router.post(BASE_URL + LIMITED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "" });
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_YOUR_EMAIL + "?lang=en");
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select which sector you work in or if you prefer not to say");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
