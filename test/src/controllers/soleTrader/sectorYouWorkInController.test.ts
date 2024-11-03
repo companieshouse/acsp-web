@@ -25,7 +25,7 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {
@@ -36,7 +36,7 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {

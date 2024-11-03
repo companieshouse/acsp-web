@@ -27,7 +27,7 @@ describe("GET" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
 
@@ -40,7 +40,7 @@ describe("GET" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
 
@@ -59,7 +59,7 @@ describe("POST" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.header.location).toBe(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
     });
 

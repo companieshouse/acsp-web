@@ -55,8 +55,8 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 // Apply middleware
 app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER_WHAT_IS_YOUR_ROLE}))*`, authenticationMiddleware);
-app.use(`^(${BASE_URL}${SOLE_TRADER_WHAT_IS_YOUR_ROLE})*`, authenticationMiddlewareForSoleTrader);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER}))*`, authenticationMiddleware);
+app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
 
 // Company Auth redirect

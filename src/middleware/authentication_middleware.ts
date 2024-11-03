@@ -11,7 +11,7 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
         returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
     };
 
-    return isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY) === true
+    return isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)
         ? authMiddleware(authMiddlewareConfig)(req, res, next)
         : acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
 };
