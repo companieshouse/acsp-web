@@ -1,10 +1,10 @@
 /* eslint-disable import/first */
 jest.mock("@companieshouse/web-security-node");
-process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "false";
+process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "true";
 import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
-import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
 import { BASE_URL, CHECK_SAVED_APPLICATION } from "../../../src/types/pageURL";
+import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
 
 // get handle on mocked function and create mock function to be returned from calling authMiddleware
 const mockAuthMiddleware = authMiddleware as jest.Mock;
@@ -29,8 +29,9 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 describe("authentication middleware tests", () => {
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
-        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
-        expect(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(req, res, next);
+        authenticationMiddleware(req, res, next);
+        expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
+        expect(mockAuthReturnedFunctionAuthMiddleware).toHaveBeenCalledWith(req, res, next);
     });
 
 });

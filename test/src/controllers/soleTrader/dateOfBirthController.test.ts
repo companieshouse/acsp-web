@@ -32,7 +32,7 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.text).toContain("What is your date of birth?");
     });
 
@@ -41,7 +41,7 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.text).toContain("What is your date of birth?");
     });
 

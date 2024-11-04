@@ -5,6 +5,7 @@ import logger from "./utils/logger";
 import routerDispatch from "./router.dispatch";
 import cookieParser from "cookie-parser";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
+import { authenticationMiddlewareForSoleTrader } from "./middleware/authentication_middleware_sole_trader";
 import { sessionMiddleware } from "./middleware/session_middleware";
 
 import {
@@ -16,7 +17,7 @@ import {
     PIWIK_URL,
     PIWIK_SITE_ID
 } from "./utils/properties";
-import { BASE_URL, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { getLocalesService, selectLang } from "./utils/localise";
 import { ErrorService } from "./services/errorService";
@@ -54,7 +55,8 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 // Apply middleware
 app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, authenticationMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER}))*`, authenticationMiddleware);
+app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
 
 // Company Auth redirect

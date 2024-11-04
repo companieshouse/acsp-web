@@ -33,7 +33,7 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.text).toContain("Where do you live?");
     });
 
@@ -46,7 +46,7 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {
