@@ -17,7 +17,7 @@ import {
     PIWIK_URL,
     PIWIK_SITE_ID
 } from "./utils/properties";
-import { BASE_URL, SOLE_TRADER, SOLE_TRADER_WHAT_IS_YOUR_ROLE, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { getLocalesService, selectLang } from "./utils/localise";
 import { ErrorService } from "./services/errorService";
