@@ -1,7 +1,7 @@
 {
-    "alreadyBeenAddedToAcspHeading": "You've already been added to an authorised agent account welsh",
-    "emailAddressAlreadyAdded": "You cannot apply to register a business as an authorised agent as your email address has already been added to an authorised agent account. welsh",
-    "beforeYouApply": "Before you can apply to register, you'll need to remove yourself from the welsh ",
-    "linkAuthorisedAgentAccount": "authorised agent account welsh",
-    "askToRemoveYou": "If you've been added to the account as a standard user, you'll need to ask an account owner or administrator to remove you. welsh"
+    "alreadyBeenAddedToAcspHeading": "Rydych eisoes wedi cael eich ychwanegu at gyfrif asiant awdurdodedig",
+    "emailAddressAlreadyAdded": "Ni allwch wneud cais i gofrestru busnes fel asiant awdurdodedig gan fod eich cyfeiriad e-bost eisoes wedi'i ychwanegu at gyfrif asiant awdurdodedig.",
+    "beforeYouApply": "NEED Before you can apply to register, you'll need to remove yourself from the welsh ",
+    "linkAuthorisedAgentAccount": "NEED authorised agent account welsh",
+    "askToRemoveYou": "Os ydych wedi cael eich ychwanegu at y cyfrif fel defnyddiwr safonol, bydd angen i chi ofyn i berchennog cyfrif neu weinyddwr eich dileu oddi yno."
 }

@@ -63,7 +63,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            errorListDisplay(errorList.array(), acspData.amlSupervisoryBodies!, lang);
+            errorListDisplay(errorList.array(), acspData.amlSupervisoryBodies!, lang, locales.i18nCh.resolveNamespacesKeys(lang));
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -96,14 +96,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string) => {
+const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string, i18n: any) => {
     return errors.forEach((element) => {
         const index = element.param.substr("membershipNumber_".length) - 1;
         const selection = amlSupervisoryBodies[index].amlSupervisoryBody;
         element.msg = resolveErrorMessage(element.msg, lang);
-        element.msg = element.msg + selection;
+        if (element.msg === i18n["error-amlIDNumberInput"]) {
+            element.msg = element.msg + selection;
+        }
         return element;
-
     });
 };
 

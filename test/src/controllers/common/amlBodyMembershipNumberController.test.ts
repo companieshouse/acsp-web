@@ -88,7 +88,7 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(400);
-        expect(res.text).toContain("The Anti-Money Laundering (AML) membership number must be 256 characters or less for Association of Chartered Certified Accountants (ACCA)");
+        expect(res.text).toContain("The Anti-Money Laundering (AML) membership number must be 256 characters or less");
     });
 
     it("should return status 500 after calling POST endpoint and failing", async () => {
