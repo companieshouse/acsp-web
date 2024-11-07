@@ -5,9 +5,9 @@
     "sectorYouWorkInTrustOrCompanyServiceProvidersOption": "Ymddiriedolaeth neu ddarparwyr gwasanaeth cwmni",
     "sectorYouWorkInCreditInstitutionsOption": "Sefydliadau credyd",
     "sectorYouWorkInFinancialInstitutionsOption": "Sefydliadau ariannol",
-    "sectorYouWorkInOtherOption": "Show other sectors welsh",
+    "sectorYouWorkInOtherOption": "Dangos sectorau eraill",
     "sectorYouWorkInOrText": "neu",
-    "sectorYouWorkInPreferNotToSayOption": "Prefer not to say welsh",
+    "sectorYouWorkInPreferNotToSayOption": "Mae'n well gen i beidio â dweud",
 
-    "error-sectorYouWorkInSelectRadio" : "Select which sector you work in or if you prefer not to say welsh"
+    "error-sectorYouWorkInSelectRadio" : "Dewiswch ym mha sector rydych yn gweithio ynddo neu os yw'n well gennych beidio â dweud"
 }

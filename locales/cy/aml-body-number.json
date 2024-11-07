@@ -7,5 +7,5 @@
   "amlcontactinfo": "Cysylltwch â'r corff goruchwylio AML os oes angen i chi wirio'ch manylion.",
 
   "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer ",
-  "error-amlIdLength": "Rhaid i'r rhif aelodaeth Atal Gwyngalchu Arian (AML) fod yn 256 nod neu lai."
+  "error-amlIdLength": "Rhaid i'r rhif aelodaeth Gwrth-Gwyngalchu Arian (AML) fod yn 256 nod neu lai ar gyfer "
 }
