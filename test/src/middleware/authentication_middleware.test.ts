@@ -49,9 +49,8 @@ describe("authentication middleware tests", () => {
             originalUrl: Url
         } as unknown as Request;
         authenticationMiddleware(request, res, next);
-        expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithWhatisRoleURL);
+        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithWhatisRoleURL);
     });
-
 
 });
 
