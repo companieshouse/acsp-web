@@ -15,16 +15,11 @@
                     legend: {
                         text: i18n.otherTypeOfBusinessTitle,
                         isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l govuk-!-width-two-thirds"
+                        classes: "govuk-fieldset__legend--l"
                     }
                 },
                 value: otherTypeOfBusiness,
                 items: [
-                    {
-                        value: "UNINCORPORATED",
-                        text: i18n.otherTypeOfBusinessUnincorporatedEntity,
-                        id:"UNINCORPORATED"
-                    },
                     {
                         value: "CORPORATE_BODY",
                         text: i18n.otherTypeOfBusinessCorporateBody,
@@ -32,6 +27,11 @@
                         hint: {
                             text: i18n.otherTypeOfBusinessCorporateBodyHint
                         }
+                    },
+                    {
+                        value: "UNINCORPORATED",
+                        text: i18n.otherTypeOfBusinessUnincorporatedEntity,
+                        id:"UNINCORPORATED"
                     }
                 ]
                 }) }}

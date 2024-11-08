@@ -3,7 +3,6 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { ADDRESS_LIST, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
-import { Address } from "../../../model/Address";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import { BASE_URL, UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, UNINCORPORATED_BUSINESS_ADDRESS_LIST, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, UNINCORPORATED_BUSINESS_ADDRESS_MANUAL } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
@@ -12,7 +11,7 @@ import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -23,9 +22,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl = BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST;
 
     try {
-
         // get data from mongo and save to session
-        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LIST, {
@@ -69,7 +67,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const selectedPremise = req.body.businessAddress;
 
             // Save selected address to mongoDb
-            const businessAddress: Address = addressList.filter((address) => address.propertyDetails === selectedPremise)[0];
+            const businessAddress: Address = addressList.filter((address) => address.premises === selectedPremise)[0];
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.saveBusinessAddressFromList(businessAddress, acspData);
             const acspDataService = new AcspDataService();

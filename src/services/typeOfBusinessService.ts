@@ -7,8 +7,7 @@ import logger from "../utils/logger";
 
 export class TypeOfBusinessService {
 
-    async createTransaction (req: Request, res: Response): Promise<string> {
-        const session = req.session as Session;
+    async createTransaction (session: Session): Promise<string> {
         let transactionId: string = "";
         try {
             await postTransaction(session, CREATE_DESCRIPTION, REFERENCE).then((transaction) => {

@@ -30,8 +30,10 @@ export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}/acsp-api`;
 export const CREATE_DESCRIPTION = "Application to register a Companies House authorised agent";
 export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {
-    CLOSED: "closed"
+    CLOSED: "closed",
+    CLOSED_PENDING_PAYMENT: "closed pending payment"
 };
+export const PAYMENTS = "/payments";
 export const ACCESSIBILITY_STATEMENT = `${BASE_COMMON_URL}/accessibility-statement/accessibility-statement`;
 export const STOP_NOT_RELEVANT_OFFICER = `${BASE_SOLE_TRADER_URL}/stop-not-relevant-officer/stop-not-relevant-officer`;
 export const WHAT_IS_YOUR_NAME = `${BASE_COMMON_URL}/name/capture-name`;
@@ -68,3 +70,4 @@ export const CHECK_AML_DETAILS = `${BASE_COMMON_URL}/check-aml-details/check-aml
 export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-submit-another-application/cannot-submit-another-application`;
 export const WHAT_IS_YOUR_EMAIL = `${BASE_COMMON_URL}/what-is-your-email/what-is-your-email`;
 export const CANNOT_REGISTER_AGAIN = `${BASE_COMMON_URL}/cannot-register-again/cannot-register-again`;
+export const PAYMENT_FAILED = `${BASE_COMMON_URL}/payment-failed/payment-failed`;

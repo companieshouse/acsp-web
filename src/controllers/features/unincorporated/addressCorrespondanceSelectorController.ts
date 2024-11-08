@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS;
     try {
         // get data from mongo and save to session
-        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         // set addressoption to render the page with saved data
@@ -80,6 +80,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 //  save data to mongodb
                 applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
+                applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
+                      true;
                 acspData.applicantDetails = applicantDetails;
                 await acspDataService.saveAcspData(session, acspData);
                 // redirect

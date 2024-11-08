@@ -29,7 +29,7 @@ const errorSavedApplication = {
 describe("GET " + CHECK_SAVED_APPLICATION, () => {
 
     it("should show the error screen if getSavedApplication fails", async () => {
-        mockGetSavedApplication.mockResolvedValueOnce(errorSavedApplication);
+        mockGetSavedApplication.mockRejectedValueOnce(errorSavedApplication);
         const response = await router.get(BASE_URL + CHECK_SAVED_APPLICATION);
         expect(response.status).toBe(500);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

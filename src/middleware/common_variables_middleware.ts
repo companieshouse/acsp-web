@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Session } from "@companieshouse/node-session-handler";
+import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
 
 /**
@@ -18,12 +18,14 @@ export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
     // eslint-disable-next-line camelcase
     const email = session?.data?.signin_info?.user_profile?.email;
     const userId = session?.data?.signin_info?.user_profile?.id;
+    const applicationId = session?.getExtraData(APPLICATION_ID);
     if (email !== undefined) {
         res.locals.userEmail = email;
     }
     if (userId !== undefined) {
         res.locals.userId = userId;
     }
+    res.locals.applicationId = applicationId;
 
     next();
 };

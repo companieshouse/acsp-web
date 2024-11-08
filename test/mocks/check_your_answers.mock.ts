@@ -21,7 +21,7 @@ export const mockLimitedAcspData: AcspData = {
     id: "1234",
     typeOfBusiness: "LC",
     roleType: "DIRECTOR",
-    workSector: "AIA",
+    workSector: "AIP",
     applicantDetails: {
         correspondenceAddress: {
             premises: "premises",
@@ -72,34 +72,6 @@ export const mockSoleTraderAcspData: AcspData = {
     },
     businessName: "Test Business 123"
 };
-export const mockSoleTraderAcspDataWorkSectorNotProvided: AcspData = {
-    id: "1234",
-    typeOfBusiness: "SOLE_TRADER",
-    roleType: "SOLE_TRADER",
-    workSector: undefined,
-    applicantDetails: {
-        correspondenceAddress: {
-            premises: "premises",
-            addressLine1: "addressLine1",
-            addressLine2: "addressLine2",
-            locality: "locality",
-            region: "region",
-            postalCode: "postalcode"
-        },
-        correspondenceEmail: "test@email.com",
-        firstName: "Unit",
-        middleName: "Test",
-        lastName: "User",
-        dateOfBirth: new Date(1990, 10, 15),
-        nationality: {
-            firstNationality: "British",
-            secondNationality: "",
-            thirdNationality: ""
-        },
-        countryOfResidence: "England"
-    },
-    businessName: "Test Business 123"
-};
 export const mockSoleTrader2AcspData: AcspData = {
     id: "1234",
     typeOfBusiness: "SOLE_TRADER",
@@ -123,7 +95,7 @@ export const mockSoleTrader3AcspData: AcspData = {
     id: "1234",
     typeOfBusiness: "SOLE_TRADER",
     roleType: "MEMBER_OF_GOVERNING_BODY",
-    workSector: "EA",
+    workSector: "PNTS",
     applicantDetails: {
         firstName: "Unit",
         middleName: "Test",

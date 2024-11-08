@@ -23,7 +23,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {
@@ -31,7 +31,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should return status 200 when applicantDetails is undefined", async () => {
@@ -42,7 +42,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {
@@ -66,7 +66,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
             });
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     // Test for incorrect form details entered, will return 400.

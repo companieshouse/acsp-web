@@ -9,7 +9,7 @@ import { deleteAcspApplication } from "../../../services/acspRegistrationService
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { Session } from "@companieshouse/node-session-handler";
-import { USER_DATA } from "../../../common/__utils/constants";
+import { APPLICATION_ID, RESUME_APPLICATION_ID, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,8 +26,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + SAVED_APPLICATION;
-    // eslint-disable-next-line camelcase
-    const userId = session?.data?.signin_info?.user_profile?.id!;
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -40,13 +38,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...pageProperties
             });
         } else {
+            const resumeApplicationId: string = session.getExtraData(RESUME_APPLICATION_ID)!;
+            logger.debug("resumeApplicationId :" + resumeApplicationId);
             if (req.body.savedApplication === "no") {
                 saveDataInSession(req, "resume_application", true);
+                session.setExtraData(APPLICATION_ID, resumeApplicationId);
                 res.redirect((YOUR_FILINGS));
             } else {
                 saveDataInSession(req, "resume_application", false);
+                await deleteAcspApplication(session, session.getExtraData(SUBMISSION_ID)!, resumeApplicationId);
                 session.deleteExtraData(USER_DATA);
-                await deleteAcspApplication(session, userId);
+                session.deleteExtraData(SUBMISSION_ID);
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }

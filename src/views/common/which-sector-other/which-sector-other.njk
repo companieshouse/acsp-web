@@ -10,6 +10,7 @@
         {% endif %}
         <div class="govuk-form-group">
             {{ govukRadios({
+                errorMessage: errors.sectorYouWorkIn if errors,
                 classes: "govuk-radios",
                 id: "which-sector-other-radios",
                 name: "whichSectorOther",
@@ -19,11 +20,6 @@
                         isPageHeading: true,
                         classes: "govuk-fieldset__legend--l"
                     }
-                },
-                hint: {
-                    text: i18n.sectorYouWorkOtherHintText,
-                    id: "what-sector-other-hint",
-                    classes: "govuk-hint govuk-!-padding-bottom-2"
                 },
                 value: workSector,
                 items: [
@@ -78,20 +74,9 @@
         });
       }
 
-      // Run trackRadioSelection function
       trackRadioSelection();
-
-
-      // EventListener to track the value of selectedRadio when the save and continue button is clicked
-      document.getElementById("save-continue-button").addEventListener("click", () => {
-        // If no radio button has been selected, then work sector has not been provided
-        if (!selectedRadio) {
-          trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER SECTOR - Not provided");
-        } else {
-          // Else a radio button has been selected and the below function is run
-          trackEventWorkSector("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER SECTOR");
-        }
-      });
+      trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER SECTOR");
+      trackEventBasedOnPageTitle("back-link-id", "{{title}}", "click-link", "Back to main business sector");
     </script>
 
 {% endblock main_content %}

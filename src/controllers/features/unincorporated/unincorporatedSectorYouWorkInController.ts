@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import { validationResult } from "express-validator";
 import * as config from "../../../config";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UNINCORPORATED_WHICH_SECTOR, UNINCORPORATED_WHAT_IS_YOUR_ROLE, BASE_URL, UNINCORPORATED_WHICH_SECTOR_OTHER, UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
@@ -19,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         let workSector;
@@ -49,15 +51,22 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
-        if (req.body.sectorYouWorkIn === "OTHER") {
+        const errorList = validationResult(req);
+        if (!errorList.isEmpty()) {
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+            res.status(400).render(config.SECTOR_YOU_WORK_IN, {
+                title: locales.i18nCh.resolveNamespacesKeys(lang).sectorYouWorkInTitle,
+                ...getLocaleInfo(locales, lang),
+                currentUrl,
+                ...pageProperties
+            });
+        } else if (req.body.sectorYouWorkIn === "OTHER") {
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER, lang));
         } else {
-            if (acspData) {
-                acspData.workSector = req.body.sectorYouWorkIn;
-                // save data to mongodb
-                const acspDataService = new AcspDataService();
-                await acspDataService.saveAcspData(session, acspData);
-            }
+            // save data to mongodb
+            acspData.workSector = req.body.sectorYouWorkIn;
+            const acspDataService = new AcspDataService();
+            await acspDataService.saveAcspData(session, acspData);
             res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, lang));
         }
     } catch (err) {

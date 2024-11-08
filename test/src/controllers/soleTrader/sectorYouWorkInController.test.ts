@@ -25,7 +25,7 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {
@@ -36,7 +36,7 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataWithoutApplicantDetails);
         await router.get(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {
@@ -52,7 +52,7 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const formData = {
-            sectorYouWorkIn: "AIA",
+            sectorYouWorkIn: "AIP",
             typeOfBusiness: "SOLE_TRADER",
             applicantDetails: {
                 firstName: "John",
@@ -67,7 +67,7 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
 
     it("should return status 302 without applicantDetails", async () => {
         const formData = {
-            sectorYouWorkIn: "AIA",
+            sectorYouWorkIn: "AIP",
             typeOfBusiness: "SOLE_TRADER"
         };
         const res = await router.post(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).send(formData);
@@ -90,8 +90,8 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
         expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER + "?lang=en");
     });
 
-    // Test for no value selected, it will return 302 and redirect to the next page when no work sector is selected.
-    it("should return status 302 after no work sector selected", async () => {
+    // Test for incorrect form details entered, will return 400.
+    it("should return status 400 after no work sector selected", async () => {
         const formData = {
             sectorYouWorkIn: "",
             typeOfBusiness: "SOLE_TRADER",
@@ -102,13 +102,13 @@ describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
             }
         };
         const res = await router.post(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN).send(formData);
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS + "?lang=en");
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select which sector you work in or if you prefer not to say");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
         const formData = {
-            sectorYouWorkIn: "AIA",
+            sectorYouWorkIn: "AIP",
             typeOfBusiness: "SOLE_TRADER",
             applicantDetails: {
                 firstName: "John",

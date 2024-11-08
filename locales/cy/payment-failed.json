@@ -1,0 +1,11 @@
+{
+    "paymentFailedHeading": "Taliad wedi methu",
+    "paymentFailedApplicationNotSubmitted": "Nid yw eich cais wedi'i gyflwyno oherwydd nad ydym wedi gallu cymryd taliad. Gallai hyn fod oherwydd:",
+    "paymenFailedBulletPoint1": "rydych wedi canslo eich taliad",
+    "paymenFailedBulletPoint2": "gwrthodwyd eich taliad",
+    "paymenFailedBulletPoint3": "mae eich taliad wedi dod i ben",
+    "paymenFailedBulletPoint4": "roedd gwall (er enghraifft, gwall technegol)",
+    "paymentFailedSavedToFilings": "Mae eich cais wedi'i gadw yn eich dogfennau. I gyflwyno'r cais, bydd angen i chi ",
+    "paymentFailedYourFilingsLink": "ddod o hyd i'r cais yn Eich Ffeilio",
+    "paymentFailedCompletePayment": "a chwblhau taliad."
+}

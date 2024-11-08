@@ -16,7 +16,7 @@
       <li>{{ businessAddress.postalCode }}</li>
     </ul>
     <p class="govuk-body">
-      <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state">{{ i18n.EditAddress }}</a>
+      <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state" id="edit-address-link">{{ i18n.EditAddress }}</a>
     </p>
     {{ govukButton({
       text: i18n.ConfirmAndContinue,
@@ -26,6 +26,7 @@
 
   <script>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "CONFIRM AND CONTINUE - address business confirm");
+    trackEventBasedOnPageTitle("edit-address-link", "{{title}}", "click-link", "EDIT ADDRESS - edit business address");
   </script>
 
 {% endblock main_content %}

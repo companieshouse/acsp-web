@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import logger, { createAndLogError } from "../../../utils/logger";
 import { addLangToUrl, selectLang } from "../../../utils/localise";
-import { BASE_URL, CONFIRMATION, CHECK_YOUR_ANSWERS } from "../../../types/pageURL";
+import { BASE_URL, CONFIRMATION, PAYMENT_FAILED } from "../../../types/pageURL";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
 
 export const get = (req: Request, res: Response, next: NextFunction) => {
@@ -24,6 +24,6 @@ export const get = (req: Request, res: Response, next: NextFunction) => {
         return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
     } else {
         logger.debug("Transaction id: " + transactionId + " - Payment status: " + paymentStatus + " - redirecting to the check your answers page");
-        return res.redirect(addLangToUrl(BASE_URL + CHECK_YOUR_ANSWERS, lang));
+        return res.redirect(addLangToUrl(BASE_URL + PAYMENT_FAILED, lang));
     }
 };

@@ -7,6 +7,7 @@ import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../com
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -16,7 +17,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         const url = "/register-as-companies-house-authorised-agent/aml-membership-number";
         res.render(config.CHECK_AML_DETAILS, {
             ...getLocaleInfo(locales, lang),
@@ -27,6 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
             businessName: acspData?.businessName,
+            AMLSupervisoryBodies,
             url
         });
     } catch (err) {

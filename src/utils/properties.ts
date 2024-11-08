@@ -16,6 +16,8 @@ export const POSTCODE_ADDRESSES_LOOKUP_URL = getEnvironmentVariable("POSTCODE_AD
 
 export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
 
+export const PAYMENTS_API_URL = getEnvironmentValue("PAYMENTS_API_URL", "http://api-payments.chs.local:4001");
+
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
 
 export const CHS_URL = getEnvironmentValue("CHS_URL", "http://chs.local");
@@ -47,3 +49,5 @@ export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID", "4
 export const FEATURE_FLAG_DISABLE_LIMITED_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_LIMITED_JOURNEY", "false");
 
 export const FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY = getEnvironmentValue("FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY", "false");
+
+export const FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = getEnvironmentValue("FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY", "false");

@@ -6,7 +6,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { StatusCodes } from "http-status-codes";
-
 import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config";
 import { headers } from "../../common/__utils/constants";
 
@@ -90,7 +89,46 @@ export const putTransaction = async (session: Session,
 };
 
 // get transaction list for resource kind
-export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<Resource<TransactionList> | ApiErrorResponse> => {
+export const getSavedApplication = async (session: Session, acspApplicationId: string): Promise<Resource<TransactionList>> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
-    return apiClient.transaction.getTransactionsForResourceKind(acspApplicationId, "acsp");
+    const sdkResponse = await apiClient.transaction.getTransactionsForResourceKind(acspApplicationId, "acsp");
+
+    if (!sdkResponse) {
+        logger.error(`Transaction API GET request returned no response for application id: ${acspApplicationId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    if (!sdkResponse.httpStatusCode || (sdkResponse.httpStatusCode >= 400 && sdkResponse.httpStatusCode !== 404)) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to GET transaction for application id: ${acspApplicationId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    return Promise.resolve(sdkResponse as Resource<TransactionList>);
+};
+
+// get transaction from transaction id
+export const getTransactionById = async (session: Session, transactionId: string): Promise<Transaction> => {
+    const apiClient: ApiClient = createPublicOAuthApiClient(session);
+    const sdkResponse = await apiClient.transaction.getTransaction(transactionId);
+
+    if (!sdkResponse) {
+        logger.error(`Transaction API GET request returned no response for transaction id: ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    if (!sdkResponse.httpStatusCode || sdkResponse.httpStatusCode >= 400) {
+        logger.error(`Http status code ${sdkResponse.httpStatusCode} - Failed to GET transaction with id: ${transactionId}`);
+        return Promise.reject(sdkResponse);
+    }
+
+    const castedSdkResponse = sdkResponse as Resource<Transaction>;
+
+    if (!castedSdkResponse.resource) {
+        logger.error(`Transaction API GET request returned no resource`);
+        return Promise.reject(sdkResponse);
+    }
+
+    logger.debug(`Received transaction ${JSON.stringify(sdkResponse)}`);
+
+    return Promise.resolve(castedSdkResponse.resource);
 };

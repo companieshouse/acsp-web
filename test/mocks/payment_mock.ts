@@ -1,4 +1,5 @@
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
+import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 
 export const PAYMENT_JOURNEY_URL = "journey";
 
@@ -24,3 +25,18 @@ export const dummyPayment = {
     reference: "3432",
     status: "paid"
 } as Payment;
+
+const dummyHeaders = {
+    header1: "45435435"
+};
+
+export const dummyPaymentResponse: ApiResponse<Payment> = {
+    headers: dummyHeaders,
+    httpStatusCode: 200,
+    resource: dummyPayment
+};
+
+export const dummyPaymentResponseNoResource: ApiResponse<Payment> = {
+    headers: dummyHeaders,
+    httpStatusCode: 200
+};

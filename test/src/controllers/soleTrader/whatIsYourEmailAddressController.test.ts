@@ -14,7 +14,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA"
+    workSector: "AIP"
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_EMAIL, () => {
@@ -22,7 +22,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_EMAIL, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.status).toBe(200);
         expect(res.text).toContain("What email address should we use for correspondence?");
     });
@@ -31,7 +31,7 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_EMAIL, () => {
         mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_EMAIL);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });

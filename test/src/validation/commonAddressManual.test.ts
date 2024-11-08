@@ -3,8 +3,6 @@ import app from "../../../src/app";
 import { manualAddressValidator } from "../../../src/validation/commonAddressManual";
 import { validationResult } from "express-validator";
 
-const router = supertest(app);
-
 describe("Correspondence Address Manual Validator", () => {
     it("Valid Address Data Should Pass Validation", () => {
         const validAddressData = {
@@ -39,7 +37,7 @@ describe("Correspondence Address Manual Validator", () => {
             addressLine2: "Invalid Address Line 2",
             addressTown: "",
             addressCounty: "Invalid County Name!@#",
-            addressCountry: "Invalid Country Name!@#",
+            addressCountry: "",
             addressPostcode: "INVALID_POSTCODE"
         };
 
@@ -59,7 +57,7 @@ describe("Correspondence Address Manual Validator", () => {
             { location: "body", msg: "invalidAddressLine1", param: "addressLine1", value: "Invalid!@#" },
             { location: "body", msg: "noCityOrTown", param: "addressTown", value: "" },
             { location: "body", msg: "invalidAddressCounty", param: "addressCounty", value: "Invalid County Name!@#" },
-            { location: "body", msg: "invalidAddressCountry", param: "addressCountry", value: "Invalid Country Name!@#" },
+            { location: "body", msg: "countryIsMissing", param: "addressCountry", value: "" },
             { location: "body", msg: "invalidPostcodeFormat", param: "addressPostcode", value: "INVALID_POSTCODE" }
         ];
 

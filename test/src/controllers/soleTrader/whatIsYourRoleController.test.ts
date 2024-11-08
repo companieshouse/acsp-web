@@ -4,7 +4,7 @@ import supertest from "supertest";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { BASE_URL, SOLE_TRADER_WHAT_IS_YOUR_NAME, SOLE_TRADER_WHAT_IS_YOUR_ROLE, STOP_NOT_RELEVANT_OFFICER } from "../../../../src/types/pageURL";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { NextFunction, Request, Response } from "express";
 import { getAcspRegistration, putAcspRegistration } from "../../../../src/services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
@@ -19,7 +19,7 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const acspData: AcspData = {
     id: "abc",
     typeOfBusiness: "LIMITED",
-    workSector: "AIA",
+    workSector: "AIP",
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
@@ -32,7 +32,7 @@ describe("Statement Relevant Officer Router", () => {
         const response = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
         expect(response.text).toContain("What is your role in the business?");
     });
 
@@ -40,7 +40,7 @@ describe("Statement Relevant Officer Router", () => {
         const response = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE);
         expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("catch error when rendering the page", async () => {
@@ -78,7 +78,7 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
         expect(response.status).toBe(400);
         expect(response.text).toContain("Select if you are the sole trader or someone else");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {
@@ -98,6 +98,7 @@ function createMockSessionMiddleware (typeOfBusiness: string) {
     session.setExtraData(USER_DATA, {
         typeOfBusiness: typeOfBusiness
     });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();

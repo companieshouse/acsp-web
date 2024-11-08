@@ -26,9 +26,7 @@ export const manualAddressValidator = [
     body("addressCounty").trim().matches(addressCountyAndCountryFormat).withMessage("invalidAddressCounty").bail()
         .isLength({ max: 50 }).withMessage("invalidAddressCountyLength"),
 
-    body("addressCountry").trim().notEmpty().withMessage("countryIsMissing").bail()
-        .matches(addressCountyAndCountryFormat).withMessage("invalidAddressCountry").bail()
-        .isLength({ max: 50 }).withMessage("invalidAddressCountryLength"),
+    body("addressCountry", "countryIsMissing").notEmpty(),
 
     body("addressPostcode").trim().toUpperCase().notEmpty().withMessage("noPostCode").bail()
         .matches(addressPostcodevaild).withMessage("invalidPostcodeFormat").bail()

@@ -1,0 +1,11 @@
+{
+    "paymentFailedHeading": "Payment Failed",
+    "paymentFailedApplicationNotSubmitted": "Your application has not been submitted because we have not been able to take payment. This could be because:",
+    "paymenFailedBulletPoint1": "you cancelled your payment",
+    "paymenFailedBulletPoint2": "your payment was declined",
+    "paymenFailedBulletPoint3": "your payment expired",
+    "paymenFailedBulletPoint4": "there was an error (for example, a technical error)",
+    "paymentFailedSavedToFilings": "Your application has been saved in Your Filings. To submit the application, you will need to",
+    "paymentFailedYourFilingsLink": "find the application in Your Filings",
+    "paymentFailedCompletePayment": "and complete payment"
+}

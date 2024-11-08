@@ -22,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         // set addressoption to render the page with saved data
@@ -79,6 +79,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const acspDataService = new AcspDataService();
             if (addressOption === "CORRESPONDANCE_ADDRESS") {
                 applicantDetails.correspondenceAddress = acspData.registeredOfficeAddress;
+                applicantDetails.correspondenceAddressIsSameAsRegisteredOfficeAddress =
+                      true;
                 acspData.applicantDetails = applicantDetails;
                 //  save data to mongodb
                 await acspDataService.saveAcspData(session, acspData);

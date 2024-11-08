@@ -1,6 +1,7 @@
 {
     "cannotSubmitHeading": "Rydych eisoes wedi cyflwyno cais",
     "oneApplication": "Gallwch gyflwyno un cais yn unig ar y tro.",
-    "applicationBeingProcessed": "Mae eich cais yn cael ei brosesu ar hyn o bryd. Gallwch ",
-    "viewApplicationInFilings": "gweld eich statws cais yn 'Eich Ffeilio'."
+    "goTo": "Ewch i ",
+    "yourFilingsLink": "Eich ffeilio",
+    "toCheckTheStatus": " i wirio statws eich cais"
 }

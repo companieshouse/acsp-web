@@ -18,5 +18,10 @@
     "checkAnswersBusinessAddress": "Cyfeiriad busnes",
     "checkYourAnswersAMLTab": "Corff goruchwylio AML a rhif aelodaeth",
     "checkYourAnswersChange": "Newid",
-    "checkYourAnswersEmail": "Correspondence email address Welsh"
+    "checkYourAnswersEmail": "Cyfeiriad e-bost gohebiaeth",
+    "checkYourAnswersInsetText1": "Ni fyddwn yn cyhoeddi gwybodaeth i ddangos bod busnes wedi cofrestru fel asiant awdurdodedig.",
+    "checkYourAnswersInsetText2": "Fodd bynnag, os bydd angen i ni atal busnes rhag gweithredu fel asiant awdurdodedig, neu os yw busnes yn stopio bod yn asiant awdurdodedig, byddwn yn cyhoeddi'r canlynol:",
+    "checkYourAnswersBulletPoint1": "enw'r busnes",
+    "checkYourAnswersBulletPoint2": "statws - i ddangos a yw wedi'i atal, neu os yw wedi stopio fod yn asiant awdurdodedig",
+    "checkYourAnswersBulletPoint3": "dyddiad y newidiwyd y statws"
 }

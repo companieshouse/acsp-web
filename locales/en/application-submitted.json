@@ -1,7 +1,7 @@
 {
     "applicationSubmittedTitle": "Application submitted",
     "applicationSubmittedReference": "Your application reference:",
-    "applicationSubmittedText1": "We have sent you a confirmation email to ",
+    "applicationSubmittedText1": "We have sent a confirmation email to ",
     "applicationSubmittedHeading1": "Help us to improve this service",
     "applicationSubmittedText2": "This is a new service.",
     "applicationSubmittedLink1": "Complete our quick survey (opens in a new tab)",
@@ -11,7 +11,7 @@
     "applicationSubmittedText5": " to let you know if your application to register an authorised agent has been accepted or rejected.",
     "applicationSubmittedText6": "We'll process the application as soon as possible. This is a new service, so we're not able to tell you exactly how long this will take.",
     "applicationSubmittedHeading4": "If the application is accepted",
-    "applicationSubmittedText7": "We'll register your business as an authorised agent and create an authorised agent account. You'll be able to to access the authorised agent account when you sign in to your Companies House account.",
+    "applicationSubmittedText7": "We'll register your business as an authorised agent and create an authorised agent account. You'll be able to access the authorised agent account when you sign in to your Companies House account.",
     "applicationSubmittedText8": "Read the ",
     "applicationSubmittedGuidanceLink": "guidance for authorised agents",
     "applicationSubmittedText9": " to find out how to manage the agent account, including how to add other users.",

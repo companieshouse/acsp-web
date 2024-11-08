@@ -13,6 +13,7 @@ import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 const selectedAMLSupervisoryBodies: string[] = [];
 const amlSupervisoryBody = new AmlSupervisoryBodyService();
@@ -25,7 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo and save to session
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.userId);
+        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
         const acspType: string = acspData?.typeOfBusiness!;
         const previousPage: string = getPreviousPage(acspType);
@@ -40,7 +41,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lastName: acspData?.applicantDetails?.lastName,
             acspType: acspData?.typeOfBusiness,
             businessName: acspData?.businessName,
-            payload
+            payload,
+            AMLSupervisoryBodies
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -73,7 +75,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 lastName: acspData?.applicantDetails?.lastName,
                 acspType: acspData?.typeOfBusiness,
                 businessName: acspData?.businessName,
-                payload: req.body
+                payload: req.body,
+                AMLSupervisoryBodies
             });
         } else {
             // update acspData

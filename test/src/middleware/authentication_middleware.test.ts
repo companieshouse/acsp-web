@@ -1,8 +1,7 @@
 /* eslint-disable import/first */
-
 jest.mock("@companieshouse/web-security-node");
-
-import { acspProfileCreateAuthMiddleware, AuthOptions } from "@companieshouse/web-security-node";
+process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "false";
+import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
 import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
 import { BASE_URL, CHECK_SAVED_APPLICATION, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../src/types/pageURL";
@@ -11,11 +10,15 @@ import { USER_DATA, COMPANY_NUMBER } from "../../../src/common/__utils/constants
 import { Session } from "@companieshouse/node-session-handler";
 
 // get handle on mocked function and create mock function to be returned from calling authMiddleware
-const mockAuthMiddleware = acspProfileCreateAuthMiddleware as jest.Mock;
-const mockAuthReturnedFunction = jest.fn();
+const mockAuthMiddleware = authMiddleware as jest.Mock;
+const mockAuthReturnedFunctionAuthMiddleware = jest.fn();
+
+const mockAcspProfileCreateAuthMiddleware = acspProfileCreateAuthMiddleware as jest.Mock;
+const mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware = jest.fn();
 
 // when the mocked authMiddleware is called, make it return a mocked function so we can verify it gets called
-mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunction);
+mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAuthMiddleware);
+mockAcspProfileCreateAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware);
 
 const req: Request = {} as Request;
 const res: Response = {} as Response;
@@ -32,10 +35,10 @@ const expectedAuthMiddlewareConfigWithWhatisRoleURL: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
-    it("should call CH authentication library", () => {
+    it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
-        expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
-        expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
+        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
+        expect(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(req, res, next);
     });
 
     it("should call CH authentication library with Limited URL when session is available ", () => {
@@ -48,6 +51,7 @@ describe("authentication middleware tests", () => {
         authenticationMiddleware(request, res, next);
         expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithWhatisRoleURL);
     });
+
 
 });
 

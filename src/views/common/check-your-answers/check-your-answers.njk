@@ -2,51 +2,60 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 
-
 {% set amlList = [] %}
 {% for body in amlDetails %}
-  {% set amlSummaryObject = {
-    key: {
-      text:  i18n.checkYourAnswersAMLTab
-    },
-    value: {
-      html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.amlSupervisoryBody + "</li><li>" + body.membershipId + "</li></ul>"
-    },
-    actions: {
-      items: [
-        {
-          href: editAML + "#" + "membershipnumber_" + loop.index,
-          text: i18n.checkYourAnswersChange,
-          visuallyHiddenText: body.amlSupervisoryBody
+    {% set amlSummaryObject = {
+        key: {
+            text:  i18n.checkYourAnswersAMLTab
+        },
+        value: {
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
+        },
+        actions: {
+            items: [
+            {
+                href: editAML + "#" + "membershipnumber_" + loop.index,
+                text: i18n.checkYourAnswersChange,
+                visuallyHiddenText: body.amlSupervisoryBody
+            }
+            ]
         }
-      ]
-    }
-  } %}
-  {% set amlList = amlList.concat(amlSummaryObject) %}
+    } %}
+    {% set amlList = amlList.concat(amlSummaryObject) %}
 {% endfor %}
 
 {% set title = i18n.checkYourAnswersHeading %}
 {% block main_content %}
-  <form method="post">
-    <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
-    {% if typeOfBusiness === "SOLE_TRADER" %}
-      {% include "partials/check-your-answers/sole-trader-answers.njk" %}
-    {% elif typeOfBusiness === "LC" or typeOfBusiness === "LLP"  or typeOfBusiness === "CORPORATE_BODY"%}
-      {% include "partials/check-your-answers/limited-answers.njk" %}
-    {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "LP" %}
-      {% include "partials/check-your-answers/unincorporated-answers.njk" %}
-    {% endif %}
-    <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
-    {{ govukSummaryList({
-      rows: amlList
-    })}}
-    {{ govukButton({
-      text: i18n.continueToPayment,
-      id: "continue-to-payment-button",
-      attributes: {
-        "onClick": "_paq.push(['trackGoal', '11']);"
-      }
-    }) }}
-  </form>
-  
+    <form method="post">
+        <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
+        {% if typeOfBusiness === "SOLE_TRADER" %}
+            {% include "partials/check-your-answers/sole-trader-answers.njk" %}
+        {% elif typeOfBusiness === "LC" or typeOfBusiness === "LLP"  or typeOfBusiness === "CORPORATE_BODY"%}
+            {% include "partials/check-your-answers/limited-answers.njk" %}
+        {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "LP" %}
+            {% include "partials/check-your-answers/unincorporated-answers.njk" %}
+        {% endif %}
+        <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+        {{ govukSummaryList({
+            rows: amlList
+        })}}
+
+        <div class="govuk-inset-text">
+            <p>{{ i18n.checkYourAnswersInsetText1 }}</p>
+            <p>{{ i18n.checkYourAnswersInsetText2 }}</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{ i18n.checkYourAnswersBulletPoint1 }}</li>
+                <li>{{ i18n.checkYourAnswersBulletPoint2 }}</li>
+                <li>{{ i18n.checkYourAnswersBulletPoint3 }}</li>
+            </ul>
+        </div>
+
+        {{ govukButton({
+            text: i18n.continueToPayment,
+            id: "continue-to-payment-button",
+            attributes: {
+                "onClick": "_paq.push(['trackGoal', '11']);"
+            }
+        }) }}
+    </form>
 {% endblock main_content %}
