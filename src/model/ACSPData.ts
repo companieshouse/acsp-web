@@ -5,6 +5,7 @@ import { RoleType } from "./RoleType";
 import { SectorOfWork } from "./BusinessSector";
 import { TypeOfBusiness } from "./TypeOfBusiness";
 import { ApplicantDetails } from "./ApplicantDetails";
+import { AcspType } from "./AcspType";
 
 export interface ACSPData {
     id: string;
@@ -20,4 +21,5 @@ export interface ACSPData {
     companyDetails?: Company;
     companyAuthCodeProvided?: boolean;
     applicantDetails?: ApplicantDetails;
+    acspType?: AcspType;
 }

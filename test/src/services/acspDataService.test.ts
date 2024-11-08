@@ -23,6 +23,7 @@ const mockPostTransaction = postTransaction as jest.Mock;
 const mockAcspData: AcspData = {
     id: "1234",
     typeOfBusiness: "SOLE_TRADER",
+    acspType: "register-acsp",
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -55,6 +56,7 @@ describe("AcspDataService tests", () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             mockPostAcspRegistration.mockResolvedValueOnce(mockPostResponce);
             await service.saveAcspData(session, undefined!, "SOLE_TRADER");
+            await service.saveAcspData(session, mockAcspData, "register-acsp");
             expect(postAcspRegistration).toHaveBeenCalled();
             expect(session.getExtraData(APPLICATION_ID)).toBe("12345");
         });
@@ -64,6 +66,7 @@ describe("AcspDataService tests", () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             mockPutAcspRegistration.mockResolvedValue({});
             await service.saveAcspData(session, mockAcspData, "SOLE_TRADER");
+            await service.saveAcspData(session, mockAcspData, "register-acsp");
             expect(putAcspRegistration).toHaveBeenCalled();
         });
 

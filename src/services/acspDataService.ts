@@ -4,6 +4,7 @@ import { APPLICATION_ID, RESUME_APPLICATION_ID, SUBMISSION_ID, USER_DATA } from 
 import { deleteAcspApplication, postAcspRegistration, putAcspRegistration } from "./acspRegistrationService";
 import logger from "../utils/logger";
 import { TypeOfBusinessService } from "./typeOfBusinessService";
+import { AcspType } from "../model/AcspType";
 
 export class AcspDataService {
     async saveAcspData (session: Session, acspData: AcspData, selectedOption?: string): Promise<void> {
@@ -18,8 +19,10 @@ export class AcspDataService {
                 });
             }
             if (acspData === undefined) {
+                // hardcoding acspType to register for now
                 acspData = {
-                    typeOfBusiness: selectedOption
+                    typeOfBusiness: selectedOption,
+                    acspType: AcspType.REGISTER_ACSP
                 };
                 // save data to mongo for the first time
                 const resp = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData) as unknown;
