@@ -18,8 +18,10 @@ export class AcspDataService {
                 });
             }
             if (acspData === undefined) {
+                // hardcoding acspType to register for now
                 acspData = {
-                    typeOfBusiness: selectedOption
+                    typeOfBusiness: selectedOption,
+                    acspType: "REGISTER_ACSP"
                 };
                 // save data to mongo for the first time
                 const resp = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData) as unknown;
