@@ -11,7 +11,7 @@ import { PAYEMNT_REFERENCE } from "../common/__utils/constants";
 
 export const startPaymentsSession = async (session: Session, paymentSessionUrl: string,
     transactionId: string): Promise<ApiResponse<Payment>> => {
-    logger.debug("Starting payment session");
+    logger.debug("Starting payment session for transaction: " + transactionId);
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
     const reference: string = PAYEMNT_REFERENCE + transactionId;
     const redirectUri: string = CHS_URL + BASE_URL + PAYMENT_CALLBACK_URL;
