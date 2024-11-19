@@ -3,7 +3,7 @@
     "businessLookUpAddressTitle": "What is the business address?",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
     "correspondenceLookUpAddressInputHint1": "Property name or number",
-    "correspondenceLookUpAddressInputHint2": "For example, The Mill', '116' or 'Flat 37a'",
+    "correspondenceLookUpAddressInputHint2": "You'll need to enter the address manually if it's not in the UK",
     "correspondenceLookUpAddressFindAddressBtn": "Find address",
     "correspondenceLookUpAddressManuallyBtn": "Enter address manually",
     "correspondenceLookUpAddressListTitle": "Select the correspondence address",
