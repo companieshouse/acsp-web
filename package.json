@@ -16,7 +16,7 @@
     "lint:fix": "eslint 'src/**/*.ts' 'test/src/**/*.ts' --fix",
     "test:coverage": "jest --coverage --forceExit --passWithNoTests",
     "test": "jest",
-    "start": "npm run build && source ./dist/config/.env && node dist/src/server.js",
+    "start": "npm run build && node dist/src/server.js",
     "start:watch": "nodemon",
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
@@ -108,7 +108,7 @@
     "ignore": [
       "**/*.test.ts"
     ],
-    "exec": "npm run build && source ./dist/config/.env && node dist/src/server.js"
+    "exec": "npm run build && node dist/src/server.js"
   },
   "directories": {
     "test": "test"
