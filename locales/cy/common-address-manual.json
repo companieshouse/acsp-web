@@ -32,5 +32,6 @@
     "error-invalidAddressLine1Length": "Rhaid i linell cyfeiriad 1 fod yn 50 nod neu lai",
     "error-invalidAddressLine2Length": "Rhaid i linell cyfeirad 2 fod yn 50 nod neu lai",
     "error-invalidAddressTownLength": "Rhaid i’r ddinas neu’r dref fod yn 50 nod neu lai",
-    "error-invalidAddressCountyLength": "Rhaid i’r sir, gwladwriaeth, talaith neu ranbarth fod yn 50 nod neu lai"
+    "error-invalidAddressCountyLength": "Rhaid i’r sir, gwladwriaeth, talaith neu ranbarth fod yn 50 nod neu lai",
+    "error-invalidPostcodeLength": "Rhaid i'r cod post fod yn 15 nod neu lai"
 }

@@ -6,7 +6,6 @@ const addressTownFormat:RegExp = /^[A-Za-z\-',\s!]*$/;
 const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\s]*$/;
 const addressUKPostcodeFormat:RegExp = /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/;
 const addressPostcodevaild:RegExp = /^[A-Za-z0-9\s]*$/;
-const nonUKPostcodeFormat: RegExp = /^[a-zA-Z0-9]{1,15}$/;
 
 export const manualCorrespondenceAddressValidator = [
 
@@ -32,8 +31,8 @@ export const manualCorrespondenceAddressValidator = [
 
     body("addressPostcode").trim().toUpperCase().notEmpty().withMessage("noPostCode").bail()
         .custom((value: string, { req }) => {
-            if (req.body.countryInput === "England" && req.body.countryInput === "Wales" &&
-                req.body.countryInput === "Scotland" && req.body.countryInput === "Northern Ireland" &&
+            if (req.body.countryInput === "England" || req.body.countryInput === "Wales" ||
+                req.body.countryInput === "Scotland" || req.body.countryInput === "Northern Ireland" ||
                 req.body.countryInput === "United Kingdom") {
                 if (!addressPostcodevaild.test(value)) {
                     throw new Error("invalidPostcodeFormat");
@@ -41,8 +40,13 @@ export const manualCorrespondenceAddressValidator = [
                 if (!addressUKPostcodeFormat.test(value)) {
                     throw new Error("invalidAddressPostcode");
                 }
-            } else if (!nonUKPostcodeFormat.test(value)) {
-                throw new Error("invalidPostcodeFormat");
+            } else {
+                if (value.length > 15) {
+                    throw new Error("invalidPostcodeLength");
+                }
+                if (!addressPostcodevaild.test(value)) {
+                    throw new Error("invalidPostcodeFormat");
+                }
             }
             return true;
         })

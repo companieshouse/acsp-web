@@ -32,5 +32,6 @@
     "error-invalidAddressLine1Length": "Address line 1 must be 50 characters or less",
     "error-invalidAddressLine2Length": "Address line 2 must be 50 characters or less",
     "error-invalidAddressTownLength": "City or town must be 50 characters or less",
-    "error-invalidAddressCountyLength": "County or region must be 50 characters or less"
+    "error-invalidAddressCountyLength": "County or region must be 50 characters or less",
+    "error-invalidPostcodeLength": "Postcode must be 15 characters or less"
 }
