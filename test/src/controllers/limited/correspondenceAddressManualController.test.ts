@@ -45,7 +45,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
@@ -59,7 +59,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
         mockGetAcspRegistration.mockResolvedValueOnce(returnedAcspData);
         mockPutAcspRegistration.mockResolvedValueOnce(returnedAcspData);
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
@@ -67,7 +67,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressPropertyDetails, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a property name or number");
     });
@@ -75,7 +75,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressPropertyDetails Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc@", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", addressCountry: "lmn", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc@", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
     });
@@ -83,7 +83,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressPropertyDetails Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4a", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2Abcdefghijklmnopqrstuvwx3Abcdefghijklmnopqrstuvwx4a", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Property name or number must be 200 characters or less");
     });
@@ -91,7 +91,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressLine1, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter an address");
     });
@@ -99,7 +99,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressLine1 Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr@", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr@", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Address line 1 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
     });
@@ -107,7 +107,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressLine1 Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressLine2: "pqr", addressTown: "lmn", countryInput: "England", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Address line 1 must be 50 characters or less");
     });
@@ -115,7 +115,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressLine2, will return 302.
     it("should return status 302", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
@@ -123,7 +123,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressLine2 Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "@", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "@", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Address line 2 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
     });
@@ -131,7 +131,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressLine2 Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Address line 2 must be 50 characters or less");
     });
@@ -139,7 +139,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressTown, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a city or town");
     });
@@ -147,7 +147,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressTown Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn@", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("City or town must only include letters a to z and common special characters such as hyphens, spaces and apostrophes");
     });
@@ -155,7 +155,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressTown Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "AbcdefghijklmnopqrstuvwxdAbcdefghijklmnopqrstuvwxgA", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "AbcdefghijklmnopqrstuvwxdAbcdefghijklmnopqrstuvwxgA", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("City or town must be 50 characters or less");
     });
@@ -163,7 +163,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressCounty, will return 302.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
@@ -171,7 +171,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressCounty Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmno@", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmno@", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("County, state, province or region must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
     });
@@ -179,23 +179,23 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for incorrect addressCounty Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "AbcdefghijklmnopqrstuvwxdAbcdefghijklmnopqrstuvwxvA", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "AbcdefghijklmnopqrstuvwxdAbcdefghijklmnopqrstuvwxvA", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("County or region must be 50 characters or less");
     });
 
-    // Test for no addressCountry, will return 302.
+    // Test for no addressCountry, will return 400.
     it("should return status 302", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcd", addressPostcode: "MK9 3GB" });
-        expect(res.status).toBe(302);
-        expect(res.header.location).toBe(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", countryInput: "", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select a country");
     });
 
-    // Test for incorrect addressCountry Format entered, will return 400.
+    // Test for country not in list entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", countryInput: "Eng", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select a country");
     });
@@ -203,23 +203,39 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     // Test for no addressPostcode, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", countryInput: "England", addressPostcode: "" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a postcode");
     });
 
-    // Test for incorrect addressPostcode Format entered, will return 400.
+    // Test for incorrect non-UK Postcode Format entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB@" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "lmn", addressCounty: "lmnop", countryInput: "Ireland", addressPostcode: "MK93GB@" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Postcode must only include letters a to z, numbers and spaces");
     });
 
-    // Test for incorrect addressPostcode Length entered, will return 400.
+    // Test for incorrect non-UK Postcode Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", addressCountry: "abcop", addressPostcode: "Abcdefghijklmnopqrstuvwx1Abcdefghijklmnopqrstuvwx2A3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", countryInput: "Ireland", addressPostcode: "abcdefghijklmnop" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Postcode must be 15 characters or less");
+    });
+
+    // Test for incorrect UK Postcode Format entered, will return 400.
+    it("should return status 400", async () => {
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", countryInput: "England", addressPostcode: "MK9 3GB@" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Postcode must only include letters a to z, numbers and spaces");
+    });
+
+    // Test for incorrect UK Postcode Format entered, will return 400.
+    it("should return status 400", async () => {
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "abc", addressTown: "abc", addressCounty: "abcop", countryInput: "England", addressPostcode: "MK9 3GBB" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a full UK postcode");
     });
@@ -227,7 +243,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
     it("should show the error page if an error occurs during PUT request", async () => {
         mockPutAcspRegistration.mockRejectedValueOnce(new Error("Error PUTting data"));
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_MANUAL)
-            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
