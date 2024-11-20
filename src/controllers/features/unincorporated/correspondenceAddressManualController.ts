@@ -13,6 +13,7 @@ import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
+import countryList from "../../../../lib/countryListWithUKCountries";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -31,6 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
+            countryList: countryList,
             currentUrl,
             businessName: acspData?.businessName,
             payload
@@ -56,6 +58,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
+                countryList: countryList,
                 pageProperties: pageProperties,
                 payload: req.body,
                 businessName: acspData?.businessName

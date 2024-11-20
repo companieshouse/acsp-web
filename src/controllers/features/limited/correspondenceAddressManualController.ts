@@ -13,6 +13,7 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
+import countryList from "../../../../lib/countryListWithUKCountries";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -33,6 +34,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
+            countryList: countryList,
             businessName: acspData?.businessName,
             typeOfBusiness: acspData?.typeOfBusiness,
             payload
@@ -60,6 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
+                countryList: countryList,
                 pageProperties: pageProperties,
                 payload: req.body,
                 businessName: acspData?.businessName,

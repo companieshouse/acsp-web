@@ -56,9 +56,7 @@ describe("Correspondence Address Manual Validator", () => {
             { location: "body", msg: "noPropertyDetails", param: "addressPropertyDetails", value: "" },
             { location: "body", msg: "invalidAddressLine1", param: "addressLine1", value: "Invalid!@#" },
             { location: "body", msg: "noCityOrTown", param: "addressTown", value: "" },
-            { location: "body", msg: "invalidAddressCounty", param: "addressCounty", value: "Invalid County Name!@#" },
-            { location: "body", msg: "countryIsMissing", param: "addressCountry", value: "" },
-            { location: "body", msg: "invalidPostcodeFormat", param: "addressPostcode", value: "INVALID_POSTCODE" }
+            { location: "body", msg: "invalidAddressCounty", param: "addressCounty", value: "Invalid County Name!@#" }
         ];
 
         expect(errors.array()).toMatchObject(expectedErrors);

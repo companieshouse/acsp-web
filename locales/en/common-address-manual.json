@@ -9,6 +9,7 @@
     "addressCounty": "County (optional)",
     "addressCountry": "Country",
     "addressPostcode": "Postcode",
+    "correspondenceAddressPostcode": "Postcode or ZIP",
     "infoShowOnPublic": "What information we'll show on the public list of authorised agents",
     "correspondenceLocationInfo": "We'll show the town or city of the correspondence address.",
     "england": "England",
@@ -31,5 +32,6 @@
     "error-invalidAddressLine1Length": "Address line 1 must be 50 characters or less",
     "error-invalidAddressLine2Length": "Address line 2 must be 50 characters or less",
     "error-invalidAddressTownLength": "City or town must be 50 characters or less",
-    "error-invalidAddressCountyLength": "County or region must be 50 characters or less"
+    "error-invalidAddressCountyLength": "County or region must be 50 characters or less",
+    "error-invalidPostcodeLength": "Postcode must be 15 characters or less"
 }

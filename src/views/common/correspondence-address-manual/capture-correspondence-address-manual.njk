@@ -82,42 +82,17 @@
             text: errors["addressCounty"].text
         } if errors.addressCounty
     }) }}
-    {{ govukSelect({
-        id: "addressCountry",
-        name: "addressCountry",
-        label: {
-            text: i18n.addressCountry
-        },
-        value: payload.addressCountry,
-        errorMessage: {
-            text: errors.addressCountry.text
-          } if errors.addressCountry,
-        items: [
-            {
-                value: "",
-                text: i18n.selectCountry
-            },
-            {
-                value: "England",
-                text: i18n.england
-            },
-            {
-                value: "Northern Ireland",
-                text: i18n.northernIreland
-            },
-            {
-                value: "Scotland",
-                text: i18n.scotland
-            },
-            {
-                value: "Wales",
-                text: i18n.wales
-            }
-        ]
-    }) }}
+    <div id="typeahead-form-group" class="govuk-form-group">
+        <label for="countryInput" class="govuk-label">{{ i18n.addressCountry }}</label>
+        {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
+        <p class="govuk-hint" id="typeahead-hint">{{ i18n.whereDoYouLiveHint }}</p>
+        <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
+        {% set errorMessage = errors %}
+        {% include "../../partials/country-typeahead-input.njk" %}
+      </div>
     {{ govukInput({
         label: {
-            text: i18n.addressPostcode
+            text: i18n.correspondenceAddressPostcode
         },
         classes: "govuk-input--width-10",
         id: "addressPostcode",
