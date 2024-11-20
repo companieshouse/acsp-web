@@ -32,6 +32,8 @@ const manualCorrespondenceAddressValidator = [
         })
 ];
 
+// Creates a single validator that contains both the common manual address validator and the above validation
+// This is done to reduce code duplication accross correspondence and business address validation
 export const correspondenceAddressManualValidator = [
     ...manualAddressValidator,
     ...manualCorrespondenceAddressValidator
