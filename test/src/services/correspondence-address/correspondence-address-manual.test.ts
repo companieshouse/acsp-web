@@ -111,4 +111,20 @@ describe("CorrespondenceAddressManualService", () => {
             addressPostcode: undefined
         });
     });
+
+    test("getCorrespondenceManualAddress handles undefined acspData", () => {
+        const acspDataUndefined = undefined;
+
+        const retrievedAddress = service.getCorrespondenceManualAddress(acspDataUndefined!);
+
+        expect(retrievedAddress).toEqual({
+            propertyDetails: undefined,
+            addressLine1: undefined,
+            addressLine2: undefined,
+            addressTown: undefined,
+            addressCounty: undefined,
+            addressCountry: undefined,
+            addressPostcode: undefined
+        });
+    });
 });
