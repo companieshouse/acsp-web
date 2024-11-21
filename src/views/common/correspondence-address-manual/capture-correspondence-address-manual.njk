@@ -31,7 +31,7 @@
         },
         id: "addressPropertyDetails",
         name: "addressPropertyDetails",
-        value: payload["propertyDetails"],
+        value: payload["addressPropertyDetails"],
         errorMessage: {
             text: errors["addressPropertyDetails"].text
         } if errors.addressPropertyDetails
@@ -85,6 +85,9 @@
     <div id="typeahead-form-group" class="govuk-form-group">
         <label for="countryInput" class="govuk-label">{{ i18n.addressCountry }}</label>
         {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
+        {% if payload.countryInput | length %}
+            {% set dropdownValue = payload.countryInput %}
+        {% endif %}
         <p class="govuk-hint" id="typeahead-hint">{{ i18n.whereDoYouLiveHint }}</p>
         <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
         {% set errorMessage = errors %}

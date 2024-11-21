@@ -10,7 +10,7 @@ export class CorrespondenceAddressManualService {
             addressLine2: req.body.addressLine2,
             locality: req.body.addressTown,
             region: req.body.addressCounty,
-            country: req.body.addressCountry,
+            country: req.body.countryInput,
             postalCode: req.body.addressPostcode
         };
         const applicantDetails = acspData.applicantDetails || {};
@@ -20,12 +20,12 @@ export class CorrespondenceAddressManualService {
 
     public getCorrespondenceManualAddress (acspData: AcspData) {
         return {
-            propertyDetails: acspData?.applicantDetails?.correspondenceAddress?.premises,
+            addressPropertyDetails: acspData?.applicantDetails?.correspondenceAddress?.premises,
             addressLine1: acspData?.applicantDetails?.correspondenceAddress?.addressLine1,
             addressLine2: acspData?.applicantDetails?.correspondenceAddress?.addressLine2,
             addressTown: acspData?.applicantDetails?.correspondenceAddress?.locality,
             addressCounty: acspData?.applicantDetails?.correspondenceAddress?.region,
-            addressCountry:
+            countryInput:
               acspData?.applicantDetails?.correspondenceAddress?.country,
             addressPostcode:
               acspData?.applicantDetails?.correspondenceAddress?.postalCode

@@ -39,7 +39,7 @@ describe("CorrespondenceAddressManualService", () => {
             addressLine2: "Suite 300",
             addressTown: "Example",
             addressCounty: "Example",
-            addressCountry: "Example",
+            countryInput: "Example",
             addressPostcode: "EX1 1EX"
         };
 
@@ -70,12 +70,12 @@ describe("CorrespondenceAddressManualService", () => {
         const retrievedAddress = service.getCorrespondenceManualAddress(acspData);
 
         expect(retrievedAddress).toEqual({
-            propertyDetails: "Suite 100",
+            addressPropertyDetails: "Suite 100",
             addressLine1: "123 Test St",
             addressLine2: "Apt 4",
             addressTown: "Test",
             addressCounty: "Test",
-            addressCountry: "Test",
+            countryInput: "Test",
             addressPostcode: "TE5 5TL"
         });
     });
