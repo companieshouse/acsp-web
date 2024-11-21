@@ -7,6 +7,8 @@ const BASE_SOLE_TRADER_URL = `${BASE_VIEWS_URL}/sole-trader`;
 const BASE_LIMITED_TRADER_URL = `${BASE_VIEWS_URL}/limited`;
 const BASE_UNINCORPORATED_URL = `${BASE_VIEWS_URL}/unincorporated`;
 
+const BASE_UPDATE_ACSP_DETAILS_URL = `${BASE_VIEWS_URL}/update-acsp-details`;
+
 export const HOME = `${BASE_COMMON_URL}/index/home`;
 export const SOLE_TRADER_DATE_OF_BIRTH = `${BASE_SOLE_TRADER_URL}/what-is-your-date-of-birth/what-is-your-date-of-birth`;
 export const SOLE_TRADER_WHERE_DO_YOU_LIVE = `${BASE_SOLE_TRADER_URL}/where-do-you-live/where-do-you-live`;
@@ -71,3 +73,5 @@ export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-subm
 export const WHAT_IS_YOUR_EMAIL = `${BASE_COMMON_URL}/what-is-your-email/what-is-your-email`;
 export const CANNOT_REGISTER_AGAIN = `${BASE_COMMON_URL}/cannot-register-again/cannot-register-again`;
 export const PAYMENT_FAILED = `${BASE_COMMON_URL}/payment-failed/payment-failed`;
+
+export const UPDATE_ACSP_DETAILS_HOME = `${BASE_UPDATE_ACSP_DETAILS_URL}/index/home`;
