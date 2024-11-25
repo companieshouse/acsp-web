@@ -164,3 +164,10 @@ export const UNINCORPORATED_WHAT_IS_YOUR_EMAIL = UNINCORPORATED + "/what-email-s
 export const RESUME_JOURNEY = "/resume";
 
 export const PAYMENT_FAILED = "/payment-failed";
+
+// update acsp details urls
+export const UPDATE_ACSP_DETAILS_BASE_URL = "/view-and-update-the-authorised-agents-details";
+
+export const UPDATE_ACSP_CHANGE_DETAILS = "/update-acsp-details";
+
+export const UPDATE_SOLE_TRADER_WHERE_DO_YOU_LIVE = SOLE_TRADER + "/where-do-you-live";
