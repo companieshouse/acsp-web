@@ -71,4 +71,4 @@ export * as unincorporatedSelectAmlSupervisorController from "./features/unincor
 export * as unincorporatedWhatIsYourEmailController from "./features/unincorporated/whatIsYourEmailAddressController";
 
 // update acsp details
-export * as updateIndexController from "./features/update-acsp/updateIndexController";
+export * as updateIndexController from "./features/update-acsp/indexController";
