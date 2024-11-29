@@ -8,7 +8,7 @@ import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRAT
 import logger from "../../../utils/logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY } from "../../../utils/properties";
+import { FEATURE_FLAG_DISABLE_LIMITED_JOURNEY, FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY, PIWIK_REGISTRATION_LC_ID, PIWIK_REGISTRATION_LLP_ID, PIWIK_REGISTRATION_LP_ID, PIWIK_REGISTRATION_PARTNERSHIP_ID, PIWIK_REGISTRATION_SOLE_TRADER_ID } from "../../../utils/properties";
 import { isActiveFeature } from "../../../utils/feature.flag";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -48,7 +48,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             typeOfBusiness,
             FEATURE_FLAG_DISABLE_LIMITED_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_LIMITED_JOURNEY),
-            FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY)
+            FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY: isActiveFeature(FEATURE_FLAG_DISABLE_PARTNERSHIP_JOURNEY),
+            PIWIK_REGISTRATION_LC_ID,
+            PIWIK_REGISTRATION_LP_ID,
+            PIWIK_REGISTRATION_LLP_ID,
+            PIWIK_REGISTRATION_PARTNERSHIP_ID,
+            PIWIK_REGISTRATION_SOLE_TRADER_ID
         });
 
     } catch (err) {
@@ -74,7 +79,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
-                ...pageProperties
+                ...pageProperties,
+                PIWIK_REGISTRATION_LC_ID,
+                PIWIK_REGISTRATION_LP_ID,
+                PIWIK_REGISTRATION_LLP_ID,
+                PIWIK_REGISTRATION_PARTNERSHIP_ID,
+                PIWIK_REGISTRATION_SOLE_TRADER_ID
             });
         } else if (selectedOption !== "OTHER") {
 

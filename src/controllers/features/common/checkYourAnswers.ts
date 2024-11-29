@@ -14,6 +14,7 @@ import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -33,7 +34,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lang,
             amlDetails: acspData?.amlSupervisoryBodies,
             amlName: acspData.howAreYouRegisteredWithAml,
-            AMLSupervisoryBodies
+            AMLSupervisoryBodies,
+            PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID
         });
     } catch {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

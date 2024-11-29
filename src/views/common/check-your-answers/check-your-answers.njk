@@ -3,6 +3,7 @@
 {% extends "layouts/default.njk" %}
 
 {% set amlList = [] %}
+
 {% for body in amlDetails %}
     {% set amlSummaryObject = {
         key: {
@@ -54,7 +55,7 @@
             text: i18n.continueToPayment,
             id: "continue-to-payment-button",
             attributes: {
-                "onClick": "_paq.push(['trackGoal', '11']);"
+                "onClick": "_paq.push(['trackGoal', '" + PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID + "'])"
             }
         }) }}
     </form>

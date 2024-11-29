@@ -72,15 +72,15 @@
     function trackGoal(goal) {
       let goalId;
       switch (goal) {
-        case "LC": goalId = 1;
+        case "LC": goalId = "{{PIWIK_REGISTRATION_LC_ID}}";
           break;
-        case "LP": goalId = 2;
+        case "LP": goalId = "{{PIWIK_REGISTRATION_LP_ID}}";
           break;
-        case "LLP": goalId = 3;
+        case "LLP": goalId = "{{PIWIK_REGISTRATION_LLP_ID}}";
           break;
-        case "PARTNERSHIP": goalId = 4;
+        case "PARTNERSHIP": goalId = "{{PIWIK_REGISTRATION_PARTNERSHIP_ID}}";
           break;
-        case "SOLE_TRADER": goalId = 5;
+        case "SOLE_TRADER": goalId = "{{PIWIK_REGISTRATION_SOLE_TRADER_ID}}";
           break;
       }
       _paq.push(['trackGoal', goalId]);
