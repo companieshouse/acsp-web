@@ -20,7 +20,7 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
             returnUrl = req.originalUrl;
         } else {
             returnUrl = BASE_URL + CHECK_SAVED_APPLICATION;
-        };
+        }
         authMiddlewareConfig = {
             chsWebUrl: CHS_URL,
             returnUrl: returnUrl
