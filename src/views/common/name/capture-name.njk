@@ -47,10 +47,21 @@
                 value: payload["last-name"]
             }) }}
         </div>
-        {{ govukButton({
+        {% if reqType === "updateAcsp" %}
+          <div class="govuk-button-group">
+             {{ govukButton({
+                text: i18n.Continue,
+                id:"continue-button-id"
+             })}}
+             <a class="govuk-link" href={{previousPage}}>{{i18n.Cancel}}</a>
+          </div>
+           
+        {% else %}
+           {{ govukButton({
             text: i18n.SaveAndContinue,
             id:"save-continue-button"
-        }) }}
+           }) }}
+        {% endif %}   
     </form>
 
     <script>
