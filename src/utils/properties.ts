@@ -50,7 +50,23 @@ export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "1");
 
 export const PIWIK_EMBED = getEnvironmentValue("PIWIK_EMBED", "1");
 
-export const PIWIK_START_GOAL_ID = getEnvironmentValue("PIWIK_START_GOAL_ID", "4");
+export const PIWIK_REGISTRATION_START_GOAL_ID = getEnvironmentValue("PIWIK_REGISTRATION_START_GOAL_ID", "17");
+
+export const PIWIK_REGISTRATION_LC_ID = getEnvironmentValue("PIWIK_LC_ID", "1");
+
+export const PIWIK_REGISTRATION_LP_ID = getEnvironmentValue("PIWIK_LP_ID", "2");
+
+export const PIWIK_REGISTRATION_LLP_ID = getEnvironmentValue("PIWIK_LLP_ID", "3");
+
+export const PIWIK_REGISTRATION_PARTNERSHIP_ID = getEnvironmentValue("PIWIK_PARTNERSHIP_ID", "4");
+
+export const PIWIK_REGISTRATION_SOLE_TRADER_ID = getEnvironmentValue("PIWIK_SOLE_TRADER_ID", "5");
+
+export const PIWIK_REGISTRATION_UNINCORPORATED_ID = getEnvironmentValue("PIWIK_UNINCORPORATED_ID", "6");
+
+export const PIWIK_REGISTRATION_CORPORATE_BODY_ID = getEnvironmentValue("PIWIK_CORPORATE_BODY_ID", "7");
+
+export const PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID = getEnvironmentValue("PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID", "11");
 
 // Feature Flags
 

@@ -57,10 +57,10 @@
             let goalId;
             switch(goal) {
                 case "UNINCORPORATED":
-                    goalId = 6;
+                    goalId = "{{PIWIK_REGISTRATION_UNINCORPORATED_ID}}";
                     break;
                 case "CORPORATE_BODY":
-                    goalId = 7;
+                    goalId = "{{PIWIK_REGISTRATION_CORPORATE_BODY_ID}}";
                     break;
             }
             _paq.push(['trackGoal', goalId]);

@@ -115,8 +115,7 @@
   <script>
     function trackStartNowEvent() {
       trackEventBasedOnPageTitle("start-now", "{{matomoPageTitle}}", "click-button", "START NOW");
-      //_paq.push(['trackGoal', 2]); //This is for local testing
-      _paq.push(['trackGoal', 17]);
+      _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_START_GOAL_ID }}"]);
     };
     
     trackEventBasedOnPageTitle("verify-client-identity-id", "{{matomoPageTitle}}", "click-link", "Verify your clients' identities for Companies House");
