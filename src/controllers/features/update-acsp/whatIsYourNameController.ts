@@ -19,7 +19,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-    console.log("acspData---->", acspData);
     const payload = {
         "first-name": acspData.applicantDetails?.firstName,
         "middle-names": acspData.applicantDetails?.middleName,
