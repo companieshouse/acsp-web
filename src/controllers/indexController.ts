@@ -7,6 +7,7 @@ import {
     getLocalesService,
     selectLang
 } from "../utils/localise";
+import { PIWIK_REGISTRATION_START_GOAL_ID } from "../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -14,7 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     res.render(config.HOME, {
         ...getLocaleInfo(locales, lang),
-        currentUrl: BASE_URL
+        currentUrl: BASE_URL,
+        PIWIK_REGISTRATION_START_GOAL_ID
     });
 };
 

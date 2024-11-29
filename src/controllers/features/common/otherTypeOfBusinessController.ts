@@ -12,6 +12,7 @@ import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, T
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import logger from "../../../utils/logger";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { PIWIK_REGISTRATION_CORPORATE_BODY_ID, PIWIK_REGISTRATION_UNINCORPORATED_ID } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -34,7 +35,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             feedbackLink: "https://www.smartsurvey.co.uk/s/reg-as-acsp-slctd-other-on-co-type-page/",
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            otherTypeOfBusiness: acspData?.typeOfBusiness
+            otherTypeOfBusiness: acspData?.typeOfBusiness,
+            PIWIK_REGISTRATION_UNINCORPORATED_ID,
+            PIWIK_REGISTRATION_CORPORATE_BODY_ID
         });
 
     } catch (err) {
@@ -61,7 +64,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 feedbackLink: "https://www.smartsurvey.co.uk/s/reg-as-acsp-slctd-other-on-co-type-page/",
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
-                ...pageProperties
+                ...pageProperties,
+                PIWIK_REGISTRATION_UNINCORPORATED_ID,
+                PIWIK_REGISTRATION_CORPORATE_BODY_ID
             });
         } else {
             const acspDataService = new AcspDataService();
