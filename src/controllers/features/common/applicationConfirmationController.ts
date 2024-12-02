@@ -3,10 +3,11 @@ import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/loc
 import * as config from "../../../config";
 import { CONFIRMATION, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
+import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -16,7 +17,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
-
+        await deleteAllSessionData(session);
         res.render(config.APPLICATION_CONFIRMATION, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
