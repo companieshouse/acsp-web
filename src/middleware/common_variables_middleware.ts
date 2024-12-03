@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { getLoggedInUserEmail, getLoggedInUserId } from "../common/__utils/session";
+import { CHS_MONITOR_GUI_URL } from "../utils/properties";
 import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
 
@@ -26,6 +27,8 @@ export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
         res.locals.userId = userId;
     }
     res.locals.applicationId = applicationId;
+
+    res.locals.chsMonitorGuiUrl = CHS_MONITOR_GUI_URL;
 
     next();
 };

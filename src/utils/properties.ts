@@ -26,6 +26,8 @@ export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "false");
 
 export const CDN_HOST = getEnvironmentValue("CDN_HOST", "false");
 
+export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
+
 // API Keys and Secrets
 
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
