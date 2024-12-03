@@ -25,7 +25,11 @@
       id: "postCode",
       name: "postCode",
       autocomplete: "postal-code",
-      value: payload.postCode
+      value: payload.postCode,
+      hint: {
+        text: i18n.correspondenceLookUpAddressInputHint2,
+        classes: "govuk-hint"
+      }
     }) }}
     {{ govukInput({
       label: {
@@ -38,11 +42,7 @@
       id: "premise",
       name: "premise",
       autocomplete: "street-address",
-      value: payload.premise,
-      hint: {
-        text: i18n.correspondenceLookUpAddressInputHint2,
-        classes: "govuk-hint"
-      }
+      value: payload.premise
     }) }}
     {{ govukButton({
       text: i18n.correspondenceLookUpAddressFindAddressBtn,
