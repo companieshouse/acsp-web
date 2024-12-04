@@ -53,6 +53,7 @@ export const ERROR_500 = `${BASE_PARTIALS_URL}/error_500`;
 
 export const SELECT_AML_SUPERVISOR = `${BASE_COMMON_URL}/select-aml-supervisory-bodies/select-aml-supervisory-bodies`;
 export const CHECK_YOUR_ANSWERS = `${BASE_COMMON_URL}/check-your-answers/check-your-answers`;
+export const UPDATE_YOUR_ANSWERS = `${BASE_COMMON_URL}/update-your-details/update-your-details`;
 export const APPLICATION_CONFIRMATION = `${BASE_COMMON_URL}/application-confirmation/application-confirmation`;
 export const YOUR_RESPONSIBILITIES = `${BASE_COMMON_URL}/your-responsibilities/your-responsibilities`;
 export const CORRESPONDENCE_ADDRESS_MANUAL = `${BASE_COMMON_URL}/correspondence-address-manual/capture-correspondence-address-manual`;

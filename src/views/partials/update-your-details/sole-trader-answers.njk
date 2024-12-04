@@ -1,0 +1,107 @@
+<h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+{{ govukSummaryList({
+    rows: [
+    {
+        key: {
+          text: i18n.updateYourDetailsName
+        },
+        value: {
+          text: detailsAnswers.name
+        },
+        actions: {
+            items: [
+              {
+                href: "",
+                text: i18n.updateYourDetailsChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsWhereDoYouLive
+        },
+        value: {
+          text: detailsAnswers.countryOfResidence
+        },
+        actions: {
+            items: [
+              {
+                href: "",
+                text: i18n.updateYourDetailsChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsCorrespondenceAddress
+        },
+        value: {
+          text: detailsAnswers.correspondenceAddress
+        },
+        actions: {
+            items: [
+              {
+                href: "",
+                text: i18n.updateYourDetailsChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
+          text: i18n.updateDetailsCorrespondenceEmail
+        },
+        value: {
+          text: detailsAnswers.correspondenceEmail
+        },
+        actions: {
+            items: [
+              {
+                href: "",
+                text: i18n.updateYourDetailsChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsBusinessAddress
+        },
+        value: {
+          text: detailsAnswers.businessAddress
+        }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsRegisteredOfficeAddress
+        },
+        value: {
+          html: detailsAnswers.businessAddress
+        }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsNameOfBusiness
+        },
+        value: {
+          html: detailsAnswers.businessName
+        },
+        actions: {
+            items: [
+              {
+                href: "",
+                text: i18n.updateYourDetailsChange,
+                visuallyHiddenText: i18n.correspondeceAddress
+              }
+            ]
+          }
+      }
+    ]
+    })
+}}

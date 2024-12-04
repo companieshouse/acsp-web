@@ -171,3 +171,4 @@ export const UPDATE_ACSP_DETAILS_BASE_URL = "/view-and-update-the-authorised-age
 export const UPDATE_ACSP_CHANGE_DETAILS = "/update-acsp-details";
 
 export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
+export const UPDATE_YOUR_ANSWERS = "/update-your-details";

@@ -1,0 +1,56 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+
+{% set amlList = [] %}
+{% for body in amlDetails %}
+    {% set amlSummaryObject = {
+        key: {
+            text:  i18n.checkYourAnswersAMLTab
+        },
+        value: {
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
+        },
+        actions: {
+            items: [
+            {
+                href: editAML + "#" + "membershipnumber_" + loop.index,
+                text: i18n.updateYourDetailsRemove,
+                visuallyHiddenText: body.amlSupervisoryBody
+            }
+            ]
+        }
+    } %}
+    {% set amlList = amlList.concat(amlSummaryObject) %}
+{% endfor %}
+
+{% set title = i18n.updateYourDetailsHeading %}
+{% block main_content %}
+    <form method="post">
+        <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
+        <div class="govuk-inset-text">
+            <p class="govuk-body">
+                {{ i18n.updateYourDetailsNote }}
+            </p>
+        </div>
+        {% if typeOfBusiness === "SOLE_TRADER" %}
+            {% include "partials/update-your-details/sole-trader-answers.njk" %}
+        {% elif typeOfBusiness === "LC" or typeOfBusiness === "LLP"  or typeOfBusiness === "CORPORATE_BODY"%}
+            {% include "partials/update-your-details/limited-answers.njk" %}
+        {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "LP" %}
+            {% include "partials/update-your-details/unincorporated-answers.njk" %}
+        {% endif %}
+        <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+        {{ govukSummaryList({
+            rows: amlList
+        })}}
+
+        {{ govukButton({
+            text: i18n.continueToPayment,
+            id: "continue-to-payment-button",
+            attributes: {
+                "onClick": "_paq.push(['trackGoal', '11']);"
+            }
+        }) }}
+    </form>
+{% endblock main_content %}
