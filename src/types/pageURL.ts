@@ -172,4 +172,4 @@ export const UPDATE_ACSP_CHANGE_DETAILS = "/update-acsp-details";
 
 export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
 
-export const UPDATE_WHERE_DO_YOU_LIVE = "where-do-you-live";
+export const UPDATE_WHERE_DO_YOU_LIVE = "/where-do-you-live";
