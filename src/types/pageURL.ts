@@ -167,8 +167,7 @@ export const PAYMENT_FAILED = "/payment-failed";
 
 // update acsp details urls
 export const UPDATE_ACSP_DETAILS_BASE_URL = "/view-and-update-the-authorised-agents-details";
-
 export const UPDATE_ACSP_CHANGE_DETAILS = "/update-acsp-details";
-
 export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
 export const UPDATE_YOUR_ANSWERS = "/update-your-details";
+export const ACSP_DETAILS_UPDATE_CONFIRMATION = "/update-your-details-confirmation";

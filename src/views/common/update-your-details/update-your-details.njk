@@ -26,7 +26,7 @@
 
 {% set title = i18n.updateYourDetailsHeading %}
 {% block main_content %}
-    <form method="post">
+    <form action="" method="post">
         <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
@@ -44,16 +44,23 @@
         {{ govukSummaryList({
             rows: amlList
         })}}
-
-    </form>
     <div class="govuk-button-group"> 
         {{ govukButton({
             text: i18n.addNewAMLDetails,
+            classes: "govuk-button--secondary",
             id:"add-new-aml-details"
             }) }}
         {{ govukButton({
             text: i18n.goBackToAuthorisedAgentServices,
+            classes: "govuk-button--secondary",
             id:"go-back-to-authorised-agent-services"
             }) }}
     </div>
+        <div class="govuk-button-group"> 
+        {{ govukButton({
+            text: i18n.updateYourDetailsChange,
+            id:"update-acsp-details"
+            }) }}
+    </div>
+    </form>
 {% endblock main_content %}

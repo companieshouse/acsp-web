@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, ACSP_DETAILS_UPDATE_CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { Answers } from "../../../model/Answers";
@@ -38,4 +38,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const error = new ErrorService();
         error.renderErrorPage(res, locales, lang, currentUrl);
     }
+};
+export const post = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + ACSP_DETAILS_UPDATE_CONFIRMATION, lang));
 };
