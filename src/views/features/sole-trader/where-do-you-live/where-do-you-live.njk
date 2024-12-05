@@ -59,7 +59,7 @@
                 text: i18n.Continue,
                 id:"continue-button-id"
              })}}
-             <a class="govuk-link id="previous-page-id" href={{previousPage}}>{{i18n.Cancel}}</a>
+             <a class="govuk-link id="cancel-id" href={{previousPage}}>{{i18n.Cancel}}</a>
           </div>
 
         {% else %}
@@ -73,7 +73,7 @@
   <script>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Location lives");
     trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - Updated Location lives");
-    trackEventBasedOnPageTitle("previous-page-id", "{{title}}", "click-link", "Cancel");
+    trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL- Updated Location lives");
   </script>
 
 {% endblock main_content %}
