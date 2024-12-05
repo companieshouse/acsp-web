@@ -71,7 +71,7 @@ const acspDataLp: AcspData = {
 describe("GET " + HOME_URL, () => {
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataSoleTrader);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -79,7 +79,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataLC);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -87,7 +87,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataLLP);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -95,7 +95,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataCorporateBody);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -103,7 +103,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataPartnership);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -111,7 +111,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataUnincorporated);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -119,7 +119,7 @@ describe("GET " + HOME_URL, () => {
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspDataLp);
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL+UPDATE_YOUR_ANSWERS+"?lang=en");
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(res.text).toContain("Anti-Money Laundering (AML) details");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
