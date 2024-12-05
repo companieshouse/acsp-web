@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_CHANGE_DETAILS } from "../../../types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -20,5 +20,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang));
+    res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
 };
