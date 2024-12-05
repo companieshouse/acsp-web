@@ -15,6 +15,10 @@ const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspDataSoleTrader: AcspData = {
     id: "abc",
     typeOfBusiness: "SOLE_TRADER",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -23,6 +27,10 @@ const acspDataSoleTrader: AcspData = {
 const acspDataLC: AcspData = {
     id: "abc",
     typeOfBusiness: "LC",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -31,6 +39,10 @@ const acspDataLC: AcspData = {
 const acspDataLLP: AcspData = {
     id: "abc",
     typeOfBusiness: "LLP",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -39,6 +51,10 @@ const acspDataLLP: AcspData = {
 const acspDataCorporateBody: AcspData = {
     id: "abc",
     typeOfBusiness: "CORPORATE_BODY",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -47,6 +63,10 @@ const acspDataCorporateBody: AcspData = {
 const acspDataPartnership: AcspData = {
     id: "abc",
     typeOfBusiness: "PARTNERSHIP",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -55,6 +75,10 @@ const acspDataPartnership: AcspData = {
 const acspDataUnincorporated: AcspData = {
     id: "abc",
     typeOfBusiness: "UNINCORPORATED",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
@@ -63,6 +87,10 @@ const acspDataUnincorporated: AcspData = {
 const acspDataLp: AcspData = {
     id: "abc",
     typeOfBusiness: "LP",
+    amlSupervisoryBodies: [{
+        amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+        membershipId: "12345678"
+    }],
     applicantDetails: {
         firstName: "Test",
         lastName: "User"
