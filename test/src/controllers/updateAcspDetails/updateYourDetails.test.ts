@@ -125,4 +125,11 @@ describe("GET " + HOME_URL, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(200);
     });
+    it("should return status 500 after calling getAcspRegistration endpoint and failing", async () => {
+        mockGetAcspRegistration.mockRejectedValueOnce(new Error("Error getting data"));
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+        expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
