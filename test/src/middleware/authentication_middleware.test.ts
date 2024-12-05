@@ -23,6 +23,7 @@ mockAcspProfileCreateAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAcsp
 const req: Request = {} as Request;
 const res: Response = {} as Response;
 const next = jest.fn();
+const originalEnv = process.env;
 
 const expectedAuthMiddlewareConfig: AuthOptions = {
     chsWebUrl: "http://chs.local",
@@ -40,15 +41,25 @@ const expectedAuthMiddlewareConfigWithWhatisRoleURL: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
+    beforeEach(() => {
+        jest.resetModules(); // Clears the module cache
+        process.env = { ...originalEnv };
+    });
+
+    afterEach(() => {
+        process.env = originalEnv;
+    });
+
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
         expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
         expect(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(req, res, next);
     });
 
-    it("should call CH authentication library with Update ACSP Details URL when session is available", () => {
+    it("should call CH authentication library with Update ACSP Details URL when session is available and feature flag is enabled", () => {
         let request = {} as Request;
         const Url = UPDATE_ACSP_DETAILS_BASE_URL;
+        process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
         request = {
             session: getSessionRequestWithExtraData(true),
             originalUrl: Url
