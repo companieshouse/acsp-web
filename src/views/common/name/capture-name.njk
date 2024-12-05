@@ -53,7 +53,7 @@
                 text: i18n.Continue,
                 id:"continue-button-id"
              })}}
-             <a class="govuk-link" href={{previousPage}}>{{i18n.Cancel}}</a>
+             <a class="govuk-link" href={{previousPage}} id="cancel-id">{{i18n.Cancel}}</a>
           </div>
            
         {% else %}
@@ -65,6 +65,8 @@
     </form>
 
     <script>
+        trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - UPDATENAME");
+        trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL - UPDATENAME");
         trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - NAME");
     </script>
 
