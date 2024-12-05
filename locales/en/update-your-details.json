@@ -13,5 +13,8 @@
     "updateYourDetailsBusinessAddress": "What is your business address?",
     "updateYourDetailsRegisteredOfficeAddress": "What is your registered office address?",
     "updateYourDetailsNameOfBusiness": "What is the name of your business?",
-    "updateYourDetailsAMLMembershipDetails": "AML Membership Details"
+    "updateYourDetailsAMLMembershipDetails": "AML Membership Details",
+    "addNewAMLDetails": "Add new AML details",
+    "goBackToAuthorisedAgentServices": "Go back to authorised agent services"
+
 }

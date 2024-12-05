@@ -45,12 +45,15 @@
             rows: amlList
         })}}
 
-        {{ govukButton({
-            text: i18n.continueToPayment,
-            id: "continue-to-payment-button",
-            attributes: {
-                "onClick": "_paq.push(['trackGoal', '11']);"
-            }
-        }) }}
     </form>
+    <div class="govuk-button-group"> 
+        {{ govukButton({
+            text: i18n.addNewAMLDetails,
+            id:"add-new-aml-details"
+            }) }}
+        {{ govukButton({
+            text: i18n.goBackToAuthorisedAgentServices,
+            id:"go-back-to-authorised-agent-services"
+            }) }}
+    </div>
 {% endblock main_content %}
