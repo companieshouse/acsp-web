@@ -41,31 +41,25 @@ const expectedAuthMiddlewareConfigWithWhatisRoleURL: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
+    let request = {} as Request;
+
     beforeEach(() => {
-        jest.resetModules(); // Clears the module cache
-        process.env = { ...originalEnv };
+        jest.clearAllMocks();
     });
 
-    afterEach(() => {
-        process.env = originalEnv;
+    it("should call CH authentication library with Update ACSP Details URL when session is available and feature flag is enabled", () => {
+        const Url = UPDATE_ACSP_DETAILS_BASE_URL;
+        request = {
+            originalUrl: Url
+        } as unknown as Request;
+        authenticationMiddleware(request, res, next);
+        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithUpdateAcspDetailsURL);
     });
 
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
         expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
         expect(mockAuthReturnedFunctionAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(req, res, next);
-    });
-
-    it("should call CH authentication library with Update ACSP Details URL when session is available and feature flag is enabled", () => {
-        let request = {} as Request;
-        const Url = UPDATE_ACSP_DETAILS_BASE_URL;
-        process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
-        request = {
-            session: getSessionRequestWithExtraData(true),
-            originalUrl: Url
-        } as unknown as Request;
-        authenticationMiddleware(request, res, next);
-        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithUpdateAcspDetailsURL);
     });
 
     it("should call CH authentication library with Limited URL when session is available ", () => {
