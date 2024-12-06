@@ -16,3 +16,8 @@ export const getLoggedInUserId = (session: any): string => {
     const signInInfo = getSignInInfo(session);
     return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId] as string;
 };
+
+export const getLoggedInAcspNumber = (session: any | undefined): string => {
+    const signInInfo = getSignInInfo(session);
+    return signInInfo?.[SignInInfoKeys.AcspNumber] as string;
+};
