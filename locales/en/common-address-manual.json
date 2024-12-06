@@ -10,8 +10,6 @@
     "addressCountry": "Country",
     "addressPostcode": "Postcode",
     "correspondenceAddressPostcode": "Postcode or ZIP",
-    "infoShowOnPublic": "What information we'll show on the public list of authorised agents",
-    "correspondenceLocationInfo": "We'll show the town or city of the correspondence address.",
     "england": "England",
     "scotland": "Scotland",
     "northernIreland": "Northern Ireland",
