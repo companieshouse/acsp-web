@@ -52,14 +52,28 @@
     }
   ]
 }) }}
-    {{ govukButton({
-      text: i18n.SaveAndContinue,
-      id:"save-continue-button"
-    }) }}
+
+{% if reqType === "updateAcsp" %}
+          <div class="govuk-button-group">
+             {{ govukButton({
+                text: i18n.Continue,
+                id:"continue-button-id"
+             })}}
+             <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.Cancel}}</a>
+          </div>
+
+        {% else %}
+           {{ govukButton({
+            text: i18n.SaveAndContinue,
+            id:"save-continue-button"
+           }) }}
+        {% endif %}
   </form>
 
   <script>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Location lives");
+    trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - Updated Location lives");
+    trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL- Updated Location lives");
   </script>
 
 {% endblock main_content %}
