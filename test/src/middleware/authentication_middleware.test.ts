@@ -4,7 +4,7 @@ process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "false";
 import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
 import { Request, Response } from "express";
 import { authenticationMiddleware } from "../../../src/middleware/authentication_middleware";
-import { BASE_URL, CHECK_SAVED_APPLICATION, LIMITED_WHAT_IS_YOUR_ROLE } from "../../../src/types/pageURL";
+import { BASE_URL, CHECK_SAVED_APPLICATION, LIMITED_WHAT_IS_YOUR_ROLE, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 import { USER_DATA, COMPANY_NUMBER } from "../../../src/common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
@@ -23,10 +23,16 @@ mockAcspProfileCreateAuthMiddleware.mockReturnValue(mockAuthReturnedFunctionAcsp
 const req: Request = {} as Request;
 const res: Response = {} as Response;
 const next = jest.fn();
+const originalEnv = process.env;
 
 const expectedAuthMiddlewareConfig: AuthOptions = {
     chsWebUrl: "http://chs.local",
     returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
+};
+
+const expectedAuthMiddlewareConfigWithUpdateAcspDetailsURL: AuthOptions = {
+    chsWebUrl: "http://chs.local",
+    returnUrl: UPDATE_ACSP_DETAILS_BASE_URL
 };
 
 const expectedAuthMiddlewareConfigWithWhatisRoleURL: AuthOptions = {
@@ -35,6 +41,21 @@ const expectedAuthMiddlewareConfigWithWhatisRoleURL: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
+    let request = {} as Request;
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should call CH authentication library with Update ACSP Details URL when session is available and feature flag is enabled", () => {
+        const Url = UPDATE_ACSP_DETAILS_BASE_URL;
+        request = {
+            originalUrl: Url
+        } as unknown as Request;
+        authenticationMiddleware(request, res, next);
+        expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfigWithUpdateAcspDetailsURL);
+    });
+
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
         expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);
