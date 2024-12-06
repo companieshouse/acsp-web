@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const reqType = "updateAcsp";
     res.render(config.WHAT_IS_YOUR_NAME, {
         ...getLocaleInfo(locales, lang),
-        currentUrl: UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
         payload,
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang),
         reqType
@@ -45,7 +45,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         res.status(400).render(config.WHAT_IS_YOUR_NAME, {
             ...getLocaleInfo(locales, lang),
             previousPage,
-            currentUrl: UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
             payload: req.body,
             ...pageProperties,
             reqType
