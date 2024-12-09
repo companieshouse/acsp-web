@@ -12,6 +12,8 @@ export const POSTCODE_ADDRESSES_LOOKUP_URL = getEnvironmentVariable("POSTCODE_AD
 
 export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
 
+export const API_LOCAL_URL = getEnvironmentValue("API_LOCAL_URL", "false");
+
 export const PAYMENTS_API_URL = getEnvironmentValue("PAYMENTS_API_URL", "http://api-payments.chs.local:4001");
 
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN", "chs.local");
@@ -29,6 +31,8 @@ export const CDN_HOST = getEnvironmentValue("CDN_HOST", "http://chs.local");
 // API Keys and Secrets
 
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
+
+export const CHS_INTERNAL_API_KEY = getEnvironmentValue("CHS_INTERNAL_API_KEY");
 
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET", "ChGovUk-XQrbf3sLj2abFxIY2TlapsJ");
 
