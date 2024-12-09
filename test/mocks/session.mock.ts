@@ -7,12 +7,14 @@ import { IAccessToken, ISignInInfo } from "@companieshouse/node-session-handler/
 
 export const userMail = "userWithPermission@ch.gov.uk";
 export const userId = "testUserID";
+export const acspNumber = "1234";
 export const ACCESS_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.AccessToken]: "accessToken" };
 export const REFRESH_TOKEN_MOCK: IAccessToken = { [AccessTokenKeys.RefreshToken]: "refreshToken" };
 
 const SIGN_IN_INFO = {
     [SignInInfoKeys.SignedIn]: 1,
     [SignInInfoKeys.UserProfile]: { [UserProfileKeys.Email]: userMail, [UserProfileKeys.UserId]: userId },
+    [SignInInfoKeys.AcspNumber]: acspNumber,
     [SignInInfoKeys.AccessToken]: {
         ...ACCESS_TOKEN_MOCK,
         ...REFRESH_TOKEN_MOCK
