@@ -20,14 +20,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
     // This ensures functionality until the page is ready, at which point we can handle null separately.
     const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-    const currentUrl: string = UPDATE_WHERE_DO_YOU_LIVE;
 
     const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
     const reqType = REQ_TYPE_UPDATE_ACSP;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang),
-        currentUrl,
+        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
         countryList: countryList,
         firstName: acspData?.applicantDetails?.firstName,
         lastName: acspData?.applicantDetails?.lastName,
@@ -43,7 +42,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const errorList = validationResult(req);
     const reqType = REQ_TYPE_UPDATE_ACSP;
-    const currentUrl: string = UPDATE_WHERE_DO_YOU_LIVE;
 
     const session: Session = req.session as any as Session;
     const acspData: AcspData = session?.getExtraData(USER_DATA)!;
@@ -51,9 +49,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     if (!errorList.isEmpty()) {
         const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
         res.status(400).render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
-            previousPage,
             ...getLocaleInfo(locales, lang),
-            currentUrl,
+            previousPage,
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
             countryList: countryList,
             ...pageProperties,
             payload: req.body,
