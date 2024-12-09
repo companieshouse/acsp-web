@@ -1,5 +1,5 @@
-import { getSessionRequestWithPermission, userId, userMail } from "../../../mocks/session.mock";
-import { getLoggedInUserEmail, getLoggedInUserId } from "../../../../src/common/__utils/session";
+import { getSessionRequestWithPermission, userId, userMail, acspNumber } from "../../../mocks/session.mock";
+import { getLoggedInAcspNumber, getLoggedInUserEmail, getLoggedInUserId } from "../../../../src/common/__utils/session";
 
 describe("Session util tests", () => {
 
@@ -15,5 +15,12 @@ describe("Session util tests", () => {
         const res = getLoggedInUserId(session);
 
         expect(res).toBe(userId);
+    });
+
+    it("should return acsp number", () => {
+        const session = getSessionRequestWithPermission();
+        const res = getLoggedInAcspNumber(session);
+
+        expect(res).toBe(acspNumber);
     });
 });

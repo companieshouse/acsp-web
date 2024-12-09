@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
-import { getLoggedInUserEmail, getLoggedInUserId } from "../common/__utils/session";
+import { getLoggedInUserEmail, getLoggedInUserId, getLoggedInAcspNumber } from "../common/__utils/session";
 import { CHS_MONITOR_GUI_URL } from "../utils/properties";
 import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
-import { getLoggedInAcspNumber } from "../common/__utils/session";
 
 /**
  * Populates variables for use in templates that are used on multiple pages.
