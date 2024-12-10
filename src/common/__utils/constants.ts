@@ -31,3 +31,4 @@ export const RESUME_APPLICATION_ID:string = "resume application id";
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };
+export const REQ_TYPE_UPDATE_ACSP:string = "updateAcsp";
