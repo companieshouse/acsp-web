@@ -26,8 +26,3 @@ export const getLoggedInAcspRole = (session: any | undefined): string => {
     const signInInfo = getSignInInfo(session);
     return signInInfo?.[SignInInfoKeys.AcspRole] as string;
 };
-
-export const getLoggedInAcspNumber = (session: any | undefined): string => {
-    const signInInfo = getSignInInfo(session);
-    return signInInfo?.[SignInInfoKeys.AcspNumber] as string;
-};
