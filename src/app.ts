@@ -16,7 +16,8 @@ import {
     CHS_URL,
     PIWIK_URL,
     PIWIK_SITE_ID,
-    FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS
+    FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS,
+    CHS_MONITOR_GUI_URL
 } from "./utils/properties";
 import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
@@ -43,6 +44,7 @@ nunjucksEnv.addGlobal("cdnUrlCss", CDN_URL_CSS);
 nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
 nunjucksEnv.addGlobal("cdnHost", CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", CHS_URL);
+nunjucksEnv.addGlobal("chsMonitorGuiUrl", CHS_MONITOR_GUI_URL);
 nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
 
 nunjucksEnv.addGlobal("PIWIK_URL", PIWIK_URL);
