@@ -1,5 +1,3 @@
-import { getEnvironmentValue } from "../utils/environment/environment_value";
-
 const BASE_VIEWS_URL = "../views/features";
 const BASE_COMMON_URL = `../views/common`;
 const BASE_PARTIALS_URL = `../views/partials`;
@@ -24,9 +22,6 @@ export const UNINCORPORATED_BUSINESS_ADDRESS_LIST = `${BASE_UNINCORPORATED_URL}/
 export const UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY = `${BASE_UNINCORPORATED_URL}/business-address-manual-entry/business-address-manual-entry`;
 export const UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM = `${BASE_UNINCORPORATED_URL}/confirm-your-business-address/confirm-your-business-address`;
 
-export const ACSP_SERVICE_HOST = "http://chs.local";
-export const ACSP_SERVICE_PORT = "18644";
-export const ACSP_SERVICE_BASE = `${ACSP_SERVICE_HOST}/acsp-api`;
 export const CREATE_DESCRIPTION = "Application to register a Companies House authorised agent";
 export const REFERENCE = "ACSP Registration";
 export const transactionStatuses = {

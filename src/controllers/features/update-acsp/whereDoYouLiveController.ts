@@ -1,18 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import * as config from "../../../config";
-import { UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_CHANGE_DETAILS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
-import {
-    addLangToUrl,
-    getLocaleInfo,
-    getLocalesService,
-    selectLang
-} from "../../../utils/localise";
 import { validationResult } from "express-validator";
+import countryList from "../../../../lib/countryList";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { REQ_TYPE_UPDATE_ACSP, USER_DATA } from "../../../common/__utils/constants";
+import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_CHANGE_DETAILS } from "../../../types/pageURL";
+import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
+import { REQ_TYPE_UPDATE_ACSP, USER_DATA } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -23,19 +20,21 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
     // This ensures functionality until the page is ready, at which point we can handle null separately.
     const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-    const payload = {
-        "first-name": acspData.applicantDetails?.firstName,
-        "middle-names": acspData.applicantDetails?.middleName,
-        "last-name": acspData.applicantDetails?.lastName
-    };
+
+    const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
     const reqType = REQ_TYPE_UPDATE_ACSP;
-    res.render(config.WHAT_IS_YOUR_NAME, {
+    res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         ...getLocaleInfo(locales, lang),
-        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
-        payload,
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang),
+        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
+        countryList: countryList,
+        firstName: acspData?.applicantDetails?.firstName,
+        lastName: acspData?.applicantDetails?.lastName,
+        countryInput,
+        payload,
         reqType
     });
+
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,30 +42,35 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const errorList = validationResult(req);
     const reqType = REQ_TYPE_UPDATE_ACSP;
+
+    const session: Session = req.session as any as Session;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang);
     if (!errorList.isEmpty()) {
         const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-        res.status(400).render(config.WHAT_IS_YOUR_NAME, {
+        res.status(400).render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
-            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
-            payload: req.body,
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
+            countryList: countryList,
             ...pageProperties,
+            payload: req.body,
             reqType
         });
     } else {
-        const session: Session = req.session as any as Session;
-        const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-
-        const applicantDetails = acspData?.applicantDetails || {};
-        if (acspData) {
-            applicantDetails.firstName = req.body["first-name"];
-            applicantDetails.middleName = req.body["middle-names"];
-            applicantDetails.lastName = req.body["last-name"];
+        let countryOfResidence;
+        if (req.body.whereDoYouLiveRadio === "countryOutsideUK") {
+            countryOfResidence = req.body.countryInput;
+        } else {
+            countryOfResidence = req.body.whereDoYouLiveRadio;
         }
-        acspData.applicantDetails = applicantDetails;
-
+        if (acspData) {
+            const applicantDetails = acspData.applicantDetails || {};
+            applicantDetails.countryOfResidence = countryOfResidence;
+            acspData.applicantDetails = applicantDetails;
+        }
         saveDataInSession(req, USER_DATA, acspData);
         res.redirect(previousPage);
+
     }
 };

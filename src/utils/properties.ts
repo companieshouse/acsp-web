@@ -8,27 +8,33 @@ export const ACCOUNT_URL = getEnvironmentVariable("ACCOUNT_LOCAL_URL", "false");
 
 export const INTERNAL_API_URL = getEnvironmentVariable("INTERNAL_API_URL", "false");
 
-export const POSTCODE_ADDRESSES_LOOKUP_URL = getEnvironmentVariable("POSTCODE_ADDRESSES_LOOKUP_URL", "http://postcode.cidev.aws.chdev.org");
+export const POSTCODE_ADDRESSES_LOOKUP_URL = getEnvironmentVariable("POSTCODE_ADDRESSES_LOOKUP_URL", "false");
 
-export const API_URL = getEnvironmentValue("API_URL", "http://api.chs.local:4001");
+export const API_URL = getEnvironmentValue("API_URL", "false");
 
-export const PAYMENTS_API_URL = getEnvironmentValue("PAYMENTS_API_URL", "http://api-payments.chs.local:4001");
+export const API_LOCAL_URL = getEnvironmentValue("API_LOCAL_URL", "false");
 
-export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN", "chs.local");
+export const PAYMENTS_API_URL = getEnvironmentValue("PAYMENTS_API_URL", "false");
 
-export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "localhost:6379");
+export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN", "false");
 
-export const CHS_URL = getEnvironmentValue("CHS_URL", "http://chs.local");
+export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER", "false");
 
-export const CDN_URL_CSS = getEnvironmentValue("CDN_URL_CSS", "http://chs.local");
+export const CHS_URL = getEnvironmentValue("CHS_URL", "false");
 
-export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "http://chs.local");
+export const CDN_URL_CSS = getEnvironmentValue("CDN_URL_CSS", "false");
 
-export const CDN_HOST = getEnvironmentValue("CDN_HOST", "http://chs.local");
+export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "false");
+
+export const CDN_HOST = getEnvironmentValue("CDN_HOST", "false");
+
+export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
 
 // API Keys and Secrets
 
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
+
+export const CHS_INTERNAL_API_KEY = getEnvironmentValue("CHS_INTERNAL_API_KEY");
 
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET", "ChGovUk-XQrbf3sLj2abFxIY2TlapsJ");
 

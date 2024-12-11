@@ -17,10 +17,11 @@ import {
     PIWIK_URL,
     PIWIK_SITE_ID
 } from "./utils/properties";
-import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { getLocalesService, selectLang } from "./utils/localise";
 import { ErrorService } from "./services/errorService";
+import { updateAcspAuthMiddleware } from "./middleware/update_acsp_authentication_middleware";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -57,6 +58,7 @@ app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
+app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
 app.use(commonTemplateVariablesMiddleware);
 
 // Company Auth redirect

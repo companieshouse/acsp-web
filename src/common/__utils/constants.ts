@@ -7,6 +7,7 @@ export const COMPANY_DETAILS: string = "companyDetails";
 export const SUBMISSION_ID: string = "submissionID";
 export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction record for company ";
 export const USER_DATA = "user";
+export const ACSP_DETAILS = "acspDetails";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";
@@ -30,3 +31,4 @@ export const RESUME_APPLICATION_ID:string = "resume application id";
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };
+export const REQ_TYPE_UPDATE_ACSP:string = "updateAcsp";

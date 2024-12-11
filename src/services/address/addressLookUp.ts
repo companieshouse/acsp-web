@@ -103,7 +103,7 @@ export class AddressLookUpService {
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string): Address {
-        const address = ukAddresses.find((address) => address.premise === inputPremise);
+        const address = ukAddresses.find((foundAddress) => foundAddress.premise === inputPremise);
         return {
             premises: address?.premise,
             addressLine1: address?.addressLine1,

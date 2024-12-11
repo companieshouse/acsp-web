@@ -24,27 +24,8 @@ export class AmlSupervisoryBodyService {
             });
         }
 
-        var amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
-        if (selectedAMLSupervisoryBodies instanceof Array) {
-            selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
-                if (previouslySelectedAmlBodiesName.length === 0 || (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody))) {
-                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
-                }
-            });
-            amlSupervisoryBodiesNotInCurrentSelection = [];
-            amlSupervisoryBodies.forEach(amlSupervisoryBody => {
-                if (!selectedAMLSupervisoryBodies.includes(amlSupervisoryBody.amlSupervisoryBody!)) {
-                    amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
-                }
-            });
+        this.getAMLBodiesNotInCurrentSelection(selectedAMLSupervisoryBodies, previouslySelectedAmlBodiesName, amlSupervisoryBodies);
 
-            if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
-                amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
-                    var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
-                    amlSupervisoryBodies.splice(index, 1);
-                });
-            }
-        }
         if (acspData) {
             acspData.amlSupervisoryBodies = amlSupervisoryBodies;
         }
@@ -74,6 +55,31 @@ export class AmlSupervisoryBodyService {
             }
         }
 
+    }
+
+    getAMLBodiesNotInCurrentSelection = (selectedAMLSupervisoryBodies: string[], previouslySelectedAmlBodiesName: string[], amlSupervisoryBodies: AmlSupervisoryBody[]) => {
+        var amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
+        if (selectedAMLSupervisoryBodies instanceof Array) {
+            selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
+                if (previouslySelectedAmlBodiesName.length === 0 || (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody))) {
+                    amlSupervisoryBodies.push({ amlSupervisoryBody: selectedAMLSupervisoryBody });
+                }
+            });
+            amlSupervisoryBodiesNotInCurrentSelection = [];
+            amlSupervisoryBodies.forEach(amlSupervisoryBody => {
+                if (!selectedAMLSupervisoryBodies.includes(amlSupervisoryBody.amlSupervisoryBody!)) {
+                    amlSupervisoryBodiesNotInCurrentSelection.push(amlSupervisoryBody);
+                }
+            });
+
+            if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
+                amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
+                    var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
+                    amlSupervisoryBodies.splice(index, 1);
+                });
+            }
+        }
+        return amlSupervisoryBodies;
     }
 
 }

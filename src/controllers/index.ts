@@ -74,3 +74,4 @@ export * as unincorporatedWhatIsYourEmailController from "./features/unincorpora
 export * as updateIndexController from "./features/update-acsp/indexController";
 export * as updateWhatIsYourNameController from "./features/update-acsp/whatIsYourNameController";
 export * as updateYourDetailsController from "./features/update-acsp/updateYourDetails";
+export * as updateWhereDoYouLiveController from "./features/update-acsp/whereDoYouLiveController";
