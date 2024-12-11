@@ -3,72 +3,109 @@
     rows: [
     {
         key: {
-          text: i18n.updateYourDetailsName
+          text: i18n.updateYourDetailsName,
+          classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.name
+          text: detailsAnswers.name,
+          classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
               {
-                href: "",
-                text: i18n.updateYourDetailsChange,
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.correspondeceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.correspondeceAddress
               }
-            ]
+            ],
+            classes: "govuk-!-width-one-third"
           }
       },
       {
         key: {
-          text: i18n.updateYourDetailsWhereDoYouLive
+          text: i18n.updateYourDetailsWhereDoYouLive,
+          classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.countryOfResidence
+          text: detailsAnswers.countryOfResidence,
+          classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
               {
-                href: "",
-                text: i18n.updateYourDetailsChange,
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.correspondeceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.correspondeceAddress
               }
-            ]
+            ],
+            classes: "govuk-!-width-one-third"
           }
       },
       {
         key: {
-          text: i18n.updateYourDetailsCorrespondenceAddress
+          text: i18n.updateYourDetailsCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.correspondenceAddress
+          html: detailsAnswers.correspondenceAddress,
+          classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
               {
-                href: "",
-                text: i18n.updateYourDetailsChange,
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.correspondeceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.correspondeceAddress
               }
-            ]
+            ],
+            classes: "govuk-!-width-one-third"
           }
       },
       {
         key: {
-          text: i18n.updateDetailsCorrespondenceEmail
+          text: i18n.updateDetailsCorrespondenceEmail,
+          classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.correspondenceEmail
+          text: detailsAnswers.correspondenceEmail,
+          classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
               {
-                href: "",
-                text: i18n.updateYourDetailsChange,
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.correspondeceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.correspondeceAddress
               }
-            ]
+            ],
+            classes: "govuk-!-width-one-third"
           }
-      },
+      }
+    ]
+    })
+}}
+{{ govukSummaryList({
+    rows: [
       {
         key: {
           text: i18n.updateYourDetailsBusinessAddress
@@ -84,22 +121,35 @@
         value: {
           html: detailsAnswers.businessAddress
         }
-      },
+      }
+    ]
+    })
+}}
+{{ govukSummaryList({
+    rows: [
       {
         key: {
-          text: i18n.updateYourDetailsNameOfBusiness
+          text: i18n.updateYourDetailsNameOfBusiness,
+          classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.businessName
+          text: detailsAnswers.businessName,
+          classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
               {
-                href: "",
-                text: i18n.updateYourDetailsChange,
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.correspondeceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.correspondeceAddress
               }
-            ]
+            ],
+            classes: "govuk-!-width-one-third"
           }
       }
     ]

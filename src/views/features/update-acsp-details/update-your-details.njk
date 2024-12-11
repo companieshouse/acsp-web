@@ -41,26 +41,27 @@
             {% include "partials/update-your-details/unincorporated-answers.njk" %}
         {% endif %}
         <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+        <div class="govuk-button-group"> 
+            {{ govukButton({
+                text: i18n.addNewAMLDetails,
+                classes: "govuk-button--secondary",
+                id:"add-new-aml-details"
+                }) }}
+            {{ govukButton({
+                text: i18n.goBackToAuthorisedAgentServices,
+                classes: "govuk-button--secondary",
+                id:"go-back-to-authorised-agent-services"
+                }) }}
+        </div>
         {{ govukSummaryList({
             rows: amlList
         })}}
-    <div class="govuk-button-group"> 
-        {{ govukButton({
-            text: i18n.addNewAMLDetails,
-            classes: "govuk-button--secondary",
-            id:"add-new-aml-details"
-            }) }}
-        {{ govukButton({
-            text: i18n.goBackToAuthorisedAgentServices,
-            classes: "govuk-button--secondary",
-            id:"go-back-to-authorised-agent-services"
-            }) }}
-    </div>
         <div class="govuk-button-group"> 
         {{ govukButton({
-            text: i18n.updateYourDetailsChange,
+            text: i18n.updateYourDetailsContinue,
             id:"update-acsp-details"
             }) }}
+        <a class="govuk-link" href="#" id="cancel-id">{{i18n.Cancel}}</a>
     </div>
     </form>
 {% endblock main_content %}
