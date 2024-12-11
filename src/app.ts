@@ -15,13 +15,17 @@ import {
     CDN_HOST,
     CHS_URL,
     PIWIK_URL,
-    PIWIK_SITE_ID
+    PIWIK_SITE_ID,
+    FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS
 } from "./utils/properties";
 import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { getLocalesService, selectLang } from "./utils/localise";
 import { ErrorService } from "./services/errorService";
-import { updateAcspAuthMiddleware } from "./middleware/update_acsp_authentication_middleware";
+import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
+import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
+import { updateAcspIsOwnerMiddleware } from "./middleware/update-acsp/update_acsp_is_owner_middleware";
+import { isActiveFeature } from "./utils/feature.flag";
 const app = express();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -56,10 +60,14 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 // Apply middleware
 app.use(cookieParser());
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER}))*`, authenticationMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
-app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
 app.use(commonTemplateVariablesMiddleware);
+if (isActiveFeature(FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS)) {
+    app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
+    app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
+    app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
+}
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
