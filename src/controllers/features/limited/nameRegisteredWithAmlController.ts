@@ -23,10 +23,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
-        res.render(config.NAME_REGISTERED_WITH_AML, {
+        res.render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
             previousPage,
             ...getLocaleInfo(locales, lang),
             currentUrl,
+            businessName: acspData?.businessName,
             nameRegisteredWithAml: acspData?.howAreYouRegisteredWithAml
         });
     } catch (err) {
@@ -48,26 +49,25 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspData : AcspData = session?.getExtraData(USER_DATA)!;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.NAME_REGISTERED_WITH_AML, {
+            res.status(400).render(config.LIMITED_NAME_REGISTERED_WITH_AML, {
                 previousPage,
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
+                businessName: acspData?.businessName,
                 ...pageProperties
             });
         } else {
             if (acspData) {
+                //  save data to mongodb
                 acspData.howAreYouRegisteredWithAml = req.body.nameRegisteredWithAml;
+                const acspDataService = new AcspDataService();
+                await acspDataService.saveAcspData(session, acspData);
             }
-            //  save data to mongodb
-            const acspDataService = new AcspDataService();
-            await acspDataService.saveAcspData(session, acspData);
 
-            const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang);
-            const nextPageUrlForBoth = addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang);
-            if (selectedOption === "YOUR_NAME") {
-                res.redirect(nextPageUrlForBoth); // Redirect to another page when your name selected
+            if (selectedOption === "NAME_OF_THE_BUSINESS") {
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, lang));
             } else {
-                res.redirect(nextPageUrl); // Redirect to the sector page for the other 2 options
+                res.redirect(addLangToUrl(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, lang));
             }
         }
     } catch (err) {

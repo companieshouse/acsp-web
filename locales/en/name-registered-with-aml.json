@@ -4,6 +4,7 @@
     "nameRegisteredWithAmlNameOfTheBusinessOption": "Name of the business",
     "nameRegisteredWithAmlYourNameOption": "Your name",
     "nameRegisteredWithAmlBothOption": "Both",
+    "nameRegisteredWithAmlDifferentNameOption": "A different name",
     
     "error-nameRegisteredWithAmlSelectRadio" : "Select which name is registered with your AML supervisory body"
 }
