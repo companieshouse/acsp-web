@@ -18,7 +18,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
         expect(200);
     });
-    
+
     it("should return status 200", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce(dummyFullProfile);
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
