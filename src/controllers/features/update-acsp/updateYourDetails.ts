@@ -1,36 +1,37 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, ACSP_DETAILS_UPDATE_CONFIRMATION } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_WHAT_IS_YOUR_NAME, ACSP_DETAILS_UPDATE_CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
-import { Answers } from "../../../model/Answers";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, ACSP_DETAILS } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
-import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { getAnswers } from "../../../services/checkYourAnswersService";
+import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { getPreviousPageUrl } from "../../../services/url";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { ACSPFullProfileDetails } from "model/ACSPFullProfileDetails";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const currentUrl = BASE_URL + UPDATE_YOUR_ANSWERS;
+    const prevUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL);
+    const updateNameVisited: boolean = prevUrl?.includes(UPDATE_ACSP_WHAT_IS_YOUR_NAME);
     try {
-        // TO DO -- this code needs to be modified once the API development is completed
-        const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
-        const detailsAnswers: Answers = getAnswers(req, acspData, locales.i18nCh.resolveNamespacesKeys(lang));
-        // -----------------------------------------------------------------------------
+        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const detailsAnswers: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
+            updateNameVisited,
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
             editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
-            typeOfBusiness: acspData.typeOfBusiness,
             detailsAnswers,
+            acspFullProfile,
             lang,
-            amlDetails: acspData?.amlSupervisoryBodies,
-            amlName: acspData.howAreYouRegisteredWithAml,
             AMLSupervisoryBodies
         });
     } catch {

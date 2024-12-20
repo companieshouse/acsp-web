@@ -3,20 +3,20 @@
 {% extends "layouts/default.njk" %}
 
 {% set amlList = [] %}
-{% for body in amlDetails %}
+{% for body in acspFullProfile.amlDetails %}
     {% set amlSummaryObject = {
         key: {
             text:  i18n.checkYourAnswersAMLTab
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.supervisoryBody + "</li><li>" + body.membershipDetails + "</li></ul>"
         },
         actions: {
             items: [
             {
                 href: "#",
                 text: i18n.updateYourDetailsRemove,
-                visuallyHiddenText: body.amlSupervisoryBody
+                visuallyHiddenText: body.supervisoryBody
             }
             ]
         }
@@ -33,11 +33,11 @@
                 {{ i18n.updateYourDetailsNote }}
             </p>
         </div>
-        {% if typeOfBusiness === "SOLE_TRADER" %}
+        {% if acspFullProfile.type === "sole-trader" %}
             {% include "partials/update-your-details/sole-trader-answers.njk" %}
-        {% elif typeOfBusiness === "LC" or typeOfBusiness === "LLP"  or typeOfBusiness === "CORPORATE_BODY"%}
+        {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
             {% include "partials/update-your-details/limited-answers.njk" %}
-        {% elif typeOfBusiness === "PARTNERSHIP" or typeOfBusiness === "UNINCORPORATED" or typeOfBusiness === "LP" %}
+        {% elif acspFullProfile.type === "limited-partnership" or acspFullProfile.type === "unincorporated-entity" or acspFullProfile.type === "limited-partnership" %}
             {% include "partials/update-your-details/unincorporated-answers.njk" %}
         {% endif %}
         <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>

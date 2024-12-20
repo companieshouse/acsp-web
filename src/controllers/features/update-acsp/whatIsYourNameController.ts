@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_CHANGE_DETAILS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_CHANGE_DETAILS, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -33,7 +33,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
         payload,
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang),
+        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
         reqType
     });
 };
@@ -43,7 +43,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const errorList = validationResult(req);
     const reqType = REQ_TYPE_UPDATE_ACSP;
-    const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang);
+    const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
     if (!errorList.isEmpty()) {
         const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
         res.status(400).render(config.WHAT_IS_YOUR_NAME, {
