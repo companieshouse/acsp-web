@@ -55,10 +55,7 @@ describe("POST" + LIMITED_NAME_REGISTERED_WITH_AML, () => {
     });
 
     it("should return status 302 after redirect", async () => {
-        const formData = {
-            id: "abc",
-            nameRegisteredWithAml: "YOUR_NAME"
-        };
+        const formData = { nameRegisteredWithAml: "A_DIFFERENT_NAME" };
         const res = await router.post(BASE_URL + LIMITED_NAME_REGISTERED_WITH_AML).send(formData);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(BASE_URL + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT + "?lang=en");

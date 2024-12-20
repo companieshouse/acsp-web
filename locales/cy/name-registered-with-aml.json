@@ -4,6 +4,7 @@
     "nameRegisteredWithAmlNameOfTheBusinessOption": "Enw'r busnes",
     "nameRegisteredWithAmlYourNameOption": "Eich enw",
     "nameRegisteredWithAmlBothOption": "Y ddau",
+    "nameRegisteredWithAmlDifferentNameOption": "A different name Welsh",
    
     "error-nameRegisteredWithAmlSelectRadio" : "Dewiswch pa enw sydd wedi'i gofrestru gyda'ch corff goruchwylio AML"
 }
