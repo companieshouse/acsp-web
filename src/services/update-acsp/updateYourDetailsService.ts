@@ -3,30 +3,9 @@ import { Request } from "express";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
 
-const typeOfBusinessTranslated = (typeOfBusiness: string, i18n: any): string => {
-    switch (typeOfBusiness) {
-    case "limited-company":
-        return i18n.typeOfBusinessLimitedCompanyOption;
-    case "limited-partnership":
-        return i18n.typeOfBusinessLimitedPartnershipOption;
-    case "limited-liability-partnership":
-        return i18n.typeOfBusinessLimitedLiabilityPartnershipsOption;
-    case "non-registered-partnership":
-        return i18n.typeOfBusinessPartnershipNotRegisteredWithCompaniesHouseOption;
-    case "sole-trader":
-        return i18n.typeOfBusinessSoleTraderOption;
-    case "unincorporated-entity":
-        return i18n.otherTypeOfBusinessUnincorporatedEntity;
-    case "corporate-body":
-        return i18n.otherTypeOfBusinessCorporateBody;
-    default:
-        return typeOfBusiness;
-    }
-};
-
 export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};
-    profileDetails.typeOfBusiness = typeOfBusinessTranslated(acspFullProfile.type!, i18n);
+    profileDetails.typeOfBusiness = acspFullProfile.type;
     profileDetails.correspondenceEmail = acspFullProfile.email;
     profileDetails.businessName = acspFullProfile.name;
 
@@ -50,14 +29,11 @@ const soleTraderAnswers = (answers: ACSPFullProfileDetails, acspProfileData: Acs
     answers.name = getFullNameACSPFullProfileDetails(acspProfileData);
     answers.correspondenceEmail = acspProfileData.email;
     answers.countryOfResidence = acspProfileData.soleTraderDetails?.nationality;
-    // answers.businessName = acspData.businessName;
     answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
     return answers;
 };
 
 const unincorporatedAnswers = (answers: ACSPFullProfileDetails, acspProfileData: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
-
-    // answers.businessName = acspData.businessName;
     answers.businessAddress = businessAddressAnswers(acspProfileData);
     answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
     return answers;
