@@ -4,7 +4,7 @@ import countryList from "../../../../lib/countryList";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_CHANGE_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
