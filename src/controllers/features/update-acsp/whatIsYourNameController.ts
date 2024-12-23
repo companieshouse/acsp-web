@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_CHANGE_DETAILS, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -10,8 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, USER_DATA } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 

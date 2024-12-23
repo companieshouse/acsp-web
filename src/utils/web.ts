@@ -1,5 +1,4 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { ACSPFullProfileDetails } from "model/ACSPFullProfileDetails";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 /**
