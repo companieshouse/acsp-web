@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_ACSP_CHANGE_DETAILS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
+import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { USER_DATA } from "../../../../src/common/__utils/constants";
 
@@ -37,7 +37,7 @@ describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
 
     });
 

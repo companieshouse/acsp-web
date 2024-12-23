@@ -57,6 +57,38 @@
     })
 }}
 {% endif %}
+{% if detailsAnswersUpdated.countryOfResidence !== detailsAnswers.countryOfResidence %}
+{{ govukSummaryList({
+    rows: [      
+      {
+        key: {
+          text: i18n.updateYourDetailsWhereDoYouLive,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          text: detailsAnswersUpdated.countryOfResidence,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
+              }
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }
+    ]
+    })
+}}
+{% else %}
 {{ govukSummaryList({
     rows: [      
       {
@@ -71,19 +103,20 @@
         actions: {
             items: [
               {
-                href: "#",
+                href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + "?lang=" + lang,
                 text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
-              },
-              {
-                href: "#",
-                text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
               }
             ],
             classes: "govuk-!-width-one-third"
           }
-      },
+      }
+    ]
+    })
+}}
+{% endif %}
+{{ govukSummaryList({
+    rows: [
       {
         key: {
           text: i18n.updateYourDetailsCorrespondenceAddress,
