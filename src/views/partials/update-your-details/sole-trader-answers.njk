@@ -1,4 +1,5 @@
 <h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+{% if detailsAnswersUpdated.name !== detailsAnswers.name %}
 {{ govukSummaryList({
     rows: [
     {
@@ -7,7 +8,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.name,
+          text: detailsAnswersUpdated.name,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -25,7 +26,39 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      },
+      }
+    ]
+    })
+}}
+{% else %}
+{{ govukSummaryList({
+    rows: [
+    {
+        key: {
+          text: i18n.updateYourDetailsName,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          text: detailsAnswers.name,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsName
+              }
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }
+    ]
+    })
+}}
+{% endif %}
+{{ govukSummaryList({
+    rows: [      
       {
         key: {
           text: i18n.updateYourDetailsWhereDoYouLive,

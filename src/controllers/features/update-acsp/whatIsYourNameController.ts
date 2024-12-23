@@ -11,8 +11,9 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { REQ_TYPE_UPDATE_ACSP, USER_DATA } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -22,11 +23,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // acspData is always null. To avoid errors and allow testing, we use:
     // const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
     // This ensures functionality until the page is ready, at which point we can handle null separately.
-    const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
+    const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
     const payload = {
-        "first-name": acspData.applicantDetails?.firstName,
-        "middle-names": acspData.applicantDetails?.middleName,
-        "last-name": acspData.applicantDetails?.lastName
+        "first-name": acspData.soleTraderDetails?.forename,
+        "middle-names": acspData.soleTraderDetails?.otherForenames,
+        "last-name": acspData.soleTraderDetails?.surname
     };
     const reqType = REQ_TYPE_UPDATE_ACSP;
     res.render(config.WHAT_IS_YOUR_NAME, {
@@ -56,17 +57,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         });
     } else {
         const session: Session = req.session as any as Session;
-        const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
+        var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
-        const applicantDetails = acspData?.applicantDetails || {};
-        if (acspData) {
-            applicantDetails.firstName = req.body["first-name"];
-            applicantDetails.middleName = req.body["middle-names"];
-            applicantDetails.lastName = req.body["last-name"];
+        const soleTraderDetails = acspDataUpdated.soleTraderDetails || {};
+        if (acspDataUpdated) {
+            soleTraderDetails.forename = req.body["first-name"];
+            soleTraderDetails.otherForenames = req.body["middle-names"];
+            soleTraderDetails.surname = req.body["last-name"];
         }
-        acspData.applicantDetails = applicantDetails;
-
-        saveDataInSession(req, USER_DATA, acspData);
+        acspDataUpdated.soleTraderDetails = soleTraderDetails!;
+        saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
         res.redirect(previousPage);
     }
 };

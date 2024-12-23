@@ -28,7 +28,7 @@ const soleTraderAnswers = (answers: ACSPFullProfileDetails, acspProfileData: Acs
     answers.businessName = acspProfileData.name;
     answers.name = getFullNameACSPFullProfileDetails(acspProfileData);
     answers.correspondenceEmail = acspProfileData.email;
-    answers.countryOfResidence = acspProfileData.soleTraderDetails?.nationality;
+    answers.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
     answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
     return answers;
 };

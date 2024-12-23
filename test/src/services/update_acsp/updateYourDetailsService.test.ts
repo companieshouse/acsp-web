@@ -27,31 +27,31 @@ describe("CheckYourAnswersService", () => {
 
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
-        
+
         session.setExtraData(ACSP_DETAILS, mockLimitedAcspFullProfile);
         const limitedAnswers = getProfileDetails(req, mockLimitedAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
-console.log(limitedAnswers);
+        console.log(limitedAnswers);
         expect(limitedAnswers).toStrictEqual({
-            typeOfBusiness: 'limited-company',
-            correspondenceEmail: 'john.doe@example.com',
-            businessName: 'Example ACSP Ltd',
-            correspondenceAddress: 'Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB'
+            typeOfBusiness: "limited-company",
+            correspondenceEmail: "john.doe@example.com",
+            businessName: "Example ACSP Ltd",
+            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
     it("should return answers for sole-trader company journey", () => {
         const session: Session = req.session as any as Session;
-        
+
         session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
         const soleTraderAnswers = getProfileDetails(req, mockSoleTraderAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
         console.log(soleTraderAnswers);
         expect(soleTraderAnswers).toStrictEqual({
-            typeOfBusiness: 'sole-trader',
-            correspondenceEmail: 'john.doe@example.com',
-            businessName: 'John Doe',
-            name: 'John A. Doe',
-            countryOfResidence: 'British',
-            correspondenceAddress: 'Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB'
-    });
+            typeOfBusiness: "sole-trader",
+            correspondenceEmail: "john.doe@example.com",
+            businessName: "John Doe",
+            name: "John A. Doe",
+            countryOfResidence: "united-kingdom",
+            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+        });
     });
 });

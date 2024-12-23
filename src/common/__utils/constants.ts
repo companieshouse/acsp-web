@@ -8,6 +8,7 @@ export const SUBMISSION_ID: string = "submissionID";
 export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction record for company ";
 export const USER_DATA = "user";
 export const ACSP_DETAILS = "acspDetails";
+export const ACSP_DETAILS_UPDATED = "acspDetailsUpdated";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";
