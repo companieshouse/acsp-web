@@ -7,3 +7,4 @@ log_level = "info"
 service_autoscale_enabled  = true
 service_scaledown_schedule = "55 19 * * ? *"
 service_scaleup_schedule   = "5 6 * * ? *"
+required_cpus = 512
