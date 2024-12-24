@@ -1,3 +1,6 @@
+/* eslint-disable import/first */
+jest.mock("../../../../src/services/acspProfileService");
+process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
@@ -5,8 +8,6 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_CHANGE_DETAILS } from "../../
 import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 const router = supertest(app);
-
-jest.mock("../../../../src/services/acspProfileService");
 
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 
