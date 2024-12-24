@@ -17,6 +17,9 @@
     "updateYourDetailsNameOfBusiness": "What is the name of your business?",
     "updateYourDetailsAMLMembershipDetails": "AML Membership Details",
     "addNewAMLDetails": "Add new AML details",
-    "goBackToAuthorisedAgentServices": "Go back to authorised agent services"
+    "goBackToAuthorisedAgentServices": "Go back to authorised agent services",
+    "updatedWarningCaption": "Details updated",
+    "updatedWarningNoteLineOne": "Pending until submitted",
+    "updatedWarningNoteLineTwo": " and accepted"
 
 }

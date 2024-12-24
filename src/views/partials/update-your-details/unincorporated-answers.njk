@@ -1,63 +1,39 @@
 <h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
 {% if detailsAnswers.name %}
-  {% if updateNameVisited %}
-    {{ govukSummaryList({
-        rows: [
-        {
-            key: {
-              text: i18n.updateYourDetailsName,
+  {{ govukSummaryList({
+      rows: [
+      {
+          key: {
+            text: i18n.updateYourDetailsName,
+            classes: "govuk-!-width-one-third"
+          },
+          value: {
+            html: detailsAnswers.name + 
+        "<div class='govuk-!-static-padding-top-3'>
+        <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+        <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+        </div>",
+            classes: "govuk-!-width-one-third"
+          },
+          actions: {
+              items: [
+                {
+                  href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
+                  text: i18n.updateYourDetailsUpdate,
+                  visuallyHiddenText: i18n.updateYourDetailsName
+                },
+                {
+                  href: "#",
+                  text: i18n.updateYourDetailsCancel,
+                  visuallyHiddenText: i18n.updateYourDetailsName
+                }
+              ],
               classes: "govuk-!-width-one-third"
-            },
-            value: {
-              text: detailsAnswers.name,
-              classes: "govuk-!-width-one-third"
-            },
-            actions: {
-                items: [
-                  {
-                    href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
-                    text: i18n.updateYourDetailsUpdate,
-                    visuallyHiddenText: i18n.updateYourDetailsName
-                  },
-                  {
-                    href: "#",
-                    text: i18n.updateYourDetailsCancel,
-                    visuallyHiddenText: i18n.updateYourDetailsName
-                  }
-                ],
-                classes: "govuk-!-width-one-third"
-              }
-          }
-        ]
-        })
-    }}
-  {% else %}
-    {{ govukSummaryList({
-        rows: [
-        {
-            key: {
-              text: i18n.updateYourDetailsName,
-              classes: "govuk-!-width-one-third"
-            },
-            value: {
-              text: detailsAnswers.name,
-              classes: "govuk-!-width-one-third"
-            },
-            actions: {
-                items: [
-                  {
-                    href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
-                    text: i18n.updateYourDetailsUpdate,
-                    visuallyHiddenText: i18n.updateYourDetailsName
-                  }
-                ],
-                classes: "govuk-!-width-one-third"
-              }
-          }
-        ]
-        })
-    }}
-  {% endif %}
+            }
+        }
+      ]
+      })
+  }}
 {% endif %}
 {{ govukSummaryList({
     rows: [
@@ -67,7 +43,11 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.correspondenceAddress,
+          html: detailsAnswers.correspondenceAddress + 
+          "<div class='govuk-!-static-padding-top-3'>
+          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+          </div>",
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -92,7 +72,11 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.correspondenceEmail,
+          html: detailsAnswers.correspondenceEmail + 
+          "<div class='govuk-!-static-padding-top-3'>
+          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+          </div>",
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -117,7 +101,11 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.businessAddress,
+          html: detailsAnswers.businessAddress + 
+          "<div class='govuk-!-static-padding-top-3'>
+          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+          </div>",
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -148,7 +136,11 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          text: detailsAnswers.businessName,
+          html: detailsAnswers.businessName + 
+          "<div class='govuk-!-static-padding-top-3'>
+          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+          </div>",
           classes: "govuk-!-width-one-third"
         },
         actions: {

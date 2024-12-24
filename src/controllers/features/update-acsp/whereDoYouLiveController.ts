@@ -9,18 +9,14 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
-import { REQ_TYPE_UPDATE_ACSP, USER_DATA, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { REQ_TYPE_UPDATE_ACSP, USER_DATA, ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    // Ideally, acspData should never be null, but since the updateAcspDetails page is not yet developed,
-    // acspData is always null. To avoid errors and allow testing, we use:
-    // const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-    // This ensures functionality until the page is ready, at which point we can handle null separately.
-    const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
+    const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
     const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
     const reqType = REQ_TYPE_UPDATE_ACSP;
@@ -29,8 +25,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
         currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
         countryList: countryList,
-        firstName: acspData?.applicantDetails?.firstName,
-        lastName: acspData?.applicantDetails?.lastName,
         countryInput,
         payload,
         reqType

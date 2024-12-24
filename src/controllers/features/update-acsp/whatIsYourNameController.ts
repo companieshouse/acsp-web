@@ -18,10 +18,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    // Ideally, acspData should never be null, but since the updateAcspDetails page is not yet developed,
-    // acspData is always null. To avoid errors and allow testing, we use:
-    // const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
-    // This ensures functionality until the page is ready, at which point we can handle null separately.
     const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
     const payload = {
         "first-name": acspData.soleTraderDetails?.forename,
