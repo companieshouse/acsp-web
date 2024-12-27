@@ -1,4 +1,6 @@
+<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.3.1.min.js"></script>
 <script src="{{ cdnHost }}/javascripts/app/piwik-enable.js"></script>
+
 
 <!-- Matomo -->
 <script>
@@ -17,6 +19,22 @@
       g.src = u + 'matomo.js';
       s.parentNode.insertBefore(g, s);
     })();
+
+    $(function() { 
+      eventCategory = $(document).find("title").text().split(' -')[0];
+      $("form").on("submit",function() {
+        if ($("input[type='radio']:checked").length > 0) {
+          $(this).find("input[type='radio']:checked").each(function(){ elementId = $(this).val();});
+          eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
+          _paq.push(["trackEvent", eventCategory, eventName]);
+        }
+      });
+      $("button").click(function() {
+        eventNameBtn = $(this).text().toUpperCase()+" - "+eventCategory;
+        _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+      });
+    });
+
   </script>
   <noscript>
     <p>
