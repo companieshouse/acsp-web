@@ -59,11 +59,11 @@ describe("CheckYourAnswersService", () => {
         session.setExtraData(ACSP_DETAILS, mockUnincorporatedAcspFullProfile);
         const unincorporatedAnswers = getProfileDetails(req, mockUnincorporatedAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
         expect(unincorporatedAnswers).toStrictEqual({
-            typeOfBusiness: 'unincorporated-entity',
-            correspondenceEmail: 'john.doe@example.com',
-            businessName: 'John Doe',
-            businessAddress: 'Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB',
-            correspondenceAddress: 'Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB'
+            typeOfBusiness: "unincorporated-entity",
+            correspondenceEmail: "john.doe@example.com",
+            businessName: "John Doe",
+            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 });
