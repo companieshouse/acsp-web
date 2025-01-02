@@ -39,7 +39,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const reqType = REQ_TYPE_UPDATE_ACSP;
 
     const session: Session = req.session as any as Session;
-    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
     const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
     if (!errorList.isEmpty()) {
@@ -65,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             applicantDetails.usualResidentialCountry = countryOfResidence;
             acspDataUpdated.soleTraderDetails = applicantDetails;
         }
-        saveDataInSession(req, USER_DATA, acspData);
+        saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
         res.redirect(previousPage);
 
     }
