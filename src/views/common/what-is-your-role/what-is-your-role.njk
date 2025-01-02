@@ -78,34 +78,42 @@
         </div>
         {{ govukButton({
           text: i18n.SaveAndContinue,
-          id:"save-continue-button"
+          id:"save-continue-button",
+      attributes: {
+        "onClick": "analyticsWithCustomisedMatomoText();"
+      }
         }) }}
     </form>
 
     {# If/Else Logic to call specific Matomo event script based on the value of acspType (specific script runs depending on what busniess type the user had selected previously) #}
+    <script> var matomoText; </script>
     {% if acspType == "PARTNERSHIP" %}
-      <script> trackEventBasedOnPageTitle("member-of-partnership", "{{title}}", "select-option", "I am a member of partnership"); </script>
+      <script> matomoText = "I am a member of partnership"; </script>
     {% elif acspType == "SOLE_TRADER" %}
-      <script> trackEventBasedOnPageTitle("sole-trader", "{{title}}", "select-option", "I am the sole trader"); </script>
-    {% elif acspType == "UNINCORPORATED" %}
-      <script> trackEventBasedOnPageTitle("member-of-governing-body", "{{title}}", "select-option", "I am a member of the governing body of"); </script>
+      <script> matomoText = "I am the sole trader"; </script>
+    {% elif acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
+      <script> matomoText = "I am a member of entity"; </script>
     {% elif acspType == "CORPORATE_BODY" %}
-      <script> trackEventBasedOnPageTitle("director-equivalent", "{{title}}", "select-option", "I am the equivalent of a director of"); </script>
+      <script> matomoText = "I am the equivalent of a director of"; </script>
     {% elif acspType == "LC" %}
-      <script> trackEventBasedOnPageTitle("I-am-director", "{{title}}", "select-option", "I am a director of"); </script>
+      <script> matomoText = "I am a director of"; </script>
     {% elif acspType == "LLP" %}
-      <script> trackEventBasedOnPageTitle("member-of-llp", "{{title}}", "select-option", "I am a member of llp"); </script>
+      <script> matomoText = "I am a member of llp"; </script>
     {% elif acspType == "LP" %}
-      <script> trackEventBasedOnPageTitle("general-partner", "{{title}}", "select-option", "I am a general partner of"); </script>
-    {% endif %}
-
-    {% if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
-      <script> trackEventBasedOnPageTitle("member-of-entity", "{{title}}", "select-option", "I am a member of entity"); </script>
+      <script> matomoText = "I am a general partner of"; </script>
+    {% else %}
+      <script> matomoText = "I am someone else"; </script>
     {% endif %}
 
     <script>
-        trackEventBasedOnPageTitle("someone-else", "{{title}}", "select-option", "I am someone else");
-        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - ROLE");
+      function analyticsWithCustomisedMatomoText(){
+        if(matomoText){
+          eventName = matomoText;
+        }else{
+          matomoText = "I am someone else";
+        }
+      }
+      trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - ROLE");
     </script>
 
 {% endblock main_content %}

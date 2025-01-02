@@ -22,11 +22,13 @@
 
     $(function() {
       eventCategory = $(document).find("title").text().split(' -')[0];
+      eventName = "";
       $("form").on("submit",function() {
         if ($("input[type='radio']:checked").length > 0) {
           if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
             eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
           }
+          alert("eventName: "+eventName);
           _paq.push(["trackEvent", eventCategory, eventName]);
         }
       });
