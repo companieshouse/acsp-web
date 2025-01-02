@@ -20,18 +20,15 @@
       s.parentNode.insertBefore(g, s);
     })();
 
-    $(function() { 
+    $(function() {
       eventCategory = $(document).find("title").text().split(' -')[0];
       $("form").on("submit",function() {
         if ($("input[type='radio']:checked").length > 0) {
-          $(this).find("input[type='radio']:checked").each(function(){ elementId = $(this).val();});
-          eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
+          if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
+            eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
+          }
           _paq.push(["trackEvent", eventCategory, eventName]);
         }
-      });
-      $("button").click(function() {
-        eventNameBtn = $(this).text().toUpperCase()+" - "+eventCategory;
-        _paq.push(["trackEvent", eventCategory, eventNameBtn]);
       });
     });
 

@@ -55,7 +55,7 @@
       text: i18n.SaveAndContinue,
       id:"save-continue-button",
       attributes: {
-        "onClick": "continueOnClick()"
+        "onClick": "continueOnClick();"
       }
     }) }}
   </form>
@@ -87,5 +87,6 @@
     }
   </script>
   <script>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - TYPE");
   </script>
 {% endblock main_content %}
