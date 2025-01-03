@@ -42,30 +42,30 @@ const unincorporatedAnswers = (answers: ACSPFullProfileDetails, acspProfileData:
 const correspondenceAddressAnswers = (acspProfileData: AcspFullProfile): string => {
     let correspondenceAddressAnswer = "";
     const applicantDetails = acspProfileData.registeredOfficeAddress;
-    if (applicantDetails?.premises) {
-        correspondenceAddressAnswer += applicantDetails?.premises;
+    if (applicantDetails.premises) {
+        correspondenceAddressAnswer += applicantDetails.premises;
     }
-    if (applicantDetails?.addressLine1) {
-        correspondenceAddressAnswer += (correspondenceAddressAnswer ? " " : "") + applicantDetails?.addressLine1;
+    if (applicantDetails.addressLine1) {
+        correspondenceAddressAnswer += (correspondenceAddressAnswer ? " " : "") + applicantDetails.addressLine1;
     }
 
-    if (applicantDetails?.addressLine2) {
+    if (applicantDetails.addressLine2) {
         correspondenceAddressAnswer +=
         "<br>" + applicantDetails.addressLine2;
     }
-    if (applicantDetails?.locality) {
+    if (applicantDetails.locality) {
         correspondenceAddressAnswer +=
         "<br>" + applicantDetails.locality;
     }
-    if (applicantDetails?.region) {
+    if (applicantDetails.region) {
         correspondenceAddressAnswer +=
         "<br>" + applicantDetails.region;
     }
-    if (applicantDetails?.country) {
+    if (applicantDetails.country) {
         correspondenceAddressAnswer +=
         "<br>" + applicantDetails.country;
     }
-    if (applicantDetails?.postalCode) {
+    if (applicantDetails.postalCode) {
         correspondenceAddressAnswer +=
         "<br>" + applicantDetails.postalCode;
     }
@@ -76,10 +76,10 @@ const correspondenceAddressAnswers = (acspProfileData: AcspFullProfile): string 
 export const businessAddressAnswers = (acspProfileData: AcspFullProfile): string => {
     let businessAddressAnswer = "";
     if (acspProfileData.serviceAddress?.premises) {
-        businessAddressAnswer += acspProfileData.serviceAddress?.premises;
+        businessAddressAnswer += acspProfileData.serviceAddress.premises;
     }
     if (acspProfileData.serviceAddress?.addressLine1) {
-        businessAddressAnswer += (businessAddressAnswer ? " " : "") + acspProfileData.serviceAddress?.addressLine1;
+        businessAddressAnswer += (businessAddressAnswer ? " " : "") + acspProfileData.serviceAddress.addressLine1;
     }
     if (acspProfileData.serviceAddress?.addressLine2) {
         businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.addressLine2;
