@@ -1,11 +1,12 @@
+/* eslint-disable import/first */
+jest.mock("@companieshouse/api-sdk-node");
+process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
-
-jest.mock("@companieshouse/api-sdk-node");
 
 const router = supertest(app);
 
