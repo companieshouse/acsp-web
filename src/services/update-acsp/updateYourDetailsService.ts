@@ -73,7 +73,7 @@ const correspondenceAddressAnswers = (acspProfileData: AcspFullProfile): string 
     return correspondenceAddressAnswer;
 };
 
-const businessAddressAnswers = (acspProfileData: AcspFullProfile): string => {
+export const businessAddressAnswers = (acspProfileData: AcspFullProfile): string => {
     let businessAddressAnswer = "";
     if (acspProfileData.serviceAddress?.premises) {
         businessAddressAnswer += acspProfileData.serviceAddress?.premises;

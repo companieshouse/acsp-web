@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { getProfileDetails, businessAddressAnswers } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { getLocalesService } from "../../../../src/utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
@@ -12,6 +12,7 @@ import {
     mockAddressWithoutLocalityAcspFullProfile, mockAddressWithoutRegionAcspFullProfile,
     mockAddressWithoutCountryAcspFullProfile, mockAddressWithoutPostalCodeAcspFullProfile
 } from "../../../mocks/update_your_details.mock";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
@@ -171,5 +172,12 @@ describe("CheckYourAnswersService", () => {
             businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom",
             correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom"
         });
+    });
+
+    it("should not generate exception when service address is undefined", () => {
+        const acspProfileData: AcspFullProfile = {} as AcspFullProfile;
+        acspProfileData.serviceAddress = undefined;
+        const businessAddressUndefined = businessAddressAnswers(acspProfileData);
+        expect(businessAddressUndefined).toStrictEqual("");
     });
 });
