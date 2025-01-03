@@ -4,7 +4,7 @@ process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_CHANGE_DETAILS } from "../../../../src/types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
 import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 const router = supertest(app);
@@ -32,7 +32,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 });
