@@ -10,7 +10,7 @@ describe("CheckedDocumentsService tests", () => {
             roleType: "MEMBER_OF_GOVERNING_BODY",
             workSector: "CASINOS",
             applicantDetails: {
-                firstName: "Test",
+                firstName: undefined,
                 middleName: "Test",
                 lastName: "User",
                 dateOfBirth: new Date(1990, 10, 15),
@@ -24,7 +24,7 @@ describe("CheckedDocumentsService tests", () => {
             businessName: "Test Business 123"
         };
         const businessAddressUndefined = getFullName(acspProfileData);
-        expect(businessAddressUndefined).toBe("Test Test User");
+        expect(businessAddressUndefined).toBe(undefined);
     });
     it("should return full name as undefined when the fore name is undefined", () => {
         const acspProfileData: AcspFullProfile = {
