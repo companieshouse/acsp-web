@@ -32,7 +32,7 @@ export const getFullNameACSPFullProfileDetails = (acspFullProfileFullProfile: Ac
     if (acspFullProfileFullProfile.soleTraderDetails!.forename === undefined) {
         return undefined;
     }
-    let name = acspFullProfileFullProfile.soleTraderDetails?.forename;
+    let name = acspFullProfileFullProfile.soleTraderDetails!.forename;
 
     if (acspFullProfileFullProfile.soleTraderDetails!.otherForenames !== undefined) {
         name += " " + acspFullProfileFullProfile.soleTraderDetails!.otherForenames;
