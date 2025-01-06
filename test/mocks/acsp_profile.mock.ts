@@ -18,13 +18,5 @@ export const dummyFullProfile: AcspFullProfile = {
         addressLine1: "Test Street",
         postalCode: "AB1 2CD",
         country: "England"
-    },
-    soleTraderDetails:{
-        forename: "John",
-        otherForenames: "A.",
-        surname: "Doe",
-        nationality: "British",
-        usualResidentialCountry: "united-kingdom",
-        dateOfBirth: new Date(1990, 10, 15)
     }
 };
