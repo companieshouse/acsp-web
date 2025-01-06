@@ -2,6 +2,7 @@
 jest.mock("@companieshouse/api-sdk-node");
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
+import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
@@ -13,13 +14,7 @@ const router = supertest(app);
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
-        session.setExtraData(ACSP_DETAILS, {
-            applicantDetails: {
-                firstName: "John",
-                lastName: "Doe",
-                countryOfResidence: "Wales"
-            }
-        });
+        session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
