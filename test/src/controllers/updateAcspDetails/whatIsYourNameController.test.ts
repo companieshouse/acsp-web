@@ -12,18 +12,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
-    const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
-        session.setExtraData(ACSP_DETAILS, {
-            soleTraderDetails: {
-                forename: "John",
-                otherForenames: "A.",
-                surname: "Doe",
-                nationality: "British",
-                usualResidentialCountry: "united-kingdom",
-                dateOfBirth: new Date(1990, 10, 15)
-            }
-        });
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
