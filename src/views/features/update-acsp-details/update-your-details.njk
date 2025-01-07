@@ -56,12 +56,14 @@
         {{ govukSummaryList({
             rows: amlList
         })}}
-        <div class="govuk-button-group"> 
-        {{ govukButton({
-            text: i18n.updateYourDetailsContinue,
-            id:"update-acsp-details"
-            }) }}
-        <a class="govuk-link" href="#" id="cancel-id">{{i18n.Cancel}}</a>
-    </div>
+        {% if updateFlag === true %}
+            <div class="govuk-button-group"> 
+                {{ govukButton({
+                    text: i18n.updateYourDetailsContinue,
+                    id:"update-acsp-details"
+                    }) }}
+                <a class="govuk-link" href="#" id="cancel-id">{{i18n.Cancel}}</a>
+            </div>
+        {% endif %}
     </form>
 {% endblock main_content %}

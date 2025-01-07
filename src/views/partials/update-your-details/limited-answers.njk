@@ -1,3 +1,32 @@
+{% set updateStatusTextForCorrespondenceAddress = "" %}
+{% set updateStatusTextForCorrespondenceEmail = "" %}
+{% set updateStatusTextForBusinessName = "" %}
+
+{% if detailsAnswersUpdated.correspondenceAddress !== detailsAnswers.correspondenceAddress %}
+  {% set updateStatusTextForCorrespondenceAddress =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if detailsAnswersUpdated.correspondenceEmail !== detailsAnswers.correspondenceEmail %}
+  {% set updateStatusTextForCorrespondenceEmail =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if detailsAnswersUpdated.businessName !== detailsAnswers.businessName %}
+  {% set updateStatusTextForBusinessName =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+
 <h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
 {{ govukSummaryList({
     rows: [
@@ -7,11 +36,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.correspondenceAddress + 
-          "<div class='govuk-!-static-padding-top-3'>
-          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
-          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
-          </div>",
+          html: detailsAnswers.correspondenceAddress + updateStatusTextForCorrespondenceAddress,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -25,7 +50,7 @@
                 href: "#",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              }
+              }if detailsAnswersUpdated.correspondenceAddress !== detailsAnswers.correspondenceAddress
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -36,11 +61,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.correspondenceEmail + 
-          "<div class='govuk-!-static-padding-top-3'>
-          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
-          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
-          </div>",
+          html: detailsAnswers.correspondenceEmail + updateStatusTextForCorrespondenceEmail,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -54,7 +75,7 @@
                 href: "#",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
-              }
+              }if detailsAnswersUpdated.correspondenceEmail !== detailsAnswers.correspondenceEmail
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -65,11 +86,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.correspondenceAddress + 
-          "<div class='govuk-!-static-padding-top-3'>
-          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
-          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
-          </div>",
+          html: detailsAnswers.correspondenceAddress + updateStatusTextForCorrespondenceAddress,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -83,7 +100,7 @@
                 href: "#",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
-              }
+              }if detailsAnswersUpdated.correspondenceAddress !== detailsAnswers.correspondenceAddress
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -94,11 +111,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: detailsAnswers.businessName + 
-          "<div class='govuk-!-static-padding-top-3'>
-          <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
-          <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
-          </div>",
+          html: detailsAnswers.businessName + updateStatusTextForBusinessName,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -112,7 +125,7 @@
                 href: "#",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
-              }
+              }if detailsAnswersUpdated.businessName !== detailsAnswers.businessName
             ],
             classes: "govuk-!-width-one-third"
           }

@@ -19,6 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
     const detailsAnswers: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
     const detailsAnswersUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+    var updateFlag = JSON.stringify(detailsAnswers) !== JSON.stringify(detailsAnswersUpdated);
 
     res.render(config.UPDATE_YOUR_ANSWERS, {
         ...getLocaleInfo(locales, lang),
@@ -27,6 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
         detailsAnswers,
         detailsAnswersUpdated,
+        updateFlag,
         acspFullProfile,
         lang,
         AMLSupervisoryBodies
