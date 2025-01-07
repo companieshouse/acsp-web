@@ -68,7 +68,7 @@
     }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     let selectedRadio = null;
 
     // Function to track Matomo analytics based on the selected radio button

@@ -41,7 +41,7 @@
     }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
       trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.value);
     });

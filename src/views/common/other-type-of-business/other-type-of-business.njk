@@ -45,7 +45,7 @@
         }) }}
     </form>
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce={{ nonce | dump | safe }}>
         function continueOnClick () {
             const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
             if (selectedOption){
@@ -67,7 +67,7 @@
         }
     </script>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("UNINCORPORATED", "{{title}}", "select-option", "Unincorporated Entity");
         trackEventBasedOnPageTitle("CORPORATE_BODY", "{{title}}", "select-option", "Corporate Body");
         trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER TYPE");

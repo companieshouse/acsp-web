@@ -7,7 +7,6 @@ import cookieParser from "cookie-parser";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { authenticationMiddlewareForSoleTrader } from "./middleware/authentication_middleware_sole_trader";
 import { sessionMiddleware } from "./middleware/session_middleware";
-
 import {
     APPLICATION_NAME,
     CDN_URL_CSS,
@@ -25,7 +24,14 @@ import { ErrorService } from "./services/errorService";
 import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
 import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
 import { updateAcspIsOwnerMiddleware } from "./middleware/update-acsp/update_acsp_is_owner_middleware";
+import helmet from "helmet";
+import { v4 as uuidv4 } from "uuid";
+import nocache from "nocache";
+import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
+
 const app = express();
+
+const nonce: string = uuidv4();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../node_modules/govuk-frontend"),
@@ -59,6 +65,8 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 
 // Apply middleware
 app.use(cookieParser());
+app.use(nocache());
+app.use(helmet(prepareCSPConfig(nonce)));
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
@@ -67,6 +75,11 @@ app.use(commonTemplateVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.nonce = nonce;
+    next();
+});
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);

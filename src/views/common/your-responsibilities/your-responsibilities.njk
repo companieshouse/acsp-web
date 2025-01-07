@@ -38,7 +38,7 @@
     <button class="govuk-button" id="accept-continue-id">{{ i18n.AcceptAndContinue }}</button>
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("accept-continue-id", "{{title}}", "click-button", "accept-continue");
   </script>
   
