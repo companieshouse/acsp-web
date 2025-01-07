@@ -23,8 +23,7 @@ describe("CheckedDocumentsService tests", () => {
             },
             businessName: "Test Business 123"
         };
-        const firstNameUndefined = getFullName(acspProfileData);
-        expect(firstNameUndefined).toBe(undefined);
+        expect(getFullName(acspProfileData)).toBe(undefined);
     });
     it("should return full name as undefined when the fore name is undefined", () => {
         const acspFullProfileData: AcspFullProfile = {
@@ -53,7 +52,6 @@ describe("CheckedDocumentsService tests", () => {
                 dateOfBirth: new Date(1954, 5, 2)
             }
         };
-        const forenameUndefined = getFullNameACSPFullProfileDetails(acspFullProfileData);
-        expect(forenameUndefined).toBe(undefined);
+        expect(getFullNameACSPFullProfileDetails(acspFullProfileData)).toBe(undefined);
     });
 });
