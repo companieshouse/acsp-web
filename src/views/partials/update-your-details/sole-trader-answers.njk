@@ -1,5 +1,4 @@
 <h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
-{% if detailsAnswersUpdated.name !== detailsAnswers.name %}
 {{ govukSummaryList({
     rows: [
     {
@@ -30,13 +29,7 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-{% else %}
-{{ govukSummaryList({
-    rows: [
+      }if detailsAnswersUpdated.name !== detailsAnswers.name,
     {
         key: {
           text: i18n.updateYourDetailsName,
@@ -56,14 +49,7 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-{% endif %}
-{% if detailsAnswersUpdated.countryOfResidence !== detailsAnswers.countryOfResidence %}
-{{ govukSummaryList({
-    rows: [      
+      }if detailsAnswersUpdated.name == detailsAnswers.name,      
       {
         key: {
           text: i18n.updateYourDetailsWhereDoYouLive,
@@ -92,13 +78,7 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-{% else %}
-{{ govukSummaryList({
-    rows: [      
+      }if detailsAnswersUpdated.countryOfResidence !== detailsAnswers.countryOfResidence,     
       {
         key: {
           text: i18n.updateYourDetailsWhereDoYouLive,
@@ -118,13 +98,7 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-{% endif %}
-{{ govukSummaryList({
-    rows: [
+      }if detailsAnswersUpdated.countryOfResidence == detailsAnswers.countryOfResidence,
       {
         key: {
           text: i18n.updateYourDetailsCorrespondenceAddress,
@@ -182,12 +156,7 @@
             ],
             classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-{{ govukSummaryList({
-    rows: [
+      },
       {
         key: {
           text: i18n.updateYourDetailsNameOfBusiness,

@@ -15,28 +15,22 @@
         </div>",
             classes: "govuk-!-width-one-third"
           },
-          actions: {
-              items: [
-                {
-                  href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
-                  text: i18n.updateYourDetailsUpdate,
-                  visuallyHiddenText: i18n.updateYourDetailsName
-                },
-                {
-                  href: "#",
-                  text: i18n.updateYourDetailsCancel,
-                  visuallyHiddenText: i18n.updateYourDetailsName
-                }
-              ],
-              classes: "govuk-!-width-one-third"
-            }
-        }
-      ]
-      })
-  }}
-{% endif %}
-{{ govukSummaryList({
-    rows: [
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsName
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsName
+              }
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }if detailsAnswers.name,
       {
         key: {
           text: i18n.updateYourDetailsCorrespondenceAddress,
@@ -123,13 +117,7 @@
             ],
           classes: "govuk-!-width-one-third"
           }
-      }
-    ]
-    })
-}}
-
-{{ govukSummaryList({
-    rows: [
+      },
       {
         key: {
           text: i18n.updateYourDetailsNameOfBusiness,
