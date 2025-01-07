@@ -27,7 +27,7 @@ describe("CheckedDocumentsService tests", () => {
         expect(firstNameUndefined).toBe(undefined);
     });
     it("should return full name as undefined when the fore name is undefined", () => {
-        const acspProfileData: AcspFullProfile = {
+        const acspFullProfileData: AcspFullProfile = {
             number: "ABC3333",
             name: "Test name",
             status: "active",
@@ -53,7 +53,7 @@ describe("CheckedDocumentsService tests", () => {
                 dateOfBirth: new Date(1954, 5, 2)
             }
         };
-        const forenameUndefined = getFullNameACSPFullProfileDetails(acspProfileData);
+        const forenameUndefined = getFullNameACSPFullProfileDetails(acspFullProfileData);
         expect(forenameUndefined).toBe(undefined);
     });
 });
