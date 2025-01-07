@@ -29,6 +29,8 @@ import { v4 as uuidv4 } from "uuid";
 import nocache from "nocache";
 import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
 
+import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
+import { CsrfError } from "@companieshouse/web-security-node";
 const app = express();
 
 const nonce: string = uuidv4();
@@ -37,7 +39,9 @@ const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../node_modules/govuk-frontend"),
     path.join(__dirname, "/../../node_modules/govuk-frontend"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
-    path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/templates")], {
+    path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "/../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")], {
     autoescape: true,
     express: app
 });
@@ -68,6 +72,7 @@ app.use(cookieParser());
 app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
@@ -92,7 +97,11 @@ routerDispatch(app);
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const errorService = new ErrorService();
-    errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
+    if (err instanceof CsrfError) {
+        errorService.render403Page(res, getLocalesService(), selectLang(req.query.lang), req.url);
+    } else {
+        errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
+    }
 });
 
 // Unhandled exceptions

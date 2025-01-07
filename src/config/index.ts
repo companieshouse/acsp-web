@@ -45,6 +45,7 @@ export const SAVED_APPLICATION = `${BASE_COMMON_URL}/saved-application/saved-app
 export const ERROR_400 = `${BASE_PARTIALS_URL}/error_400`;
 export const ERROR_404 = `${BASE_PARTIALS_URL}/error_404`;
 export const ERROR_500 = `${BASE_PARTIALS_URL}/error_500`;
+export const ERROR_403 = `${BASE_PARTIALS_URL}/error_403`;
 
 export const SELECT_AML_SUPERVISOR = `${BASE_COMMON_URL}/select-aml-supervisory-bodies/select-aml-supervisory-bodies`;
 export const CHECK_YOUR_ANSWERS = `${BASE_COMMON_URL}/check-your-answers/check-your-answers`;
