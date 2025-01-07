@@ -1,5 +1,5 @@
 import { HelmetOptions } from "helmet";
-import { CDN_HOST, PIWIK_URL, CHS_DOMAIN } from "../utils/properties";
+import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN } from "../utils/properties";
 
 export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
@@ -15,7 +15,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL],
-                formAction: [SELF, CHS_DOMAIN],
+                formAction: [SELF, PIWIK_CHS_DOMAIN],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }

@@ -50,7 +50,7 @@ export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_E
 
 export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
 
-export const CHS_DOMAIN = getEnvironmentValue("CHS_DOMAIN", "*.chs.local");
+export const PIWIK_CHS_DOMAIN = getEnvironmentValue("PIWIK_CHS_DOMAIN", "*.chs.local");
 
 // Matomo
 
