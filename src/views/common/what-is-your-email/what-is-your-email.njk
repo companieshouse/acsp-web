@@ -72,7 +72,7 @@
     }) }}
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - email address");
     </script>
     

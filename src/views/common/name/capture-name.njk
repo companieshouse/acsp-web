@@ -64,7 +64,7 @@
         {% endif %}   
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - UPDATENAME");
         trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL - UPDATENAME");
         trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - NAME");

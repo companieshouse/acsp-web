@@ -51,6 +51,7 @@
     </p>
     <div
     class="ch-info-panel"
+    nonce={{ nonce | dump | safe }}
     style="max-width: 630px; width: 100%; background-color: #f3f2f1; color: #000000; margin: 16px 0; padding: 2em;">
     <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
     <div class="govuk-panel__body">
@@ -58,11 +59,12 @@
         {{ i18n.identifyBeforeYouCanUse }}
       </p>
       <p class="govuk-body" style="display: flex; align-items: center;">
-        <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" style="max-width:100%; margin-top: 5px; margin-right: 0px;">
+        <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" nonce={{ nonce | dump | safe }} style="max-width:100%; margin-top: 5px; margin-right: 0px;">
           <strong>
             <a
               class="govuk-link govuk-link--no-visited-state"
               href="/v7/verify-identity-prototype"
+              nonce={{ nonce | dump | safe }}
               style="margin-left:10px;"
               id="verify-id">
               {{ i18n.verifyIdentityLink }}
@@ -112,7 +114,7 @@
     </p>
   </form>
     
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     function trackStartNowEvent() {
       trackEventBasedOnPageTitle("start-now", "{{matomoPageTitle}}", "click-button", "START NOW");
       _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_START_GOAL_ID }}"]);

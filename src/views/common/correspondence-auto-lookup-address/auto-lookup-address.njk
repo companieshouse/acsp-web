@@ -53,7 +53,7 @@
     </p>
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("find-address-id", "{{title}}", "click-button", "FIND ADDRESS");
     trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
   </script>

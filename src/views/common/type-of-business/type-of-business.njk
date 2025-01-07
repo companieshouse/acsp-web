@@ -59,7 +59,7 @@
       }
     }) }}
   </form>
-  <script type="text/javascript">
+  <script type="text/javascript" nonce={{ nonce | dump | safe }}>
     function continueOnClick() {
       const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
       if (selectedOption) {
@@ -85,8 +85,7 @@
       }
       _paq.push(['trackGoal', goalId]);
     }
-  </script>
-  <script>
+
     trackEventBasedOnPageTitle("LC", "{{title}}", "select-option", "Limited Company");
     trackEventBasedOnPageTitle("LP", "{{title}}", "select-option", "Limited Partnership");
     trackEventBasedOnPageTitle("LLP", "{{title}}", "select-option", "Limited Liability Partnerships");

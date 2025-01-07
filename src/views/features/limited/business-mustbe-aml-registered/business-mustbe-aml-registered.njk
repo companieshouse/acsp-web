@@ -30,7 +30,7 @@
         </p>
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("register-company-link", "{{title}}", "click-link", "Register company");
         trackEventBasedOnPageTitle("apply-sole-trader-link", "{{title}}", "click-link", "Apply sole trader");
     </script>

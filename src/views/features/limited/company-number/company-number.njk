@@ -49,7 +49,7 @@
     }) }}
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
       trackEventBasedOnPageTitle("find-company-number-link", "{{title}}", "click-link", 'How do I find the company number');
       trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", 'SAVE AND CONTINUE - Company Number');
     </script>
