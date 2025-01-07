@@ -48,6 +48,10 @@ export const LOCALES_PATH = getEnvironmentVariable("LOCALES_PATH", "locales");
 
 export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
 
+export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
+
+export const CHS_DOMAIN = getEnvironmentValue("CHS_DOMAIN", "*.chs.local");
+
 // Matomo
 
 export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "https://matomo.identity.aws.chdev.org/");
