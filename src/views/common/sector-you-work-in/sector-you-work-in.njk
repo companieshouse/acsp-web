@@ -69,22 +69,6 @@
   </form>
 
   <script>
-    let selectedRadio = null;
-
-    // Function to track Matomo analytics based on the selected radio button
-    function trackRadioSelection() {
-      const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]');
-      radioButtons.forEach((radio) => {
-        radio.addEventListener("click", (event) => {
-          selectedRadio = event.target;
-          const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();
-          trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
-        });
-      });
-    }
-    
-    // Run trackRadioSelection function
-    trackRadioSelection();
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in");
     </script>
 
