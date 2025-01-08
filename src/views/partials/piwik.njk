@@ -48,7 +48,20 @@
         <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
     </p>
 </noscript>
+
 <script>
+
+// Function to add event categories on page submission
+function trackEventOnPageSubmission(elementId, eventCategory, eventAction, eventName) {
+  $("form").on("submit",function() {
+    if ($("input[type='radio']:checked").length > 0) {
+        eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
+      //alert("eventName: "+eventName);
+      //_paq.push(["trackEvent", eventCategory, eventName]);
+    }
+  });
+}
+
 // Function to add event categories base on page title
 function trackEventBasedOnPageTitle(elementId, eventCategory, eventAction, eventName) {
     document.getElementById(elementId)
