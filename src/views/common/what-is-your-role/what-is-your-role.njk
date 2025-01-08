@@ -107,14 +107,12 @@
 
     <script>
       function analyticsWithCustomisedMatomoText(){
-        alert("matomoText:" +matomoText)
+        alert($(this).find("input[type='radio']:checked").id());
         if(matomoText){
-          eventName = matomoText;
-        }else{
-          matomoText = "I am someone else";
-        }
+          textOnRadioSelection = matomoText;}
+        else{
+          textOnRadioSelection = "I am someone else";}
       }
-      trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - ROLE");
     </script>
 
 {% endblock main_content %}

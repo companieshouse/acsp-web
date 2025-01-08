@@ -21,25 +21,27 @@
     })();
 
     $(function() {
-      eventName = "";
+      textOnRadioSelection = "";
+      eventCategory = $(document).find("title").text().split(' -')[0];
       if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
-        eventCategory = $(document).find("title").text().split(' -')[0];
         $("form").on("submit",function() {
           if ($("input[type='radio']:checked").length > 0) {
-              eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
-            //alert("eventName: "+eventName);
-            //_paq.push(["trackEvent", eventCategory, eventName]);
+              textOnRadioSelection = $(this).find("input[type='radio']:checked").siblings("label").text();
+            alert("textOnRadioSelection: "+textOnRadioSelection);
+            //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
         });
-        $("button").click(function() {
-          eventNameBtn = $(this).text().toUpperCase()+" - "+eventCategory;
-          //alert("eventNameBtn: "+eventNameBtn);
-          //_paq.push(["trackEvent", eventCategory, eventNameBtn]);
-        });
       } else{
-        alert("eventName: "+eventName);
-        //_paq.push(["trackEvent", eventCategory, eventAction, eventName]);
+        $("form").on("submit",function() {
+          alert("textOnRadioSelection: "+textOnRadioSelection);
+          //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+        });
       }
+      $("button").click(function() {
+        eventNameBtn = $(this).text().toUpperCase();
+        alert("eventNameBtn: "+eventNameBtn);
+        //_paq.push(["trackEvent", eventCategory, eventNameBtn]);
+      });
     });
 
   </script>
@@ -50,18 +52,6 @@
 </noscript>
 
 <script>
-
-// Function to add event categories on page submission
-function trackEventOnPageSubmission(elementId, eventCategory, eventAction, eventName) {
-  $("form").on("submit",function() {
-    if ($("input[type='radio']:checked").length > 0) {
-        eventName = $(this).find("input[type='radio']:checked").siblings("label").text();
-      //alert("eventName: "+eventName);
-      //_paq.push(["trackEvent", eventCategory, eventName]);
-    }
-  });
-}
-
 // Function to add event categories base on page title
 function trackEventBasedOnPageTitle(elementId, eventCategory, eventAction, eventName) {
     document.getElementById(elementId)

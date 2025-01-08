@@ -45,7 +45,6 @@
     document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
       trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.value);
     });
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Which AML Bodies");
   </script>
 
 {% endblock main_content %}
