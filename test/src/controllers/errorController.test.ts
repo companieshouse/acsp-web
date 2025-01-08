@@ -1,6 +1,6 @@
 import { CsrfError } from "@companieshouse/web-security-node";
 import logger from "../../../src/utils/logger";
-import { csrfErrorHandler } from "../../../src/controllers/errorController";
+import { csrfErrorHandler } from "../../../src/controllers/csrfErrorController";
 import { mockRequest } from "../../mocks/request.mock";
 import { mockResponse } from "../../mocks/response.mock";
 import { NextFunction } from "express";
