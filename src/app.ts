@@ -30,7 +30,7 @@ import nocache from "nocache";
 import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
 
 import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
-import { CsrfError } from "@companieshouse/web-security-node";
+import errorHandler from "../src/controllers/errorController";
 const app = express();
 
 const nonce: string = uuidv4();
@@ -93,15 +93,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Channel all requests through router dispatch
 routerDispatch(app);
 
+app.use(...errorHandler);
+
 // Unhandled errors
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const errorService = new ErrorService();
-    if (err instanceof CsrfError) {
-        errorService.render403Page(res, getLocalesService(), selectLang(req.query.lang), req.url);
-    } else {
-        errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
-    }
+    errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
 });
 
 // Unhandled exceptions
