@@ -79,39 +79,48 @@
         {{ govukButton({
           text: i18n.SaveAndContinue,
           id:"save-continue-button",
-      attributes: {
-        "onClick": "analyticsWithCustomisedMatomoText();"
-      }
+          attributes: {
+            "onClick": "analyticsWithCustomisedMatomoText();"
+          }
         }) }}
     </form>
 
-    {# If/Else Logic to call specific Matomo event script based on the value of acspType (specific script runs depending on what busniess type the user had selected previously) #}
-    <script> var matomoText; </script>
-    {% if acspType == "PARTNERSHIP" %}
-      <script> matomoText = "I am a member of partnership"; </script>
-    {% elif acspType == "SOLE_TRADER" %}
-      <script> matomoText = "I am the sole trader"; </script>
-    {% elif acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
-      <script> matomoText = "I am a member of entity"; </script>
-    {% elif acspType == "CORPORATE_BODY" %}
-      <script> matomoText = "I am the equivalent of a director of"; </script>
-    {% elif acspType == "LC" %}
-      <script> matomoText = "I am a director of"; </script>
-    {% elif acspType == "LLP" %}
-      <script> matomoText = "I am a member of llp"; </script>
-    {% elif acspType == "LP" %}
-      <script> matomoText = "I am a general partner of"; </script>
-    {% else %}
-      <script> matomoText = "I am someone else"; </script>
-    {% endif %}
-
-    <script>
+    <script> 
+      var textOnRadioSelection;
       function analyticsWithCustomisedMatomoText(){
-        alert($(this).find("input[type='radio']:checked").id());
-        if(matomoText){
-          textOnRadioSelection = matomoText;}
-        else{
-          textOnRadioSelection = "I am someone else";}
+          if ($("input[type='radio']:checked").length > 0) {
+            switch($("form").find("input[type='radio']:checked").val()) {
+              case "MEMBER_OF_PARTNERSHIP":
+                textOnRadioSelection = "I am a member of partnership";
+                break;
+              case "SOLE_TRADER":
+                textOnRadioSelection = "I am the sole trader";
+                break;
+              case "MEMBER_OF_GOVERNING_BODY":
+                textOnRadioSelection = "I am a member of entity";
+                break;
+              case "EQUIVALENT_OF_DIRECTOR":
+                textOnRadioSelection = "I am the equivalent of a director of";
+                break;
+              case "MEMBER_OF_ENTITY":
+                textOnRadioSelection = "I am a member of entity";
+                break;
+              case "DIRECTOR":
+                textOnRadioSelection = "I am a director of";
+                break;
+              case "MEMBER_OF_LLP":
+                textOnRadioSelection = "I am a member of llp";
+                break;
+              case "GENERAL_PARTNER":
+                textOnRadioSelection = "I am a general partner of";
+                break;
+              case "SOMEONE_ELSE":
+                textOnRadioSelection = "I am someone else";
+                break;
+            }
+            alert("textOnRadioSelection1: "+textOnRadioSelection);
+            //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+          }
       }
     </script>
 

@@ -31,11 +31,6 @@
             //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
         });
-      } else{
-        $("form").on("submit",function() {
-          alert("textOnRadioSelection: "+textOnRadioSelection);
-          //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
-        });
       }
       $("button").click(function() {
         eventNameBtn = $(this).text().toUpperCase();
