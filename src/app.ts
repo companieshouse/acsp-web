@@ -41,7 +41,7 @@ const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
     path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/templates"),
     path.join(__dirname, "/../node_modules/@companieshouse"),
-    path.join(__dirname, "node_modules/@companieshouse")], {
+    path.join(__dirname, "/../../node_modules/@companieshouse")], {
     autoescape: true,
     express: app
 });
