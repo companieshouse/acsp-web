@@ -10,36 +10,36 @@ export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile
     profileDetails.businessName = acspFullProfile.name;
 
     if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {
-        profileDetails = limitedAnswers(req, profileDetails, acspFullProfile);
+        profileDetails = limitedValues(req, profileDetails, acspFullProfile);
     } else if (acspFullProfile.type === "sole-trader") {
-        profileDetails = soleTraderAnswers(profileDetails, acspFullProfile);
+        profileDetails = soleTraderValues(profileDetails, acspFullProfile);
     } else {
-        profileDetails = unincorporatedAnswers(profileDetails, acspFullProfile, i18n);
+        profileDetails = unincorporatedValues(profileDetails, acspFullProfile, i18n);
     }
     return profileDetails;
 };
 
-const limitedAnswers = (req: Request, answers: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
-    return answers;
+const limitedValues = (req: Request, profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
+    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    return profileDetails;
 };
 
-const soleTraderAnswers = (answers: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
-    answers.businessName = acspProfileData.name;
-    answers.name = getFullNameACSPFullProfileDetails(acspProfileData);
-    answers.correspondenceEmail = acspProfileData.email;
-    answers.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
-    return answers;
+const soleTraderValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
+    profileDetails.businessName = acspProfileData.name;
+    profileDetails.name = getFullNameACSPFullProfileDetails(acspProfileData);
+    profileDetails.correspondenceEmail = acspProfileData.email;
+    profileDetails.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
+    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    return profileDetails;
 };
 
-const unincorporatedAnswers = (answers: ACSPFullProfileDetails, acspProfileData: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
-    answers.businessAddress = businessAddressAnswers(acspProfileData);
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspProfileData);
-    return answers;
+const unincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
+    profileDetails.businessAddress = businessAddressValues(acspProfileData);
+    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    return profileDetails;
 };
 
-const correspondenceAddressAnswers = (acspProfileData: AcspFullProfile): string => {
+const correspondenceAddressValues = (acspProfileData: AcspFullProfile): string => {
     let correspondenceAddressAnswer = "";
     const applicantDetails = acspProfileData.registeredOfficeAddress;
     if (applicantDetails.premises) {
@@ -73,7 +73,7 @@ const correspondenceAddressAnswers = (acspProfileData: AcspFullProfile): string 
     return correspondenceAddressAnswer;
 };
 
-export const businessAddressAnswers = (acspProfileData: AcspFullProfile): string => {
+export const businessAddressValues = (acspProfileData: AcspFullProfile): string => {
     let businessAddressAnswer = "";
     if (acspProfileData.serviceAddress?.premises) {
         businessAddressAnswer += acspProfileData.serviceAddress.premises;

@@ -37,7 +37,7 @@
             {% include "partials/update-your-details/sole-trader-answers.njk" %}
         {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
             {% include "partials/update-your-details/limited-answers.njk" %}
-        {% elif acspFullProfile.type === "limited-partnership" or acspFullProfile.type === "unincorporated-entity" or acspFullProfile.type === "limited-partnership" %}
+        {% elif acspFullProfile.type === "limited-partnership" or acspFullProfile.type === "unincorporated-entity" or acspFullProfile.type === "non-registered-partnership" %}
             {% include "partials/update-your-details/unincorporated-answers.njk" %}
         {% endif %}
         <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>

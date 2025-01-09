@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails, businessAddressAnswers } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { getProfileDetails, businessAddressValues } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { getLocalesService } from "../../../../src/utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
@@ -93,7 +93,6 @@ describe("CheckYourAnswersService", () => {
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutAddressLine1AcspFullProfile);
         const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutAddressLine1AcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
-        console.log(unincorporatedAnswers);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
@@ -150,7 +149,6 @@ describe("CheckYourAnswersService", () => {
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutCountryAcspFullProfile);
         const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutCountryAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
-        console.log(unincorporatedAnswers);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
@@ -177,7 +175,7 @@ describe("CheckYourAnswersService", () => {
     it("should not generate exception when service address is undefined", () => {
         const acspProfileData: AcspFullProfile = {} as AcspFullProfile;
         acspProfileData.serviceAddress = undefined;
-        const businessAddressUndefined = businessAddressAnswers(acspProfileData);
+        const businessAddressUndefined = businessAddressValues(acspProfileData);
         expect(businessAddressUndefined).toStrictEqual("");
     });
 });

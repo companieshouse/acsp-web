@@ -17,17 +17,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-    const detailsAnswers: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-    const detailsAnswersUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-    var updateFlag = JSON.stringify(detailsAnswers) !== JSON.stringify(detailsAnswersUpdated);
+    const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+    const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+    var updateFlag = JSON.stringify(profileDetails) !== JSON.stringify(profileDetailsUpdated);
 
     res.render(config.UPDATE_YOUR_ANSWERS, {
         ...getLocaleInfo(locales, lang),
         currentUrl,
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
         editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
-        detailsAnswers,
-        detailsAnswersUpdated,
+        profileDetails,
+        profileDetailsUpdated,
         updateFlag,
         acspFullProfile,
         lang,
