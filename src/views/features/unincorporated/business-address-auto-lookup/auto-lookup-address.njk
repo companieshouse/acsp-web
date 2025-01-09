@@ -7,6 +7,7 @@
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="" method="POST">
+      {% include "partials/csrf_token.njk" %}
       {% if businessName %}
         {% include "partials/business_name.njk" %}
       {% endif %}

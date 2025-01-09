@@ -5,6 +5,7 @@
 {% block main_content %}
  {% set businessAddressField = businessAddress.premises + " " + businessAddress.addressLine1 + ", " %}
   <form action="" method="post">
+    {% include "partials/csrf_token.njk" %}
     {% include "partials/business_name.njk" %}
     <h1 class="govuk-heading-l">{{ i18n.businessAddressConfirmTitle }}</h1>
     <ul class="govuk-list">
