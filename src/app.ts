@@ -11,7 +11,7 @@ import {
     APPLICATION_NAME,
     CDN_URL_CSS,
     CDN_URL_JS,
-    CDN_HOST,
+    ANY_PROTOCOL_CDN_HOST,
     CHS_URL,
     PIWIK_URL,
     PIWIK_SITE_ID,
@@ -46,7 +46,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "njk");
 nunjucksEnv.addGlobal("cdnUrlCss", CDN_URL_CSS);
 nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
-nunjucksEnv.addGlobal("cdnHost", CDN_HOST);
+nunjucksEnv.addGlobal("cdnHost", ANY_PROTOCOL_CDN_HOST);
 nunjucksEnv.addGlobal("chsUrl", CHS_URL);
 nunjucksEnv.addGlobal("chsMonitorGuiUrl", CHS_MONITOR_GUI_URL);
 nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
