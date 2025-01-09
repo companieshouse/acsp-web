@@ -1,6 +1,5 @@
 import type { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-import { HttpError } from "http-errors";
-import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
+import { CsrfError } from "@companieshouse/web-security-node";
 import { ErrorService } from "../services/errorService";
 import { getLocalesService, selectLang } from "../utils/localise";
 import logger from "../utils/logger";
