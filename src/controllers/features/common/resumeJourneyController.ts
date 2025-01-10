@@ -31,7 +31,7 @@ export const get = async (req: Request, res: Response) => {
         if (transaction.status === transactionStatuses.CLOSED_PENDING_PAYMENT) {
             const paymentUrl = PAYMENTS_API_URL + PAYMENTS;
             const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(session, paymentUrl,
-                transactionId);
+                transactionId, res.locals.nonce);
 
             if (!paymentResponse.resource) {
                 throw new Error(NO_PAYMENT_RESOURCE_ERROR);

@@ -5,12 +5,11 @@ import { Session } from "@companieshouse/node-session-handler";
 import logger, { createAndLogError } from "../utils/logger";
 import { createPaymentApiClient } from "./apiService";
 import { API_URL, CHS_URL } from "../utils/properties";
-import { v4 as uuidv4 } from "uuid";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../types/pageURL";
 import { PAYEMNT_REFERENCE } from "../common/__utils/constants";
 
 export const startPaymentsSession = async (session: Session, paymentSessionUrl: string,
-    transactionId: string): Promise<ApiResponse<Payment>> => {
+    transactionId: string, nonceToken: string): Promise<ApiResponse<Payment>> => {
     logger.debug("Starting payment session for transaction: " + transactionId);
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
     const reference: string = PAYEMNT_REFERENCE + transactionId;
@@ -18,7 +17,7 @@ export const startPaymentsSession = async (session: Session, paymentSessionUrl: 
     const paymentResourceUri: string = `/transactions/${transactionId}/payment`;
     const resourceWithHost = API_URL + paymentResourceUri;
 
-    const state = uuidv4();
+    const state = `${nonceToken}-${transactionId}`;
 
     session.setExtraData("payment-nonce", state);
 
