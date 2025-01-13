@@ -54,10 +54,22 @@
 
         {{ govukButton({
             text: i18n.continueToPayment,
-            id: "continue-to-payment-button",
-            attributes: {
-                "onClick": "_paq.push(['trackGoal', '" + PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID + "'])"
-            }
+            id: "continue-to-payment-button"
         }) }}
     </form>
+    <script type="text/javascript" nonce={{ nonce | dump | safe }}>
+    function continueEventListener () {
+        document.getElementById("continue-to-payment-button").addEventListener("click", () => {
+            _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID }}"]);
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function (e) {
+            continueEventListener()
+        });
+    } else {
+        continueEventListener()
+    }
+    </script>
 {% endblock main_content %}
