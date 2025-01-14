@@ -1,4 +1,4 @@
-<style>
+<style nonce={{ nonce | dump | safe }}>
 
   @font-face {
     font-family: "GDS Transport";
@@ -18,6 +18,41 @@
 
   .govuk-footer__copyright-logo {
       background-image: url("{{ cdnHost }}/images/govuk-crest-2x.png");
+  }
+
+  .name-header {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;  
+  }
+
+  .ch-info-panel-custom {
+    max-width: 630px;
+    width: 100%;
+    background-color: #f3f2f1;
+    color: #000000;
+    margin: 16px 0;
+    padding: 2em;
+  }
+
+  .home-page-p-tag {
+    display: flex;
+    align-items: center;
+  }
+
+  .home-page-img {
+    max-width:100%;
+    margin-top: 5px;
+    margin-right: 0px;
+  }
+
+  .home-page-img-link {
+    margin-left:10px;
+  }
+
+  .piwik-img {
+    border:0;
   }
 
 </style>
