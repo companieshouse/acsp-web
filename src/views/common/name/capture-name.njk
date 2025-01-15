@@ -5,6 +5,7 @@
 {% set title = i18n.whatIsYourNameTitle %}
 {% block main_content %}
     <form action="" method="POST">
+        {% include "partials/csrf_token.njk" %}
         <div class="govuk-form-group">
             <h1 class="govuk-heading-l">{{ i18n.whatIsYourNameTitle }}</h1>
             {{ govukInput({
@@ -64,7 +65,8 @@
         {% endif %}   
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
+        trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - UPDATENAME");
         trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL - UPDATENAME");
     </script>
 

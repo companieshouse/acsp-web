@@ -15,6 +15,7 @@
 {% set title = i18n.selectAmlSupervisorTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
     {% else %}
@@ -41,7 +42,7 @@
     }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
       trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.value);
     });

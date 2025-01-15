@@ -6,6 +6,7 @@
 {% block main_content %}
 
   <form class="form" action="" method="post">
+    {% include "partials/csrf_token.njk" %}
     {% if typeOfBusiness === "SOLE_TRADER" %}
         {% include "partials/user_name.njk" %}
     {% else %}   

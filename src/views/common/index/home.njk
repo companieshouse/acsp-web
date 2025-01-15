@@ -6,6 +6,7 @@
 {% set matomoPageTitle = i18n.startPageTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">
       {{ i18n.startPageTitle }}
     </h1>
@@ -49,21 +50,18 @@
     <p class="govuk-body">
       {{ i18n.YouWillBeAble }}
     </p>
-    <div
-    class="ch-info-panel"
-    style="max-width: 630px; width: 100%; background-color: #f3f2f1; color: #000000; margin: 16px 0; padding: 2em;">
+    <div class="ch-info-panel ch-info-panel-custom">
     <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
     <div class="govuk-panel__body">
       <p class="govuk-body">
         {{ i18n.identifyBeforeYouCanUse }}
       </p>
-      <p class="govuk-body" style="display: flex; align-items: center;">
-        <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" style="max-width:100%; margin-top: 5px; margin-right: 0px;">
+      <p class="govuk-body home-page-p-tag">
+        <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" class="home-page-img">
           <strong>
             <a
-              class="govuk-link govuk-link--no-visited-state"
+              class="govuk-link govuk-link--no-visited-state home-page-img-link"
               href="/v7/verify-identity-prototype"
-              style="margin-left:10px;"
               id="verify-id">
               {{ i18n.verifyIdentityLink }}
             </a>
@@ -89,8 +87,7 @@
     <button
       class="govuk-button govuk-button--start"
       id="start-now"
-      data-module="govuk-button"
-      onClick="trackStartNowEvent()">
+      data-module="govuk-button">
       {{ i18n.startNow }}
       <svg
         class="govuk-button__start-icon"
@@ -112,15 +109,27 @@
     </p>
   </form>
     
-  <script>
-    function trackStartNowEvent() {
+  <script nonce={{ nonce | dump | safe }}>
+
+    function startNowEventListener () {
+      document.getElementById("start-now").addEventListener("click", () => {
+        trackEventBasedOnPageTitle("start-now", "{{matomoPageTitle}}", "click-button", "START NOW");
       _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_START_GOAL_ID }}"]);
-    };
+    });
+    }
     
     trackEventBasedOnPageTitle("verify-client-identity-id", "{{matomoPageTitle}}", "click-link", "Verify your clients' identities for Companies House");
     trackEventBasedOnPageTitle("verify-id", "{{matomoPageTitle}}", "click-link", "Verify your identity for Companies House");
     trackEventBasedOnPageTitle("Read the guidance-id", "{{matomoPageTitle}}", "click-link", "Read the guidance on applying to register as an authorised agent");
     trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "{{matomoPageTitle}}", "click-link", "Read the guidance for authorised agents");
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function (e) {
+        startNowEventListener()
+      });
+    } else {
+      startNowEventListener()
+    }
   </script>
 
 {% endblock %}

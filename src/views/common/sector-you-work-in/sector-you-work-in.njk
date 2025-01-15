@@ -5,6 +5,7 @@
 {% set title = i18n.sectorYouWorkInTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
     {% endif %}
@@ -67,4 +68,25 @@
         id:"save-continue-button"
     }) }}
   </form>
-  {% endblock main_content %}
+
+  <script nonce={{ nonce | dump | safe }}>
+    let selectedRadio = null;
+
+    // Function to track Matomo analytics based on the selected radio button
+    function trackRadioSelection() {
+      const radioButtons = document.querySelectorAll('input[name="sectorYouWorkIn"]');
+      radioButtons.forEach((radio) => {
+        radio.addEventListener("click", (event) => {
+          selectedRadio = event.target;
+          const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();
+          trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
+        });
+      });
+    }
+    
+    // Run trackRadioSelection function
+    trackRadioSelection();
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Sector you work in");
+    </script>
+
+{% endblock main_content %}

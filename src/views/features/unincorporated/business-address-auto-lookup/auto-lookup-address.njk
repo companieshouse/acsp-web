@@ -7,6 +7,7 @@
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="" method="POST">
+      {% include "partials/csrf_token.njk" %}
       {% if businessName %}
         {% include "partials/business_name.njk" %}
       {% endif %}
@@ -53,7 +54,8 @@
     </form>
   </div>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
+    trackEventBasedOnPageTitle("find-address-id", "{{title}}", "click-button", "FIND ADDRESS");
     trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
   </script>
 

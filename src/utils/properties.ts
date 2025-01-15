@@ -28,6 +28,8 @@ export const CDN_URL_JS = getEnvironmentValue("CDN_URL_JS", "false");
 
 export const CDN_HOST = getEnvironmentValue("CDN_HOST", "false");
 
+export const ANY_PROTOCOL_CDN_HOST = getEnvironmentValue("ANY_PROTOCOL_CDN_HOST", "false");
+
 export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
 
 // API Keys and Secrets
@@ -47,6 +49,10 @@ export const LOCALES_ENABLED = getEnvironmentVariable("LOCALES_ENABLED", "true")
 export const LOCALES_PATH = getEnvironmentVariable("LOCALES_PATH", "locales");
 
 export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
+
+export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
+
+export const PIWIK_CHS_DOMAIN = getEnvironmentValue("PIWIK_CHS_DOMAIN", "*.chs.local");
 
 // Matomo
 

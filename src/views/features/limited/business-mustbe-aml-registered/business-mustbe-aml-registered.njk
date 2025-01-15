@@ -13,6 +13,7 @@
 {% set title = i18n.amlInterruptTitle %}
 {% block main_content %}
     <form action="" method="POST">
+        {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-l">{{ i18n.amlInterruptTitle }}</h1>
         <p class="govuk-body">{{ i18n.text1 }}</p>
         <p class="govuk-body">{{ i18n.text2 }}</p>
@@ -30,7 +31,7 @@
         </p>
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("register-company-link", "{{title}}", "click-link", "Register company");
         trackEventBasedOnPageTitle("apply-sole-trader-link", "{{title}}", "click-link", "Apply sole trader");
     </script>

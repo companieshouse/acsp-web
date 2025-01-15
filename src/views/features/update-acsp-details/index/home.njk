@@ -9,6 +9,7 @@
 {% block main_content %}
 
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">
       {{ i18n.startPageTitleUpdateAcsp }}
     </h1>
@@ -62,4 +63,9 @@
     }) }}
 
   </form>
-  {% endblock %}
+    
+  <script nonce={{ nonce | dump | safe }}>   
+    trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "Continue button - Start Page");
+  </script>
+
+{% endblock %}

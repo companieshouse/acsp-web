@@ -21,6 +21,7 @@
     {% endfor %}
     {# Form section #}
     <form action="" method="POST">
+        {% include "partials/csrf_token.njk" %}
         {% if businessName %}
             {% include "partials/business_name.njk" %}
         {% endif %}
@@ -55,7 +56,7 @@
         <a href= {{ correspondenceAddressManualLink }} class="govuk-link" id ="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
     </script>
 

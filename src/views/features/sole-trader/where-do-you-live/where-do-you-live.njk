@@ -4,6 +4,7 @@
 {% set title = i18n.whereDoYouLiveTitle %}
 {% block main_content %}
   <form action="" method="post">
+    {% include "partials/csrf_token.njk" %}
     {% include "partials/user_name.njk" %}
     {% set countryInput %}
     <div id="typeahead-form-group" class="govuk-form-group">
@@ -70,7 +71,9 @@
         {% endif %}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Location lives");
+    trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - Updated Location lives");
     trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL- Updated Location lives");
   </script>
 

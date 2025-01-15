@@ -6,7 +6,8 @@
 
 {% set title = i18n.whatIsYourEmailAddressTitle %}
 {% block main_content %}
-    <form action="" method="POST">      
+    <form action="" method="POST">   
+    {% include "partials/csrf_token.njk" %}   
     {% set textHtml %}
         {{ govukInput({
             label: {
@@ -71,4 +72,9 @@
         id:"save-continue-button"
     }) }}
     </form>
-    {% endblock main_content %}
+
+    <script nonce={{ nonce | dump | safe }}>
+        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - email address");
+    </script>
+    
+{% endblock main_content %}

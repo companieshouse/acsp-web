@@ -1,5 +1,5 @@
 <script type="text/javascript" src="{{ cdnHost }}/javascripts/app/accessible-autocomplete.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" nonce={{ nonce | dump | safe }}>
   const nationalityList = "{{ nationalityList }}"
   const nationalityValue = ["{{payload.nationality_input_0}}", "{{payload.nationality_input_1}}", "{{payload.nationality_input_2}}"]
   const errors = ["{{ errors.nationality_input_0.text }}","{{ errors.nationality_input_1.text }}","{{ errors.nationality_input_2.text }}"];

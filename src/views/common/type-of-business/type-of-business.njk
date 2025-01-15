@@ -4,6 +4,7 @@
 {% set title = i18n.typeOfBusinessTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {% include "partials/user_name.njk" %}
     {{ govukRadios({
       errorMessage: errors.typeOfBusinessRadio if errors,
@@ -53,22 +54,23 @@
     }) }}
     {{ govukButton({
       text: i18n.SaveAndContinue,
-      id:"save-continue-button",
-      attributes: {
-        "onClick": "continueOnClick();"
-      }
+      id:"save-continue-button"
     }) }}
   </form>
-  <script type="text/javascript">
-    function continueOnClick() {
-      const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
-      if (selectedOption) {
-        const selectedValue = selectedOption.value;
-        if (selectedValue !== "OTHER") {
-          trackGoal(selectedValue);
+  <script type="text/javascript" nonce={{ nonce | dump | safe }}>
+
+    function continueEventListener () {
+      document.getElementById("save-continue-button").addEventListener("click", () => {
+        const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
+        if (selectedOption) {
+          const selectedValue = selectedOption.value;
+          if (selectedValue !== "OTHER") {
+            trackGoal(selectedValue);
+          }
         }
-      }
+      });
     }
+    
     function trackGoal(goal) {
       let goalId;
       switch (goal) {
@@ -85,5 +87,21 @@
       }
       _paq.push(['trackGoal', goalId]);
     }
+
+    trackEventBasedOnPageTitle("LC", "{{title}}", "select-option", "Limited Company");
+    trackEventBasedOnPageTitle("LP", "{{title}}", "select-option", "Limited Partnership");
+    trackEventBasedOnPageTitle("LLP", "{{title}}", "select-option", "Limited Liability Partnerships");
+    trackEventBasedOnPageTitle("PARTNERSHIP", "{{title}}", "select-option", "Partnership Not Registered With CH");
+    trackEventBasedOnPageTitle("SOLE_TRADER", "{{title}}", "select-option", "Sole Trader");
+    trackEventBasedOnPageTitle("OTHER", "{{title}}", "select-option", "Other");
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - TYPE");
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function (e) {
+            continueEventListener()
+        });
+    } else {
+        continueEventListener()
+    }
   </script>
-  {% endblock main_content %}
+{% endblock main_content %}

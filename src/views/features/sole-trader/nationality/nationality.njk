@@ -9,6 +9,7 @@
         {% set dropdownThreeError =  errors.nationality_input_2 %}
     {% endif %}
     <form action="" method="post">
+        {% include "partials/csrf_token.njk" %}
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                 {% include "partials/user_name.njk" %}
@@ -68,4 +69,9 @@
             }) }}
         </fieldset>
     </form>
-    {% endblock main_content %}
+
+    <script nonce={{ nonce | dump | safe }}>
+        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Nationality");
+    </script>
+
+{% endblock main_content %}

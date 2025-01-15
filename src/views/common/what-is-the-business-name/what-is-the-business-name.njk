@@ -4,7 +4,8 @@
 
 {% set title = i18n.whatIsTheBusinessNameTitle %}
 {% block main_content %}
-  <form action="" method="POST">    
+  <form action="" method="POST">  
+    {% include "partials/csrf_token.njk" %}  
     {{ govukInput({
       label: {
         text: i18n.whatIsTheBusinessNameTitle,
@@ -22,4 +23,9 @@
     
     <button class="govuk-button" id="save-continue-button">{{i18n.SaveAndContinue}}</button>
   </form>
-  {% endblock main_content %}
+
+  <script nonce={{ nonce | dump | safe }}>
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Business-name");
+  </script>
+
+{% endblock main_content %}
