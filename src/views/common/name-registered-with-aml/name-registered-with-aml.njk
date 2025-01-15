@@ -41,30 +41,7 @@
       }) }}
       {{ govukButton({
           text: i18n.SaveAndContinue,
-          id:"save-continue-button",
-          attributes: {
-            "onClick": "analyticsWithCustomisedMatomoText();"
-          }
+          id:"save-continue-button"
       }) }}
   </form>
-  <script> 
-    var textOnRadioSelection;
-    function analyticsWithCustomisedMatomoText(){
-        if ($("input[type='radio']:checked").length > 0) {
-          switch($("form").find("input[type='radio']:checked").val()) {
-            case "NAME_OF_THE_BUSINESS":
-              textOnRadioSelection = "name-of-the-business";
-              break;
-            case "YOUR_NAME":
-              textOnRadioSelection = "your-name";
-              break;
-            case "BOTH":
-              textOnRadioSelection = "both";
-              break;
-          }
-          alert("textOnRadioSelection1: "+textOnRadioSelection);
-          //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
-        }
-    }
-  </script>
 {% endblock main_content %}
