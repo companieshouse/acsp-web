@@ -72,8 +72,6 @@
   </form>
 
   <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Location lives");
-    trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "CONTINUE - Updated Location lives");
     trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL- Updated Location lives");
   </script>
 

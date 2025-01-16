@@ -22,11 +22,11 @@
 
 //  Matomo automation -- this is to remove all the Matomo calls with the hardcoded analytics texts from the njk pages.
 //  In a situation where Matomo analytics needs a non generic customization, the existing hardcoded Matomo calls are still possible.
-    $(function() {
-      var textOnRadioSelection = "";
-      var eventCategory = $(document).find("title").text().split(' -')[0];
-      var buttonSuffix = "";
+    var textOnRadioSelection = "";
+    var eventCategory = $(document).find("title").text().split(' -')[0];
+    var buttonSuffix = "";
 
+    $(function() {
       //  The condition below checks and prioritizes the customized Matomo analytics calls.
       //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
       if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
@@ -43,12 +43,14 @@
 
           //  Finally Matomo analytics are recorded on page submission.
           if(textOnRadioSelection){
-            _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+            alert(eventCategory+" : "+textOnRadioSelection);
+            //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
           eventNameBtn = eventNameBtn+buttonSuffix;
           if(eventNameBtn){
-            _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+            alert(eventCategory+" : "+eventNameBtn);
+            //_paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
       }
@@ -67,6 +69,7 @@
         
         //  for Email
         if(/^\S+@\S+\.\S+$/.test(textToBeChecked)){
+          buttonSuffix = "";
           return replacedRestrictedText;
         }
         
@@ -82,6 +85,7 @@
                                                             /(( [A-Z0-9']{3,})\S+)/];
 
         restrictedTextPatternsForPartialObliteration.some(rx => {if(rx.test(textToBeChecked)){
+                                            alert("if: "+rx);
                                             textToBeChecked = textToBeChecked.replace(rx, " " +replacedRestrictedText);
                                           }
                                         }
