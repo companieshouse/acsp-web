@@ -43,14 +43,12 @@
 
           //  Finally Matomo analytics are recorded on page submission.
           if(textOnRadioSelection){
-            alert(eventCategory+" : "+textOnRadioSelection);
-            //_paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+            _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
           eventNameBtn = eventNameBtn+buttonSuffix;
           if(eventNameBtn){
-            alert(eventCategory+" : "+eventNameBtn);
-            //_paq.push(["trackEvent", eventCategory, eventNameBtn]);
+            _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
       }
@@ -85,7 +83,6 @@
                                                             /(( [A-Z0-9']{3,})\S+)/];
 
         restrictedTextPatternsForPartialObliteration.some(rx => {if(rx.test(textToBeChecked)){
-                                            alert("if: "+rx);
                                             textToBeChecked = textToBeChecked.replace(rx, " " +replacedRestrictedText);
                                           }
                                         }
