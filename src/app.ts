@@ -30,7 +30,7 @@ import nocache from "nocache";
 import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
 
 import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
-import errorHandler from "./controllers/csrfErrorController";
+import errorHandler from "./controllers/errorController";
 const app = express();
 
 const nonce: string = uuidv4();

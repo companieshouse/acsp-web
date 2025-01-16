@@ -3,6 +3,17 @@ import { CsrfError } from "@companieshouse/web-security-node";
 import { ErrorService } from "../services/errorService";
 import { getLocalesService, selectLang } from "../utils/localise";
 import logger from "../utils/logger";
+import { CHS_URL } from "../utils/properties";
+import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
+
+export const httpErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+    console.log("LOGGING HTTP STATUS CODE ---------> " + err.httpStatusCode);
+    logger.errorRequest(
+        req,
+        `A ${err.httpStatusCode} error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-routing to the login page. Stack: " + ${err.stack}`
+    );
+    res.redirect(`${CHS_URL}/signin?return_to=${BASE_URL}${CHECK_SAVED_APPLICATION}`);
+};
 
 export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next:NextFunction) => {
     if (err instanceof CsrfError) {
@@ -14,4 +25,4 @@ export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, re
     }
 };
 
-export default [csrfErrorHandler];
+export default [httpErrorHandler, csrfErrorHandler];

@@ -12,6 +12,7 @@ import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { httpErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -72,9 +73,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(BASE_URL + STOP_NOT_RELEVANT_OFFICER, lang));
             }
         }
-    } catch (err) {
+    } catch (err: any) {
+        console.log("LINE 77 - GOT INTO CATCH BLOCK - What is your role Sole Trader");
+        console.log("LINE 78 - PRINTING FULL ERR TO CHECK STATUS CODE:", err);
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        const httpStatusCode = err.httpStatusCode;
+        if (httpStatusCode === 401) {
+            httpErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
