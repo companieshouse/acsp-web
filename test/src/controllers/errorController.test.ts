@@ -1,7 +1,7 @@
 import { CsrfError } from "@companieshouse/web-security-node";
 import logger from "../../../src/utils/logger";
 import createHttpError from "http-errors";
-import { csrfErrorHandler, httpErrorHandler } from "../../../src/controllers/errorController";
+import { csrfErrorHandler, http401ErrorHandler } from "../../../src/controllers/errorController";
 import { mockRequest } from "../../mocks/request.mock";
 import { mockResponse } from "../../mocks/response.mock";
 import { NextFunction } from "express";
@@ -31,7 +31,7 @@ describe("httpErrorHandler", () => {
 
         const err = createHttpError(401);
         // When
-        httpErrorHandler(err, request, response, mockNext);
+        http401ErrorHandler(err, request, response, mockNext);
         // Then
         expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${BASE_URL}${CHECK_SAVED_APPLICATION}`);
     });

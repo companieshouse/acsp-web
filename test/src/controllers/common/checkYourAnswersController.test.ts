@@ -104,14 +104,14 @@ describe("POST" + CHECK_YOUR_ANSWERS, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
-    // it("should return status 500 after calling startPaymentSession endpoint and getting no resource", async () => {
-    //     mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
-    //     mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponseNoResource);
-    //     const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
-    //     expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
-    //     expect(mockStartPaymentsSession).toHaveBeenCalledTimes(1);
-    //     expect(res.status).toBe(500);
-    //     expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    // });
+    it("should return status 500 after calling startPaymentSession endpoint and getting no resource", async () => {
+        mockCloseTransaction.mockResolvedValueOnce("/payment/1234");
+        mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponseNoResource);
+        const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);
+        expect(mockCloseTransaction).toHaveBeenCalledTimes(1);
+        expect(mockStartPaymentsSession).toHaveBeenCalledTimes(1);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 
 });

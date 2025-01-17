@@ -8,6 +8,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -31,10 +32,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervisoryBodies,
             url
         });
-    } catch (err) {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
 

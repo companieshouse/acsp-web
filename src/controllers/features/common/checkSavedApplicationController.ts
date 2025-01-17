@@ -6,6 +6,7 @@ import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { getSavedApplication } from "../../../services/transactions/transaction_service";
 import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -24,9 +25,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             logger.debug("its a new application");
             res.redirect(addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang));
         }
-    } catch (error) {
+    } catch (error: any) {
+        const httpStatusCode = error.httpStatusCode;
         logger.error(JSON.stringify(error));
-        const exception = new ErrorService();
-        exception.renderErrorPage(res, locales, lang, BASE_URL + CHECK_SAVED_APPLICATION);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(error, req, res, next);
+        } else {
+            const exception = new ErrorService(); ;
+            exception.renderErrorPage(res, locales, lang, BASE_URL + CHECK_SAVED_APPLICATION);
+        }
     }
 };

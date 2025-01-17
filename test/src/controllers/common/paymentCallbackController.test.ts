@@ -41,11 +41,11 @@ describe("Payment callback controller tests", () => {
         expect(response.header.location).toBe(BASE_URL + PAYMENT_FAILED + "?lang=en");
     });
 
-    // it("should error if state doesn't match session state", async () => {
-    //     const response = await router.get(BASE_URL + PAYMENT_CALLBACK_URL +
-    //         "?ref=Register_ACSP&state=56789&status=paid");
+    it("should error if state doesn't match session state", async () => {
+        const response = await router.get(BASE_URL + PAYMENT_CALLBACK_URL +
+            "?ref=Register_ACSP&state=56789&status=paid");
 
-    //     expect(response.status).toBe(500);
-    //     expect(response.text).toContain("Sorry we are experiencing technical difficulties");
-    // });
+        expect(response.status).toBe(500);
+        expect(response.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });

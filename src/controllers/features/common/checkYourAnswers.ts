@@ -15,6 +15,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID } from "../../../utils/properties";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -37,10 +38,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervisoryBodies,
             PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID
         });
-    } catch {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
 
@@ -66,10 +72,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             res.redirect(paymentResponse.resource.links.journey);
         }
-
-    } catch (err) {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error("Error starting payment session " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
