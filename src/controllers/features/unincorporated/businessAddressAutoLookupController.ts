@@ -14,6 +14,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -38,12 +39,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             businessName: acspData?.businessName,
             businessAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, lang)
         });
-    } catch {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
-
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
@@ -66,10 +71,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const acspDataService = new AcspDataService();
                 await acspDataService.saveAcspData(session, acspData);
                 res.redirect(nextPageUrl);
-            } catch (err) {
+            } catch (err: any) {
+                const httpStatusCode = err.httpStatusCode;
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+                if (httpStatusCode === 401) {
+                    http401ErrorHandler(err, req, res, next);
+                } else {
+                    const error = new ErrorService();
+                    error.renderErrorPage(res, locales, lang, BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
+                }
             }
         }).catch(() => {
             const validationError : ValidationError[] = [{

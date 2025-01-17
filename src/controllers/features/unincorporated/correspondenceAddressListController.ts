@@ -16,6 +16,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
@@ -38,10 +39,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             correspondenceAddressManualLink: addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, lang)
         }
         );
-    } catch {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
 
@@ -80,9 +86,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const nextPageUrl = addLangToUrl(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, lang);
             res.redirect(nextPageUrl);
         }
-    } catch (err) {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };

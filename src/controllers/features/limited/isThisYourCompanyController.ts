@@ -12,6 +12,7 @@ import { ErrorService } from "../../../services/errorService";
 import { CompanyDetailsService } from "../../../services/company-details/companyDetailsService";
 import { AcspDataService } from "../../../services/acspDataService";
 import { Company } from "../../../model/Company";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -33,10 +34,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl
         });
-    } catch (err) {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
 
@@ -76,9 +82,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             res.redirect(addLangToUrl(BASE_URL + LIMITED_COMPANY_INACTIVE, lang));
         }
-    } catch (err) {
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };

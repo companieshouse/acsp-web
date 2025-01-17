@@ -7,6 +7,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { SUBMISSION_ID } from "../../../common/__utils/constants";
 import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -27,9 +28,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl
         });
-
-    } catch (err) {
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+    } catch (err: any) {
+        const httpStatusCode = err.httpStatusCode;
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(err, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };

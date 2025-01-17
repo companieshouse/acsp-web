@@ -10,6 +10,7 @@ import logger from "../../../utils/logger";
 import { ErrorService } from "../../../services/errorService";
 import { Session } from "@companieshouse/node-session-handler";
 import { APPLICATION_ID, RESUME_APPLICATION_ID, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { http401ErrorHandler } from "../../errorController";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -52,9 +53,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }
-    } catch (error) {
+    } catch (error: any) {
+        const httpStatusCode = error.httpStatusCode;
         logger.error("Error deleting ACSP application " + JSON.stringify(error));
-        const errorService = new ErrorService();
-        errorService.renderErrorPage(res, locales, lang, currentUrl);
+        if (httpStatusCode === 401) {
+            http401ErrorHandler(error, req, res, next);
+        } else {
+            const error = new ErrorService();
+            error.renderErrorPage(res, locales, lang, currentUrl);
+        }
     }
 };
