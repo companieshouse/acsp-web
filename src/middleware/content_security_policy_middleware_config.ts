@@ -5,7 +5,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
-    const ALL_CHS_DOMAIN = `${CHS_URL}*`;
+    const ALL_CHS_DOMAIN = `${CHS_URL}/*`;
 
     return {
         contentSecurityPolicy: {
