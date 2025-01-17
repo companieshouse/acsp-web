@@ -1,11 +1,12 @@
 import { HelmetOptions } from "helmet";
 import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL } from "../utils/properties";
+import { BASE_URL } from "../types/pageURL";
 
 export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
-    const ALL_CHS_DOMAIN = `${CHS_URL}/*`;
+    const HOME_URL = CHS_URL + BASE_URL;
 
     return {
         contentSecurityPolicy: {
@@ -16,7 +17,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL],
-                formAction: [SELF, PIWIK_CHS_DOMAIN, ALL_CHS_DOMAIN],
+                formAction: [SELF, PIWIK_CHS_DOMAIN, HOME_URL],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
