@@ -5,7 +5,6 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
-    const CHS_URL_NO_PROTOCOL = removeProtocol(CHS_URL);
 
     return {
         contentSecurityPolicy: {
@@ -16,7 +15,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL],
-                formAction: [SELF, PIWIK_CHS_DOMAIN, CHS_URL_NO_PROTOCOL, PIWIK_URL, NONCE],
+                formAction: [SELF, PIWIK_CHS_DOMAIN, "https:"],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
@@ -29,8 +28,4 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
             includeSubDomains: true
         }
     };
-};
-
-const removeProtocol = (url: string): string => {
-    return url.replace(/https?:\/\//, "");
 };
