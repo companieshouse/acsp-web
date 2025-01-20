@@ -1,0 +1,135 @@
+{% set updateStatusTextForCorrespondenceAddress = "" %}
+{% set updateStatusTextForCorrespondenceEmail = "" %}
+{% set updateStatusTextForBusinessName = "" %}
+
+{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+  {% set updateStatusTextForCorrespondenceAddress =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail %}
+  {% set updateStatusTextForCorrespondenceEmail =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
+  {% set updateStatusTextForBusinessName =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+
+<h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+{{ govukSummaryList({
+    rows: [
+      {
+        key: {
+          text: i18n.updateYourDetailsCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.correspondenceAddress + updateStatusTextForCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateDetailsCorrespondenceEmail,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.correspondenceEmail + updateStatusTextForCorrespondenceEmail,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+              }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsRegisteredOfficeAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.correspondenceAddress + updateStatusTextForCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
+              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsNameOfBusiness,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.businessName + updateStatusTextForBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
+              }if profileDetailsUpdated.businessName !== profileDetails.businessName
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }
+    ]
+    })
+}}

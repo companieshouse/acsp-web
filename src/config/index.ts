@@ -66,5 +66,5 @@ export const PAYMENT_FAILED = `${BASE_COMMON_URL}/payment-failed/payment-failed`
 
 // update acsp details configs
 const BASE_UPDATE_ACSP_DETAILS_URL = `${BASE_VIEWS_URL}/update-acsp-details`;
-
 export const UPDATE_ACSP_DETAILS_HOME = `${BASE_UPDATE_ACSP_DETAILS_URL}/index/home`;
+export const UPDATE_YOUR_ANSWERS = `${BASE_UPDATE_ACSP_DETAILS_URL}/update-your-details`;

@@ -1,4 +1,5 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 /**
  * Map the country key returned by postcode lookup to a readable format
@@ -24,5 +25,18 @@ export const getFullName = (acspData: AcspData): string | undefined => {
         name += " " + acspData.applicantDetails!.middleName;
     }
     name += " " + acspData.applicantDetails!.lastName!;
+    return name;
+};
+
+export const getFullNameACSPFullProfileDetails = (acspFullProfileFullProfile: AcspFullProfile): string | undefined => {
+    if (acspFullProfileFullProfile.soleTraderDetails!.forename === undefined) {
+        return undefined;
+    }
+    let name = acspFullProfileFullProfile.soleTraderDetails!.forename;
+
+    if (acspFullProfileFullProfile.soleTraderDetails!.otherForenames !== undefined) {
+        name += " " + acspFullProfileFullProfile.soleTraderDetails!.otherForenames;
+    }
+    name += " " + acspFullProfileFullProfile.soleTraderDetails!.surname!;
     return name;
 };
