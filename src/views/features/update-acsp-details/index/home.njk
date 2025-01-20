@@ -63,9 +63,4 @@
     }) }}
 
   </form>
-    
-  <script nonce={{ nonce | dump | safe }}>   
-    trackEventBasedOnPageTitle("continue-button-id", "{{title}}", "click-button", "Continue button - Start Page");
-  </script>
-
-{% endblock %}
+  {% endblock %}

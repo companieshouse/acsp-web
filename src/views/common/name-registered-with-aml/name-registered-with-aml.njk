@@ -41,16 +41,8 @@
       ]
       }) }}
       {{ govukButton({
-        text: i18n.SaveAndContinue,
-        id:"save-continue-button"
+          text: i18n.SaveAndContinue,
+          id:"save-continue-button"
       }) }}
   </form>
-
-  <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("name-of-the-business-option-id", "{{title}}", "select-option", "name-of-the-business");
-    trackEventBasedOnPageTitle("your-name-option-id", "{{title}}", "select-option", "your-name");
-    trackEventBasedOnPageTitle("both-option-id", "{{title}}", "select-option", "both");
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Name registered with AML");
-  </script>
-
-{% endblock main_content %}
+  {% endblock main_content %}

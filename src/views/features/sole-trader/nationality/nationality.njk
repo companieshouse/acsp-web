@@ -69,9 +69,4 @@
             }) }}
         </fieldset>
     </form>
-
-    <script nonce={{ nonce | dump | safe }}>
-        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Nationality");
-    </script>
-
-{% endblock main_content %}
+    {% endblock main_content %}

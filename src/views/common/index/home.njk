@@ -113,7 +113,6 @@
 
     function startNowEventListener () {
       document.getElementById("start-now").addEventListener("click", () => {
-        trackEventBasedOnPageTitle("start-now", "{{matomoPageTitle}}", "click-button", "START NOW");
       _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_START_GOAL_ID }}"]);
     });
     }
