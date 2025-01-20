@@ -2,18 +2,18 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { BASE_URL, RESUME_JOURNEY, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/localise";
 import logger from "../../../utils/logger";
-import { NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+
 import { getTransactionById } from "../../../services/transactions/transaction_service";
-import { ErrorService } from "../../../services/errorService";
 import { startPaymentsSession } from "../../../services/paymentService";
 import { PAYMENTS_API_URL } from "../../../utils/properties";
 import { PAYMENTS, transactionStatuses } from "../../../config";
 
-export const get = async (req: Request, res: Response) => {
+export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const transactionId = req.query.transactionId as string;
     const acspId = req.query.acspId;
@@ -45,7 +45,6 @@ export const get = async (req: Request, res: Response) => {
 
     } catch (err) {
         logger.error("Error resuming journey " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, getLocalesService(), lang, BASE_URL + RESUME_JOURNEY);
+        next(err);
     }
 };

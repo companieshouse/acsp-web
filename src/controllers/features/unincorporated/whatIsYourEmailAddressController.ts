@@ -8,7 +8,6 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, UNINCORPORATED_CORRESPONDENCE_ADDRESS, USER_DATA } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspDataService } from "../../../services/acspDataService";
-import { ErrorService } from "../../../services/errorService";
 import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -44,10 +43,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             typeOfBusiness: acspData?.typeOfBusiness,
             payload
         });
-    } catch {
+    } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const errorService = new ErrorService();
-        errorService.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -95,8 +93,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 

@@ -7,7 +7,6 @@ import { BASE_URL, SAVED_APPLICATION, TYPE_OF_BUSINESS, YOUR_FILINGS } from "../
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { deleteAcspApplication } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { Session } from "@companieshouse/node-session-handler";
 import { APPLICATION_ID, RESUME_APPLICATION_ID, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 
@@ -52,9 +51,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect((BASE_URL + TYPE_OF_BUSINESS));
             }
         }
-    } catch (error) {
-        logger.error("Error deleting ACSP application " + JSON.stringify(error));
-        const errorService = new ErrorService();
-        errorService.renderErrorPage(res, locales, lang, currentUrl);
+    } catch (err) {
+        logger.error("Error deleting ACSP application " + JSON.stringify(err));
+        next(err);
     }
 };

@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
+import logger from "../../../utils/logger";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { BASE_URL, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, LIMITED_NAME_REGISTERED_WITH_AML, TYPE_OF_BUSINESS, AML_REGISTRATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { SUBMISSION_ID } from "../../../common/__utils/constants";
-import { ErrorService } from "../../../services/errorService";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -29,7 +29,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         });
 
     } catch (err) {
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        next(err);
     }
 };

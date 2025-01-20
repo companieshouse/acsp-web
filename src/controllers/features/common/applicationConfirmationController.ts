@@ -5,7 +5,6 @@ import { CONFIRMATION, BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
 
@@ -25,10 +24,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             email: res.locals.userEmail,
             transactionId
         });
-
-    } catch {
+    } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
