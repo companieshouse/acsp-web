@@ -33,3 +33,7 @@ export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };
 export const REQ_TYPE_UPDATE_ACSP:string = "updateAcsp";
+export const ACSP_PROFILE_TYPE_LIMITED_COMPANY:string = "limited-company";
+export const ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP:string = "limited-liability-partnership";
+export const ACSP_PROFILE_TYPE_CORPORATE_BODY:string = "corporate-body";
+export const ACSP_PROFILE_TYPE_SOLE_TRADER:string = "sole-trader";

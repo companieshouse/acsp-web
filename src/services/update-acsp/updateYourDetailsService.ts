@@ -2,6 +2,7 @@ import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
 import { Request } from "express";
 import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
+import { ACSP_PROFILE_TYPE_LIMITED_COMPANY, ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP, ACSP_PROFILE_TYPE_CORPORATE_BODY, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
 
 export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};
@@ -9,9 +10,9 @@ export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile
     profileDetails.correspondenceEmail = acspFullProfile.email;
     profileDetails.businessName = acspFullProfile.name;
 
-    if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {
+    if (acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_COMPANY || acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP || acspFullProfile.type === ACSP_PROFILE_TYPE_CORPORATE_BODY) {
         profileDetails = limitedValues(req, profileDetails, acspFullProfile);
-    } else if (acspFullProfile.type === "sole-trader") {
+    } else if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
         profileDetails = soleTraderValues(profileDetails, acspFullProfile);
     } else {
         profileDetails = unincorporatedValues(profileDetails, acspFullProfile, i18n);
