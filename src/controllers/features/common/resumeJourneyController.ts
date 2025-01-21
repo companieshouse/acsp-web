@@ -4,7 +4,7 @@ import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { BASE_URL, RESUME_JOURNEY, TYPE_OF_BUSINESS } from "../../../types/pageURL";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/localise";
 import logger from "../../../utils/logger";
 
