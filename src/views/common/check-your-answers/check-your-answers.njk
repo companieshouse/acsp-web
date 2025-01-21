@@ -28,6 +28,7 @@
 {% set title = i18n.checkYourAnswersHeading %}
 {% block main_content %}
     <form method="post">
+        {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
         {% if typeOfBusiness === "SOLE_TRADER" %}
             {% include "partials/check-your-answers/sole-trader-answers.njk" %}
@@ -53,10 +54,22 @@
 
         {{ govukButton({
             text: i18n.continueToPayment,
-            id: "continue-to-payment-button",
-            attributes: {
-                "onClick": "_paq.push(['trackGoal', '" + PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID + "'])"
-            }
+            id: "continue-to-payment-button"
         }) }}
     </form>
+    <script type="text/javascript" nonce={{ nonce | dump | safe }}>
+    function continueEventListener () {
+        document.getElementById("continue-to-payment-button").addEventListener("click", () => {
+            _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID }}"]);
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function (e) {
+            continueEventListener()
+        });
+    } else {
+        continueEventListener()
+    }
+    </script>
 {% endblock main_content %}

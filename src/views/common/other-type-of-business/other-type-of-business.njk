@@ -4,6 +4,7 @@
 {% set title = i18n.otherTypeOfBusinessTitle %}
 {% block main_content %}
     <form action="" method="POST">
+       {% include "partials/csrf_token.njk" %}
        {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">
             {{ govukRadios({
@@ -38,39 +39,46 @@
         </div>
         {{ govukButton({
             text: i18n.SaveAndContinue,
-            id:"save-continue-button",
-            attributes: {
-                "onClick": "continueOnClick()"
-            }
+            id:"save-continue-button"
         }) }}
     </form>
 
-    <script type="text/javascript">
-        function continueOnClick () {
+<script type="text/javascript" nonce={{ nonce | dump | safe }}>
+
+    function continueEventListener () {
+        document.getElementById("save-continue-button").addEventListener("click", () => {
             const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
             if (selectedOption){
                 const selectedValue = selectedOption.value;
                 trackGoal(selectedValue);
             }
-        }
-        function trackGoal(goal){
-            let goalId;
-            switch(goal) {
-                case "UNINCORPORATED":
-                    goalId = "{{PIWIK_REGISTRATION_UNINCORPORATED_ID}}";
-                    break;
-                case "CORPORATE_BODY":
-                    goalId = "{{PIWIK_REGISTRATION_CORPORATE_BODY_ID}}";
-                    break;
-            }
-            _paq.push(['trackGoal', goalId]);
-        }
-    </script>
+        });
+    }
 
-    <script>
-        trackEventBasedOnPageTitle("UNINCORPORATED", "{{title}}", "select-option", "Unincorporated Entity");
-        trackEventBasedOnPageTitle("CORPORATE_BODY", "{{title}}", "select-option", "Corporate Body");
-        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
-    </script>
+    function trackGoal(goal){
+        let goalId;
+        switch(goal) {
+            case "UNINCORPORATED":
+                goalId = "{{PIWIK_REGISTRATION_UNINCORPORATED_ID}}";
+                break;
+            case "CORPORATE_BODY":
+                goalId = "{{PIWIK_REGISTRATION_CORPORATE_BODY_ID}}";
+                break;
+        }
+        _paq.push(['trackGoal', goalId]);
+    }
+   
+    trackEventBasedOnPageTitle("UNINCORPORATED", "{{title}}", "select-option", "Unincorporated Entity");
+    trackEventBasedOnPageTitle("CORPORATE_BODY", "{{title}}", "select-option", "Corporate Body");
+    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function (e) {
+            continueEventListener()
+        });
+    } else {
+        continueEventListener()
+    }
+</script>
 
 {% endblock main_content %}

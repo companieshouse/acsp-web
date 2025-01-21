@@ -6,6 +6,7 @@
 {% set title = i18n.correspondenceLookUpAddressTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {% if businessName %}
       {% include "partials/business_name.njk" %}
     {% elif firstName %}
@@ -53,7 +54,7 @@
     </p>
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("find-address-id", "{{title}}", "click-button", "FIND ADDRESS");
     trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
   </script>

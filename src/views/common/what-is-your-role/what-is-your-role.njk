@@ -5,6 +5,7 @@
 {% set title = i18n.whatIsYourRoleTitle %}
 {% block main_content %}
     <form action="" method="POST">
+        {% include "partials/csrf_token.njk" %}
         <div class="govuk-form-group">
             {{ govukRadios({
                 errorMessage: errors.WhatIsYourRole if errors,
@@ -84,26 +85,26 @@
 
     {# If/Else Logic to call specific Matomo event script based on the value of acspType (specific script runs depending on what busniess type the user had selected previously) #}
     {% if acspType == "PARTNERSHIP" %}
-      <script> trackEventBasedOnPageTitle("member-of-partnership", "{{title}}", "select-option", "I am a member of partnership"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("member-of-partnership", "{{title}}", "select-option", "I am a member of partnership"); </script>
     {% elif acspType == "SOLE_TRADER" %}
-      <script> trackEventBasedOnPageTitle("sole-trader", "{{title}}", "select-option", "I am the sole trader"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("sole-trader", "{{title}}", "select-option", "I am the sole trader"); </script>
     {% elif acspType == "UNINCORPORATED" %}
-      <script> trackEventBasedOnPageTitle("member-of-governing-body", "{{title}}", "select-option", "I am a member of the governing body of"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("member-of-governing-body", "{{title}}", "select-option", "I am a member of the governing body of"); </script>
     {% elif acspType == "CORPORATE_BODY" %}
-      <script> trackEventBasedOnPageTitle("director-equivalent", "{{title}}", "select-option", "I am the equivalent of a director of"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("director-equivalent", "{{title}}", "select-option", "I am the equivalent of a director of"); </script>
     {% elif acspType == "LC" %}
-      <script> trackEventBasedOnPageTitle("I-am-director", "{{title}}", "select-option", "I am a director of"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("I-am-director", "{{title}}", "select-option", "I am a director of"); </script>
     {% elif acspType == "LLP" %}
-      <script> trackEventBasedOnPageTitle("member-of-llp", "{{title}}", "select-option", "I am a member of llp"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("member-of-llp", "{{title}}", "select-option", "I am a member of llp"); </script>
     {% elif acspType == "LP" %}
-      <script> trackEventBasedOnPageTitle("general-partner", "{{title}}", "select-option", "I am a general partner of"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("general-partner", "{{title}}", "select-option", "I am a general partner of"); </script>
     {% endif %}
 
     {% if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY" %}
-      <script> trackEventBasedOnPageTitle("member-of-entity", "{{title}}", "select-option", "I am a member of entity"); </script>
+      <script nonce={{ nonce | dump | safe }}> trackEventBasedOnPageTitle("member-of-entity", "{{title}}", "select-option", "I am a member of entity"); </script>
     {% endif %}
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("someone-else", "{{title}}", "select-option", "I am someone else");
         trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - ROLE");
     </script>

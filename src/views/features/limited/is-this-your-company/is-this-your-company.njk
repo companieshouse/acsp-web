@@ -5,6 +5,7 @@
 {% block main_content %}
   <!-- The action will need to change depending on the location of the confirm-company page -->
   <form action="" method="post">
+    {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">{{i18n.isThisYourCompany}}</h1>
     <dl class="govuk-summary-list">
     <div class="govuk-summary-list__row">
@@ -56,7 +57,7 @@
     </p>
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "CONFIRM AND CONTINUE - Is this your company");
     trackEventBasedOnPageTitle("choose-company-link", "{{title}}", "click-link", "Choose a different company");
   </script>

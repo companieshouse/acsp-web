@@ -5,7 +5,8 @@
 
 {% set title = i18n.whatIsTheBusinessNameTitle %}
 {% block main_content %}
-  <form action="" method="POST">      
+  <form action="" method="POST">     
+    {% include "partials/csrf_token.njk" %} 
     {% set textHtml %}
       {{ govukInput({
         label: {
@@ -55,7 +56,7 @@
     }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Business name");
     trackEventBasedOnPageTitle("a-different-name-radio", "{{title}}", "click-button", "A different name");
   </script>

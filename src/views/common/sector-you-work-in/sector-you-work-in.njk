@@ -5,6 +5,7 @@
 {% set title = i18n.sectorYouWorkInTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
     {% endif %}
@@ -68,7 +69,7 @@
     }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     let selectedRadio = null;
 
     // Function to track Matomo analytics based on the selected radio button

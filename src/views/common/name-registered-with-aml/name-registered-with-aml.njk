@@ -5,6 +5,7 @@
 {% set title = i18n.nameRegisteredWithAmlTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     {{ govukRadios({
       errorMessage: errors.nameRegisteredWithAml if errors,
       classes: "govuk-radios",
@@ -45,7 +46,7 @@
       }) }}
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("name-of-the-business-option-id", "{{title}}", "select-option", "name-of-the-business");
     trackEventBasedOnPageTitle("your-name-option-id", "{{title}}", "select-option", "your-name");
     trackEventBasedOnPageTitle("both-option-id", "{{title}}", "select-option", "both");

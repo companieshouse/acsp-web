@@ -5,6 +5,7 @@
 {% set title = i18n.companyNumberTitle %}
 {% block main_content %}
   <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
     <div class="govuk-form-group">
       {{ govukInput({
         label: {
@@ -49,7 +50,7 @@
     }) }}
     </form>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
       trackEventBasedOnPageTitle("find-company-number-link", "{{title}}", "click-link", 'How do I find the company number');
       trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", 'SAVE AND CONTINUE - Company Number');
     </script>

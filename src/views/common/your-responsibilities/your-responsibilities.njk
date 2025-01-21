@@ -5,6 +5,7 @@
 
 {% block main_content %}
   <form method="post">
+    {% include "partials/csrf_token.njk" %}
     {% if typeOfBusiness === "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
     {% else %}
@@ -38,7 +39,7 @@
     <button class="govuk-button" id="accept-continue-id">{{ i18n.AcceptAndContinue }}</button>
   </form>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("accept-continue-id", "{{title}}", "click-button", "accept-continue");
   </script>
   

@@ -18,6 +18,7 @@
 
   <div>
     <form action="" method="POST">
+      {% include "partials/csrf_token.njk" %}
       {% include "partials/user_name.njk" %}
       
       {{ govukDateInput({
@@ -72,7 +73,7 @@
     </form>
   </div>
 
-  <script>
+  <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - DOB");
   </script>
 

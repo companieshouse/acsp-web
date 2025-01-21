@@ -9,7 +9,7 @@
         {{ i18n.toCheckTheStatus}}
     </p>
 
-    <script>
+    <script nonce={{ nonce | dump | safe }}>
         trackEventBasedOnPageTitle("filings-link-id", "{{title}}", "click-link", "Your Filings link");
     </script>
 
