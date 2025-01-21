@@ -8,7 +8,6 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { validationResult } from "express-validator";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspDataService } from "../../../services/acspDataService";
@@ -47,8 +46,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -101,7 +99,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };

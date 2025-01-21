@@ -11,7 +11,6 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { USER_DATA, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -44,8 +43,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -80,9 +78,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 await acspDataService.saveAcspData(session, acspData);
                 res.redirect(nextPageUrl);
             } catch (err) {
-                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
-                const error = new ErrorService();
-                error.renderErrorPage(res, locales, lang, currentUrl);
+                logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
+                next(err);
             }
         }).catch(() => {
             const validationError : ValidationError[] = [{
