@@ -72,12 +72,14 @@
 
           //  Finally Matomo analytics are recorded on page submission.
           if(textOnRadioSelection){
-            _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+            alert(eventCategory +" : "+ textOnRadioSelection);
+            // _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
           eventNameBtn = eventNameBtn+buttonSuffix;
           if(eventNameBtn){
-            _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+            alert(eventCategory +" : "+ eventNameBtn);
+            // _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
       }
