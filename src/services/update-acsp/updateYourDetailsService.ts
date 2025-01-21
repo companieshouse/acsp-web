@@ -1,6 +1,6 @@
 import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
 import { Request } from "express";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
 
 export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
@@ -20,7 +20,7 @@ export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile
 };
 
 const limitedValues = (req: Request, profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
-    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
     return profileDetails;
 };
 
@@ -29,73 +29,43 @@ const soleTraderValues = (profileDetails: ACSPFullProfileDetails, acspProfileDat
     profileDetails.name = getFullNameACSPFullProfileDetails(acspProfileData);
     profileDetails.correspondenceEmail = acspProfileData.email;
     profileDetails.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
-    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
     return profileDetails;
 };
 
 const unincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
     profileDetails.businessAddress = businessAddressValues(acspProfileData);
-    profileDetails.correspondenceAddress = correspondenceAddressValues(acspProfileData);
+    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
     return profileDetails;
 };
 
-const correspondenceAddressValues = (acspProfileData: AcspFullProfile): string => {
-    let correspondenceAddressAnswer = "";
-    const applicantDetails = acspProfileData.registeredOfficeAddress;
-    if (applicantDetails.premises) {
-        correspondenceAddressAnswer += applicantDetails.premises;
-    }
-    if (applicantDetails.addressLine1) {
-        correspondenceAddressAnswer += (correspondenceAddressAnswer ? " " : "") + applicantDetails.addressLine1;
-    }
-
-    if (applicantDetails.addressLine2) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.addressLine2;
-    }
-    if (applicantDetails.locality) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.locality;
-    }
-    if (applicantDetails.region) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.region;
-    }
-    if (applicantDetails.country) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.country;
-    }
-    if (applicantDetails.postalCode) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.postalCode;
-    }
-
-    return correspondenceAddressAnswer;
+export const businessAddressValues = (acspProfileData: AcspFullProfile): string => {
+    const serviceAddress = acspProfileData.serviceAddress!;
+    return addressFormation(serviceAddress);
 };
 
-export const businessAddressValues = (acspProfileData: AcspFullProfile): string => {
-    let businessAddressAnswer = "";
-    if (acspProfileData.serviceAddress?.premises) {
-        businessAddressAnswer += acspProfileData.serviceAddress.premises;
-    }
-    if (acspProfileData.serviceAddress?.addressLine1) {
-        businessAddressAnswer += (businessAddressAnswer ? " " : "") + acspProfileData.serviceAddress.addressLine1;
-    }
-    if (acspProfileData.serviceAddress?.addressLine2) {
-        businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.addressLine2;
-    }
-    if (acspProfileData.serviceAddress?.locality) {
-        businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.locality;
-    }
-    if (acspProfileData.serviceAddress?.region) {
-        businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.region;
-    }
-    if (acspProfileData.serviceAddress?.country) {
-        businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.country;
-    }
-    if (acspProfileData.serviceAddress?.postalCode) {
-        businessAddressAnswer += "<br>" + acspProfileData.serviceAddress.postalCode;
-    }
+const addressFormation = (givenAddress: Address): string => {
+    let formattedAddress = "";
 
-    return businessAddressAnswer;
+    if (!givenAddress) {
+        givenAddress = {};
+    }
+    const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = givenAddress;
+
+    // List of fields
+    const businessAddressAnswerFields = { premises, addressLine1, addressLine2, locality, region, country, postalCode };
+
+    // Check for missing required fields
+    for (const [field, value] of Object.entries(businessAddressAnswerFields)) {
+        if (value) {
+            if (field === "premises") {
+                formattedAddress += value;
+            } else if (field === "addressLine1") {
+                formattedAddress += (formattedAddress ? " " : "") + value;
+            } else {
+                formattedAddress += "<br>" + value;
+            }
+        }
+    }
+    return formattedAddress;
 };
