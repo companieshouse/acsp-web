@@ -38,6 +38,10 @@
 //  Add the id of a specific element needs Obliteration.
     var hardObliterationForASpecificVariable = ["whatsTheBusinessNameRadio"];
 
+// 
+    var ignoreEverythingForThisPage = false;
+    var ignoreRadioButtonForThisPage = false;
+    var ignoreSubmitButtonForThisPage = false;
     $(function() {
       //  The condition below checks and prioritizes the customized Matomo analytics calls.
       //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
@@ -49,22 +53,23 @@
           });
 
         $("form").on("submit",function() {
-          
           //  The block below covers the Matomo analysis for the readio element.
           if ($("input[type='radio']:checked").length > 0) {
 
               buttonSuffix = "-"+$(this).find("input[type='radio']:checked").attr('value');
 
-              // Initial check for the restricted variables
-              if(hardObliterationForASpecificVariable.indexOf(
-                $(this).find("input[type='radio']:checked").siblings("label").attr('for')
-                ) > -1){
-                  textOnRadioSelection = genericEradicationReplacementText;
-              }else{
-                  textOnRadioSelection = 
-                          matomoObliteration(
-                            $(this).find("input[type='radio']:checked").siblings("label").text().trim()
-                );}
+              if(!ignoreRadioButtonForThisPage){
+                // Initial check for the restricted variables
+                if(hardObliterationForASpecificVariable.indexOf(
+                  $(this).find("input[type='radio']:checked").siblings("label").attr('for')
+                  ) > -1){
+                    textOnRadioSelection = genericEradicationReplacementText;
+                }else{
+                    textOnRadioSelection = 
+                            matomoObliteration(
+                              $(this).find("input[type='radio']:checked").siblings("label").text().trim()
+                  );}
+              }
           }
           //  For other elements like check box and/or hrefs can be added further below like above.
 
@@ -72,14 +77,12 @@
 
           //  Finally Matomo analytics are recorded on page submission.
           if(textOnRadioSelection){
-            alert(eventCategory +" : "+ textOnRadioSelection);
-            // _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+            _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
           eventNameBtn = eventNameBtn+buttonSuffix;
           if(eventNameBtn){
-            alert(eventCategory +" : "+ eventNameBtn);
-            // _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+            _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
       }

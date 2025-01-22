@@ -58,13 +58,13 @@
     }) }}
   </form>
   <script type="text/javascript" nonce={{ nonce | dump | safe }}>
-
     function continueEventListener () {
       document.getElementById("save-continue-button").addEventListener("click", () => {
         const selectedOption = document.querySelector('input[name="typeOfBusinessRadio"]:checked');
         if (selectedOption) {
           const selectedValue = selectedOption.value;
           if (selectedValue !== "OTHER") {
+            ignoreRadioButtonForThisPage = true;
             trackGoal(selectedValue);
           }
         }

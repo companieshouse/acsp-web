@@ -44,7 +44,7 @@
     </form>
 
 <script type="text/javascript" nonce={{ nonce | dump | safe }}>
-
+    ignoreRadioButtonForThisPage = true;
     function continueEventListener () {
         document.getElementById("save-continue-button").addEventListener("click", () => {
             const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
