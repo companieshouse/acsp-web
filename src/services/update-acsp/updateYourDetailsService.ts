@@ -53,10 +53,8 @@ const addressFormation = (givenAddress: Address): string => {
     }
     const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = givenAddress;
 
-    // List of fields
     const businessAddressAnswerFields = { premises, addressLine1, addressLine2, locality, region, country, postalCode };
 
-    // Check for missing required fields
     for (const [field, value] of Object.entries(businessAddressAnswerFields)) {
         if (value) {
             if (field === "premises") {
