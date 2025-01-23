@@ -12,7 +12,7 @@ export enum AMLSupervisoryBodies {
       FO = "Faculty Office of the Archbishop of Canterbury",
       FCA = "Financial Conduct Authority (FCA)",
       GC = "Gambling Commission",
-      GCB = "General Council of the Bar",
+      BSB = "Bar Standards Board (BSB)",
       BONI = "General Council of the Bar of Northern Ireland",
       HMRC = "HMRC",
       IAB = "Institute of Accountants and Bookkeepers (IAB)",
