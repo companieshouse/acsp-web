@@ -43,6 +43,7 @@
     var ignoreEverythingForThisPage = false;
     var ignoreRadioButtonForThisPage = false;
     var ignoreSubmitButtonForThisPage = false;
+    
     $(function() {
       //  The condition below checks and prioritizes the customized Matomo analytics calls.
       //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
@@ -106,6 +107,7 @@
         
         //  for address
         if(/,\s[A-Z0-9]+[A-Z0-9]+/.test(textToBeChecked)){
+          buttonSuffix = "-OPTED_ADDRESS";
           return eradicationReplacementText;
         }
 
