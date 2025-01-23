@@ -1,9 +1,12 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export class WhereDoYouLivBodyService {
-    public getCountryPayload (ascpData: AcspData): { payload: any, countryInput?: string } {
+    public getCountryPayload (ascpData: AcspData) {
         let payload = {};
-        let countryInput: string | undefined;
+
+        if (!ascpData.applicantDetails?.countryOfResidence) {
+            return payload;
+        }
 
         switch (ascpData.applicantDetails?.countryOfResidence) {
         case "England":
@@ -13,13 +16,11 @@ export class WhereDoYouLivBodyService {
             payload = { whereDoYouLiveRadio: ascpData?.applicantDetails?.countryOfResidence };
             break;
         default:
-            if (ascpData.applicantDetails?.countryOfResidence) {
-                payload = { whereDoYouLiveRadio: "countryOutsideUK" };
-                countryInput = ascpData.applicantDetails?.countryOfResidence;
-            }
-            break;
-
-        }
-        return { payload, countryInput };
+            payload = {
+                whereDoYouLiveRadio: "countryOutsideUK",
+                countryInput: ascpData.applicantDetails?.countryOfResidence
+            };
+        };
+        return payload;
     }
 }

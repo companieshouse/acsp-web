@@ -88,7 +88,6 @@
         {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
         {% if payload.countryInput | length %}
             {% set dropdownValue = payload.countryInput %}
-            {% set countryInput = payload.countryInput %}
         {% endif %}
         <p class="govuk-hint" id="typeahead-hint">{{ i18n.whereDoYouLiveHint }}</p>
         <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
