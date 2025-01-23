@@ -8,19 +8,19 @@ export class WhereDoYouLivBodyService {
             return payload;
         }
 
-        switch (ascpData.applicantDetails?.countryOfResidence) {
+        switch (ascpData.applicantDetails.countryOfResidence) {
         case "England":
         case "Scotland":
         case "Wales":
         case "Northern Ireland":
-            payload = { whereDoYouLiveRadio: ascpData?.applicantDetails?.countryOfResidence };
+            payload = { whereDoYouLiveRadio: ascpData.applicantDetails?.countryOfResidence };
             break;
         default:
             payload = {
                 whereDoYouLiveRadio: "countryOutsideUK",
-                countryInput: ascpData.applicantDetails?.countryOfResidence
+                countryInput: ascpData.applicantDetails.countryOfResidence
             };
-        };
+        }
         return payload;
     }
 }
