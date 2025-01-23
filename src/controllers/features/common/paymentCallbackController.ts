@@ -21,6 +21,8 @@ export const get = (req: Request, res: Response, next: NextFunction) => {
 
     if (paymentStatus === "paid") {
         logger.debug("Transaction id: " + transactionId + " - Payment status: " + paymentStatus + " - redirecting to the confirmation page");
+        console.log(req.query.lang);
+        console.log(lang);
         return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
     } else {
         logger.debug("Transaction id: " + transactionId + " - Payment status: " + paymentStatus + " - redirecting to the check your answers page");

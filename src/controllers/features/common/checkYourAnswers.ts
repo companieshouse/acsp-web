@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
         } else {
-            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(session, paymentUrl,
+            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req, session, paymentUrl,
                 transactionId);
 
             if (!paymentResponse.resource) {

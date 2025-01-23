@@ -10,5 +10,8 @@ export const mockRequest = () => {
     req.params = {
         id: "1"
     };
+    req.query = {
+        lang: "en"
+    };
     return req;
 };

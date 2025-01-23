@@ -1,6 +1,9 @@
 {% from "govuk/components/panel/macro.njk" import govukPanel %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% extends "layouts/default.njk" %}
+{% block localesBanner %}
+  {# Remove language select #}
+{% endblock %}
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
