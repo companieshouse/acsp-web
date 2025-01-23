@@ -17,14 +17,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
-    const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
+    const payload = new WhereDoYouLivBodyService().getCountryPayload(acspData);
     const reqType = REQ_TYPE_UPDATE_ACSP;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         ...getLocaleInfo(locales, lang),
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
         currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
         countryList: countryList,
-        countryInput,
+        firstName: acspData?.soleTraderDetails?.forename,
+        lastName: acspData?.soleTraderDetails?.surname,
         payload,
         reqType
     });
