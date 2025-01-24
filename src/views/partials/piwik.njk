@@ -49,12 +49,14 @@
 //  the following flags are needed to be set as true in that njk page.
     var ignoreEverythingForThisPage = false;
     var ignoreRadioButtonForThisPage = false;
+    var ignoreCheckBoxesForThisPage = false;
     var ignoreSubmitButtonForThisPage = false;
+    var ignoreHrefsForThisPage = false;
     
     $(function() {
       //  The condition below checks and prioritizes the customized Matomo analytics calls.
       //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
-      if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
+      if (!$.isFunction(window.analyticsWithCustomisedMatomoText) && !ignoreEverythingForThisPage){
 
           //  On the button click the button details are recorded.
           $("button").click(function() {
@@ -83,7 +85,7 @@
           }
 
           //  The block below covers the Matomo analysis for the selected checkbox elements.
-          if ($("input[type='checkbox']:checked").length > 0) {
+          if ($("input[type='checkbox']:checked").length > 0 && !ignoreCheckBoxesForThisPage) {
             $("input[type='checkbox']:checked").each(function() {
               boxDetailsForAnalytics.set($(this).val(),$(this).siblings("label").text().trim());
             });
@@ -102,19 +104,24 @@
           }
 
           eventNameBtn = eventNameBtn+suffixForSubmitButtonOnRadioSelection;
-          if(eventNameBtn){
+          if(eventNameBtn && !ignoreSubmitButtonForThisPage){
             _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
 
         //  The block below covers the Matomo analysis for the href clicks.
-        $(document).on("click", "a", function() {
-          textOnHrefClick = $(this).text();
-          idHref = $(this).attr("id");
-          if(textOnHrefClick){
-            _paq.push([idHref, eventCategory, textOnHrefClick]);
-          }
-        });
+        if(!ignoreHrefsForThisPage){
+          $(document).on("click", "a", function() {
+            textOnHrefClick = $(this).text();
+            idHref = $(this).attr("id");
+            if(textOnHrefClick){
+              if(!idHref){
+                idHref = "NA"
+              }
+              _paq.push([idHref, eventCategory, textOnHrefClick]);
+            }
+          });
+      }
       }
     });
 
@@ -158,28 +165,4 @@
         <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" class="piwik-img" alt="" />
     </p>
 </noscript>
-<script nonce={{ nonce | dump | safe }}>
-// Function to add event categories base on page title
-function trackEventBasedOnPageTitle(elementId, eventCategory, eventAction, eventName) {
-    document.getElementById(elementId)
-    .addEventListener("click", () => {
-        _paq.push(["trackEvent", eventCategory, eventAction, eventName]);
-    });
-}
-
-// Matomo function for use on Work Sector page as it is now optional
-function trackEventWorkSector(elementId, eventCategory, eventAction, eventName) {
-  document.getElementById(elementId);
-        _paq.push(["trackEvent", eventCategory, eventAction, eventName]);
-}
-
-// Matomo function to capture radio button selection
-function trackEventBasedOnRadioId(elementId, eventCategory, eventAction) {
-    const radioButton = document.getElementById(elementId);
-    if (radioButton) {
-      const labelText = document.querySelector(`label[for="${radioButton.id}"]`).textContent.trim();
-      _paq.push(["trackEvent", eventCategory, eventAction, labelText]);
-    }
-}
-</script>
 <!-- Matomo Ends -->

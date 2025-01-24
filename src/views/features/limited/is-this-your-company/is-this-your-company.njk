@@ -56,9 +56,4 @@
       </a>
     </p>
   </form>
-
-  <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("choose-company-link", "{{title}}", "click-link", "Choose a different company");
-  </script>
-  
 {% endblock main_content %}

@@ -70,9 +70,4 @@
            }) }}
         {% endif %}
   </form>
-
-  <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("cancel-id", "{{title}}", "click-link", "CANCEL- Updated Location lives");
-  </script>
-
 {% endblock main_content %}
