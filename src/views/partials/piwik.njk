@@ -26,6 +26,13 @@
 //  Dynamic text to be obtained from the label of a radio button.
     var textOnRadioSelection = "";
 
+//  Dynamic text to be obtained from the label of an href.
+    var textOnHrefClick = "";
+    var idHref = "";
+
+//  Dynamic text(s) and the id(s) to be obtained from the selected checkbox(es).
+    var boxDetailsForAnalytics = new Map();
+
 //  Generic replacement text for personal identifiable data.
     var genericEradicationReplacementText = "<obliterated>";
 
@@ -56,7 +63,7 @@
 
         $("form").on("submit",function() {
 
-          //  The block below covers the Matomo analysis for the readio element.
+          //  The block below covers the Matomo analysis for the selected radio element.
           if ($("input[type='radio']:checked").length > 0) {
 
               suffixForSubmitButtonOnRadioSelection = "-"+$(this).find("input[type='radio']:checked").attr('value');
@@ -74,8 +81,13 @@
                   );}
               }
           }
-          //  For other elements like check box and/or hrefs can be added further below like above.
 
+          //  The block below covers the Matomo analysis for the selected checkbox elements.
+          if ($("input[type='checkbox']:checked").length > 0) {
+            $("input[type='checkbox']:checked").each(function() {
+              boxDetailsForAnalytics.set($(this).val(),$(this).siblings("label").text().trim());
+            });
+          }
 
 
           //  Finally Matomo analytics are recorded on page submission.
@@ -83,9 +95,24 @@
             _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
+          if(boxDetailsForAnalytics.size > 0){
+            boxDetailsForAnalytics.forEach((values, keys) => {
+              _paq.push([keys, eventCategory, values]);
+            });
+          }
+
           eventNameBtn = eventNameBtn+suffixForSubmitButtonOnRadioSelection;
           if(eventNameBtn){
             _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+          }
+        });
+
+        //  The block below covers the Matomo analysis for the href clicks.
+        $(document).on("click", "a", function() {
+          textOnHrefClick = $(this).text();
+          idHref = $(this).attr("id");
+          if(textOnHrefClick){
+            _paq.push([idHref, eventCategory, textOnHrefClick]);
           }
         });
       }
