@@ -33,7 +33,7 @@
     var eventCategory = $(document).find("title").text().split(' -')[0];
 
 //  Additional text for the submit button for the the action delineation.
-    var buttonSuffix = "";
+    var suffixForSubmitButtonOnRadioSelection = "";
 
 //  Add the id of a specific element needs Obliteration.
     var hardObliterationForASpecificVariable = ["whatsTheBusinessNameRadio","name-of-the-business-option-id"];
@@ -55,10 +55,11 @@
           });
 
         $("form").on("submit",function() {
+
           //  The block below covers the Matomo analysis for the readio element.
           if ($("input[type='radio']:checked").length > 0) {
 
-              buttonSuffix = "-"+$(this).find("input[type='radio']:checked").attr('value');
+              suffixForSubmitButtonOnRadioSelection = "-"+$(this).find("input[type='radio']:checked").attr('value');
 
               if(!ignoreRadioButtonForThisPage){
                 // Initial check for the restricted variables
@@ -79,14 +80,12 @@
 
           //  Finally Matomo analytics are recorded on page submission.
           if(textOnRadioSelection){
-            alert(eventCategory +" : "+ textOnRadioSelection);
-            // _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
+            _paq.push(["trackEvent", eventCategory, textOnRadioSelection]);
           }
 
-          eventNameBtn = eventNameBtn+buttonSuffix;
+          eventNameBtn = eventNameBtn+suffixForSubmitButtonOnRadioSelection;
           if(eventNameBtn){
-            alert(eventCategory +" : "+ eventNameBtn);
-            // _paq.push(["trackEvent", eventCategory, eventNameBtn]);
+            _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
       }
@@ -101,13 +100,13 @@
         
         //  for Email
         if(/^\S+@\S+\.\S+$/.test(textToBeChecked)){
-          buttonSuffix = "";
+          suffixForSubmitButtonOnRadioSelection = "";
           return eradicationReplacementText;
         }
         
         //  for address
         if(/,\s[A-Z0-9]+[A-Z0-9]+/.test(textToBeChecked)){
-          buttonSuffix = "-OPTED_ADDRESS";
+          suffixForSubmitButtonOnRadioSelection = "-OPTED_ADDRESS";
           return eradicationReplacementText;
         }
 
