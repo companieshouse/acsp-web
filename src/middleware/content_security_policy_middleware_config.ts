@@ -8,7 +8,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
 
     const CHS_SIGN_IN = `${CHS_URL}/signin`;
     const OAUTH_AUTHORIZE = `${ACCOUNT_URL}/oauth2/authorize`;
-    const OAUTH_CHOOSE_SIGN_IN = `${ACCOUNT_URL}/oauth2/user/choose-your-sign-in`;
+    const OAUTH_CHOOSE_SIGN_IN = `${ACCOUNT_URL}/oauth2/user/choose-your-signin`;
     const OAUTH_USER_CALL_BACK = `${CHS_URL}/user/callback`;
 
     return {
