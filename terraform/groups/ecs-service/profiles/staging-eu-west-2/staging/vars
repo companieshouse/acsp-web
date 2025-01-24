@@ -8,9 +8,9 @@ service_autoscale_enabled  = true
 service_scaledown_schedule = "55 19 * * ? *"
 service_scaleup_schedule   = "5 6 * * ? *"
 
-required_cpus = 512
-required_memory = 2048
-service_autoscale_target_value_cpu = 70
-desired_task_count = 2
-max_task_count = 8
-min_task_count = 2
+service_autoscale_target_value_cpu = 60
+required_cpus=1792
+required_memory=3584
+desired_task_count=3
+max_task_count=6
+min_task_count=3
