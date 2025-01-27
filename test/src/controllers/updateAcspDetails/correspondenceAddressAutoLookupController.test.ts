@@ -4,6 +4,7 @@ import app from "../../../../src/app";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../src/types/pageURL";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
+import * as localise from "../../../../src/utils/localise";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/postcode-lookup-service.ts");
@@ -25,6 +26,15 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
+    });
+    it("should show the error page if an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
@@ -103,5 +113,21 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
         expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
+    });
+
+    it("should show the error page if an error occurs", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: "2"
+        };
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(mockResponseBodyOfUKAddress);
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });

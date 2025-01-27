@@ -13,7 +13,6 @@ import {
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import logger from "../../../utils/logger";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 
@@ -68,13 +67,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const addressLookUpService = new AddressLookUpService();
             addressLookUpService.getAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, false,
                 UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
-                try {
-                    session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
-                    res.redirect(nextPageUrl);
-                } catch (err) {
-                    logger.error("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
-                    next(err);
-                }
+
+                session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+                res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{
                     value: postcode,
