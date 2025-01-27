@@ -177,3 +177,11 @@ export const UPDATE_ACSP_CHANGE_DETAILS = "/update-acsp-details";
 export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
 
 export const UPDATE_WHERE_DO_YOU_LIVE = "/where-do-you-live";
+
+export const UPDATE_CORRESPONDENCE_ADDRESS_MANUAL = "/correspondence-address-manual-entry";
+
+export const UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP = "/correspondence-address-lookup";
+
+export const UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM = "/confirm-your-correspondence-address";
+
+export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-address";
