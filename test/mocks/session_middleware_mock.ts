@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../src/middleware/session_middleware";
-import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, AML_SUPERVISOR_SELECTED, PREVIOUS_PAGE_URL, ADDRESS_LIST } from "../../src/common/__utils/constants";
+import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, AML_SUPERVISOR_SELECTED, PREVIOUS_PAGE_URL, ADDRESS_LIST, ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../src/common/__utils/constants";
 import { Company } from "../../src/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
 import { validCompanyProfile } from "./company_profile_mock";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 import { addressList } from "./address.mock";
+import { dummyFullProfile } from "./acsp_profile.mock";
 
 jest.mock("ioredis");
 jest.mock("../../src/middleware/session_middleware");
@@ -28,7 +29,7 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(COMPANY_DETAILS, validCompanyProfile);
     session.setExtraData(USER_DATA, {
         amlSupervisoryBodies: amlSupervisoryBodies,
-        applicantDetails:{
+        applicantDetails: {
             firstName: "John",
             lastName: "Doe"
         }
@@ -39,6 +40,8 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData("payment-nonce", "123456");
     session.setExtraData("resume_application", true);
     session.setExtraData(ADDRESS_LIST, addressList);
+    session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+    session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
     req.session = session;
     next();
 });

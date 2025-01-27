@@ -4,7 +4,7 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
-import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, BASE_URL } from "../../../types/pageURL";
+import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import countryList from "../../../../lib/countryListWithUKCountries";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -15,8 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const previousPage: string = addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
-        const currentUrl: string = BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         // Get existing correspondence address details and display on the page
@@ -39,8 +39,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const lang = selectLang(req.query.lang);
-        const previousPage: string = addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
-        const currentUrl: string = BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const locales = getLocalesService();
         const errorList = validationResult(req);
@@ -61,7 +61,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
 
             // Redirect to the address confirmation page
-            res.redirect(addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }
     } catch (err) {
         next(err);

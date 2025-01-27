@@ -7,7 +7,7 @@ import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/ac
 import { getCountryFromKey } from "../../utils/web";
 import { getAddressFromPostcode } from "../../services/postcode-lookup-service";
 import { addLangToUrl, selectLang } from "../../utils/localise";
-import { BASE_URL } from "../../types/pageURL";
+import { BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../types/pageURL";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export class AddressLookUpService {
@@ -80,7 +80,7 @@ export class AddressLookUpService {
                     this.saveCorrespondenceAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
                 }
 
-                return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
+                return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
@@ -97,7 +97,7 @@ export class AddressLookUpService {
                     };
                     acspDetails.serviceAddress = correspondenceAddress;
                 }
-                return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
+                return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
             }
 
         }).catch((err) => {

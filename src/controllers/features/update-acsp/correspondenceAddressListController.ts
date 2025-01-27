@@ -4,7 +4,7 @@ import { validationResult } from "express-validator";
 import { ACSP_DETAILS_UPDATED, ADDRESS_LIST } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import {
-    BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST,
+    UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST,
     UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
@@ -18,15 +18,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const addressList = session.getExtraData(ADDRESS_LIST);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const previousPage:string = addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
-        const currentUrl:string = BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST;
+        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+        const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST;
 
         res.render(config.CORRESPONDENCE_ADDRESS_LIST, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
             addresses: addressList,
-            correspondenceAddressManualLink: addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang)
+            correspondenceAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang)
         });
     } catch (err) {
         next(err);
@@ -37,12 +37,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const currentUrl:string = BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST;
+        const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST;
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
-        const previousPage:string = addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -51,7 +51,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 previousPage,
                 addresses: addressList,
-                correspondenceAddressManualLink: addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang),
+                correspondenceAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang),
                 pageProperties: pageProperties
             });
         } else {
@@ -62,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
 
             // Redirect to the address confirmation page
-            res.redirect(addLangToUrl(BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }
     } catch (err) {
         next(err);
