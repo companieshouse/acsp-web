@@ -18,7 +18,10 @@ const acspData: AcspData = {
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
-    }
+    },
+    amlSupervisoryBodies: [
+        { amlSupervisoryBody: "ACCA" }
+    ]
 };
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
@@ -67,6 +70,14 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
             lastName: "Doe"
         }
     };
+    beforeEach(() => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: () => acspData
+            };
+            next();
+        });
+    });
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -75,11 +86,11 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.header.location).toBe(BASE_URL + AML_BODY_DETAILS_CONFIRM + "?lang=en");
     });
 
-    it("should return status 400 for invalid input, empty value", async () => {
-        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: " " });
+    it("should return status 400 and display error message for empty membership number", async () => {
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: "" });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(400);
+        expect(res.status).toBe(400);
         expect(res.text).toContain("Enter the details for Association of Chartered Certified Accountants (ACCA)");
     });
 
