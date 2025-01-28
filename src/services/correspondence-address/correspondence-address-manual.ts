@@ -49,13 +49,13 @@ export class CorrespondenceAddressManualService {
 
     public getCorrespondenceManualAddressUpdate (acspDetails: AcspFullProfile) {
         return {
-            addressPropertyDetails: acspDetails?.serviceAddress?.premises,
-            addressLine1: acspDetails?.serviceAddress?.addressLine1,
-            addressLine2: acspDetails?.serviceAddress?.addressLine2,
-            addressTown: acspDetails?.serviceAddress?.locality,
-            addressCounty: acspDetails?.serviceAddress?.region,
-            countryInput: acspDetails?.serviceAddress?.country,
-            addressPostcode: acspDetails?.serviceAddress?.postalCode
+            addressPropertyDetails: acspDetails.serviceAddress?.premises,
+            addressLine1: acspDetails.serviceAddress?.addressLine1,
+            addressLine2: acspDetails.serviceAddress?.addressLine2,
+            addressTown: acspDetails.serviceAddress?.locality,
+            addressCounty: acspDetails.serviceAddress?.region,
+            countryInput: acspDetails.serviceAddress?.country,
+            addressPostcode: acspDetails.serviceAddress?.postalCode
         };
     }
 }
