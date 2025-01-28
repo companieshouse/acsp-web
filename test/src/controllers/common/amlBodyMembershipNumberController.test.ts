@@ -18,7 +18,10 @@ const acspData: AcspData = {
     applicantDetails: {
         firstName: "John",
         lastName: "Doe"
-    }
+    },
+    amlSupervisoryBodies: [
+        { amlSupervisoryBody: "ACCA" }
+    ]
 };
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
@@ -67,6 +70,14 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
             lastName: "Doe"
         }
     };
+    beforeEach(() => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: () => acspData
+            };
+            next();
+        });
+    });
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

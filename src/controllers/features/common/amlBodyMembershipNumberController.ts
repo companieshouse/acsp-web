@@ -61,7 +61,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            errorListDisplay(errorList.array(), acspData.amlSupervisoryBodies!, lang);
+            const amlSupervisoryBodyStrings = acspData.amlSupervisoryBodies!.map(body => body.amlSupervisoryBody).filter((body): body is string => body !== undefined);
+            errorListDisplay(errorList.array(), amlSupervisoryBodyStrings, lang);
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -93,14 +94,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string) => {
-    return errors.forEach((element) => {
-        const index = element.param.substr("membershipNumber_".length) - 1;
-        const selection = amlSupervisoryBodies[index].amlSupervisoryBody;
+const errorListDisplay = (errors: any[], amlSupervisoryBodies: string[], lang: string) => {
+    return errors.map((element) => {
+        const index = parseInt(element.param.substr("membershipNumber_".length)) - 1;
+        const selectionKey = amlSupervisoryBodies[index];
+        const selectionValue = AMLSupervisoryBodies[selectionKey as keyof typeof AMLSupervisoryBodies];
         element.msg = resolveErrorMessage(element.msg, lang);
-        element.msg = element.msg + selection;
+        element.msg = element.msg + selectionValue;
         return element;
-
     });
 };
 
