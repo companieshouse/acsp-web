@@ -70,7 +70,7 @@ describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     });
 
     it("should return status 400 for company number not found", async () => {
-        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Company number does not exist"));
+        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Company Not Found"));
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).send({ companyNumber: "08694860" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a valid company number");
