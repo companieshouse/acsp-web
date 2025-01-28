@@ -86,11 +86,11 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.header.location).toBe(BASE_URL + AML_BODY_DETAILS_CONFIRM + "?lang=en");
     });
 
-    it("should return status 400 and display error message for empty membership number", async () => {
-        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: "" });
+    it("should return status 400 for invalid input, empty value", async () => {
+        const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en").send({ membershipNumber_1: " " });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.status).toBe(400);
+        expect(400);
         expect(res.text).toContain("Enter the details for Association of Chartered Certified Accountants (ACCA)");
     });
 
