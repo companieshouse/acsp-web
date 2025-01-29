@@ -78,23 +78,27 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                         await acspDataService.saveAcspData(session, acspData);
                         res.redirect(nextPageUrl);
                     }
-                }).catch(() => {
-                const validationError : ValidationError[] = [{
-                    value: companyNumber,
-                    msg: "companyNumberDontExsits",
-                    param: "companyNumber",
-                    location: "body"
-                }];
-                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
+                }).catch((error) => {
+                if (error.message?.includes("Company Not Found")) {
+                    const validationError : ValidationError[] = [{
+                        value: companyNumber,
+                        msg: "companyNumberDontExsits",
+                        param: "companyNumber",
+                        location: "body"
+                    }];
+                    const pageProperties = getPageProperties(formatValidationError(validationError, lang));
 
-                res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
-                    previousPage,
-                    payload: req.body,
-                    title: "What is the company number?",
-                    ...getLocaleInfo(locales, lang),
-                    currentUrl,
-                    pageProperties: pageProperties
-                });
+                    res.status(400).render(config.LIMITED_COMPANY_NUMBER, {
+                        previousPage,
+                        payload: req.body,
+                        title: "What is the company number?",
+                        ...getLocaleInfo(locales, lang),
+                        currentUrl,
+                        pageProperties: pageProperties
+                    });
+                } else {
+                    next(error);
+                }
             });
         }
     } catch (err) {
