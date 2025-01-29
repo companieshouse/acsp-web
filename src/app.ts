@@ -19,8 +19,6 @@ import {
 } from "./utils/properties";
 import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
-import { getLocalesService, selectLang } from "./utils/localise";
-import { ErrorService } from "./services/errorService";
 import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
 import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
 import { updateAcspIsOwnerMiddleware } from "./middleware/update-acsp/update_acsp_is_owner_middleware";
@@ -30,7 +28,7 @@ import nocache from "nocache";
 import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
 
 import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
-import errorHandler from "./controllers/csrfErrorController";
+import errorHandler from "./controllers/errorController";
 const app = express();
 
 const nonce: string = uuidv4();
@@ -94,13 +92,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 routerDispatch(app);
 
 app.use(...errorHandler);
-
-// Unhandled errors
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const errorService = new ErrorService();
-    errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
-});
 
 // Unhandled exceptions
 process.on("uncaughtException", (err: any) => {

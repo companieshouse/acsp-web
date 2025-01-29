@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/localise";
-import { BASE_URL, CHECK_SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getSavedApplication } from "../../../services/transactions/transaction_service";
 import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
 
@@ -24,9 +24,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             logger.debug("its a new application");
             res.redirect(addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang));
         }
-    } catch (error) {
-        logger.error(JSON.stringify(error));
-        const exception = new ErrorService();
-        exception.renderErrorPage(res, locales, lang, BASE_URL + CHECK_SAVED_APPLICATION);
+    } catch (err) {
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        next(err);
     }
 };

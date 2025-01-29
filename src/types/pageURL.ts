@@ -58,6 +58,10 @@ export const CANNOT_SUBMIT_ANOTHER_APPLICATION = "/cannot-submit-another-applica
 
 export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
+export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
+
+export const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 

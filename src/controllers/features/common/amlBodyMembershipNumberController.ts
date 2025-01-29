@@ -7,7 +7,6 @@ import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACS
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
 import { validationResult } from "express-validator";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlSupervisoryBodyService } from "../../../services/amlSupervisoryBody/amlBodyService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
@@ -46,8 +45,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -63,7 +61,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
-            errorListDisplay(errorList.array(), acspData.amlSupervisoryBodies!, lang);
+            const amlSupervisoryBodyStrings = acspData.amlSupervisoryBodies!.map(body => body.amlSupervisoryBody).filter((body): body is string => body !== undefined);
+            errorListDisplay(errorList.array(), amlSupervisoryBodyStrings, lang);
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -91,19 +90,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
-const errorListDisplay = (errors: any[], amlSupervisoryBodies: AmlSupervisoryBody[], lang: string) => {
-    return errors.forEach((element) => {
-        const index = element.param.substr("membershipNumber_".length) - 1;
-        const selection = amlSupervisoryBodies[index].amlSupervisoryBody;
+const errorListDisplay = (errors: any[], amlSupervisoryBodies: string[], lang: string) => {
+    return errors.map((element) => {
+        const index = parseInt(element.param.substr("membershipNumber_".length)) - 1;
+        const selectionKey = amlSupervisoryBodies[index];
+        const selectionValue = AMLSupervisoryBodies[selectionKey as keyof typeof AMLSupervisoryBodies];
         element.msg = resolveErrorMessage(element.msg, lang);
-        element.msg = element.msg + selection;
+        element.msg = element.msg + selectionValue;
         return element;
-
     });
 };
 

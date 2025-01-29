@@ -20,7 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.UPDATE_ACSP_DETAILS_HOME, {
             ...getLocaleInfo(locales, lang),
-            currentUrl
+            currentUrl,
+            businessName: acspDetails.name
         });
     } catch (error) {
         logger.error(JSON.stringify(error));

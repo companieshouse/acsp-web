@@ -5,12 +5,11 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { BASE_URL, LIMITED_IS_THIS_YOUR_COMPANY, STOP_NOT_RELEVANT_OFFICER, LIMITED_WHAT_IS_YOUR_ROLE, LIMITED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
-import { POST_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { POST_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -44,8 +43,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             roleType: acspData?.roleType
         });
     } catch (err) {
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
+        next(err);
     }
 };
 
@@ -87,7 +86,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };

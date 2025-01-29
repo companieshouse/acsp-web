@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     // This ensures functionality until the page is ready, at which point we can handle null separately.
     const acspData: AcspData = session.getExtraData(USER_DATA) ? session.getExtraData(USER_DATA)! : {};
 
-    const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
+    const payload = new WhereDoYouLivBodyService().getCountryPayload(acspData);
     const reqType = REQ_TYPE_UPDATE_ACSP;
     res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
         ...getLocaleInfo(locales, lang),
@@ -30,7 +30,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         countryList: countryList,
         firstName: acspData?.applicantDetails?.firstName,
         lastName: acspData?.applicantDetails?.lastName,
-        countryInput,
         payload,
         reqType
     });

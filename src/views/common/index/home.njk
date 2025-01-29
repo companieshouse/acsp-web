@@ -61,7 +61,7 @@
           <strong>
             <a
               class="govuk-link govuk-link--no-visited-state home-page-img-link"
-              href="/v7/verify-identity-prototype"
+              href="{{verifyIdentityLink}}"
               id="verify-id">
               {{ i18n.verifyIdentityLink }}
             </a>
@@ -78,7 +78,7 @@
       <li>{{ i18n.giveDetailsBullet }}</li>
       <li>{{ i18n.amlBodiesBullet }}</li>
       <li>{{ i18n.amlMembershipNumberBullet }}</li>
-      <li>{{ i18n.registrationFeeBullet }}</li>
+      <li>{{ i18n.registrationFeeBullet | replace('XX', ACSP01_COST) }}</li>
     </ul>
     <div class="govuk-inset-text">
       {{ i18n.readThe }}<a href="https://www.gov.uk/guidance/register-as-an-authorised-agent" id="Read the guidance-id">{{ i18n.guidanceOnApplyingLink }}</a>{{ i18n.toCheckYouHave }}

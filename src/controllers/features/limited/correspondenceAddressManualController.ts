@@ -8,7 +8,6 @@ import { LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, LIMITED_CORRESPONDENCE_ADDRESS_
 import { Session } from "@companieshouse/node-session-handler";
 import { USER_DATA, SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -41,8 +40,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -81,7 +79,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };

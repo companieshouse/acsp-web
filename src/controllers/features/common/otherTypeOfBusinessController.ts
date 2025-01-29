@@ -7,7 +7,6 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import * as config from "../../../config";
 import { AcspDataService } from "../../../services/acspDataService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
-import { ErrorService } from "../../../services/errorService";
 import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, TYPE_OF_BUSINESS, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import logger from "../../../utils/logger";
@@ -42,8 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 
 };
@@ -88,7 +86,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };

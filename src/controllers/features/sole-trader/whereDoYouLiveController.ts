@@ -11,7 +11,6 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { ErrorService } from "../../../services/errorService";
 import { AcspDataService } from "../../../services/acspDataService";
 import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 
@@ -27,7 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
-        const { payload, countryInput } = new WhereDoYouLivBodyService().getCountryPayload(acspData);
+        const payload = new WhereDoYouLivBodyService().getCountryPayload(acspData);
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
@@ -35,13 +34,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             countryList: countryList,
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
-            countryInput,
             payload
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -83,7 +80,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
     } catch (err) {
         logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR + " " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };

@@ -10,7 +10,6 @@ import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { startPaymentsSession } from "../../../services/paymentService";
 import logger, { createAndLogError } from "../../../utils/logger";
-import { ErrorService } from "../../../services/errorService";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
@@ -37,10 +36,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervisoryBodies,
             PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID
         });
-    } catch {
+    } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
 
@@ -57,7 +55,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
         } else {
-            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(session, paymentUrl,
+            const paymentResponse: ApiResponse<Payment> = await startPaymentsSession(req, session, paymentUrl,
                 transactionId);
 
             if (!paymentResponse.resource) {
@@ -66,10 +64,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             res.redirect(paymentResponse.resource.links.journey);
         }
-
     } catch (err) {
         logger.error("Error starting payment session " + JSON.stringify(err));
-        const error = new ErrorService();
-        error.renderErrorPage(res, locales, lang, currentUrl);
+        next(err);
     }
 };
