@@ -12,10 +12,7 @@
         id: addressOption.premises,
         value: addressOption.premises,
         text: addressOption.premises + ", " + addressOption.addressLine1 + ", " + addressOption.locality + ", " + addressOption.postalCode,
-        checked: addressOption.premises == currentPremises,
-        attributes: {
-            "data-event-id": "address-option-" + addressOption.premises
-        }
+        checked: addressOption.premises == currentPremises
     } %}
     {% set ITEMS = ITEMS.concat(addressObject) %}
 {% endfor %}

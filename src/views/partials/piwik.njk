@@ -47,7 +47,7 @@
     $(function() {
       //  The condition below checks and prioritizes the customized Matomo analytics calls.
       //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
-      if (!$.isFunction(window.analyticsWithCustomisedMatomoText)){
+      if (!$.isFunction(window.analyticsWithCustomisedMatomoText) && !ignoreEverythingForThisPage){
 
           //  On the button click the button details are recorded.
           $("button").click(function() {
