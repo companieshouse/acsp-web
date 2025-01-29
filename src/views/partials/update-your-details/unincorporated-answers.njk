@@ -1,0 +1,179 @@
+{% set updateStatusTextForName = "" %}
+{% set updateStatusTextForCountryOfResidence = "" %}
+{% set updateStatusTextForCorrespondenceAddress = "" %}
+{% set updateStatusTextForCorrespondenceEmail = "" %}
+{% set updateStatusTextForBusinessAddress = "" %}
+{% set updateStatusTextForBusinessName = "" %}
+
+{% if profileDetails.name and profileDetailsUpdated.name !== profileDetails.name %}
+  {% set updateStatusTextForName =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+  {% set updateStatusTextForCorrespondenceAddress =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail %}
+  {% set updateStatusTextForCorrespondenceEmail =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress %}
+  {% set updateStatusTextForBusinessAddress =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
+  {% set updateStatusTextForBusinessName =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+
+<h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+  {{ govukSummaryList({
+      rows: [
+      {
+          key: {
+            text: i18n.updateYourDetailsName,
+            classes: "govuk-!-width-one-third"
+          },
+          value: {
+            html: profileDetails.name + updateStatusTextForName,
+            classes: "govuk-!-width-one-third"
+          },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsName
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsName
+              }if profileDetailsUpdated.name !== profileDetails.name
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }if profileDetails.name,
+      {
+        key: {
+          text: i18n.updateYourDetailsCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.correspondenceAddress + updateStatusTextForCorrespondenceAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateDetailsCorrespondenceEmail,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.correspondenceEmail + updateStatusTextForCorrespondenceEmail,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+              }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsBusinessAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.businessAddress + updateStatusTextForBusinessAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
+              }if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress
+            ],
+          classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsNameOfBusiness,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetails.businessName + updateStatusTextForBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "#",
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
+              },
+              {
+                href: "#",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
+              }if profileDetailsUpdated.businessName !== profileDetails.businessName
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      }
+    ]
+    })
+}}
