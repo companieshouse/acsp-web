@@ -21,7 +21,9 @@
       {% if userEmail %}
         {% include "partials/nav/top.njk" %}
       {% endif %}
-        {% include "locales-banner.njk" %}
+        {% block localesBanner %}
+          {% include "locales-banner.njk" %}
+        {% endblock %}
         {% block backLink %}
           <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
         {% endblock %}

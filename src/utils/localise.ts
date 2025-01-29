@@ -3,8 +3,10 @@ import { LOCALES_ENABLED, LOCALES_PATH } from "./properties";
 
 export const selectLang = (lang: any): string => {
     switch (lang) {
-    case "cy": return "cy";
+    case "cy":
+    case "cy?lang=cy": return "cy";
     case "en":
+    case "en?lang=en": return "en";
     default: return "en";
     }
 };

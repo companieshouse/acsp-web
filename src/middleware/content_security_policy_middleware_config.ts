@@ -6,6 +6,9 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
 
+    const CHS_SIGN_IN = `${CHS_URL}/signin`;
+    const OAUTH_AUTHORIZE = `${ACCOUNT_URL}/oauth2/authorize`;
+    const OAUTH_CHOOSE_SIGN_IN = `${ACCOUNT_URL}/oauth2/user/choose-your-signin`;
     const OAUTH_USER_CALL_BACK = `${CHS_URL}/user/callback`;
 
     return {
@@ -16,8 +19,9 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 fontSrc: [CDN_HOST],
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
-                connectSrc: [SELF, PIWIK_URL],
-                formAction: [SELF, PIWIK_CHS_DOMAIN, CHS_URL, ACCOUNT_URL, OAUTH_USER_CALL_BACK],
+                connectSrc: [SELF, PIWIK_URL, CHS_URL],
+                formAction: [SELF, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
+                    CHS_SIGN_IN, OAUTH_AUTHORIZE, OAUTH_CHOOSE_SIGN_IN],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }

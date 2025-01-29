@@ -9,6 +9,7 @@ import { API_URL } from "../../../src/utils/properties";
 import { dummyPayment } from "../../mocks/payment_mock";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../../../src/types/pageURL";
 import { PAYEMNT_REFERENCE } from "../../../src/common/__utils/constants";
+import { mockRequest } from "../../mocks/request.mock";
 
 jest.mock("../../../src/utils/logger");
 jest.mock("../../../src/services/apiService");
@@ -63,6 +64,7 @@ const dummyPaymentResult = {
 };
 
 let session: any;
+const req = mockRequest();
 
 describe("Payment Service tests", () => {
 
@@ -76,9 +78,9 @@ describe("Payment Service tests", () => {
         it("Should return a successful response", async () => {
             dummyApiResponse.httpStatusCode = 200;
             mockCreatePaymentWithFullUrl.mockResolvedValueOnce(dummyPaymentResult);
-            const apiResponse: ApiResponse<Payment> = await startPaymentsSession(session,
+            const apiResponse: ApiResponse<Payment> = await startPaymentsSession(req, session,
                 PAYMENT_SESSION_URL, TRANSACTION_ID);
-
+            expect(apiResponse).toBeDefined();
             expect(apiResponse.httpStatusCode).toBe(200);
             expect(apiResponse.resource).toBe(dummyPayment);
             expect(apiResponse.headers).toBe(dummyHeaders);
@@ -86,7 +88,7 @@ describe("Payment Service tests", () => {
             expect(mockCreatePaymentApiClient).toHaveBeenCalledWith(session, PAYMENT_SESSION_URL);
 
             const paymentRequest: CreatePaymentRequest = mockCreatePaymentWithFullUrl.mock.calls[0][0];
-            expect(paymentRequest.redirectUri).toBe("http://chs.local" + BASE_URL + PAYMENT_CALLBACK_URL);
+            expect(paymentRequest.redirectUri).toBe("http://chs.local" + BASE_URL + PAYMENT_CALLBACK_URL + "?lang=en");
             expect(paymentRequest.reference).toBe(REFERENCE);
             expect(paymentRequest.resource).toBe(API_URL + PAYMENT_RESOURCE_URI);
             expect(paymentRequest.state).toBe(UUID);
@@ -97,7 +99,7 @@ describe("Payment Service tests", () => {
             mockIsFailure.mockReturnValueOnce(true);
             mockCreatePaymentWithFullUrl.mockResolvedValueOnce(dummyPaymentResult);
 
-            await expect(startPaymentsSession(session,
+            await expect(startPaymentsSession(req, session,
                 PAYMENT_SESSION_URL, TRANSACTION_ID))
                 .rejects
                 .toThrow(ERROR);
@@ -110,7 +112,7 @@ describe("Payment Service tests", () => {
             mockIsFailure.mockReturnValueOnce(true);
             mockCreatePaymentWithFullUrl.mockResolvedValueOnce(dummyPaymentResult);
 
-            await expect(startPaymentsSession(session,
+            await expect(startPaymentsSession(req, session,
                 PAYMENT_SESSION_URL, TRANSACTION_ID))
                 .rejects
                 .toThrow(ERROR);
@@ -123,7 +125,7 @@ describe("Payment Service tests", () => {
             mockIsFailure.mockReturnValueOnce(true);
             mockCreatePaymentWithFullUrl.mockResolvedValueOnce(dummyPaymentResult);
 
-            await expect(startPaymentsSession(session,
+            await expect(startPaymentsSession(req, session,
                 PAYMENT_SESSION_URL, TRANSACTION_ID))
                 .rejects
                 .toThrow(ERROR);

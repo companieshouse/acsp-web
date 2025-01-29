@@ -54,6 +54,8 @@ export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
 
 export const PIWIK_CHS_DOMAIN = getEnvironmentValue("PIWIK_CHS_DOMAIN", "*.chs.local");
 
+export const ACSP01_COST = getEnvironmentValue("ACSP01_COST", "50.00");
+
 // Matomo
 
 export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "https://matomo.identity.aws.chdev.org/");

@@ -3,18 +3,21 @@ import { CreatePaymentRequest, Payment } from "@companieshouse/api-sdk-node/dist
 import { ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { Session } from "@companieshouse/node-session-handler";
 import logger, { createAndLogError } from "../utils/logger";
+import { Request } from "express";
 import { createPaymentApiClient } from "./apiService";
 import { API_URL, CHS_URL } from "../utils/properties";
 import { v4 as uuidv4 } from "uuid";
 import { BASE_URL, PAYMENT_CALLBACK_URL } from "../types/pageURL";
 import { PAYEMNT_REFERENCE } from "../common/__utils/constants";
+import { addLangToUrl, selectLang } from "../utils/localise";
 
-export const startPaymentsSession = async (session: Session, paymentSessionUrl: string,
+export const startPaymentsSession = async (req: Request, session: Session, paymentSessionUrl: string,
     transactionId: string): Promise<ApiResponse<Payment>> => {
     logger.debug("Starting payment session for transaction: " + transactionId);
     const apiClient: ApiClient = createPaymentApiClient(session, paymentSessionUrl);
     const reference: string = PAYEMNT_REFERENCE + transactionId;
-    const redirectUri: string = CHS_URL + BASE_URL + PAYMENT_CALLBACK_URL;
+    const lang = selectLang(req.query.lang);
+    const redirectUri: string = addLangToUrl(CHS_URL + BASE_URL + PAYMENT_CALLBACK_URL, lang);
     const paymentResourceUri: string = `/transactions/${transactionId}/payment`;
     const resourceWithHost = API_URL + paymentResourceUri;
 

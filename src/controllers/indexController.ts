@@ -7,7 +7,7 @@ import {
     getLocalesService,
     selectLang
 } from "../utils/localise";
-import { PIWIK_REGISTRATION_START_GOAL_ID } from "../utils/properties";
+import { ACSP01_COST, PIWIK_REGISTRATION_START_GOAL_ID } from "../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -19,7 +19,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL,
         PIWIK_REGISTRATION_START_GOAL_ID,
-        verifyIdentityLink
+        verifyIdentityLink,
+        ACSP01_COST
     });
 };
 
