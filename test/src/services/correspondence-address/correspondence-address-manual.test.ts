@@ -2,11 +2,13 @@ import { Request } from "express";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { CorrespondenceAddressManualService } from "../../../../src/services/correspondence-address/correspondence-address-manual";
 import { createRequest, MockRequest } from "node-mocks-http";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 describe("CorrespondenceAddressManualService", () => {
     let service: CorrespondenceAddressManualService;
     let req: MockRequest<Request>;
     let acspData: AcspData;
+    let acspDetails: AcspFullProfile;
 
     beforeEach(() => {
         service = new CorrespondenceAddressManualService();
@@ -29,6 +31,16 @@ describe("CorrespondenceAddressManualService", () => {
                     postalCode: "TE5 5TL"
                 }
             }
+        };
+        acspDetails = {
+            number: "",
+            name: "",
+            status: "",
+            type: "",
+            notifiedFrom: new Date(),
+            email: "",
+            amlDetails: [],
+            registeredOfficeAddress: {}
         };
     });
 
@@ -124,6 +136,70 @@ describe("CorrespondenceAddressManualService", () => {
             addressTown: undefined,
             addressCounty: undefined,
             addressCountry: undefined,
+            addressPostcode: undefined
+        });
+    });
+
+    test("saveCorrespondenceManualAddressUpdate correctly saves address to acspDetails", () => {
+        req.body = {
+            addressPropertyDetails: "Suite 200",
+            addressLine1: "456 Example St",
+            addressLine2: "Suite 300",
+            addressTown: "Example",
+            addressCounty: "Example",
+            countryInput: "Example",
+            addressPostcode: "EX1 1EX"
+        };
+
+        service.saveCorrespondenceManualAddressUpdate(req, acspDetails);
+
+        expect(acspDetails.serviceAddress).toEqual({
+            premises: "Suite 200",
+            addressLine1: "456 Example St",
+            addressLine2: "Suite 300",
+            locality: "Example",
+            region: "Example",
+            country: "Example",
+            postalCode: "EX1 1EX"
+        });
+    });
+
+    test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
+        acspDetails.serviceAddress = {
+            premises: "Suite 100",
+            addressLine1: "123 Test St",
+            addressLine2: "Apt 4",
+            locality: "Test",
+            region: "Test",
+            country: "Test",
+            postalCode: "TE5 5TL"
+        };
+
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails);
+
+        expect(retrievedAddressUpdate).toEqual({
+            addressPropertyDetails: "Suite 100",
+            addressLine1: "123 Test St",
+            addressLine2: "Apt 4",
+            addressTown: "Test",
+            addressCounty: "Test",
+            countryInput: "Test",
+            addressPostcode: "TE5 5TL"
+        });
+    });
+
+    test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
+        acspDetails.serviceAddress = undefined;
+
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails);
+
+        expect(retrievedAddressUpdate).toEqual({
+            addressPropertyDetails: undefined,
+            addressLine1: undefined,
+            addressLine2: undefined,
+            addressTown: undefined,
+            addressCounty: undefined,
+            countryInput: undefined,
             addressPostcode: undefined
         });
     });
