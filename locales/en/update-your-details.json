@@ -20,6 +20,9 @@
     "goBackToAuthorisedAgentServices": "Go back to authorised agent services",
     "updatedWarningCaption": "Details updated",
     "updatedWarningNoteLineOne": "Pending until submitted",
-    "updatedWarningNoteLineTwo": " and accepted"
+    "updatedWarningNoteLineTwo": " and accepted",
+    "updateAMLDetailsRemoved": " Removed",
+    "updateAMLDetailsStatusLineOne": "Pending until submitted",
+    "updateAMLDetailsStatusLineTwo": "and accepted"
 
 }

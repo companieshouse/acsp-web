@@ -1,7 +1,12 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-
+  {% set updateAMLDetailsStatusText =
+                "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
+                <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                </div>"
+  %}
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
     {% set amlSummaryObject = {
@@ -10,6 +15,7 @@
         },
         value: {
             html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.supervisoryBody + "</li><li>" + body.membershipDetails + "</li></ul>"
+            +updateAMLDetailsStatusText
         },
         actions: {
             items: [
