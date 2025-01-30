@@ -65,7 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.getAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, false,
+            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, false,
                 UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);

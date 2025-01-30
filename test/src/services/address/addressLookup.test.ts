@@ -124,13 +124,13 @@ describe("addressLookupService tests", () => {
             await expect(service.getAddressFromPostcode(req, "postcode", "1", {}, true, "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
         });
     });
-    describe("getAddressFromPostcodeUpdateJourney tests", () => {
+    describe("processAddressFromPostcodeUpdateJourney tests", () => {
         it("should return the first next page URL when a valid premise is found for business address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.getAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage1?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
@@ -150,7 +150,7 @@ describe("addressLookupService tests", () => {
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.getAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage1?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
@@ -170,7 +170,7 @@ describe("addressLookupService tests", () => {
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.getAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
@@ -185,7 +185,7 @@ describe("addressLookupService tests", () => {
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.getAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
@@ -198,7 +198,7 @@ describe("addressLookupService tests", () => {
         it("should throw an error when getAddressFromPostcode fails", async () => {
             (getAddressFromPostcode as jest.Mock).mockRejectedValue(new Error("Failed to fetch addresses"));
 
-            await expect(service.getAddressFromPostcodeUpdateJourney(req, "postcode", "1", dummyFullProfile, true, "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
+            await expect(service.processAddressFromPostcodeUpdateJourney(req, "postcode", "1", dummyFullProfile, true, "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
         });
     });
 });

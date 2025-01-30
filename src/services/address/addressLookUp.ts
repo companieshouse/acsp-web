@@ -70,7 +70,7 @@ export class AddressLookUpService {
         });
     }
 
-    public getAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, acspDetails: AcspFullProfile, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
+    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, acspDetails: AcspFullProfile, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
