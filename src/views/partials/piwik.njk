@@ -99,7 +99,7 @@
 
           if(boxDetailsForAnalytics.size > 0){
             boxDetailsForAnalytics.forEach((values, keys) => {
-                _paq.push([keys, eventCategory, values]);
+                _paq.push(["trackEvent", eventCategory,values, keys]);
             });
           }
 
@@ -118,7 +118,7 @@
               if(!idHref){
                 idHref = "NA"
               }
-              _paq.push([idHref, eventCategory, textOnHrefClick]);
+              _paq.push(["trackEvent", eventCategory, textOnHrefClick]);
             }
           });
       }
