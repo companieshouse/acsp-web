@@ -1,0 +1,69 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+
+{% set amlList = [] %}
+{% for body in acspFullProfile.amlDetails %}
+    {% set amlSummaryObject = {
+        key: {
+            text:  i18n.checkYourAnswersAMLTab
+        },
+        value: {
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.supervisoryBody + "</li><li>" + body.membershipDetails + "</li></ul>"
+        },
+        actions: {
+            items: [
+            {
+                href: "#",
+                text: i18n.updateYourDetailsRemove,
+                visuallyHiddenText: body.supervisoryBody
+            }
+            ]
+        }
+    } %}
+    {% set amlList = amlList.concat(amlSummaryObject) %}
+{% endfor %}
+
+{% set title = i18n.updateYourDetailsHeading %}
+{% block main_content %}
+    <form action="" method="post">
+        <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
+        <div class="govuk-inset-text">
+            <p class="govuk-body">
+                {{ i18n.updateYourDetailsNote }}
+            </p>
+        </div>
+        {% if acspFullProfile.type === "sole-trader" %}
+            {% include "partials/update-your-details/sole-trader-answers.njk" %}
+        {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
+            {% include "partials/update-your-details/limited-answers.njk" %}
+        {% elif acspFullProfile.type === "limited-partnership" or acspFullProfile.type === "unincorporated-entity" or acspFullProfile.type === "non-registered-partnership" %}
+            {% include "partials/update-your-details/unincorporated-answers.njk" %}
+        {% endif %}
+        <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+        <div class="govuk-button-group"> 
+            {{ govukButton({
+                text: i18n.addNewAMLDetails,
+                classes: "govuk-button--secondary",
+                id:"add-new-aml-details"
+                }) }}
+            {{ govukButton({
+                text: i18n.goBackToAuthorisedAgentServices,
+                classes: "govuk-button--secondary",
+                id:"go-back-to-authorised-agent-services"
+                }) }}
+        </div>
+        {{ govukSummaryList({
+            rows: amlList
+        })}}
+        {% if updateFlag === true %}
+            <div class="govuk-button-group"> 
+                {{ govukButton({
+                    text: i18n.updateYourDetailsContinue,
+                    id:"update-acsp-details"
+                    }) }}
+                <a class="govuk-link" href="#" id="cancel-id">{{i18n.Cancel}}</a>
+            </div>
+        {% endif %}
+    </form>
+{% endblock main_content %}

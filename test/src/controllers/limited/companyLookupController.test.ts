@@ -70,10 +70,26 @@ describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     });
 
     it("should return status 400 for company number not found", async () => {
-        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Company number does not exist"));
+        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Company Not Found"));
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).send({ companyNumber: "08694860" });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a valid company number");
+    });
+
+    it("should return status 400 and render the page with validation error when company not found", async () => {
+        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Company Not Found"));
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).send({ companyNumber: "08694860" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("What is the company number?");
+        expect(res.text).toContain("Enter a valid company number");
+        expect(res.text).toContain("08694860");
+    });
+
+    it("should handle unexpected errors in the catch block and pass them to the next middleware", async () => {
+        mockGetCompanyDetails.mockRejectedValueOnce(new Error("Unexpected Error"));
+        const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).send({ companyNumber: "08694860" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
     it("should return status 400 for invalid company number", async () => {

@@ -4,22 +4,17 @@ process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_ACSP_CHANGE_DETAILS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
+import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { USER_DATA } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
+import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 
 const router = supertest(app);
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     it("should return status 200", async () => {
         const session = getSessionRequestWithPermission();
-        session.setExtraData(USER_DATA, {
-            applicantDetails: {
-                firstName: "John",
-                lastName: "Doe",
-                countryOfResidence: "Wales"
-            }
-        });
+        session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -31,14 +26,14 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
     it("should return status 302 after redirect", async () => {
         const session = getSessionRequestWithPermission();
-        session.setExtraData(USER_DATA, {});
+        session.setExtraData(ACSP_DETAILS, {});
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE)
             .send({ whereDoYouLiveRadio: "Wales" });
         expect(res.status).toBe(302);
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
 
     });
 

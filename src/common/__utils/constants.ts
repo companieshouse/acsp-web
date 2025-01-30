@@ -8,6 +8,7 @@ export const SUBMISSION_ID: string = "submissionID";
 export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction record for company ";
 export const USER_DATA = "user";
 export const ACSP_DETAILS = "acspDetails";
+export const ACSP_DETAILS_UPDATED = "updatedAcspDetails";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";
@@ -32,3 +33,7 @@ export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };
 export const REQ_TYPE_UPDATE_ACSP:string = "updateAcsp";
+export const ACSP_PROFILE_TYPE_LIMITED_COMPANY:string = "limited-company";
+export const ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP:string = "limited-liability-partnership";
+export const ACSP_PROFILE_TYPE_CORPORATE_BODY:string = "corporate-body";
+export const ACSP_PROFILE_TYPE_SOLE_TRADER:string = "sole-trader";
