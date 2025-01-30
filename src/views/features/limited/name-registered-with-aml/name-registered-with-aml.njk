@@ -40,11 +40,4 @@
         id:"save-continue-button"
       }) }}
   </form>
-
-  <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("name-of-the-business-option-id", "{{title}}", "select-option", "name-of-the-business");
-    trackEventBasedOnPageTitle("different-name-option-id", "{{title}}", "select-option", "different-name");
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Name registered with AML");
-  </script>
-
-{% endblock main_content %}
+  {% endblock main_content %}

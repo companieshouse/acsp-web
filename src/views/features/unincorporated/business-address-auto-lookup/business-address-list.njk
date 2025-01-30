@@ -12,10 +12,7 @@
         id: addressOption.premises,
         value: addressOption.premises,
         text: addressOption.premises + ", " + addressOption.addressLine1 + ", " + addressOption.locality + ", " + addressOption.postalCode,
-        checked: addressOption.premises == currentPremises,
-        attributes: {
-            "data-event-id": "address-option-" + addressOption.premises
-        }
+        checked: addressOption.premises == currentPremises
     } %}
     {% set ITEMS = ITEMS.concat(addressObject) %}
 {% endfor %}
@@ -54,7 +51,6 @@
 
 <script nonce={{ nonce | dump | safe }}>
     trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - Address business");
 </script>
 
 {% endblock main_content %}

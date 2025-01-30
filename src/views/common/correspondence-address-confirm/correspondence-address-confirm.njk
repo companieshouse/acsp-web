@@ -29,9 +29,7 @@
       id:"save-continue-button"
     }) }}
   </form>
-
   <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "CONFIRM AND CONTINUE - address correspondence confirm");
     trackEventBasedOnPageTitle("edit-address-link", "{{title}}", "click-link", "EDIT ADDRESS - edit correspondence address");
   </script>
 

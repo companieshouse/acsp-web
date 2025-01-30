@@ -56,10 +56,4 @@
         </div>
         <button class="govuk-button" id="save-continue-button">{{ i18n.SaveAndContinue}}</button>
     </form>
-
-    <script nonce={{ nonce | dump | safe }}>
-        trackEventBasedOnPageTitle("different-address-id", "{{title}}", "select-option", "different-address");
-        trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE");
-    </script>
-    
 {% endblock main_content %}

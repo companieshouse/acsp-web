@@ -44,7 +44,7 @@
     </form>
 
 <script type="text/javascript" nonce={{ nonce | dump | safe }}>
-
+    ignoreRadioButtonForThisPage = true;
     function continueEventListener () {
         document.getElementById("save-continue-button").addEventListener("click", () => {
             const selectedOption = document.querySelector('input[name="otherTypeOfBusinessRadio"]:checked');
@@ -67,10 +67,6 @@
         }
         _paq.push(['trackGoal', goalId]);
     }
-   
-    trackEventBasedOnPageTitle("UNINCORPORATED", "{{title}}", "select-option", "Unincorporated Entity");
-    trackEventBasedOnPageTitle("CORPORATE_BODY", "{{title}}", "select-option", "Corporate Body");
-    trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER TYPE");
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function (e) {

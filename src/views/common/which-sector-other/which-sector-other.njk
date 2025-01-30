@@ -58,26 +58,6 @@
     </form>
 
     <script nonce={{ nonce | dump | safe }}>
-      let selectedRadio = null;
-
-      // Function to track Matomo analytics based on the selected radio button
-      function trackRadioSelection() {
-        const radioButtons = document.querySelectorAll('input[name="whichSectorOther"]'); 
-        radioButtons.forEach((radio) => {
-          radio.addEventListener("click", (event) => {
-            // Set selectedRadio to the capture the properties of the selected radio button 
-            selectedRadio = event.target;
-            // Capture the text content of the selected radio button
-            const labelText = document.querySelector(`label[for="${selectedRadio.id}"]`).textContent.trim();     
-            // Track event based on the selected radio button id and text content
-            trackEventBasedOnRadioId(selectedRadio.id, "{{title}}", "select-option", labelText);
-          });
-        });
-      }
-
-      trackRadioSelection();
-      trackEventBasedOnPageTitle("save-continue-button", "{{title}}", "click-button", "SAVE AND CONTINUE - OTHER SECTOR");
       trackEventBasedOnPageTitle("back-link-id", "{{title}}", "click-link", "Back to main business sector");
     </script>
-
 {% endblock main_content %}
