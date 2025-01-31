@@ -18,7 +18,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     return {
         contentSecurityPolicy: {
             directives: {
-                upgradeInsecureRequests: [],
+                upgradeInsecureRequests: null,
                 defaultSrc: [SELF],
                 fontSrc: [CDN_HOST],
                 imgSrc: [CDN_HOST],
