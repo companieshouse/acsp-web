@@ -16,6 +16,7 @@ import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
 import { correspondenceAddressListValidator } from "../validation/correspondanceAddressList";
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
+import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
 
 const updateRoutes = Router();
 
@@ -44,6 +45,6 @@ updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddre
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
-updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.post);
+updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
 export default updateRoutes;
