@@ -10,6 +10,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const OAUTH_AUTHORIZE = `${ACCOUNT_URL}/oauth2/authorize`;
     const OAUTH_CHOOSE_SIGN_IN = `${ACCOUNT_URL}/oauth2/user/choose-your-signin`;
     const OAUTH_USER_CALL_BACK = `${CHS_URL}/user/callback`;
+    const REGISTER_URL = `${CHS_URL}/register-as-companies-house-authorised-agent`;
 
     return {
         contentSecurityPolicy: {
@@ -20,7 +21,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: [SELF, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
+                formAction: [SELF, REGISTER_URL, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
                     CHS_SIGN_IN, OAUTH_AUTHORIZE, OAUTH_CHOOSE_SIGN_IN],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
