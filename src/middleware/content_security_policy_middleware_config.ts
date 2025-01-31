@@ -11,7 +11,8 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const OAUTH_AUTHORIZE = `${ACCOUNT_URL}/oauth2/authorize`;
     const OAUTH_CHOOSE_SIGN_IN = `${ACCOUNT_URL}/oauth2/user/choose-your-signin`;
     const OAUTH_USER_CALL_BACK = `${CHS_URL}/user/callback`;
-    const REGISTER_URL = CHS_URL + BASE_URL;
+    const HAS_IDENTITY_BEEN_VERIFIED = `${ACCOUNT_URL}/identity-verification/redirect/has-identity-been-verified`;
+    const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
 
     return {
         contentSecurityPolicy: {
@@ -22,9 +23,9 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                // formAction: [SELF, REGISTER_URL, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
-                //     CHS_SIGN_IN, OAUTH_AUTHORIZE, OAUTH_CHOOSE_SIGN_IN],
-                formAction: ["*"],
+                formAction: [SELF, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
+                    CHS_SIGN_IN, OAUTH_AUTHORIZE, OAUTH_CHOOSE_SIGN_IN,
+                    HAS_IDENTITY_BEEN_VERIFIED, VERIFY_IDENTITY],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
