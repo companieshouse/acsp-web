@@ -15,6 +15,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const CHECK_SAVED_APPLICAITON_CSP = CHS_URL + BASE_URL + CHECK_SAVED_APPLICATION;
     const SAVED_APPLICATION_CSP = CHS_URL + BASE_URL + SAVED_APPLICATION;
 
+
     return {
         contentSecurityPolicy: {
             directives: {
