@@ -14,6 +14,9 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const HAS_IDENTITY_BEEN_VERIFIED = `${ACCOUNT_URL}/identity-verification/redirect/has-identity-been-verified`;
     const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
 
+    const ALL_CHS_URLS = `${CHS_URL}/*`;
+    const ALL_CHS_ACCOUNT_URLS = `${ACCOUNT_URL}/*`;
+
     return {
         contentSecurityPolicy: {
             directives: {
@@ -23,9 +26,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: [SELF, CHS_URL, PIWIK_CHS_DOMAIN, OAUTH_USER_CALL_BACK,
-                    CHS_SIGN_IN, OAUTH_AUTHORIZE, OAUTH_CHOOSE_SIGN_IN,
-                    HAS_IDENTITY_BEEN_VERIFIED, VERIFY_IDENTITY],
+                formAction: [SELF, PIWIK_CHS_DOMAIN, ALL_CHS_URLS, ALL_CHS_ACCOUNT_URLS],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
