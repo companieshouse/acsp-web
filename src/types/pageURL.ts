@@ -184,3 +184,5 @@ export const UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP = "/correspondence-address-loo
 export const UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM = "/confirm-your-correspondence-address";
 
 export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-address";
+
+export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
