@@ -9,13 +9,13 @@
     "technicalDifficuliesText1": "Ceisiwch eto mewn ychydig funudau.",
     "technicalDifficuliesText2": "Os yw'r broblem hon yn parhau anfonwch e-bost i enquiries@companieshouse.gov.uk.",
     
-    "tryAgainLater": "Try again later welsh.",
-    "sorrySomethingWentWrong":"Sorry, something went wrong welsh",
-    "weHaveNotBeenAbleToSave":"We have not been able to save the information you submitted on the previous screen. This may be because the page was inactive for too long, or because of a technical issue. welsh",
-    "tryTheFollowing":"Try the following: welsh",
-    "useTheBackLink":"use the back link to return to the previous screen and resubmit the information welsh",
-    "signOutOfTheService":"sign out of the service, and then sign back in welsh",
-    "ifTheProblemContinues":"If the problem continues, welsh",
-    "contactUsLink":"contact us welsh",
-    "forHelp":"for help. welsh"
+    "tryAgainLater": "Ceisiwch eto yn nes ymlaen.",
+    "sorrySomethingWentWrong":"Mae'n ddrwg gennym, aeth rhywbeth o'i le",
+    "weHaveNotBeenAbleToSave":"Nid ydym wedi gallu cadw'r wybodaeth a gyflwynwyd gennych ar y sgrin flaenorol. Gall hyn fod oherwydd roedd y dudalen yn anweithredol am gyfnod rhy hir, neu oherwydd mater technegol",
+    "tryTheFollowing":"Rhowch gynnig ar y canlynol:",
+    "useTheBackLink":"Defnyddiwch y ddolen nôl i ddychwelyd i'r sgrin flaenorol ac ailgyflwynwch y wybodaeth",
+    "signOutOfTheService":"allgofnodwch o'r gwasanaeth, ac yna mewngofnodwch eto",
+    "ifTheProblemContinues":"Os yw'r broblem yn parhau",
+    "contactUsLink":"cysylltwch â ni",
+    "forHelp":"am help"
 }
