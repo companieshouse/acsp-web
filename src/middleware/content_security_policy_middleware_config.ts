@@ -1,7 +1,5 @@
 import { HelmetOptions } from "helmet";
 import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL, ACCOUNT_URL } from "../utils/properties";
-import { BASE_URL, CHECK_SAVED_APPLICATION, SAVED_APPLICATION } from "../types/pageURL";
-import { url } from "inspector";
 
 export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
