@@ -41,11 +41,4 @@
       id: "save-continue-button"
     }) }}
   </form>
-
-  <script nonce={{ nonce | dump | safe }}>
-    document.querySelectorAll('input[type="checkbox"][id^="aml"]').forEach(function (checkbox) {
-      trackEventBasedOnPageTitle(checkbox.id, "{{title}}","select-option", checkbox.value);
-    });
-  </script>
-
-{% endblock main_content %}
+  {% endblock main_content %}

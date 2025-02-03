@@ -53,8 +53,4 @@
       <a href={{correspondenceAddressManualLink}} class="govuk-link" id="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
     </p>
   </form>
-  <script nonce={{ nonce | dump | safe }}>
-    trackEventBasedOnPageTitle("manual-address-id", "{{title}}", "click-link", "Enter address manually");
-  </script>
-
-{% endblock %}
+  {% endblock %}

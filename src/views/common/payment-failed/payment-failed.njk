@@ -17,9 +17,4 @@
         <a id="your-filings-link-id" href={{yourFilingsUrl}}>{{ i18n.paymentFailedYourFilingsLink }}</a>
         {{ i18n.paymentFailedCompletePayment }}
     </p>
-
-    <script nonce={{ nonce | dump | safe }}>
-        trackEventBasedOnPageTitle("your-filings-link-id", "{{title}}", "click-link", "Your Filings link");
-    </script>
-
 {% endblock main_content %}
