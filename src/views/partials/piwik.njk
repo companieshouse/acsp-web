@@ -36,19 +36,13 @@
     var suffixForSubmitButtonOnRadioSelection = "";
 
 //  Add the id of a specific element needs Obliteration.
-    var hardObliterationForASpecificVariable = ["whatsTheBusinessNameRadio","name-of-the-business-option-id"];
+    var hardObliterationForASpecificVariable = ["whatsTheBusinessNameRadio","name-of-the-limited-business-option-id"];
 
 //  In a situation where any particular element(e.g radio or checkbox button) of a page should be ignored for analytics to record
-//  the following flags are needed to be set as true in that njk page.
-    var ignoreEverythingForThisPage = false;
+//  the following flag(s) are needed to be set as true in the njk page where any element(s) needed to be ignored, e.g. radio button as below
     var ignoreRadioButtonForThisPage = false;
-    var ignoreSubmitButtonForThisPage = false;
     
     $(function() {
-      //  The condition below checks and prioritizes the customized Matomo analytics calls.
-      //  It has to be defined under "analyticsWithCustomisedMatomoText()" function in the page where the customization is needed.
-      if (!$.isFunction(window.analyticsWithCustomisedMatomoText) && !ignoreEverythingForThisPage){
-
           //  On the button click the button details are recorded.
           $("button").click(function() {
             eventNameBtn = $(this).text().toUpperCase();
@@ -58,15 +52,15 @@
 
           //  The block below covers the Matomo analysis for the readio element.
           if ($("input[type='radio']:checked").length > 0) {
-
               suffixForSubmitButtonOnRadioSelection = "-"+$(this).find("input[type='radio']:checked").attr('value');
-
               if(!ignoreRadioButtonForThisPage){
                 // Initial check for the restricted variables
                 if(hardObliterationForASpecificVariable.indexOf(
                   $(this).find("input[type='radio']:checked").siblings("label").attr('for')
                   ) > -1){
                     textOnRadioSelection = genericEradicationReplacementText;
+                }else if($(this).find("input[type='radio']:checked").next().children("span").attr("id") === "partial_obliteration"){
+                  textOnRadioSelection = $(this).find("input[type='radio']:checked").next().children("span").html() + genericEradicationReplacementText;
                 }else{
                     textOnRadioSelection = 
                             matomoObliteration(
@@ -88,7 +82,6 @@
             _paq.push(["trackEvent", eventCategory, eventNameBtn]);
           }
         });
-      }
     });
 
     function matomoObliteration(textToBeChecked){
@@ -101,26 +94,15 @@
         //  for Email
         if(/^\S+@\S+\.\S+$/.test(textToBeChecked)){
           suffixForSubmitButtonOnRadioSelection = "";
-          return eradicationReplacementText;
+          return genericEradicationReplacementText;
         }
         
         //  for address
         if(/,\s[A-Z0-9]+[A-Z0-9]+/.test(textToBeChecked)){
           suffixForSubmitButtonOnRadioSelection = "-OPTED_ADDRESS";
-          return eradicationReplacementText;
+          return genericEradicationReplacementText;
         }
 
-        //  Patterns for some existing customised obliterations, 
-        //  new patterns can be added in this array when needed.
-        var restrictedTextPatternsForPartialObliteration = [/(( [A-Z0-9']+)+)\s\(([A-Z0-9]{8,})+\)/,
-                                                            /([A-Z0-9']+( [A-Z0-9']+)+)/,
-                                                            /(( [A-Z0-9']{3,})\S+)/];
-
-        restrictedTextPatternsForPartialObliteration.some(rx => {if(rx.test(textToBeChecked)){
-                                            textToBeChecked = textToBeChecked.replace(rx, " " +eradicationReplacementText);
-                                          }
-                                        }
-                                      );
         return textToBeChecked;
     }
 //  End of Matomo automation snippet
