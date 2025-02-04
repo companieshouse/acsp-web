@@ -26,11 +26,12 @@ import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import nocache from "nocache";
 import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
-
 import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
 import errorHandler from "./controllers/errorController";
-const app = express();
+import { registrationVariablesMiddleware } from "./middleware/registration_variables_middleware";
+import { updateVariablesMiddleware } from "./middleware/update-acsp/update_variables_middleware";
 
+const app = express();
 const nonce: string = uuidv4();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
@@ -74,6 +75,8 @@ app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
+app.use(BASE_URL, registrationVariablesMiddleware);
+app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
 
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
