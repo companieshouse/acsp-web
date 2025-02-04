@@ -2,7 +2,7 @@ import { body } from "express-validator";
 
 const otherAddressDetailsFormat:RegExp = /^[A-Za-z0-9\-',\s]*$/;
 const addressTownFormat:RegExp = /^[A-Za-z\-',\s!]*$/;
-const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\s]*$/;
+const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\-'\s]*$/;
 
 export const manualAddressValidator = [
 

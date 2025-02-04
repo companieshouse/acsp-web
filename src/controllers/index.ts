@@ -79,3 +79,4 @@ export * as correspondenceAddressManualController from "./features/update-acsp/c
 export * as correspondenceAddressAutoLookupController from "./features/update-acsp/correspondenceAddressAutoLookupController";
 export * as correspondenceAddressListController from "./features/update-acsp/correspondenceAddressListController";
 export * as correspondenceAddressConfirmController from "./features/update-acsp/correspondenceAddressConfirmController";
+export * as updateWhatIsTheBusinessNameController from "./features/update-acsp/whatIsTheBusinessNameController";

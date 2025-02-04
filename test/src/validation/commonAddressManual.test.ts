@@ -10,7 +10,7 @@ describe("Correspondence Address Manual Validator", () => {
             addressLine1: "Valid Address Line 1",
             addressLine2: "Valid Address Line 2",
             addressTown: "Valid City Or Town",
-            addressCounty: "Valid County",
+            addressCounty: "Valid-County",
             addressCountry: "Valid Country",
             addressPostcode: "Valid1234"
         };
