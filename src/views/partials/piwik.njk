@@ -28,7 +28,6 @@
 
 //  Dynamic text to be obtained from the label of an href.
     var textOnHrefClick = "";
-    var idHref = "";
 
 //  Dynamic text(s) and the id(s) to be obtained from the selected checkbox(es).
     var boxDetailsForAnalytics = new Map();
@@ -91,7 +90,7 @@
 
           if(boxDetailsForAnalytics.size > 0){
             boxDetailsForAnalytics.forEach((values, keys) => {
-                _paq.push(["trackEvent", eventCategory,values, keys]);
+              _paq.push(["trackEvent", eventCategory,values, keys]);
             });
           }
 
@@ -104,11 +103,7 @@
         //  The block below covers the Matomo analysis for the href clicks.
           $(document).on("click", "a", function() {
             textOnHrefClick = $(this).text();
-            idHref = $(this).attr("id");
             if(textOnHrefClick){
-              if(!idHref){
-                idHref = "NA"
-              }
               _paq.push(["trackEvent", eventCategory, textOnHrefClick]);
             }
           });
