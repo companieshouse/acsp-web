@@ -20,13 +20,16 @@ export const authenticationMiddleware = (req: Request, res: Response, next: Next
             returnUrl: BASE_URL + CHECK_SAVED_APPLICATION
         };
     } else {
-        authMiddlewareConfig = {
-            chsWebUrl: CHS_URL,
-            returnUrl: req.originalUrl
-        };
+        if (req.originalUrl === BASE_URL) {
+            next();
+        } else {
+            authMiddlewareConfig = {
+                chsWebUrl: CHS_URL,
+                returnUrl: req.originalUrl
+            };
+        }
     }
-
     return isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)
-        ? authMiddleware(authMiddlewareConfig)(req, res, next)
-        : acspProfileCreateAuthMiddleware(authMiddlewareConfig)(req, res, next);
+        ? authMiddleware(authMiddlewareConfig!)(req, res, next)
+        : acspProfileCreateAuthMiddleware(authMiddlewareConfig!)(req, res, next);
 };
