@@ -1,11 +1,11 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID } from "../common/__utils/constants";
-import { postTransaction } from "./transactions/transaction_service";
-import logger from "../utils/logger";
+import { UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID } from "../../common/__utils/constants";
+import { postTransaction } from "../transactions/transaction_service";
+import logger from "../../utils/logger";
 
 export class AcspUpdateService {
     async createTransaction (session: Session): Promise<void> {
-        const existingTransactionId = session?.getExtraData(UPDATE_SUBMISSION_ID);
+        const existingTransactionId = session.getExtraData(UPDATE_SUBMISSION_ID);
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             try {
                 const transaction = await postTransaction(session, UPDATE_DESCRIPTION, UPDATE_REFERENCE);
@@ -15,6 +15,6 @@ export class AcspUpdateService {
                 logger.error(`Error while creating transaction for update ACSP`);
                 return Promise.reject(error);
             }
-        };
+        }
     }
 }

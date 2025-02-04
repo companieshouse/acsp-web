@@ -8,7 +8,7 @@ import { getProfileDetails } from "../../../services/update-acsp/updateYourDetai
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
-import { AcspUpdateService } from "../../../services/acspUpdateService";
+import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {

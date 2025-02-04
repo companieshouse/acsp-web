@@ -1,14 +1,14 @@
-import { transactionId, validTransaction } from "../../mocks/transaction_mock";
+import { transactionId, validTransaction } from "../../../mocks/transaction_mock";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { Request } from "express";
-import { getSessionRequestWithPermission } from "../../mocks/session.mock";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspUpdateService } from "../../../src/services/acspUpdateService";
-import { postTransaction } from "../../../src/services/transactions/transaction_service";
-import { UPDATE_SUBMISSION_ID } from "../../../src/common/__utils/constants";
+import { AcspUpdateService } from "../../../../src/services/update-acsp/acspUpdateService";
+import { postTransaction } from "../../../../src/services/transactions/transaction_service";
+import { UPDATE_SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 
 jest.mock("@companieshouse/api-sdk-node");
-jest.mock("../../../src/services/transactions/transaction_service");
+jest.mock("../../../../src/services/transactions/transaction_service");
 
 const mockPostTransaction = postTransaction as jest.Mock;
 let req: MockRequest<Request>;
