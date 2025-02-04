@@ -116,11 +116,6 @@
       _paq.push(['trackGoal', "{{ PIWIK_REGISTRATION_START_GOAL_ID }}"]);
     });
     }
-    
-    trackEventBasedOnPageTitle("verify-client-identity-id", "{{matomoPageTitle}}", "click-link", "Verify your clients' identities for Companies House");
-    trackEventBasedOnPageTitle("verify-id", "{{matomoPageTitle}}", "click-link", "Verify your identity for Companies House");
-    trackEventBasedOnPageTitle("Read the guidance-id", "{{matomoPageTitle}}", "click-link", "Read the guidance on applying to register as an authorised agent");
-    trackEventBasedOnPageTitle("guidance-for-authorised-agents-id", "{{matomoPageTitle}}", "click-link", "Read the guidance for authorised agents");
 
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", function (e) {

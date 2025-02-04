@@ -8,9 +8,4 @@
         <a href={{ filingsLink }} id="filings-link-id">{{i18n.yourFilingsLink}}</a>
         {{ i18n.toCheckTheStatus}}
     </p>
-
-    <script nonce={{ nonce | dump | safe }}>
-        trackEventBasedOnPageTitle("filings-link-id", "{{title}}", "click-link", "Your Filings link");
-    </script>
-
-{% endblock main_content %}
+    {% endblock main_content %}
