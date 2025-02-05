@@ -5,39 +5,50 @@ import { AML_MEMBERSHIP_NUMBER, BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAI
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
-import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const lang = selectLang(req.query.lang);
-        const locales = getLocalesService();
-        const session: Session = req.session as any as Session;
-        const currentUrl = BASE_URL + UPDATE_YOUR_ANSWERS;
+    const lang = selectLang(req.query.lang);
+    var amlRemovalIndex = req.query.amlremoveindex;
+    var amlUndoRemovalIndex = req.query.amlcancelremoveindex;
+    const locales = getLocalesService();
+    const session: Session = req.session as any as Session;
+    const currentUrl = BASE_URL + UPDATE_YOUR_ANSWERS;
 
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-        const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-        var updateFlag = JSON.stringify(profileDetails) !== JSON.stringify(profileDetailsUpdated);
-
-        res.render(config.UPDATE_YOUR_ANSWERS, {
-            ...getLocaleInfo(locales, lang),
-            currentUrl,
-            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
-            editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
-            profileDetails,
-            profileDetailsUpdated,
-            updateFlag,
-            acspFullProfile,
-            lang,
-            AMLSupervisoryBodies
-        });
-    } catch (err) {
-        next(err);
+    const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+    const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+    const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+    const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+    if (amlRemovalIndex) {
+        const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.supervisoryBody === amlRemovalIndex);
+        if (indexAMLForRemoval > -1) {
+            acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].membershipDetails = "";
+            acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].supervisoryBody = "";
+        }
     }
+    if (amlUndoRemovalIndex) {
+        const indexAMLForRemovalCancellation = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.supervisoryBody === amlUndoRemovalIndex);
+        if (indexAMLForRemovalCancellation > -1) {
+            acspUpdatedFullProfile.amlDetails[indexAMLForRemovalCancellation].membershipDetails = acspFullProfile.amlDetails[indexAMLForRemovalCancellation].membershipDetails;
+            acspUpdatedFullProfile.amlDetails[indexAMLForRemovalCancellation].supervisoryBody = acspFullProfile.amlDetails[indexAMLForRemovalCancellation].supervisoryBody;
+        }
+    }
+
+    var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
+    res.render(config.UPDATE_YOUR_ANSWERS, {
+        ...getLocaleInfo(locales, lang),
+        currentUrl,
+        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
+        editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
+        profileDetails,
+        profileDetailsUpdated,
+        updateFlag,
+        acspFullProfile,
+        acspUpdatedFullProfile,
+        lang
+    });
 };
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {

@@ -1,30 +1,44 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-  {% set updateAMLDetailsStatusText =
-                "<div class='govuk-!-static-padding-top-3'>
-                <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
-                <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
-                </div>"
-  %}
+
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
+    {% set updateAMLDetailsStatusText = "" %}
+        {% if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody %}
+            {% set updateAMLDetailsStatusText =
+                            "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
+                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            </div>"
+            %}
+        {%endif%}
     {% set amlSummaryObject = {
         key: {
-            text:  i18n.checkYourAnswersAMLTab
+            text:  i18n.checkYourAnswersAMLTab + tmp,
+            classes: "govuk-!-width-one-third"
         },
         value: {
             html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.supervisoryBody + "</li><li>" + body.membershipDetails + "</li></ul>"
-            +updateAMLDetailsStatusText
+            +updateAMLDetailsStatusText,
+            classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
             {
-                href: "#",
+                href: "/view-and-update-the-authorised-agents-details/update-your-details" + "?lang=" + lang + 
+                "&amlremoveindex=" + body.supervisoryBody,
                 text: i18n.updateYourDetailsRemove,
                 visuallyHiddenText: body.supervisoryBody
-            }
-            ]
+            },
+            {
+                href: "/view-and-update-the-authorised-agents-details/update-your-details" + "?lang=" + lang + 
+                "&amlcancelremoveindex=" + body.supervisoryBody,
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: body.supervisoryBody
+            }if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody
+            ],
+            classes: "govuk-!-width-one-third"
         }
     } %}
     {% set amlList = amlList.concat(amlSummaryObject) %}
