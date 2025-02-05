@@ -5,6 +5,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
+    const ALL_CHS_DOMAIN = `${CHS_URL}*`;
 
     return {
         contentSecurityPolicy: {
@@ -15,7 +16,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: [SELF, PIWIK_CHS_DOMAIN, "*.cidev.aws.chdev.org", "cidev.aws.chdev.org", "account.cidev.aws.chdev.org"],
+                formAction: [SELF, PIWIK_CHS_DOMAIN, ALL_CHS_DOMAIN],
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
