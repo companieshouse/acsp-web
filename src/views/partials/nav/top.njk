@@ -1,3 +1,6 @@
 {% from "navbar.njk" import addPredefinedNavbar %}
 {% set lang = i18n %}
-{{ addPredefinedNavbar(userEmail, chsMonitorGuiUrl, lang, displayAuthorisedAgent, "yes") }}
+
+<div class="govuk-!-padding-top-2">
+    {{ addPredefinedNavbar(userEmail, chsMonitorGuiUrl, lang, displayAuthorisedAgent, "yes") }}
+</div>
