@@ -25,7 +25,7 @@ import { updateAcspIsOwnerMiddleware } from "./middleware/update-acsp/update_acs
 import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import nocache from "nocache";
-import { prepareCSPConfig } from "./middleware/content_security_policy_middleware_config";
+import { prepareCSPConfig, prepareCSPConfigHomePage } from "./middleware/content_security_policy_middleware_config";
 import { csrfProtectionMiddleware } from "./middleware/csrf_protection_middleware";
 import errorHandler from "./controllers/errorController";
 import { registrationVariablesMiddleware } from "./middleware/registration_variables_middleware";
@@ -69,6 +69,7 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 // Apply middleware
 app.use(cookieParser());
 app.use(nocache());
+app.use(`^(${BASE_URL})$`, helmet(prepareCSPConfigHomePage(nonce)));
 app.use(`^(?!(${BASE_URL}$))*`, helmet(prepareCSPConfig(nonce)));
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
