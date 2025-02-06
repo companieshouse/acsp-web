@@ -26,5 +26,11 @@ export const dummyFullProfile: AcspFullProfile = {
         region: "Region",
         country: "England",
         postalCode: "AB12CD"
+    },
+    soleTraderDetails: {
+        usualResidentialCountry: "England",
+        forename: "John",
+        otherForenames: "A",
+        surname: "Doe"
     }
 };

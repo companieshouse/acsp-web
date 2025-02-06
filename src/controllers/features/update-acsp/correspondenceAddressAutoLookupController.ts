@@ -4,12 +4,12 @@ import { ValidationError, validationResult } from "express-validator";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import {
-    UPDATE_ACSP_CHANGE_DETAILS,
     UPDATE_CORRESPONDENCE_ADDRESS_MANUAL,
     UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_LIST,
-    UPDATE_ACSP_DETAILS_BASE_URL
+    UPDATE_ACSP_DETAILS_BASE_URL,
+    UPDATE_YOUR_ANSWERS
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
@@ -22,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
 
         const payload = {
@@ -47,7 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const lang = selectLang(req.query.lang);
-        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_CHANGE_DETAILS, lang);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
         const locales = getLocalesService();
         const errorList = validationResult(req);
