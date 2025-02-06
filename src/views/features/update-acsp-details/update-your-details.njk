@@ -27,13 +27,13 @@
             items: [
             {
                 href: "/view-and-update-the-authorised-agents-details/update-your-details" + "?lang=" + lang + 
-                "&amlremoveindex=" + body.supervisoryBody,
+                "&amlindex=" + body.membershipDetails,
                 text: i18n.updateYourDetailsRemove,
                 visuallyHiddenText: body.supervisoryBody
             },
             {
                 href: "/view-and-update-the-authorised-agents-details/update-your-details" + "?lang=" + lang + 
-                "&amlcancelremoveindex=" + body.supervisoryBody,
+                "&amlindex=" + body.membershipDetails,
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: body.supervisoryBody
             }if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody

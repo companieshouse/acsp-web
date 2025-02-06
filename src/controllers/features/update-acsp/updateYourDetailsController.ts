@@ -10,45 +10,46 @@ import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    var amlRemovalIndex = req.query.amlremoveindex;
-    var amlUndoRemovalIndex = req.query.amlcancelremoveindex;
-    const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
-    const currentUrl = BASE_URL + UPDATE_YOUR_ANSWERS;
+    try {
+        const lang = selectLang(req.query.lang);
+        var amlRemovalIndex: string = String(req.query.amlindex);
+        const locales = getLocalesService();
+        const session: Session = req.session as any as Session;
+        const currentUrl = BASE_URL + UPDATE_YOUR_ANSWERS;
 
-    const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-    const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-    const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-    const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-    if (amlRemovalIndex) {
-        const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.supervisoryBody === amlRemovalIndex);
-        if (indexAMLForRemoval > -1) {
-            acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].membershipDetails = "";
-            acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].supervisoryBody = "";
-        }
-    }
-    if (amlUndoRemovalIndex) {
-        const indexAMLForRemovalCancellation = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.supervisoryBody === amlUndoRemovalIndex);
-        if (indexAMLForRemovalCancellation > -1) {
-            acspUpdatedFullProfile.amlDetails[indexAMLForRemovalCancellation].membershipDetails = acspFullProfile.amlDetails[indexAMLForRemovalCancellation].membershipDetails;
-            acspUpdatedFullProfile.amlDetails[indexAMLForRemovalCancellation].supervisoryBody = acspFullProfile.amlDetails[indexAMLForRemovalCancellation].supervisoryBody;
-        }
-    }
+        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+        const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
 
-    var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
-    res.render(config.UPDATE_YOUR_ANSWERS, {
-        ...getLocaleInfo(locales, lang),
-        currentUrl,
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
-        editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
-        profileDetails,
-        profileDetailsUpdated,
-        updateFlag,
-        acspFullProfile,
-        acspUpdatedFullProfile,
-        lang
-    });
+        if (amlRemovalIndex) {
+            const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
+            const indexAMLForUndoRemoval = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
+            if (indexAMLForRemoval >= 0) {
+                acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].membershipDetails = "";
+                acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].supervisoryBody = "";
+            } else if (indexAMLForUndoRemoval >= 0 && indexAMLForRemoval === -1) {
+                acspUpdatedFullProfile.amlDetails[indexAMLForUndoRemoval].membershipDetails = acspFullProfile.amlDetails[indexAMLForUndoRemoval].membershipDetails;
+                acspUpdatedFullProfile.amlDetails[indexAMLForUndoRemoval].supervisoryBody = acspFullProfile.amlDetails[indexAMLForUndoRemoval].supervisoryBody;
+            }
+        }
+
+        var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
+        res.render(config.UPDATE_YOUR_ANSWERS, {
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
+            editAML: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
+            profileDetails,
+            profileDetailsUpdated,
+            updateFlag,
+            acspFullProfile,
+            acspUpdatedFullProfile,
+            lang
+        });
+    } catch (err) {
+        next(err);
+    }
 };
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
