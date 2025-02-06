@@ -80,4 +80,4 @@ export * as correspondenceAddressAutoLookupController from "./features/update-ac
 export * as correspondenceAddressListController from "./features/update-acsp/correspondenceAddressListController";
 export * as correspondenceAddressConfirmController from "./features/update-acsp/correspondenceAddressConfirmController";
 export * as updateWhatIsTheBusinessNameController from "./features/update-acsp/whatIsTheBusinessNameController";
-export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdateControllers";
+export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdateController";
