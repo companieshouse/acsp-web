@@ -9,7 +9,8 @@ import {
     updateWhatIsYourNameController,
     updateWhereDoYouLiveController,
     updateYourDetailsController,
-    updateWhatIsTheBusinessNameController
+    updateWhatIsTheBusinessNameController,
+    cancelAnUpdateController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -46,5 +47,7 @@ updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddr
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+
+updateRoutes.get(urls.CANCEL_AN_UPADTE, cancelAnUpdateController.get);
 
 export default updateRoutes;

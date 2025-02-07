@@ -66,7 +66,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsName
               },
               {
-                href: "#",
+                href: cancelChangeUrl + "&cancel=personName",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsName
               }if profileDetailsUpdated.name !== profileDetails.name
@@ -91,7 +91,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               },
               {
-                href: "#",
+                href: cancelChangeUrl + "&cancel=serviceAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
@@ -116,7 +116,7 @@
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               },
               {
-                href: "#",
+                href: cancelChangeUrl + "&cancel=email",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
@@ -141,7 +141,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
               },
               {
-                href: "#",
+                href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
               }if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress
@@ -161,12 +161,12 @@
         actions: {
             items: [
               {
-                href: "#",
+                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
                 text: i18n.updateYourDetailsUpdate,
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
               },
               {
-                href: "#",
+                href: cancelChangeUrl + "&cancel=businessName",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
               }if profileDetailsUpdated.businessName !== profileDetails.businessName
