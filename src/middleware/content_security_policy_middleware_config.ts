@@ -59,7 +59,7 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 
 const formActionDirective = (ishomepage: boolean) => {
     if (ishomepage) {
-        return ["*"];
+        return ["*aws.chsdev.org"];
     } else {
         return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
     }
