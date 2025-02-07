@@ -71,9 +71,6 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + "?lang=en&amlindex=123456789", 
     });
 });
 
-
-
-
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should show the error page if an error occurs", async () => {
         await mockPostTransaction.mockRejectedValueOnce(new Error("Error creating transaction"));
