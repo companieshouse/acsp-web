@@ -81,3 +81,4 @@ export * as correspondenceAddressListController from "./features/update-acsp/cor
 export * as correspondenceAddressConfirmController from "./features/update-acsp/correspondenceAddressConfirmController";
 export * as updateWhatIsTheBusinessNameController from "./features/update-acsp/whatIsTheBusinessNameController";
 export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdateController";
+export * as updateApplicationConfirmationController from "./features/update-acsp/applicationConfirmationController";
