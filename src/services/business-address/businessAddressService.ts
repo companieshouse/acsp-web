@@ -1,10 +1,10 @@
 import { Request } from "express";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export class BusinessAddressService {
 
-    public saveBusinessAddress (req: Request, acspData: AcspData): void {
-
+    public saveBusinessAddress (req: Request, acspData: AcspData | AcspFullProfile): void {
         // Extract business address details from request body
         const businessAddress: Address = {
             premises: req.body.addressPropertyDetails,
@@ -18,7 +18,7 @@ export class BusinessAddressService {
         acspData.registeredOfficeAddress = businessAddress;
     }
 
-    public getBusinessManualAddress (acspData: AcspData) {
+    public getBusinessManualAddress (acspData: AcspData | AcspFullProfile ) {
         return {
             addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
             addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
