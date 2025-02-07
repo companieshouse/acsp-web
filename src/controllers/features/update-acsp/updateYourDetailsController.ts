@@ -12,7 +12,7 @@ import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateServi
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        var amlRemovalIndex: string = String(req.query.amlindex);
+        const amlRemovalIndex = req.query.amlindex;
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS;
