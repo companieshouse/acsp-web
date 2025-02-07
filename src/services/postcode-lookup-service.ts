@@ -37,5 +37,6 @@ export async function getAddressFromPostcode (postcode: string) {
     if (!ukAddresses.length) {
         throw Error("Postcode not found");
     }
+    console.log("ukaddress ----->", ukAddresses);
     return ukAddresses;
 }

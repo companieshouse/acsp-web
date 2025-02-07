@@ -3,7 +3,7 @@ import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/ac
 
 export class BusinessAddressService {
 
-    public saveBusinessAddress (req: Request, acspData: AcspData): void {
+    public saveBusinessAddress (req: Request, acspData: any): void {
 
         // Extract business address details from request body
         const businessAddress: Address = {
@@ -18,7 +18,7 @@ export class BusinessAddressService {
         acspData.registeredOfficeAddress = businessAddress;
     }
 
-    public getBusinessManualAddress (acspData: AcspData) {
+    public getBusinessManualAddress (acspData: any) {
         return {
             addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
             addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
