@@ -8,18 +8,18 @@ import {
     UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const addressList = session.getExtraData(ADDRESS_LIST);
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
+        const addressList = session.getExtraData(ADDRESS_LIST);
+        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LIST, {
             ...getLocaleInfo(locales, lang),
