@@ -10,7 +10,8 @@ import {
     updateWhereDoYouLiveController,
     updateYourDetailsController,
     updateWhatIsTheBusinessNameController,
-    cancelAnUpdateController
+    cancelAnUpdateController,
+    updateAmlMembershipNumberController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -18,6 +19,7 @@ import { correspondenceAddressListValidator } from "../validation/correspondance
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
+import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 
 const updateRoutes = Router();
 
@@ -49,5 +51,8 @@ updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessN
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
 updateRoutes.get(urls.CANCEL_AN_UPADTE, cancelAnUpdateController.get);
+
+updateRoutes.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
+updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);
 
 export default updateRoutes;

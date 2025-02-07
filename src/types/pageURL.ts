@@ -191,3 +191,5 @@ export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-a
 export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
 
 export const CANCEL_AN_UPADTE = "/cancel-an-update";
+
+export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";

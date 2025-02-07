@@ -41,10 +41,20 @@
                     } if errors["membershipNumber_" + loop.index]
                 }) }}
             {% endfor %}
-            {{ govukButton({
+            {% if reqType === "updateAcsp" %}
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                        text: i18n.Continue,
+                        id:"continue-button-id"
+                    })}}
+                    <a class="govuk-link" id="cancel-id" href={{cancelLink}}>{{i18n.Cancel}}</a>
+                </div>
+            {% else %}
+                {{ govukButton({
                 text: i18n.SaveAndContinue,
-                id: "save-continue-button"
-            }) }}
+                id:"save-continue-button"
+                }) }}
+            {% endif %}
         </fieldset>
     </form>
     {% endblock %}
