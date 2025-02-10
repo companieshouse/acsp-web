@@ -9,7 +9,8 @@ import {
     mockUnincorporatedAcspFullProfile, mockAddressWithoutPremisesAcspFullProfile,
     mockAddressWithoutAddressLine1AcspFullProfile, mockAddressWithoutAddressLine2AcspFullProfile,
     mockAddressWithoutLocalityAcspFullProfile, mockAddressWithoutRegionAcspFullProfile,
-    mockAddressWithoutCountryAcspFullProfile, mockAddressWithoutPostalCodeAcspFullProfile
+    mockAddressWithoutCountryAcspFullProfile, mockAddressWithoutPostalCodeAcspFullProfile,
+    mockUnincorpoatedAcspFullProfileNoServiceAddress
 } from "../../../mocks/update_your_details.mock";
 
 describe("CheckYourAnswersService", () => {
@@ -167,6 +168,20 @@ describe("CheckYourAnswersService", () => {
             businessName: "John Doe",
             registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom",
             serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom"
+        });
+    });
+
+    it("should return answers when no address is defined", () => {
+        const session: Session = req.session as any as Session;
+
+        session.setExtraData(ACSP_DETAILS, mockUnincorpoatedAcspFullProfileNoServiceAddress);
+        const unincorporatedAnswers = getProfileDetails(mockUnincorpoatedAcspFullProfileNoServiceAddress);
+        expect(unincorporatedAnswers).toStrictEqual({
+            typeOfBusiness: "unincorporated-entity",
+            correspondenceEmail: "john.doe@example.com",
+            businessName: "John Doe",
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: ""
         });
     });
 });

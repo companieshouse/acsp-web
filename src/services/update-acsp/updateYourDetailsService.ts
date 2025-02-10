@@ -20,16 +20,16 @@ export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullPro
     profileDetails.businessName = updatedName;
 
     if (acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_COMPANY || acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP || acspFullProfile.type === ACSP_PROFILE_TYPE_CORPORATE_BODY) {
-        profileDetails = limitedValues(profileDetails, acspFullProfile);
+        profileDetails = limitedAndUnincorporatedValues(profileDetails, acspFullProfile);
     } else if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
         profileDetails = soleTraderValues(profileDetails, acspFullProfile);
     } else {
-        profileDetails = unincorporatedValues(profileDetails, acspFullProfile);
+        profileDetails = limitedAndUnincorporatedValues(profileDetails, acspFullProfile);
     }
     return profileDetails;
 };
 
-const limitedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
+const limitedAndUnincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
     profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
     profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
     return profileDetails;
@@ -39,12 +39,6 @@ const soleTraderValues = (profileDetails: ACSPFullProfileDetails, acspProfileDat
     profileDetails.name = getFullNameACSPFullProfileDetails(acspProfileData);
     profileDetails.correspondenceEmail = acspProfileData.email;
     profileDetails.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
-    profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
-    profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
-    return profileDetails;
-};
-
-const unincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
     profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
     profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
     return profileDetails;
