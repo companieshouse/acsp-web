@@ -1,8 +1,7 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails, businessAddressValues } from "../../../../src/services/update-acsp/updateYourDetailsService";
-import { getLocalesService } from "../../../../src/utils/localise";
+import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import {
@@ -12,11 +11,9 @@ import {
     mockAddressWithoutLocalityAcspFullProfile, mockAddressWithoutRegionAcspFullProfile,
     mockAddressWithoutCountryAcspFullProfile, mockAddressWithoutPostalCodeAcspFullProfile
 } from "../../../mocks/update_your_details.mock";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
-    let locales: any;
 
     beforeEach(() => {
     // initialize service and mock request object
@@ -29,19 +26,19 @@ describe("CheckYourAnswersService", () => {
         });
         const session = getSessionRequestWithPermission();
         req.session = session;
-        locales = getLocalesService();
     });
 
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockLimitedAcspFullProfile);
-        const limitedAnswers = getProfileDetails(req, mockLimitedAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const limitedAnswers = getProfileDetails(mockLimitedAcspFullProfile);
         expect(limitedAnswers).toStrictEqual({
+            businessName: "Example ACSP Ltd",
             typeOfBusiness: "limited-company",
             correspondenceEmail: "john.doe@example.com",
-            businessName: "Example ACSP Ltd",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -49,14 +46,15 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
-        const soleTraderAnswers = getProfileDetails(req, mockSoleTraderAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const soleTraderAnswers = getProfileDetails(mockSoleTraderAcspFullProfile);
         expect(soleTraderAnswers).toStrictEqual({
             typeOfBusiness: "sole-trader",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
             name: "John A. Doe",
             countryOfResidence: "united-kingdom",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -64,13 +62,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockUnincorporatedAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockUnincorporatedAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockUnincorporatedAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -78,13 +76,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutPremisesAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutPremisesAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutPremisesAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -92,13 +90,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutAddressLine1AcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutAddressLine1AcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutAddressLine1AcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -106,13 +104,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutAddressLine2AcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutAddressLine2AcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutAddressLine2AcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -120,13 +118,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutLocalityAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutLocalityAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutLocalityAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -134,13 +132,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutRegionAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutRegionAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutRegionAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB"
         });
     });
 
@@ -148,13 +146,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutCountryAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutCountryAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutCountryAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>M1 2AB",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>M1 2AB"
         });
     });
 
@@ -162,20 +160,13 @@ describe("CheckYourAnswersService", () => {
         const session: Session = req.session as any as Session;
 
         session.setExtraData(ACSP_DETAILS, mockAddressWithoutPostalCodeAcspFullProfile);
-        const unincorporatedAnswers = getProfileDetails(req, mockAddressWithoutPostalCodeAcspFullProfile, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
+        const unincorporatedAnswers = getProfileDetails(mockAddressWithoutPostalCodeAcspFullProfile);
         expect(unincorporatedAnswers).toStrictEqual({
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            businessAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom",
-            correspondenceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom"
+            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom",
+            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom"
         });
-    });
-
-    it("should not generate exception when service address is undefined", () => {
-        const acspProfileData: AcspFullProfile = {} as AcspFullProfile;
-        acspProfileData.serviceAddress = undefined;
-        const businessAddressUndefined = businessAddressValues(acspProfileData);
-        expect(businessAddressUndefined).toStrictEqual("");
     });
 });

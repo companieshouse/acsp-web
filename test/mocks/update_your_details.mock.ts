@@ -1,56 +1,56 @@
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const mockLimitedAcspFullProfile: AcspFullProfile = {
-            number: "AP123456",
-            name: "Example ACSP Ltd",
-            status: "active",
-            type: "limited-company",
-            notifiedFrom : new Date(1990, 10, 15),
-            deauthorisedFrom: new Date(1990, 10, 15) ,
-            email: "john.doe@example.com",
-            amlDetails: [{
-                supervisoryBody: "financial-conduct-authority-fca",
-                membershipDetails: "Membership ID: FCA123456"
-            }],
-            registeredOfficeAddress: {
-                careOf: "Jane Smith",
-                addressLine1: "456 Another Street",
-                addressLine2: "Floor 2",
-                country: "united-kingdom",
-                locality: "Manchester",
-                poBox: "PO Box 123",
-                postalCode: "M1 2AB",
-                premises: "Another Building",
-                region: "Greater Manchester"
-            },
-            serviceAddress: {
-                careOf: "Jane Smith",
-                addressLine1: "456 Another Street",
-                addressLine2: "Floor 2",
-                country: "united-kingdom",
-                locality: "Manchester",
-                poBox: "PO Box 123",
-                postalCode: "M1 2AB",
-                premises: "Another Building",
-                region: "Greater Manchester"
-            },
-            soleTraderDetails:{
-                forename: "",
-                otherForenames: "",
-                surname: "",
-                nationality: "",
-                usualResidentialCountry: "",
-                dateOfBirth: new Date()
-            }
+    number: "AP123456",
+    name: "Example ACSP Ltd",
+    status: "active",
+    type: "limited-company",
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
+    email: "john.doe@example.com",
+    amlDetails: [{
+        supervisoryBody: "financial-conduct-authority-fca",
+        membershipDetails: "Membership ID: FCA123456"
+    }],
+    registeredOfficeAddress: {
+        careOf: "Jane Smith",
+        addressLine1: "456 Another Street",
+        addressLine2: "Floor 2",
+        country: "united-kingdom",
+        locality: "Manchester",
+        poBox: "PO Box 123",
+        postalCode: "M1 2AB",
+        premises: "Another Building",
+        region: "Greater Manchester"
+    },
+    serviceAddress: {
+        careOf: "Jane Smith",
+        addressLine1: "456 Another Street",
+        addressLine2: "Floor 2",
+        country: "united-kingdom",
+        locality: "Manchester",
+        poBox: "PO Box 123",
+        postalCode: "M1 2AB",
+        premises: "Another Building",
+        region: "Greater Manchester"
+    },
+    soleTraderDetails: {
+        forename: "",
+        otherForenames: "",
+        surname: "",
+        nationality: "",
+        usualResidentialCountry: "",
+        dateOfBirth: new Date()
+    }
 };
 
 export const mockSoleTraderAcspFullProfile: AcspFullProfile = {
     number: "AP654321",
-    name: "John Doe",
+    name: "John Doe ACSP",
     status: "active",
     type: "sole-trader",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -78,7 +78,7 @@ export const mockSoleTraderAcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -93,8 +93,8 @@ export const mockUnincorporatedAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -122,7 +122,7 @@ export const mockUnincorporatedAcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -137,8 +137,8 @@ export const mockAddressWithoutPremisesAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -164,7 +164,7 @@ export const mockAddressWithoutPremisesAcspFullProfile: AcspFullProfile = {
         postalCode: "M1 2AB",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -179,8 +179,8 @@ export const mockAddressWithoutAddressLine1AcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -206,7 +206,7 @@ export const mockAddressWithoutAddressLine1AcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -221,8 +221,8 @@ export const mockAddressWithoutAddressLine2AcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -248,7 +248,7 @@ export const mockAddressWithoutAddressLine2AcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -263,8 +263,8 @@ export const mockAddressWithoutLocalityAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -290,7 +290,7 @@ export const mockAddressWithoutLocalityAcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -305,8 +305,8 @@ export const mockAddressWithoutRegionAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -332,7 +332,7 @@ export const mockAddressWithoutRegionAcspFullProfile: AcspFullProfile = {
         postalCode: "M1 2AB",
         premises: "Another Building"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -347,8 +347,8 @@ export const mockAddressWithoutCountryAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -375,7 +375,7 @@ export const mockAddressWithoutCountryAcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
@@ -390,8 +390,8 @@ export const mockAddressWithoutPostalCodeAcspFullProfile: AcspFullProfile = {
     name: "John Doe",
     status: "active",
     type: "unincorporated-entity",
-    notifiedFrom : new Date(1990, 10, 15),
-    deauthorisedFrom: new Date(1990, 10, 15) ,
+    notifiedFrom: new Date(1990, 10, 15),
+    deauthorisedFrom: new Date(1990, 10, 15),
     email: "john.doe@example.com",
     amlDetails: [{
         supervisoryBody: "financial-conduct-authority-fca",
@@ -417,7 +417,7 @@ export const mockAddressWithoutPostalCodeAcspFullProfile: AcspFullProfile = {
         premises: "Another Building",
         region: "Greater Manchester"
     },
-    soleTraderDetails:{
+    soleTraderDetails: {
         forename: "John",
         otherForenames: "A.",
         surname: "Doe",
