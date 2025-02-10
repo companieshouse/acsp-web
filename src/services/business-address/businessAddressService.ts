@@ -18,7 +18,7 @@ export class BusinessAddressService {
         acspData.registeredOfficeAddress = businessAddress;
     }
 
-    public getBusinessManualAddress (acspData: AcspData | AcspFullProfile ) {
+    public getBusinessManualAddress (acspData: AcspData | AcspFullProfile) {
         return {
             addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
             addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
