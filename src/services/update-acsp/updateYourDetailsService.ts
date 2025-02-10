@@ -16,9 +16,7 @@ export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullPro
     }
     profileDetails.businessName = updatedName;
 
-    if (acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_COMPANY || acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP || acspFullProfile.type === ACSP_PROFILE_TYPE_CORPORATE_BODY) {
-        profileDetails = limitedAndUnincorporatedValues(profileDetails, acspFullProfile);
-    } else if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
+    if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
         profileDetails = soleTraderValues(profileDetails, acspFullProfile);
     } else {
         profileDetails = limitedAndUnincorporatedValues(profileDetails, acspFullProfile);
