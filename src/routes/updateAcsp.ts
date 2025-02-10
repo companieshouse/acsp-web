@@ -5,12 +5,18 @@ import {
     correspondenceAddressConfirmController,
     correspondenceAddressListController,
     correspondenceAddressManualController,
+    businessAddressAutoLookupController,
+    businessAddressConfirmController,
+    businessAddressListController,
+    businessAddressManualController,
     updateIndexController,
     updateWhatIsYourNameController,
     updateWhereDoYouLiveController,
     updateYourDetailsController,
     updateWhatIsTheBusinessNameController,
     cancelAnUpdateController,
+    updateApplicationConfirmationController,
+    addAmlSupervisorController,
     updateAmlMembershipNumberController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
@@ -19,6 +25,9 @@ import { correspondenceAddressListValidator } from "../validation/correspondance
 import { correspondenceAddressAutoLookupValidator } from "../validation/correspondenceAddressAutoLookup";
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
+import { businessAddressManualValidator } from "../validation/businessAddressManual";
+import { businessAddressListValidator } from "../validation/businessAddressList";
+import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 
 const updateRoutes = Router();
@@ -47,10 +56,27 @@ updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddress
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.get);
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
 
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, businessAddressManualController.post);
+
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, businessAddressAutoLookupController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, businessAddressAutoLookupController.post);
+
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator, businessAddressListController.post);
+
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);
+
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
-updateRoutes.get(urls.CANCEL_AN_UPADTE, cancelAnUpdateController.get);
+updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
+updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
+
+updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
+
+updateRoutes.get(urls.CANCEL_AN_UPDATE, cancelAnUpdateController.get);
 
 updateRoutes.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
 updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);

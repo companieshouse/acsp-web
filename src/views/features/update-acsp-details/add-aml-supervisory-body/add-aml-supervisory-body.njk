@@ -1,0 +1,39 @@
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+{% set ITEMS = [] %}
+{% for key,value in AMLSupervisoryBodies %}
+  {% if value is string %}
+    {% set radioItem = {
+      value: key,
+      text: value,
+      id: "aml" + loop.index
+    } %}
+    {% set ITEMS = ITEMS.concat(radioItem) %}
+  {% endif %}
+{% endfor %}
+{% set title = i18n.addAmlSupervisorTitle %}
+{% block main_content %}
+  <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
+    {{ govukRadios ({
+      name: "AML-supervisory-bodies",
+      fieldset: {
+        legend: {
+          text: i18n.addAmlSupervisorTitle,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      hint: {
+        text: i18n.addAmlSupervisorHint
+      },
+      items: ITEMS
+    }) }}
+
+    {{ govukButton ({
+      text: i18n.SaveAndContinue,
+      id: "continue-button"
+    }) }}
+  </form>
+  {% endblock main_content %}

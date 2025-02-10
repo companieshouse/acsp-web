@@ -3,7 +3,7 @@ process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, ACSP_DETAILS_UPDATE_CONFIRMATION } from "../../../../src/types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_APPLICATION_CONFIRMATION } from "../../../../src/types/pageURL";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
 import * as localise from "../../../../src/utils/localise";
 
@@ -43,7 +43,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + ACSP_DETAILS_UPDATE_CONFIRMATION + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
 });
