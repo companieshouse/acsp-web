@@ -176,8 +176,6 @@ export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
 
 export const UPDATE_YOUR_ANSWERS = "/update-your-details";
 
-export const ACSP_DETAILS_UPDATE_CONFIRMATION = "/update-your-details-confirmation";
-
 export const UPDATE_WHERE_DO_YOU_LIVE = "/where-do-you-live";
 
 export const UPDATE_CORRESPONDENCE_ADDRESS_MANUAL = "/correspondence-address-manual-entry";
@@ -190,8 +188,6 @@ export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-a
 
 export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
 
-export const CANCEL_AN_UPADTE = "/cancel-an-update";
-
 export const UPDATE_BUSINESS_ADDRESS_MANUAL = "/business-address-manual-entry";
 
 export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/business-address-lookup";
@@ -199,3 +195,7 @@ export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/business-address-lookup";
 export const UPDATE_BUSINESS_ADDRESS_CONFIRM = "/confirm-your-business-address";
 
 export const UPDATE_BUSINESS_ADDRESS_LIST = "/select-your-business-address";
+
+export const UPDATE_APPLICATION_CONFIRMATION = "/application-confirmation";
+
+export const CANCEL_AN_UPDATE = "/cancel-an-update";

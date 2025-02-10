@@ -1,6 +1,21 @@
 import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADDRESS_LIST, APPLICATION_ID, COMPANY, COMPANY_DETAILS, COMPANY_NUMBER, PREVIOUS_PAGE_URL, RESUME_APPLICATION_ID, SUBMISSION_ID, UNINCORPORATED_AML_SELECTED_OPTION, UNINCORPORATED_CORRESPONDENCE_ADDRESS, USER_DATA } from "./constants";
+import {
+    ACSP_DETAILS,
+    ACSP_DETAILS_UPDATED,
+    ADDRESS_LIST,
+    APPLICATION_ID,
+    COMPANY,
+    COMPANY_DETAILS,
+    COMPANY_NUMBER,
+    PREVIOUS_PAGE_URL,
+    RESUME_APPLICATION_ID,
+    SUBMISSION_ID,
+    UNINCORPORATED_AML_SELECTED_OPTION,
+    UNINCORPORATED_CORRESPONDENCE_ADDRESS,
+    UPDATE_SUBMISSION_ID,
+    USER_DATA
+} from "./constants";
 
 export const saveDataInSession = async (req: Request, name: string, value: any) => {
     const session: Session = req.session as any as Session;
@@ -26,4 +41,7 @@ export const deleteAllSessionData = async (session: Session) => {
     session.deleteExtraData("resume_application");
     session.deleteExtraData(ADDRESS_LIST);
     session.deleteExtraData(UNINCORPORATED_AML_SELECTED_OPTION);
+    session.deleteExtraData(UPDATE_SUBMISSION_ID);
+    session.deleteExtraData(ACSP_DETAILS);
+    session.deleteExtraData(ACSP_DETAILS_UPDATED);
 };
