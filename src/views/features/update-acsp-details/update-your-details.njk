@@ -27,6 +27,7 @@
 {% set title = i18n.updateYourDetailsHeading %}
 {% block main_content %}
     <form action="" method="post">
+        {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
