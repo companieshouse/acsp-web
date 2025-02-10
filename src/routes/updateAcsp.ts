@@ -15,7 +15,8 @@ import {
     updateYourDetailsController,
     updateWhatIsTheBusinessNameController,
     cancelAnUpdateController,
-    updateApplicationConfirmationController
+    updateApplicationConfirmationController,
+    addAmlSupervisorController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -25,6 +26,7 @@ import { correspondenceAddressManualValidator } from "../validation/corresponden
 import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unicorporatedWhatIsTheBusinessName";
 import { businessAddressManualValidator } from "../validation/businessAddressManual";
 import { businessAddressListValidator } from "../validation/businessAddressList";
+import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 
 const updateRoutes = Router();
 
@@ -66,6 +68,9 @@ updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmCo
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+
+updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
+updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
 
 updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
 
