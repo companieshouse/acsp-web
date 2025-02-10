@@ -1,5 +1,4 @@
 import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
-import { Request } from "express";
 import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
 import { ACSP_PROFILE_TYPE_LIMITED_COMPANY, ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP, ACSP_PROFILE_TYPE_CORPORATE_BODY, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
@@ -10,9 +9,7 @@ export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullPro
     profileDetails.correspondenceEmail = acspFullProfile.email;
     let updatedName: string;
     const businessName = acspFullProfile.name.trim();
-    console.log("Business name ----->", businessName);
     if (businessName.toUpperCase().endsWith("ACSP")) {
-        console.log("TRUE ---------");
         updatedName = businessName.slice(0, -4).trimEnd();
     } else {
         updatedName = businessName;
