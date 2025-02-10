@@ -32,7 +32,6 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
 
 export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
     const NONCE = `'nonce-${nonce}'`;
-
     return {
         contentSecurityPolicy: {
             directives: {
@@ -58,8 +57,9 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 };
 
 const formActionDirective = (ishomepage: boolean) => {
+    const ALL_CHS_URLS = "*";
     if (ishomepage) {
-        return ["*aws.chsdev.org"];
+        return [ALL_CHS_URLS];
     } else {
         return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
     }
