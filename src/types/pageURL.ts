@@ -188,6 +188,14 @@ export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-a
 
 export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
 
+export const UPDATE_BUSINESS_ADDRESS_MANUAL = "/business-address-manual-entry";
+
+export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/business-address-lookup";
+
+export const UPDATE_BUSINESS_ADDRESS_CONFIRM = "/confirm-your-business-address";
+
+export const UPDATE_BUSINESS_ADDRESS_LIST = "/select-your-business-address";
+
 export const UPDATE_APPLICATION_CONFIRMATION = "/application-confirmation";
 
 export const CANCEL_AN_UPDATE = "/cancel-an-update";
