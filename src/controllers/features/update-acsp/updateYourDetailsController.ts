@@ -9,6 +9,7 @@ import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
+import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,8 +19,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const profileDetails: ACSPFullProfileDetails = getProfileDetails(req, acspFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
-        const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(req, acspUpdatedFullProfile, locales.i18nCh.resolveNamespacesKeys(lang));
+        const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
+        const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
         var updateFlag = JSON.stringify(profileDetails) !== JSON.stringify(profileDetailsUpdated);
 
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
@@ -35,7 +36,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspFullProfile,
             lang,
             AMLSupervisoryBodies,
-            cancelChangeUrl
+            cancelChangeUrl,
+            AMLSupervioryBodiesFormatted
         });
     } catch (err) {
         next(err);
