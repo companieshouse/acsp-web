@@ -4,52 +4,57 @@ import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acs
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
 import { ACSP_PROFILE_TYPE_LIMITED_COMPANY, ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP, ACSP_PROFILE_TYPE_CORPORATE_BODY, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
 
-export const getProfileDetails = (req: Request, acspFullProfile: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
+export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};
     profileDetails.typeOfBusiness = acspFullProfile.type;
     profileDetails.correspondenceEmail = acspFullProfile.email;
-    profileDetails.businessName = acspFullProfile.name;
+    let updatedName: string;
+    const businessName = acspFullProfile.name.trim();
+    console.log("Business name ----->", businessName);
+    if (businessName.toUpperCase().endsWith("ACSP")) {
+        console.log("TRUE ---------");
+        updatedName = businessName.slice(0, -4).trimEnd();
+    } else {
+        updatedName = businessName;
+    }
+    profileDetails.businessName = updatedName;
 
     if (acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_COMPANY || acspFullProfile.type === ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP || acspFullProfile.type === ACSP_PROFILE_TYPE_CORPORATE_BODY) {
-        profileDetails = limitedValues(req, profileDetails, acspFullProfile);
+        profileDetails = limitedValues(profileDetails, acspFullProfile);
     } else if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
         profileDetails = soleTraderValues(profileDetails, acspFullProfile);
     } else {
-        profileDetails = unincorporatedValues(profileDetails, acspFullProfile, i18n);
+        profileDetails = unincorporatedValues(profileDetails, acspFullProfile);
     }
     return profileDetails;
 };
 
-const limitedValues = (req: Request, profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
-    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+const limitedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
+    profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+    profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
     return profileDetails;
 };
 
 const soleTraderValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
-    profileDetails.businessName = acspProfileData.name;
     profileDetails.name = getFullNameACSPFullProfileDetails(acspProfileData);
     profileDetails.correspondenceEmail = acspProfileData.email;
     profileDetails.countryOfResidence = acspProfileData.soleTraderDetails!.usualResidentialCountry;
-    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+    profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+    profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
     return profileDetails;
 };
 
-const unincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile, i18n: any): ACSPFullProfileDetails => {
-    profileDetails.businessAddress = businessAddressValues(acspProfileData);
-    profileDetails.correspondenceAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+const unincorporatedValues = (profileDetails: ACSPFullProfileDetails, acspProfileData: AcspFullProfile): ACSPFullProfileDetails => {
+    profileDetails.registeredOfficeAddress = addressFormation(acspProfileData.registeredOfficeAddress);
+    profileDetails.serviceAddress = addressFormation(acspProfileData.serviceAddress);
     return profileDetails;
 };
 
-export const businessAddressValues = (acspProfileData: AcspFullProfile): string => {
-    const serviceAddress = acspProfileData.serviceAddress!;
-    return addressFormation(serviceAddress);
-};
-
-const addressFormation = (givenAddress: Address): string => {
+const addressFormation = (givenAddress: Address | undefined): string => {
     let formattedAddress = "";
 
     if (!givenAddress) {
-        givenAddress = {};
+        return formattedAddress;
     }
     const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = givenAddress;
 
