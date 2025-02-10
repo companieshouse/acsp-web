@@ -29,11 +29,7 @@
       {{ i18n.useThisService }}
     </p>
     <p class="govuk-body">
-      {{ i18n.youllNeedToRegister }}
-      <a href="#" id="verify-client-identity-id">{{ i18n.verifyClientsIdentityLink }}</a>.
-    </p>
-    <p class="govuk-body">
-      {{ i18n.startFromDate }}
+      {{ i18n.forNowYouOnlyNeedToRegister }}
     </p>
     <h2 class="govuk-heading-m">{{ i18n.whoCanApplyHeading }}</h2>     
     <p> 
@@ -84,7 +80,7 @@
         </p>
       </div>
     </div>
-    <h2 class="govuk-heading-m">{{ i18n.whatInformationYoullNeedHeading }}</h2>
+    <h2 class="govuk-heading-m">{{ i18n.whatYoullNeedHeading }}</h2>
     <p class="govuk-body">
       {{ i18n.youllNeedTo }}
     </p>
@@ -95,9 +91,9 @@
       <li>{{ i18n.amlMembershipNumberBullet }}</li>
       <li>{{ i18n.registrationFeeBullet | replace('XX', ACSP01_COST) }}</li>
     </ul>
-    <div class="govuk-inset-text">
+    <p class="govuk-body">
       {{ i18n.readThe }}<a href="https://www.gov.uk/guidance/register-as-an-authorised-agent" id="Read the guidance-id">{{ i18n.guidanceOnApplyingLink }}</a>{{ i18n.toCheckYouHave }}
-    </div>
+    </p>
     <p class="govuk-body">{{ i18n.saveYourAnswers }}</p>
     <button
       class="govuk-button govuk-button--start"
@@ -124,7 +120,7 @@
     <p class="govuk-body">
       <a href={{ abilityNetAccessibilityLink }} target="_blank" id="read-the-advice-from-abilitynet-id">{{ i18n.readAdviceFromAbilityNetLink }}</a>{{ i18n.forExampleLearnHowTo }}
     </p>
-    <h2 class="govuk-heading-m">{{ i18n.afterYouAreRegisteredHeading }}</h2>
+    <h2 class="govuk-heading-m">{{ i18n.afterYouRegisterHeading }}</h2>
     <p class="govuk-body">{{ i18n.wellCreateAnAuthorisedAgentAccount }}</p>
     <p class="govuk-body">
       {{ i18n.readThe }}
