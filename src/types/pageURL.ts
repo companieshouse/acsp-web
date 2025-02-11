@@ -201,3 +201,5 @@ export const UPDATE_APPLICATION_CONFIRMATION = "/application-confirmation";
 export const CANCEL_AN_UPDATE = "/cancel-an-update";
 
 export const UPDATE_ADD_AML_SUPERVISOR = "/select-aml-supervisor";
+
+export const REMOVE_AML_SUPERVISOR = "/remove-an-aml";

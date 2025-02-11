@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
@@ -13,7 +13,6 @@ import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodie
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        const amlRemovalIndex = req.query.amlindex;
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS;
@@ -24,18 +23,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         var updateFlag = JSON.stringify(profileDetails) !== JSON.stringify(profileDetailsUpdated);
 
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
+        const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);
 
-        if (amlRemovalIndex) {
-            const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
-            const indexAMLForUndoRemoval = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
-            if (indexAMLForRemoval >= 0) {
-                acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].membershipDetails = "";
-                acspUpdatedFullProfile.amlDetails[indexAMLForRemoval].supervisoryBody = "";
-            } else if (indexAMLForUndoRemoval >= 0 && indexAMLForRemoval === -1) {
-                acspUpdatedFullProfile.amlDetails[indexAMLForUndoRemoval].membershipDetails = acspFullProfile.amlDetails[indexAMLForUndoRemoval].membershipDetails;
-                acspUpdatedFullProfile.amlDetails[indexAMLForUndoRemoval].supervisoryBody = acspFullProfile.amlDetails[indexAMLForUndoRemoval].supervisoryBody;
-            }
-        }
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
@@ -49,6 +38,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspUpdatedFullProfile,
             lang,
             cancelChangeUrl,
+            removeAMLUrl,
             AMLSupervioryBodiesFormatted
         });
     } catch (err) {
