@@ -44,25 +44,27 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + "?lang=en&amlindex=123456789", 
         session.setExtraData(ACSP_DETAILS, dummyFullProfile);
         session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
     });
+
     it("should return status 200", async () => {
         const session: Session = req.session as any as Session;
         await router.get(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR + "?lang=en&amlindex=123456789");
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("");
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("");
     });
+
     it("should return status 200", async () => {
         const session: Session = req.session as any as Session;
         session.setExtraData(ACSP_DETAILS_UPDATED,
             {
                 ...dummyFullProfile,
                 amlDetails: [{
-                    supervisoryBody: "",
-                    membershipDetails: ""
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "123456789"
                 }]
             }
         );
         await router.get(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR + "?lang=en&amlindex=123456789");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("");
+        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("hm-revenue-customs-hmrc");
+        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("123456789");
     });
 });
