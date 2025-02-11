@@ -19,7 +19,7 @@
             classes: "govuk-!-width-one-third"
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + body.supervisoryBody + "</li><li>" + body.membershipDetails + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + "</li><li>" + body.membershipDetails + "</li></ul>"
             +updateAMLDetailsStatusText,
             classes: "govuk-!-width-one-third"
         },
@@ -47,6 +47,7 @@
 {% set title = i18n.updateYourDetailsHeading %}
 {% block main_content %}
     <form action="" method="post">
+        {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
@@ -65,7 +66,8 @@
             {{ govukButton({
                 text: i18n.addNewAMLDetails,
                 classes: "govuk-button--secondary",
-                id:"add-new-aml-details"
+                id:"add-new-aml-details",
+                href: addAML
                 }) }}
             {{ govukButton({
                 text: i18n.goBackToAuthorisedAgentServices,

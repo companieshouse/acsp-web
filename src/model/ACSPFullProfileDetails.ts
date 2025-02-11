@@ -1,8 +1,8 @@
 export interface ACSPFullProfileDetails {
-    businessAddress? : string;
+    registeredOfficeAddress? : string;
     countryOfResidence? : string;
     name? : string;
-    correspondenceAddress? : string;
+    serviceAddress? : string;
     correspondenceEmail? : string;
     businessName? : string;
     typeOfBusiness? : string;

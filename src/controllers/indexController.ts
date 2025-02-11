@@ -14,12 +14,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
 
     const verifyIdentityLink = addLangToUrl(VERIFY_IDENTITY, lang);
+    const feedbackLink = "https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/";
+    const abilityNetAccessibilityLink = "https://mcmw.abilitynet.org.uk/";
 
     res.render(config.HOME, {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL,
         PIWIK_REGISTRATION_START_GOAL_ID,
+        feedbackLink,
         verifyIdentityLink,
+        abilityNetAccessibilityLink,
         ACSP01_COST
     });
 };

@@ -80,4 +80,10 @@ export * as correspondenceAddressAutoLookupController from "./features/update-ac
 export * as correspondenceAddressListController from "./features/update-acsp/correspondenceAddressListController";
 export * as correspondenceAddressConfirmController from "./features/update-acsp/correspondenceAddressConfirmController";
 export * as updateWhatIsTheBusinessNameController from "./features/update-acsp/whatIsTheBusinessNameController";
+export * as businessAddressManualController from "./features/update-acsp/businessAddressManualController";
+export * as businessAddressAutoLookupController from "./features/update-acsp/businessAddressAutoLookupController";
+export * as businessAddressListController from "./features/update-acsp/businessAddressListController";
+export * as businessAddressConfirmController from "./features/update-acsp/businessAddressConfirmController";
 export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdateController";
+export * as updateApplicationConfirmationController from "./features/update-acsp/applicationConfirmationController";
+export * as addAmlSupervisorController from "./features/update-acsp/addAmlSupervisorController";

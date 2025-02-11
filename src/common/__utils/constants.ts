@@ -40,3 +40,4 @@ export const ACSP_PROFILE_TYPE_SOLE_TRADER:string = "sole-trader";
 export const UPDATE_DESCRIPTION: string = "Update the authorised agent's details";
 export const UPDATE_REFERENCE: string = "ACSP update details";
 export const UPDATE_SUBMISSION_ID: string = "updateSubmissionId";
+export const NEW_AML_BODY: string = "newAmlBody";
