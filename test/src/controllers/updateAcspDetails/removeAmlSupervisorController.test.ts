@@ -7,14 +7,11 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import app from "../../../../src/app";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_APPLICATION_CONFIRMATION } from "../../../../src/types/pageURL";
-import { postTransaction } from "../../../../src/services/transactions/transaction_service";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, REMOVE_AML_SUPERVISOR } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 const router = supertest(app);
 
 jest.mock("../../../../src/services/transactions/transaction_service");
-
-const mockPostTransaction = postTransaction as jest.Mock;
 
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should return status 200", async () => {
@@ -49,9 +46,9 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + "?lang=en&amlindex=123456789", 
     });
     it("should return status 200", async () => {
         const session: Session = req.session as any as Session;
-        await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en&amlindex=123456789");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("hm-revenue-customs-hmrc");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("123456789");
+        await router.get(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR + "?lang=en&amlindex=123456789");
+        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("");
+        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("");
     });
     it("should return status 200", async () => {
         const session: Session = req.session as any as Session;
@@ -64,7 +61,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + "?lang=en&amlindex=123456789", 
                 }]
             }
         );
-        await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en&amlindex=123456789");
+        await router.get(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR + "?lang=en&amlindex=123456789");
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("");
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("");
     });
