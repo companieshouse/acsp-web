@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
-        var updateFlag = JSON.stringify(profileDetails) !== JSON.stringify(profileDetailsUpdated);
+        var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
 
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
         const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);

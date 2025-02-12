@@ -1,6 +1,3 @@
-import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Request, Response, NextFunction } from "express";
 import { addLangToUrl, selectLang } from "../../../utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
