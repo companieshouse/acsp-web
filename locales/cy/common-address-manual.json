@@ -1,5 +1,6 @@
 {
     "correspondenceAddressManualTitle" : "Cofnodwch y cyfeiriad gohebiaeth",
+    "registeredOfficeAddressManualTitle" : "Enter the registered office address welsh",
     "businessAddressManualTitle" : "Cofnodwch y cyfeiriad busnes",
     "addressPropertyDetails": "Enw neu rif eiddo",
     "addressPropertyDetailsHint": "Er enghraifft, 'Y Felin', '116' neu 'Fflat 37a'",

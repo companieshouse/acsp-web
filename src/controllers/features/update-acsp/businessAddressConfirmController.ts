@@ -4,7 +4,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,13 +14,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_CONFIRM;
+        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, {
             previousPage,
             editAddress: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            businessAddress: acspUpdatedFullProfile?.registeredOfficeAddress
+            businessAddress: acspUpdatedFullProfile?.registeredOfficeAddress,
+            typeOfBusiness: acspFullProfile.type
         });
     } catch (err) {
         next(err);

@@ -3,7 +3,11 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% set errors = pageProperties.errors %}
 
-{% set title = i18n.businessLookUpAddressTitle %}
+{% if typeOfBusiness === "limited-company" or typeOfBusiness === "limited-liability-partnership"  or typeOfBusiness === "corporate-body" %}
+  {% set title = i18n.registeredOfficeLookUpAddressTitle %}
+{% else %}
+  {% set title = i18n.businessLookUpAddressTitle %} 
+{% endif %}
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="" method="POST">
@@ -11,7 +15,11 @@
       {% if businessName %}
         {% include "partials/business_name.njk" %}
       {% endif %}
-      <h1 class="govuk-heading-l">{{ i18n.businessLookUpAddressTitle }}</h1>
+      {% if typeOfBusiness === "limited-company" or typeOfBusiness === "limited-liability-partnership" or typeOfBusiness === "corporate-body" %}
+        <h1 class="govuk-heading-l">{{ i18n.registeredOfficeLookUpAddressTitle }}</h1>
+      {% else %}
+        <h1 class="govuk-heading-l">{{ i18n.businessLookUpAddressTitle }}</h1>
+      {% endif %}
       <div class="govuk-form-group">
         {{ govukInput({
                 label: {
