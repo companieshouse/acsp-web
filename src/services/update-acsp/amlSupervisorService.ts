@@ -3,7 +3,7 @@ import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../common/__utils/constan
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Request } from "express";
 
-export const removeAMLSupervisor = (req: Request): void => {
+export const amlSupervisor = (req: Request): void => {
     const amlRemovalIndex = req.query.amlindex;
     const session: Session = req.session as any as Session;
     const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
