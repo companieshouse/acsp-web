@@ -2,7 +2,7 @@
 {% set updateStatusTextForCorrespondenceEmail = "" %}
 {% set updateStatusTextForBusinessName = "" %}
 
-{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+{% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
