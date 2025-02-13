@@ -4,21 +4,35 @@
 
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
+    {% set updateAMLDetailsStatusText = "" %}
+    {% set amlActionText = i18n.updateYourDetailsRemove %}
+        {% if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody %}
+            {% set amlActionText = i18n.updateYourDetailsCancel %}
+            {% set updateAMLDetailsStatusText =
+                            "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
+                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            </div>"
+            %}
+        {%endif%}
     {% set amlSummaryObject = {
         key: {
-            text:  i18n.checkYourAnswersAMLTab
+            text:  i18n.checkYourAnswersAMLTab + tmp,
+            classes: "govuk-!-width-one-third"
         },
         value: {
             html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + "</li><li>" + body.membershipDetails + "</li></ul>"
+            +updateAMLDetailsStatusText,
+            classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
             {
-                href: "#",
-                text: i18n.updateYourDetailsRemove,
-                visuallyHiddenText: body.supervisoryBody
-            }
-            ]
+                href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
+                text: amlActionText,
+                visuallyHiddenText: amlActionText
+            }],
+            classes: "govuk-!-width-one-third"
         }
     } %}
     {% set amlList = amlList.concat(amlSummaryObject) %}
