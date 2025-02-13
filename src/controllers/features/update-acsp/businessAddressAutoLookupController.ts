@@ -35,7 +35,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             payload,
-            businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
+            businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
+            typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
         next(err);
@@ -59,7 +60,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
+                businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
+                typeOfBusiness: acspUpdatedFullProfile.type
             });
         } else {
             const postcode = req.body.postCode;
@@ -84,7 +86,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     currentUrl,
                     pageProperties: pageProperties,
                     payload: req.body,
-                    businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
+                    businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
+                    typeOfBusiness: acspUpdatedFullProfile.type
                 });
             });
         }

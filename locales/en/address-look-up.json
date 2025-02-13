@@ -1,6 +1,7 @@
 {
     "correspondenceLookUpAddressTitle" : "What is the correspondence address?",
     "businessLookUpAddressTitle": "What is the business address?",
+    "registeredOfficeLookUpAddressTitle": "What is the registered office address?",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
     "correspondenceLookUpAddressInputHint1": "Property name or number",
     "correspondenceLookUpAddressInputHint2": "You'll need to enter the address manually if it's not in the UK.",

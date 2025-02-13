@@ -1,4 +1,5 @@
 {
     "correspondenceAddressConfirmTitle" : "Confirm the correspondence address",
-    "businessAddressConfirmTitle" : "Confirm the business address"
+    "businessAddressConfirmTitle" : "Confirm the business address",
+    "registeredOfficeAddressConfirmTitle" : "Confirm the registered office address"
 }

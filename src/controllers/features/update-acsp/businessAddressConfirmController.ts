@@ -20,7 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             editAddress: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            businessAddress: acspUpdatedFullProfile?.registeredOfficeAddress
+            businessAddress: acspUpdatedFullProfile?.registeredOfficeAddress,
+            typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
         next(err);

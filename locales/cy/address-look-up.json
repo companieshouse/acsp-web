@@ -1,6 +1,7 @@
 {
     "correspondenceLookUpAddressTitle" : "Beth yw'r cyfeiriad gohebiaeth?",
     "businessLookUpAddressTitle": "Beth yw'r cyfeiriad busnes?",
+    "registeredOfficeLookUpAddressTitle": "What is the registered office address? welsh",
     "correspondenceLookUpAddressPostCodeInput": "Cod post y DU",
     "correspondenceLookUpAddressInputHint1": "Enw neu rif eiddo",
     "correspondenceLookUpAddressInputHint2": "Bydd angen i chi cofnodi'r cyfeiriad â llaw os nad yw yn y Deyrnas Unedig.",
