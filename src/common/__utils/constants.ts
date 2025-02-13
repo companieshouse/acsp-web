@@ -42,3 +42,4 @@ export const UPDATE_REFERENCE: string = "ACSP update details";
 export const UPDATE_SUBMISSION_ID: string = "updateSubmissionId";
 export const NEW_AML_BODIES: string = "newAmlBodies";
 export const NEW_AML_BODY: string = "newAmlBody";
+export const ADD_AML_BODY_UPDATE: string = "addAmlBodyUpdate";

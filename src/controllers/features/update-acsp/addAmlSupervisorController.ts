@@ -5,11 +5,22 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ADD_AML_SUPERVISOR } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { NEW_AML_BODY } from "../../../common/__utils/constants";
+import { NEW_AML_BODIES, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const session: Session = req.session as any as Session;
+        const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
+        const update: number | undefined = req.query.update as number | undefined;
+
+        let amlBody = "";
+        if (update) {
+            amlBody = newAMLBodies[update].amlSupervisoryBody!;
+            session.setExtraData(ADD_AML_BODY_UPDATE, update);
+        }
+
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR;
@@ -18,7 +29,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            AMLSupervisoryBodies
+            AMLSupervisoryBodies,
+            amlBody
         });
     } catch (err) {
         next(err);
