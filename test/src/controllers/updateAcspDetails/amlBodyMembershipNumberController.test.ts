@@ -17,14 +17,6 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
 
-    it("should render the AML membership number page with status 200", async () => {
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(res.status).toBe(200);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
-    });
-
     it("should return status 500 after calling GET endpoint and failing", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error("Test error");
