@@ -12,7 +12,7 @@ import {
     UPDATE_ACSP_DETAILS_BASE_URL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
@@ -20,7 +20,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const locales = getLocalesService();
         const lang = selectLang(req.query.lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP;
@@ -37,7 +36,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             payload,
             businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
-            typeOfBusiness: acspFullProfile.type
+            typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
         next(err);
@@ -49,7 +48,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP;
         const locales = getLocalesService();
@@ -63,7 +61,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 pageProperties: pageProperties,
                 payload: req.body,
                 businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
-                typeOfBusiness: acspFullProfile.type
+                typeOfBusiness: acspUpdatedFullProfile.type
             });
         } else {
             const postcode = req.body.postCode;
@@ -89,7 +87,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     pageProperties: pageProperties,
                     payload: req.body,
                     businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
-                    typeOfBusiness: acspFullProfile.type
+                    typeOfBusiness: acspUpdatedFullProfile.type
                 });
             });
         }

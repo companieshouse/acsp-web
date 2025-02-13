@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +17,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
         // Get existing business address details and display on the page
         const businessAddressService = new BusinessAddressService();
@@ -28,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl,
             payload,
-            typeOfBusiness: acspFullProfile.type
+            typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
         next(err);
@@ -42,7 +41,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -53,7 +51,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 pageProperties: pageProperties,
                 payload: req.body,
-                typeOfBusiness: acspFullProfile.type
+                typeOfBusiness: acspUpdatedFullProfile.type
             });
         } else {
         // update acspUpdatedFullProfile
