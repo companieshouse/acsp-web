@@ -5,7 +5,9 @@
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
     {% set updateAMLDetailsStatusText = "" %}
+    {% set amlActionText = i18n.updateYourDetailsRemove %}
         {% if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody %}
+            {% set amlActionText = i18n.updateYourDetailsCancel %}
             {% set updateAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
                             <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
@@ -27,15 +29,9 @@
             items: [
             {
                 href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
-                text: i18n.updateYourDetailsRemove,
-                visuallyHiddenText: body.supervisoryBody
-            },
-            {
-                href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: body.supervisoryBody
-            }if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody
-            ],
+                text: amlActionText,
+                visuallyHiddenText: amlActionText
+            }],
             classes: "govuk-!-width-one-third"
         }
     } %}
