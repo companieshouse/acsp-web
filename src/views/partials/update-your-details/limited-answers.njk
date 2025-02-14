@@ -50,7 +50,7 @@
                 href: cancelChangeUrl + "&cancel=serviceAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+              }if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -100,7 +100,7 @@
                 href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
-              }if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress
+              }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
             classes: "govuk-!-width-one-third"
           }
