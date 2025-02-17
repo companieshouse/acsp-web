@@ -14,7 +14,7 @@ export const amlSupervisor = (req: Request): void => {
         if (indexAMLForRemoval >= 0) {
             acspUpdatedFullProfile.amlDetails.length > 1
                 ? acspUpdatedFullProfile.amlDetails.splice(indexAMLForUndoRemoval, 1) : acspUpdatedFullProfile.amlDetails.pop();
-        } else if (indexAMLForUndoRemoval >= 0 && indexAMLForRemoval === -1) {
+        } else if (indexAMLForUndoRemoval >= 0) {
             acspUpdatedFullProfile.amlDetails.splice(indexAMLForUndoRemoval, 0, acspFullProfile.amlDetails[indexAMLForUndoRemoval]);
         }
     }
