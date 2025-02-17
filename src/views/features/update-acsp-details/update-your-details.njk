@@ -1,12 +1,18 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-
+[a,b,c] [a,c]
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
+    {% set chkFlagForAMLUpdate = true %}
     {% set updateAMLDetailsStatusText = "" %}
     {% set amlActionText = i18n.updateYourDetailsRemove %}
-        {% if body.supervisoryBody !== acspUpdatedFullProfile.amlDetails[loop.index0].supervisoryBody %}
+    {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
+        {% if chkFlagForAMLUpdate === true and body.supervisoryBody === bodyUpdated.supervisoryBody %}
+            {% set chkFlagForAMLUpdate = false %}
+        {%endif%}
+    {% endfor %}
+        {% if chkFlagForAMLUpdate %}
             {% set amlActionText = i18n.updateYourDetailsCancel %}
             {% set updateAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
@@ -21,7 +27,7 @@
             classes: "govuk-!-width-one-third"
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + "</li><li>" + body.membershipDetails + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + bodyUpdated|length +"</li><li>" + body.membershipDetails + "</li></ul>"
             +updateAMLDetailsStatusText,
             classes: "govuk-!-width-one-third"
         },

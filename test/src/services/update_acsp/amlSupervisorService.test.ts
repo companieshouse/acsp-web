@@ -1,46 +1,91 @@
-import { createRequest, MockRequest, Session } from "node-mocks-http";
+import { createRequest, MockRequest } from "node-mocks-http";
+import { amlSupervisor } from "../../../../src/services/update-acsp/amlSupervisorService";
 import { Request } from "express";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
-import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
-import { amlSupervisor } from "../../../../src/services/update-acsp/amlSupervisorService";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
-describe("removeAMLService tests", () => {
+describe("amlSupervisor", () => {
     let req: MockRequest<Request>;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
     beforeEach(() => {
         req = createRequest({
             method: "GET",
-            url: "/",
-            query: {
-                amlindex: ""
-            }
+            url: "/"
         });
-        const session = getSessionRequestWithPermission();
-        req.session = session;
-        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        req.session = getSessionRequestWithPermission();
+        acspFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123" },
+                { membershipDetails: "456" }
+            ]
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123" },
+                { membershipDetails: "456" }
+            ]
+        } as AcspFullProfile;
+
+        session = {
+            getExtraData: jest.fn((key: string) => {
+                if (key === ACSP_DETAILS) return acspFullProfile;
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            })
+        } as Partial<Session>;
+
+        req.session = session as Session;
     });
-    it("to mark the aml supervisor details as empty as a temporary removal", () => {
-        const session: Session = req.session as any as Session;
-        req.query.amlindex = "123456789";
-        session.setExtraData(ACSP_DETAILS_UPDATED,
-            {
-                ...dummyFullProfile,
-                amlDetails: [{
-                    supervisoryBody: "",
-                    membershipDetails: ""
-                }]
-            }
-        );
-        amlSupervisor(req);
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("hm-revenue-customs-hmrc");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("123456789");
+
+    it("should remove AML detail if index is found in updated profile", () => {
+        req.query.amlindex = "123";
+
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(1);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("456");
     });
-    it("to undo the aml supervisor details from empty", () => {
-        const session: Session = req.session as any as Session;
-        req.query.amlindex = "123456789";
-        session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
-        amlSupervisor(req);
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].supervisoryBody).toBe("");
-        expect(session.getExtraData(ACSP_DETAILS_UPDATED).amlDetails[0].membershipDetails).toBe("");
+
+    it("should clear AML details if only one detail is present and index is found", () => {
+        acspUpdatedFullProfile.amlDetails = [{ membershipDetails: "123", supervisoryBody: "SomeBody" }];
+        req.query.amlindex = "123";
+
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(0);
+    });
+
+    it("should undo removal of AML detail if index is not found in updated profile but found in original profile", () => {
+        acspUpdatedFullProfile.amlDetails = [{ membershipDetails: "456", supervisoryBody: "SomeBody" }];
+        req.query.amlindex = "123";
+
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(2);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("123");
+        expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
+    });
+
+    it("should do nothing if amlindex is not provided", () => {
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(2);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("123");
+        expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
+    });
+
+    it("should do nothing if amlindex is not found in both profiles", () => {
+        req.query.amlindex = "789";
+
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(2);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("123");
+        expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
     });
 });
