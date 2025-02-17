@@ -2,7 +2,7 @@
 {% set updateStatusTextForCorrespondenceEmail = "" %}
 {% set updateStatusTextForBusinessName = "" %}
 
-{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+{% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
@@ -50,7 +50,7 @@
                 href: cancelChangeUrl + "&cancel=serviceAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+              }if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -92,7 +92,7 @@
         actions: {
             items: [
               {
-                href: "#",
+                href: "/view-and-update-the-authorised-agents-details/business-address-lookup?lang=" + lang,
                 text: i18n.updateYourDetailsUpdate,
                 visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
               },
@@ -100,7 +100,7 @@
                 href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
-              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+              }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
             classes: "govuk-!-width-one-third"
           }

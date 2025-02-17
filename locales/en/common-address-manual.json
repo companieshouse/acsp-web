@@ -1,6 +1,7 @@
 {
     "correspondenceAddressManualTitle" : "Enter the correspondence address",
     "businessAddressManualTitle" : "Enter the business address",
+    "registeredOfficeAddressManualTitle" : "Enter the registered office address",
     "addressPropertyDetails": "Property name or number",
     "addressPropertyDetailsHint": "For example, 'The Mill', '116' or 'Flat 37a'",
     "addressLine1": "Address line 1",

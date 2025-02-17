@@ -36,8 +36,38 @@
             {
                 href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
                 text: amlActionText,
-                visuallyHiddenText: amlActionText
+                visuallyHiddenText: AMLSupervioryBodiesFormatted[body.supervisoryBody]
             }],
+            classes: "govuk-!-width-one-third"
+        }
+    } %}
+    {% set amlList = amlList.concat(amlSummaryObject) %}
+{% endfor %}
+{% for body in addedAmlBodies %}
+    {% set amlSummaryObject = {
+        key: {
+            text:  i18n.checkYourAnswersAMLTab
+        },
+        value: {
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>" +
+            "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+            </div>"
+        },
+        actions: {
+            items: [
+                {
+                    href: addAML + "&update=" + loop.index0,
+                    text: i18n.updateYourDetailsUpdate,
+                    visuallyHiddenText: AMLSupervisoryBodies[body.amlSupervisoryBody]
+                },
+                {
+                    href: "#",
+                    text: i18n.updateYourDetailsRemove,
+                    visuallyHiddenText: AMLSupervisoryBodies[body.amlSupervisoryBody]
+                }
+            ],
             classes: "govuk-!-width-one-third"
         }
     } %}

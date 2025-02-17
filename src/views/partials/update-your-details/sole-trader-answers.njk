@@ -20,7 +20,7 @@
                 </div>"
   %}
 {%endif%}
-{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+{% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
@@ -118,7 +118,7 @@
                 href: cancelChangeUrl + "&cancel=serviceAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              } if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+              } if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
             classes: "govuk-!-width-one-third"
           }

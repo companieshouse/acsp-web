@@ -13,7 +13,7 @@
                 </div>"
   %}
 {%endif%}
-{% if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress %}
+{% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
@@ -29,7 +29,7 @@
                 </div>"
   %}
 {%endif%}
-{% if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress %}
+{% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForBusinessAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
@@ -94,7 +94,7 @@
                 href: cancelChangeUrl + "&cancel=serviceAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              }if profileDetailsUpdated.correspondenceAddress !== profileDetails.correspondenceAddress
+              }if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -144,7 +144,7 @@
                 href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
-              }if profileDetailsUpdated.businessAddress !== profileDetails.businessAddress
+              }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
           classes: "govuk-!-width-one-third"
           }

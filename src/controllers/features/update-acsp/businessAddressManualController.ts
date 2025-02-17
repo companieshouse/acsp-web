@@ -26,7 +26,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
-            payload
+            payload,
+            typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
         next(err);
@@ -49,7 +50,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,
-                payload: req.body
+                payload: req.body,
+                typeOfBusiness: acspUpdatedFullProfile.type
             });
         } else {
         // update acspUpdatedFullProfile
