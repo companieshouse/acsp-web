@@ -7,11 +7,13 @@
     {% set chkFlagForAMLUpdate = true %}
     {% set updateAMLDetailsStatusText = "" %}
     {% set amlActionText = i18n.updateYourDetailsRemove %}
-    {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
-        {% if chkFlagForAMLUpdate === true and body.supervisoryBody === bodyUpdated.supervisoryBody %}
-            {% set chkFlagForAMLUpdate = false %}
-        {%endif%}
-    {% endfor %}
+    {% if chkFlagForAMLUpdate === true %}
+        {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
+            {% if body.supervisoryBody === bodyUpdated.supervisoryBody %}
+                {% set chkFlagForAMLUpdate = false %}
+            {%endif%}
+        {% endfor %}
+    {%endif%}
         {% if chkFlagForAMLUpdate %}
             {% set amlActionText = i18n.updateYourDetailsCancel %}
             {% set updateAMLDetailsStatusText =
