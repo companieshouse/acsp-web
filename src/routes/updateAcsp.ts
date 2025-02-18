@@ -17,6 +17,7 @@ import {
     cancelAnUpdateController,
     updateApplicationConfirmationController,
     addAmlSupervisorController,
+    removeAmlSupervisorController,
     updateAmlMembershipNumberController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
@@ -73,6 +74,8 @@ updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheB
 
 updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
 updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
+
+updateRoutes.get(urls.REMOVE_AML_SUPERVISOR, removeAmlSupervisorController.get);
 
 updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
 

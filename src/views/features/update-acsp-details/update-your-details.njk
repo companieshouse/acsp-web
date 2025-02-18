@@ -1,24 +1,45 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
-
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
+    {% set chkFlagForAMLUpdate = true %}
+    {% set updateAMLDetailsStatusText = "" %}
+    {% set amlActionText = i18n.updateYourDetailsRemove %}
+    {% if chkFlagForAMLUpdate === true %}
+        {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
+            {% if body.supervisoryBody === bodyUpdated.supervisoryBody %}
+                {% set chkFlagForAMLUpdate = false %}
+            {%endif%}
+        {% endfor %}
+    {%endif%}
+        {% if chkFlagForAMLUpdate %}
+            {% set amlActionText = i18n.updateYourDetailsCancel %}
+            {% set updateAMLDetailsStatusText =
+                            "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
+                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            </div>"
+            %}
+        {%endif%}
     {% set amlSummaryObject = {
         key: {
-            text:  i18n.checkYourAnswersAMLTab
+            text:  i18n.checkYourAnswersAMLTab + tmp,
+            classes: "govuk-!-width-one-third"
         },
         value: {
             html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + "</li><li>" + body.membershipDetails + "</li></ul>"
+            +updateAMLDetailsStatusText,
+            classes: "govuk-!-width-one-third"
         },
         actions: {
             items: [
             {
-                href: "#",
-                text: i18n.updateYourDetailsRemove,
+                href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
+                text: amlActionText,
                 visuallyHiddenText: AMLSupervioryBodiesFormatted[body.supervisoryBody]
-            }
-            ]
+            }],
+            classes: "govuk-!-width-one-third"
         }
     } %}
     {% set amlList = amlList.concat(amlSummaryObject) %}
