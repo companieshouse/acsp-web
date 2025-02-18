@@ -1,6 +1,7 @@
 {% set updateStatusTextForCorrespondenceAddress = "" %}
 {% set updateStatusTextForCorrespondenceEmail = "" %}
 {% set updateStatusTextForBusinessName = "" %}
+{% set updateStatusTextForRegisteredOfficeAddress = "" %}
 
 {% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
@@ -20,6 +21,14 @@
 {%endif%}
 {% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
   {% set updateStatusTextForBusinessName =
+                "<div class='govuk-!-static-padding-top-3'>
+                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
+                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
+                </div>"
+  %}
+{%endif%}
+{% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
+  {% set updateStatusTextForRegisteredOfficeAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
@@ -86,7 +95,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForCorrespondenceAddress,
+          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForRegisteredOfficeAddress,
           classes: "govuk-!-width-one-third"
         },
         actions: {
