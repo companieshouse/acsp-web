@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../config";
-import { BASE_URL, CHECK_SAVED_APPLICATION, VERIFY_IDENTITY } from "../types/pageURL";
+import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -12,16 +12,17 @@ import { ACSP01_COST, PIWIK_REGISTRATION_START_GOAL_ID } from "../utils/properti
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-
-    const verifyIdentityLink = addLangToUrl(VERIFY_IDENTITY, lang);
-    const feedbackLink = "https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/";
+    const signInHelpEmailAddress = "signinhelp@companieshouse.gov.uk";
+    const findAndUpdateCompanyInfoLink = "https://find-and-update.company-information.service.gov.uk/";
+    const verifyIdentityLink = "https://www.gov.uk/guidance/applying-to-register-as-a-companies-house-authorised-agent";
     const abilityNetAccessibilityLink = "https://mcmw.abilitynet.org.uk/";
 
     res.render(config.HOME, {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL,
         PIWIK_REGISTRATION_START_GOAL_ID,
-        feedbackLink,
+        signInHelpEmailAddress,
+        findAndUpdateCompanyInfoLink,
         verifyIdentityLink,
         abilityNetAccessibilityLink,
         ACSP01_COST
