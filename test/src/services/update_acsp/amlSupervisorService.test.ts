@@ -161,14 +161,6 @@ describe("amlSupervisor", () => {
             expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
         });
 
-        it("should remove newly added AML body if index is found in newly added bodies", () => {
-            req.query.amlindex = "789";
-
-            amlSupervisor(req as Request);
-
-            expect(addedAmlBodies).toHaveLength(0);
-        });
-
         it("should do nothing if amlindex is not provided", () => {
             amlSupervisor(req as Request);
 

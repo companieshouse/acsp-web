@@ -13,15 +13,11 @@ export const amlSupervisor = (req: Request): void => {
     if (amlRemovalIndex) {
         const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
         const indexAMLForUndoRemoval = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
-        const indexAMLForNewlyAddedRemoval = addedAmlBodies.findIndex(tmpRemovedAml => tmpRemovedAml.membershipId === amlRemovalIndex);
         if (indexAMLForRemoval >= 0) {
             acspUpdatedFullProfile.amlDetails.length > 1
                 ? acspUpdatedFullProfile.amlDetails.splice(indexAMLForUndoRemoval, 1) : acspUpdatedFullProfile.amlDetails.pop();
         } else if (indexAMLForUndoRemoval >= 0) {
             acspUpdatedFullProfile.amlDetails.splice(indexAMLForUndoRemoval, 0, acspFullProfile.amlDetails[indexAMLForUndoRemoval]);
-        } else if (indexAMLForNewlyAddedRemoval >= 0) {
-            addedAmlBodies.length > 1
-                ? addedAmlBodies.splice(indexAMLForUndoRemoval, 1) : addedAmlBodies.pop();
         }
     }
 };

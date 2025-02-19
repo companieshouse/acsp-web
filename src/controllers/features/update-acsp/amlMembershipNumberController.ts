@@ -3,8 +3,9 @@ import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADD_AML_BODY_UPDATE, NEW_AML_BODIES, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP } from "../../../common/__utils/constants";
+import { ADD_AML_BODY_UPDATE, NEW_AML_BODIES, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { validationResult } from "express-validator";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -49,6 +50,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
         const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const reqType = REQ_TYPE_UPDATE_ACSP;
 
         const errorList = validationResult(req);
@@ -73,11 +75,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             if (updateBodyIndex) {
                 newAMLBodies[updateBodyIndex] = newAMLBody;
+                acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
+                acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
             } else {
                 newAMLBodies.push(newAMLBody);
+                acspUpdatedFullProfile.amlDetails.push({
+                    supervisoryBody: newAMLBody.amlSupervisoryBody!,
+                    membershipDetails: newAMLBody.membershipId!
+                });
             }
 
-            session.setExtraData(NEW_AML_BODIES, newAMLBodies);
             session.deleteExtraData(NEW_AML_BODY);
             session.deleteExtraData(ADD_AML_BODY_UPDATE);
 
