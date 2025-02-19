@@ -12,12 +12,14 @@ import { headers } from "../../common/__utils/constants";
 /**
  * Post transaction
  */
-export const postTransaction = async (session: Session, description: string, reference: string): Promise<Transaction> => {
+export const postTransaction = async (session: Session, description: string, reference: string, companyName?: string, companyNumber?: string): Promise<Transaction> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     const transaction: Transaction = {
         reference,
-        description
+        description,
+        companyNumber,
+        companyName
     };
 
     const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.postTransaction(transaction);

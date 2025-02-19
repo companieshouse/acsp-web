@@ -52,8 +52,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const session: Session = req.session as any as Session;
+        const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const acspDetailsUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+
         const acspUpdateService = new AcspUpdateService();
-        await acspUpdateService.createTransaction(session);
+        await acspUpdateService.createTransaction(session, acspDetails.name);
+        await acspUpdateService.saveUpdatedDetails(session, acspDetails, acspDetailsUpdated);
         res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
     } catch (err) {
         next(err);
