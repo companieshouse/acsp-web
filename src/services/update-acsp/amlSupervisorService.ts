@@ -1,8 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODIES } from "../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Request } from "express";
-import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const amlSupervisor = (req: Request): void => {
     const amlRemovalIndex = req.query.amlindex;
