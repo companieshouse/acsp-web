@@ -36,7 +36,7 @@ describe("AcspUpdateService tests", () => {
         it("should return start a new transaction and save the transaction ID to session", async () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             const session: Session = req.session as any as Session;
-            await acspUpdateService.createTransaction(session, "Test Business ACSP");
+            await acspUpdateService.createTransaction(session);
 
             expect(session.getExtraData(UPDATE_SUBMISSION_ID)).toEqual(transactionId);
         });
@@ -44,7 +44,7 @@ describe("AcspUpdateService tests", () => {
         it("should not start a new transaction if one already exists", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(UPDATE_SUBMISSION_ID, transactionId);
-            await acspUpdateService.createTransaction(session, "Test Business ACSP");
+            await acspUpdateService.createTransaction(session);
 
             expect(mockPostTransaction).not.toHaveBeenCalled();
         });
@@ -53,7 +53,7 @@ describe("AcspUpdateService tests", () => {
             mockPostTransaction.mockRejectedValueOnce(new Error("Failed to post transaction"));
             const session: Session = req.session as any as Session;
 
-            expect(acspUpdateService.createTransaction(session, "Test Business ACSP")).rejects.toThrow();
+            expect(acspUpdateService.createTransaction(session)).rejects.toThrow();
         });
     });
 

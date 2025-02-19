@@ -56,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspDetailsUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         const acspUpdateService = new AcspUpdateService();
-        await acspUpdateService.createTransaction(session, acspDetails.name);
+        await acspUpdateService.createTransaction(session);
         await acspUpdateService.saveUpdatedDetails(session, acspDetails, acspDetailsUpdated);
         res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
     } catch (err) {

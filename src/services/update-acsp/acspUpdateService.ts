@@ -8,11 +8,11 @@ import { postAcspRegistration } from "../../services/acspRegistrationService";
 import { getLoggedInAcspNumber } from "../../common/__utils/session";
 
 export class AcspUpdateService {
-    async createTransaction (session: Session, companyName: string): Promise<void> {
+    async createTransaction (session: Session): Promise<void> {
         const existingTransactionId = session.getExtraData(UPDATE_SUBMISSION_ID);
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             try {
-                const transaction = await postTransaction(session, UPDATE_DESCRIPTION, UPDATE_REFERENCE, companyName, getLoggedInAcspNumber(session));
+                const transaction = await postTransaction(session, UPDATE_DESCRIPTION, UPDATE_REFERENCE);
                 session.setExtraData(UPDATE_SUBMISSION_ID, transaction.id);
                 return Promise.resolve();
             } catch (error) {
