@@ -67,7 +67,7 @@ export class AcspUpdateService {
             await postAcspRegistration(session, transactionId, acspData);
 
         } catch (error) {
-            logger.error(`Error while creating transaction for update ACSP`);
+            logger.error(`Error while saving data for update ACSP`);
             return Promise.reject(error);
         }
     }
