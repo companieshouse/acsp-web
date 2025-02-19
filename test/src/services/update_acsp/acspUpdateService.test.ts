@@ -129,7 +129,7 @@ describe("AcspUpdateService tests", () => {
 
         it("should save updated details and call postAcspRegistration", async () => {
             session.setExtraData(UPDATE_SUBMISSION_ID, transactionId);
-            session.setExtraData(NEW_AML_BODIES, [{ amlSupervisoryBody: "HMRC", membershipId: "HMRC123456" }]);
+            session.setExtraData(NEW_AML_BODIES, undefined);
 
             acspDetails.soleTraderDetails = undefined;
             acspDetailsUpdated.soleTraderDetails = undefined;
@@ -145,8 +145,7 @@ describe("AcspUpdateService tests", () => {
                 },
                 registeredOfficeAddress: acspDetailsUpdated.registeredOfficeAddress,
                 businessName: acspDetailsUpdated.name,
-                removedAmlSupervisoryBodies: [{ amlSupervisoryBody: "ACCA", membershipId: "123456" }],
-                amlSupervisoryBodies: [{ amlSupervisoryBody: "HMRC", membershipId: "HMRC123456" }]
+                removedAmlSupervisoryBodies: [{ amlSupervisoryBody: "ACCA", membershipId: "123456" }]
             };
 
             expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData);

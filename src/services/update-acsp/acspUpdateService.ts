@@ -5,7 +5,6 @@ import logger from "../../utils/logger";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { postAcspRegistration } from "../../services/acspRegistrationService";
-import { getLoggedInAcspNumber } from "../../common/__utils/session";
 
 export class AcspUpdateService {
     async createTransaction (session: Session): Promise<void> {
@@ -26,7 +25,7 @@ export class AcspUpdateService {
         try {
             const transactionId: string = session.getExtraData(UPDATE_SUBMISSION_ID)!;
             const removedAMLBodies = this.checkForRemovedAMLBodies(acspDetails, acspDetailsUpdated);
-            const addedAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES)!;
+            const addedAMLBodies: AmlSupervisoryBody[] | undefined = session.getExtraData(NEW_AML_BODIES);
 
             const acspData: AcspData = {
                 acspType: "UPDATE_ACSP",
@@ -61,7 +60,7 @@ export class AcspUpdateService {
             if (removedAMLBodies.length) {
                 acspData.removedAmlSupervisoryBodies = removedAMLBodies;
             }
-            if (addedAMLBodies.length) {
+            if (addedAMLBodies && addedAMLBodies.length) {
                 acspData.amlSupervisoryBodies = addedAMLBodies;
             }
 
