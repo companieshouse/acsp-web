@@ -1,0 +1,12 @@
+{% extends "layouts/default.njk" %}
+{% set title = i18n.provideAmlDetailsTitle %}
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">{{ i18n.provideAmlDetailsTitle }}</h1>
+    <p class="govuk-body">{{ i18n.provideAmlDetailsBody1 }}</p>
+    <p class="govuk-body">
+        {{ i18n.provideAmlDetailsBody2 }}
+        <a id="provide-aml-details-link-id" href="/view-and-update-the-authorised-agents-details/update-your-details">{{ i18n.provideAmlDetailsLink }}</a>.
+    </p>
+
+{% endblock main_content %}

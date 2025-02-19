@@ -204,3 +204,5 @@ export const UPDATE_ADD_AML_SUPERVISOR = "/select-aml-supervisor";
 
 export const REMOVE_AML_SUPERVISOR = "/remove-an-aml";
 export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";
+
+export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
