@@ -9,6 +9,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
+import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -42,6 +43,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lang,
             cancelChangeUrl,
             removeAMLUrl,
+            AMLSupervisoryBodies,
             AMLSupervioryBodiesFormatted,
             addedAmlBodies
         });

@@ -19,6 +19,7 @@
     "addNewAMLDetails": "Add new AML details",
     "goBackToAuthorisedAgentServices": "Go back to authorised agent services",
     "updatedWarningCaption": "Details updated",
+    "updatedWarningCaptionForNewlyAddedAML": "New Details",
     "updatedWarningNoteLineOne": "Pending until submitted",
     "updatedWarningNoteLineTwo": " and accepted",
     "updateAMLDetailsRemoved": " Removed",

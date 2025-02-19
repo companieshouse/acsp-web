@@ -3,17 +3,17 @@
 {% extends "layouts/default.njk" %}
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
-    {% set chkFlagForAMLUpdate = true %}
+    {% set chkFlagForAMLRemoval = true %}
     {% set updateAMLDetailsStatusText = "" %}
     {% set amlActionText = i18n.updateYourDetailsRemove %}
-    {% if chkFlagForAMLUpdate === true %}
+    {% if chkFlagForAMLRemoval === true %}
         {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
             {% if body.supervisoryBody === bodyUpdated.supervisoryBody %}
-                {% set chkFlagForAMLUpdate = false %}
+                {% set chkFlagForAMLRemoval = false %}
             {%endif%}
         {% endfor %}
     {%endif%}
-        {% if chkFlagForAMLUpdate %}
+        {% if chkFlagForAMLRemoval %}
             {% set amlActionText = i18n.updateYourDetailsCancel %}
             {% set updateAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
@@ -44,34 +44,48 @@
     } %}
     {% set amlList = amlList.concat(amlSummaryObject) %}
 {% endfor %}
-{% for body in addedAmlBodies %}
-    {% set amlSummaryObject = {
-        key: {
-            text:  i18n.checkYourAnswersAMLTab
-        },
-        value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>" +
-            "<div class='govuk-!-static-padding-top-3'>
-                <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
-                <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
-            </div>"
-        },
-        actions: {
-            items: [
-                {
-                    href: addAML + "&update=" + loop.index0,
-                    text: i18n.updateYourDetailsUpdate,
-                    visuallyHiddenText: AMLSupervisoryBodies[body.amlSupervisoryBody]
+{% for bodyAdded in acspUpdatedFullProfile.amlDetails %}
+    {% set chkFlagForNewlyAddedAML = true %}
+    {% set newlyAddedAMLDetailsStatusText = "" %}
+    {% if chkFlagForNewlyAddedAML === true %}
+        {% for body in acspFullProfile.amlDetails %}
+            {% if body.supervisoryBody === bodyAdded.supervisoryBody %}
+                {% set chkFlagForNewlyAddedAML = false %}
+            {%endif%}
+        {% endfor %}
+    {%endif%}
+        {% if chkFlagForNewlyAddedAML %}
+            {% set newlyAddedAMLDetailsStatusText =
+                            "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaptionForNewlyAddedAML+"</p>
+                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            </div>"
+            %}
+            {% set amlSummaryObject = {
+                key: {
+                    text:  i18n.checkYourAnswersAMLTab
                 },
-                {
-                    href: removeAMLUrl + "&amlindex=" + body.membershipId,
-                    text: i18n.updateYourDetailsRemove,
-                    visuallyHiddenText: AMLSupervisoryBodies[body.amlSupervisoryBody]
+                value: {
+                    html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody] + "</li><li>" + bodyAdded.membershipDetails + "</li></ul>"
+                    + newlyAddedAMLDetailsStatusText
+                },
+                actions: {
+                    items: [
+                        {
+                            href: addAML + "&update=" + loop.index0,
+                            text: i18n.updateYourDetailsUpdate,
+                            visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
+                        },
+                        {
+                            href: removeAMLUrl + "&amlindex=" + bodyAdded.membershipDetails,
+                            text: i18n.updateYourDetailsRemove,
+                            visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
+                        }
+                    ],
+                    classes: "govuk-!-width-one-third"
                 }
-            ],
-            classes: "govuk-!-width-one-third"
-        }
-    } %}
+            } %}
+        {%endif%}
     {% set amlList = amlList.concat(amlSummaryObject) %}
 {% endfor %}
 
