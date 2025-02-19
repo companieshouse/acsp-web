@@ -14,7 +14,6 @@ import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodie
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const update: number | undefined = req.query.update as number | undefined;
         let amlBody = "";

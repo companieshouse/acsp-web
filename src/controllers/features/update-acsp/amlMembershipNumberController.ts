@@ -17,13 +17,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
-        const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const reqType = REQ_TYPE_UPDATE_ACSP;
 
         let payload;
         if (updateBodyIndex) {
-            payload = { membershipNumber_1: newAMLBodies[updateBodyIndex].membershipId };
+            payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
         }
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
@@ -48,7 +48,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
-        const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const reqType = REQ_TYPE_UPDATE_ACSP;
@@ -74,11 +73,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             newAMLBody.membershipId = req.body.membershipNumber_1;
 
             if (updateBodyIndex) {
-                newAMLBodies[updateBodyIndex] = newAMLBody;
                 acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
                 acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
             } else {
-                newAMLBodies.push(newAMLBody);
                 acspUpdatedFullProfile.amlDetails.push({
                     supervisoryBody: newAMLBody.amlSupervisoryBody!,
                     membershipDetails: newAMLBody.membershipId!
