@@ -47,15 +47,15 @@ export class AcspUpdateService {
                 acspData.businessName = acspDetailsUpdated.name;
             }
             if (acspDetailsUpdated.soleTraderDetails?.usualResidentialCountry !== acspDetails.soleTraderDetails?.usualResidentialCountry) {
-                acspData.applicantDetails!.countryOfResidence = acspDetailsUpdated.soleTraderDetails?.usualResidentialCountry;
+                acspData.applicantDetails!.countryOfResidence = acspDetailsUpdated.soleTraderDetails!.usualResidentialCountry;
             }
             if (acspDetailsUpdated.soleTraderDetails?.forename !== acspDetails.soleTraderDetails?.forename ||
                 acspDetailsUpdated.soleTraderDetails?.otherForenames !== acspDetails.soleTraderDetails?.otherForenames ||
                 acspDetailsUpdated.soleTraderDetails?.surname !== acspDetails.soleTraderDetails?.surname
             ) {
-                acspData.applicantDetails!.firstName = acspDetailsUpdated.soleTraderDetails?.forename;
-                acspData.applicantDetails!.middleName = acspDetailsUpdated.soleTraderDetails?.otherForenames;
-                acspData.applicantDetails!.lastName = acspDetailsUpdated.soleTraderDetails?.surname;
+                acspData.applicantDetails!.firstName = acspDetailsUpdated.soleTraderDetails!.forename;
+                acspData.applicantDetails!.middleName = acspDetailsUpdated.soleTraderDetails!.otherForenames;
+                acspData.applicantDetails!.lastName = acspDetailsUpdated.soleTraderDetails!.surname;
             }
 
             if (removedAMLBodies.length) {
