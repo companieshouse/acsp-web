@@ -71,3 +71,4 @@ export const UPDATE_ACSP_DETAILS_HOME = `${BASE_UPDATE_ACSP_DETAILS_URL}/index/h
 export const UPDATE_YOUR_ANSWERS = `${BASE_UPDATE_ACSP_DETAILS_URL}/update-your-details`;
 export const UPDATE_ACSP_DETAILS_APPLICATION_CONFIRMATION = `${BASE_UPDATE_ACSP_DETAILS_URL}/application-confirmation/application-confirmation`;
 export const UPDATE_ADD_AML_SUPERVISORY_BODY = `${BASE_UPDATE_ACSP_DETAILS_URL}/add-aml-supervisory-body/add-aml-supervisory-body`;
+export const UPDATE_CANCEL_ALL_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/cancel-all-updates/cancel-all-updates`;
