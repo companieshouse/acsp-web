@@ -10,7 +10,6 @@ import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -23,7 +22,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
         var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
-        const addedAmlBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
 
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
@@ -44,8 +42,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             cancelChangeUrl,
             removeAMLUrl,
             AMLSupervisoryBodies,
-            AMLSupervioryBodiesFormatted,
-            addedAmlBodies
+            AMLSupervioryBodiesFormatted
         });
     } catch (err) {
         next(err);
