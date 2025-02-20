@@ -18,7 +18,8 @@ import {
     updateApplicationConfirmationController,
     addAmlSupervisorController,
     removeAmlSupervisorController,
-    updateAmlMembershipNumberController
+    updateAmlMembershipNumberController,
+    cancelAllUpdatesController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -83,5 +84,8 @@ updateRoutes.get(urls.CANCEL_AN_UPDATE, cancelAnUpdateController.get);
 
 updateRoutes.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
 updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);
+
+updateRoutes.get(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.get);
+updateRoutes.post(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.post);
 
 export default updateRoutes;

@@ -1,0 +1,23 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+{% set title = i18n.cancelAllUpdatesTitle %}
+{% block main_content %}
+    <form action="" method="POST">
+        {% include "partials/csrf_token.njk" %} 
+        <h1 class="govuk-heading-l"> {{ i18n.cancelAllUpdatesTitle }} </h1>
+        <p class="govuk-body">{{ i18n.ifYouContinueBodyText }}</p>
+        <div class="govuk-button-group"> 
+            {{ govukButton({
+                text: i18n.Continue,
+                id:"continue-button-id"
+              }) }}
+            <a 
+            href={{ updateDetailsGoBackLink }} 
+            class="govuk-link" 
+            id="back-link-id">
+                {{ i18n.cancelAllUpdatesGoBackLink }}
+            </a>
+        </div>
+    </form>
+{% endblock main_content %}

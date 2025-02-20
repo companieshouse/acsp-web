@@ -60,6 +60,8 @@ export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
 export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
+export const MANAGE_USERS_DASHBOARD = `${CHS_URL}/authorised-agent/manage-users`;
+
 export const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
 
 // sole trader journey urls
@@ -203,4 +205,7 @@ export const CANCEL_AN_UPDATE = "/cancel-an-update";
 export const UPDATE_ADD_AML_SUPERVISOR = "/select-aml-supervisor";
 
 export const REMOVE_AML_SUPERVISOR = "/remove-an-aml";
+
 export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";
+
+export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
