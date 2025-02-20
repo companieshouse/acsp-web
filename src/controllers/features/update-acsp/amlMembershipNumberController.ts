@@ -72,7 +72,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             newAMLBody.membershipId = req.body.membershipNumber_1;
 
-            if (updateBodyIndex) {
+            if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
                 acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
                 acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
             } else {

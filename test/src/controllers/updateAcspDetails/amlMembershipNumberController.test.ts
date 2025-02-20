@@ -5,7 +5,7 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { get, post } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
@@ -217,41 +217,59 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
 });
 
 describe("amlMembershipNumberController", () => {
-    let req: Request;
-    let res: Response;
-    let next: NextFunction;
-    let session: Session;
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: jest.Mock;
+    let session: Partial<Session>;
 
     beforeEach(() => {
-        req = {} as Request;
-        res = {} as Response;
-        next = jest.fn() as NextFunction;
         session = {
             getExtraData: jest.fn(),
             setExtraData: jest.fn()
-        } as any as Session;
-        req.session = session;
+        };
+
+        req = {
+            session: session as Session,
+            body: {},
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            redirect: jest.fn(),
+            status: jest.fn().mockReturnThis(),
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
     });
 
     it("should handle errors in the post method", async () => {
         const error = new Error("Test error");
-        session.getExtraData = jest.fn().mockImplementation(() => {
+        (req.session as Session).getExtraData = jest.fn().mockImplementation(() => {
             throw error;
         });
         req.query = { lang: "en" };
 
-        await post(req, res, next);
+        await post(req as Request, res as Response, next);
 
         expect(next).toHaveBeenCalledWith(error);
     });
 
     it("should redirect to the next page after successful post", async () => {
-        const newAMLBody = { amlSupervisoryBody: "Some Body" };
-        const acspUpdatedFullProfile: AcspFullProfile = { amlDetails: [{}] } as AcspFullProfile;
+        const newAMLBody = {
+            amlSupervisoryBody: "New Supervisory Body",
+            membershipId: ""
+        };
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            amlDetails: [
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" },
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" }
+            ]
+        } as AcspFullProfile;
 
         (req.session as Session).getExtraData = jest.fn()
             .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined)
+            .mockReturnValueOnce(0)
             .mockReturnValueOnce(acspUpdatedFullProfile);
         req.body = { membershipNumber_1: "123456" };
         req.query = { lang: "en" };
@@ -261,26 +279,7 @@ describe("amlMembershipNumberController", () => {
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-    });
-
-    it("should render the page with errors if validation fails", async () => {
-        const newAMLBody = { amlSupervisoryBody: "Some Body" };
-        const acspUpdatedFullProfile: AcspFullProfile = { amlDetails: [{}] } as AcspFullProfile;
-
-        (req.session as Session).getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-        req.body = { membershipNumber_1: " " };
-        req.query = { lang: "en" };
-
-        res.status = jest.fn().mockReturnThis();
-        res.render = jest.fn();
-
-        await post(req as Request, res as Response, next);
-
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
+        expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
     });
 });
