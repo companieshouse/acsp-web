@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import { Session } from '@companieshouse/node-session-handler';
+import { Request, Response, NextFunction } from "express";
+import { Session } from "@companieshouse/node-session-handler";
 import mocks from "../../../mocks/all_middleware_mock";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
@@ -7,8 +7,8 @@ import app from "../../../../src/app";
 import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
-import { AcspFullProfile } from 'private-api-sdk-node/dist/services/acsp-profile/types';
-import { get, post } from '../../../../src/controllers/features/update-acsp/amlMembershipNumberController';
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { get, post } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
 
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("@companieshouse/api-sdk-node");
@@ -99,7 +99,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
     });
 });
 
-describe('amlMembershipNumberController', () => {
+describe("amlMembershipNumberController", () => {
     let req: Request;
     let res: Response;
     let next: NextFunction;
@@ -116,12 +116,12 @@ describe('amlMembershipNumberController', () => {
         req.session = session;
     });
 
-    it('should set payload with membershipNumber_1 if updateBodyIndex is provided', async () => {
+    it("should set payload with membershipNumber_1 if updateBodyIndex is provided", async () => {
         const updateBodyIndex = 1;
         const acspUpdatedFullProfile: AcspFullProfile = {
             amlDetails: [
-                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'Old Membership ID' },
-                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'New Membership ID' }
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" },
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "New Membership ID" }
             ]
         } as AcspFullProfile;
 
@@ -135,14 +135,14 @@ describe('amlMembershipNumberController', () => {
 
         await get(req, res, next);
 
-        expect(payload).toEqual({ membershipNumber_1: 'New Membership ID' });
+        expect(payload).toEqual({ membershipNumber_1: "New Membership ID" });
     });
 
-    it('should not set payload if updateBodyIndex is not provided', async () => {
+    it("should not set payload if updateBodyIndex is not provided", async () => {
         const updateBodyIndex = undefined;
         const acspUpdatedFullProfile: AcspFullProfile = {
             amlDetails: [
-                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'Old Membership ID' }
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" }
             ]
         } as AcspFullProfile;
 
