@@ -40,6 +40,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should return status 500 if deleteExtraData throws an error", async () => {
         mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
             req.session = {
+                getExtraData: jest.fn().mockReturnValue({}),
                 deleteExtraData: jest.fn().mockImplementation(() => {
                     throw new Error();
                 })
