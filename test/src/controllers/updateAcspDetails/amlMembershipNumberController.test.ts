@@ -1,3 +1,5 @@
+import { Request, Response, NextFunction } from 'express';
+import { Session } from '@companieshouse/node-session-handler';
 import mocks from "../../../mocks/all_middleware_mock";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
@@ -5,9 +7,11 @@ import app from "../../../../src/app";
 import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
+import { AcspFullProfile } from 'private-api-sdk-node/dist/services/acsp-profile/types';
+import { get, post } from '../../../../src/controllers/features/update-acsp/amlMembershipNumberController';
 
-jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
+jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
@@ -92,5 +96,66 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
             expect(res.status).toBe(500);
             expect(res.text).toContain("Sorry we are experiencing technical difficulties");
         });
+    });
+});
+
+describe('amlMembershipNumberController', () => {
+    let req: Request;
+    let res: Response;
+    let next: NextFunction;
+    let session: Session;
+
+    beforeEach(() => {
+        req = {} as Request;
+        res = {} as Response;
+        next = jest.fn() as NextFunction;
+        session = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        } as any as Session;
+        req.session = session;
+    });
+
+    it('should set payload with membershipNumber_1 if updateBodyIndex is provided', async () => {
+        const updateBodyIndex = 1;
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            amlDetails: [
+                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'Old Membership ID' },
+                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'New Membership ID' }
+            ]
+        } as AcspFullProfile;
+
+        session.getExtraData = jest.fn().mockReturnValueOnce(acspUpdatedFullProfile).mockReturnValueOnce(updateBodyIndex);
+        req.query = { update: updateBodyIndex.toString() };
+
+        let payload;
+        if (updateBodyIndex) {
+            payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
+        }
+
+        await get(req, res, next);
+
+        expect(payload).toEqual({ membershipNumber_1: 'New Membership ID' });
+    });
+
+    it('should not set payload if updateBodyIndex is not provided', async () => {
+        const updateBodyIndex = undefined;
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            amlDetails: [
+                { supervisoryBody: 'Old Supervisory Body', membershipDetails: 'Old Membership ID' }
+            ]
+        } as AcspFullProfile;
+
+        session.getExtraData = jest.fn().mockReturnValueOnce(acspUpdatedFullProfile).mockReturnValueOnce(updateBodyIndex);
+        req.query = { update: updateBodyIndex };
+
+        let payload;
+        if (updateBodyIndex) {
+            payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
+        }
+
+        await get(req, res, next);
+
+        expect(payload).toBeUndefined();
     });
 });
