@@ -5,6 +5,11 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UP
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import * as localise from "../../../../src/utils/localise";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
+import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/postcode-lookup-service.ts");
@@ -131,3 +136,26 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+let customMockSessionMiddleware: any;
+
+describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
+    it("should return 200 and render the page with sole-trader type", async () => {
+        createMockSessionMiddleware();
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
+        expect(res.status).toBe(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("What is the correspondence address?");
+    });
+});
+
+function createMockSessionMiddleware () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
