@@ -15,12 +15,19 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
 
+        let correspondenceAddress;
+        if (acspUpdatedFullProfile.type === "sole-trader") {
+            correspondenceAddress = acspUpdatedFullProfile.registeredOfficeAddress;
+        } else {
+            correspondenceAddress = acspUpdatedFullProfile.serviceAddress;
+        }
+
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage,
             editPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            correspondenceAddress: acspUpdatedFullProfile?.serviceAddress
+            correspondenceAddress
         });
     } catch (err) {
         next(err);
