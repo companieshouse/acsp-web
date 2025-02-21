@@ -3,6 +3,11 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL } from "../../../../src/types/pageURL";
+import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
+import { Request, Response, NextFunction } from "express";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 
 const router = supertest(app);
 
@@ -196,3 +201,26 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+
+let customMockSessionMiddleware: any;
+
+describe("POST " + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
+    it("should return status 302 after redirect for sole-trader", async () => {
+        createMockSessionMiddleware();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
+    });
+});
+
+function createMockSessionMiddleware () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}

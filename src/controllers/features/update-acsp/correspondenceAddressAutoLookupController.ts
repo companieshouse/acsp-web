@@ -25,10 +25,18 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
 
-        const payload = {
-            postCode: acspUpdatedFullProfile.serviceAddress?.postalCode,
-            premise: acspUpdatedFullProfile.serviceAddress?.premises
-        };
+        let payload;
+        if (acspUpdatedFullProfile.type === "sole-trader") {
+            payload = {
+                postCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
+                premise: acspUpdatedFullProfile.registeredOfficeAddress?.premises
+            };
+        } else {
+            payload = {
+                postCode: acspUpdatedFullProfile.serviceAddress?.postalCode,
+                premise: acspUpdatedFullProfile.serviceAddress?.premises
+            };
+        }
 
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage,
@@ -65,7 +73,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, false,
+            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, acspUpdatedFullProfile.type === "sole-trader",
                 UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);

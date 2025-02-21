@@ -58,7 +58,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const selectedPremise = req.body.correspondenceAddress;
             // Save selected address
             const correspondenceAddress: Address = addressList.filter((address) => address.premises === selectedPremise)[0];
-            acspUpdatedFullProfile.serviceAddress = correspondenceAddress;
+            if (acspUpdatedFullProfile.type === "sole-trader") {
+                acspUpdatedFullProfile.registeredOfficeAddress = correspondenceAddress;
+            } else {
+                acspUpdatedFullProfile.serviceAddress = correspondenceAddress;
+            }
             session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
 
             // Redirect to the address confirmation page
