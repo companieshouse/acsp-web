@@ -35,7 +35,7 @@
         actions: {
             items: [
             {
-                href: removeAMLUrl + "&amlindex=" + body.membershipDetails,
+                href: removeAMLUrl + "&amlindex=" + body.membershipDetails + "&amlbody=" + body.supervisoryBody,
                 text: amlActionText,
                 visuallyHiddenText: AMLSupervioryBodiesFormatted[body.supervisoryBody]
             }],
@@ -77,7 +77,7 @@
                             visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
                         },
                         {
-                            href: removeAMLUrl + "&amlindex=" + bodyAdded.membershipDetails,
+                            href: removeAMLUrl + "&amlindex=" + bodyAdded.membershipDetails + "&amlbody=" + bodyAdded.supervisoryBody,
                             text: i18n.updateYourDetailsRemove,
                             visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
                         }

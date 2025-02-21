@@ -5,12 +5,19 @@ import { Request } from "express";
 
 export const amlSupervisor = (req: Request): void => {
     const amlRemovalIndex = req.query.amlindex;
+    const amlRemovalBody = req.query.amlbody;
     const session: Session = req.session as any as Session;
     const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-    if (amlRemovalIndex) {
-        const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
-        const indexAMLForUndoRemoval = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => tmpRemovedAml.membershipDetails === amlRemovalIndex);
+    if (amlRemovalIndex && amlRemovalBody) {
+        const indexAMLForRemoval = acspUpdatedFullProfile.amlDetails.findIndex(tmpRemovedAml => (
+            tmpRemovedAml.membershipDetails === amlRemovalIndex && tmpRemovedAml.supervisoryBody === amlRemovalBody
+        )
+        );
+        const indexAMLForUndoRemoval = acspFullProfile.amlDetails.findIndex(tmpRemovedAml => (
+            tmpRemovedAml.membershipDetails === amlRemovalIndex && tmpRemovedAml.supervisoryBody === amlRemovalBody
+        )
+        );
         if (indexAMLForRemoval >= 0) {
             acspUpdatedFullProfile.amlDetails.length > 1
                 ? acspUpdatedFullProfile.amlDetails.splice(indexAMLForRemoval, 1) : acspUpdatedFullProfile.amlDetails.pop();
