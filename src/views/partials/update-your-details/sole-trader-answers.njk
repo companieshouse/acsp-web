@@ -20,7 +20,7 @@
                 </div>"
   %}
 {%endif%}
-{% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
+{% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
@@ -104,7 +104,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.serviceAddress + updateStatusTextForCorrespondenceAddress,
+          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForCorrespondenceAddress,
           classes: "govuk-!-width-one-third"
         },
         actions: {
@@ -115,10 +115,10 @@
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               },
               {
-                href: cancelChangeUrl + "&cancel=serviceAddress",
+                href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              } if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
+              } if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
             classes: "govuk-!-width-one-third"
           }
