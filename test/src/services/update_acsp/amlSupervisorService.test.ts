@@ -75,4 +75,12 @@ describe("amlSupervisor", () => {
         expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("123");
         expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
     });
+    it("should remove the last AML detail if only one detail is present", () => {
+        acspUpdatedFullProfile.amlDetails = [{ membershipDetails: "123", supervisoryBody: "body1" }];
+        req.query = { amlindex: "123", amlbody: "body1" };
+
+        amlSupervisor(req as Request);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(0);
+    });
 });
