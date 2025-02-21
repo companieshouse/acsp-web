@@ -204,8 +204,17 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
 let customMockSessionMiddleware: any;
 
+describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
+    it("should return status 200 with sole-trader type", async () => {
+        createMockSessionMiddleware();
+        await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL).expect(200);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+    });
+});
+
 describe("POST " + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
-    it("should return status 302 after redirect for sole-trader", async () => {
+    it("should return status 302 after redirect with sole-trader type", async () => {
         createMockSessionMiddleware();
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
