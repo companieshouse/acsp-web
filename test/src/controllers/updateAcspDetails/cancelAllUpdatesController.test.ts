@@ -18,7 +18,7 @@ describe("GET " + UPDATE_CANCEL_ALL_UPDATES, () => {
     it("should respond with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(res.text).toContain("Are you sure you want to cancel all updates?");
-        expect(res.text).toContain("If you continue, we’ll return you to the authorised agent account.");
+        expect(res.text).toContain("If you continue, any updates you’ve made to the authorised agent’s details will not be saved.");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(200);
     });
