@@ -73,8 +73,8 @@ app.use(cookieParser());
 app.use(nocache());
 
 if (isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)) {
-    app.use(`^(${BASE_URL}${TYPE_OF_BUSINESS})$`, helmet(prepareCSPConfigHomePage(nonce)));
-    app.use(`^(?!(${BASE_URL}${TYPE_OF_BUSINESS}$))*`, helmet(prepareCSPConfig(nonce)));
+    app.use(`^(${BASE_URL}${TYPE_OF_BUSINESS}|${BASE_URL}$)$`, helmet(prepareCSPConfigHomePage(nonce)));
+    app.use(`^(?!(${BASE_URL}${TYPE_OF_BUSINESS}$|${BASE_URL}$))*`, helmet(prepareCSPConfig(nonce)));
 } else {
     app.use(`^(${BASE_URL})$`, helmet(prepareCSPConfigHomePage(nonce)));
     app.use(`^(?!(${BASE_URL}$))*`, helmet(prepareCSPConfig(nonce)));
