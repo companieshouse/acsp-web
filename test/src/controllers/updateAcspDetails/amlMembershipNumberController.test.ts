@@ -16,20 +16,28 @@ const router = supertest(app);
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
     it("should render the AML membership number page with status 200", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
+        session.setExtraData(ACSP_DETAILS_UPDATED, { amlDetails: [] });
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         expect(res.status).toBe(200);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
 
-    it("should return status 500 after calling GET endpoint and failing", async () => {
+    it("should render the AML membership number page with pre-filled membership number when updateBodyIndex is set", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
+        session.setExtraData(ADD_AML_BODY_UPDATE, 0);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { amlDetails: [{ membershipDetails: "123456" }] });
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
+        expect(res.status).toBe(200);
+    });
+
+    it("should return status 500 if an error occurs", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error("Test error");
         });
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
@@ -65,35 +73,6 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
             throw new Error("Test error");
         });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
-});
-
-describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
-    it("should render the AML membership number page with status 200", async () => {
-        const session = getSessionRequestWithPermission();
-        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
-        session.setExtraData(ACSP_DETAILS_UPDATED, { amlDetails: [] });
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(res.status).toBe(200);
-        expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
-    });
-
-    it("should render the AML membership number page with pre-filled membership number when updateBodyIndex is set", async () => {
-        const session = getSessionRequestWithPermission();
-        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
-        session.setExtraData(ADD_AML_BODY_UPDATE, 0);
-        session.setExtraData(ACSP_DETAILS_UPDATED, { amlDetails: [{ membershipDetails: "123456" }] });
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(res.status).toBe(200);
-    });
-
-    it("should return status 500 if an error occurs", async () => {
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("Test error");
-        });
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
@@ -157,27 +136,6 @@ describe("amlMembershipNumberController", () => {
         await get(req, res, next);
 
         expect(payload).toBeUndefined();
-    });
-});
-
-describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
-    it("should render the AML membership number page with status 200", async () => {
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(res.status).toBe(200);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
-    });
-
-    it("should return status 500 after calling GET endpoint and failing", async () => {
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("Test error");
-        });
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
