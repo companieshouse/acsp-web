@@ -8,7 +8,7 @@
     {% set amlActionText = i18n.updateYourDetailsRemove %}
     {% if chkFlagForAMLRemoval === true %}
         {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
-            {% if body.supervisoryBody === bodyUpdated.supervisoryBody %}
+            {% if body.supervisoryBody === bodyUpdated.supervisoryBody and body.membershipDetails === bodyUpdated.membershipDetails%}
                 {% set chkFlagForAMLRemoval = false %}
             {%endif%}
         {% endfor %}
@@ -49,7 +49,7 @@
     {% set newlyAddedAMLDetailsStatusText = "" %}
     {% if chkFlagForNewlyAddedAML === true %}
         {% for body in acspFullProfile.amlDetails %}
-            {% if body.supervisoryBody === bodyAdded.supervisoryBody %}
+            {% if body.supervisoryBody === bodyAdded.supervisoryBody and body.membershipDetails === bodyAdded.membershipDetails %}
                 {% set chkFlagForNewlyAddedAML = false %}
             {%endif%}
         {% endfor %}
