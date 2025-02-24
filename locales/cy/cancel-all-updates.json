@@ -1,5 +1,5 @@
 {
     "cancelAllUpdatesTitle" : "Are you sure you want to cancel all updates? welsh",
-    "ifYouContinueBodyText": "If you continue, we’ll return you to the authorised agent account. Any updates you’ve made to the authorised agent’s details will not be saved. Go back if you need to update the authorised agent’s details. welsh",
+    "ifYouContinueBodyText": "If you continue, any updates you’ve made to the authorised agent’s details will not be saved. We’ll return you to the authorised agent account. welsh",
     "cancelAllUpdatesGoBackLink": "Go back to update details welsh"
 }
