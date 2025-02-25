@@ -5,19 +5,19 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ADD_AML_SUPERVISOR } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { NEW_AML_BODIES, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../common/__utils/constants";
+import { NEW_AML_BODY, ADD_AML_BODY_UPDATE, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const newAMLBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const update: number | undefined = req.query.update as number | undefined;
-
         let amlBody = "";
         if (update) {
-            amlBody = newAMLBodies[update].amlSupervisoryBody!;
+            amlBody = acspUpdatedFullProfile.amlDetails[update].supervisoryBody!;
             session.setExtraData(ADD_AML_BODY_UPDATE, update);
         }
 
@@ -30,6 +30,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             AMLSupervisoryBodies,
+            AMLSupervioryBodiesFormatted,
             amlBody
         });
     } catch (err) {
@@ -47,11 +48,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.status(400).render(config.SELECT_AML_SUPERVISOR, {
+            res.status(400).render(config.UPDATE_ADD_AML_SUPERVISORY_BODY, {
                 previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 AMLSupervisoryBodies,
+                AMLSupervioryBodiesFormatted,
                 ...pageProperties
             });
         } else {
