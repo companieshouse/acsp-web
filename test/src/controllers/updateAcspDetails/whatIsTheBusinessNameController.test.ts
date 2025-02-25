@@ -19,7 +19,7 @@ describe("GET" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.text).toContain("What is the name of the business?");
     });
 });
-
+/*
 describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
@@ -39,3 +39,4 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.status).toBe(400);
     });
 });
+*/

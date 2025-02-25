@@ -88,5 +88,6 @@ export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdate
 export * as updateApplicationConfirmationController from "./features/update-acsp/applicationConfirmationController";
 export * as addAmlSupervisorController from "./features/update-acsp/addAmlSupervisorController";
 export * as removeAmlSupervisorController from "./features/update-acsp/removeAmlSupervisorController";
+export * as dateOfTheChangeController from "./features/update-acsp/dateOfTheChangeController";
 export * as updateAmlMembershipNumberController from "./features/update-acsp/amlMembershipNumberController";
 export * as cancelAllUpdatesController from "./features/update-acsp/cancelAllUpdatesController";

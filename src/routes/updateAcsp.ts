@@ -18,6 +18,7 @@ import {
     updateApplicationConfirmationController,
     addAmlSupervisorController,
     removeAmlSupervisorController,
+    dateOfTheChangeController,
     updateAmlMembershipNumberController,
     cancelAllUpdatesController
 } from "../controllers";
@@ -77,6 +78,8 @@ updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get)
 updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
 
 updateRoutes.get(urls.REMOVE_AML_SUPERVISOR, removeAmlSupervisorController.get);
+
+updateRoutes.get(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfTheChangeController.get);
 
 updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
 

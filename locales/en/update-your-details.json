@@ -24,6 +24,7 @@
     "updatedWarningNoteLineTwo": " and accepted",
     "updateAMLDetailsRemoved": " Removed",
     "updateAMLDetailsStatusLineOne": "Pending until submitted",
-    "updateAMLDetailsStatusLineTwo": "and accepted"
+    "updateAMLDetailsStatusLineTwo": "and accepted",
+    "updateDateThisChanged": "When did this change?"
 
 }
