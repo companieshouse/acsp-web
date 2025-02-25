@@ -8,15 +8,18 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP } from "../../../common/__utils/constants";
 import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { getBusinessName } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+    const updatedName = getBusinessName(acspData.name);
     const payload = {
-        whatIsTheBusinessName: acspData.name
+        whatIsTheBusinessName: updatedName
     };
+
     const reqType = REQ_TYPE_UPDATE_ACSP;
 
     res.render(config.WHAT_IS_THE_BUSINESS_NAME, {

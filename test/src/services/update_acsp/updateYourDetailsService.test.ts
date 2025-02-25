@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { getBusinessName, getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import {
@@ -183,5 +183,10 @@ describe("CheckYourAnswersService", () => {
             registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
             serviceAddress: ""
         });
+    });
+
+    it("should return correct business address removing ACSP", () => {
+        const updatedName = getBusinessName("John Doe ACSP");
+        expect(updatedName).toEqual("John Doe");
     });
 });

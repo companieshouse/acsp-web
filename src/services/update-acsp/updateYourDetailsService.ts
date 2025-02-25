@@ -7,13 +7,7 @@ export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullPro
     let profileDetails: ACSPFullProfileDetails = {};
     profileDetails.typeOfBusiness = acspFullProfile.type;
     profileDetails.correspondenceEmail = acspFullProfile.email;
-    let updatedName: string;
-    const businessName = acspFullProfile.name.trim();
-    if (businessName.toUpperCase().endsWith("ACSP")) {
-        updatedName = businessName.slice(0, -4).trimEnd();
-    } else {
-        updatedName = businessName;
-    }
+    const updatedName = getBusinessName(acspFullProfile.name);
     profileDetails.businessName = updatedName;
 
     if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
@@ -61,4 +55,15 @@ const addressFormation = (givenAddress: Address | undefined): string => {
         }
     }
     return formattedAddress;
+};
+
+export const getBusinessName = (name: string): string => {
+    let updatedName: string;
+    const businessName = name.trim();
+    if (businessName.toUpperCase().endsWith("ACSP")) {
+        updatedName = businessName.slice(0, -4).trimEnd();
+    } else {
+        updatedName = businessName;
+    }
+    return updatedName;
 };
