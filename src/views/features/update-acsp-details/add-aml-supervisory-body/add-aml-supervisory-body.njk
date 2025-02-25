@@ -2,7 +2,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% set ITEMS = [] %}
-{% for key,value in AMLSupervisoryBodies %}
+{% for key,value in AMLSupervioryBodiesFormatted %}
   {% if value is string %}
     {% set radioItem = {
       value: key,
