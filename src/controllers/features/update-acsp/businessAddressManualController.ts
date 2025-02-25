@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP } from "../../../common/__utils/constants";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -20,7 +20,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         // Get existing business address details and display on the page
         const businessAddressService = new BusinessAddressService();
-        const payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile);
+        const payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile, REQ_TYPE_UPDATE_ACSP);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
             ...getLocaleInfo(locales, lang),
