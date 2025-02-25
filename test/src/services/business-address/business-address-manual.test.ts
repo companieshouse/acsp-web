@@ -2,8 +2,6 @@ import { Request } from "express";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { BusinessAddressService } from "../../../../src/services/business-address/businessAddressService";
-import { REQ_TYPE_UPDATE_ACSP } from "../../../../src/common/__utils/constants";
-import { ACSPData } from "../../../../src/model/ACSPData";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 describe("CorrespondenceAddressManualService", () => {
@@ -51,6 +49,36 @@ describe("CorrespondenceAddressManualService", () => {
         });
     });
 
+    test("getBusinessManualAddress retrieves the correct address from acspData when no country", () => {
+        acspData = {
+            id: "abc",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            },
+            registeredOfficeAddress: {
+                premises: "Suite 100",
+                addressLine1: "123 Test St",
+                addressLine2: "Apt 4",
+                locality: "Test",
+                region: "Test",
+                postalCode: "TE5 5TL"
+            }
+        };
+
+        const retrievedAddress = service.getBusinessManualAddress(acspData);
+
+        expect(retrievedAddress).toEqual({
+            addressPropertyDetails: "Suite 100",
+            addressLine1: "123 Test St",
+            addressLine2: "Apt 4",
+            addressTown: "Test",
+            addressCounty: "Test",
+            addressCountry: undefined,
+            addressPostcode: "TE5 5TL"
+        });
+    });
+
     test("getBusinessManualAddress retrieves the correct address from acspFullProfile", () => {
         acspFullProfile = {
             number: "",
@@ -71,7 +99,7 @@ describe("CorrespondenceAddressManualService", () => {
             }
         };
 
-        const retrievedAddress = service.getBusinessManualAddress(acspFullProfile, REQ_TYPE_UPDATE_ACSP);
+        const retrievedAddress = service.getBusinessManualAddress(acspFullProfile);
 
         expect(retrievedAddress).toEqual({
             addressPropertyDetails: "Suite 100",

@@ -19,13 +19,8 @@ export class BusinessAddressService {
         acspData.registeredOfficeAddress = businessAddress;
     }
 
-    public getBusinessManualAddress (acspData: AcspData | AcspFullProfile, reqType?: string) {
-        let country;
-        if (reqType === REQ_TYPE_UPDATE_ACSP) {
-            country = formatCountry(acspData?.registeredOfficeAddress?.country!);
-        } else {
-            country = acspData?.registeredOfficeAddress?.country;
-        }
+    public getBusinessManualAddress (acspData: AcspData | AcspFullProfile) {
+        const country = formatCountry(acspData?.registeredOfficeAddress?.country);
         return {
             addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
             addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
@@ -39,11 +34,15 @@ export class BusinessAddressService {
 }
 
 // convert string to lowercase and capitalizing the first letter of each word
-const formatCountry = (country: string) => {
-    return country
-        .split(" ")
-        .map((word, index) => {
-            return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize every word
-        })
-        .join(" ");
+const formatCountry = (country: string|undefined) => {
+    if (country !== undefined) {
+        return country
+            .split(" ")
+            .map((word, index) => {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize every word
+            })
+            .join(" ");
+    } else {
+        return country;
+    }
 };
