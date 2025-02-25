@@ -10,7 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
@@ -24,13 +24,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         "middle-names": acspData.soleTraderDetails?.otherForenames,
         "last-name": acspData.soleTraderDetails?.surname
     };
-    const reqType = REQ_TYPE_UPDATE_ACSP;
     res.render(config.WHAT_IS_YOUR_NAME, {
         ...getLocaleInfo(locales, lang),
         currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
         payload,
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
-        reqType
+        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang)
     });
 };
 
@@ -38,7 +36,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const errorList = validationResult(req);
-    const reqType = REQ_TYPE_UPDATE_ACSP;
     const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
     if (!errorList.isEmpty()) {
         const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -47,8 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             previousPage,
             currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,
             payload: req.body,
-            ...pageProperties,
-            reqType
+            ...pageProperties
         });
     } else {
         const session: Session = req.session as any as Session;
