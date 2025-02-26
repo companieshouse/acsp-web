@@ -1,0 +1,27 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+{% set title = i18n.provideAmlDetailsTitle %}
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">{{ i18n.provideAmlDetailsTitle }}</h1>
+    <p class="govuk-body">{{ i18n.provideAmlDetailsBody }}</p>
+    <div class="govuk-button-group"> 
+        {{ govukButton({
+            text: i18n.addAmlDetailsBtn,
+            id:"add-aml-details-button",
+            href: addAmlDetails
+          }) }}
+        <a 
+        href={{ updateDetailsGoBackLink }} 
+        class="govuk-link" 
+        id="back-link-id">
+            {{ i18n.goBackToUpdateDetailsLink }}
+        </a>
+    </div>
+    <div class="govuk-inset-text">
+        {{ i18n.provideAmlDetailsInsetText }}
+        <a href=# class="govuk-link">
+            {{ i18n.closeAuthorisedAgentLink }}
+        </a>.
+    </div>
+{% endblock main_content %}

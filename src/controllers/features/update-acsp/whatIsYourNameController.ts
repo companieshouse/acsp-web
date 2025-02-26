@@ -18,7 +18,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, null);
     const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
     const payload = {
         "first-name": acspData.soleTraderDetails?.forename,
@@ -63,6 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         }
         acspDataUpdated.soleTraderDetails = soleTraderDetails!;
         saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, null);
         const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
         res.redirect(nextPageUrl);
     }

@@ -1,0 +1,8 @@
+{
+    "provideAmlDetailsTitle" : "You need to add AML details",
+    "provideAmlDetailsBody": "You must add Anti-Money Laundering (AML) details for at least one supervisory body before you submit the update.",
+    "addAmlDetailsBtn": "Add AML details",
+    "goBackToUpdateDetailsLink": "Go back to update details",
+    "provideAmlDetailsInsetText": "If you're no longer registered with an AML supervisory body, you must ",
+    "closeAuthorisedAgentLink": "close the authorised agent"
+}

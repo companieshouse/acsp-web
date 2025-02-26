@@ -48,6 +48,5 @@ export const ACSP_UPDATE_CHANGE_DATE = {
     WHEREDOYOULIVE: "whereDoYouLive",
     NAMEOFBUSINESS: "nameOfBusiness",
     REGOFFICEADDRESS: "registeredOfficeAddress",
-    CORRESPONDENCEADDRESS: "correspondenceAddress",
-    COMPANYNAME: "companyName"
+    CORRESPONDENCEADDRESS: "correspondenceAddress"
 };

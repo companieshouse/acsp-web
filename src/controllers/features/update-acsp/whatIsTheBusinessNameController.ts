@@ -14,7 +14,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-    session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, null);
     const payload = {
         whatIsTheBusinessName: acspData.name
     };
@@ -52,6 +51,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             acspDataUpdated.name = req.body.whatIsTheBusinessName;
         }
         saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, null);
         const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
         res.redirect(nextPageUrl);
     }

@@ -20,7 +20,8 @@ import {
     removeAmlSupervisorController,
     dateOfTheChangeController,
     updateAmlMembershipNumberController,
-    cancelAllUpdatesController
+    cancelAllUpdatesController,
+    updateProvideAmlDetailsController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -91,5 +92,7 @@ updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerV
 
 updateRoutes.get(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.get);
 updateRoutes.post(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.post);
+
+updateRoutes.get(urls.UPDATE_PROVIDE_AML_DETAILS, updateProvideAmlDetailsController.get);
 
 export default updateRoutes;
