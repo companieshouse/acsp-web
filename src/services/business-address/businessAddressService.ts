@@ -1,7 +1,6 @@
 import { Request } from "express";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { REQ_TYPE_UPDATE_ACSP } from "../../common/__utils/constants";
 
 export class BusinessAddressService {
 
