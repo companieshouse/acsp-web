@@ -25,9 +25,22 @@ export class BusinessAddressService {
             addressLine2: acspData?.registeredOfficeAddress?.addressLine2,
             addressTown: acspData?.registeredOfficeAddress?.locality,
             addressCounty: acspData?.registeredOfficeAddress?.region,
-            addressCountry: acspData?.registeredOfficeAddress?.country,
+            addressCountry: formatCountry(acspData?.registeredOfficeAddress?.country),
             addressPostcode: acspData?.registeredOfficeAddress?.postalCode
         };
     }
-
 }
+
+// convert string to lowercase and capitalizing the first letter of each word
+const formatCountry = (country: string|undefined) => {
+    if (country !== undefined) {
+        return country
+            .split(" ")
+            .map((word, index) => {
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize every word
+            })
+            .join(" ");
+    } else {
+        return country;
+    }
+};
