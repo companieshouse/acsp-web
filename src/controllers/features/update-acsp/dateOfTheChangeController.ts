@@ -33,9 +33,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+
         if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS) === null &&
             acspUpdatedFullProfile.name !== acspData.name) {
             session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, dateOfChange);
+        } else if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) === null &&
+            (acspUpdatedFullProfile.soleTraderDetails?.forename !== acspData.soleTraderDetails?.forename ||
+            acspUpdatedFullProfile.soleTraderDetails?.otherForenames !== acspData.soleTraderDetails?.otherForenames ||
+            acspUpdatedFullProfile.soleTraderDetails?.surname !== acspData.soleTraderDetails?.surname
+            )) {
+            session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
         }
 
         res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
