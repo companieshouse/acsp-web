@@ -19,14 +19,13 @@ export class BusinessAddressService {
     }
 
     public getBusinessManualAddress (acspData: AcspData | AcspFullProfile) {
-        const country = formatCountry(acspData?.registeredOfficeAddress?.country);
         return {
             addressPropertyDetails: acspData?.registeredOfficeAddress?.premises,
             addressLine1: acspData?.registeredOfficeAddress?.addressLine1,
             addressLine2: acspData?.registeredOfficeAddress?.addressLine2,
             addressTown: acspData?.registeredOfficeAddress?.locality,
             addressCounty: acspData?.registeredOfficeAddress?.region,
-            addressCountry: country,
+            addressCountry: formatCountry(acspData?.registeredOfficeAddress?.country),
             addressPostcode: acspData?.registeredOfficeAddress?.postalCode
         };
     }
