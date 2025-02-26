@@ -56,14 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspUpdateService = new AcspUpdateService();
         await acspUpdateService.createTransaction(session);
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const addedAmlBodies: AmlSupervisoryBody[] = session.getExtraData(NEW_AML_BODIES) || [];
-
-        if (acspUpdatedFullProfile.amlDetails.length < 1 && addedAmlBodies.length < 1) {
-            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_PROVIDE_AML_DETAILS, lang));
-        } else {
-            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
-        }
+        res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
     } catch (err) {
         next(err);
     }

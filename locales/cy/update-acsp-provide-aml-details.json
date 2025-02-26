@@ -1,6 +1,8 @@
 {
-    "provideAmlDetailsTitle" : "You need to provide details for an Anti-Money Laundering (AML) supervisory body welsh",
-    "provideAmlDetailsBody1": "You must add an Anti-Money Laundering (AML) supervisory body and membership number before you can submit your application. welsh",
-    "provideAmlDetailsBody2": "You'll need to welsh ",
-    "provideAmlDetailsLink": "provide details for an Anti-Money Laundering (AML) supervisory body welsh"
+    "provideAmlDetailsTitle" : "You need to add AML details welsh",
+    "provideAmlDetailsBody": "You must add Anti-Money Laundering (AML) details for at least one supervisory body before you submit the update. welsh",
+    "addAmlDetailsBtn": "Add AML details welsh",
+    "goBackToUpdateDetailsLink": "Go back to update details welsh",
+    "provideAmlDetailsInsetText": "If you're no longer registered with an AML supervisory body, you must welsh ",
+    "closeAuthorisedAgentLink": "close the authorised agent welsh"
 }
