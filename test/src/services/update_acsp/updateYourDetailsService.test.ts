@@ -184,9 +184,16 @@ describe("CheckYourAnswersService", () => {
             serviceAddress: ""
         });
     });
+});
 
-    it("should return correct business address removing ACSP", () => {
-        const updatedName = getBusinessName("John Doe ACSP");
-        expect(updatedName).toEqual("John Doe");
+describe("getBusinessName should return correct business name", () => {
+    it.each([
+        ["John Doe ACSP", "John Doe"], 
+        ["John Doe acsp", "John Doe"],
+        ["John Doe", "John Doe"],
+        ["John acsp Doe", "John acsp Doe"]  
+    ])("should return correct business address for %s", (inputName, expectedName) => {
+        const updatedName = getBusinessName(inputName);
+        expect(updatedName).toEqual(expectedName);
     });
 });
