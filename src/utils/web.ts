@@ -40,3 +40,14 @@ export const getFullNameACSPFullProfileDetails = (acspFullProfileFullProfile: Ac
     name += " " + acspFullProfileFullProfile.soleTraderDetails!.surname!;
     return name;
 };
+
+export const getBusinessName = (name: string): string => {
+    let updatedName: string;
+    const businessName = name.trim();
+    if (businessName.toUpperCase().endsWith("ACSP")) {
+        updatedName = businessName.slice(0, -4).trimEnd();
+    } else {
+        updatedName = businessName;
+    }
+    return updatedName;
+};
