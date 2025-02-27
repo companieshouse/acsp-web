@@ -63,11 +63,10 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     });
 
     it("should redirect to authorised agent account", async () => {
-        const authorisedAgentLink = AUTHORISED_AGENT;
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(authorisedAgentLink);
+        expect(res.header.location).toBe(AUTHORISED_AGENT);
     });
 
 });

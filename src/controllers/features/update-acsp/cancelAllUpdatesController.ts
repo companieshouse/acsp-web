@@ -22,13 +22,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const authorisedAgentLink = AUTHORISED_AGENT;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         if (acspUpdatedFullProfile) {
             session.deleteExtraData(ACSP_DETAILS_UPDATED);
         }
-        res.redirect(authorisedAgentLink);
+        res.redirect(AUTHORISED_AGENT);
     } catch (err) {
         next(err);
     }
