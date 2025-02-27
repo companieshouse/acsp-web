@@ -1,7 +1,7 @@
 import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
 import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getFullNameACSPFullProfileDetails } from "../../utils/web";
-import { ACSP_PROFILE_TYPE_LIMITED_COMPANY, ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP, ACSP_PROFILE_TYPE_CORPORATE_BODY, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
+import { ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
 
 export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};
@@ -61,4 +61,10 @@ const addressFormation = (givenAddress: Address | undefined): string => {
         }
     }
     return formattedAddress;
+};
+const discardChangesWithoutDate = (acspFullProfile: AcspFullProfile, acspUpdatedFullProfile: AcspFullProfile): AcspFullProfile => {
+    if  (JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile)){
+        
+    }
+    return acspUpdatedFullProfile;
 };

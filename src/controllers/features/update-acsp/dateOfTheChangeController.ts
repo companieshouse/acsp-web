@@ -42,6 +42,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS) === null) {
             session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
         }
+console.log("RITZ45 applicantName: "+session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME)+" whereDoYouLive: "+ 
+session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE)+" nameOfBusiness: "+
+session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS)+" registeredOfficeAddress: "+
+session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS)+" correspondenceAddress: "+
+session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS));
 
         res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
     } catch (err) {
