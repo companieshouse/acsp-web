@@ -12,13 +12,18 @@ import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodie
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const session: Session = req.session as any as Session;
+        const session = req.session as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const update: number | undefined = req.query.update as number | undefined;
         let amlBody = "";
         if (update) {
             amlBody = acspUpdatedFullProfile.amlDetails[update].supervisoryBody!;
             session.setExtraData(ADD_AML_BODY_UPDATE, update);
+        }
+
+        const newAmlBodyData = session.getExtraData(NEW_AML_BODY);
+        if (newAmlBodyData) {
+            amlBody = (newAmlBodyData as { amlSupervisoryBody: string }).amlSupervisoryBody;
         }
 
         const lang = selectLang(req.query.lang);
