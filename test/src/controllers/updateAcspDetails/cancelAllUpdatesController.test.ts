@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { MANAGE_USERS_DASHBOARD, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES } from "../../../../src/types/pageURL";
+import { AUTHORISED_AGENT, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES } from "../../../../src/types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
@@ -62,12 +62,12 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toBe(undefined);
     });
 
-    it("should redirect to manage users dashboard", async () => {
-        const manageUsersDashboard = MANAGE_USERS_DASHBOARD;
+    it("should redirect to authorised agent account", async () => {
+        const authorisedAgentLink = AUTHORISED_AGENT;
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(manageUsersDashboard);
+        expect(res.header.location).toBe(authorisedAgentLink);
     });
 
 });
