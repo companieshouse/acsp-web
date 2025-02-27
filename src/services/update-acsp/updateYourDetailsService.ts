@@ -63,8 +63,8 @@ const addressFormation = (givenAddress: Address | undefined): string => {
     return formattedAddress;
 };
 const discardChangesWithoutDate = (acspFullProfile: AcspFullProfile, acspUpdatedFullProfile: AcspFullProfile): AcspFullProfile => {
-    if  (JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile)){
-        
+    if (JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile)) {
+
     }
     return acspUpdatedFullProfile;
 };
