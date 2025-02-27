@@ -1,12 +1,37 @@
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
+import { Request, Response, NextFunction } from "express";
+import { Session } from "@companieshouse/node-session-handler";
 import app from "../../../../src/app";
 import { UPDATE_ADD_AML_SUPERVISOR, AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
+import { get } from "../../../../src/controllers/features/update-acsp/addAmlSupervisorController";
+import { NEW_AML_BODY } from "../../../../src/common/__utils/constants";
 
 const router = supertest(app);
 
 describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: jest.Mock;
+    let session: Partial<Session>;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR);
         expect(res.status).toBe(200);
@@ -20,6 +45,14 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
+    });
+    it("should set amlBody if NEW_AML_BODY is present in session", async () => {
+        const amlSupervisoryBody = "Some Supervisory Body";
+        (session.getExtraData as jest.Mock).mockReturnValueOnce({ amlSupervisoryBody });
+
+        await get(req as Request, res as Response, next as NextFunction);
+
+        expect(session.getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
     });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
