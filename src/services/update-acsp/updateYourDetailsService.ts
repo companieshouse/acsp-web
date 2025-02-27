@@ -1,20 +1,13 @@
 import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
 import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getFullNameACSPFullProfileDetails } from "../../utils/web";
-import { ACSP_PROFILE_TYPE_LIMITED_COMPANY, ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP, ACSP_PROFILE_TYPE_CORPORATE_BODY, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
+import { getBusinessName, getFullNameACSPFullProfileDetails } from "../../utils/web";
+import { ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
 
 export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};
     profileDetails.typeOfBusiness = acspFullProfile.type;
     profileDetails.correspondenceEmail = acspFullProfile.email;
-    let updatedName: string;
-    const businessName = acspFullProfile.name.trim();
-    if (businessName.toUpperCase().endsWith("ACSP")) {
-        updatedName = businessName.slice(0, -4).trimEnd();
-    } else {
-        updatedName = businessName;
-    }
-    profileDetails.businessName = updatedName;
+    profileDetails.businessName = getBusinessName(acspFullProfile.name);
 
     if (acspFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
         profileDetails = soleTraderValues(profileDetails, acspFullProfile);
