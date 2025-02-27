@@ -60,8 +60,6 @@ export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
 export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
-export const MANAGE_USERS_DASHBOARD = `${CHS_URL}/authorised-agent/manage-users`;
-
 export const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
 
 // sole trader journey urls

@@ -4,7 +4,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES, MANAGE_USERS_DASHBOARD } from "../../../types/pageURL";
+import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES, AUTHORISED_AGENT } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -22,13 +22,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
-        const manageUsersDashboard = MANAGE_USERS_DASHBOARD;
+        const authorisedAgentLink = AUTHORISED_AGENT;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         if (acspUpdatedFullProfile) {
             session.deleteExtraData(ACSP_DETAILS_UPDATED);
         }
-        res.redirect(manageUsersDashboard);
+        res.redirect(authorisedAgentLink);
     } catch (err) {
         next(err);
     }
