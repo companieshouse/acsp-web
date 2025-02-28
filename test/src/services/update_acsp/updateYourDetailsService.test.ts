@@ -231,9 +231,9 @@ describe("validateUpdatesWithoutDate", () => {
         acspUpdatedFullProfile = {
             name: "Updated Name",
             soleTraderDetails: {
-                forename: "Jane",
-                otherForenames: "Doe",
-                surname: "Doe",
+                forename: "Jane1",
+                otherForenames: "Doe1",
+                surname: "Doe2",
                 usualResidentialCountry: "US"
             },
             registeredOfficeAddress: {
