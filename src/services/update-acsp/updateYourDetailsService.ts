@@ -79,12 +79,12 @@ export const validateUpdatesWithoutDate = (req: Request, acspFullProfile: AcspFu
                 acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry = acspFullProfile.soleTraderDetails!.usualResidentialCountry;
 
         }
-        if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS) === null &&
+        if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS) === null &&
             JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(acspUpdatedFullProfile.registeredOfficeAddress)) {
             acspUpdatedFullProfile.registeredOfficeAddress = acspFullProfile.registeredOfficeAddress;
 
         }
-        if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS) === null &&
+        if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS) === null &&
             JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(acspUpdatedFullProfile.serviceAddress)) {
             acspUpdatedFullProfile.serviceAddress = acspFullProfile.serviceAddress;
         }
