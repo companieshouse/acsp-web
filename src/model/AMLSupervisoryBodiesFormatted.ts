@@ -14,6 +14,7 @@ export enum AMLSupervioryBodiesFormatted {
     "gambling-commission" = "Gambling Commission",
     "bar-standards-board" = "Bar Standards Board (BSB)",
     "general-council-of-the-bar-of-northern-ireland" = "General Council of the Bar of Northern Ireland",
+    "hm-revenue-customs-hmrc" = "HMRC",
     "institute-of-accountants-bookkeepers-iab" = "Institute of Accountants and Bookkeepers (IAB)",
     "insolvency-practitioners-association-ipa" = "Insolvency Practitioners Association (IPA)",
     "institute-of-certified-bookkeepers-icb" = "Institute of Certified Bookkeepers",
@@ -23,6 +24,5 @@ export enum AMLSupervioryBodiesFormatted {
     "institute-of-financial-accountants-ifa" = "Institute of Financial Accountants (IFA)",
     "law-society-of-northern-ireland" = "Law Society of Northern Ireland",
     "law-society-of-scotland" = "Law Society of Scotland",
-    "law-society-ew-solicitors-regulation-authority-sra" = "Solicitors Regulation Authority (SRA) Solicitors in England and Wales",
-    "hm-revenue-customs-hmrc" = "HMRC"
+    "law-society-ew-solicitors-regulation-authority-sra" = "Solicitors Regulation Authority (SRA) Solicitors in England and Wales"
 }

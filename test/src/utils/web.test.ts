@@ -1,5 +1,5 @@
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getFullName, getFullNameACSPFullProfileDetails } from "../../../src/utils/web";
+import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails } from "../../../src/utils/web";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 const acspProfileData: AcspData = {
@@ -56,5 +56,17 @@ describe("CheckedDocumentsService tests", () => {
     });
     it("should return full name as undefined when the fore name is undefined", () => {
         expect(getFullNameACSPFullProfileDetails(acspFullProfileData)).toBe(undefined);
+    });
+});
+
+describe("getBusinessName should return correct business name", () => {
+    it.each([
+        ["John Doe ACSP", "John Doe"],
+        ["John Doe acsp", "John Doe"],
+        ["John Doe", "John Doe"],
+        ["John acsp Doe", "John acsp Doe"]
+    ])("should return correct business address for %s", (inputName, expectedName) => {
+        const updatedName = getBusinessName(inputName);
+        expect(updatedName).toEqual(expectedName);
     });
 });
