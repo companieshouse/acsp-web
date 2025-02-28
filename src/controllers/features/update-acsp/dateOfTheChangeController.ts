@@ -41,7 +41,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-            const lang = selectLang(req.query.lang);
             const dateOfChange = new Date(
                 req.body["change-year"],
                 req.body["change-month"] - 1,
