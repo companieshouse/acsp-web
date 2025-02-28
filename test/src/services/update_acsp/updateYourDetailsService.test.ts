@@ -1,7 +1,8 @@
 import { Request } from "express";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { getProfileDetails, validateUpdatesWithoutDate } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import {
@@ -183,5 +184,124 @@ describe("CheckYourAnswersService", () => {
             registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
             serviceAddress: ""
         });
+    });
+});
+
+describe("validateUpdatesWithoutDate", () => {
+    let req: Partial<Request>;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session
+        } as Partial<Request>;
+
+        acspFullProfile = {
+            name: "Original Name",
+            soleTraderDetails: {
+                forename: "John",
+                otherForenames: "Doe",
+                surname: "Smith",
+                usualResidentialCountry: "UK"
+            },
+            registeredOfficeAddress: {
+                addressLine1: "123 Street",
+                addressLine2: "Apt 4",
+                locality: "City",
+                region: "Region",
+                postalCode: "12345",
+                country: "UK"
+            },
+            serviceAddress: {
+                addressLine1: "456 Avenue",
+                addressLine2: "Suite 8",
+                locality: "Town",
+                region: "Region",
+                postalCode: "67890",
+                country: "UK"
+            }
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            name: "Updated Name",
+            soleTraderDetails: {
+                forename: "Jane",
+                otherForenames: "Doe",
+                surname: "Doe",
+                usualResidentialCountry: "US"
+            },
+            registeredOfficeAddress: {
+                addressLine1: "789 Boulevard",
+                addressLine2: "Floor 10",
+                locality: "Village",
+                region: "Region",
+                postalCode: "54321",
+                country: "US"
+            },
+            serviceAddress: {
+                addressLine1: "101 Parkway",
+                addressLine2: "Unit 12",
+                locality: "Hamlet",
+                region: "Region",
+                postalCode: "98765",
+                country: "US"
+            }
+        } as AcspFullProfile;
+    });
+
+    it("should update name if NAMEOFBUSINESS change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.name).toBe(acspFullProfile.name);
+    });
+
+    it("should update soleTraderDetails if NAME change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.forename).toBe(acspFullProfile.soleTraderDetails!.forename);
+        expect(result.soleTraderDetails!.otherForenames).toBe(acspFullProfile.soleTraderDetails!.otherForenames);
+        expect(result.soleTraderDetails!.surname).toBe(acspFullProfile.soleTraderDetails!.surname);
+    });
+
+    it("should update usualResidentialCountry if WHEREDOYOULIVE change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.usualResidentialCountry).toBe(acspFullProfile.soleTraderDetails!.usualResidentialCountry);
+    });
+
+    it("should update registeredOfficeAddress if REGOFFICEADDRESS change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.registeredOfficeAddress).toEqual(acspFullProfile.registeredOfficeAddress);
+    });
+
+    it("should update serviceAddress if CORRESPONDENCEADDRESS change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.serviceAddress).toEqual(acspFullProfile.serviceAddress);
+    });
+
+    it("should not update fields if change dates are not null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01");
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result).toEqual(acspUpdatedFullProfile);
     });
 });

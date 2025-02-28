@@ -33,6 +33,7 @@ import { businessAddressManualValidator } from "../validation/businessAddressMan
 import { businessAddressListValidator } from "../validation/businessAddressList";
 import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
+import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 
 const updateRoutes = Router();
 
@@ -81,7 +82,7 @@ updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, add
 updateRoutes.get(urls.REMOVE_AML_SUPERVISOR, removeAmlSupervisorController.get);
 
 updateRoutes.get(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfTheChangeController.get);
-updateRoutes.post(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfTheChangeController.post);
+updateRoutes.post(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfACSPUpdateDetailsChange, dateOfTheChangeController.post);
 
 updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
 
