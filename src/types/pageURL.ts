@@ -209,3 +209,5 @@ export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";
 export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
 export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
+
+export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";

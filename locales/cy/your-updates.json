@@ -1,0 +1,22 @@
+{
+    "yourUpdatesHeading": "Your Updates Welsh",
+    "yourUpdatesPeningText": "The following updates are pending until you submit this filing, and we accept it. Welsh",
+    "yourUpdatesDetails": "Eich manylion",
+    "yourUpdatesName": "Enw",
+    "yourUpdatesWhereYouLive": "Where you live Welsh",
+    "yourUpdatesBusinessName": "Enw'r busnes",
+    "yourUpdatesCorrespondenceAddress": "Cyfeiriad gohebiaeth",
+    "yourUpdatesCorrespondenceEmailAddress": "Cyfeiriad e-bost gohebiaeth",
+    "yourUpdatesRegisteredOfficeAddress": "Cyfeiriad swyddfa gofrestredig",
+    "yourUpdatesBusinessAddress": "Cyfeiriad busnes",
+    "yourDetailsAddAML": "Add Anti-Money Laundering (AML) details Welsh",
+    "yourUpdatesRemoveAML": "Remove Anti-Money Laundering (AML) details Welsh",
+    "yourUpdatesStarted": "Started on Welsh",
+    "yourUpdatedEnded": "Ended on Welsh",
+    "yourUpdatesOtherUpdates": "Do you need to tell us about any other updates? Welsh",
+    "yourUpdatesYesMore": "Yes, I need to add more Welsh",
+    "yourUpdateNoMore": "No, submit the update Welsh",
+    "yourUpdatesCancelAllUpdates": "Cancel all updates Welsh",
+
+    "error-yourUpdatesNoInputError": "Please select an option Welsh"
+}

@@ -1,0 +1,26 @@
+{% set ADD_ROWS = [] %}
+  {% for body in addAML %}
+    {% set row = {
+      key: {
+        text:  body.membershipName
+      },
+      value: {
+        html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + body.changedDate
+      },
+      actions: {
+        items: [
+          {
+            href: "#",
+            text: i18n.Cancel,
+            visuallyHiddenText: body.membershipName
+          }
+        ]
+      }
+    } %}
+    {% set ADD_ROWS = ADD_ROWS.concat([row]) %}
+  {% endfor %}
+
+  <h2 class="govuk-heading-m">{{ i18n.yourDetailsAddAML }}</h2>
+  {{ govukSummaryList({
+    rows: ADD_ROWS
+  }) }}
