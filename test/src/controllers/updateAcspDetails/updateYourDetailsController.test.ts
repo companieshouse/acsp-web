@@ -42,4 +42,13 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
+    it("should return status 500 when an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });

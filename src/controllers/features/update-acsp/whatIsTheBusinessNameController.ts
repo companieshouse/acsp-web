@@ -11,48 +11,56 @@ import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETA
 import { getBusinessName } from "../../../utils/web";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const session: Session = req.session as any as Session;
-    const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-    const payload = {
-        whatIsTheBusinessName: getBusinessName(acspData.name)
-    };
+    try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const session: Session = req.session as any as Session;
+        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const payload = {
+            whatIsTheBusinessName: getBusinessName(acspData.name)
+        };
 
-    const reqType = REQ_TYPE_UPDATE_ACSP;
+        const reqType = REQ_TYPE_UPDATE_ACSP;
 
-    res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
-        ...getLocaleInfo(locales, lang),
-        payload,
-        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
-        reqType
-    });
+        res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
+            ...getLocaleInfo(locales, lang),
+            payload,
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
+            reqType
+        });
+    } catch (err) {
+        next(err);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const errorList = validationResult(req);
-    const session: Session = req.session as any as Session;
-    const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
-    var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-    const reqType = REQ_TYPE_UPDATE_ACSP;
-    if (!errorList.isEmpty()) {
-        const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-        res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
-            previousPage,
-            payload: req.body,
-            ...getLocaleInfo(locales, lang),
-            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
-            reqType,
-            ...pageProperties
-        });
-    } else {
-        if (acspDataUpdated) {
-            acspDataUpdated.name = req.body.whatIsTheBusinessName;
+    try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const errorList = validationResult(req);
+        const session: Session = req.session as any as Session;
+        const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
+        var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const reqType = REQ_TYPE_UPDATE_ACSP;
+        if (!errorList.isEmpty()) {
+            const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
+            res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
+                previousPage,
+                payload: req.body,
+                ...getLocaleInfo(locales, lang),
+                currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
+                reqType,
+                ...pageProperties
+            });
+        } else {
+            if (acspDataUpdated) {
+                acspDataUpdated.name = req.body.whatIsTheBusinessName;
+            }
+            saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
+            res.redirect(previousPage);
         }
-        saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
-        res.redirect(previousPage);
+    } catch (err) {
+        next(err);
     }
 };
