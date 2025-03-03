@@ -8,11 +8,11 @@ import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const session: Session = req.session as any as Session;
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION;
     try {
+        const session: Session = req.session as any as Session;
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const email: string = acspFullProfile.email;
         const transactionId: string = session.getExtraData(UPDATE_SUBMISSION_ID)!;
