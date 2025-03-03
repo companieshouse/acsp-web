@@ -2,7 +2,7 @@
     {% for body in removeAML %}
       {% set row = {
         key: {
-          text:  body.membershipName
+          text:  AMLSupervioryBodiesFormatted[body.membershipName]
         },
         value: {
           html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + body.changedDate
@@ -10,9 +10,9 @@
         actions: {
           items: [
             {
-              href: "#",
+              href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName,
               text: i18n.Cancel,
-              visuallyHiddenText: body.membershipName
+              visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
             }
           ]
         }

@@ -1,7 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../utils/web";
-import { AMLSupervioryBodiesFormatted } from "../../model/AMLSupervisoryBodiesFormatted";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -96,7 +95,7 @@ const soleTraderChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile:
     }
     if (acspFullProfile.soleTraderDetails?.usualResidentialCountry !== updatedFullProfile.soleTraderDetails?.usualResidentialCountry) {
         updates.usualResidentialCountry = {
-            value: updatedFullProfile.soleTraderDetails?.usualResidentialCountry!,
+            value: updatedFullProfile.soleTraderDetails!.usualResidentialCountry!,
             changedDate: formatDateIntoReadableString(new Date())
         };
     }
@@ -117,7 +116,7 @@ export const getFormattedRemovedAMLUpdates = (acspFullProfile: AcspFullProfile, 
     acspFullProfile.amlDetails.forEach(body => {
         if (!updatedFullProfile.amlDetails.includes(body)) {
             removedBodies.push({
-                membershipName: AMLSupervioryBodiesFormatted[body.supervisoryBody as keyof typeof AMLSupervioryBodiesFormatted],
+                membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
                 changedDate: formatDateIntoReadableString(new Date())
             });
@@ -131,7 +130,7 @@ export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, up
     updatedFullProfile.amlDetails.forEach(body => {
         if (!acspFullProfile.amlDetails.includes(body)) {
             addedBodies.push({
-                membershipName: AMLSupervioryBodiesFormatted[body.supervisoryBody as keyof typeof AMLSupervioryBodiesFormatted],
+                membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
                 changedDate: formatDateIntoReadableString(new Date())
             });

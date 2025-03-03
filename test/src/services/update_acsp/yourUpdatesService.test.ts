@@ -52,7 +52,7 @@ describe("yourUpdatesService", () => {
     it("should format updates when registered office address changes for limited companies", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.registeredOfficeAddress).toEqual({
-            value: expect.any(String),
+            value: "New Address",
             changedDate: expect.any(String)
         });
     });
@@ -60,7 +60,7 @@ describe("yourUpdatesService", () => {
     it("should format updates when service address changes for limited companies", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.serviceAddress).toEqual({
-            value: expect.any(String),
+            value: "New Service Address",
             changedDate: expect.any(String)
         });
     });
@@ -69,7 +69,7 @@ describe("yourUpdatesService", () => {
         acspFullProfile.type = "unincorporated-entity";
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.businessAddress).toEqual({
-            value: expect.any(String),
+            value: "New Address",
             changedDate: expect.any(String)
         });
     });
@@ -78,7 +78,18 @@ describe("yourUpdatesService", () => {
         acspFullProfile.type = "unincorporated-entity";
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.serviceAddress).toEqual({
-            value: expect.any(String),
+            value: "New Service Address",
+            changedDate: expect.any(String)
+        });
+    });
+
+    it("should format updates when name changes for unincorporated entities", () => {
+        acspFullProfile.type = "unincorporated-entity";
+        acspFullProfile.soleTraderDetails = { forename: "Old", surname: "Name" };
+        updatedFullProfile.soleTraderDetails = { forename: "New", surname: "Name" };
+        const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
+        expect(updates.name).toEqual({
+            value: "New Name",
             changedDate: expect.any(String)
         });
     });
@@ -89,7 +100,7 @@ describe("yourUpdatesService", () => {
         updatedFullProfile.soleTraderDetails = { forename: "New", surname: "Name" };
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.name).toEqual({
-            value: expect.any(String),
+            value: "New Name",
             changedDate: expect.any(String)
         });
     });
@@ -105,12 +116,23 @@ describe("yourUpdatesService", () => {
         });
     });
 
+    it("should format correspondence address for sole trader", () => {
+        acspFullProfile.type = "sole-trader";
+        acspFullProfile.soleTraderDetails = undefined;
+        updatedFullProfile.soleTraderDetails = undefined;
+        const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
+        expect(updates.serviceAddress).toEqual({
+            value: "New Address",
+            changedDate: expect.any(String)
+        });
+    });
+
     it("should format removed AML updates", () => {
         acspFullProfile.amlDetails = [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123" }];
         updatedFullProfile.amlDetails = [];
         const removedAMLUpdates = getFormattedRemovedAMLUpdates(acspFullProfile, updatedFullProfile);
         expect(removedAMLUpdates).toEqual([{
-            membershipName: "Association of Chartered Certified Accountants (ACCA)",
+            membershipName: "association-of-chartered-certified-accountants-acca",
             membershipNumber: "123",
             changedDate: expect.any(String)
         }]);
@@ -121,7 +143,7 @@ describe("yourUpdatesService", () => {
         updatedFullProfile.amlDetails = [{ supervisoryBody: "association-of-international-accountants-aia", membershipDetails: "123" }];
         const addedAMLUpdates = getFormattedAddedAMLUpdates(acspFullProfile, updatedFullProfile);
         expect(addedAMLUpdates).toEqual([{
-            membershipName: "Association of International Accountants (AIA)",
+            membershipName: "association-of-international-accountants-aia",
             membershipNumber: "123",
             changedDate: expect.any(String)
         }]);

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import * as config from "../../../config";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { CANCEL_AN_UPDATE, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { Session } from "@companieshouse/node-session-handler";
 import { validationResult } from "express-validator";
@@ -9,6 +9,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { getFormattedAddedAMLUpdates, getFormattedRemovedAMLUpdates, getFormattedUpdates } from "../../../services/update-acsp/yourUpdatesService";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -22,12 +23,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             lang,
+            AMLSupervioryBodiesFormatted,
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             yourDetails: getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile),
             addAML: getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
-            removeAML: getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile)
+            removeAML: getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
+            addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
+            removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
+            cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang)
         });
     } catch (err) {
         next(err);
@@ -47,10 +52,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 ...pageProperties,
                 currentUrl,
-                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 lang,
+                AMLSupervioryBodiesFormatted,
+                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
-                yourDetails: getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile)
+                yourDetails: getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile),
+                addAML: getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
+                removeAML: getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
+                addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
+                removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
+                cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang)
             });
         } else {
 

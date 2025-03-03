@@ -2,7 +2,7 @@
   {% for body in addAML %}
     {% set row = {
       key: {
-        text:  body.membershipName
+        text:  AMLSupervioryBodiesFormatted[body.membershipName]
       },
       value: {
         html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + body.changedDate
@@ -10,9 +10,14 @@
       actions: {
         items: [
           {
-            href: "#",
+            href: addAMLUrl + "&update=" + loop.index0,
+            text: i18n.Edit,
+            visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
+          },
+          {
+            href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName,
             text: i18n.Cancel,
-            visuallyHiddenText: body.membershipName
+            visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
           }
         ]
       }
