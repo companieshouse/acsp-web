@@ -8,9 +8,11 @@
 
 {% set html %}
 <h3 class="govuk-notification-banner__heading">
-  {{ i18n.thisIsANewServiceNotificationBanner }}
+  {{ i18n.youNeedToRequestAccess }}
 </h3>
-<p class="govuk-body">{{i18n.ifYouHaveAnyIssuesNotificationBanner}} <a class="govuk-notification-banner__link" target="_blank" href={{ feedbackLink }}>{{i18n.feedbackLinkNotificationBanner}}</a>.</p>
+<p class="govuk-body">{{i18n.ifYoudLikeToApply}} 
+  <a class="govuk-notification-banner__link" href="mailto:{{ signInHelpEmailAddress }}">{{signInHelpEmailAddress}}</a>.{{i18n.youllNeedToProvideTheEmailAddress}}<a class="govuk-notification-banner__link" target="_blank" href={{ findAndUpdateCompanyInfoLink }}>{{i18n.findAndUpdateCompanyInfoLink}}</a>.
+</p>
 {% endset %}
 
 {% set title = "" %}
@@ -62,21 +64,13 @@
       {{ i18n.YouWillBeAble }}
     </p>
     <div class="ch-info-panel ch-info-panel-custom">
-    <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
-    <div class="govuk-panel__body">
-      <p class="govuk-body">
-        {{ i18n.identifyBeforeYouCanUse }}
-      </p>
-      <p class="govuk-body home-page-p-tag">
-        <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" class="home-page-img">
-          <strong>
-            <a
-              class="govuk-link govuk-link--no-visited-state home-page-img-link"
-              href="{{verifyIdentityLink}}"
-              id="verify-id">
-              {{ i18n.verifyIdentityLink }}
-            </a>
-          </strong>
+      <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
+      <div class="govuk-panel__body">
+        <p class="govuk-body">
+          {{ i18n.identifyBeforeYouCanUse }}
+        </p>
+        <p class="govuk-body govuk-!-margin-0">
+          <a target="_blank" href="{{verifyIdentityLink}}" id="verify-id">{{ i18n.verifyIdentityLink }}</a>.
         </p>
       </div>
     </div>
