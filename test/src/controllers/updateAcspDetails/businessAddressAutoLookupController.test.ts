@@ -115,4 +115,17 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a postcode");
     });
+
+    it("should show the error page if an error occurs", async () => {
+        const formData = {
+            postCode: "ST63LJ",
+            premise: ""
+        };
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error("Test error");
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
