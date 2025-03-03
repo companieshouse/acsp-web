@@ -43,7 +43,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
-            res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
+            res.status(400).render(config.UPDATE_CHECK_YOUR_UPDATES, {
                 ...getLocaleInfo(locales, lang),
                 ...pageProperties,
                 currentUrl,
