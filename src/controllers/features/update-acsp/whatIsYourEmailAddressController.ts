@@ -8,9 +8,6 @@ import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/cons
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
-import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
-import { getBusinessName } from "../../../utils/web";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
