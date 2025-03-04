@@ -1,4 +1,4 @@
-export enum AMLSupervisoryBodies {
+export enum AMLSupervisoryBodiesWelsh {
       ACCA = "Cymdeithas y Cyfrifwyr Ardystiedig Siartredig (ACCA",
       AAT = "Cymdeithas Technegwyr Cyfrifyddu (AAT)",
       AIA = "Cymdeithas y Cyfrifwyr Rhyngwladol (AIA)",
