@@ -84,6 +84,7 @@ export * as businessAddressManualController from "./features/update-acsp/busines
 export * as businessAddressAutoLookupController from "./features/update-acsp/businessAddressAutoLookupController";
 export * as businessAddressListController from "./features/update-acsp/businessAddressListController";
 export * as businessAddressConfirmController from "./features/update-acsp/businessAddressConfirmController";
+export * as updateWhatIsYourEmailAddressController from "./features/update-acsp/whatIsYourEmailAddressController";
 export * as cancelAnUpdateController from "./features/update-acsp/cancelAnUpdateController";
 export * as updateApplicationConfirmationController from "./features/update-acsp/applicationConfirmationController";
 export * as addAmlSupervisorController from "./features/update-acsp/addAmlSupervisorController";

@@ -188,6 +188,8 @@ export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-a
 
 export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
 
+export const UPDATE_WHAT_IS_YOUR_EMAIL = "/what-email-should-we-use";
+
 export const UPDATE_BUSINESS_ADDRESS_MANUAL = "/business-address-manual-entry";
 
 export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/business-address-lookup";
