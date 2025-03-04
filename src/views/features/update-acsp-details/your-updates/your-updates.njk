@@ -8,9 +8,9 @@
 
 
 {% if type === "sole-trader" %}
-  {% set cancelServiceAddressChange = "&cancel=serviceAddress&return=your-updates" %}
+  {% set cancelServiceAddressChange = "&cancel=serviceAddress&return=" + redirectQuery %}
 {% else %}
-  {% set cancelServiceAddressChange = "&cancel=registeredOfficeAddress&return=your-updates" %}
+  {% set cancelServiceAddressChange = "&cancel=registeredOfficeAddress&return=" + redirectQuery %}
 {% endif %}
 
 {% block main_content %}
@@ -39,7 +39,7 @@
             visuallyHiddenText: i18n.yourUpdatesName
           },
           {
-            href: cancelChangeUrl + "&cancel=personName&return=your-updates",
+            href: cancelChangeUrl + "&cancel=personName&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesName
           }
@@ -64,7 +64,7 @@
             visuallyHiddenText: i18n.yourUpdatesWhereYouLive
           },
           {
-            href: cancelChangeUrl + "&cancel=usualResidentialCountry&return=your-updates",
+            href: cancelChangeUrl + "&cancel=usualResidentialCountry&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesWhereYouLive
           }
@@ -89,7 +89,7 @@
             visuallyHiddenText: i18n.yourUpdatesBusinessName
           },
           {
-            href: cancelChangeUrl + "&cancel=businessName&return=your-updates",
+            href: cancelChangeUrl + "&cancel=businessName&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesBusinessName
           }
@@ -139,7 +139,7 @@
             visuallyHiddenText: i18n.yourUpdatesCorrespondenceEmailAddress
           },
           {
-            href: cancelChangeUrl + "&cancel=email&return=your-updates",
+            href: cancelChangeUrl + "&cancel=email&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesCorrespondenceEmailAddress
           }
@@ -164,7 +164,7 @@
             visuallyHiddenText: i18n.yourUpdatesRegisteredOfficeAddress
           },
           {
-            href: cancelChangeUrl + "&cancel=registeredOfficeAddress&return=your-updates",
+            href: cancelChangeUrl + "&cancel=registeredOfficeAddress&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesRegisteredOfficeAddress
           }
@@ -189,7 +189,7 @@
             visuallyHiddenText: i18n.yourUpdatesBusinessAddress
           },
           {
-            href: cancelChangeUrl + "&cancel=businessName&return=your-updates",
+            href: cancelChangeUrl + "&cancel=businessName&return=" + redirectQuery,
             text: i18n.Cancel,
             visuallyHiddenText: i18n.yourUpdatesBusinessAddress
           }

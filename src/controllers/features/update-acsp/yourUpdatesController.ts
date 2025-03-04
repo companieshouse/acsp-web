@@ -23,6 +23,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+
+        let redirectQuery = "your-updates";
+        if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
+            redirectQuery = "your-answers";
+        };
         res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
@@ -31,6 +36,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             yourDetails,
             addedAMLBodies,
             removedAMLBodies,
+            redirectQuery,
             type: acspFullProfile.type,
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
@@ -51,6 +57,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const errorList = validationResult(req);
+        const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
+        const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+        const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+
+        let redirectQuery = "your-updates";
+        if (Object.keys(yourDetails).length === 0 && addedAMLBodies.length === 0 && removedAMLBodies.length === 0) {
+            redirectQuery = "your-answers";
+        };
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UPDATE_CHECK_YOUR_UPDATES, {
@@ -59,12 +74,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 lang,
                 AMLSupervioryBodiesFormatted,
+                yourDetails,
+                addedAMLBodies,
+                removedAMLBodies,
+                redirectQuery,
                 type: acspFullProfile.type,
                 previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
-                yourDetails: getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile),
-                addedAMLBodies: getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
-                removedAMLBodies: getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile),
                 addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
                 removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
                 cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang)
