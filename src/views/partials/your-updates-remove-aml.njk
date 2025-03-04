@@ -1,16 +1,16 @@
 {% set REMOVE_ROWS = [] %}
-    {% for body in removeAML %}
+    {% for body in removedAMLBodies %}
       {% set row = {
         key: {
           text:  AMLSupervioryBodiesFormatted[body.membershipName]
         },
         value: {
-          html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + body.changedDate
+          html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesEnded + " " + body.changedDate
         },
         actions: {
           items: [
             {
-              href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName,
+              href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName + "&return=your-updates",
               text: i18n.Cancel,
               visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
             }

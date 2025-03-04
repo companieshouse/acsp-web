@@ -41,7 +41,6 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     } else {
         updates = soleTraderChanges(acspFullProfile, updatedFullProfile, updates);
     }
-    console.log("YOUR UPDATES", JSON.stringify(updates));
     return updates;
 };
 
@@ -114,7 +113,8 @@ const soleTraderChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile:
 export const getFormattedRemovedAMLUpdates = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile): YourAMLUpdates[] => {
     const removedBodies: YourAMLUpdates[] = [];
     acspFullProfile.amlDetails.forEach(body => {
-        if (!updatedFullProfile.amlDetails.includes(body)) {
+        if (!updatedFullProfile.amlDetails.find(updatedBody => updatedBody.supervisoryBody === body.supervisoryBody &&
+            updatedBody.membershipDetails === body.membershipDetails)) {
             removedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
@@ -128,7 +128,8 @@ export const getFormattedRemovedAMLUpdates = (acspFullProfile: AcspFullProfile, 
 export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile): YourAMLUpdates[] => {
     const addedBodies: YourAMLUpdates[] = [];
     updatedFullProfile.amlDetails.forEach(body => {
-        if (!acspFullProfile.amlDetails.includes(body)) {
+        if (!acspFullProfile.amlDetails.find(originalBody => originalBody.supervisoryBody === body.supervisoryBody &&
+            originalBody.membershipDetails === body.membershipDetails)) {
             addedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,

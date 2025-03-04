@@ -1,11 +1,11 @@
 {% set ADD_ROWS = [] %}
-  {% for body in addAML %}
+  {% for body in addedAMLBodies %}
     {% set row = {
       key: {
         text:  AMLSupervioryBodiesFormatted[body.membershipName]
       },
       value: {
-        html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + body.changedDate
+        html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesStarted + " " + body.changedDate
       },
       actions: {
         items: [
@@ -15,7 +15,7 @@
             visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
           },
           {
-            href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName,
+            href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName + "&return=your-updates",
             text: i18n.Cancel,
             visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
           }
@@ -25,7 +25,7 @@
     {% set ADD_ROWS = ADD_ROWS.concat([row]) %}
   {% endfor %}
 
-  <h2 class="govuk-heading-m">{{ i18n.yourDetailsAddAML }}</h2>
+  <h2 class="govuk-heading-m">{{ i18n.yourUpdatesAddAML }}</h2>
   {{ govukSummaryList({
     rows: ADD_ROWS
   }) }}
