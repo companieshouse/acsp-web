@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
             redirectQuery = "your-answers";
-        };
+        }
         res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length === 0 && addedAMLBodies.length === 0 && removedAMLBodies.length === 0) {
             redirectQuery = "your-answers";
-        };
+        }
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
