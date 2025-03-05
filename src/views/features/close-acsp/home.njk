@@ -1,0 +1,34 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+{% block signoutBar %}
+  {% include "partials/signout-bar.njk" %}
+  <hr class="govuk-section-break">
+  {% endblock %}
+  {% set title = i18n.startPageTitleUpdateAcsp %}
+  {% block main_content %}
+    <form class="form" action="start-page" method="post">
+      <h1 class="govuk-heading-l">
+        Close the authorised agent
+      </h1>
+      <p>If you close the authorised agent, MORRIS ACCOUNTING LTD will no longer be registered as an authorised agent with
+        Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).
+      </p>
+      <h2 class="govuk-heading-m">Before you continue</h2>
+      <p>If there are other people who work for the authorised agent, you must
+        <a href="">check if they’ve been added to the account</a>.
+      </p>
+      <p>
+        You’ll need to tell them they will not be able to access the account, or use services for the authorised agent when you
+        close it.</p>
+
+      <div class="govuk-button-group">
+        <a href="closing-details" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+          Continue
+        </a>
+        <a class="govuk-link" href="#">Cancel</a>
+      </div>
+  </form>
+{% endblock %}

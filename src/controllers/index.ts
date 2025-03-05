@@ -91,3 +91,6 @@ export * as removeAmlSupervisorController from "./features/update-acsp/removeAml
 export * as updateAmlMembershipNumberController from "./features/update-acsp/amlMembershipNumberController";
 export * as cancelAllUpdatesController from "./features/update-acsp/cancelAllUpdatesController";
 export * as updateProvideAmlDetailsController from "./features/update-acsp/provideAmlDetailsController";
+
+// close acsp
+export * as closeIndexController from "./features/close-acsp/closeIndexController";

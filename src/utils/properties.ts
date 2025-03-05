@@ -87,3 +87,5 @@ export const PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID = getEnvironmentValue("PIW
 export const FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = getEnvironmentValue("FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY", "false");
 
 export const FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = getEnvironmentValue("FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS", "true");
+
+export const FEATURE_FLAG_ENABLE_CLOSE_ACSP = getEnvironmentValue("FEATURE_FLAG_CLOSE_ACSP", "true");
