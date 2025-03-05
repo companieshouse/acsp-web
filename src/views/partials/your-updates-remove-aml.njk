@@ -1,0 +1,27 @@
+{% set REMOVE_ROWS = [] %}
+    {% for body in removedAMLBodies %}
+      {% set row = {
+        key: {
+          text:  AMLSupervioryBodiesFormatted[body.membershipName]
+        },
+        value: {
+          html:  body.membershipNumber + "<br> " +  i18n.yourUpdatesEnded + " " + body.changedDate
+        },
+        actions: {
+          items: [
+            {
+              href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName + "&return=" + redirectQuery,
+              text: i18n.Cancel,
+              visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
+            }
+          ]
+        }
+      } %}
+      {% set REMOVE_ROWS = REMOVE_ROWS.concat([row]) %}
+    {% endfor %}
+
+    
+  <h2 class="govuk-heading-m">{{ i18n.yourUpdatesRemoveAML }}</h2>
+  {{ govukSummaryList({
+    rows: REMOVE_ROWS
+  }) }}

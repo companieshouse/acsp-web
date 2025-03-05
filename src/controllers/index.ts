@@ -92,3 +92,4 @@ export * as dateOfTheChangeController from "./features/update-acsp/dateOfTheChan
 export * as updateAmlMembershipNumberController from "./features/update-acsp/amlMembershipNumberController";
 export * as cancelAllUpdatesController from "./features/update-acsp/cancelAllUpdatesController";
 export * as updateProvideAmlDetailsController from "./features/update-acsp/provideAmlDetailsController";
+export * as yourUpdatesController from "./features/update-acsp/yourUpdatesController";

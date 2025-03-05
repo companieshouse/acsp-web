@@ -1,0 +1,244 @@
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.yourUpdatesHeading %}
+
+
+{% if type === "sole-trader" %}
+  {% set cancelServiceAddressChange = "&cancel=serviceAddress&return=" + redirectQuery %}
+{% else %}
+  {% set cancelServiceAddressChange = "&cancel=registeredOfficeAddress&return=" + redirectQuery %}
+{% endif %}
+
+{% block main_content %}
+<h1 class="govuk-heading-xl">{{ i18n.yourUpdatesHeading }}</h1>
+{{ govukInsetText({
+  text: i18n.yourUpdatesPeningText
+}) }}
+
+<h2 class="govuk-heading-m">{{ i18n.yourUpdatesDetails }}</h2>
+{{ govukSummaryList({
+  rows: [
+  {
+    key: {
+      text: i18n.yourUpdatesName,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.name.value + "<br> Changed on " + yourDetails.name.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/what-is-your-name?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesName
+          },
+          {
+            href: cancelChangeUrl + "&cancel=personName&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesName
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  }if yourDetails.name,
+  {
+    key: {
+      text: i18n.yourUpdatesWhereYouLive,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.usualResidentialCountry.value + "<br> Changed on " + yourDetails.usualResidentialCountry.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesWhereYouLive
+          },
+          {
+            href: cancelChangeUrl + "&cancel=usualResidentialCountry&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesWhereYouLive
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  }if yourDetails.usualResidentialCountry,
+  {
+    key: {
+      text: i18n.yourUpdatesBusinessName,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.businessName.value + "<br> Changed on " + yourDetails.businessName.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesBusinessName
+          },
+          {
+            href: cancelChangeUrl + "&cancel=businessName&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesBusinessName
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  } if yourDetails.businessName,
+  {
+    key: {
+      text: i18n.yourUpdatesCorrespondenceAddress,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.serviceAddress.value + "<br> Changed on " + yourDetails.serviceAddress.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/correspondence-address-lookup?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesCorrespondenceAddress
+          },
+          {
+            href: cancelChangeUrl + cancelServiceAddressChange,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesCorrespondenceAddress
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  } if yourDetails.serviceAddress,
+  {
+    key: {
+      text: i18n.yourUpdatesCorrespondenceEmailAddress,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.correspondenceEmail.value + "<br> Changed on " + yourDetails.correspondenceEmail.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/#?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesCorrespondenceEmailAddress
+          },
+          {
+            href: cancelChangeUrl + "&cancel=email&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesCorrespondenceEmailAddress
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  }if yourDetails.correspondenceEmail,
+  {
+    key: {
+      text: i18n.yourUpdatesRegisteredOfficeAddress,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.registeredOfficeAddress.value + "<br> Changed on " + yourDetails.registeredOfficeAddress.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/business-address-lookup?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesRegisteredOfficeAddress
+          },
+          {
+            href: cancelChangeUrl + "&cancel=registeredOfficeAddress&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesRegisteredOfficeAddress
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  }if yourDetails.registeredOfficeAddress,
+  {
+    key: {
+      text: i18n.yourUpdatesBusinessAddress,
+      classes: "govuk-!-width-one-third"
+    },
+    value: {
+      html: yourDetails.businessAddress.value + "<br> Changed on " + yourDetails.businessAddress.changedDate,
+      classes: "govuk-!-width-one-third"
+    },
+    actions: {
+        items: [
+          {
+            href: "/view-and-update-the-authorised-agents-details/business-address-lookup?lang=" + lang,
+            text: i18n.Edit,
+            visuallyHiddenText: i18n.yourUpdatesBusinessAddress
+          },
+          {
+            href: cancelChangeUrl + "&cancel=businessName&return=" + redirectQuery,
+            text: i18n.Cancel,
+            visuallyHiddenText: i18n.yourUpdatesBusinessAddress
+          }
+        ],
+        classes: "govuk-!-width-one-third"
+      }
+  } if yourDetails.businessAddress
+  ]
+}) }}
+
+{% if addedAMLBodies | length %}
+  {% include "partials/your-updates-add-aml.njk" %}
+{% endif %}
+
+{% if removedAMLBodies | length %}
+  {% include "partials/your-updates-remove-aml.njk" %}
+{% endif %}
+
+<form method="POST">
+  {% include "partials/csrf_token.njk" %}
+  {{ govukRadios({
+    name: "moreUpdates",
+    fieldset: {
+      legend: {
+        text: i18n.yourUpdatesOtherUpdates,
+        isPageHeading: false,
+        classes: "govuk-fieldset__legend--m"
+      }
+    },
+    errorMessage: errors.moreUpdates if errors, 
+    items: [
+      {
+        value: "yes",
+        text: i18n.yourUpdatesYesMore
+      },
+      {
+        value: "no",
+        text: i18n.yourUpdateNoMore
+      }
+    ]
+  }) }}
+
+  <div class="govuk-button-group">
+      {{ govukButton({
+        text: i18n.Continue,
+        id:"continue-button-id"
+      })}}
+      <a class="govuk-link" id="cancel-id" href={{cancelAllUpdatesUrl}}>{{i18n.yourUpdatesCancelAllUpdates}}</a>
+  </div>
+</form>
+
+{% endblock main_content %}

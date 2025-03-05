@@ -7,16 +7,20 @@ import { ACSP_DETAILS_UPDATED, ACSP_UPDATE_CHANGE_DATE } from "../../../common/_
 import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES, AUTHORISED_AGENT } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const updateDetailsGoBackLink = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
+    try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const updateDetailsGoBackLink = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
 
-    res.render(config.UPDATE_CANCEL_ALL_UPDATES, {
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
-        ...getLocaleInfo(locales, lang),
-        currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES,
-        updateDetailsGoBackLink
-    });
+        res.render(config.UPDATE_CANCEL_ALL_UPDATES, {
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
+            ...getLocaleInfo(locales, lang),
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES,
+            updateDetailsGoBackLink
+        });
+    } catch (err) {
+        next(err);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {

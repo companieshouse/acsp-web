@@ -1,13 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR, REMOVE_AML_SUPERVISOR, UPDATE_CANCEL_ALL_UPDATES } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR, REMOVE_AML_SUPERVISOR, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { getProfileDetails, validateUpdatesWithoutDate } from "../../../services/update-acsp/updateYourDetailsService";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
-import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
@@ -55,10 +54,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
-        const session: Session = req.session as any as Session;
-        const acspUpdateService = new AcspUpdateService();
-        await acspUpdateService.createTransaction(session);
-        res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
+        res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
     } catch (err) {
         next(err);
     }

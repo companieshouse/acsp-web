@@ -210,3 +210,5 @@ export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
 export const UPDATE_DATE_OF_THE_CHANGE = "/date-of-the-change";
 export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
+
+export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
