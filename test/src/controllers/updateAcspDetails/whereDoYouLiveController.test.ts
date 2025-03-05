@@ -8,6 +8,7 @@ import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
+import * as localise from "../../../../src/utils/localise";
 
 const router = supertest(app);
 
@@ -20,6 +21,16 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Where do you live?");
+    });
+
+    it("should return status 500 when an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
@@ -69,4 +80,13 @@ describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
         expect(res.text).toContain("Select where you live");
     });
 
+    it("should return status 500 when an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });

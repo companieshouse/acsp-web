@@ -1,0 +1,22 @@
+{
+    "yourUpdatesHeading": "Your Updates",
+    "yourUpdatesPeningText": "The following updates are pending until you submit this filing, and we accept it.",
+    "yourUpdatesDetails": "Your details",
+    "yourUpdatesName": "Name",
+    "yourUpdatesWhereYouLive": "Where you live",
+    "yourUpdatesBusinessName": "Business name",
+    "yourUpdatesCorrespondenceAddress": "Correspondence address",
+    "yourUpdatesCorrespondenceEmailAddress": "Correspondence email address",
+    "yourUpdatesRegisteredOfficeAddress": "Registered office address",
+    "yourUpdatesBusinessAddress": "Business address",
+    "yourUpdatesAddAML": "Add Anti-Money Laundering (AML) details",
+    "yourUpdatesRemoveAML": "Remove Anti-Money Laundering (AML) details",
+    "yourUpdatesStarted": "Started on",
+    "yourUpdatesEnded": "Ended on",
+    "yourUpdatesOtherUpdates": "Do you need to tell us about any other updates?",
+    "yourUpdatesYesMore": "Yes, I need to add more",
+    "yourUpdateNoMore": "No, submit the update",
+    "yourUpdatesCancelAllUpdates": "Cancel all updates",
+
+    "error-yourUpdatesNoInputError": "Please select one of the above"
+}
