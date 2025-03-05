@@ -14,6 +14,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID } from "../../../utils/properties";
+import { AMLSupervisoryBodiesWelsh } from "../../../model/AMLSupervisoryBodiesWelsh";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -34,6 +35,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             amlDetails: acspData?.amlSupervisoryBodies,
             amlName: acspData.howAreYouRegisteredWithAml,
             AMLSupervisoryBodies,
+            AMLSupervisoryBodiesWelsh,
             PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID
         });
     } catch (err) {

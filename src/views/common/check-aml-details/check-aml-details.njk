@@ -25,9 +25,14 @@
 
     {# Prepare table rows #}
     {% set ROWS = [] %}
+    {% if lang == "cy" %}
+      {% set supervisoryBodies = AMLSupervisoryBodiesWelsh %}
+    {% else %}
+      {% set supervisoryBodies = AMLSupervisoryBodies %}
+    {% endif %}
     {% for body in amlSupervisoryBodies %}
       {% set row = [
-        {text: AMLSupervisoryBodies[body.amlSupervisoryBody]},
+        {text: supervisoryBodies[body.amlSupervisoryBody]},
         {text: body.membershipId},
         {html: "<a href=" + url + "#" + "membershipNumber_" + loop.index + ">" + i18n.checkAmlDetailsChange + "</a>"}
       ] %}
@@ -57,4 +62,4 @@
       id:"save-continue-button"
     }) }}
   </form>
-  {% endblock %}
+{% endblock %}
