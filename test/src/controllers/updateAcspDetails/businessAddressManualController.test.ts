@@ -192,4 +192,14 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a full UK postcode");
     });
+    // Test for showing error screen
+    it("should return status 500 and should show the error page if an error occurs", async () => {
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error("Test error");
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "abc", addressLine2: "", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });

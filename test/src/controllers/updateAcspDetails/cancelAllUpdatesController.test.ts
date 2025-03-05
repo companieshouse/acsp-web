@@ -2,13 +2,14 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { MANAGE_USERS_DASHBOARD, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES } from "../../../../src/types/pageURL";
+import { AUTHORISED_AGENT, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES } from "../../../../src/types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { createRequest, MockRequest } from "node-mocks-http";
+import * as localise from "../../../../src/utils/localise";
 
 const router = supertest(app);
 
@@ -21,6 +22,15 @@ describe("GET " + UPDATE_CANCEL_ALL_UPDATES, () => {
         expect(res.text).toContain("If you continue, any updates you’ve made to the authorised agent’s details will not be saved.");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(200);
+    });
+    it("should return status 500 when an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
@@ -62,14 +72,12 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toBe(undefined);
     });
 
-    it("should redirect to manage users dashboard", async () => {
-        const manageUsersDashboard = MANAGE_USERS_DASHBOARD;
+    it("should redirect to authorised agent account", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(manageUsersDashboard);
+        expect(res.header.location).toBe(AUTHORISED_AGENT);
     });
-
 });
 
 function createMockSessionMiddlewareAcspFullProfile () {

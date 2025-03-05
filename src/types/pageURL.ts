@@ -212,6 +212,8 @@ export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
 export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
 
+export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
+
 // close acsp urls
 
 export const CLOSE_ACSP_BASE_URL = "/close-authorised-agent";

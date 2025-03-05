@@ -1,5 +1,5 @@
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails } from "../../../src/utils/web";
+import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails, formatDateIntoReadableString, formatAddressIntoHTMLString } from "../../../src/utils/web";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 const acspProfileData: AcspData = {
@@ -68,5 +68,46 @@ describe("getBusinessName should return correct business name", () => {
     ])("should return correct business address for %s", (inputName, expectedName) => {
         const updatedName = getBusinessName(inputName);
         expect(updatedName).toEqual(expectedName);
+    });
+});
+
+describe("formatDateIntoReadableString returns a formatted date string", () => {
+    it("should return a formatted date string", () => {
+        expect(formatDateIntoReadableString(new Date(2021, 2, 1))).toBe("01 March 2021");
+    });
+});
+
+describe("formatAddressIntoHTMLString returns a formatted address string", () => {
+    it("should return formatted address string with all fields", () => {
+        const address = {
+            premises: "11",
+            addressLine1: "Test Street",
+            addressLine2: "Test Area",
+            locality: "Test City",
+            region: "Test Region",
+            country: "Test Country",
+            postalCode: "AB1 2CD"
+        };
+        const expectedString = "11 Test Street<br>Test Area<br>Test City<br>Test Region<br>Test Country<br>AB1 2CD";
+        expect(formatAddressIntoHTMLString(address)).toBe(expectedString);
+    });
+
+    it("should return formatted address string with some fields missing", () => {
+        const address = {
+            addressLine1: "Test Street",
+            locality: "Test City",
+            country: "Test Country"
+        };
+        const expectedString = "Test Street<br>Test City<br>Test Country";
+        expect(formatAddressIntoHTMLString(address)).toBe(expectedString);
+    });
+
+    it("should return an empty string when address has no fields", () => {
+        const address = {};
+        expect(formatAddressIntoHTMLString(address)).toBe("");
+    });
+
+    it("should return an empty string when address is undefined", () => {
+        expect(formatAddressIntoHTMLString(undefined)).toBe("");
     });
 });
