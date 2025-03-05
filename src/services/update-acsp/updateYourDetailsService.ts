@@ -66,9 +66,8 @@ export const validateUpdatesWithoutDate = (req: Request, acspFullProfile: AcspFu
 
     }
     if (changeFlag && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) === null &&
-        (acspFullProfile.soleTraderDetails?.forename !== acspUpdatedFullProfile.soleTraderDetails?.forename ||
-        acspFullProfile.soleTraderDetails?.otherForenames !== acspUpdatedFullProfile.soleTraderDetails?.otherForenames ||
-        acspFullProfile.soleTraderDetails?.surname !== acspUpdatedFullProfile.soleTraderDetails?.surname)) {
+        (acspFullProfile.soleTraderDetails?.forename + "" + acspFullProfile.soleTraderDetails?.otherForenames + "" + acspFullProfile.soleTraderDetails?.surname !==
+            acspUpdatedFullProfile.soleTraderDetails?.forename + "" + acspUpdatedFullProfile.soleTraderDetails?.otherForenames + "" + acspUpdatedFullProfile.soleTraderDetails?.surname)) {
             acspUpdatedFullProfile.soleTraderDetails!.surname = acspFullProfile.soleTraderDetails!.surname;
             acspUpdatedFullProfile.soleTraderDetails!.otherForenames = acspFullProfile.soleTraderDetails!.otherForenames;
             acspUpdatedFullProfile.soleTraderDetails!.forename = acspFullProfile.soleTraderDetails!.forename;

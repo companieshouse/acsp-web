@@ -67,6 +67,16 @@ describe("dateOfTheChangeController", () => {
                 currentUrl
             });
         });
+        it("should call next with an error if rendering fails", async () => {
+            const error = new Error("Test error");
+            (res.render as jest.Mock).mockImplementation(() => {
+                throw error;
+            });
+
+            await get(req as Request, res as Response, next);
+
+            expect(next).toHaveBeenCalledWith(error);
+        });
 
     });
     describe("post", () => {
@@ -126,173 +136,105 @@ describe("dateOfTheChangeController", () => {
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
-        jest.mock("../../../../src/validation/validation", () => ({
-            ...jest.requireActual("../../../../src/validation/validation"),
-            getPageProperties: jest.fn(),
-            formatValidationError: jest.fn()
-        }));
+        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+            const errorList = {
+                isEmpty: jest.fn().mockReturnValue(true)
+            };
+            (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
+            const lang = "en";
+            const dateOfChange = new Date(2023, 0, 1);
+            req.body = {
+                "change-year": "2023",
+                "change-month": "1",
+                "change-day": "1"
+            };
+            req.query = { lang: "en" };
 
-        jest.mock("express-validator");
-        jest.mock("../../../../src/utils/localise");
-        jest.mock("../../../../src/config");
+            (selectLang as jest.Mock).mockReturnValue(lang);
+            (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
 
-        describe("dateOfTheChangeController", () => {
-            let req: Partial<Request>;
-            let res: Partial<Response>;
-            let next: jest.Mock;
-            let session: Partial<Session>;
+            (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
 
-            beforeEach(() => {
-                session = {
-                    getExtraData: jest.fn(),
-                    setExtraData: jest.fn()
-                };
+            await post(req as Request, res as Response, next);
 
-                req = {
-                    session: session as Session,
-                    body: {},
-                    query: {}
-                } as Partial<Request>;
-
-                res = {
-                    render: jest.fn(),
-                    status: jest.fn().mockReturnThis(),
-                    redirect: jest.fn()
-                } as Partial<Response>;
-
-                next = jest.fn();
-            });
-
-            describe("get", () => {
-                it("should render the page with the correct parameters", async () => {
-                    const lang = "en";
-                    const locales = {
-                        lang
-                    };
-                    const previousPage = "/update-your-details";
-                    const currentUrl = "/view-and-update-the-authorised-agents-details/date-of-the-change";
-
-                    (selectLang as jest.Mock).mockReturnValue(lang);
-                    (getLocalesService as jest.Mock).mockReturnValue(locales);
-                    (addLangToUrl as jest.Mock).mockReturnValue(previousPage);
-                    (getLocaleInfo as jest.Mock).mockReturnValue({ some: "localeInfo" });
-
-                    await get(req as Request, res as Response, next);
-                    expect(getLocalesService).toHaveBeenCalled();
-                    expect(addLangToUrl).toHaveBeenCalledWith("/view-and-update-the-authorised-agents-details/update-your-details", lang);
-                    expect(res.render).toHaveBeenCalledWith(config.UPDATE_DATE_OF_THE_CHANGE, {
-                        some: "localeInfo",
-                        previousPage,
-                        currentUrl
-                    });
-                });
-
-                it("should call next with an error if rendering fails", async () => {
-                    const error = new Error("Test error");
-                    (res.render as jest.Mock).mockImplementation(() => {
-                        throw error;
-                    });
-
-                    await get(req as Request, res as Response, next);
-
-                    expect(next).toHaveBeenCalledWith(error);
-                });
-            });
-
-            describe("post", () => {
-                it("should render the page with errors if validation fails", async () => {
-                    const errorList = {
-                        isEmpty: jest.fn().mockReturnValue(false),
-                        array: jest.fn().mockReturnValue([{ msg: "Error" }])
-                    };
-                    (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
-                    const lang = "en";
-                    const locales = { some: "locales" };
-                    const currentUrl = "/view-and-update-the-authorised-agents-details/date-of-the-change";
-                    const previousPage = "/update-your-details";
-
-                    (selectLang as jest.Mock).mockReturnValue(lang);
-                    (getLocalesService as jest.Mock).mockReturnValue(locales);
-                    (addLangToUrl as jest.Mock).mockReturnValue(previousPage);
-                    (getLocaleInfo as jest.Mock).mockReturnValue({ some: "localeInfo" });
-                    (getPageProperties as jest.Mock).mockReturnValue({ some: "pageProperties" });
-                    (formatValidationError as jest.Mock).mockReturnValue([{ msg: "Formatted Error" }]);
-
-                    await post(req as Request, res as Response, next);
-
-                    expect(validationResult).toHaveBeenCalledWith(req);
-                    expect(res.status).toHaveBeenCalledWith(400);
-                    expect(res.render).toHaveBeenCalledWith(config.UPDATE_DATE_OF_THE_CHANGE, {
-                        previousPage,
-                        currentUrl,
-                        pageProperties: { some: "pageProperties" },
-                        payload: req.body,
-                        some: "localeInfo"
-                    });
-                });
-
-                it("should set the date of change and redirect if validation passes", async () => {
-                    const errorList = {
-                        isEmpty: jest.fn().mockReturnValue(true)
-                    };
-                    (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
-                    const lang = "en";
-                    const dateOfChange = new Date(2023, 0, 1);
-                    req.body = {
-                        "change-year": "2023",
-                        "change-month": "1",
-                        "change-day": "1"
-                    };
-                    req.query = { lang: "en" };
-
-                    (selectLang as jest.Mock).mockReturnValue(lang);
-                    (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
-
-                    (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
-
-                    await post(req as Request, res as Response, next);
-
-                    expect(validationResult).toHaveBeenCalledWith(req);
-                    expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, dateOfChange);
-                    expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
-                });
-
-                it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
-                    const errorList = {
-                        isEmpty: jest.fn().mockReturnValue(true)
-                    };
-                    (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
-                    const lang = "en";
-                    const dateOfChange = new Date(2023, 0, 1);
-                    req.body = {
-                        "change-year": "2023",
-                        "change-month": "1",
-                        "change-day": "1"
-                    };
-                    req.query = { lang: "en" };
-
-                    (selectLang as jest.Mock).mockReturnValue(lang);
-                    (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
-
-                    (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
-
-                    await post(req as Request, res as Response, next);
-
-                    expect(validationResult).toHaveBeenCalledWith(req);
-                    expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
-                    expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
-                });
-            });
+            expect(validationResult).toHaveBeenCalledWith(req);
+            expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
+            expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
-        it("should call next with an error if rendering fails", async () => {
-            const error = new Error("Test error");
-            (res.render as jest.Mock).mockImplementation(() => {
-                throw error;
-            });
+        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+            const errorList = {
+                isEmpty: jest.fn().mockReturnValue(true)
+            };
+            (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
+            const lang = "en";
+            const dateOfChange = new Date(2023, 0, 1);
+            req.body = {
+                "change-year": "2023",
+                "change-month": "1",
+                "change-day": "1"
+            };
+            req.query = { lang: "en" };
 
-            await get(req as Request, res as Response, next);
+            (selectLang as jest.Mock).mockReturnValue(lang);
+            (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
 
-            expect(next).toHaveBeenCalledWith(error);
+            (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
+
+            await post(req as Request, res as Response, next);
+
+            expect(validationResult).toHaveBeenCalledWith(req);
+            expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE, dateOfChange);
+            expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
+        });
+        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+            const errorList = {
+                isEmpty: jest.fn().mockReturnValue(true)
+            };
+            (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
+            const lang = "en";
+            const dateOfChange = new Date(2023, 0, 1);
+            req.body = {
+                "change-year": "2023",
+                "change-month": "1",
+                "change-day": "1"
+            };
+            req.query = { lang: "en" };
+
+            (selectLang as jest.Mock).mockReturnValue(lang);
+            (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
+
+            (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
+
+            await post(req as Request, res as Response, next);
+
+            expect(validationResult).toHaveBeenCalledWith(req);
+            expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
+            expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
+        });
+        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+            const errorList = {
+                isEmpty: jest.fn().mockReturnValue(true)
+            };
+            (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
+            const lang = "en";
+            const dateOfChange = new Date(2023, 0, 1);
+            req.body = {
+                "change-year": "2023",
+                "change-month": "1",
+                "change-day": "1"
+            };
+            req.query = { lang: "en" };
+
+            (selectLang as jest.Mock).mockReturnValue(lang);
+            (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
+
+            (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
+
+            await post(req as Request, res as Response, next);
+
+            expect(validationResult).toHaveBeenCalledWith(req);
+            expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+            expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
     });
 });
