@@ -13,6 +13,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
+import { AMLSupervisoryBodiesWelsh } from "../../../model/AMLSupervisoryBodiesWelsh";
 
 const selectedAMLSupervisoryBodies: string[] = [];
 const amlSupervisoryBody = new AmlSupervisoryBodyService();
@@ -41,7 +42,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspType: acspData?.typeOfBusiness,
             businessName: acspData?.businessName,
             payload,
-            AMLSupervisoryBodies
+            AMLSupervisoryBodies,
+            AMLSupervisoryBodiesWelsh
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);
@@ -75,7 +77,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspType: acspData?.typeOfBusiness,
                 businessName: acspData?.businessName,
                 payload: req.body,
-                AMLSupervisoryBodies
+                AMLSupervisoryBodies,
+                AMLSupervisoryBodiesWelsh
             });
         } else {
             // update acspData

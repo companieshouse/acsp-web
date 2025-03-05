@@ -13,6 +13,7 @@ import logger from "../../../utils/logger";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
+import { AMLSupervisoryBodiesWelsh } from "../../../model/AMLSupervisoryBodiesWelsh";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -36,6 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspType: acspData?.typeOfBusiness,
             currentUrl,
             AMLSupervisoryBodies,
+            AMLSupervisoryBodiesWelsh,
             selectedAMLSupervisoryBodies,
             businessName: acspData?.businessName
         });
@@ -62,6 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 acspType: acspData?.typeOfBusiness,
                 businessName: acspData?.businessName,
                 AMLSupervisoryBodies,
+                AMLSupervisoryBodiesWelsh,
                 ...pageProperties
             });
         } else {

@@ -18,15 +18,18 @@
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
     {% include "partials/__header.njk" %}
     <div class="govuk-width-container">
-      {% if userEmail %}
-        {% include "partials/nav/top.njk" %}
+      {% if journeyType != "register-acsp" %}
+        {% include "partials/nav/navbar.njk" %}
       {% endif %}
-        {% block localesBanner %}
-          {% include "locales-banner.njk" %}
-        {% endblock %}
-        {% block backLink %}
-          <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
-        {% endblock %}
+      {% block backLink %}
+        <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
+      {% endblock %}
+      {% if journeyType == "register-acsp" %}
+        {% include "partials/nav/signout-bar.njk" %}
+      {% endif %}
+      {% block localesBanner %}
+        {% include "locales-banner.njk" %}
+      {% endblock %}
       <main class="govuk-main-wrapper " id="main-content">
         <div class="govuk-grid-row">
           {% include "partials/error_summary.njk" %}
