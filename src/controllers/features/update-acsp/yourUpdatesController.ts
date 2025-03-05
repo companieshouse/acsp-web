@@ -62,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
 
         let redirectQuery = "your-updates";
-        if (Object.keys(yourDetails).length === 0 && addedAMLBodies.length === 0 && removedAMLBodies.length === 0) {
+        if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
             redirectQuery = "your-answers";
         }
 
