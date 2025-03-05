@@ -1,79 +1,118 @@
-import { body } from "express-validator";
+import { body, ValidationChain } from "express-validator";
 
-export const dateOfACSPUpdateDetailsChange = [
-    body("change-day").custom((value, { req }) => dateDayChecker(req.body["change-day"], req.body["change-month"], req.body["change-year"])),
-    body("change-month").custom((value, { req }) => dateMonthChecker(req.body["change-day"], req.body["change-month"], req.body["change-year"])),
-    body("change-year").custom((value, { req }) => dateYearChecker(req.body["change-day"], req.body["change-month"], req.body["change-year"])),
-    body("change-day").custom((value, { req }) => validDataChecker(req.body["change-day"], req.body["change-month"], req.body["change-year"]))
+type ValidationType = "dob" | "change";
+
+export const dateOfACSPUpdateDetailsChange = (type: ValidationType): ValidationChain[] => [
+    body(`${type}-day`).custom((value, { req }) => dateDayChecker(req.body[`${type}-day`], req.body[`${type}-month`], req.body[`${type}-year`], type)),
+    body(`${type}-month`).custom((value, { req }) => dateMonthChecker(req.body[`${type}-day`], req.body[`${type}-month`], req.body[`${type}-year`], type)),
+    body(`${type}-year`).custom((value, { req }) => dateYearChecker(req.body[`${type}-day`], req.body[`${type}-month`], req.body[`${type}-year`], type)),
+    body(`${type}-day`).custom((value, { req }) => validDataChecker(req.body[`${type}-day`], req.body[`${type}-month`], req.body[`${type}-year`], type))
 ];
 
-export const dateDayChecker = (day: string, month: string, year: string) => {
-    if (day.trim() === "" && month.trim() === "" && year.trim() === "") {
-        throw new Error("noChangeDateData");
-    } else if (day.trim() === "" && month.trim() === "") {
-        throw new Error("noChangeDateDayMonth");
+export const dateDayChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
+
+    if (day.trim() === "" && month === "" && year.trim() === "") {
+        throw new Error(type === "dob" ? "noData" : "noChangeDateData");
+    } else if (day.trim() === "" && month === "") {
+        throw new Error(type === "dob" ? "noDayMonth" : "noChangeDateMonth");
     } else if (day.trim() === "" && year.trim() === "") {
-        throw new Error("noChangeDateDayYear");
+        throw new Error(type === "dob" ? "noDayYear" : "noChangeDateYear");
     } else if (day.trim() === "") {
-        throw new Error("noChangeDateDay");
+        throw new Error(type === "dob" ? "noDay" : "noChangeDateDay");
     }
     return true;
 };
 
-export const dateMonthChecker = (day: string, month: string, year: string) => {
-    if (day.trim() !== "" && month.trim() === "" && year.trim() === "") {
-        throw new Error("noChangeDateMonthYear");
-    } else if (day.trim() !== "" && month.trim() === "") {
-        throw new Error("noChangeDateMonth");
+export const dateMonthChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
+
+    if (day.trim() !== "" && month === "" && year.trim() === "") {
+        throw new Error(type === "dob" ? "noMonthYear" : "noChangeDateDayMonth");
+    } else if (day.trim() !== "" && month === "") {
+        throw new Error(type === "dob" ? "noMonth" : "noChangeDateMonthYear");
     }
     return true;
 };
 
-export const dateYearChecker = (day: string, month: string, year: string) => {
-    if (day.trim() !== "" && month.trim() !== "" && year.trim() === "") {
-        throw new Error("noChangeDateYear");
+export const dateYearChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
+
+    if (day.trim() !== "" && month !== "" && year.trim() === "") {
+        throw new Error(type === "dob" ? "noYear" : "noChangeDateDayYear");
     }
     return true;
 };
 
-export const validDataChecker = (day: string, month: string, year: string) => {
-    if (day !== "" && month !== "" && year !== "") {
-        if (!isNumeric(day) || !isNumeric(month) || !isNumeric(year)) {
-            throw new Error("nonNumericChangeDate");
-        } else if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999 || !isValidDay(+day, +month, +year) || day.length > 2 || month.length > 2) {
-            throw new Error("invalidChangeDate");
-        } else if (!isNotInFuture(+day, +month, +year)) {
-            throw new Error("dateInFutureChangeDate");
-        } else if (!isNotTooOld(+day, +month, +year)) {
-            throw new Error("tooOldChangeDate");
+export const validDataChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
+
+    if (day !== "" && month !== undefined && year !== "") {
+        validateNumeric(day, month, year, type);
+        validateMonthYearRange(month, year, type);
+        validateDayLength(day, month, year, type);
+        validateDate(day, month, year, type);
+        if (type === "dob") {
+            validateDobAge(day, month, year);
         }
     }
     return true;
 };
 
-const isValidDay = (day: number, month: number, year: number):boolean => {
-    const numbDays = new Date(year, month, 0).getDate();
-    if (day >= 1 && day <= numbDays) {
-        return true;
+const validateNumeric = (day: string, month: string, year: string, type: ValidationType): void => {
+    if (!isNumeric(day) || !isNumeric(month) || !isNumeric(year)) {
+        throw new Error(type === "dob" ? "nonNumeric" : "nonChangeDateNumeric");
     }
-    return false;
+};
+
+const validateMonthYearRange = (month: string, year: string, type: ValidationType): void => {
+    if (+month < 1 || +month > 12 || +year < 1000 || +year > 9999) {
+        throw new Error(type === "dob" ? "invalid" : "invalidChangeDate");
+    }
+};
+
+const validateDayLength = (day: string, month: string, year: string, type: ValidationType): void => {
+    if (!isValidDay(+day, +month, +year) || day.length > 2) {
+        throw new Error(type === "dob" ? "invalid" : "invalidChangeDate");
+    }
+};
+
+const validateDate = (day: string, month: string, year: string, type: ValidationType): void => {
+    if (!isNotInFuture(+day, +month, +year)) {
+        throw new Error(type === "dob" ? "dateInFuture" : "dateInFutureChangeDate");
+    }
+};
+
+const validateDobAge = (day: string, month: string, year: string): void => {
+    if (!isNotTooYoung(+day, +month, +year)) {
+        throw new Error("tooYoung");
+    }
+    if (!isNotTooOld(+day, +month, +year)) {
+        throw new Error("tooChangeDateOld");
+    }
+};
+
+const isValidDay = (day: number, month: number, year: number): boolean => {
+    const numbDays = new Date(year, month, 0).getDate();
+    return day >= 1 && day <= numbDays;
 };
 
 const isNotInFuture = (day: number, month: number, year: number): boolean => {
-    var currentDate = new Date();
-    var inputDate = new Date(year, month - 1, day);
-
-    if (inputDate > currentDate) {
-        return false;
-    }
-    return true;
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    return inputDate <= currentDate;
 };
 
-const isNotTooOld = (day: number, month: number, year: number): boolean => {
-    var currentDate = new Date();
-    var inputDate = new Date(year, month - 1, day);
-    var age = currentDate.getFullYear() - inputDate.getFullYear();
+export const isNotTooYoung = (day: number, month: number, year: number): boolean => {
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let age = currentDate.getFullYear() - inputDate.getFullYear();
+    if (currentDate.getMonth() < inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())) {
+        age--;
+    }
+    return age >= 16;
+};
 
+export const isNotTooOld = (day: number, month: number, year: number): boolean => {
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let age = currentDate.getFullYear() - inputDate.getFullYear();
     if (currentDate.getMonth() > inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() > inputDate.getDate())) {
         age++;
     }
@@ -81,6 +120,6 @@ const isNotTooOld = (day: number, month: number, year: number): boolean => {
 };
 
 const isNumeric = (number: string): boolean => {
-    const regex = /^\d+$/ig;
+    const regex = /^\d+$/;
     return regex.test(number);
 };

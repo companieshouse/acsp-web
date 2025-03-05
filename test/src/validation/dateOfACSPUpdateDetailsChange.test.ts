@@ -1,81 +1,115 @@
-import { dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } from "../../../src/validation/dateOfACSPUpdateDetailsChange";
+import { dateOfACSPUpdateDetailsChange } from "../../../src/validation/dateOfACSPUpdateDetailsChange";
+import { validationResult } from "express-validator";
+import express, { Request, Response } from "express";
+import supertest from "supertest";
 
-describe("dateDayChecker", () => {
-    it("should throw error if day, month, and year are empty", () => {
-        expect(() => dateDayChecker("", "", "")).toThrow("noChangeDateData");
-    });
+const app = express();
+app.use(express.json());
 
-    it("should throw error if day and month are empty", () => {
-        expect(() => dateDayChecker("", "", "2023")).toThrow("noChangeDateDayMonth");
-    });
-
-    it("should throw error if day and year are empty", () => {
-        expect(() => dateDayChecker("", "12", "")).toThrow("noChangeDateDayYear");
-    });
-
-    it("should throw error if day is empty", () => {
-        expect(() => dateDayChecker("", "12", "2023")).toThrow("noChangeDateDay");
-    });
-
-    it("should return true if day is provided", () => {
-        expect(dateDayChecker("01", "12", "2023")).toBe(true);
-    });
+app.post("/test", dateOfACSPUpdateDetailsChange("dob"), (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+    res.status(200).send("Valid");
 });
 
-describe("dateMonthChecker", () => {
-    it("should throw error if month and year are empty but day is provided", () => {
-        expect(() => dateMonthChecker("01", "", "")).toThrow("noChangeDateMonthYear");
+describe("dateOfACSPUpdateDetailsChange", () => {
+    it("should return noData error when all fields are empty", async () => {
+        const response = await supertest(app).post("/test").send({
+            "dob-day": "",
+            "dob-month": "",
+            "dob-year": ""
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("noData");
     });
 
-    it("should throw error if month is empty but day is provided", () => {
-        expect(() => dateMonthChecker("01", "", "2023")).toThrow("noChangeDateMonth");
+    it("should return noDayMonth error when day and month are empty", async () => {
+        const response = await supertest(app).post("/test").send({
+            "dob-day": "",
+            "dob-month": "",
+            "dob-year": "2000"
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("noDayMonth");
     });
 
-    it("should return true if month is provided", () => {
-        expect(dateMonthChecker("01", "12", "2023")).toBe(true);
-    });
-});
-
-describe("dateYearChecker", () => {
-    it("should throw error if year is empty but day and month are provided", () => {
-        expect(() => dateYearChecker("01", "12", "")).toThrow("noChangeDateYear");
-    });
-
-    it("should return true if year is provided", () => {
-        expect(dateYearChecker("01", "12", "2023")).toBe(true);
-    });
-});
-
-describe("validDataChecker", () => {
-    it("should throw error if day, month, and year are non-numeric", () => {
-        expect(() => validDataChecker("a", "b", "c")).toThrow("nonNumericChangeDate");
+    it("should return noMonthYear error when month and year are empty", async () => {
+        const response = await supertest(app).post("/test").send({
+            "dob-day": "01",
+            "dob-month": "",
+            "dob-year": ""
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("noMonthYear");
     });
 
-    it("should throw error if month is out of range", () => {
-        expect(() => validDataChecker("01", "13", "2023")).toThrow("invalidChangeDate");
+    it("should return nonNumeric error when day, month, or year are not numeric", async () => {
+        const response = await supertest(app).post("/test").send({
+            "dob-day": "01",
+            "dob-month": "abc",
+            "dob-year": "2000"
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("nonNumeric");
     });
 
-    it("should throw error if year is out of range", () => {
-        expect(() => validDataChecker("01", "12", "999")).toThrow("invalidChangeDate");
+    it("should return invalid error when month or year are out of range", async () => {
+        const response = await supertest(app).post("/test").send({
+            "dob-day": "01",
+            "dob-month": "13",
+            "dob-year": "2000"
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("invalid");
     });
 
-    it("should throw error if day is invalid for the given month and year", () => {
-        expect(() => validDataChecker("32", "12", "2023")).toThrow("invalidChangeDate");
-    });
-
-    it("should throw error if date is in the future", () => {
+    it("should return dateInFuture error when date is in the future", async () => {
         const futureDate = new Date();
         futureDate.setFullYear(futureDate.getFullYear() + 1);
-        expect(() => validDataChecker(futureDate.getDate().toString(), (futureDate.getMonth() + 1).toString(), futureDate.getFullYear().toString())).toThrow("dateInFutureChangeDate");
+        const response = await supertest(app).post("/test").send({
+            "dob-day": futureDate.getDate().toString(),
+            "dob-month": (futureDate.getMonth() + 1).toString(),
+            "dob-year": futureDate.getFullYear().toString()
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("dateInFuture");
     });
 
-    it("should throw error if date is too old", () => {
+    it("should return tooYoung error when age is less than 16", async () => {
+        const youngDate = new Date();
+        youngDate.setFullYear(youngDate.getFullYear() - 15);
+        const response = await supertest(app).post("/test").send({
+            "dob-day": youngDate.getDate().toString(),
+            "dob-month": (youngDate.getMonth() + 1).toString(),
+            "dob-year": youngDate.getFullYear().toString()
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("tooYoung");
+    });
+
+    it("should return tooChangeDateOld error when age is more than 110", async () => {
         const oldDate = new Date();
         oldDate.setFullYear(oldDate.getFullYear() - 111);
-        expect(() => validDataChecker(oldDate.getDate().toString(), (oldDate.getMonth() + 1).toString(), oldDate.getFullYear().toString())).toThrow("tooOldChangeDate");
+        const response = await supertest(app).post("/test").send({
+            "dob-day": oldDate.getDate().toString(),
+            "dob-month": (oldDate.getMonth() + 1).toString(),
+            "dob-year": oldDate.getFullYear().toString()
+        });
+        expect(response.status).toBe(400);
+        expect(response.body.errors[0].msg).toBe("tooChangeDateOld");
     });
 
-    it("should return true if date is valid", () => {
-        expect(validDataChecker("01", "12", "2023")).toBe(true);
+    it("should return 200 when date is valid", async () => {
+        const validDate = new Date();
+        validDate.setFullYear(validDate.getFullYear() - 20);
+        const response = await supertest(app).post("/test").send({
+            "dob-day": validDate.getDate().toString(),
+            "dob-month": (validDate.getMonth() + 1).toString(),
+            "dob-year": validDate.getFullYear().toString()
+        });
+        expect(response.status).toBe(200);
+        expect(response.text).toBe("Valid");
     });
 });
