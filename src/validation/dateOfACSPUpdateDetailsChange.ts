@@ -14,9 +14,9 @@ export const dateDayChecker = (day: string, month: string | undefined, year: str
     if (day.trim() === "" && month === "" && year.trim() === "") {
         throw new Error(type === "dob" ? "noData" : "noChangeDateData");
     } else if (day.trim() === "" && month === "") {
-        throw new Error(type === "dob" ? "noDayMonth" : "noChangeDateMonth");
+        throw new Error(type === "dob" ? "noDayMonth" : "noChangeDateYear");
     } else if (day.trim() === "" && year.trim() === "") {
-        throw new Error(type === "dob" ? "noDayYear" : "noChangeDateYear");
+        throw new Error(type === "dob" ? "noDayYear" : "noChangeDateMonth");
     } else if (day.trim() === "") {
         throw new Error(type === "dob" ? "noDay" : "noChangeDateDay");
     }
@@ -26,7 +26,7 @@ export const dateDayChecker = (day: string, month: string | undefined, year: str
 export const dateMonthChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
 
     if (day.trim() !== "" && month === "" && year.trim() === "") {
-        throw new Error(type === "dob" ? "noMonthYear" : "noChangeDateDayMonth");
+        throw new Error(type === "dob" ? "noMonthYear" : "noChangeDateMonthYear");
     } else if (day.trim() !== "" && month === "") {
         throw new Error(type === "dob" ? "noMonth" : "noChangeDateMonthYear");
     }
@@ -41,9 +41,9 @@ export const dateYearChecker = (day: string, month: string | undefined, year: st
     return true;
 };
 
-export const validDataChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
+export const validDataChecker = (day: string, month: string, year: string, type: ValidationType): boolean => {
 
-    if (day !== "" && month !== undefined && year !== "") {
+    if (day !== "" && month !== "" && year !== "") {
         validateNumeric(day, month, year, type);
         validateMonthYearRange(month, year, type);
         validateDayLength(day, month, year, type);

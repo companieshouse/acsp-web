@@ -21,7 +21,7 @@ describe("Missing input validation tests", () => {
     });
 
     test("Error if day and month fields are empty", () => {
-        expect(() => dateDayChecker("", "", "1999", "change")).toThrow(new Error("noChangeDateMonth"));
+        expect(() => dateDayChecker("", "", "1999", "change")).toThrow(new Error("noChangeDateYear"));
     });
 
     test("Error if day and year fields are empty", () => {
@@ -29,7 +29,7 @@ describe("Missing input validation tests", () => {
     });
 
     test("Error if day and year fields are empty", () => {
-        expect(() => dateDayChecker("", "02", "", "change")).toThrow(new Error("noChangeDateYear"));
+        expect(() => dateDayChecker("", "02", "", "change")).toThrow(new Error("noChangeDateMonth"));
     });
 
     test("Error if month and year fields are empty", () => {
@@ -37,7 +37,7 @@ describe("Missing input validation tests", () => {
     });
 
     test("Error if month and year fields are empty", () => {
-        expect(() => dateMonthChecker("11", "", "", "change")).toThrow(new Error("noChangeDateDayMonth"));
+        expect(() => dateMonthChecker("11", "", "", "change")).toThrow(new Error("noChangeDateMonthYear"));
     });
 
     test("Error if day field is empty", () => {
@@ -65,9 +65,9 @@ describe("Missing input validation tests", () => {
     });
 
     test("No error if all fields are input", () => {
-        expect(() => dateDayChecker("11", "02", "1999", "dob")).toBeTruthy();
-        expect(() => dateMonthChecker("11", "02", "1999", "dob")).toBeTruthy();
-        expect(() => dateYearChecker("11", "02", "1999", "dob")).toBeTruthy();
+        expect(() => dateDayChecker("11", "02", "1999", "dob")).not.toThrow();
+        expect(() => dateMonthChecker("11", "02", "1999", "dob")).not.toThrow();
+        expect(() => dateYearChecker("11", "02", "1999", "dob")).not.toThrow();
     });
 });
 
@@ -75,19 +75,27 @@ describe("Valid data input tests", () => {
     test("Error if year is greater than 9999", () => {
         expect(() => validDataChecker("11", "11", "10000", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if year is greater than 9999", () => {
+        expect(() => validDataChecker("11", "11", "10000", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Error if year is less than 1000", () => {
         expect(() => validDataChecker("11", "11", "999", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if year is less than 1000", () => {
+        expect(() => validDataChecker("11", "11", "999", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Error if month is greater than 12", () => {
         expect(() => validDataChecker("11", "13", "1999", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if month is greater than 12", () => {
+        expect(() => validDataChecker("11", "13", "1999", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Error if day is not valid for month", () => {
         expect(() => validDataChecker("30", "02", "1999", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if day is not valid for month", () => {
+        expect(() => validDataChecker("30", "02", "1999", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Error if date given is in the future", () => {
         expect(() => validDataChecker("30", "11", "3490", "dob")).toThrow(new Error("dateInFuture"));
     });
@@ -119,7 +127,6 @@ describe("Valid data input tests", () => {
     test("Error if day length is more than 2 digits", () => {
         expect(() => validDataChecker("123", "01", "2024", "dob")).toThrow(new Error("invalid"));
     });
-
     test("Error if day length is more than 2 digits", () => {
         expect(() => validDataChecker("123", "01", "2024", "change")).toThrow(new Error("invalidChangeDate"));
     });
@@ -127,19 +134,27 @@ describe("Valid data input tests", () => {
     test("Error if month is zero", () => {
         expect(() => validDataChecker("11", "00", "1999", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if month is zero", () => {
+        expect(() => validDataChecker("11", "00", "1999", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Error if day is zero", () => {
         expect(() => validDataChecker("00", "01", "1999", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Error if day is zero", () => {
+        expect(() => validDataChecker("00", "01", "1999", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Leap year test: valid leap day", () => {
         expect(() => validDataChecker("29", "02", "2020", "dob")).toBeTruthy();
     });
-
+    test("Leap year test: valid leap day", () => {
+        expect(() => validDataChecker("29", "02", "2020", "change")).toBeTruthy();
+    });
     test("Leap year test: invalid leap day", () => {
         expect(() => validDataChecker("29", "02", "2019", "dob")).toThrow(new Error("invalid"));
     });
-
+    test("Leap year test: invalid leap day", () => {
+        expect(() => validDataChecker("29", "02", "2019", "change")).toThrow(new Error("invalidChangeDate"));
+    });
     test("Boundary test: 110 years ago exactly", () => {
         const currentDate = new Date();
         const year = currentDate.getFullYear() - 110;
