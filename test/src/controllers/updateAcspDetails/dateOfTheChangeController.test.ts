@@ -6,6 +6,7 @@ import * as config from "../../../../src/config";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_UPDATE_CHANGE_DATE } from "../../../../src/common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../../src/validation/validation";
+import * as localise from "../../../../src/utils/localise";
 
 jest.mock("../../../../src/validation/validation", () => ({
     ...jest.requireActual("../../../../src/validation/validation"),
@@ -238,11 +239,14 @@ describe("dateOfTheChangeController", () => {
         });
         it("should call next with an error if rendering fails", async () => {
             const error = new Error("Test error");
+            jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+                throw error;
+            });
             (res.render as jest.Mock).mockImplementation(() => {
                 throw error;
             });
 
-            await get(req as Request, res as Response, next);
+            await post(req as Request, res as Response, next);
 
             expect(next).toHaveBeenCalledWith(error);
         });
