@@ -9,19 +9,19 @@ import {
 
 describe("Missing input validation tests", () => {
     test("Error if date field is completely empty", () => {
-        expect(() => dateDayChecker("", undefined, "", "dob")).toThrow(new Error("noDayYear"));
+        expect(() => dateDayChecker("", "", "", "dob")).toThrow(new Error("noData"));
     });
 
     test("Error if date field is completely empty", () => {
-        expect(() => dateDayChecker("", undefined, "", "change")).toThrow(new Error("noChangeDateYear"));
+        expect(() => dateDayChecker("", "", "", "change")).toThrow(new Error("noChangeDateData"));
     });
 
     test("Error if day and month fields are empty", () => {
-        expect(() => dateDayChecker("", undefined, "1999", "dob")).toThrow(new Error("noDay"));
+        expect(() => dateDayChecker("", "", "1999", "dob")).toThrow(new Error("noDayMonth"));
     });
 
     test("Error if day and month fields are empty", () => {
-        expect(() => dateDayChecker("", undefined, "1999", "change")).toThrow(new Error("noChangeDateDay"));
+        expect(() => dateDayChecker("", "", "1999", "change")).toThrow(new Error("noChangeDateMonth"));
     });
 
     test("Error if day and year fields are empty", () => {
