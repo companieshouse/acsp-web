@@ -7,9 +7,9 @@
 {% set title = i18n.yourUpdatesHeading %}
 
 
+
+{% set cancelServiceAddressChange = "&cancel=serviceAddress&return=" + redirectQuery %}
 {% if type === "sole-trader" %}
-  {% set cancelServiceAddressChange = "&cancel=serviceAddress&return=" + redirectQuery %}
-{% else %}
   {% set cancelServiceAddressChange = "&cancel=registeredOfficeAddress&return=" + redirectQuery %}
 {% endif %}
 
@@ -59,7 +59,7 @@
     actions: {
         items: [
           {
-            href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + lang,
+            href: "/view-and-update-the-authorised-agents-details/where-do-you-live?lang=" + lang,
             text: i18n.Edit,
             visuallyHiddenText: i18n.yourUpdatesWhereYouLive
           },
@@ -134,7 +134,7 @@
     actions: {
         items: [
           {
-            href: "/view-and-update-the-authorised-agents-details/#?lang=" + lang,
+            href: "/view-and-update-the-authorised-agents-details/what-email-should-we-use?lang=" + lang,
             text: i18n.Edit,
             visuallyHiddenText: i18n.yourUpdatesCorrespondenceEmailAddress
           },
