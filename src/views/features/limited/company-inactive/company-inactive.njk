@@ -1,12 +1,9 @@
 {% extends "layouts/default.njk" %}
 
 {% block backLink %}
-  {# Remove back button on this page by replacing it with nothing #}
-{% endblock %}
-{% block signoutBar %}
-  {% include "partials/signout-bar.njk" %}
-  <hr class="govuk-section-break">
-{% endblock %}
+  {# Remove back button on this page by replacing it empty div to keep the nav bar underline correct #}
+  <div class="back-link-removed-div"></div>
+  {% endblock %}
 {% set title = i18n.companyInactiveTitle %}
 {% block main_content %}
   <h1 class="govuk-heading-l">{{ i18n.companyInactiveTitle }}</h1>
