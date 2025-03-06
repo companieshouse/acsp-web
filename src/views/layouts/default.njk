@@ -25,7 +25,9 @@
         <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
       {% endblock %}
       {% if journeyType == "register-acsp" %}
-        {% include "partials/nav/signout-bar.njk" %}
+        {% block signoutBar %}
+          {% include "partials/nav/signout-bar.njk" %}
+        {% endblock %}
       {% endif %}
       {% block localesBanner %}
         {% include "locales-banner.njk" %}
