@@ -161,7 +161,7 @@ describe("dateOfTheChangeController", () => {
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
-        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+        it("should set the date of change for WHEREDOYOULIVE if NAMEOFBUSINESS is already set", async () => {
             const errorList = {
                 isEmpty: jest.fn().mockReturnValue(true)
             };
@@ -186,7 +186,7 @@ describe("dateOfTheChangeController", () => {
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
-        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+        it("should set the date of change for REGOFFICEADDRESS if NAMEOFBUSINESS is already set", async () => {
             const errorList = {
                 isEmpty: jest.fn().mockReturnValue(true)
             };
@@ -211,7 +211,7 @@ describe("dateOfTheChangeController", () => {
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
-        it("should set the date of change for NAME if NAMEOFBUSINESS is already set", async () => {
+        it("should set the date of change for CORRESPONDENCEADDRESS if NAMEOFBUSINESS is already set", async () => {
             const errorList = {
                 isEmpty: jest.fn().mockReturnValue(true)
             };
@@ -235,6 +235,16 @@ describe("dateOfTheChangeController", () => {
             expect(validationResult).toHaveBeenCalledWith(req);
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
+        });
+        it("should call next with an error if rendering fails", async () => {
+            const error = new Error("Test error");
+            (res.render as jest.Mock).mockImplementation(() => {
+                throw error;
+            });
+
+            await get(req as Request, res as Response, next);
+
+            expect(next).toHaveBeenCalledWith(error);
         });
     });
 });

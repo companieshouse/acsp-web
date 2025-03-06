@@ -207,3 +207,41 @@ describe("Age calculation tests", () => {
         expect(isNotTooYoung(+day, +month, +year.toString())).toBe(false);
     });
 });
+
+describe("isNotTooOld", () => {
+    it("should return true if the age is less than or equal to 110 years", () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear() - 100;
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
+
+        expect(isNotTooOld(day, month, year)).toBe(true);
+    });
+
+    it("should return false if the age is greater than 110 years", () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear() - 111;
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
+
+        expect(isNotTooOld(day, month, year)).toBe(false);
+    });
+
+    it("should return true if the age is exactly 110 years", () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear() - 110;
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
+
+        expect(isNotTooOld(day, month, year)).toBe(true);
+    });
+
+    it("should return true if the input date is today", () => {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        const day = currentDate.getDate();
+
+        expect(isNotTooOld(day, month, year)).toBe(true);
+    });
+});
