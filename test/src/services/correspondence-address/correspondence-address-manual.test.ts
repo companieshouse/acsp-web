@@ -151,7 +151,7 @@ describe("CorrespondenceAddressManualService", () => {
             addressPostcode: "EX1 1EX"
         };
 
-        service.saveCorrespondenceManualAddressUpdate(req, acspDetails);
+        service.saveManualAddressUpdate(req, acspDetails, false);
 
         expect(acspDetails.serviceAddress).toEqual({
             premises: "Suite 200",
@@ -175,7 +175,7 @@ describe("CorrespondenceAddressManualService", () => {
             postalCode: "TE5 5TL"
         };
 
-        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails);
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails.serviceAddress);
 
         expect(retrievedAddressUpdate).toEqual({
             addressPropertyDetails: "Suite 100",
@@ -191,7 +191,7 @@ describe("CorrespondenceAddressManualService", () => {
     test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
         acspDetails.serviceAddress = undefined;
 
-        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails);
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails.serviceAddress);
 
         expect(retrievedAddressUpdate).toEqual({
             addressPropertyDetails: undefined,
