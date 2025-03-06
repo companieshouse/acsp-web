@@ -305,3 +305,72 @@ describe("validateUpdatesWithoutDate", () => {
         expect(result).toEqual(acspUpdatedFullProfile);
     });
 });
+
+describe("validateUpdatesWithoutDate", () => {
+    let req: Partial<Request>;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session
+        } as Partial<Request>;
+
+        acspFullProfile = {
+            soleTraderDetails: {
+                forename: "John",
+                otherForenames: "Doe",
+                surname: "Smith",
+                usualResidentialCountry: "UK"
+            }
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            soleTraderDetails: {
+                forename: "Jane",
+                otherForenames: "Doe",
+                surname: "Doe",
+                usualResidentialCountry: "US"
+            }
+        } as AcspFullProfile;
+    });
+
+    it("should update soleTraderDetails if changeFlag is true, session data for NAME is null, and names are different", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.forename).toBe(acspUpdatedFullProfile.soleTraderDetails!.forename);
+        expect(result.soleTraderDetails!.otherForenames).toBe(acspUpdatedFullProfile.soleTraderDetails!.otherForenames);
+        expect(result.soleTraderDetails!.surname).toBe(acspUpdatedFullProfile.soleTraderDetails!.surname);
+    });
+
+    it("should not update soleTraderDetails if session data for NAME is not null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01");
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.forename).toBe(acspUpdatedFullProfile.soleTraderDetails!.forename);
+        expect(result.soleTraderDetails!.otherForenames).toBe(acspUpdatedFullProfile.soleTraderDetails!.otherForenames);
+        expect(result.soleTraderDetails!.surname).toBe(acspUpdatedFullProfile.soleTraderDetails!.surname);
+    });
+
+    it("should not update soleTraderDetails if names are the same", () => {
+        acspUpdatedFullProfile.soleTraderDetails!.forename = "John";
+        acspUpdatedFullProfile.soleTraderDetails!.otherForenames = "Doe";
+        acspUpdatedFullProfile.soleTraderDetails!.surname = "Smith";
+
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.forename).toBe("John");
+        expect(result.soleTraderDetails!.otherForenames).toBe("Doe");
+        expect(result.soleTraderDetails!.surname).toBe("Smith");
+    });
+});
