@@ -1,6 +1,7 @@
 {% extends "layouts/default.njk" %}
 {% block backLink %}
-  {# Remove back button on this page by replacing it with nothing #}
+  {# Remove back button on this page by replacing it empty div to keep the nav bar underline correct #}
+  <div class="back-link-removed-div"></div>
 {% endblock %}
 {% set title = "Accessibility statement for the Companies House service" %}
 {% block main_content %}
