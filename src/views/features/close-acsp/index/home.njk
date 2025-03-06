@@ -11,24 +11,21 @@
   {% block main_content %}
     <form class="form" action="start-page" method="post">
       <h1 class="govuk-heading-l">
-        Close the authorised agent
+        {{ i18n.startPageTitleCloseAcsp }}
       </h1>
-      <p>If you close the authorised agent, MORRIS ACCOUNTING LTD will no longer be registered as an authorised agent with
-        Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).
+      <p> {{i18n.ifYouCloseAcspPart1 }} {{businessName}} {{ i18n.ifYouCloseAcspPart2 }}
       </p>
-      <h2 class="govuk-heading-m">Before you continue</h2>
-      <p>If there are other people who work for the authorised agent, you must
-        <a href="">check if they’ve been added to the account</a>.
+      <h2 class="govuk-heading-m">{{ i18n.beforeYouContinueHeading}}</h2>
+      <p>{{ i18n.beforeYouContinueText1 }}
+        <a href="">{{ i18n.beforeYouContinueLink }}</a>.
       </p>
-      <p>
-        You’ll need to tell them they will not be able to access the account, or use services for the authorised agent when you
-        close it.</p>
+      <p>{{ i18n.beforeYouContinueText2}} </p>
 
       <div class="govuk-button-group">
         <a href="closing-details" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-          Continue
+          {{ i18n.Continue }}
         </a>
-        <a class="govuk-link" href="#">Cancel</a>
+        <a class="govuk-link" href="#">{{ i18n.Cancel}}</a>
       </div>
   </form>
 {% endblock %}
