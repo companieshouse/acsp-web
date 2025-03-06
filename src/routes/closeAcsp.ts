@@ -4,7 +4,7 @@ import { closeIndexController } from "../controllers";
 
 const closeRoutes = Router();
 
-closeRoutes.get(urls.CLOSE_ACSP, closeIndexController.get);
-closeRoutes.post(urls.CLOSE_ACSP, closeIndexController.post);
+closeRoutes.get(urls.HOME_URL, closeIndexController.get);
+closeRoutes.post(urls.HOME_URL, closeIndexController.post);
 
 export default closeRoutes;
