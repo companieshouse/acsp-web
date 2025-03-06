@@ -268,9 +268,9 @@ describe("validateUpdatesWithoutDate", () => {
 
         const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
 
-        expect(result.soleTraderDetails!.forename).toBe(acspFullProfile.soleTraderDetails!.forename);
-        expect(result.soleTraderDetails!.otherForenames).toBe(acspFullProfile.soleTraderDetails!.otherForenames);
-        expect(result.soleTraderDetails!.surname).toBe(acspFullProfile.soleTraderDetails!.surname);
+        expect(result.soleTraderDetails!.forename).toBe(acspUpdatedFullProfile.soleTraderDetails!.forename);
+        expect(result.soleTraderDetails!.otherForenames).toBe(acspUpdatedFullProfile.soleTraderDetails!.otherForenames);
+        expect(result.soleTraderDetails!.surname).toBe(acspUpdatedFullProfile.soleTraderDetails!.surname);
     });
 
     it("should update usualResidentialCountry if WHEREDOYOULIVE change date is null", () => {
@@ -341,7 +341,7 @@ describe("validateUpdatesWithoutDate", () => {
     });
 
     it("should update soleTraderDetails if changeFlag is true, session data for NAME is null, and names are different", () => {
-        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("undefined");
 
         const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
 
@@ -372,5 +372,60 @@ describe("validateUpdatesWithoutDate", () => {
         expect(result.soleTraderDetails!.forename).toBe("John");
         expect(result.soleTraderDetails!.otherForenames).toBe("Doe");
         expect(result.soleTraderDetails!.surname).toBe("Smith");
+    });
+});
+
+describe("validateUpdatesWithoutDate", () => {
+    let req: Partial<Request>;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session
+        } as Partial<Request>;
+
+        acspFullProfile = {
+            soleTraderDetails: {
+                usualResidentialCountry: "UK"
+            }
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            soleTraderDetails: {
+                usualResidentialCountry: "US"
+            }
+        } as AcspFullProfile;
+    });
+
+    it("should update usualResidentialCountry if changeFlag is true, session data for WHEREDOYOULIVE is null, and countries are different", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.usualResidentialCountry).toBe(acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry);
+    });
+
+    it("should not update usualResidentialCountry if session data for WHEREDOYOULIVE is not null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01");
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.usualResidentialCountry).toBe(acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry);
+    });
+
+    it("should not update usualResidentialCountry if countries are the same", () => {
+        acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry = "UK";
+
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.soleTraderDetails!.usualResidentialCountry).toBe("UK");
     });
 });
