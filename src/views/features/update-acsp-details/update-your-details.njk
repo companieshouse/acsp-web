@@ -1,5 +1,6 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% extends "layouts/default.njk" %}
 {% set amlList = [] %}
 {% for body in acspFullProfile.amlDetails %}
@@ -89,16 +90,23 @@
     {% set amlList = amlList.concat(amlSummaryObject) %}
 {% endfor %}
 
+{% set html %}
+<h3 class="govuk-notification-banner__heading">
+  {{ i18n.updateYourDetailsNote }}
+</h3>
+{% endset %}
+
 {% set title = i18n.updateYourDetailsHeading %}
+{% block defaultLayout %}
+<div class="govuk-grid-column-three-quarters" id="main-page-content">
 {% block main_content %}
+{{ govukNotificationBanner({
+    html: html,
+    titleText: i18n.important
+}) }}
     <form action="" method="post">
         {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
-        <div class="govuk-inset-text">
-            <p class="govuk-body">
-                {{ i18n.updateYourDetailsNote }}
-            </p>
-        </div>
         {% if acspFullProfile.type === "sole-trader" %}
             {% include "partials/update-your-details/sole-trader-answers.njk" %}
         {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
@@ -107,6 +115,7 @@
             {% include "partials/update-your-details/unincorporated-answers.njk" %}
         {% endif %}
         <h2 class="govuk-heading-m">{{ i18n.checkYourAnswersAMLHeading }}</h2>
+        <p class="govuk-body">{{ i18n.updateYourDetailsYouMustBeRegisteredAML }}</p>
         <div class="govuk-button-group"> 
             {{ govukButton({
                 text: i18n.addNewAMLDetails,
@@ -134,3 +143,5 @@
         {% endif %}
     </form>
 {% endblock main_content %}
+</div>
+{% endblock defaultLayout %}
