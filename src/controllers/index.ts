@@ -94,4 +94,4 @@ export * as updateProvideAmlDetailsController from "./features/update-acsp/provi
 export * as yourUpdatesController from "./features/update-acsp/yourUpdatesController";
 
 // close acsp
-export * as closeIndexController from "./features/close-acsp/closeIndexController";
+export * as closeIndexController from "./features/close-acsp/indexController";
