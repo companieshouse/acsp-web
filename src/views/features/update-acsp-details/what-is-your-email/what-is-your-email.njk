@@ -1,0 +1,83 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.whatEmailForCorrespondence %}
+{% block main_content %}
+    <form action="" method="POST">   
+    {% include "partials/csrf_token.njk" %}   
+    {% set textHtml %}
+        {{ govukInput({
+            label: {
+            text: i18n.emailAddressTextInput
+            },
+            errorMessage: {
+            text: errors.whatIsYourEmailInput.text
+            } if errors.whatIsYourEmailInput | length,
+            classes: "govuk-input",
+            id: "whatIsYourEmailInput",
+            name: "whatIsYourEmailInput",
+            value: payload.whatIsYourEmailInput
+        }) }}
+    {% endset -%}
+
+    {{ govukRadios({
+        errorMessage: errors.whatIsYourEmailRadio if errors,
+        name: "whatIsYourEmailRadio",
+        value: payload.whatIsYourEmailRadio,
+        classes: "govuk-radios",
+        fieldset: {
+            legend: {
+                text: i18n.whatEmailForCorrespondence,
+                classes: "govuk-fieldset__legend--l",
+                isPageHeading: true
+            }
+        },
+        hint: {
+            text: i18n.wellUseThisToSendInformationHint
+        },
+        items: [
+        {
+            value: correspondenceEmail,
+            text: correspondenceEmail
+        },
+        {
+            value: "A Different Email",
+            text: i18n.aDifferentEmailAddress,
+            id: "a-different-email-radio", 
+            conditional: {
+                html: textHtml
+            }
+        }
+      ]
+    }) }}
+
+    <details class="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            {{ i18n.whatCorrespondenceWellSend }}
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+            <p>{{ i18n.wellUseThisToSendEssentialEmails }}</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{ i18n.askForMoreInformation }}</li>
+                <li>{{ i18n.checkTheAgentIsComplying }}</li>
+                <li>{{ i18n.suspendTheAgentAccount }}</li>
+            </ul>
+            <p>{{ i18n.updateEmailAddressAfter }}</p>
+        </div>
+    </details>
+
+    <div class="govuk-button-group">
+        {{ govukButton({
+          text: i18n.Continue,
+          id: "continue-button-id"
+        })}}
+        <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
+    </div>
+
+    </form>
+{% endblock main_content %}
