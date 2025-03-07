@@ -7,6 +7,7 @@
 {% if profileDetailsUpdated.name !== profileDetails.name %}
   {% set updateStatusTextForName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.name+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -15,6 +16,7 @@
 {% if profileDetailsUpdated.countryOfResidence !== profileDetails.countryOfResidence %}
   {% set updateStatusTextForCountryOfResidence =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.whereDoYouLive+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -23,6 +25,7 @@
 {% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.regOfficeAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -31,6 +34,7 @@
 {% if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail %}
   {% set updateStatusTextForCorrespondenceEmail =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.applicantEmail+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -39,6 +43,7 @@
 {% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
   {% set updateStatusTextForBusinessName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.nameOfBusiness+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -54,8 +59,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.name+updateStatusTextForName,
-          classes: "govuk-!-width-one-third"
+          html: profileDetailsUpdated.name+updateStatusTextForName
         },
         actions: {
             items: [
@@ -69,8 +73,7 @@
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateYourDetailsName
               } if profileDetailsUpdated.name !== profileDetails.name
-            ],
-            classes: "govuk-!-width-one-third"
+            ]
           }
       },     
       {
@@ -95,7 +98,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
               } if profileDetailsUpdated.countryOfResidence !== profileDetails.countryOfResidence
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -104,8 +107,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForCorrespondenceAddress,
-          classes: "govuk-!-width-one-third"
+          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForCorrespondenceAddress
         },
         actions: {
             items: [
@@ -120,17 +122,15 @@
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               } if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
         key: {
-          text: i18n.updateDetailsCorrespondenceEmail,
-          classes: "govuk-!-width-one-third"
+          text: i18n.updateDetailsCorrespondenceEmail
         },
         value: {
-          html: profileDetailsUpdated.correspondenceEmail+updateStatusTextForCorrespondenceEmail,
-          classes: "govuk-!-width-one-third"
+          html: profileDetailsUpdated.correspondenceEmail+updateStatusTextForCorrespondenceEmail
         },
         actions: {
             items: [
@@ -145,17 +145,15 @@
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               } if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
         key: {
-          text: i18n.updateYourDetailsNameOfBusiness,
-          classes: "govuk-!-width-one-third"
+          text: i18n.updateYourDetailsNameOfBusiness
         },
         value: {
-          html: profileDetailsUpdated.businessName+updateStatusTextForBusinessName,
-          classes: "govuk-!-width-one-third"
+          html: profileDetailsUpdated.businessName+updateStatusTextForBusinessName
         },
         actions: {
             items: [
@@ -170,7 +168,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
               } if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       }
     ]
