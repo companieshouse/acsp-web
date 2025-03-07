@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { BASE_URL, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { BASE_URL, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_DATE_OF_THE_CHANGE } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_UPDATE_CHANGE_DATE } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -65,8 +65,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.whatIsYourEmailRadio === "A Different Email") {
                 acspUpdatedFullProfile.email = req.body.whatIsYourEmailInput;
                 saveDataInSession(req, ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+                session.setExtraData(ACSP_UPDATE_CHANGE_DATE.EMAIL, null);
+                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
+                res.redirect(nextPageUrl);
             }
-            res.redirect(previousPage);
         }
     } catch (err) {
         next(err);

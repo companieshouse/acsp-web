@@ -220,9 +220,9 @@ describe("isNotTooOld", () => {
 
     it("should increment age if current month is equal to input month and current day is greater than input day", () => {
         const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth(), currentDate.getDate() + 1);
+        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate() + 1);
 
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth(), inputDate.getFullYear());
 
         expect(result).toBe(true);
     });

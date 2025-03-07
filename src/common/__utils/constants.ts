@@ -45,6 +45,7 @@ export const NEW_AML_BODY: string = "newAmlBody";
 export const ADD_AML_BODY_UPDATE: string = "addAmlBodyUpdate";
 export const ACSP_UPDATE_CHANGE_DATE = {
     NAME: "applicantName",
+    EMAIL: "applicantEmail",
     WHEREDOYOULIVE: "whereDoYouLive",
     NAMEOFBUSINESS: "nameOfBusiness",
     REGOFFICEADDRESS: "registeredOfficeAddress",

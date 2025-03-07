@@ -237,6 +237,31 @@ describe("dateOfTheChangeController", () => {
             expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
             expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
         });
+        it("should set the date of change for EMAIL if NAMEOFBUSINESS is already set", async () => {
+            const errorList = {
+                isEmpty: jest.fn().mockReturnValue(true)
+            };
+            (validationResult as unknown as jest.Mock).mockReturnValue(errorList);
+            const lang = "en";
+            const dateOfChange = new Date(2023, 0, 1);
+            req.body = {
+                "change-year": "2023",
+                "change-month": "1",
+                "change-day": "1"
+            };
+            req.query = { lang: "en" };
+
+            (selectLang as jest.Mock).mockReturnValue(lang);
+            (addLangToUrl as jest.Mock).mockReturnValue("/update-your-details");
+
+            (session.getExtraData as jest.Mock).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(dateOfChange).mockReturnValueOnce(null);
+
+            await post(req as Request, res as Response, next);
+
+            expect(validationResult).toHaveBeenCalledWith(req);
+            expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.EMAIL, dateOfChange);
+            expect(res.redirect).toHaveBeenCalledWith("/update-your-details");
+        });
         it("should call next with an error if rendering fails", async () => {
             const error = new Error("Test error");
             jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {

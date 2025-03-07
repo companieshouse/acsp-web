@@ -204,6 +204,7 @@ describe("validateUpdatesWithoutDate", () => {
 
         acspFullProfile = {
             name: "Original Name",
+            email: "abcd@abcd.com",
             soleTraderDetails: {
                 forename: "John",
                 otherForenames: "Doe",
@@ -230,6 +231,7 @@ describe("validateUpdatesWithoutDate", () => {
 
         acspUpdatedFullProfile = {
             name: "Updated Name",
+            email: "efgh@abcd.com",
             soleTraderDetails: {
                 forename: "Jane1",
                 otherForenames: "Doe1",
@@ -296,9 +298,16 @@ describe("validateUpdatesWithoutDate", () => {
 
         expect(result.serviceAddress).toEqual(acspFullProfile.serviceAddress);
     });
+    it("should update email if EMAIL change date is null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.serviceAddress).toEqual(acspFullProfile.serviceAddress);
+    });
 
     it("should not update fields if change dates are not null", () => {
-        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01");
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01").mockReturnValueOnce("2023-01-01");
 
         const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
 

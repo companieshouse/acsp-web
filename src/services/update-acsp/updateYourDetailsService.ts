@@ -87,5 +87,9 @@ export const validateUpdatesWithoutDate = (req: Request, acspFullProfile: AcspFu
         JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(acspUpdatedFullProfile.serviceAddress)) {
         acspUpdatedFullProfile.serviceAddress = acspFullProfile.serviceAddress;
     }
+    if (changeFlag && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.EMAIL) === null &&
+        acspFullProfile.email !== acspUpdatedFullProfile.email) {
+        acspUpdatedFullProfile.email = acspFullProfile.email;
+    }
     return acspUpdatedFullProfile;
 };

@@ -57,6 +57,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 session.setExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
             } else if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS) === null) {
                 session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+            } else if (session.getExtraData(ACSP_UPDATE_CHANGE_DATE.EMAIL) === null) {
+                session.setExtraData(ACSP_UPDATE_CHANGE_DATE.EMAIL, dateOfChange);
             }
 
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
