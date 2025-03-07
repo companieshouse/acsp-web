@@ -438,3 +438,54 @@ describe("validateUpdatesWithoutDate", () => {
         expect(result.soleTraderDetails!.usualResidentialCountry).toBe("UK");
     });
 });
+
+describe("validateUpdatesWithoutDate", () => {
+    let req: Partial<Request>;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session
+        } as Partial<Request>;
+
+        acspFullProfile = {
+            email: "newemail@example.com"
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            email: "oldemail@example.com"
+        } as AcspFullProfile;
+    });
+
+    it("should update email if changeFlag is true, session data for EMAIL is null, and emails are different", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.email).toBe(acspUpdatedFullProfile.email);
+    });
+
+    it("should not update email if session data for EMAIL is not null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValueOnce("2023-01-01");
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.email).toBe(acspUpdatedFullProfile.email);
+    });
+
+    it("should not update email if emails are the same", () => {
+        acspUpdatedFullProfile.email = "newemail@example.com";
+
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(null);
+
+        const result = validateUpdatesWithoutDate(req as Request, acspFullProfile, acspUpdatedFullProfile);
+
+        expect(result.email).toBe("newemail@example.com");
+    });
+});
