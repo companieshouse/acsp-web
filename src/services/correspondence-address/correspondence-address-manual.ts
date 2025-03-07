@@ -33,7 +33,7 @@ export class CorrespondenceAddressManualService {
         };
     }
 
-    public saveCorrespondenceManualAddressUpdate (req: Request, acspDetails: AcspFullProfile): void {
+    public saveManualAddressUpdate (req: Request, acspDetails: AcspFullProfile, isSoleTrader: boolean): void {
         // Extract correspondence address details from request body
         const correspondenceAddress: Address = {
             premises: req.body.addressPropertyDetails,
@@ -44,18 +44,25 @@ export class CorrespondenceAddressManualService {
             country: req.body.countryInput,
             postalCode: req.body.addressPostcode
         };
-        acspDetails.serviceAddress = correspondenceAddress;
+        if (isSoleTrader) {
+            acspDetails.registeredOfficeAddress = correspondenceAddress;
+        } else {
+            acspDetails.serviceAddress = correspondenceAddress;
+        }
     }
 
-    public getCorrespondenceManualAddressUpdate (acspDetails: AcspFullProfile) {
+    public getCorrespondenceManualAddressUpdate (address: Address | undefined) {
+        if (!address) {
+            return {};
+        }
         return {
-            addressPropertyDetails: acspDetails.serviceAddress?.premises,
-            addressLine1: acspDetails.serviceAddress?.addressLine1,
-            addressLine2: acspDetails.serviceAddress?.addressLine2,
-            addressTown: acspDetails.serviceAddress?.locality,
-            addressCounty: acspDetails.serviceAddress?.region,
-            countryInput: acspDetails.serviceAddress?.country,
-            addressPostcode: acspDetails.serviceAddress?.postalCode
+            addressPropertyDetails: address.premises,
+            addressLine1: address.addressLine1,
+            addressLine2: address.addressLine2,
+            addressTown: address.locality,
+            addressCounty: address.region,
+            countryInput: address.country,
+            addressPostcode: address.postalCode
         };
     }
 }

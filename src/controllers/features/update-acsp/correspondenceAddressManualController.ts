@@ -9,7 +9,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import countryList from "../../../../lib/countryListWithUKCountries";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -22,12 +21,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         // Get existing correspondence address details and display on the page
         let payload;
+        const addressManualservice = new CorrespondenceAddressManualService();
         if (acspUpdatedFullProfile.type === "sole-trader") {
-            const addressManualservice = new BusinessAddressService();
-            payload = addressManualservice.getBusinessManualAddress(acspUpdatedFullProfile);
+            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.registeredOfficeAddress);
         } else {
-            const addressManualservice = new CorrespondenceAddressManualService();
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile);
+            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.serviceAddress);
         }
 
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
@@ -63,15 +61,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
         // update acspUpdatedFullProfile
+            const addressManualservice = new CorrespondenceAddressManualService();
             if (acspUpdatedFullProfile.type === "sole-trader") {
-                const addressManualservice = new BusinessAddressService();
-                addressManualservice.saveBusinessAddress(req, acspUpdatedFullProfile);
+                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, true);
             } else {
-                const addressManualservice = new CorrespondenceAddressManualService();
-                addressManualservice.saveCorrespondenceManualAddressUpdate(req, acspUpdatedFullProfile);
+                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, false);
             }
             session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
-
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }

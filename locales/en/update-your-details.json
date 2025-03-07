@@ -1,6 +1,6 @@
 {
     "updateYourDetailsHeading": "View and update the authorised agent's details",
-    "updateYourDetailsNote": "Any updates you make to the authorised agent's details are pending until you've submitted this filing, and we've accepted it",
+    "updateYourDetailsNote": "Any updates you make to the authorised agent’s details are pending until you submit this filing, and we accept it.",
     "updateDetailsHeading": "Your details",
     "continueToPayment": "Continue to payment",
     "updateDetailsCorrespondenceAddress": "Correspondence address",
@@ -16,6 +16,7 @@
     "updateYourDetailsRegisteredOfficeAddress": "What is your registered office address?",
     "updateYourDetailsNameOfBusiness": "What is the name of your business?",
     "updateYourDetailsAMLMembershipDetails": "AML Membership Details",
+    "updateYourDetailsYouMustBeRegisteredAML": "You must be registered with one or more AML supervisory body.",
     "addNewAMLDetails": "Add new AML details",
     "goBackToAuthorisedAgentServices": "Go back to authorised agent services",
     "updatedWarningCaption": "Details updated",

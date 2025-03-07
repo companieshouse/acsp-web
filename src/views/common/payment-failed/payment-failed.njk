@@ -1,7 +1,8 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.paymentFailedHeading %}
 {% block backLink %}
-  {# Remove back button on this page by replacing it with nothing #}
+  {# Remove back button on this page by replacing it empty div to keep the nav bar underline correct #}
+  <div class="back-link-removed-div"></div>
 {% endblock %}
 {% block main_content %}
     <h1 class="govuk-heading-l">{{ i18n.paymentFailedHeading }}</h1>
