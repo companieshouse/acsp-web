@@ -209,39 +209,48 @@ describe("Age calculation tests", () => {
 });
 
 describe("isNotTooOld", () => {
-    it("should return true if the age is less than or equal to 110 years", () => {
+    it("should increment age if current month is greater than input month", () => {
         const currentDate = new Date();
-        const year = currentDate.getFullYear() - 100;
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
+        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate());
 
-        expect(isNotTooOld(day, month, year)).toBe(true);
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+
+        expect(result).toBe(true);
     });
 
-    it("should return false if the age is greater than 110 years", () => {
+    it("should increment age if current month is equal to input month and current day is greater than input day", () => {
         const currentDate = new Date();
-        const year = currentDate.getFullYear() - 111;
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
+        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth(), currentDate.getDate() + 1);
 
-        expect(isNotTooOld(day, month, year)).toBe(false);
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+
+        expect(result).toBe(true);
     });
 
-    it("should return true if the age is exactly 110 years", () => {
+    it("should not increment age if current month is less than input month", () => {
         const currentDate = new Date();
-        const year = currentDate.getFullYear() - 110;
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
+        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate());
 
-        expect(isNotTooOld(day, month, year)).toBe(true);
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+
+        expect(result).toBe(true);
     });
 
-    it("should return true if the input date is today", () => {
+    it("should not increment age if current month is equal to input month and current day is less than or equal to input day", () => {
         const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
-        const day = currentDate.getDate();
+        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth(), currentDate.getDate());
 
-        expect(isNotTooOld(day, month, year)).toBe(true);
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+
+        expect(result).toBe(true);
+    });
+
+    it("should return false if age is greater than 110 years", () => {
+        const currentDate = new Date();
+        const inputDate = new Date(currentDate.getFullYear() - 111, currentDate.getMonth(), currentDate.getDate());
+
+        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+
+        expect(result).toBe(false);
     });
 });
