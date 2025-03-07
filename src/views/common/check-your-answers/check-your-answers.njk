@@ -3,14 +3,18 @@
 {% extends "layouts/default.njk" %}
 
 {% set amlList = [] %}
-
+{% if lang == "cy" %}
+  {% set supervisoryBodies = AMLSupervisoryBodiesWelsh %}
+{% else %}
+  {% set supervisoryBodies = AMLSupervisoryBodies %}
+{% endif %}
 {% for body in amlDetails %}
     {% set amlSummaryObject = {
         key: {
             text:  i18n.checkYourAnswersAMLTab
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + supervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
         },
         actions: {
             items: [

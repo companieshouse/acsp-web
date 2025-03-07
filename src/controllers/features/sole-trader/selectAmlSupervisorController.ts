@@ -13,6 +13,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
+import { AMLSupervisoryBodiesWelsh } from "../../../model/AMLSupervisoryBodiesWelsh";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -40,6 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lastName: acspData?.applicantDetails?.lastName,
             acspType: acspData?.typeOfBusiness,
             AMLSupervisoryBodies,
+            AMLSupervisoryBodiesWelsh,
             selectedAMLSupervisoryBodies
         });
     } catch (err) {
@@ -65,6 +67,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 AMLSupervisoryBodies,
+                AMLSupervisoryBodiesWelsh,
                 firstName: acspData?.applicantDetails?.firstName,
                 lastName: acspData?.applicantDetails?.lastName,
                 acspType: acspData?.typeOfBusiness,
