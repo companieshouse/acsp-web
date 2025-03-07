@@ -1,0 +1,31 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+{% block signoutBar %}
+  {% include "partials/signout-bar.njk" %}
+  <hr class="govuk-section-break">
+  {% endblock %}
+  {% set title = i18n.startPageTitleUpdateAcsp %}
+  {% block main_content %}
+    <form class="form" action="start-page" method="post">
+      <h1 class="govuk-heading-l">
+        {{ i18n.startPageTitleCloseAcsp }}
+      </h1>
+      <p> {{i18n.ifYouCloseAcspPart1 }} {{businessName}} {{ i18n.ifYouCloseAcspPart2 }}
+      </p>
+      <h2 class="govuk-heading-m">{{ i18n.beforeYouContinueHeading}}</h2>
+      <p>{{ i18n.beforeYouContinueText1 }}
+        <a href="">{{ i18n.beforeYouContinueLink }}</a>.
+      </p>
+      <p>{{ i18n.beforeYouContinueText2}} </p>
+
+      <div class="govuk-button-group">
+        <a href="closing-details" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+          {{ i18n.Continue }}
+        </a>
+        <a class="govuk-link" href="#">{{ i18n.Cancel}}</a>
+      </div>
+  </form>
+{% endblock %}
