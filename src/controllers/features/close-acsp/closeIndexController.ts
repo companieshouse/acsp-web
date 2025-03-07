@@ -1,27 +1,39 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { CLOSE_ACSP_BASE_URL, CLOSE_ACSP } from "../../../types/pageURL";
+import { CLOSE_ACSP_BASE_URL } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
     getLocalesService,
     selectLang
 } from "../../../utils/localise";
-import { REQ_TYPE_CLOSE_ACSP } from "../../../common/__utils/constants";
+import { getAcspFullProfile } from "../../../services/acspProfileService";
+import { getLoggedInAcspNumber } from "../../../common/__utils/session";
+import { Session } from "@companieshouse/node-session-handler";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const reqType = REQ_TYPE_CLOSE_ACSP;
+    try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const session: Session = req.session as any as Session;
+        const currentUrl = CLOSE_ACSP_BASE_URL;
+        const acspDetails = await getAcspFullProfile(getLoggedInAcspNumber(session));
 
-    res.render(config.CLOSE_ACSP_HOME, {
-        ...getLocaleInfo(locales, lang),
-        reqType,
-        currentUrl: CLOSE_ACSP_BASE_URL
-    });
+        res.render(config.CLOSE_ACSP_HOME, {
+            ...getLocaleInfo(locales, lang),
+            currentUrl,
+            businessName: acspDetails.name
+        });
+    } catch (error) {
+        next(error);
+    }
 };
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_ACSP, lang));
+    try {
+        const lang = selectLang(req.query.lang);
+        res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + "/next-page", lang));
+    } catch (error) {
+        next(error);
+    }
 };
