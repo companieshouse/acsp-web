@@ -58,7 +58,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
         expect(res.status).toBe(400);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Please select one of the above");
+        expect(res.text).toContain("Select yes if you need to tell us about other updates");
     });
 
     it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {

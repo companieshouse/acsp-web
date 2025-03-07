@@ -18,7 +18,7 @@ import {
     CHS_MONITOR_GUI_URL,
     FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY
 } from "./utils/properties";
-import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_PAGE } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
 import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
@@ -73,11 +73,11 @@ app.use(cookieParser());
 app.use(nocache());
 
 if (isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)) {
-    app.use(`^(${BASE_URL}${TYPE_OF_BUSINESS}|${BASE_URL}$|${BASE_URL}${SIGN_OUT_PAGE})$`, helmet(prepareCSPConfigHomePage(nonce)));
-    app.use(`^(?!(${BASE_URL}${TYPE_OF_BUSINESS}$|${BASE_URL}$|${BASE_URL}${SIGN_OUT_PAGE}))*`, helmet(prepareCSPConfig(nonce)));
+    app.use(`^(${BASE_URL}${TYPE_OF_BUSINESS}|${BASE_URL}$|${BASE_URL}${SIGN_OUT_URL})$`, helmet(prepareCSPConfigHomePage(nonce)));
+    app.use(`^(?!(${BASE_URL}${TYPE_OF_BUSINESS}$|${BASE_URL}$|${BASE_URL}${SIGN_OUT_URL}))*`, helmet(prepareCSPConfig(nonce)));
 } else {
-    app.use(`^(${BASE_URL}|${BASE_URL}${SIGN_OUT_PAGE})$`, helmet(prepareCSPConfigHomePage(nonce)));
-    app.use(`^(?!(${BASE_URL}$|${BASE_URL}${SIGN_OUT_PAGE}))*`, helmet(prepareCSPConfig(nonce)));
+    app.use(`^(${BASE_URL}|${BASE_URL}${SIGN_OUT_URL})$`, helmet(prepareCSPConfigHomePage(nonce)));
+    app.use(`^(?!(${BASE_URL}$|${BASE_URL}${SIGN_OUT_URL}))*`, helmet(prepareCSPConfig(nonce)));
 }
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
