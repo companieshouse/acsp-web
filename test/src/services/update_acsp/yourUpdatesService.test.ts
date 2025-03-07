@@ -8,7 +8,9 @@ describe("yourUpdatesService", () => {
     let updatedFullProfile: AcspFullProfile;
 
     beforeEach(() => {
-        session = {} as Session;
+        session = {
+            getExtraData: jest.fn().mockReturnValue({})
+        } as unknown as Session;
         acspFullProfile = {
             number: "",
             status: "",
