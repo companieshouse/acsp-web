@@ -88,4 +88,4 @@ export const FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = getEnvironmentValue("FEATURE
 
 export const FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = getEnvironmentValue("FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS", "true");
 
-export const FEATURE_FLAG_ENABLE_CLOSE_ACSP = getEnvironmentValue("FEATURE_FLAG_ENABLE_CLOSE_ACSP", "true");
+export const FEATURE_FLAG_ENABLE_CLOSE_ACSP = getEnvironmentValue("FEATURE_FLAG_ENABLE_CLOSE_ACSP", "false");
