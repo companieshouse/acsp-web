@@ -7,7 +7,12 @@ const addressPostcodevaild:RegExp = /^[A-Za-z0-9\s]*$/;
 
 const manualCorrespondenceAddressValidator = [
 
-    body("countryInput", "countryIsMissing").notEmpty().bail().isIn(countryList.split(";")),
+    body("countryInput", "countryIsMissing").notEmpty().bail().custom((value: string) => {
+        if (!countryList.split(";").map((country) => country.toLowerCase()).includes(value.toLowerCase())) {
+            throw new Error("countryIsMissing");
+        }
+        return true;
+    }),
 
     body("addressPostcode").trim().toUpperCase().notEmpty().withMessage("noPostCode").bail()
         .custom((value: string, { req }) => {
