@@ -31,11 +31,11 @@ export class BusinessAddressService {
     }
 
     // convert string to lowercase and capitalizing the first letter of each word
-    private formatCountry = (country: string|undefined) => {
-        if (country !== undefined) {
+    private formatCountry = (country: string | undefined) => {
+        if (country) {
             return country
                 .split(" ")
-                .map((word, index) => {
+                .map((word) => {
                     return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(); // Capitalize every word
                 })
                 .join(" ");
