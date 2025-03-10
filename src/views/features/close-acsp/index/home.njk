@@ -22,10 +22,11 @@
       <p>{{ i18n.beforeYouContinueText2}} </p>
 
       <div class="govuk-button-group">
-        <a href="closing-details" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-          {{ i18n.Continue }}
-        </a>
+        {{ govukButton({
+          text: i18n.Continue
+        }) }}
+
         <a class="govuk-link" href="#">{{ i18n.Cancel}}</a>
-      </div>
+</div>
   </form>
 {% endblock %}
