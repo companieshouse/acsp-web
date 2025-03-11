@@ -69,7 +69,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
-export const determinePreviousPageUrl = (url: String): String => {
+export const determinePreviousPageUrl = (url: string): string => {
     let previousPageUrl = UPDATE_YOUR_ANSWERS;
     if (url?.includes(UPDATE_ACSP_WHAT_IS_YOUR_NAME)) {
         previousPageUrl = UPDATE_ACSP_WHAT_IS_YOUR_NAME;

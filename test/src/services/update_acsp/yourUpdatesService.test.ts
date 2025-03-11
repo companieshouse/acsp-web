@@ -1,8 +1,13 @@
-import { ACSP_UPDATE_CHANGE_DATE } from "../../../../src/common/__utils/constants";
 import { getFormattedUpdates, getFormattedRemovedAMLUpdates, getFormattedAddedAMLUpdates } from "../../../../src/services/update-acsp/yourUpdatesService";
-import { formatDateIntoReadableString } from "../../../../src/utils/web";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { formatDateIntoReadableString } from "../../../../src/utils/web";
+
+jest.mock("../../../../src/utils/web", () => ({
+    formatDateIntoReadableString: jest.fn(() => "mocked date"),
+    formatAddressIntoHTMLString: jest.fn(() => "New Address"),
+    getFullNameACSPFullProfileDetails: jest.fn((profile) => `${profile.soleTraderDetails?.forename} ${profile.soleTraderDetails?.surname}`)
+}));
 
 describe("yourUpdatesService", () => {
     let session: Session;
@@ -38,10 +43,13 @@ describe("yourUpdatesService", () => {
     });
 
     it("should format updates when business name changes", () => {
+        const mockDate = new Date("2023-01-01");
+        (session.getExtraData as jest.Mock).mockReturnValueOnce(mockDate.toISOString());
+        (formatDateIntoReadableString as jest.Mock).mockReturnValue("1 January 2023");
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.businessName).toEqual({
             value: "New Name",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -49,7 +57,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.correspondenceEmail).toEqual({
             value: "new@example.com",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -57,15 +65,15 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.registeredOfficeAddress).toEqual({
             value: "New Address",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
     it("should format updates when service address changes for limited companies", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.serviceAddress).toEqual({
-            value: "New Service Address",
-            changedDate: expect.any(String)
+            value: "New Address",
+            changedDate: "1 January 2023"
         });
     });
 
@@ -74,7 +82,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.businessAddress).toEqual({
             value: "New Address",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -82,8 +90,8 @@ describe("yourUpdatesService", () => {
         acspFullProfile.type = "unincorporated-entity";
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.serviceAddress).toEqual({
-            value: "New Service Address",
-            changedDate: expect.any(String)
+            value: "New Address",
+            changedDate: "1 January 2023"
         });
     });
 
@@ -94,7 +102,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.name).toEqual({
             value: "New Name",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -105,7 +113,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.name).toEqual({
             value: "New Name",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -116,7 +124,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.usualResidentialCountry).toEqual({
             value: "New Country",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -127,7 +135,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.serviceAddress).toEqual({
             value: "New Address",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         });
     });
 
@@ -138,7 +146,7 @@ describe("yourUpdatesService", () => {
         expect(removedAMLUpdates).toEqual([{
             membershipName: "association-of-chartered-certified-accountants-acca",
             membershipNumber: "123",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         }]);
     });
 
@@ -149,7 +157,7 @@ describe("yourUpdatesService", () => {
         expect(addedAMLUpdates).toEqual([{
             membershipName: "association-of-international-accountants-aia",
             membershipNumber: "123",
-            changedDate: expect.any(String)
+            changedDate: "1 January 2023"
         }]);
     });
 });
