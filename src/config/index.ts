@@ -76,3 +76,8 @@ export const UPDATE_CANCEL_ALL_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/cancel
 export const UPDATE_DATE_OF_THE_CHANGE = `${BASE_UPDATE_ACSP_DETAILS_URL}/date-of-the-chenge/date-of-the-chenge`;
 export const UPDATE_PROVIDE_AML_DETAILS = `${BASE_UPDATE_ACSP_DETAILS_URL}/provide-aml-details/provide-aml-details`;
 export const UPDATE_CHECK_YOUR_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/your-updates/your-updates`;
+
+// closed acsp configs
+const BASE_CLOSE_ACSP_URL = `${BASE_VIEWS_URL}/close-acsp`;
+
+export const CLOSE_ACSP_HOME = `${BASE_CLOSE_ACSP_URL}/index/home`;

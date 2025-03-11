@@ -123,11 +123,6 @@
                 id:"add-new-aml-details",
                 href: addAML
                 }) }}
-            {{ govukButton({
-                text: i18n.goBackToAuthorisedAgentServices,
-                classes: "govuk-button--secondary",
-                id:"go-back-to-authorised-agent-services"
-                }) }}
         </div>
         {{ govukSummaryList({
             rows: amlList
@@ -140,6 +135,8 @@
                     }) }}
                 <a class="govuk-link" href="{{ cancelAllUpdatesUrl }}" id="cancel-id">{{i18n.Cancel}}</a>
             </div>
+        {% else %}
+            <a class="govuk-link" href="{{ authorisedAgentUrl }}">{{i18n.goBackToAuthorisedAgentServices}}</a>
         {% endif %}
     </form>
 {% endblock main_content %}
