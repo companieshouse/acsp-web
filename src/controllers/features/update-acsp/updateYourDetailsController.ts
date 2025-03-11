@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo, addLangToUrl } from "../../../utils/localise";
 import * as config from "../../../config";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR, REMOVE_AML_SUPERVISOR, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, CANCEL_AN_UPDATE, UPDATE_ADD_AML_SUPERVISOR, REMOVE_AML_SUPERVISOR, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, AUTHORISED_AGENT } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../../common/__utils/constants";
 import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
@@ -44,7 +44,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removeAMLUrl,
             AMLSupervisoryBodies,
             AMLSupervioryBodiesFormatted,
-            cancelAllUpdatesUrl
+            cancelAllUpdatesUrl,
+            authorisedAgentUrl: AUTHORISED_AGENT
         });
     } catch (err) {
         next(err);
