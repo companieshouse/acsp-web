@@ -1,0 +1,32 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block backLink %}
+  {# Remove back button on this page by replacing it with nothing #}
+{% endblock %}
+{% set title = i18n.startPageTitleCloseAcsp%}
+
+{% block main_content %}
+
+  <form action="" method="POST">
+    {% include "partials/csrf_token.njk" %}
+      <h1 class="govuk-heading-l">
+        {{ i18n.startPageTitleCloseAcsp }}
+      </h1>
+      <p> {{i18n.ifYouCloseAcsp  | replace("{BUSINESS_NAME}", businessName) }}
+      </p>
+      <h2 class="govuk-heading-m">{{ i18n.beforeYouContinueHeading}}</h2>
+      <p>{{ i18n.beforeYouContinueText1 }}
+        <a href="">{{ i18n.beforeYouContinueLink }}</a>.
+      </p>
+      <p>{{ i18n.beforeYouContinueText2}} </p>
+
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: i18n.Continue
+        }) }}
+
+        <a class="govuk-link" href="#">{{ i18n.Cancel}}</a>
+</div>
+  </form>
+{% endblock %}
