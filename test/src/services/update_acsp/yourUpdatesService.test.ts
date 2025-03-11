@@ -1,10 +1,9 @@
 import { getFormattedUpdates, getFormattedRemovedAMLUpdates, getFormattedAddedAMLUpdates } from "../../../../src/services/update-acsp/yourUpdatesService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { formatDateIntoReadableString } from "../../../../src/utils/web";
 
 jest.mock("../../../../src/utils/web", () => ({
-    formatDateIntoReadableString: jest.fn(() => "mocked date"),
+    formatDateIntoReadableString: jest.fn(() => "1 January 2023"),
     formatAddressIntoHTMLString: jest.fn(() => "New Address"),
     getFullNameACSPFullProfileDetails: jest.fn((profile) => `${profile.soleTraderDetails?.forename} ${profile.soleTraderDetails?.surname}`)
 }));
@@ -43,9 +42,6 @@ describe("yourUpdatesService", () => {
     });
 
     it("should format updates when business name changes", () => {
-        const mockDate = new Date("2023-01-01");
-        (session.getExtraData as jest.Mock).mockReturnValueOnce(mockDate.toISOString());
-        (formatDateIntoReadableString as jest.Mock).mockReturnValue("1 January 2023");
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.businessName).toEqual({
             value: "New Name",
