@@ -2,18 +2,15 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 {% set ITEMS = [] %}
-{% if lang == "cy" %}
-  {% set supervisoryBodies = AMLSupervisoryBodiesWelsh %}
-{% else %}
-  {% set supervisoryBodies = AMLSupervisoryBodies %}
-{% endif %}
-{% for key, value in supervisoryBodies %}
-  {% set checkboxItem = {
-    value: key,
-    text: value,
-    id: "aml" + loop.index
-  } %}
-  {% set ITEMS = ITEMS.concat(checkboxItem) %}
+{% for key,value in AMLSupervisoryBodies %}
+  {% if value is string %}
+    {% set checkboxItem = {
+      value: key,
+      text: value,
+      id: "aml" + loop.index
+    } %}
+    {% set ITEMS = ITEMS.concat(checkboxItem) %}
+  {% endif %}
 {% endfor %}
 {% set title = i18n.selectAmlSupervisorTitle %}
 {% block main_content %}
@@ -44,4 +41,4 @@
       id: "save-continue-button"
     }) }}
   </form>
-{% endblock main_content %}
+  {% endblock main_content %}
