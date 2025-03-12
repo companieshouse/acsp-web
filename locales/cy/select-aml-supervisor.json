@@ -1,5 +1,33 @@
 {
     "selectAmlSupervisorTitle" : "Pa gyrff goruchwylio Atal Gwyngalchu Arian (AML) rydych chi wedi cofrestru â nhw?",
     "selectAmlSupervisorHint": "Dewiswch bopeth sy'n berthnasol.",
+
+    "selectAcca": "Cymdeithas y Cyfrifwyr Ardystiedig Siartredig (ACCA)",
+    "selectAat": "Cymdeithas Technegwyr Cyfrifyddu (AAT)",
+    "selectAia": "Cymdeithas y Cyfrifwyr Rhyngwladol (AIA)",
+    "selectAtt": "Cymdeithas y Technegwyr Trethiant (ATT)",
+    "selectCilex": "Sefydliad Siartredig Gweithredwyr Cyfreithiol (CILEx)",
+    "selectCima": "Sefydliad Siartredig y Cyfrifwyr Rheoli (CIMA)",
+    "selectCiot": "Sefydliad Siartredig Trethi (CIOT)",
+    "selectClc": "Cyngor ar gyfer Trawsgludwyr trwyddedig (CLC)",
+    "selectDeni": "Adran yr Economi Gogledd Iwerddon",
+    "selectFa": "Cyfadran yr Eiriolwyr",
+    "selectFo": "Swyddfa Gyfadran Archesgob Caergaint",
+    "selectFca": "Awdurdod Ymddygiad Ariannol (FCA)",
+    "selectGc": "Comisiwn Hapchware",
+    "selectBsb": "Bwrdd Safonau'r Bar (BSB)",
+    "selectBoni": "Cyngor Cyffredinol Bar Gogledd Iwerddon",
+    "selectHmrc": "CThEF",
+    "selectIab": "Sefydliad Cyfrifwyr a Chadwyr Llyfrau (IAB)",
+    "selectIpa": "Cymdeithas Ymarferwyr Ansolfedd (IPA)",
+    "selectIcb": "Sefydliad y Llyfrwyr Ardystiedig",
+    "selectIcaew": "Institute of Chartered Accountants in England and Wales (ICAEW)",
+    "selectIcai": "Institute of Chartered Accountants in Ireland (ICAI)",
+    "selectIcas": "Sefydliad Cyfrifwyr Siartredig yr Alban (ICAS)",
+    "selectIfa": "Sefydliad y Cyfrifwyr Ariannol (IFA)",
+    "selectLsni": "Cymdeithas Cyfreithwyr Gogledd Iwerddon",
+    "selectLss": "Cymdeithas Cyfreithwyr yr Alban",
+    "selectSra": "Awdurdod Rheoleiddio Cyfreithwyr (SRA) Cyfreithwyr yng Nghymru a Lloegr",
+
     "error-selectAmlSupervisor": "Dewiswch yr holl gyrff goruchwylio AML rydych chi wedi'u cofrestru â nhw"
 }
