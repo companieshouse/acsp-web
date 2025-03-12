@@ -1,5 +1,33 @@
 {
     "selectAmlSupervisorTitle" : "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
     "selectAmlSupervisorHint": "Select all that apply.",
+
+    "selectAcca": "Association of Chartered Certified Accountants (ACCA)",
+    "selectAat": "Association of Accounting Technicians (AAT)",
+    "selectAia": "Association of International Accountants (AIA)",
+    "selectAtt": "Association of Taxation Technicians (ATT)",
+    "selectCilex": "Chartered Institute of Legal Executives (CILEx)",
+    "selectCima": "Chartered Institute of Management Accountants (CIMA)",
+    "selectCiot": "Chartered Institute of Taxation (CIOT)",
+    "selectClc": "Council for Licensed Conveyancers (CLC)",
+    "selectDeni": "Department for the Economy Northern Ireland",
+    "selectFa": "Faculty of Advocates",
+    "selectFo": "Faculty Office of the Archbishop of Canterbury",
+    "selectFca": "Financial Conduct Authority (FCA)",
+    "selectGc": "Gambling Commission",
+    "selectBsb": "Bar Standards Board (BSB)",
+    "selectBoni": "General Council of the Bar of Northern Ireland",
+    "selectHmrc": "HMRC",
+    "selectIab": "Institute of Accountants and Bookkeepers (IAB)",
+    "selectIpa": "Insolvency Practitioners Association (IPA)",
+    "selectIcb": "Institute of Certified Bookkeepers",
+    "selectIcaew": "Institute of Chartered Accountants in England and Wales (ICAEW)",
+    "selectIcai": "Institute of Chartered Accountants in Ireland (ICAI)",
+    "selectIcas": "Institute of Chartered Accountants of Scotland (ICAS)",
+    "selectIfa": "Institute of Financial Accountants (IFA)",
+    "selectLsni": "Law Society of Northern Ireland",
+    "selectLss": "Law Society of Scotland",
+    "selectSra": "Solicitors Regulation Authority (SRA) Solicitors in England and Wales",
+
     "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with"
 }
