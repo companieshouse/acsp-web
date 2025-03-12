@@ -26,15 +26,10 @@
             </ul>
             <p class="govuk-body">{{ i18n.amlcontactinfo }}
             </p>
-            {% if lang == "cy" %}
-                {% set supervisoryBodies = AMLSupervisoryBodiesWelsh %}
-            {% else %}
-                {% set supervisoryBodies = AMLSupervisoryBodies %}
-            {% endif %}
             {% for body in amlSupervisoryBodies %}
                 {{ govukInput({
                     label: {
-                        text: supervisoryBodies[body.amlSupervisoryBody],
+                        text:AMLSupervisoryBodies[body.amlSupervisoryBody],
                         classes: "govuk-label l govuk-label--m",
                         isPageHeading: true
                     },
@@ -62,4 +57,4 @@
             {% endif %}
         </fieldset>
     </form>
-{% endblock %}
+    {% endblock %}

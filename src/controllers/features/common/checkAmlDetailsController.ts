@@ -7,7 +7,6 @@ import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../com
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { AMLSupervisoryBodiesWelsh } from "../../../model/AMLSupervisoryBodiesWelsh";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -29,7 +28,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lastName: acspData?.applicantDetails?.lastName,
             businessName: acspData?.businessName,
             AMLSupervisoryBodies,
-            AMLSupervisoryBodiesWelsh,
             url
         });
     } catch (err) {
