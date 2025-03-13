@@ -33,9 +33,212 @@
       hint: {
         text: i18n.selectAmlSupervisorHint
       },
-      values: selectedAMLSupervisoryBodies,
-      items: ITEMS
+      values: payload["AML-supervisory-bodies"],
+      items: [
+            {
+                value: "acca",
+                text: i18n.selectAcca,
+                id: "acca"
+            },
+            {
+                value: "aat",
+                text: i18n.selectAat,
+                id: "aat"
+            },
+            {
+                value: "aia",
+                text: i18n.selectAia,
+                id: "aia"
+            },
+            {
+                value: "att",
+                text: i18n.selectAtt,
+                id: "att"
+            },
+            {
+                value: "cilex",
+                text: i18n.selectCilex,
+                id: "cilex"
+            },
+            {
+                value: "cima",
+                text: i18n.selectCima,
+                id: "cima"
+            },
+            {
+                value: "ciot",
+                text: i18n.selectCiot,
+                id: "ciot"
+            },
+            {
+                value: "clc",
+                text: i18n.selectClc,
+                id: "clc"
+            },
+            {
+                value: "deni",
+                text: i18n.selectDeni,
+                id: "deni"
+            },
+            {
+                value: "fa",
+                text: i18n.selectFa,
+                id: "fa"
+            },
+            {
+                value: "fo",
+                text: i18n.selectFo,
+                id: "fo"
+            },
+            {
+                value: "fca",
+                text: i18n.selectFca,
+                id: "fca"
+            },
+            {
+                value: "gc",
+                text: i18n.selectGc,
+                id: "gc"
+            },
+            {
+                value: "bsb",
+                text: i18n.selectBsb,
+                id: "bsb"
+            },
+            {
+                value: "boni",
+                text: i18n.selectBoni,
+                id: "boni"
+            },
+            {
+                value: "hmrc",
+                text: i18n.selectHmrc,
+                id: "hmrc"
+            },
+            {
+                value: "iab",
+                text: i18n.selectIab,
+                id: "iab"
+            },
+            {
+                value: "ipa",
+                text: i18n.selectIpa,
+                id: "ipa"
+            },
+            {
+                value: "icb",
+                text: i18n.selectIcb,
+                id: "icb"
+            },
+            {
+                value: "icaew",
+                text: i18n.selectIcaew,
+                id: "icaew"
+            },
+            {
+                value: "icai",
+                text: i18n.selectIcai,
+                id: "icai"
+            },
+            {
+                value: "icas",
+                text: i18n.selectIcas,
+                id: "icas"
+            },
+            {
+                value: "ifa",
+                text: i18n.selectIfa,
+                id: "ifa"
+            },
+            {
+                value: "icas",
+                text: i18n.selectIcas,
+                id: "icas"
+            },
+            {
+                value: "ifa",
+                text: i18n.selectIfa,
+                id: "ifa"
+            },
+            {
+                value: "icas",
+                text: i18n.selectIcas,
+                id: "icas"
+            },
+            {
+                value: "ifa",
+                text: i18n.selectIfa,
+                id: "ifa"
+            }
+            ]
+        }) }}
+
+        {{ govukCheckboxes({
+            name: "documentsGroup2B",
+            fieldset: {
+                legend: {
+                    text: i18n.textGroupB,
+                    isPageHeading: true,
+                    classes: "govuk-fieldset__legend--m"
+                }
+            },
+            
+            values: payload["documentsGroup2B"],
+            items: [
+            {
+                value: "birth_certificate",
+                text: i18n.birthCert,
+                id: "birth-cert"
+            },
+            {
+                value: "marriage_certificate",
+                text: i18n.marriageCert,
+                id: "marriage-cert"
+            },
+            {
+                value: "immigration_document_non_photo_id",
+                text: i18n.noPhotoimmigrationDoc,
+                id: "non-photo-immigration-doc"
+            },
+            {
+                value: "visa_non_photo_id",
+                text: i18n.noPhotoVisa,
+                id: "non-photo-visa"
+            },
+            {
+                value: "work_permit_non_photo_id",
+                text: i18n.noPhotoWorkPermit,
+                id: "non-photo-work-permit"
+            },
+            {
+                value: "bank_statement",
+                text: i18n.bankStatement,
+                id: "bank-statement"
+            },
+            {
+                value: "rental_agreement",
+                text: i18n.rentalAgreement,
+                id: "rental-agreement"
+            },
+            {
+                value: "mortgage_statement",
+                text: i18n.morgageStatement,
+                id: "mortgage-statement"
+            },
+            {
+                value: "UK_council_tax_statement",
+                text: i18n.taxStatement,
+                id: "council-tax-statement"
+            },
+            {
+                value: "utility_bill",
+                text: i18n.utilityBill,
+                id: "utility-bill"
+            }
+            ]
+
     }) }}
+
     {{ govukButton({
       text: i18n.SaveAndContinue,
       id: "save-continue-button"
