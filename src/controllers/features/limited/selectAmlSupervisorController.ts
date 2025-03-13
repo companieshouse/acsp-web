@@ -30,7 +30,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const selectedAMLSupervisoryBodies: string[] = [];
         const amlSupervisoryBody = new AmlSupervisoryBodyService();
         amlSupervisoryBody.getSelectedAML(acspData, selectedAMLSupervisoryBodies);
-        console.log(JSON.stringify("-----------------" + acspData.amlSupervisoryBodies));
 
         const payload = {
             amlSupervisoryBody: acspData.amlSupervisoryBodies
