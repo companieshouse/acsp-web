@@ -13,7 +13,7 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
-import { JSONObject } from '../../../types/JsonData';
+import { JSONObject } from "../../../types/JsonData";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
