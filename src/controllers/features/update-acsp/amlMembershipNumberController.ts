@@ -56,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;
             errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang);
-            responseStatus400(req, res, lang, locales, currentUrl, newAMLBody, reqType, errorList.array());
+            responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
             if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
@@ -66,7 +66,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     param: "membershipNumber_1",
                     location: "body"
                 }];
-                responseStatus400(req, res, lang, locales, currentUrl, newAMLBody, reqType, validationError);
+                responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
             } else {
 
                 newAMLBody.membershipId = req.body.membershipNumber_1;
@@ -99,7 +99,8 @@ const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: strin
     });
 };
 
-function responseStatus400 (req: Request, res: Response, lang: string, locales: any, currentUrl: string, newAMLBody: AmlSupervisoryBody, reqType: string, validationError: ValidationError[]) {
+function responseStatus400 (req: Request, res: Response, options: { lang: string, locales: any, currentUrl: string, newAMLBody: AmlSupervisoryBody, reqType: string, validationError: ValidationError[] }) {
+    const { lang, locales, currentUrl, newAMLBody, reqType, validationError } = options;
     const pageProperties = getPageProperties(formatValidationError(validationError, lang));
     res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
         previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_SELECT_AML_SUPERVISOR, lang),
@@ -112,4 +113,4 @@ function responseStatus400 (req: Request, res: Response, lang: string, locales: 
         reqType,
         cancelLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang)
     });
-};
+}
