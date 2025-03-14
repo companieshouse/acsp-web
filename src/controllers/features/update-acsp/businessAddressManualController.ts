@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
         // update acspUpdatedFullProfile
             const businessAddressService = new BusinessAddressService();
-            businessAddressService.saveBusinessAddressUpdate(req, acspUpdatedFullProfile, acspFullProfile);
+            businessAddressService.saveBusinessAddressUpdate(req, acspFullProfile, acspUpdatedFullProfile);
             session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
 
             // Redirect to the address confirmation page
