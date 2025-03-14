@@ -4,7 +4,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 
 export class BusinessAddressService {
 
-    public saveBusinessAddress (req: Request, acspData: AcspData | AcspFullProfile): void {
+    public saveBusinessAddress (req: Request, acspData: AcspData): void {
         // Extract business address details from request body
         const businessAddress: Address = {
             premises: req.body.addressPropertyDetails,
@@ -16,6 +16,21 @@ export class BusinessAddressService {
             postalCode: req.body.addressPostcode
         };
         acspData.registeredOfficeAddress = businessAddress;
+    }
+
+    public saveBusinessAddressUpdate (req: Request, acspFullProfile: AcspFullProfile, acspUpdatedFullProfile: AcspFullProfile): void {
+        const originalCountry = acspFullProfile.registeredOfficeAddress.country;
+        // Extract business address details from request body
+        const businessAddress: Address = {
+            premises: req.body.addressPropertyDetails,
+            addressLine1: req.body.addressLine1,
+            addressLine2: req.body.addressLine2,
+            locality: req.body.addressTown,
+            region: req.body.addressCounty,
+            country: req.body.addressCountry.toUpperCase() === originalCountry?.toUpperCase() ? originalCountry : req.body.addressCountry,
+            postalCode: req.body.addressPostcode
+        };
+        acspUpdatedFullProfile.registeredOfficeAddress = businessAddress;
     }
 
     public getBusinessManualAddress (acspData: AcspData | AcspFullProfile) {
