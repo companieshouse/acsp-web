@@ -59,7 +59,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const session: Session = req.session as any as Session;
             const acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
 
-            const soleTraderDetails = acspinProgressFullProfile.soleTraderDetails || {};
+            const soleTraderDetails = acspinProgressFullProfile.soleTraderDetails!;
             if (acspinProgressFullProfile) {
                 soleTraderDetails.forename = req.body["first-name"];
                 soleTraderDetails.otherForenames = req.body["middle-names"];

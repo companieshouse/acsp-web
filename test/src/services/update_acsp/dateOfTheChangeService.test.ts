@@ -125,6 +125,50 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress.registeredOfficeAddress);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
     });
+
+    it("should update registeredOfficeAddress for sole trader and set the change date", () => {
+        const dateOfChange = new Date();
+        const acspinProgressFullProfile = {
+            type: ACSP_PROFILE_TYPE_SOLE_TRADER,
+            registeredOfficeAddress: { addressLine1: "123 Street", addressLine2: "City", postalCode: "AB12 3CD" }
+        };
+        const acspUpdatedFullProfile = {
+            registeredOfficeAddress: {}
+        };
+
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
+            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
+        });
+
+        updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
+
+        expect(acspUpdatedFullProfile.registeredOfficeAddress).toEqual(acspinProgressFullProfile.registeredOfficeAddress);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+    });
+
+    it("should update serviceAddress for non-sole trader and set the change date", () => {
+        const dateOfChange = new Date();
+        const acspinProgressFullProfile = {
+            type: "non-sole-trader",
+            serviceAddress: { addressLine1: "456 Avenue", addressLine2: "Town", postalCode: "XY45 6ZT" }
+        };
+        const acspUpdatedFullProfile = {
+            serviceAddress: {}
+        };
+
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
+            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
+        });
+
+        updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
+
+        expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile.serviceAddress);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+    });
 });
 
 describe("determinePreviousPageUrl", () => {
