@@ -10,6 +10,6 @@ describe("GET" + ACCESSIBILITY_STATEMENT, () => {
         const response = await router.get(BASE_URL + ACCESSIBILITY_STATEMENT);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(0);
         expect(response.status).toBe(200);
-        expect(response.text).toContain("Accessibility statement for the Companies House service");
+        expect(response.text).toContain("Accessibility statement for the Apply to register as a Companies House authorised agent service");
     });
 });
