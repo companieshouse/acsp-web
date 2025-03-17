@@ -28,7 +28,7 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
     if (currentPage === UPDATE_WHAT_IS_THE_BUSINESS_NAME) {
         acspUpdatedFullProfile.name = acspinProgressFullProfile.name;
-        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, dateOfChange);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
     } else if (currentPage === UPDATE_ACSP_WHAT_IS_YOUR_NAME) {
         acspUpdatedFullProfile.soleTraderDetails!.forename = acspinProgressFullProfile.soleTraderDetails!.forename;
         acspUpdatedFullProfile.soleTraderDetails!.otherForenames = acspinProgressFullProfile.soleTraderDetails!.otherForenames;
@@ -36,17 +36,17 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
     } else if (currentPage === UPDATE_WHERE_DO_YOU_LIVE) {
         acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry = acspinProgressFullProfile.soleTraderDetails!.usualResidentialCountry;
-        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE, dateOfChange);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE, dateOfChange);
     } else if (currentPage === UPDATE_BUSINESS_ADDRESS_CONFIRM) {
         acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress;
-        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS, dateOfChange);
     } else if (currentPage === UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM) {
         if (acspinProgressFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
             acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress;
         } else {
             acspUpdatedFullProfile.serviceAddress = acspinProgressFullProfile.serviceAddress;
         }
-        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     }
 };
 

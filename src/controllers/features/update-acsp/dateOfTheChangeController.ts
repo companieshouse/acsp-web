@@ -8,13 +8,12 @@ import { getPreviousPageUrl } from "../../../services/url";
 import { determinePreviousPageUrl, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
-    const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const prevUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL);
-    const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + determinePreviousPageUrl(prevUrl), lang);
-    const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
-
     try {
+        const lang = selectLang(req.query.lang);
+        const locales = getLocalesService();
+        const prevUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + determinePreviousPageUrl(prevUrl), lang);
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
         res.render(config.UPDATE_DATE_OF_THE_CHANGE, {
             ...getLocaleInfo(locales, lang),
             previousPage,

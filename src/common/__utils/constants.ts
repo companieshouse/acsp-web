@@ -45,14 +45,10 @@ export const UPDATE_SUBMISSION_ID: string = "updateSubmissionId";
 export const NEW_AML_BODIES: string = "newAmlBodies";
 export const NEW_AML_BODY: string = "newAmlBody";
 export const ADD_AML_BODY_UPDATE: string = "addAmlBodyUpdate";
-export const ACSP_UPDATE_DETAILS = {
-    REGOFFICEADDRESS: "registeredOfficeAddress",
-    CORRESPONDENCEADDRESS: "correspondenceAddress"
-};
 export const ACSP_UPDATE_CHANGE_DATE = {
     NAME: "applicantName",
-    WHEREDOYOULIVE: "whereDoYouLive",
-    NAMEOFBUSINESS: "nameOfBusiness",
-    REGOFFICEADDRESS: "registeredOfficeAddress",
-    CORRESPONDENCEADDRESS: "correspondenceAddress"
+    WHERE_DO_YOU_LIVE: "whereDoYouLive",
+    NAME_OF_BUSINESS: "nameOfBusiness",
+    REGISTERED_OFFICE_ADDRESS: "registeredOfficeAddress",
+    CORRESPONDENCE_ADDRESS: "correspondenceAddress"
 };

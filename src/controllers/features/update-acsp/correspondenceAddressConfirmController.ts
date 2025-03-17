@@ -38,7 +38,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const session: Session = req.session as any as Session;
-        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, null);
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, null);
         session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM);
         res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
     } catch (err) {

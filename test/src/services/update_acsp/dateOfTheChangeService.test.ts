@@ -51,7 +51,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdated.name).toBe(acspInProgress.name);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAMEOFBUSINESS, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
     });
 
     it("should update sole trader details and set the change date", () => {
@@ -87,7 +87,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdated.soleTraderDetails!.usualResidentialCountry).toBe(acspInProgress.soleTraderDetails!.usualResidentialCountry);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE, dateOfChange);
     });
 
     it("should update the registered office address and set the change date", () => {
@@ -105,7 +105,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress.registeredOfficeAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS, dateOfChange);
     });
 
     it("should update the correspondence address and set the change date", () => {
@@ -123,7 +123,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress.registeredOfficeAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     });
 
     it("should update registeredOfficeAddress for sole trader and set the change date", () => {
@@ -145,7 +145,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdatedFullProfile.registeredOfficeAddress).toEqual(acspinProgressFullProfile.registeredOfficeAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     });
 
     it("should update serviceAddress for non-sole trader and set the change date", () => {
@@ -167,7 +167,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
         expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile.serviceAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     });
 });
 

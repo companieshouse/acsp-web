@@ -52,8 +52,7 @@ describe("yourUpdatesService", () => {
     it("should format updates when email address changes", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.correspondenceEmail).toEqual({
-            value: "new@example.com",
-            changedDate: ""
+            value: "new@example.com"
         });
     });
 
