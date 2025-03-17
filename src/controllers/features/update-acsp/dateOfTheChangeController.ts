@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES } from "../../../types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { getPreviousPageUrl } from "../../../services/url";
 import { determinePreviousPageUrl, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
