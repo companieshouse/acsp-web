@@ -5,7 +5,7 @@ import * as localise from "../../../../src/utils/localise";
 import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 
@@ -66,7 +66,7 @@ describe("GET " + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
-    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
