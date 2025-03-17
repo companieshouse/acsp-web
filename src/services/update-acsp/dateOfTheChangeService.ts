@@ -41,7 +41,8 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
         acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.REGOFFICEADDRESS, dateOfChange);
     } else if (currentPage === UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM) {
-        acspinProgressFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER
+        const profileType = acspUpdatedFullProfile.type;
+        profileType === ACSP_PROFILE_TYPE_SOLE_TRADER
             ? acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress
             : acspUpdatedFullProfile.serviceAddress = acspinProgressFullProfile.serviceAddress;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCEADDRESS, dateOfChange);

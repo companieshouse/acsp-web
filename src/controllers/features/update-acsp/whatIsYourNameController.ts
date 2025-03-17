@@ -10,7 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, ACSP_UPDATE_CHANGE_DATE, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
