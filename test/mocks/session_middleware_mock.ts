@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { sessionMiddleware } from "../../src/middleware/session_middleware";
-import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, PREVIOUS_PAGE_URL, ADDRESS_LIST, ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODY, NEW_AML_BODIES, ADD_AML_BODY_UPDATE } from "../../src/common/__utils/constants";
+import { COMPANY, COMPANY_DETAILS, USER_DATA, SUBMISSION_ID, PREVIOUS_PAGE_URL, ADDRESS_LIST, ACSP_DETAILS, ACSP_DETAILS_UPDATED, NEW_AML_BODY, NEW_AML_BODIES, ADD_AML_BODY_UPDATE, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../src/common/__utils/constants";
 import { Company } from "../../src/model/Company";
 import { getSessionRequestWithPermission } from "./session.mock";
 import { validCompanyProfile } from "./company_profile_mock";
@@ -42,6 +42,7 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(ADDRESS_LIST, addressList);
     session.setExtraData(ACSP_DETAILS, dummyFullProfile);
     session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
+    session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, dummyFullProfile);
     session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "ACCA" });
     session.setExtraData(NEW_AML_BODIES, [{ amlSupervisoryBody: "ACCA", membershipId: "12345" }]);
     req.session = session;

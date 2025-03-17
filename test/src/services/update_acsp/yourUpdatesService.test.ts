@@ -53,7 +53,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.correspondenceEmail).toEqual({
             value: "new@example.com",
-            changedDate: "1 January 2023"
+            changedDate: ""
         });
     });
 

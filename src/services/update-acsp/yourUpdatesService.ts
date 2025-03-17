@@ -32,7 +32,7 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     if (acspFullProfile.email !== updatedFullProfile.email) {
         updates.correspondenceEmail = {
             value: updatedFullProfile.email,
-            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.EMAIL)!))
+            changedDate: ""
         };
     }
     if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {

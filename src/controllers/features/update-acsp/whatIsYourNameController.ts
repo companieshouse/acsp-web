@@ -10,7 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, ACSP_UPDATE_CHANGE_DATE } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP, ACSP_UPDATE_CHANGE_DATE, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
@@ -19,11 +19,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const payload = {
-            "first-name": acspData.soleTraderDetails?.forename,
-            "middle-names": acspData.soleTraderDetails?.otherForenames,
-            "last-name": acspData.soleTraderDetails?.surname
+            "first-name": acspUpdatedFullProfile.soleTraderDetails?.forename,
+            "middle-names": acspUpdatedFullProfile.soleTraderDetails?.otherForenames,
+            "last-name": acspUpdatedFullProfile.soleTraderDetails?.surname
         };
         const reqType = REQ_TYPE_UPDATE_ACSP;
         res.render(config.WHAT_IS_YOUR_NAME, {
@@ -57,17 +57,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             const session: Session = req.session as any as Session;
-            var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+            const acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
 
-            const soleTraderDetails = acspDataUpdated.soleTraderDetails || {};
-            if (acspDataUpdated) {
+            const soleTraderDetails = acspinProgressFullProfile.soleTraderDetails || {};
+            if (acspinProgressFullProfile) {
                 soleTraderDetails.forename = req.body["first-name"];
                 soleTraderDetails.otherForenames = req.body["middle-names"];
                 soleTraderDetails.surname = req.body["last-name"];
             }
-            acspDataUpdated.soleTraderDetails = soleTraderDetails!;
-            saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
-            session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, null);
+            acspinProgressFullProfile.soleTraderDetails = soleTraderDetails!;
+            saveDataInSession(req, ACSP_DETAILS_UPDATE_IN_PROGRESS, acspinProgressFullProfile);
+            session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_ACSP_WHAT_IS_YOUR_NAME);
             const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
             res.redirect(nextPageUrl);
         }

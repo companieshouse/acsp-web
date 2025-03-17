@@ -8,7 +8,7 @@ import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
-import { REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_UPDATE_CHANGE_DATE } from "../../../common/__utils/constants";
+import { REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_UPDATE_CHANGE_DATE, ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -43,7 +43,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const reqType = REQ_TYPE_UPDATE_ACSP;
 
         const session: Session = req.session as any as Session;
-        var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        var acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
@@ -63,13 +63,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
             }
-            if (acspDataUpdated) {
-                const applicantDetails = acspDataUpdated.soleTraderDetails || {};
+            if (acspinProgressFullProfile) {
+                const applicantDetails = acspinProgressFullProfile.soleTraderDetails || {};
                 applicantDetails.usualResidentialCountry = countryOfResidence;
-                acspDataUpdated.soleTraderDetails = applicantDetails;
+                acspinProgressFullProfile.soleTraderDetails = applicantDetails;
             }
-            saveDataInSession(req, ACSP_DETAILS_UPDATED, acspDataUpdated);
-            session.setExtraData(ACSP_UPDATE_CHANGE_DATE.WHEREDOYOULIVE, null);
+            saveDataInSession(req, ACSP_DETAILS_UPDATE_IN_PROGRESS, acspinProgressFullProfile);
+            session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_WHERE_DO_YOU_LIVE);
             const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
             res.redirect(nextPageUrl);
         }

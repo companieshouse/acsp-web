@@ -8,7 +8,7 @@ import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LO
 import { Session } from "@companieshouse/node-session-handler";
 import countryList from "../../../../lib/countryListWithUKCountries";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -46,7 +46,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -62,12 +62,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
         // update acspUpdatedFullProfile
             const addressManualservice = new CorrespondenceAddressManualService();
-            if (acspUpdatedFullProfile.type === "sole-trader") {
-                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, true);
+            if (acspinProgressFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
+                addressManualservice.saveManualAddressUpdate(req, acspinProgressFullProfile, true);
             } else {
-                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, false);
+                addressManualservice.saveManualAddressUpdate(req, acspinProgressFullProfile, false);
             }
-            session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+            session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspinProgressFullProfile);
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }

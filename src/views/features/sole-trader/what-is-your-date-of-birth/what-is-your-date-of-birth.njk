@@ -19,8 +19,6 @@
   <div>
     <form action="" method="POST">
       {% include "partials/csrf_token.njk" %}
-      {% include "partials/user_name.njk" %}
-      
       {{ govukDateInput({
           id: "dob",
           namePrefix: "dob",

@@ -6,7 +6,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         // update acspUpdatedFullProfile
             const businessAddressService = new BusinessAddressService();
             businessAddressService.saveBusinessAddress(req, acspUpdatedFullProfile);
-            session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+            session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspUpdatedFullProfile);
 
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_CONFIRM, lang));
