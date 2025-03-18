@@ -6,10 +6,10 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { resolveErrorMessage } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { validationResult } from "express-validator";
+import { ValidationError, validationResult } from "express-validator";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
+import { AmlMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -52,28 +52,31 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const reqType = REQ_TYPE_UPDATE_ACSP;
-        const AcspMembershipNumberServiceInstance = new AcspMembershipNumberService();
+        const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;
             errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang);
-            AcspMembershipNumberServiceInstance.responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
+            AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
-            AcspMembershipNumberServiceInstance.validateMembershipNumber({
-                acspUpdatedFullProfile,
-                newAmlNumber,
-                newAMLBody,
-                req,
-                res,
-                session,
-                lang,
-                locales,
-                currentUrl,
-                reqType,
-                updateBodyIndex
-            });
+            if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
+                const validationError : ValidationError[] = [{
+                    value: newAmlNumber,
+                    msg: "duplicatedAmlMembership",
+                    param: "membershipNumber_1",
+                    location: "body"
+                }];
+                AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
+            } else {
+                newAMLBody.membershipId = req.body.membershipNumber_1;
+                AmlMembershipNumberServiceInstance.validateUpdateBodyIndex(updateBodyIndex, acspUpdatedFullProfile, newAMLBody);
+                session.deleteExtraData(NEW_AML_BODY);
+                session.deleteExtraData(ADD_AML_BODY_UPDATE);
+                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
+                res.redirect(nextPageUrl);
+            }
         }
     } catch (err) {
         next(err);
