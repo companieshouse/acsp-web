@@ -3,7 +3,7 @@ import { addLangToUrl, getLocaleInfo } from "../../utils/localise";
 import { Request, Response } from "express";
 import * as config from "../../config";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../types/pageURL";
-import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../common/__utils/constants";
+import { ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../common/__utils/constants";
 import { AMLSupervisoryBodies } from "../../model/AMLSupervisoryBodies";
 import { ValidationError } from "express-validator";// Adjust the path as needed
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -43,7 +43,9 @@ export class AcspMembershipNumberService {
         });
     }
 
-    public validateMembershipNumber (acspUpdatedFullProfile: AcspFullProfile, newAmlNumber: string, newAMLBody: AmlSupervisoryBody, req: Request, res: Response, session: any, lang: string, locales: any, currentUrl: string, reqType: string, updateBodyIndex: number | undefined): void {
+    public validateMembershipNumber (options: { acspUpdatedFullProfile: AcspFullProfile, newAmlNumber: string, newAMLBody: AmlSupervisoryBody, req: Request, res: Response, session: any, lang: string, locales: any, currentUrl: string, reqType: string, updateBodyIndex?: number }): void {
+        const { acspUpdatedFullProfile, newAmlNumber, newAMLBody, req, res, session, lang, locales, currentUrl, reqType, updateBodyIndex } = options;
+
         if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
             const validationError : ValidationError[] = [{
                 value: newAmlNumber,
@@ -53,7 +55,6 @@ export class AcspMembershipNumberService {
             }];
             this.responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
         } else {
-
             newAMLBody.membershipId = req.body.membershipNumber_1;
             if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
                 acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;

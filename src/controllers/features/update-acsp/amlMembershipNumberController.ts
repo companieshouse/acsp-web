@@ -4,9 +4,9 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
 import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { formatValidationError, resolveErrorMessage, getPageProperties } from "../../../validation/validation";
+import { resolveErrorMessage } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ValidationError, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspMembershipNumberService } from "../../../services/update-acsp/acspMembershipNumberService";
@@ -61,7 +61,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             AcspMembershipNumberServiceInstance.responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
-            AcspMembershipNumberServiceInstance.validateMembershipNumber(acspUpdatedFullProfile, newAmlNumber, newAMLBody, req, res, session, lang, locales, currentUrl, reqType, updateBodyIndex);
+            AcspMembershipNumberServiceInstance.validateMembershipNumber({
+                acspUpdatedFullProfile,
+                newAmlNumber,
+                newAMLBody,
+                req,
+                res,
+                session,
+                lang,
+                locales,
+                currentUrl,
+                reqType,
+                updateBodyIndex
+            });
         }
     } catch (err) {
         next(err);
