@@ -9,6 +9,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ValidationError, validationResult } from "express-validator";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspMembershipNumberService } from "../../../services/update-acsp/acspMembershipNumberService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -51,39 +52,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const reqType = REQ_TYPE_UPDATE_ACSP;
+        const AcspMembershipNumberServiceInstance = new AcspMembershipNumberService();
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;
             errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang);
-            responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
+            AcspMembershipNumberServiceInstance.responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
-            if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
-                const validationError : ValidationError[] = [{
-                    value: newAmlNumber,
-                    msg: "duplicatedAmlMembership",
-                    param: "membershipNumber_1",
-                    location: "body"
-                }];
-                responseStatus400(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
-            } else {
-
-                newAMLBody.membershipId = req.body.membershipNumber_1;
-                if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
-                    acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
-                    acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
-                } else {
-                    acspUpdatedFullProfile.amlDetails.push({
-                        supervisoryBody: newAMLBody.amlSupervisoryBody!,
-                        membershipDetails: newAMLBody.membershipId!
-                    });
-                }
-                session.deleteExtraData(NEW_AML_BODY);
-                session.deleteExtraData(ADD_AML_BODY_UPDATE);
-                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
-                res.redirect(nextPageUrl);
-            }
+            AcspMembershipNumberServiceInstance.validateMembershipNumber(acspUpdatedFullProfile, newAmlNumber, newAMLBody, req, res, session, lang, locales, currentUrl, reqType, updateBodyIndex);
         }
     } catch (err) {
         next(err);
@@ -98,19 +76,3 @@ const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: strin
         return element;
     });
 };
-
-function responseStatus400 (req: Request, res: Response, options: { lang: string, locales: any, currentUrl: string, newAMLBody: AmlSupervisoryBody, reqType: string, validationError: ValidationError[] }) {
-    const { lang, locales, currentUrl, newAMLBody, reqType, validationError } = options;
-    const pageProperties = getPageProperties(formatValidationError(validationError, lang));
-    res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
-        previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_SELECT_AML_SUPERVISOR, lang),
-        ...getLocaleInfo(locales, lang),
-        currentUrl,
-        pageProperties: pageProperties,
-        amlSupervisoryBodies: [newAMLBody],
-        payload: req.body,
-        AMLSupervisoryBodies,
-        reqType,
-        cancelLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang)
-    });
-}
