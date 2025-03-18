@@ -4,10 +4,9 @@
 {% set ITEMS = [] %}
 {% for key,value in AMLSupervisoryBodies %}
   {% if value is string %}
-  {% set amlText = i18n[key] %}
     {% set checkboxItem = {
       value: key,
-      text: amlText,
+      text: value,
       id: "aml" + loop.index
     } %}
     {% set ITEMS = ITEMS.concat(checkboxItem) %}

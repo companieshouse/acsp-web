@@ -1,33 +1,5 @@
 {
     "selectAmlSupervisorTitle" : "Which Anti-Money Laundering (AML) supervisory bodies are you registered with?",
     "selectAmlSupervisorHint": "Select all that apply.",
-
-    "ACCA": "Association of Chartered Certified Accountants (ACCA)",
-    "AAT": "Association of Accounting Technicians (AAT)",
-    "AIA": "Association of International Accountants (AIA)",
-    "ATT": "Association of Taxation Technicians (ATT)",
-    "CILEX": "Chartered Institute of Legal Executives (CILEx)",
-    "CIMA": "Chartered Institute of Management Accountants (CIMA)",
-    "CIOT": "Chartered Institute of Taxation (CIOT)",
-    "CLC": "Council for Licensed Conveyancers (CLC)",
-    "DENI": "Department for the Economy Northern Ireland",
-    "FA": "Faculty of Advocates",
-    "FO": "Faculty Office of the Archbishop of Canterbury",
-    "FCA": "Financial Conduct Authority (FCA)",
-    "GC": "Gambling Commission",
-    "BSB": "Bar Standards Board (BSB)",
-    "BONI": "General Council of the Bar of Northern Ireland",
-    "HMRC": "HMRC",
-    "IAB": "Institute of Accountants and Bookkeepers (IAB)",
-    "IPA": "Insolvency Practitioners Association (IPA)",
-    "ICB": "Institute of Certified Bookkeepers",
-    "ICAEW": "Institute of Chartered Accountants in England and Wales (ICAEW)",
-    "ICAI": "Institute of Chartered Accountants in Ireland (ICAI)",
-    "ICAS": "Institute of Chartered Accountants of Scotland (ICAS)",
-    "IFA": "Institute of Financial Accountants (IFA)",
-    "LSNI": "Law Society of Northern Ireland",
-    "LSS": "Law Society of Scotland",
-    "SRA": "Solicitors Regulation Authority (SRA) Solicitors in England and Wales",
-
     "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with"
 }
