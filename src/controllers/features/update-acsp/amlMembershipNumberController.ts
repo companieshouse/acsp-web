@@ -9,7 +9,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { validationResult } from "express-validator";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspMembershipNumberService } from "../../../services/update-acsp/acspMembershipNumberService";
+import { AcspMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
