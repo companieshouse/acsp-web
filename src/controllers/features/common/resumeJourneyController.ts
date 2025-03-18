@@ -3,15 +3,16 @@ import { Transaction } from "@companieshouse/api-sdk-node/dist/services/transact
 import { Payment } from "@companieshouse/api-sdk-node/dist/services/payment";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { BASE_URL, RESUME_JOURNEY, TYPE_OF_BUSINESS } from "../../../types/pageURL";
-import { NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
-import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/localise";
+import { BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
+import { APPLICATION_ID, NO_PAYMENT_RESOURCE_ERROR, SUBMISSION_ID } from "../../../common/__utils/constants";
+import { selectLang, addLangToUrl } from "../../../utils/localise";
 import logger from "../../../utils/logger";
 
 import { getTransactionById } from "../../../services/transactions/transaction_service";
 import { startPaymentsSession } from "../../../services/paymentService";
 import { PAYMENTS_API_URL } from "../../../utils/properties";
 import { PAYMENTS, transactionStatuses } from "../../../config";
+import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -23,9 +24,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     session.setExtraData(SUBMISSION_ID, transactionId);
     // eslint-disable-next-line camelcase
     res.locals.userId = session?.data?.signin_info?.user_profile?.id;
-    res.locals.applicationId = acspId;
 
     try {
+        saveDataInSession(req, "resume_application", true);
+        session.setExtraData(APPLICATION_ID, acspId);
+
         const transaction: Transaction = await getTransactionById(session, transactionId);
 
         if (transaction.status === transactionStatuses.CLOSED_PENDING_PAYMENT) {
