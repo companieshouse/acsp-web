@@ -48,7 +48,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    it("should return status 400 after no email address entered", async () => {
+    it("should return status 400 after no date address entered", async () => {
         req.body = {
             "change-day": "",
             "change-month": "",
@@ -71,6 +71,15 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         console.log(JSON.stringify(res));
         expect(res.status).toBe(302);
         expect(updateWithTheEffectiveDateAmendment).toHaveBeenCalledTimes(1);
+    });
+    it("should show the error page if an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
