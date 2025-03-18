@@ -27,7 +27,7 @@
 
 {% set title = i18n.checkYourAnswersHeading %}
 {% block main_content %}
-    <form method="post">
+    <form action="{{ currentUrl }}" method="post">
         {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
         {% if typeOfBusiness === "SOLE_TRADER" %}
