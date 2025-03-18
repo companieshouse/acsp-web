@@ -16,6 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const verifyIdentityLink = addLangToUrl(VERIFY_IDENTITY, lang);
     const feedbackLink = "https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/";
     const abilityNetAccessibilityLink = "https://mcmw.abilitynet.org.uk/";
+    const signInLink = "https://find-and-update.company-information.service.gov.uk/signin";
 
     res.render(config.HOME, {
         ...getLocaleInfo(locales, lang),
@@ -24,7 +25,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         feedbackLink,
         verifyIdentityLink,
         abilityNetAccessibilityLink,
-        ACSP01_COST
+        ACSP01_COST,
+        signInLink
     });
 };
 
