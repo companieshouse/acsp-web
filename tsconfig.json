@@ -28,7 +28,7 @@
   "lib": ["esnext"],
   "include": [
     "src/**/*"
-, "test/src/validation/dateOfACSPUpdateDetailsChange.test.ts", "test/src/controllers/updateAcspDetails/dateOfTheChangeController.test.ts", "test/src/services/update_acsp/dateOfTheChangeService.test.ts"  ],
+  ],
   "exclude": [
     "src/test/**/*",
     "node_modules",
