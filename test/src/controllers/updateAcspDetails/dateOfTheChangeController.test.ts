@@ -48,9 +48,19 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-
+    it("should return status 400 after no email address entered", async () => {
+        req.body = {
+            "change-day": "",
+            "change-month": "",
+            "change-year": ""
+        };
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE).send(req.body);
+        expect(res.status).toBe(400);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.text).toContain("Enter the date when change happened");
+    });
     it("should call updateWithTheEffectiveDateAmendment and redirect if validation passes", async () => {
-
         req.body = {
             "change-day": "01",
             "change-month": "01",

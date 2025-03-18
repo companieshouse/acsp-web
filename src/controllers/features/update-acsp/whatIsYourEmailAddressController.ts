@@ -65,8 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.whatIsYourEmailRadio === "A Different Email") {
                 acspUpdatedFullProfile.email = req.body.whatIsYourEmailInput;
                 saveDataInSession(req, ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
-                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang);
-                res.redirect(nextPageUrl);
+                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
             }
         }
     } catch (err) {
