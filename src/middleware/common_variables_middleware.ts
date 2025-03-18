@@ -3,6 +3,7 @@ import { getLoggedInUserEmail, getLoggedInUserId, getLoggedInAcspNumber } from "
 import { CHS_MONITOR_GUI_URL } from "../utils/properties";
 import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
+import { selectLang } from "../utils/localise";
 
 /**
  * Populates variables for use in templates that are used on multiple pages.
@@ -30,6 +31,8 @@ export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.applicationId = applicationId;
 
     res.locals.chsMonitorGuiUrl = CHS_MONITOR_GUI_URL;
+
+    res.locals.lang = selectLang(req.query.lang);
 
     // Setting value for 'Authorised agent' link to show/hide on navbar
     if (acspNumber !== undefined) {
