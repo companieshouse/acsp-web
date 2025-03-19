@@ -29,7 +29,7 @@
             {% for body in amlSupervisoryBodies %}
                 {{ govukInput({
                     label: {
-                        text:AMLSupervisoryBodies[body.amlSupervisoryBody],
+                        text:i18n[body.amlSupervisoryBody],
                         classes: "govuk-label l govuk-label--m",
                         isPageHeading: true
                     },
