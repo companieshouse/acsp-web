@@ -13,7 +13,7 @@ import {
     mockUnincorpoatedAcspFullProfileNoServiceAddress
 } from "../../../mocks/update_your_details.mock";
 
-describe("CheckYourAnswersService", () => {
+describe("updateYourDetailsService", () => {
     let req: MockRequest<Request>;
 
     beforeEach(() => {

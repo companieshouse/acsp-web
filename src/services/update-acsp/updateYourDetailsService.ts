@@ -1,7 +1,7 @@
 import { ACSPFullProfileDetails } from "../../model/ACSPFullProfileDetails";
 import { AcspFullProfile, Address } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getBusinessName, getFullNameACSPFullProfileDetails } from "../../utils/web";
 import { ACSP_PROFILE_TYPE_SOLE_TRADER } from "../../common/__utils/constants";
+import { getBusinessName, getFullNameACSPFullProfileDetails } from "../../utils/web";
 
 export const getProfileDetails = (acspFullProfile: AcspFullProfile): ACSPFullProfileDetails => {
     let profileDetails: ACSPFullProfileDetails = {};

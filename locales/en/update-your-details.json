@@ -6,8 +6,6 @@
     "updateDetailsCorrespondenceAddress": "Correspondence address",
     "updateYourDetailsUpdate": "Update",
     "updateYourDetailsRemove": "Remove",
-    "updateYourDetailsContinue": "Continue",
-    "updateYourDetailsCancel": "Cancel",
     "updateDetailsCorrespondenceEmail": "Correspondence email address",
     "updateYourDetailsName": "What is your name?",
     "updateYourDetailsWhereDoYouLive": "Where do you live?",
@@ -15,6 +13,7 @@
     "updateYourDetailsBusinessAddress": "What is your business address?",
     "updateYourDetailsRegisteredOfficeAddress": "What is your registered office address?",
     "updateYourDetailsNameOfBusiness": "What is the name of your business?",
+    "updateYourDetailsModificationChangedOn": "Changed on",
     "updateYourDetailsAMLMembershipDetails": "AML Membership Details",
     "updateYourDetailsYouMustBeRegisteredAML": "You must be registered with one or more AML supervisory body.",
     "addNewAMLDetails": "Add new AML details",
@@ -26,5 +25,4 @@
     "updateAMLDetailsRemoved": " Removed",
     "updateAMLDetailsStatusLineOne": "Pending until submitted",
     "updateAMLDetailsStatusLineTwo": "and accepted"
-
 }

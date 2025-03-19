@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { BASE_URL, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { BASE_URL, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_CHECK_YOUR_UPDATES } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
@@ -65,8 +65,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             if (req.body.whatIsYourEmailRadio === "A Different Email") {
                 acspUpdatedFullProfile.email = req.body.whatIsYourEmailInput;
                 saveDataInSession(req, ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
             }
-            res.redirect(previousPage);
         }
     } catch (err) {
         next(err);

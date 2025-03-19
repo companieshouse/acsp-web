@@ -67,10 +67,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, true,
+            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, true,
                 UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
-
-                session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{

@@ -8,6 +8,7 @@
 {% if profileDetails.name and profileDetailsUpdated.name !== profileDetails.name %}
   {% set updateStatusTextForName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.name+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -16,6 +17,7 @@
 {% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.correspondenceAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -32,6 +34,7 @@
 {% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForBusinessAddress =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.regOfficeAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -40,6 +43,7 @@
 {% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
   {% set updateStatusTextForBusinessName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.nameOfBusiness+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -71,7 +75,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsName
               }if profileDetailsUpdated.name !== profileDetails.name
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       }if profileDetails.name,
       {
@@ -96,7 +100,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               }if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -121,7 +125,7 @@
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -146,7 +150,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
               }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
-          classes: "govuk-!-width-one-third"
+          classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -171,7 +175,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
               }if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       }
     ]

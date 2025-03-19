@@ -7,7 +7,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
-import { ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { createRequest, MockRequest } from "node-mocks-http";
 import * as localise from "../../../../src/utils/localise";
 
@@ -63,13 +63,14 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
-    it("should delete ACSP_DETAILS_UPDATED from session if acspUpdatedFullProfile exists", async () => {
+    it("should delete ACSP_DETAILS_UPDATED and ACSP_DETAILS_UPDATE_IN_PROGRESS from session if acspUpdatedFullProfile exists", async () => {
         const session: Session = req.session as any as Session;
         createMockSessionMiddlewareAcspFullProfile();
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(302);
         expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toBe(undefined);
+        expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toBe(undefined);
     });
 
     it("should redirect to authorised agent account", async () => {

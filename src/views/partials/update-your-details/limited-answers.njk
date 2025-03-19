@@ -6,6 +6,7 @@
 {% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.correspondenceAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -22,6 +23,7 @@
 {% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
   {% set updateStatusTextForBusinessName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.nameOfBusiness+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -30,6 +32,7 @@
 {% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForRegisteredOfficeAddress =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.regOfficeAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -61,7 +64,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
               }if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -86,7 +89,7 @@
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -111,7 +114,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsRegisteredOfficeAddress
               }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       },
       {
@@ -136,7 +139,7 @@
                 visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
               }if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
-            classes: "govuk-!-width-one-third"
+            classes: "govuk-!-width-one-quarter"
           }
       }
     ]

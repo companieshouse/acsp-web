@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ACSP_DETAILS_UPDATED, ADDRESS_LIST } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST,
@@ -10,7 +10,6 @@ import {
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -39,7 +38,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST;
         const session: Session = req.session as any as Session;
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
         const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
@@ -58,12 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const selectedPremise = req.body.correspondenceAddress;
             // Save selected address
             const correspondenceAddress: Address = addressList.filter((address) => address.premises === selectedPremise)[0];
-            if (acspUpdatedFullProfile.type === "sole-trader") {
-                acspUpdatedFullProfile.registeredOfficeAddress = correspondenceAddress;
-            } else {
-                acspUpdatedFullProfile.serviceAddress = correspondenceAddress;
-            }
-            session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+            session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, correspondenceAddress);
 
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
