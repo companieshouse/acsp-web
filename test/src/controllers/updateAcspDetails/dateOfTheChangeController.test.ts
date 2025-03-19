@@ -68,7 +68,6 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         };
         createMockSessionMiddlewareAcspFullProfile();
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE).send(req.body);
-        console.log(JSON.stringify(res));
         expect(res.status).toBe(302);
         expect(updateWithTheEffectiveDateAmendment).toHaveBeenCalledTimes(1);
     });

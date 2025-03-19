@@ -5,8 +5,7 @@ import {
     ACSP_DETAILS_UPDATED,
     ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
-    ACSP_UPDATE_CHANGE_DATE,
-    ACSP_PROFILE_TYPE_SOLE_TRADER
+    ACSP_UPDATE_CHANGE_DATE
 } from "../../../../src/common/__utils/constants";
 import {
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
@@ -18,6 +17,7 @@ import {
     UPDATE_WHERE_DO_YOU_LIVE,
     UPDATE_YOUR_ANSWERS
 } from "../../../../src/types/pageURL";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 jest.mock("@companieshouse/node-session-handler");
 
@@ -28,7 +28,8 @@ describe("updateWithTheEffectiveDateAmendment", () => {
     beforeEach(() => {
         session = {
             getExtraData: jest.fn(),
-            setExtraData: jest.fn()
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {
@@ -50,26 +51,47 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
-        expect(acspUpdated.name).toBe(acspInProgress.name);
+        expect(acspUpdated.name).toBe(acspInProgress);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
     });
 
     it("should update sole trader details and set the change date", () => {
         const dateOfChange = new Date();
-        const acspInProgress = { soleTraderDetails: { forename: "John", otherForenames: "Doe", surname: "Smith", usualResidentialCountry: "England" } };
-        const acspUpdated = { soleTraderDetails: { usualResidentialCountry: "England" } };
+        const acspinProgressFullProfile: AcspFullProfile["soleTraderDetails"] = {
+            forename: "John",
+            otherForenames: "Doe",
+            surname: "Smith"
+        };
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            soleTraderDetails: {},
+            number: "",
+            name: "",
+            status: "",
+            type: "",
+            notifiedFrom: new Date(),
+            email: "",
+            amlDetails: [],
+            registeredOfficeAddress: {
+                addressLine1: "",
+                addressLine2: "",
+                postalCode: "",
+                country: ""
+            }
+        };
 
-        (session.getExtraData as jest.Mock)
-            .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ACSP_WHAT_IS_YOUR_NAME;
-            });
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
+            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ACSP_WHAT_IS_YOUR_NAME;
+        });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
-        expect(acspUpdated.soleTraderDetails).toEqual(acspInProgress.soleTraderDetails);
+        expect(acspUpdatedFullProfile.soleTraderDetails!.forename).toBe(acspinProgressFullProfile.forename);
+        expect(acspUpdatedFullProfile.soleTraderDetails!.otherForenames).toBe(acspinProgressFullProfile.otherForenames);
+        expect(acspUpdatedFullProfile.soleTraderDetails!.surname).toBe(acspinProgressFullProfile.surname);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
+        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     });
 
     it("should update the residential country and set the change date", () => {
@@ -86,7 +108,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
-        expect(acspUpdated.soleTraderDetails!.usualResidentialCountry).toBe(acspInProgress.soleTraderDetails!.usualResidentialCountry);
+        expect(acspUpdated.soleTraderDetails!.usualResidentialCountry).toBe(acspInProgress);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE, dateOfChange);
     });
 
@@ -104,48 +126,8 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
-        expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress.registeredOfficeAddress);
+        expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS, dateOfChange);
-    });
-
-    it("should update the correspondence address and set the change date", () => {
-        const dateOfChange = new Date();
-        const acspInProgress = { registeredOfficeAddress: { addressLine1: "123 Street" }, type: ACSP_PROFILE_TYPE_SOLE_TRADER };
-        const acspUpdated = { registeredOfficeAddress: {}, serviceAddress: {} };
-
-        (session.getExtraData as jest.Mock)
-            .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
-            });
-
-        updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
-
-        expect(acspUpdated.registeredOfficeAddress).toEqual(acspInProgress.registeredOfficeAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
-    });
-
-    it("should update registeredOfficeAddress for sole trader and set the change date", () => {
-        const dateOfChange = new Date();
-        const acspinProgressFullProfile = {
-            type: ACSP_PROFILE_TYPE_SOLE_TRADER,
-            registeredOfficeAddress: { addressLine1: "123 Street", addressLine2: "City", postalCode: "AB12 3CD" }
-        };
-        const acspUpdatedFullProfile = {
-            registeredOfficeAddress: {}
-        };
-
-        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
-            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
-        });
-
-        updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
-
-        expect(acspUpdatedFullProfile.registeredOfficeAddress).toEqual(acspinProgressFullProfile.registeredOfficeAddress);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     });
 
     it("should update serviceAddress for non-sole trader and set the change date", () => {
@@ -166,7 +148,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
 
-        expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile.serviceAddress);
+        expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     });
 });

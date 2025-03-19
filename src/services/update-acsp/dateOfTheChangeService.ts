@@ -22,32 +22,33 @@ import {
 
 export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: Date): void => {
     const session: Session = req.session as any as Session;
-    const acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
     const currentPage = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT);
 
     if (currentPage === UPDATE_WHAT_IS_THE_BUSINESS_NAME) {
-        acspUpdatedFullProfile.name = acspinProgressFullProfile.name;
+        acspUpdatedFullProfile.name = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
     } else if (currentPage === UPDATE_ACSP_WHAT_IS_YOUR_NAME) {
-        acspUpdatedFullProfile.soleTraderDetails!.forename = acspinProgressFullProfile.soleTraderDetails!.forename;
-        acspUpdatedFullProfile.soleTraderDetails!.otherForenames = acspinProgressFullProfile.soleTraderDetails!.otherForenames;
-        acspUpdatedFullProfile.soleTraderDetails!.surname = acspinProgressFullProfile.soleTraderDetails!.surname;
+        const soleTraderDetails: AcspFullProfile["soleTraderDetails"] = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
+        acspUpdatedFullProfile.soleTraderDetails!.forename = soleTraderDetails.forename;
+        acspUpdatedFullProfile.soleTraderDetails!.otherForenames = soleTraderDetails.otherForenames;
+        acspUpdatedFullProfile.soleTraderDetails!.surname = soleTraderDetails.surname;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange);
     } else if (currentPage === UPDATE_WHERE_DO_YOU_LIVE) {
-        acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry = acspinProgressFullProfile.soleTraderDetails!.usualResidentialCountry;
+        acspUpdatedFullProfile.soleTraderDetails!.usualResidentialCountry = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE, dateOfChange);
     } else if (currentPage === UPDATE_BUSINESS_ADDRESS_CONFIRM) {
-        acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress;
+        acspUpdatedFullProfile.registeredOfficeAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS, dateOfChange);
     } else if (currentPage === UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM) {
-        if (acspinProgressFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
-            acspUpdatedFullProfile.registeredOfficeAddress = acspinProgressFullProfile.registeredOfficeAddress;
+        if (acspUpdatedFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
+            acspUpdatedFullProfile.registeredOfficeAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         } else {
-            acspUpdatedFullProfile.serviceAddress = acspinProgressFullProfile.serviceAddress;
+            acspUpdatedFullProfile.serviceAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         }
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     }
+    session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 };
 
 export const determinePreviousPageUrl = (url: string): string => {

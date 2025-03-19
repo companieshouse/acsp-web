@@ -41,7 +41,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const locales = getLocalesService();
         const errorList = validationResult(req);
@@ -58,9 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
         // update acspUpdatedFullProfile
             const businessAddressService = new BusinessAddressService();
-            businessAddressService.saveBusinessAddressUpdate(req, acspFullProfile, acspinProgressFullProfile);
-            session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspinProgressFullProfile);
-
+            businessAddressService.saveBusinessAddressUpdate(req, session, acspFullProfile.registeredOfficeAddress.country!);
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_CONFIRM, lang));
         }

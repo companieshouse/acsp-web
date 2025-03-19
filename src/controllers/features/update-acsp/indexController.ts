@@ -10,7 +10,7 @@ import {
 import { getAcspFullProfile } from "../../../services/acspProfileService";
 import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -20,7 +20,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL;
         const acspDetails = await getAcspFullProfile(getLoggedInAcspNumber(session));
         session.setExtraData(ACSP_DETAILS, acspDetails);
-        session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspDetails);
         session.setExtraData(ACSP_DETAILS_UPDATED, acspDetails);
 
         res.render(config.UPDATE_ACSP_DETAILS_HOME, {

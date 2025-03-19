@@ -63,12 +63,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
             }
-            if (acspinProgressFullProfile) {
-                const applicantDetails = acspinProgressFullProfile.soleTraderDetails || {};
-                applicantDetails.usualResidentialCountry = countryOfResidence;
-                acspinProgressFullProfile.soleTraderDetails = applicantDetails;
-            }
-            saveDataInSession(req, ACSP_DETAILS_UPDATE_IN_PROGRESS, acspinProgressFullProfile);
+            saveDataInSession(req, ACSP_DETAILS_UPDATE_IN_PROGRESS, countryOfResidence);
             session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_WHERE_DO_YOU_LIVE);
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
         }

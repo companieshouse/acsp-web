@@ -164,7 +164,7 @@ describe("yourUpdatesService", () => {
         expect(removedAMLUpdates).toEqual([{
             membershipName: "association-of-chartered-certified-accountants-acca",
             membershipNumber: "123",
-            changedDate: "18 March 2025"
+            changedDate: "19 March 2025"
         }]);
     });
 
@@ -175,7 +175,7 @@ describe("yourUpdatesService", () => {
         expect(addedAMLUpdates).toEqual([{
             membershipName: "association-of-international-accountants-aia",
             membershipNumber: "123",
-            changedDate: "18 March 2025"
+            changedDate: "19 March 2025"
         }]);
     });
 });
