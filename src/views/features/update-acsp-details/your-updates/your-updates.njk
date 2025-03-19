@@ -208,7 +208,7 @@
   {% include "partials/your-updates-remove-aml.njk" %}
 {% endif %}
 
-<form method="POST">
+<form action="{{ currentUrl }}" method="POST">
   {% include "partials/csrf_token.njk" %}
   {{ govukRadios({
     name: "moreUpdates",

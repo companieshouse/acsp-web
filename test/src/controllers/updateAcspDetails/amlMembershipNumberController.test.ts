@@ -205,4 +205,32 @@ describe("amlMembershipNumberController", () => {
         expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
         expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
     });
+
+    it("should return status 400 if the membership number is a duplicate", async () => {
+        const newAMLBody = {
+            amlSupervisoryBody: "Duplicate Supervisory Body",
+            membershipId: ""
+        };
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            amlDetails: [
+                { supervisoryBody: "Duplicate Supervisory Body", membershipDetails: "123456" }
+            ]
+        } as AcspFullProfile;
+
+        (req.session as Session).getExtraData = jest.fn()
+            .mockReturnValueOnce(newAMLBody)
+            .mockReturnValueOnce(undefined)
+            .mockReturnValueOnce(acspUpdatedFullProfile);
+        req.body = { membershipNumber_1: "123456" };
+        req.query = { lang: "en" };
+
+        await post(req as Request, res as Response, next);
+
+        expect(res.status).toHaveBeenCalledWith(400);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            pageProperties: expect.any(Object),
+            payload: req.body
+        }));
+    });
+
 });

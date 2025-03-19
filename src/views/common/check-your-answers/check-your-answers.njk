@@ -10,7 +10,7 @@
             text:  i18n.checkYourAnswersAMLTab
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervisoryBodies[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
+            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + i18n[body.amlSupervisoryBody] + "</li><li>" + body.membershipId + "</li></ul>"
         },
         actions: {
             items: [
@@ -27,7 +27,7 @@
 
 {% set title = i18n.checkYourAnswersHeading %}
 {% block main_content %}
-    <form method="post">
+    <form action="{{ currentUrl }}" method="post">
         {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.checkYourAnswersHeading }}</h1>
         {% if typeOfBusiness === "SOLE_TRADER" %}

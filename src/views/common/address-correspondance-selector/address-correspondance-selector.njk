@@ -22,7 +22,7 @@
         {% set optionalFields = optionalFields + businessAddress.country + ", " %}
     {% endif %}
 
-    <form action="" method="POST">
+    <form action="{{ currentUrl }}" method="POST">
         {% include "partials/csrf_token.njk" %}
         {% if businessName %}
             {% include "partials/business_name.njk" %}

@@ -26,6 +26,15 @@ describe("GET resume journey", () => {
         expect(res.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
     });
 
+    it("should return status 302 and redirect to type of business screen if transaction is open even if no acspId returned", async () => {
+        mockGetTransaction.mockResolvedValueOnce(mockOpenTransaction);
+        const res = await router.get(BASE_URL + "/resume?transactionId=119709-207817-181835");
+        expect(res.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
+    });
+
     it("should return status 302 and redirect to payment if transaction is closed pending payment", async () => {
         mockGetTransaction.mockResolvedValueOnce(mockClosedPendingPaymentTransaction);
         mockStartPaymentsSession.mockResolvedValueOnce(dummyPaymentResponse);

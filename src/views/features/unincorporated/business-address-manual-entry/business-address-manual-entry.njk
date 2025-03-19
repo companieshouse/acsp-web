@@ -13,7 +13,7 @@
   {% set legendHeader = i18n.businessAddressManualTitle %}
 {% endif %}
 {% block main_content %}
-<form action="" method="POST">
+<form action="{{ currentUrl }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     {% include "partials/business_name.njk" %}
     <div class="govuk-form-group">

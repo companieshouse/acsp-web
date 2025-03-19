@@ -4,7 +4,7 @@
 {% set title = i18n.yourResponsibilitiesTitle %}
 
 {% block main_content %}
-  <form method="post">
+  <form action="{{ currentUrl }}" method="post">
     {% include "partials/csrf_token.njk" %}
     {% if typeOfBusiness === "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}

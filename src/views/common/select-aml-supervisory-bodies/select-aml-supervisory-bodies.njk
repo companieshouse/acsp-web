@@ -4,9 +4,10 @@
 {% set ITEMS = [] %}
 {% for key,value in AMLSupervisoryBodies %}
   {% if value is string %}
+  {% set amlText = i18n[key] %}
     {% set checkboxItem = {
       value: key,
-      text: value,
+      text: amlText,
       id: "aml" + loop.index
     } %}
     {% set ITEMS = ITEMS.concat(checkboxItem) %}
@@ -14,7 +15,7 @@
 {% endfor %}
 {% set title = i18n.selectAmlSupervisorTitle %}
 {% block main_content %}
-  <form action="" method="POST">
+  <form action="{{ currentUrl }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     {% if acspType == "SOLE_TRADER" %}
       {% include "partials/user_name.njk" %}
