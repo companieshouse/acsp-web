@@ -5,7 +5,7 @@
 {% set errors = pageProperties.errors %}
 {% set title = i18n.correspondenceLookUpAddressTitle %}
 {% block main_content %}
-  <form action="" method="POST">
+  <form action="{{ currentUrl }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     {% if businessName %}
       {% include "partials/business_name.njk" %}

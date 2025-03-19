@@ -14,7 +14,7 @@
 {% endfor %}
 {% set title = i18n.addAmlSupervisorTitle %}
 {% block main_content %}
-  <form action="" method="POST">
+  <form action="{{ currentUrl }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     {{ govukRadios ({
       name: "AML-supervisory-bodies",

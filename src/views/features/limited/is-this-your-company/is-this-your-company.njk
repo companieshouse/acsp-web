@@ -4,7 +4,7 @@
 {% set title = i18n.isThisYourCompany %}
 {% block main_content %}
   <!-- The action will need to change depending on the location of the confirm-company page -->
-  <form action="" method="post">
+  <form action="{{ currentUrl }}" method="post">
     {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">{{i18n.isThisYourCompany}}</h1>
     <dl class="govuk-summary-list">

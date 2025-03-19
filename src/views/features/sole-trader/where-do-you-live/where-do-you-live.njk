@@ -3,7 +3,7 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.whereDoYouLiveTitle %}
 {% block main_content %}
-  <form action="" method="post">
+  <form action="{{ currentUrl }}" method="post">
     {% include "partials/csrf_token.njk" %}
     {% include "partials/user_name.njk" %}
     {% set countryInput %}

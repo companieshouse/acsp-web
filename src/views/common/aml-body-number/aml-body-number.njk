@@ -5,7 +5,7 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.amlMembershipTitle %}
 {% block main_content %}
-    <form action="" method="post">
+    <form action="{{ currentUrl }}" method="post">
         {% include "partials/csrf_token.njk" %}
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">

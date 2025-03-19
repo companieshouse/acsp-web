@@ -16,7 +16,7 @@
 {% set title = "" %}
 {% set matomoPageTitle = i18n.startPageTitle %}
 {% block main_content %}
-  <form method="POST">
+  <form action="{{ currentUrl }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     {{ govukNotificationBanner({
       html: html,
