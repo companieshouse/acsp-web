@@ -1,7 +1,6 @@
 {
     "selectAmlSupervisorTitle" : "Pa gyrff goruchwylio Atal Gwyngalchu Arian (AML) rydych chi wedi cofrestru â nhw?",
     "selectAmlSupervisorHint": "Dewiswch bopeth sy'n berthnasol.",
-
     "ACCA": "Cymdeithas y Cyfrifwyr Ardystiedig Siartredig (ACCA)",
     "AAT": "Cymdeithas Technegwyr Cyfrifyddu (AAT)",
     "AIA": "Cymdeithas y Cyfrifwyr Rhyngwladol (AIA)",
@@ -28,6 +27,5 @@
     "LSNI": "Cymdeithas Cyfreithwyr Gogledd Iwerddon",
     "LSS": "Cymdeithas Cyfreithwyr yr Alban",
     "SRA": "Awdurdod Rheoleiddio Cyfreithwyr (SRA) Cyfreithwyr yng Nghymru a Lloegr",
-    
     "error-selectAmlSupervisor": "Dewiswch yr holl gyrff goruchwylio AML rydych chi wedi'u cofrestru â nhw"
 }
