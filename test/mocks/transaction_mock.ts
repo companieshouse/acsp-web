@@ -23,7 +23,15 @@ export const mockOpenTransaction: Transaction = {
     id: "119709-207817-181835",
     status: "open",
     reference: REFERENCE,
-    description: "Mandatory transaction description"
+    description: "Mandatory transaction description",
+    resources: {
+        "/transactions/119709-207817-181835/authorised-corporate-service-provider-applications/Y2VkZWVlMzhlZWFjY2M4MzQ3MT": {
+            kind: "acsp",
+            links: {
+                resource: ""
+            }
+        }
+    }
 };
 
 export const mockClosedPendingPaymentTransaction: Transaction = {
