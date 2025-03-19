@@ -5,7 +5,7 @@
 {% set title = i18n.checkAmlDetailsTitle %}
 {% block main_content %}
 
-  <form class="form" action="{{ currentUrl }}" method="post">
+  <form action="{{ currentUrl }}" method="post" class="form">
     {% include "partials/csrf_token.njk" %}
     {% if typeOfBusiness === "SOLE_TRADER" %}
         {% include "partials/user_name.njk" %}
