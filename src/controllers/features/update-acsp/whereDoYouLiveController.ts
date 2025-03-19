@@ -43,7 +43,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const reqType = REQ_TYPE_UPDATE_ACSP;
 
         const session: Session = req.session as any as Session;
-        var acspinProgressFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

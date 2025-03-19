@@ -19,6 +19,7 @@ import {
     UPDATE_WHERE_DO_YOU_LIVE,
     UPDATE_YOUR_ANSWERS
 } from "../../types/pageURL";
+import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
 
 export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: Date): void => {
     const session: Session = req.session as any as Session;
@@ -29,7 +30,7 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
         acspUpdatedFullProfile.name = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
     } else if (currentPage === UPDATE_ACSP_WHAT_IS_YOUR_NAME) {
-        const soleTraderDetails: AcspFullProfile["soleTraderDetails"] = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
+        const soleTraderDetails: soleTraderNameDetails = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         acspUpdatedFullProfile.soleTraderDetails!.forename = soleTraderDetails.forename;
         acspUpdatedFullProfile.soleTraderDetails!.otherForenames = soleTraderDetails.otherForenames;
         acspUpdatedFullProfile.soleTraderDetails!.surname = soleTraderDetails.surname;

@@ -1,14 +1,13 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, ADDRESS_LIST } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST,
     UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
