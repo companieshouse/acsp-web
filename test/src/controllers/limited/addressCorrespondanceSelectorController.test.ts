@@ -33,7 +33,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when acspData is undefined", async () => {
@@ -42,7 +42,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when applicantDetails is undefined", async () => {
@@ -54,7 +54,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when correspondence address is undefined", async () => {
@@ -72,7 +72,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when correspondence address is same as registeredOfficeAddress", async () => {
@@ -96,7 +96,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when correspondence address is different to registeredOfficeAddress", async () => {
@@ -118,7 +118,7 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 500 after calling GET endpoint and failing", async () => {
@@ -137,7 +137,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
 
     });
 
@@ -156,7 +156,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         };
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
 
     });
 
@@ -167,7 +167,7 @@ describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         };
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS).send(acspData2);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
 
     });
 
