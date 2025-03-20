@@ -7,12 +7,12 @@
 
 {% set acceptHtml %}
  <p>{{ i18n.acceptedAnalyticsCookies }} {{ i18n.changeCookie1 }} <a class="govuk-link" target="_blank" rel="noopener noreferrer"
- href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }}</a> {{ i18n.changeCookie3 }}</p>
+ href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }} {{ i18n.openInNewTab }}</a> {{ i18n.changeCookie3 }}</p>
 {% endset %}
 
 {% set rejectHtml %}
  <p>{{ i18n.rejectedAnalyticsCookies }} {{ i18n.changeCookie1 }} <a class="govuk-link" target="_blank" rel="noopener noreferrer" 
- href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }}</a> {{ i18n.changeCookie3 }}</p>
+ href="{{ CHS_URL }}/help/cookies">{{ i18n.changeCookie2 }} {{ i18n.openInNewTab }}</a> {{ i18n.changeCookie3 }}</p>
 {% endset %}
 
 {{ govukCookieBanner({
@@ -49,7 +49,7 @@
       }
       },
       {
-        text: i18n.viewCookies,
+        text: i18n.viewCookies + " " + i18n.openInNewTab,
         href: chsUrl + "/help/cookies",
         attributes: {
           target: "_blank",
