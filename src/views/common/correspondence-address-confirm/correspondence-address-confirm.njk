@@ -3,7 +3,7 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.correspondenceAddressConfirmTitle %}
 {% block main_content %}
-  <form class="form" action="{{ currentUrl }}" method="post">
+  <form class="form" action="{{ currentUrl }}?lang={{ lang }}" method="post">
     {% include "partials/csrf_token.njk" %}
     {% if businessName %}
       {% include "partials/business_name.njk" %}

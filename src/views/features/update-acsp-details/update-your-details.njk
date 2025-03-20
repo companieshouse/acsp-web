@@ -104,7 +104,7 @@
     html: html,
     titleText: i18n.important
 }) }}
-    <form action="{{ currentUrl }}" method="post">
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
         {% include "partials/csrf_token.njk" %}
         <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
         {% if acspFullProfile.type === "sole-trader" %}
