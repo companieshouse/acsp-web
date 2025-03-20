@@ -3,7 +3,6 @@
     "whatIsYourNameFirstName" : "Enw cyntaf",
     "whatIsYourNameMiddleNames" : "Enwau canol",
     "whatIsYourNameLastName" : "Cyfenw",
-    "error-enterFullName" : "Cofnodwch eich enw llawn",
     "error-enterFirstName" : "Cofnodwch eich enw cyntaf",
     "error-enterLastName": "Cofnodwch eich cyfenw",
     "error-invalidFirstNameFormat": "Rhaid i'r enw cyntaf gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",

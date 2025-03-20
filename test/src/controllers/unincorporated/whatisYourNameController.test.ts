@@ -56,7 +56,8 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
 
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME).send(formData);
         expect(response.status).toBe(400);
-        expect(response.text).toContain("Enter your full name");
+        expect(response.text).toContain("Enter your first name");
+        expect(response.text).toContain("Enter your last name");
     });
 
     it("should return status 400 for no first name entered", async () => {
