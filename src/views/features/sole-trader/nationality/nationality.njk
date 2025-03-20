@@ -8,7 +8,7 @@
         {% set dropdownTwoError =  errors.nationality_input_1 %}
         {% set dropdownThreeError =  errors.nationality_input_2 %}
     {% endif %}
-    <form action="{{ currentUrl }}" method="post">
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
         {% include "partials/csrf_token.njk" %}
         <fieldset class="govuk-fieldset">
             <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">

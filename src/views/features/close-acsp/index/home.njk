@@ -8,7 +8,7 @@
 
 {% block main_content %}
 
-  <form action="{{ currentUrl }}" method="POST">
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
     {% include "partials/csrf_token.njk" %}
       <h1 class="govuk-heading-l">
         {{ i18n.startPageTitleCloseAcsp }}

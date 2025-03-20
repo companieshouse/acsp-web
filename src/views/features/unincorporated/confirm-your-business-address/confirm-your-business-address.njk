@@ -8,7 +8,7 @@
 {% endif %}
 {% block main_content %}
  {% set businessAddressField = businessAddress.premises + " " + businessAddress.addressLine1 + ", " %}
-  <form action="{{ currentUrl }}" method="post">
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
     {% include "partials/csrf_token.njk" %}
     {% include "partials/business_name.njk" %}
     {% if typeOfBusiness === "limited-company" or typeOfBusiness === "limited-liability-partnership"  or typeOfBusiness === "corporate-body" %}
