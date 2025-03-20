@@ -3,10 +3,10 @@ import { Application, Request, Response } from "express";
 import routes from "./routes";
 import { BASE_URL, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "./types/pageURL";
 import { ErrorService } from "./services/errorService";
-import updateRoutes from "./routes/updateAcsp";
+import updateRoutes from "./routes/updateRoutesAcsp";
 import { isActiveFeature } from "./utils/feature.flag";
 import { FEATURE_FLAG_ENABLE_CLOSE_ACSP, FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS } from "./utils/properties";
-import closeRoutes from "./routes/closeAcsp";
+import closeRoutes from "./routes/closeRoutesAcsp";
 
 const routerDispatch = (app: Application) => {
     app.use(BASE_URL, routes);

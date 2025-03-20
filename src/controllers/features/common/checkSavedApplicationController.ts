@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { selectLang, addLangToUrl, getLocalesService } from "../../../utils/localise";
+import { selectLang, addLangToUrl } from "../../../utils/localise";
 import { BASE_URL, TYPE_OF_BUSINESS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import logger from "../../../utils/logger";
@@ -9,7 +9,6 @@ import { getRedirectionUrl } from "../../../services/checkSavedApplicationServic
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     try {
         const savedApplication = await getSavedApplication(session, res.locals.userId);

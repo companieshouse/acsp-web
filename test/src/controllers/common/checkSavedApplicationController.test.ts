@@ -56,4 +56,37 @@ describe("GET " + CHECK_SAVED_APPLICATION, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
     });
+
+    it("should redirect to redirection url with the correct language parameter", async () => {
+        mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
+        mockGetRedirectionUrl.mockResolvedValueOnce(BASE_URL + TYPE_OF_BUSINESS);
+
+        const response = await router.get(BASE_URL + CHECK_SAVED_APPLICATION + "?lang=cy");
+        expect(response.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=cy");
+    });
+
+    it("should handle missing language parameter and default to 'en'", async () => {
+        mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
+        mockGetRedirectionUrl.mockResolvedValueOnce(BASE_URL + TYPE_OF_BUSINESS);
+
+        const response = await router.get(BASE_URL + CHECK_SAVED_APPLICATION);
+        expect(response.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
+    });
+
+    it("should log an error and call next(err) when an exception occurs", async () => {
+        const error = new Error("Unexpected error");
+        mockGetSavedApplication.mockRejectedValueOnce(error);
+
+        const response = await router.get(BASE_URL + CHECK_SAVED_APPLICATION);
+        expect(response.status).toBe(500);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(response.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 });
