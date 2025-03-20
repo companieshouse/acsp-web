@@ -27,7 +27,7 @@ describe("GET " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should render the correspondence address selector page with status 200", async () => {
@@ -56,7 +56,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send({ addressSelectorRadio: "" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
 
     });
 
@@ -76,7 +76,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
             .post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)
             .send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
 
     });
 
@@ -95,7 +95,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when correspondence address is same as registeredOfficeAddress", async () => {
@@ -119,7 +119,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should return status 200 when correspondence address is different to registeredOfficeAddress", async () => {
@@ -141,7 +141,7 @@ describe("POST " + UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("What is the correspondence address?");
+        expect(res.text).toContain("What address should we use for correspondence?");
     });
 
     it("should redirect to correspondence-address-lookup page when address option is CORRESPONDANCE_ADDRESS", async () => {
