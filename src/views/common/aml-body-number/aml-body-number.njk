@@ -15,7 +15,7 @@
                     {% include "partials/business_name.njk" %}
                 {% endif %}
                 <h1 class="govuk-fieldset__heading">
-                    <label class="govuk-label govuk-label--l">{{ i18n.amlMembershipTitle }}</label>
+                    <span class="govuk-label govuk-label--l">{{ i18n.amlMembershipTitle }}</span>
                 </h1>
             </legend>
             <p class="govuk-body">{{ i18n.amlMembershipdescription }}</p>
@@ -30,8 +30,7 @@
                 {{ govukInput({
                     label: {
                         text:i18n[body.amlSupervisoryBody],
-                        classes: "govuk-label l govuk-label--m",
-                        isPageHeading: true
+                        classes: "govuk-label--m"
                     },
                     id: "membershipNumber_" + loop.index,
                     name: "membershipNumber_" + loop.index,
