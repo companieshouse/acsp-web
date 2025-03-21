@@ -1,7 +1,7 @@
 {
     "startPageTitleUpdateAcsp": "View and update the authorised agent's details",
-    "useThisServiceUpdateAcsp": "Use this service to view and update details for ",
-    "ifDetailsChangeWarningText": "If any of the details we hold about the authorised agent change, you must update them within 14 days",
+    "useThisServiceUpdateAcsp": "View the details we hold about the authorised agent and tell us if there are any changes by updating the details.",
+    "ifDetailsChangeWarningText": "You must tell us about any changes within 14 days.",
     "youllNeedToTellUsIfAnyChanges": "You’ll need to tell us if there are any changes to the:",
     "amlRegistrationDetailsBullet": "agent's Anti-Money Laundering (AML) registration details",
     "detailsAboutBusinessBullet": "details we hold about the business",
