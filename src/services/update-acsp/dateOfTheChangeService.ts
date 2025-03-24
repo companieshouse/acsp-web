@@ -51,21 +51,3 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
     }
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 };
-
-export const determinePreviousPageUrl = (url: string): string => {
-    let previousPageUrl = UPDATE_YOUR_ANSWERS;
-    if (url?.includes(UPDATE_ACSP_WHAT_IS_YOUR_NAME)) {
-        previousPageUrl = UPDATE_ACSP_WHAT_IS_YOUR_NAME;
-    } else if (url?.includes(UPDATE_WHERE_DO_YOU_LIVE)) {
-        previousPageUrl = UPDATE_WHERE_DO_YOU_LIVE;
-    } else if (url?.includes(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM)) {
-        previousPageUrl = UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
-    } else if (url?.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
-        previousPageUrl = UPDATE_BUSINESS_ADDRESS_LOOKUP;
-    } else if (url?.includes(UPDATE_WHAT_IS_YOUR_EMAIL)) {
-        previousPageUrl = UPDATE_WHAT_IS_YOUR_EMAIL;
-    } else if (url?.includes(UPDATE_WHAT_IS_THE_BUSINESS_NAME)) {
-        previousPageUrl = UPDATE_WHAT_IS_THE_BUSINESS_NAME;
-    }
-    return previousPageUrl;
-};

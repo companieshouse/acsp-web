@@ -1,4 +1,4 @@
-import { determinePreviousPageUrl, updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
+import { updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
 import {
@@ -11,11 +11,8 @@ import {
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
-    UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
-    UPDATE_WHAT_IS_YOUR_EMAIL,
-    UPDATE_WHERE_DO_YOU_LIVE,
-    UPDATE_YOUR_ANSWERS
+    UPDATE_WHERE_DO_YOU_LIVE
 } from "../../../../src/types/pageURL";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
@@ -150,49 +147,5 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
-    });
-});
-
-describe("determinePreviousPageUrl", () => {
-    it("should return UPDATE_ACSP_WHAT_IS_YOUR_NAME if the URL includes UPDATE_ACSP_WHAT_IS_YOUR_NAME", () => {
-        const url = `some/path/${UPDATE_ACSP_WHAT_IS_YOUR_NAME}`;
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_ACSP_WHAT_IS_YOUR_NAME);
-    });
-
-    it("should return UPDATE_WHERE_DO_YOU_LIVE if the URL includes UPDATE_WHERE_DO_YOU_LIVE", () => {
-        const url = `some/path/${UPDATE_WHERE_DO_YOU_LIVE}`;
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_WHERE_DO_YOU_LIVE);
-    });
-
-    it("should return UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP if the URL includes UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
-        const url = `some/path/${UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM}`;
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
-    });
-
-    it("should return UPDATE_WHAT_IS_YOUR_EMAIL if the URL includes UPDATE_WHAT_IS_YOUR_EMAIL", () => {
-        const url = `some/path/${UPDATE_WHAT_IS_YOUR_EMAIL}`;
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_WHAT_IS_YOUR_EMAIL);
-    });
-
-    it("should return UPDATE_WHAT_IS_THE_BUSINESS_NAME if the URL includes UPDATE_WHAT_IS_THE_BUSINESS_NAME", () => {
-        const url = `some/path/${UPDATE_WHAT_IS_THE_BUSINESS_NAME}`;
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_WHAT_IS_THE_BUSINESS_NAME);
-    });
-
-    it("should return UPDATE_YOUR_ANSWERS if the URL does not match any specific case", () => {
-        const url = "some/path/unknown";
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_YOUR_ANSWERS);
-    });
-
-    it("should return UPDATE_YOUR_ANSWERS if the URL is undefined", () => {
-        const url = "";
-        const result = determinePreviousPageUrl(url);
-        expect(result).toBe(UPDATE_YOUR_ANSWERS);
     });
 });
