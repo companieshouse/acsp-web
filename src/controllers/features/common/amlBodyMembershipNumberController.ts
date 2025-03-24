@@ -14,7 +14,6 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { AcspDataService } from "../../../services/acspDataService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
-const selectedAMLSupervisoryBodies: string[] = [];
 const amlSupervisoryBody = new AmlSupervisoryBodyService();
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -62,7 +61,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyStrings = acspData.amlSupervisoryBodies!.map(body => body.amlSupervisoryBody).filter((body): body is string => body !== undefined);
-            errorListDisplay(errorList.array(), amlSupervisoryBodyStrings, lang);
+            errorListDisplay(errorList.array(), amlSupervisoryBodyStrings, lang, locales.i18nCh.resolveNamespacesKeys(lang));
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
                 previousPage: addLangToUrl(previousPage, lang),
@@ -94,11 +93,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const errorListDisplay = (errors: any[], amlSupervisoryBodies: string[], lang: string) => {
+const errorListDisplay = (errors: any[], amlSupervisoryBodies: string[], lang: string, i18n: any) => {
     return errors.map((element) => {
         const index = parseInt(element.param.substr("membershipNumber_".length)) - 1;
         const selectionKey = amlSupervisoryBodies[index];
-        const selectionValue = AMLSupervisoryBodies[selectionKey as keyof typeof AMLSupervisoryBodies];
+        const selectionValue = i18n[selectionKey];
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selectionValue;
         return element;
