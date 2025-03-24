@@ -19,7 +19,7 @@ import {
     UPDATE_WHERE_DO_YOU_LIVE,
     UPDATE_YOUR_ANSWERS
 } from "../../types/pageURL";
-import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
+import { soleTraderNameDetails } from "../../model/SoleTraderNameDetails";
 
 export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: Date): void => {
     const session: Session = req.session as any as Session;

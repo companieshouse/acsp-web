@@ -45,8 +45,6 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
             method: "POST",
             url: "/"
         });
-        const session = getSessionRequestWithPermission();
-        req.session = session;
     });
     it("should return status 400 after no date address entered", async () => {
         req.body = {
@@ -86,7 +84,7 @@ function createMockSessionMiddlewareAcspFullProfile () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, { dummyFullProfile });
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });
