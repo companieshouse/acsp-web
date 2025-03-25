@@ -2,6 +2,7 @@ import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import {
     ACSP_DETAILS,
+    ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_DETAILS_UPDATED,
     ADDRESS_LIST,
     APPLICATION_ID,
@@ -44,4 +45,5 @@ export const deleteAllSessionData = async (session: Session) => {
     session.deleteExtraData(UPDATE_SUBMISSION_ID);
     session.deleteExtraData(ACSP_DETAILS);
     session.deleteExtraData(ACSP_DETAILS_UPDATED);
+    session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 };

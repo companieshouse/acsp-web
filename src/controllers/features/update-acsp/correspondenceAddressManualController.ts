@@ -46,7 +46,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const locales = getLocalesService();
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -60,14 +59,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-        // update acspUpdatedFullProfile
+            // update acspUpdatedFullProfile
             const addressManualservice = new CorrespondenceAddressManualService();
-            if (acspUpdatedFullProfile.type === "sole-trader") {
-                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, true);
-            } else {
-                addressManualservice.saveManualAddressUpdate(req, acspUpdatedFullProfile, false);
-            }
-            session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+            addressManualservice.saveManualAddressUpdate(req, session);
             // Redirect to the address confirmation page
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, lang));
         }

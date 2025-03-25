@@ -139,31 +139,6 @@ describe("CorrespondenceAddressManualService", () => {
             addressPostcode: undefined
         });
     });
-
-    test("saveCorrespondenceManualAddressUpdate correctly saves address to acspDetails", () => {
-        req.body = {
-            addressPropertyDetails: "Suite 200",
-            addressLine1: "456 Example St",
-            addressLine2: "Suite 300",
-            addressTown: "Example",
-            addressCounty: "Example",
-            countryInput: "Example",
-            addressPostcode: "EX1 1EX"
-        };
-
-        service.saveManualAddressUpdate(req, acspDetails, false);
-
-        expect(acspDetails.serviceAddress).toEqual({
-            premises: "Suite 200",
-            addressLine1: "456 Example St",
-            addressLine2: "Suite 300",
-            locality: "Example",
-            region: "Example",
-            country: "Example",
-            postalCode: "EX1 1EX"
-        });
-    });
-
     test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
         acspDetails.serviceAddress = {
             premises: "Suite 100",

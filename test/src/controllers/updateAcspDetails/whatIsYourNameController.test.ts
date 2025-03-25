@@ -3,9 +3,9 @@ process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
+import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
 
@@ -16,7 +16,7 @@ const router = supertest(app);
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
-        session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, mockSoleTraderAcspFullProfile);
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -47,7 +47,7 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
     });
 
     // Test for incorrect form details entered, will return 400.
