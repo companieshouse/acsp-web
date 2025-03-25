@@ -101,6 +101,19 @@ describe("yourUpdatesService", () => {
         });
     });
 
+    it("should format updates when name changes for unincorporated entities", () => {
+        const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, new Date(2021, 1, 1).toISOString());
+        acspFullProfile.type = "unincorporated-entity";
+        acspFullProfile.soleTraderDetails = { forename: "Old", surname: "Name" };
+        updatedFullProfile.soleTraderDetails = { forename: "New", surname: "Name" };
+        const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
+        expect(updates.name).toEqual({
+            value: "New Name",
+            changedDate: "01 February 2021"
+        });
+    });
+
     it("should format updates when name changes for sole traders", () => {
         const session: Session = req.session as any as Session;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME, new Date(2021, 1, 1).toISOString());
