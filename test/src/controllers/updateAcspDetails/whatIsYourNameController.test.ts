@@ -24,7 +24,7 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.text).toContain("What is your name?");
     });
 
-    it("should return status 500 when an error occurs", async () => {
+    it("Should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error(errorMessage);
