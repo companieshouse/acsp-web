@@ -9,6 +9,8 @@ export const TRANSACTION_CREATE_ERROR: string = "Unable to create a transaction 
 export const USER_DATA = "user";
 export const ACSP_DETAILS = "acspDetails";
 export const ACSP_DETAILS_UPDATED = "updatedAcspDetails";
+export const ACSP_DETAILS_UPDATE_IN_PROGRESS = "inProgressAcspDetails";
+export const ACSP_DETAILS_UPDATE_ELEMENT = "elementOfACSPUpdate";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";
@@ -43,3 +45,10 @@ export const UPDATE_SUBMISSION_ID: string = "updateSubmissionId";
 export const NEW_AML_BODIES: string = "newAmlBodies";
 export const NEW_AML_BODY: string = "newAmlBody";
 export const ADD_AML_BODY_UPDATE: string = "addAmlBodyUpdate";
+export const ACSP_UPDATE_CHANGE_DATE = {
+    NAME: "applicantName",
+    WHERE_DO_YOU_LIVE: "whereDoYouLive",
+    NAME_OF_BUSINESS: "nameOfBusiness",
+    REGISTERED_OFFICE_ADDRESS: "registeredOfficeAddress",
+    CORRESPONDENCE_ADDRESS: "correspondenceAddress"
+};
