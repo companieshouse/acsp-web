@@ -1,6 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../utils/web";
+import { ACSP_UPDATE_CHANGE_DATE } from "../../common/__utils/constants";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -37,9 +38,9 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {
         updates = limtedChanges(acspFullProfile, updatedFullProfile, updates);
     } else if (acspFullProfile.type === "limited-partnership" || acspFullProfile.type === "unincorporated-entity" || acspFullProfile.type === "non-registered-partnership") {
-        updates = unincorporatedChanges(acspFullProfile, updatedFullProfile, updates);
+        updates = unincorporatedChanges(session, acspFullProfile, updatedFullProfile, updates);
     } else {
-        updates = soleTraderChanges(acspFullProfile, updatedFullProfile, updates);
+        updates = soleTraderChanges(session, acspFullProfile, updatedFullProfile, updates);
     }
     return updates;
 };
@@ -60,7 +61,7 @@ const limtedChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile: Acs
     return updates;
 };
 
-const unincorporatedChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
+const unincorporatedChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
     if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
         updates.businessAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
@@ -79,13 +80,13 @@ const unincorporatedChanges = (acspFullProfile: AcspFullProfile, updatedFullProf
     ) {
         updates.name = {
             value: getFullNameACSPFullProfileDetails(updatedFullProfile)!,
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME)!))
         };
     }
     return updates;
 };
 
-const soleTraderChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
+const soleTraderChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
     if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
@@ -104,7 +105,7 @@ const soleTraderChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile:
     ) {
         updates.name = {
             value: getFullNameACSPFullProfileDetails(updatedFullProfile)!,
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME)!))
         };
     }
     return updates;
