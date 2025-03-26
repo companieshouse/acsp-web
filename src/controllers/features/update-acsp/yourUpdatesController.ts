@@ -92,6 +92,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else if (req.body.moreUpdates === "no") {
                 const acspUpdateService = new AcspUpdateService();
                 await acspUpdateService.createTransaction(session);
+                await acspUpdateService.saveUpdatedDetails(session, acspFullProfile, acspUpdatedFullProfile);
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
             } else {
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
