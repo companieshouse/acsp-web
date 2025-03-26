@@ -5,7 +5,7 @@
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
 {% block main_content %}
-
+{% set title = i18n.startPageTitleUpdateAcsp %}
   <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">
