@@ -8,9 +8,10 @@
 
 {% set html %}
 <h3 class="govuk-notification-banner__heading">
-  {{ i18n.signInBeforeNotificationBanner }}
+  {{ i18n.signInBeforeYouUseThisService }}
 </h3>
-<p class="govuk-body">{{i18n.youllNeedToNotificationBanner}} <a class="govuk-notification-banner__link" href={{ signInLink }}>{{i18n.signInLinkNotificationBanner}}</a>{{i18n.beforeYouStartUsingNotificationBanner}}</p>
+<p class="govuk-body">{{i18n.wereWorkingToResolve}}</p>
+<p class="govuk-body">{{i18n.forNowYoullNeedTo}} <a class="govuk-notification-banner__link" href={{ signInLink }}>{{i18n.signInBeforeYouStartNotificationBannerLink}}</a>.</p>
 {% endset %}
 
 {% set title = "" %}

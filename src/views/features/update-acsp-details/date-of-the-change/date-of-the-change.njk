@@ -1,0 +1,76 @@
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set errors = pageProperties.errors %}
+
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.updateDateThisChanged %}
+{% block main_content %}
+
+  {% if errors["change-day"] %}
+    {% set errorMessageText = errors["change-day"].text %}
+  {% elif errors["change-month"] %}
+    {% set errorMessageText = errors["change-month"].text %}
+  {% elif errors["change-year"] %}
+    {% set errorMessageText = errors["change-year"].text %}
+  {% endif %}
+
+  <div>
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
+      {% include "partials/csrf_token.njk" %}
+      {{ govukDateInput({
+          id: "change",
+          namePrefix: "change",
+          fieldset: {
+            legend: {
+              text: i18n.updateDateThisChanged,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: i18n.dateOfChangeHint
+          },
+          errorMessage: {
+            text: errorMessageText
+          } if errors | length,
+          
+          items: [
+            {
+              name: "day",
+              classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2",
+              autocomplete: "change-day",
+              id: "change-day",
+              value: payload["change-day"],
+              label: i18n.day
+            },
+            {
+              name: "month",
+              classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2",
+              autocomplete: "change-month",
+              id: "change-month",
+              value: payload["change-month"],
+              label: i18n.month
+            },
+            {
+              name: "year",
+              classes: "govuk-input--error govuk-input--width-4" if errors else "govuk-input--width-4",
+              autocomplete: "change-year",
+              id: "change-year",
+              value: payload["change-year"],
+              label: i18n.year
+            }
+          ]
+        }) }}
+
+        <div class="govuk-button-group"> 
+            {{ govukButton({
+                text: i18n.Continue,
+                id:"update-acsp-details"
+                }) }}
+            <a class="govuk-link" href="{{ cancelAllUpdatesUrl }}" id="cancel-id">{{i18n.Cancel}}</a>
+        </div>
+    </form>
+  </div>
+  {% endblock main_content %}

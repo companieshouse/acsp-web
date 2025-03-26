@@ -7,6 +7,7 @@
 {% if profileDetailsUpdated.name !== profileDetails.name %}
   {% set updateStatusTextForName =
                 "<div class='govuk-!-static-padding-top-3'>
+                <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.name+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
@@ -54,8 +55,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.name+updateStatusTextForName,
-          classes: "govuk-!-width-one-third"
+          html: profileDetailsUpdated.name+updateStatusTextForName
         },
         actions: {
             items: [
