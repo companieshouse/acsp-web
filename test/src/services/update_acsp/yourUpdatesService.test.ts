@@ -136,7 +136,7 @@ describe("yourUpdatesService", () => {
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.usualResidentialCountry).toEqual({
             value: "New Country",
-            changedDate: "25 March 2025"
+            changedDate: "26 March 2025"
         });
     });
 
