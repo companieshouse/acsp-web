@@ -56,13 +56,15 @@ export const PIWIK_CHS_DOMAIN = getEnvironmentValue("PIWIK_CHS_DOMAIN", "*.chs.l
 
 export const ACSP01_COST = getEnvironmentValue("ACSP01_COST", "50.00");
 
-// Matomo
+// Matomo configs
 
 export const PIWIK_URL = getEnvironmentValue("PIWIK_URL", "https://matomo.identity.aws.chdev.org/");
 
 export const PIWIK_SITE_ID = getEnvironmentValue("PIWIK_SITE_ID", "1");
 
 export const PIWIK_EMBED = getEnvironmentValue("PIWIK_EMBED", "1");
+
+// Matomo event goals - Registration service
 
 export const PIWIK_REGISTRATION_START_GOAL_ID = getEnvironmentValue("PIWIK_REGISTRATION_START_GOAL_ID", "17");
 
@@ -81,6 +83,10 @@ export const PIWIK_REGISTRATION_UNINCORPORATED_ID = getEnvironmentValue("PIWIK_U
 export const PIWIK_REGISTRATION_CORPORATE_BODY_ID = getEnvironmentValue("PIWIK_CORPORATE_BODY_ID", "7");
 
 export const PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID = getEnvironmentValue("PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID", "11");
+
+// Matomo event goals - Update ACSP Details service
+
+export const PIWIK_UPDATE_ACSP_START_GOAL_ID = getEnvironmentValue("PIWIK_UPDATE_ACSP_START_GOAL_ID", "10");
 
 // Feature Flags
 
