@@ -77,7 +77,7 @@ describe("AcspUpdateService tests", () => {
                     otherForenames: "Old Other Forenames",
                     surname: "Old Surname"
                 },
-                amlDetails: [{ supervisoryBody: "ACCA", membershipDetails: "123456" }]
+                amlDetails: [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123456" }]
             } as AcspFullProfile;
 
             acspDetailsUpdated = {
@@ -95,7 +95,7 @@ describe("AcspUpdateService tests", () => {
                     otherForenames: "New Other Forenames",
                     surname: "New Surname"
                 },
-                amlDetails: [{ supervisoryBody: "ACCA", membershipDetails: "123456" }]
+                amlDetails: [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123456" }]
             } as AcspFullProfile;
         });
 
@@ -146,7 +146,7 @@ describe("AcspUpdateService tests", () => {
         it("should save updated AML bodies and call postAcspRegistration", async () => {
             session.setExtraData(UPDATE_SUBMISSION_ID, transactionId);
 
-            acspDetailsUpdated = { ...acspDetails, amlDetails: [{ supervisoryBody: "ICAEW", membershipDetails: "654321" }] };
+            acspDetailsUpdated = { ...acspDetails, amlDetails: [{ supervisoryBody: "institute-of-chartered-accountants-in-england-and-wales-icaew", membershipDetails: "654321" }] };
 
             await acspUpdateService.saveUpdatedDetails(session, acspDetails, acspDetailsUpdated);
 

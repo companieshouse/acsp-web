@@ -6,6 +6,34 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { postAcspRegistration } from "../../services/acspRegistrationService";
 
+enum SupervisoryBodyMapping {
+    "association-of-chartered-certified-accountants-acca" = "ACCA",
+    "association-of-accounting-technicians-aat" = "AAT",
+    "association-of-international-accountants-aia" = "AIA",
+    "association-of-taxation-technicians-att" = "ATT",
+    "chartered-institute-of-legal-executives-cilex" = "CILEX",
+    "chartered-institute-of-management-accountants-cima" = "CIMA",
+    "chartered-institute-of-taxation-ciot" = "CIOT",
+    "council-for-licensed-conveyors-clc" = "CLC",
+    "department-for-the-economy-northern-ireland" = "DENI",
+    "faculty-of-advocates" = "FA",
+    "faculty-office-of-the-archbishop-of-canterbury" = "FO",
+    "financial-conduct-authority-fca" = "FCA",
+    "gambling-commission" = "GC",
+    "bar-standards-board" = "BSB",
+    "general-council-of-the-bar-of-northern-ireland" = "BONI",
+    "hm-revenue-customs-hmrc" = "HMRC",
+    "institute-of-accountants-bookkeepers-iab" = "IAB",
+    "insolvency-practitioners-association-ipa" = "IPA",
+    "institute-of-certified-bookkeepers-icb" = "ICB",
+    "institute-of-chartered-accountants-in-england-and-wales-icaew" = "ICAEW",
+    "institute-of-chartered-accountants-in-ireland-icai" = "ICAI",
+    "institute-of-chartered-accountants-of-scotland-icas" = "ICAS",
+    "institute-of-financial-accountants-ifa" = "IFA",
+    "law-society-of-northern-ireland" = "LSNI",
+    "law-society-of-scotland" = "LSS",
+    "law-society-ew-solicitors-regulation-authority-sra" = "SRA"
+}
 export class AcspUpdateService {
     async createTransaction (session: Session): Promise<void> {
         const existingTransactionId = session.getExtraData(UPDATE_SUBMISSION_ID);
@@ -75,7 +103,7 @@ export class AcspUpdateService {
             if (!acspDetails.amlDetails.find(originalBody => originalBody.supervisoryBody === body.supervisoryBody &&
                 originalBody.membershipDetails === body.membershipDetails)) {
                 addedBodies.push({
-                    amlSupervisoryBody: body.supervisoryBody,
+                    amlSupervisoryBody: SupervisoryBodyMapping[body.supervisoryBody as keyof typeof SupervisoryBodyMapping],
                     membershipId: body.membershipDetails
                 });
             }
@@ -89,7 +117,7 @@ export class AcspUpdateService {
             if (!acspUpdatedDetails.amlDetails.find(removedBody => removedBody.supervisoryBody === body.supervisoryBody &&
                 removedBody.membershipDetails === body.membershipDetails)) {
                 removedBodies.push({
-                    amlSupervisoryBody: body.supervisoryBody,
+                    amlSupervisoryBody: SupervisoryBodyMapping[body.supervisoryBody as keyof typeof SupervisoryBodyMapping],
                     membershipId: body.membershipDetails
                 });
             }
