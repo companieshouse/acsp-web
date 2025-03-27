@@ -24,9 +24,27 @@
    
     {{ govukButton({
         text: i18n.Continue,
-        id: "continue-button-id",
+        id: "continue-button",
         isStartButton: true
     }) }}
 
   </form>
-  {% endblock %}
+  
+  <script nonce={{ nonce | dump | safe }}>
+
+    function updateAcspDetailsStartGoalEventListener () {
+      document.getElementById("continue-button").addEventListener("click", () => {
+      _paq.push(['trackGoal', "{{ PIWIK_UPDATE_ACSP_START_GOAL_ID }}"]);
+    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function (e) {
+        updateAcspDetailsStartGoalEventListener()
+      });
+    } else {
+      updateAcspDetailsStartGoalEventListener()
+    }
+  </script>
+
+{% endblock %}
