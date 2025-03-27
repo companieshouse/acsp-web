@@ -1,6 +1,6 @@
 {
     "startPageTitleCloseAcsp": "Close the authorised agent welsh",
-    "ifYouCloseAcsp": "If you close the authorised agent, {BUSINESS_NAME} will no longer be registered as an authorised agent with Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).welsh",
+    "ifYouCloseAcsp":"Close the authorised agent account if {BUSINESS_NAME} no longer needs to be registered as an authorised agent with Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).welsh",
     "beforeYouContinueHeading": "Before you continue welsh",
     "beforeYouContinueText1":"If there are other people who work for the authorised agent, you must welsh ",
     "beforeYouContinueLink": "check if they’ve been added to the account welsh",

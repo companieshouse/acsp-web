@@ -3,7 +3,7 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.otherTypeOfBusinessTitle %}
 {% block main_content %}
-    <form action="{{ currentUrl }}" method="POST">
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
        {% include "partials/csrf_token.njk" %}
        {% include "partials/user_name.njk" %}
         <div class="govuk-form-group">

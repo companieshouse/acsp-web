@@ -7,14 +7,18 @@ import { postTransaction } from "../../../../src/services/transactions/transacti
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { Request, Response, NextFunction } from "express";
+import { postAcspRegistration } from "../../../../src/services/acspRegistrationService";
 
 const router = supertest(app);
 
+jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/transactions/transaction_service");
+jest.mock("../../../../src/services/acspRegistrationService");
 
 const mockPostTransaction = postTransaction as jest.Mock;
+const mockPostRegistration = postAcspRegistration as jest.Mock;
 
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     it("should return status 200 and render the your details page if updates have been made", async () => {
@@ -38,6 +42,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     it("should return status 302 after redirect to confirmation page", async () => {
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION + "?lang=en");

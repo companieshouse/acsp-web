@@ -6,7 +6,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import { SUBMISSION_ID, GET_ACSP_REGISTRATION_DETAILS_ERROR } from "../../../common/__utils/constants";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
-import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -17,7 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // get data from mongo and save to session
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
-        const url = "/register-as-companies-house-authorised-agent/aml-membership-number";
+        const changeUrl = addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang);
         res.render(config.CHECK_AML_DETAILS, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
@@ -27,8 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             firstName: acspData?.applicantDetails?.firstName,
             lastName: acspData?.applicantDetails?.lastName,
             businessName: acspData?.businessName,
-            AMLSupervisoryBodies,
-            url
+            changeUrl
         });
     } catch (err) {
         logger.error(GET_ACSP_REGISTRATION_DETAILS_ERROR);

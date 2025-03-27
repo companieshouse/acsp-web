@@ -4,17 +4,15 @@
 {% block backLink %}
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
-{% set title = i18n.startPageTitleUpdateAcsp %}
-
 {% block main_content %}
-
-  <form action="{{ currentUrl }}" method="POST">
+{% set title = i18n.startPageTitleUpdateAcsp %}
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     <h1 class="govuk-heading-l">
       {{ i18n.startPageTitleUpdateAcsp }}
     </h1>
     <p class="govuk-body">
-      {{ i18n.useThisServiceUpdateAcsp }} {{ businessName }}.
+      {{ i18n.useThisServiceUpdateAcsp }}
     </p>
     <div class="govuk-warning-text">
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -23,44 +21,30 @@
           {{ i18n.ifDetailsChangeWarningText }}
         </strong>
     </div>
-    <p class="govuk-body">
-      {{ i18n.youllNeedToTellUsIfAnyChanges }}
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.amlRegistrationDetailsBullet }}</li>
-        <li>{{ i18n.detailsAboutBusinessBullet }}</li>
-    </ul>
-    <h2 class="govuk-heading-m">{{ i18n.updatingYourAmlDetailsHeading }}</h2> 
-    <p class="govuk-body">
-      {{ i18n.updateAmlRegistrationDetailsIf }}
-    </p>
-    <p class="govuk-body">
-        {{ i18n.agentMustBeRegisteredWithOneAml }}
-    </p>
-    <h3 class="govuk-heading-s">{{ i18n.addingDetailsHeading }}</h3>
-    <p class="govuk-body">
-        {{ i18n.ifAgentRegisteredWithNewAml }}
-    </p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>{{ i18n.nameOfAmlBullet }}</li>
-        <li>{{ i18n.amlMembershipNumBullet }}</li>
-    </ul>
-    <h3 class="govuk-heading-s">{{ i18n.updatingExistingDetailsHeading }}</h3>
-    <p class="govuk-body">
-        {{ i18n.youCannotEditExistingDetails }}
-    </p>
-    <p class="govuk-body">
-        {{ i18n.youllNeedToDeletePrevDetails }}
-    </p>
-    <p class="govuk-body">
-        {{ i18n.takesAroundFiveMinutes }}
-    </p><br>
    
     {{ govukButton({
         text: i18n.Continue,
-        id: "continue-button-id",
+        id: "continue-button",
         isStartButton: true
     }) }}
 
   </form>
-  {% endblock %}
+  
+  <script nonce={{ nonce | dump | safe }}>
+
+    function updateAcspDetailsStartGoalEventListener () {
+      document.getElementById("continue-button").addEventListener("click", () => {
+      _paq.push(['trackGoal', "{{ PIWIK_UPDATE_ACSP_START_GOAL_ID }}"]);
+    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function (e) {
+        updateAcspDetailsStartGoalEventListener()
+      });
+    } else {
+      updateAcspDetailsStartGoalEventListener()
+    }
+  </script>
+
+{% endblock %}

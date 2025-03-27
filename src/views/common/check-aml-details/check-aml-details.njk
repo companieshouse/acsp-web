@@ -5,7 +5,7 @@
 {% set title = i18n.checkAmlDetailsTitle %}
 {% block main_content %}
 
-  <form action="{{ currentUrl }}" method="post" class="form">
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="post" class="form">
     {% include "partials/csrf_token.njk" %}
     {% if typeOfBusiness === "SOLE_TRADER" %}
         {% include "partials/user_name.njk" %}
@@ -29,7 +29,7 @@
       {% set row = [
         {text: i18n[body.amlSupervisoryBody]},
         {text: body.membershipId},
-        {html: "<a href=" + url + "#" + "membershipNumber_" + loop.index + ">" + i18n.checkAmlDetailsChange + "</a>"}
+        {html: "<a href=" + changeUrl + "#" + "membershipNumber_" + loop.index + ">" + i18n.checkAmlDetailsChange + "</a>"}
       ] %}
       {% set ROWS = ROWS.concat([row]) %}
     {% endfor %}

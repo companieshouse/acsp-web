@@ -1,19 +1,5 @@
 {
     "startPageTitleUpdateAcsp": "View and update the authorised agent's details welsh",
-    "useThisServiceUpdateAcsp": "Use this service to view and update details for welsh",
-    "ifDetailsChangeWarningText": "If any of the details we hold about the authorised agent change, you must update them within 14 days welsh",
-    "youllNeedToTellUsIfAnyChanges": "You’ll need to tell us if there are any changes to the: welsh",
-    "amlRegistrationDetailsBullet": "agent's Anti-Money Laundering (AML) registration details welsh",
-    "detailsAboutBusinessBullet": "details we hold about the business welsh",
-    "updatingYourAmlDetailsHeading": "Updating your AML registration details welsh",
-    "updateAmlRegistrationDetailsIf": "You need to update the AML registration details if the agent has registered with a different AML supervisory body, or the AML membership number changes. welsh",
-    "agentMustBeRegisteredWithOneAml": "The agent must always be registered with at least one AML supervisory body. welsh",
-    "addingDetailsHeading": "Adding details for a new registration welsh",
-    "ifAgentRegisteredWithNewAml": "If the agent has registered with a new AML supervisory body, you’ll need to tell us the: welsh",
-    "nameOfAmlBullet": "name of the AML supervisory body welsh",
-    "amlMembershipNumBullet": "AML membership number or ID welsh",
-    "updatingExistingDetailsHeading": "Updating details for an existing registration welsh",
-    "youCannotEditExistingDetails": "You cannot edit the details for an existing registration. If there has been a change, for example, the agent has a new membership number or ID from the supervisory body, you will need to add this as a new registration. welsh",
-    "youllNeedToDeletePrevDetails": "You’ll need to delete the previous details once you’ve added the new ones. welsh",
-    "takesAroundFiveMinutes": "It takes around 5 minutes to use this service. welsh"
+    "useThisServiceUpdateAcsp": "View the details we hold about the authorised agent and tell us if there are any changes by updating the details. welsh",
+    "ifDetailsChangeWarningText": "You must tell us about any changes within 14 days. welsh"
 }

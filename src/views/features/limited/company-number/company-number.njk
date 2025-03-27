@@ -4,7 +4,7 @@
 {% set errors = pageProperties.errors %}
 {% set title = i18n.companyNumberTitle %}
 {% block main_content %}
-  <form action="{{ currentUrl }}" method="POST">
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
     {% include "partials/csrf_token.njk" %}
     <div class="govuk-form-group">
       {{ govukInput({
@@ -39,7 +39,7 @@
               rel="noreferrer noopener"
               target="_blank"
               id="find-company-number-link">
-              {{ i18n.linkWhereToHowGetCompanyNumer }}
+              {{ i18n.linkWhereToHowGetCompanyNumer }} {{ i18n.openInNewTab }}
             </a>
           </div>
         </details>

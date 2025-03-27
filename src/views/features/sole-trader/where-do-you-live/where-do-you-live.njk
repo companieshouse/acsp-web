@@ -3,13 +3,13 @@
 {% extends "layouts/default.njk" %}
 {% set title = i18n.whereDoYouLiveTitle %}
 {% block main_content %}
-  <form action="{{ currentUrl }}" method="post">
+  <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
     {% include "partials/csrf_token.njk" %}
     {% include "partials/user_name.njk" %}
     {% set countryInput %}
     <div id="typeahead-form-group" class="govuk-form-group">
       {% set dropdownDefaultText = i18n.whereDoYouLiveDefaultDropdownText %}
-      <p class="govuk-hint" id="typeahead-hint">{{ i18n.whereDoYouLiveHint }}</p>
+      <label class="govuk-hint" id="typeahead-hint" for="countryInput">{{ i18n.whereDoYouLiveHint }}</label>
       <div id="my-autocomplete-container" class="autocomplete-wrapper govuk-!-width-two-thirds"></div>
       {% set errorMessage = errors %}
       {% include "../../../partials/country-typeahead-input.njk" %}

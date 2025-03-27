@@ -11,6 +11,7 @@ import { getAcspFullProfile } from "../../../services/acspProfileService";
 import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { PIWIK_UPDATE_ACSP_START_GOAL_ID } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,8 +25,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.UPDATE_ACSP_DETAILS_HOME, {
             ...getLocaleInfo(locales, lang),
-            currentUrl,
-            businessName: acspDetails.name
+            PIWIK_UPDATE_ACSP_START_GOAL_ID,
+            currentUrl
+
         });
     } catch (error) {
         next(error);
