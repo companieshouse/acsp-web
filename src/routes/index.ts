@@ -85,7 +85,7 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
-import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
+import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershipNumberValidator";
 import { selectsignOutValidator } from "../validation/signOut";
 import { selectSavedApplicationValidator } from "../validation/savedApplication";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
@@ -115,7 +115,7 @@ routes.get(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.get);
 routes.post(urls.YOUR_RESPONSIBILITIES, yourResponsibilitiesController.post);
 
 routes.get(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberController.get);
-routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), amlBodyMembershipNumberController.post);
+routes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberValidator.call(this), amlBodyMembershipNumberController.post);
 
 routes.get(urls.AML_BODY_DETAILS_CONFIRM, checkAmlDetailsController.get);
 routes.post(urls.AML_BODY_DETAILS_CONFIRM, checkAmlDetailsController.post);

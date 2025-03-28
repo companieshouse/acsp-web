@@ -34,7 +34,7 @@ import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unico
 import { businessAddressManualValidator } from "../validation/businessAddressManual";
 import { businessAddressListValidator } from "../validation/businessAddressList";
 import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
-import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
+import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershipNumberValidator";
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
@@ -96,7 +96,7 @@ updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirma
 updateRoutes.get(urls.CANCEL_AN_UPDATE, cancelAnUpdateController.get);
 
 updateRoutes.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
-updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);
+updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberValidator.call(this), updateAmlMembershipNumberController.post);
 
 updateRoutes.get(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.get);
 updateRoutes.post(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.post);

@@ -40,8 +40,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
-    const currentUrl: string = BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY;
     try {
         const session: Session = req.session as any as Session;
         const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
