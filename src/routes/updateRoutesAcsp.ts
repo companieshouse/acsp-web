@@ -19,6 +19,7 @@ import {
     updateApplicationConfirmationController,
     addAmlSupervisorController,
     removeAmlSupervisorController,
+    dateOfTheChangeController,
     updateAmlMembershipNumberController,
     cancelAllUpdatesController,
     updateProvideAmlDetailsController,
@@ -35,70 +36,74 @@ import { businessAddressListValidator } from "../validation/businessAddressList"
 import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumberControllerValidator";
 import { yourUpdatesValidator } from "../validation/yourUpdates";
+import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 
-const updateRoutesAcsp = Router();
+const updateRoutes = Router();
 
-updateRoutesAcsp.get(urls.HOME_URL, updateIndexController.get);
-updateRoutesAcsp.post(urls.HOME_URL, updateIndexController.post);
+updateRoutes.get(urls.HOME_URL, updateIndexController.get);
+updateRoutes.post(urls.HOME_URL, updateIndexController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_YOUR_ANSWERS, updateYourDetailsController.get);
-updateRoutesAcsp.post(urls.UPDATE_YOUR_ANSWERS, updateYourDetailsController.post);
+updateRoutes.get(urls.UPDATE_YOUR_ANSWERS, updateYourDetailsController.get);
+updateRoutes.post(urls.UPDATE_YOUR_ANSWERS, updateYourDetailsController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_ACSP_WHAT_IS_YOUR_NAME, updateWhatIsYourNameController.get);
-updateRoutesAcsp.post(urls.UPDATE_ACSP_WHAT_IS_YOUR_NAME, nameValidator, updateWhatIsYourNameController.post);
+updateRoutes.get(urls.UPDATE_ACSP_WHAT_IS_YOUR_NAME, updateWhatIsYourNameController.get);
+updateRoutes.post(urls.UPDATE_ACSP_WHAT_IS_YOUR_NAME, nameValidator, updateWhatIsYourNameController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_WHERE_DO_YOU_LIVE, updateWhereDoYouLiveController.get);
-updateRoutesAcsp.post(urls.UPDATE_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, updateWhereDoYouLiveController.post);
+updateRoutes.get(urls.UPDATE_WHERE_DO_YOU_LIVE, updateWhereDoYouLiveController.get);
+updateRoutes.post(urls.UPDATE_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, updateWhereDoYouLiveController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualController.get);
-updateRoutesAcsp.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, correspondenceAddressManualController.post);
+updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualController.get);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, correspondenceAddressManualController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupController.get);
-updateRoutesAcsp.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, correspondenceAddressAutoLookupController.post);
+updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupController.get);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, correspondenceAddressAutoLookupController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListController.get);
-updateRoutesAcsp.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, correspondenceAddressListController.post);
+updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListController.get);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, correspondenceAddressListController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.get);
-updateRoutesAcsp.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
+updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.get);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualController.get);
-updateRoutesAcsp.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, businessAddressManualController.post);
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, businessAddressManualController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, businessAddressAutoLookupController.get);
-updateRoutesAcsp.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, businessAddressAutoLookupController.post);
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, businessAddressAutoLookupController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, businessAddressAutoLookupController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListController.get);
-updateRoutesAcsp.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator, businessAddressListController.post);
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator, businessAddressListController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.get);
-updateRoutesAcsp.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);
+updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.get);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
-updateRoutesAcsp.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
+updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
-updateRoutesAcsp.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
+updateRoutes.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
+updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
-updateRoutesAcsp.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
+updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
+updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
 
-updateRoutesAcsp.get(urls.REMOVE_AML_SUPERVISOR, removeAmlSupervisorController.get);
+updateRoutes.get(urls.REMOVE_AML_SUPERVISOR, removeAmlSupervisorController.get);
 
-updateRoutesAcsp.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
+updateRoutes.get(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfTheChangeController.get);
+updateRoutes.post(urls.UPDATE_DATE_OF_THE_CHANGE, dateOfACSPUpdateDetailsChange("change"), dateOfTheChangeController.post);
 
-updateRoutesAcsp.get(urls.CANCEL_AN_UPDATE, cancelAnUpdateController.get);
+updateRoutes.get(urls.UPDATE_APPLICATION_CONFIRMATION, updateApplicationConfirmationController.get);
 
-updateRoutesAcsp.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
-updateRoutesAcsp.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);
+updateRoutes.get(urls.CANCEL_AN_UPDATE, cancelAnUpdateController.get);
 
-updateRoutesAcsp.get(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.get);
-updateRoutesAcsp.post(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.post);
+updateRoutes.get(urls.AML_MEMBERSHIP_NUMBER, updateAmlMembershipNumberController.get);
+updateRoutes.post(urls.AML_MEMBERSHIP_NUMBER, amlBodyMembershipNumberControllerValidator.call(this), updateAmlMembershipNumberController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_PROVIDE_AML_DETAILS, updateProvideAmlDetailsController.get);
+updateRoutes.get(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.get);
+updateRoutes.post(urls.UPDATE_CANCEL_ALL_UPDATES, cancelAllUpdatesController.post);
 
-updateRoutesAcsp.get(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesController.get);
-updateRoutesAcsp.post(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesValidator, yourUpdatesController.post);
+updateRoutes.get(urls.UPDATE_PROVIDE_AML_DETAILS, updateProvideAmlDetailsController.get);
 
-export default updateRoutesAcsp;
+updateRoutes.get(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesController.get);
+updateRoutes.post(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesValidator, yourUpdatesController.post);
+
+export default updateRoutes;
