@@ -14,6 +14,6 @@
     "error-noChangeDateDay" : "Change start date must include a day Welsh",
     "error-noChangeDateMonth" : "Change start date must include a month Welsh",
     "error-noChangeDateYear" : "Change start date must include a year Welsh",
-    "error-tooChangeDateOld" : "The change must be less than 110 years Welsh",
+    "error-tooChangeDateOld" : "The change must be less than 100 years Welsh",
     "error-nonChangeDateNumeric" : "Change start date must only include numbers Welsh"
 }
