@@ -85,7 +85,7 @@ import { whichSectorOtherValidator } from "../validation/whichSectorOther";
 import { companyAuthenticationMiddleware } from "../middleware/company_authentication_middleware";
 import { addressCorrespondanceSelectorValidator } from "../validation/addressCorrespondanceSelector";
 import { selectAmlSupervisorValidator } from "../validation/selectAmlSupervisor";
-import amlBodyMembershipNumberValidator from "../validation/amlBodyMembershipNumberValidator";
+import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershipNumberValidator";
 import { selectsignOutValidator } from "../validation/signOut";
 import { selectSavedApplicationValidator } from "../validation/savedApplication";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";

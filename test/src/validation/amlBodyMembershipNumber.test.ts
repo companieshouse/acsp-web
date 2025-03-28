@@ -1,5 +1,5 @@
 import { ValidationChain } from "express-validator";
-import amlBodyMembershipNumberValidator from "../../../src/validation/amlBodyMembershipNumberValidator";
+import { amlBodyMembershipNumberValidator } from "../../../src/validation/amlBodyMembershipNumberValidator";
 
 describe("amlBodyMembershipNumbeValidator", () => {
     it("should return an array of ValidationChain objects", () => {

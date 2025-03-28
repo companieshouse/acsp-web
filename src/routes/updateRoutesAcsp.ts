@@ -34,7 +34,7 @@ import { unicorporatedWhatIsTheBusinessNameValidator } from "../validation/unico
 import { businessAddressManualValidator } from "../validation/businessAddressManual";
 import { businessAddressListValidator } from "../validation/businessAddressList";
 import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
-import amlBodyMembershipNumberValidator from "../validation/amlBodyMembershipNumberValidator";
+import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershipNumberValidator";
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
