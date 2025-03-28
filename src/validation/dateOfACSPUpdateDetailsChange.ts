@@ -90,7 +90,7 @@ const validateDobAge = (day: string, month: string, year: string): void => {
     }
 };
 
-const validateDateOfChangeLimit = (day: string, month: string, year: string): void => {
+export const validateDateOfChangeLimit = (day: string, month: string, year: string): void => {
     if (!notMoreThanACentury(+day, +month, +year)) {
         throw new Error("tooChangeDateOld");
     }

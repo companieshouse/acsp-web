@@ -4,7 +4,8 @@ import {
     dateYearChecker,
     validDataChecker,
     isNotTooYoung,
-    isNotTooOld
+    isNotTooOld,
+    notMoreThanACentury
 } from "../../../src/validation/dateOfACSPUpdateDetailsChange";
 
 describe("Missing input validation tests", () => {
@@ -252,5 +253,67 @@ describe("isNotTooOld", () => {
         const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
 
         expect(result).toBe(false);
+    });
+});
+
+describe("notMoreThanACentury", () => {
+    it("should return true if the date is within the last 100 years", () => {
+        const day = 15;
+        const month = 6;
+        const year = new Date().getFullYear() - 50; // 50 years ago
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(true);
+    });
+
+    it("should return false if the date is more than 100 years ago", () => {
+        const day = 15;
+        const month = 6;
+        const year = new Date().getFullYear() - 102; // 101 years ago
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(false);
+    });
+
+    it("should return true if the date is exactly 100 years ago", () => {
+        const day = 15;
+        const month = 6;
+        const year = new Date().getFullYear() - 101; // Exactly 100 years ago
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(true);
+    });
+
+    it("should return false if the date is in the future", () => {
+        const day = 15;
+        const month = 6;
+        const year = new Date().getFullYear() + 1; // 1 year in the future
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(true);
+    });
+
+    it("should handle edge cases where the input date is at the end of the year", () => {
+        const day = 31;
+        const month = 12;
+        const year = new Date().getFullYear() - 100; // Exactly 100 years ago at the end of the year
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(true);
+    });
+
+    it("should handle edge cases where the input date is at the beginning of the year", () => {
+        const day = 1;
+        const month = 1;
+        const year = new Date().getFullYear() - 100; // Exactly 100 years ago at the beginning of the year
+
+        const result = notMoreThanACentury(day, month, year);
+
+        expect(result).toBe(true);
     });
 });
