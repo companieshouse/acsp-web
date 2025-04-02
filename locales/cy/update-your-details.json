@@ -16,6 +16,8 @@
     "updateYourDetailsAMLMembershipDetails": "AML Membership Details Welsh",
     "updateYourDetailsYouMustBeRegisteredAML": "You must be registered with one or more AML supervisory body. welsh",
     "addNewAMLDetails": "Add new AML details Welsh",
-    "goBackToAuthorisedAgentServices": "Go back to authorised agent services Welsh"
+    "goBackToAuthorisedAgentServices": "Go back to authorised agent services Welsh",
+    "updateYourDetailsAMLStartedOn": "Started on welsh ",
+    "updateYourDetailsAMLEndedOn": "Ended on welsh "
 
 }

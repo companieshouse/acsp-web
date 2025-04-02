@@ -22,7 +22,8 @@ import {
     updateAmlMembershipNumberController,
     cancelAllUpdatesController,
     updateProvideAmlDetailsController,
-    yourUpdatesController
+    yourUpdatesController,
+    amlStartDateUpdateController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -36,6 +37,7 @@ import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 import amlBodyMembershipNumberControllerValidator from "../validation/amlBodyMembershipNumber";
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
+import { updateAmlStartDateValidator } from "../validation/updateAcspAmlStartDate";
 
 const updateRoutes = Router();
 
@@ -100,5 +102,8 @@ updateRoutes.get(urls.UPDATE_PROVIDE_AML_DETAILS, updateProvideAmlDetailsControl
 
 updateRoutes.get(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesController.get);
 updateRoutes.post(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesValidator, yourUpdatesController.post);
+
+updateRoutes.get(urls.UPDATE_AML_START_DATE, amlStartDateUpdateController.get);
+updateRoutes.post(urls.UPDATE_AML_START_DATE, amlStartDateUpdateController.post);
 
 export default updateRoutes;

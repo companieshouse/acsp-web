@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_AML_START_DATE, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
@@ -71,21 +71,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
 
             newAMLBody.membershipId = req.body.membershipNumber_1;
+            session.setExtraData(NEW_AML_BODY, { membershipId: req.body.membershipNumber_1 });
 
-            if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
-                acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
-                acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
-            } else {
-                acspUpdatedFullProfile.amlDetails.push({
-                    supervisoryBody: newAMLBody.amlSupervisoryBody!,
-                    membershipDetails: newAMLBody.membershipId!
-                });
-            }
-
-            session.deleteExtraData(NEW_AML_BODY);
-            session.deleteExtraData(ADD_AML_BODY_UPDATE);
-
-            const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
+            const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_AML_START_DATE, lang);
             res.redirect(nextPageUrl);
 
         }

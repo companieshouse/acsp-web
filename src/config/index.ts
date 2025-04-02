@@ -75,6 +75,7 @@ export const UPDATE_ADD_AML_SUPERVISORY_BODY = `${BASE_UPDATE_ACSP_DETAILS_URL}/
 export const UPDATE_CANCEL_ALL_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/cancel-all-updates/cancel-all-updates`;
 export const UPDATE_PROVIDE_AML_DETAILS = `${BASE_UPDATE_ACSP_DETAILS_URL}/provide-aml-details/provide-aml-details`;
 export const UPDATE_CHECK_YOUR_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/your-updates/your-updates`;
+export const UPDATE_AML_START_DATE = `${BASE_UPDATE_ACSP_DETAILS_URL}/aml-start-date/aml-start-date`;
 
 // closed acsp configs
 const BASE_CLOSE_ACSP_URL = `${BASE_VIEWS_URL}/close-acsp`;

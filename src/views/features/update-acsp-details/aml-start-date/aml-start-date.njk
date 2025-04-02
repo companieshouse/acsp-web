@@ -1,0 +1,78 @@
+{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set errors = pageProperties.errors %}
+
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.amlStartDateTitle %}
+{% block main_content %}
+
+  {% if errors["aml-start-day"] %}
+    {% set errorMessageText = errors["aml-start-day"].text %}
+  {% elif errors["aml-start-month"] %}
+    {% set errorMessageText = errors["aml-start-month"].text %}
+  {% elif errors["aml-start-year"] %}
+    {% set errorMessageText = errors["aml-start-year"].text %}
+  {% endif %}
+
+  <div>
+    <form action="" method="POST">
+      {% include "partials/csrf_token.njk" %}
+      
+      {{ govukDateInput({
+          id: "aml-start-date",
+          namePrefix: "aml-start",
+          fieldset: {
+            legend: {
+              text: i18n.amlStartDateTitle,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          hint: {
+            text: i18n.amlStartDateHintText
+          },
+          errorMessage: {
+            text: errorMessageText
+          } if errors | length,
+          
+          items: [
+            {
+              name: "aml-start-day",
+              classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2",
+              id: "aml-start-day",
+              value: payload["aml-start-day"],
+              label: i18n.day
+            },
+            {
+              name: "aml-start-month",
+              classes: "govuk-input--error govuk-input--width-2" if errors else "govuk-input--width-2",
+              id: "aml-start-month",
+              value: payload["aml-start-month"],
+              label: i18n.month
+            },
+            {
+              name: "aml-start-year",
+              classes: "govuk-input--error govuk-input--width-4" if errors else "govuk-input--width-4",
+              id: "aml-start-year",
+              value: payload["aml-start-year"],
+              label: i18n.year
+            }
+          ]
+        }) }}
+        <div class="govuk-button-group"> 
+          {{ govukButton({
+              text: i18n.Continue,
+              id:"continue-button-id"
+            }) }}
+          <a 
+          href={{ cancelLink }} 
+          class="govuk-link" 
+          id="cancel-link-id">
+              {{ i18n.Cancel }}
+          </a>
+      </div>
+    </form>
+  </div>
+  {% endblock main_content %}

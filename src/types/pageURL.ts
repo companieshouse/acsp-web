@@ -214,6 +214,8 @@ export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
 
 export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
 
+export const UPDATE_AML_START_DATE = "/aml-start-date";
+
 // close acsp urls
 
 export const CLOSE_ACSP_BASE_URL = "/close-authorised-agent";
