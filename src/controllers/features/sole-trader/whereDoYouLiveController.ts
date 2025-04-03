@@ -12,7 +12,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import logger from "../../../utils/logger";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
-import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
+import { WhereDoYouLiveBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,7 +26,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
-        const payload = new WhereDoYouLivBodyService().getCountryPayload(acspData);
+        const whereDoYouLiveBodyService = new WhereDoYouLiveBodyService();
+        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage,

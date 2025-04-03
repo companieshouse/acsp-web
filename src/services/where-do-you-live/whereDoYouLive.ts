@@ -1,26 +1,28 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
-export class WhereDoYouLivBodyService {
-    public getCountryPayload (ascpData: AcspData) {
-        let payload = {};
-
-        if (!ascpData.applicantDetails?.countryOfResidence) {
-            return payload;
+export class WhereDoYouLiveBodyService {
+    getCountryPayload (ascpData: AcspData | AcspFullProfile) {
+        let countryOfResidence;
+        if ("applicantDetails" in ascpData) {
+            countryOfResidence = ascpData.applicantDetails?.countryOfResidence;
+        } else if ("soleTraderDetails" in ascpData) {
+            countryOfResidence = ascpData.soleTraderDetails?.usualResidentialCountry;
         }
-
-        switch (ascpData.applicantDetails.countryOfResidence) {
+        if (!countryOfResidence) {
+            return {};
+        }
+        switch (countryOfResidence) {
         case "England":
         case "Scotland":
         case "Wales":
         case "Northern Ireland":
-            payload = { whereDoYouLiveRadio: ascpData.applicantDetails?.countryOfResidence };
-            break;
+            return { whereDoYouLiveRadio: countryOfResidence };
         default:
-            payload = {
+            return {
                 whereDoYouLiveRadio: "countryOutsideUK",
-                countryInput: ascpData.applicantDetails.countryOfResidence
+                countryInput: countryOfResidence
             };
         }
-        return payload;
     }
 }
