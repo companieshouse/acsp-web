@@ -17,7 +17,7 @@ import {
 } from "../../types/pageURL";
 import { soleTraderNameDetails } from "../../model/SoleTraderNameDetails";
 
-export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: Date): void => {
+export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: string): void => {
     const session: Session = req.session as any as Session;
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
     const currentPage = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT);

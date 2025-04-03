@@ -50,7 +50,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 req.body["change-year"],
                 req.body["change-month"] - 1,
                 req.body["change-day"]);
-            updateWithTheEffectiveDateAmendment(req, dateOfChange);
+            updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
         }
     } catch (err) {
