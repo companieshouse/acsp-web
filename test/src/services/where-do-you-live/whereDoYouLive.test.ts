@@ -1,104 +1,56 @@
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
-import { WhereDoYouLivBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
+import { WhereDoYouLiveBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
+let whereDoYouLiveBodyService: WhereDoYouLiveBodyService;
 describe("WhereDoYouLiveBodyService", () => {
 
-    let whereDoYouLiveBodyService: WhereDoYouLivBodyService;
-
     beforeEach(() => {
-        whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
+        whereDoYouLiveBodyService = new WhereDoYouLiveBodyService();
     });
 
-    it("should return payload for England", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: "England"
-            }
-        };
+    const testCases = [
+        { country: "England", expected: { whereDoYouLiveRadio: "England" } },
+        { country: "Scotland", expected: { whereDoYouLiveRadio: "Scotland" } },
+        { country: "Wales", expected: { whereDoYouLiveRadio: "Wales" } },
+        { country: "Northern Ireland", expected: { whereDoYouLiveRadio: "Northern Ireland" } },
+        { country: "France", expected: { whereDoYouLiveRadio: "countryOutsideUK", countryInput: "France" } },
+        { country: undefined, expected: {} }
+    ];
 
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({ whereDoYouLiveRadio: "England" });
-    });
+    testCases.forEach(({ country, expected }) => {
+        it(`should return correct payload for ${country || "undefined country"} in Registration journey`, () => {
+            const acspData: AcspData = {
+                id: "abc",
+                typeOfBusiness: "LIMITED",
+                applicantDetails: country ? {
+                    countryOfResidence: country
+                } : {}
+            };
 
-    it("should return payload for Scotland", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: "Scotland"
-            }
-        };
-
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({ whereDoYouLiveRadio: "Scotland" });
-
-    });
-
-    it("should return payload with countryOfResidence when applicantDetails is defined", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED"
-        };
-
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-
-        expect(payload).toEqual({});
-    });
-
-    it("should return payload for Wales", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: "Wales"
-            }
-        };
-
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({ whereDoYouLiveRadio: "Wales" });
-    });
-
-    it("should return payload for Northern Ireland", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: "Northern Ireland"
-            }
-        };
-
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({ whereDoYouLiveRadio: "Northern Ireland" });
-    });
-
-    it("should return payload and countryInput for country outside UK", () => {
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: "France"
-            }
-        };
-
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({
-            whereDoYouLiveRadio: "countryOutsideUK",
-            countryInput: "France"
+            const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual(expected);
         });
     });
 
-    it("should return empty payload if countryOfResidence is not valid", () => {
-        const whereDoYouLiveBodyService = new WhereDoYouLivBodyService();
-        const acspData: AcspData = {
-            id: "abc",
-            typeOfBusiness: "LIMITED",
-            applicantDetails: {
-                countryOfResidence: undefined
-            }
-        };
-        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
-        expect(payload).toEqual({});
+    testCases.forEach(({ country, expected }) => {
+        it(`should return correct payload for ${country || "undefined country"} in Update journey`, () => {
+            const acspData: AcspFullProfile = {
+                number: "",
+                name: "",
+                status: "",
+                type: "",
+                notifiedFrom: new Date(),
+                email: "",
+                amlDetails: [],
+                registeredOfficeAddress: {},
+                soleTraderDetails: country ? {
+                    usualResidentialCountry: country
+                } : {}
+            };
+
+            const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
+            expect(payload).toEqual(expected);
+        });
     });
 });
