@@ -53,4 +53,30 @@ describe("WhereDoYouLiveBodyService", () => {
             expect(payload).toEqual(expected);
         });
     });
+
+    it(`should return correct payload for applicantDetails undefined in Registration journey`, () => {
+        const acspData: AcspData = {
+            id: "abc",
+            typeOfBusiness: "LIMITED"
+        };
+
+        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
+        expect(payload).toEqual({});
+    });
+
+    it(`should return correct payload for soleTraderDetails undefined in Update journey`, () => {
+        const acspData: AcspFullProfile = {
+            number: "",
+            name: "",
+            status: "",
+            type: "",
+            notifiedFrom: new Date(),
+            email: "",
+            amlDetails: [],
+            registeredOfficeAddress: {}
+        };
+
+        const payload = whereDoYouLiveBodyService.getCountryPayload(acspData);
+        expect(payload).toEqual({});
+    });
 });
