@@ -2,7 +2,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_WHAT_IS_YOUR_EMAIL } from "../../../../src/types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_CHECK_YOUR_UPDATES } from "../../../../src/types/pageURL";
 
 jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
@@ -27,7 +27,7 @@ describe("GET " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
 });
 
 describe("POST " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
-    it("should redirect to UPDATE_YOUR_ANSWERS with status 302 for valid email input", async () => {
+    it("should redirect to UPDATE_CHECK_YOUR_UPDATES with status 302 for valid email input", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)
             .send({
                 whatIsYourEmailRadio: "A Different Email",
@@ -36,18 +36,18 @@ describe("POST " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES + "?lang=en");
     });
-    it("should return status 400 after no email address entered", async () => {
+    it("should redirect to UPDATE_YOUR_ANSWERS with status 302 for when user does not change email", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)
             .send({
-                whatIsYourEmailRadio: "A Different Email",
+                whatIsYourEmailRadio: "original@email.com",
                 whatIsYourEmailInput: ""
             });
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Enter an email address");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
     });
     it("should return status 400 after no radio selected", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)
