@@ -1,9 +1,9 @@
 import { ValidationChain } from "express-validator";
-import amlBodyMembershipNumberControllerValidator from "../../../src/validation/amlBodyMembershipNumber";
+import { amlBodyMembershipNumberValidator } from "../../../src/validation/amlBodyMembershipNumberValidator";
 
-describe("amlBodyMembershipNumberControllerValidator", () => {
+describe("amlBodyMembershipNumbeValidator", () => {
     it("should return an array of ValidationChain objects", () => {
-        const validationChains: ValidationChain[] = amlBodyMembershipNumberControllerValidator();
+        const validationChains: ValidationChain[] = amlBodyMembershipNumberValidator();
         expect(Array.isArray(validationChains)).toBeTruthy();
         validationChains.forEach((validationChain) => {
             expect(validationChain).toBeInstanceOf(Function);

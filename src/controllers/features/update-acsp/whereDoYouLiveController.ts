@@ -8,7 +8,7 @@ import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLivBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
-import { REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,17 +16,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
-        const payload = new WhereDoYouLivBodyService().getCountryPayload(acspData);
+        const payload = new WhereDoYouLivBodyService().getCountryPayload(acspUpdatedFullProfile);
         const reqType = REQ_TYPE_UPDATE_ACSP;
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
             countryList: countryList,
-            firstName: acspData?.soleTraderDetails?.forename,
-            lastName: acspData?.soleTraderDetails?.surname,
             payload,
             reqType
         });

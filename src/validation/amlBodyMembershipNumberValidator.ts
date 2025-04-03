@@ -1,7 +1,7 @@
 import { body, ValidationChain } from "express-validator";
 import { AMLSupervisoryBodies } from "../model/AMLSupervisoryBodies";
 
-const amlBodyMembershipNumberControllerValidator = (): ValidationChain[] => {
+export const amlBodyMembershipNumberValidator = (): ValidationChain[] => {
     const amlBodyMembershipNumberErrors: ValidationChain[] = [];
     const numberOfamlSupervisoryBodies = Object.keys(AMLSupervisoryBodies).length;
     for (let i = 1; i <= numberOfamlSupervisoryBodies; i++) {
@@ -10,4 +10,3 @@ const amlBodyMembershipNumberControllerValidator = (): ValidationChain[] => {
     }
     return amlBodyMembershipNumberErrors;
 };
-export default amlBodyMembershipNumberControllerValidator;

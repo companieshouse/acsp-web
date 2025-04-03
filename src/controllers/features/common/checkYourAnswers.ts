@@ -45,9 +45,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     logger.debug("Clicking continue to payment on Check Your Answers Page");
     const lang = selectLang(req.query.lang);
-    const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const currentUrl = BASE_URL + CHECK_YOUR_ANSWERS;
     try {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
         const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
