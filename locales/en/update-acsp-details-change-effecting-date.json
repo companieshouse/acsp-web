@@ -14,6 +14,6 @@
     "error-noChangeDateDay" : "Change start date must include a day",
     "error-noChangeDateMonth" : "Change start date must include a month",
     "error-noChangeDateYear" : "Change start date must include a year",
-    "error-tooChangeDateOld" : "The change must be less than 110 years",
+    "error-tooChangeDateOld" : "The change must be less than 100 years",
     "error-nonChangeDateNumeric" : "Change start date must only include numbers"
 }

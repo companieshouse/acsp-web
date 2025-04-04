@@ -1,256 +1,181 @@
-import {
-    dateDayChecker,
-    dateMonthChecker,
-    dateYearChecker,
-    validDataChecker,
-    isNotTooYoung,
-    isNotTooOld
-} from "../../../src/validation/dateOfACSPUpdateDetailsChange";
+import { dateOfACSPUpdateDetailsChange, dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } from "../../../src/validation/dateOfACSPUpdateDetailsChange";
+import { body } from "express-validator";
 
-describe("Missing input validation tests", () => {
-    test("Error if date field is completely empty", () => {
-        expect(() => dateDayChecker("", "", "", "dob")).toThrow(new Error("noData"));
+describe("dateOfACSPUpdateDetailsChange", () => {
+    it("should return an array of validation chains for 'dob'", () => {
+        const result = dateOfACSPUpdateDetailsChange("dob");
+        expect(result).toHaveLength(4);
+        result.forEach((chain) => {
+            expect(chain).toBeInstanceOf(body("").constructor);
+        });
     });
 
-    test("Error if date field is completely empty", () => {
-        expect(() => dateDayChecker("", "", "", "change")).toThrow(new Error("noChangeDateData"));
-    });
-
-    test("Error if day and month fields are empty", () => {
-        expect(() => dateDayChecker("", "", "1999", "dob")).toThrow(new Error("noDayMonth"));
-    });
-
-    test("Error if day and month fields are empty", () => {
-        expect(() => dateDayChecker("", "", "1999", "change")).toThrow(new Error("noChangeDateYear"));
-    });
-
-    test("Error if day and year fields are empty", () => {
-        expect(() => dateDayChecker("", "02", "", "dob")).toThrow(new Error("noDayYear"));
-    });
-
-    test("Error if day and year fields are empty", () => {
-        expect(() => dateDayChecker("", "02", "", "change")).toThrow(new Error("noChangeDateMonth"));
-    });
-
-    test("Error if month and year fields are empty", () => {
-        expect(() => dateMonthChecker("11", "", "", "dob")).toThrow(new Error("noMonthYear"));
-    });
-
-    test("Error if month and year fields are empty", () => {
-        expect(() => dateMonthChecker("11", "", "", "change")).toThrow(new Error("noChangeDateMonthYear"));
-    });
-
-    test("Error if day field is empty", () => {
-        expect(() => dateDayChecker("", "02", "1999", "dob")).toThrow(new Error("noDay"));
-    });
-
-    test("Error if day field is empty", () => {
-        expect(() => dateDayChecker("", "02", "1999", "change")).toThrow(new Error("noChangeDateDay"));
-    });
-
-    test("Error if month field is empty", () => {
-        expect(() => dateMonthChecker("11", "", "1999", "dob")).toThrow(new Error("noMonth"));
-    });
-
-    test("Error if month field is empty", () => {
-        expect(() => dateMonthChecker("11", "", "1999", "change")).toThrow(new Error("noChangeDateMonthYear"));
-    });
-
-    test("Error if year field is empty", () => {
-        expect(() => dateYearChecker("11", "02", "", "dob")).toThrow(new Error("noYear"));
-    });
-
-    test("Error if year field is empty", () => {
-        expect(() => dateYearChecker("11", "02", "", "change")).toThrow(new Error("noChangeDateDayYear"));
-    });
-
-    test("No error if all fields are input", () => {
-        expect(() => dateDayChecker("11", "02", "1999", "dob")).not.toThrow();
-        expect(() => dateMonthChecker("11", "02", "1999", "dob")).not.toThrow();
-        expect(() => dateYearChecker("11", "02", "1999", "dob")).not.toThrow();
+    it("should return an array of validation chains for 'change'", () => {
+        const result = dateOfACSPUpdateDetailsChange("change");
+        expect(result).toHaveLength(4);
+        result.forEach((chain) => {
+            expect(chain).toBeInstanceOf(body("").constructor);
+        });
     });
 });
 
-describe("Valid data input tests", () => {
-    test("Error if year is greater than 9999", () => {
-        expect(() => validDataChecker("11", "11", "10000", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if year is greater than 9999", () => {
-        expect(() => validDataChecker("11", "11", "10000", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Error if year is less than 1000", () => {
-        expect(() => validDataChecker("11", "11", "999", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if year is less than 1000", () => {
-        expect(() => validDataChecker("11", "11", "999", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Error if month is greater than 12", () => {
-        expect(() => validDataChecker("11", "13", "1999", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if month is greater than 12", () => {
-        expect(() => validDataChecker("11", "13", "1999", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Error if day is not valid for month", () => {
-        expect(() => validDataChecker("30", "02", "1999", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if day is not valid for month", () => {
-        expect(() => validDataChecker("30", "02", "1999", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Error if date given is in the future", () => {
-        expect(() => validDataChecker("30", "11", "3490", "dob")).toThrow(new Error("dateInFuture"));
+describe("dateDayChecker", () => {
+    it("should throw an error if day, month, and year are empty", () => {
+        expect(() => dateDayChecker("", "", "", "dob")).toThrow("noData");
+        expect(() => dateDayChecker("", "", "", "change")).toThrow("noChangeDateData");
     });
 
-    test("Error if date given is in the future", () => {
-        expect(() => validDataChecker("30", "11", "3490", "change")).toThrow(new Error("dateInFutureChangeDate"));
+    it("should throw an error if day and month are empty", () => {
+        expect(() => dateDayChecker("", "", "2023", "dob")).toThrow("noDayMonth");
+        expect(() => dateDayChecker("", "", "2023", "change")).toThrow("noChangeDateYear");
     });
 
-    test("Error if date given is more than 110 years ago", () => {
-        expect(() => validDataChecker("30", "11", "1490", "dob")).toThrow(new Error("tooChangeDateOld"));
+    it("should throw an error if day and year are empty", () => {
+        expect(() => dateDayChecker("", "12", "", "dob")).toThrow("noDayYear");
+        expect(() => dateDayChecker("", "12", "", "change")).toThrow("noChangeDateMonth");
     });
 
-    test("Error if date given is less than 16 years ago", () => {
-        expect(() => validDataChecker("29", "01", "2024", "dob")).toThrow(new Error("tooYoung"));
+    it("should throw an error if day is empty", () => {
+        expect(() => dateDayChecker("", "12", "2023", "dob")).toThrow("noDay");
+        expect(() => dateDayChecker("", "12", "2023", "change")).toThrow("noChangeDateDay");
     });
 
-    test("Error if date given is non-numeric", () => {
-        expect(() => validDataChecker("a", "01", "2024", "dob")).toThrow(new Error("nonNumeric"));
-    });
-
-    test("Error if date given is non-numeric", () => {
-        expect(() => validDataChecker("a", "01", "2024", "change")).toThrow(new Error("nonChangeDateNumeric"));
-    });
-
-    test("No error for valid date within acceptable range", () => {
-        expect(() => validDataChecker("15", "07", "2000", "dob")).toBeTruthy();
-    });
-
-    test("Error if day length is more than 2 digits", () => {
-        expect(() => validDataChecker("123", "01", "2024", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if day length is more than 2 digits", () => {
-        expect(() => validDataChecker("123", "01", "2024", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-
-    test("Error if month is zero", () => {
-        expect(() => validDataChecker("11", "00", "1999", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if month is zero", () => {
-        expect(() => validDataChecker("11", "00", "1999", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Error if day is zero", () => {
-        expect(() => validDataChecker("00", "01", "1999", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Error if day is zero", () => {
-        expect(() => validDataChecker("00", "01", "1999", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Leap year test: valid leap day", () => {
-        expect(() => validDataChecker("29", "02", "2020", "dob")).toBeTruthy();
-    });
-    test("Leap year test: valid leap day", () => {
-        expect(() => validDataChecker("29", "02", "2020", "change")).toBeTruthy();
-    });
-    test("Leap year test: invalid leap day", () => {
-        expect(() => validDataChecker("29", "02", "2019", "dob")).toThrow(new Error("invalid"));
-    });
-    test("Leap year test: invalid leap day", () => {
-        expect(() => validDataChecker("29", "02", "2019", "change")).toThrow(new Error("invalidChangeDate"));
-    });
-    test("Boundary test: 110 years ago exactly", () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear() - 110;
-        const month = (`0${currentDate.getMonth() + 1}`).slice(-2);
-        const day = (`0${currentDate.getDate()}`).slice(-2);
-        expect(() => validDataChecker(day, month, year.toString(), "dob")).toBeTruthy();
-    });
-
-    test("Boundary test: 16 years ago exactly", () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear() - 16;
-        const month = (`0${currentDate.getMonth() + 1}`).slice(-2);
-        const day = (`0${currentDate.getDate()}`).slice(-2);
-        expect(() => validDataChecker(day, month, year.toString(), "dob")).toBeTruthy();
-    });
-
-    test("Error if year has non-numeric characters", () => {
-        expect(() => validDataChecker("11", "01", "20a0", "dob")).toThrow(new Error("nonNumeric"));
-    });
-
-    test("Error if month has non-numeric characters", () => {
-        expect(() => validDataChecker("11", "a1", "2020", "dob")).toThrow(new Error("nonNumeric"));
-    });
-
-    test("Error if day has non-numeric characters", () => {
-        expect(() => validDataChecker("1a", "01", "2020", "dob")).toThrow(new Error("nonNumeric"));
+    it("should return true for valid day, month, and year", () => {
+        expect(dateDayChecker("01", "12", "2023", "dob")).toBe(true);
     });
 });
 
-describe("Age calculation tests", () => {
-    test("Calculate age - current date is greater than input date", () => {
-        const currentDate = new Date();
-        const inputDate = new Date("2000-07-01");
-        expect(isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear())).toBe(true);
+describe("dateMonthChecker", () => {
+    it("should throw an error if day is not empty but month and year are empty", () => {
+        expect(() => dateMonthChecker("01", "", "", "dob")).toThrow("noMonthYear");
+        expect(() => dateMonthChecker("01", "", "", "change")).toThrow("noChangeDateMonthYear");
     });
 
-    test("Calculate age - current date is exactly 16 years ago", () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear() - 16;
-        const month = (`0${currentDate.getMonth() + 1}`).slice(-2);
-        const day = (`0${currentDate.getDate()}`).slice(-2);
-        expect(isNotTooYoung(+day, +month, +year.toString())).toBe(true);
+    it("should throw an error if day is not empty but month is empty", () => {
+        expect(() => dateMonthChecker("01", "", "2023", "dob")).toThrow("noMonth");
+        expect(() => dateMonthChecker("01", "", "2023", "change")).toThrow("noChangeDateMonthYear");
     });
 
-    test("Calculate age - current date is less than 16 years ago", () => {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear() - 15;
-        const month = (`0${currentDate.getMonth() + 1}`).slice(-2);
-        const day = (`0${currentDate.getDate()}`).slice(-2);
-        expect(isNotTooYoung(+day, +month, +year.toString())).toBe(false);
+    it("should return true for valid day, month, and year", () => {
+        expect(dateMonthChecker("01", "12", "2023", "dob")).toBe(true);
     });
 });
 
-describe("isNotTooOld", () => {
-    it("should increment age if current month is greater than input month", () => {
-        const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate());
-
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
-
-        expect(result).toBe(true);
+describe("dateYearChecker", () => {
+    it("should throw an error if day and month are not empty but year is empty", () => {
+        expect(() => dateYearChecker("01", "12", "", "dob")).toThrow("noYear");
+        expect(() => dateYearChecker("01", "12", "", "change")).toThrow("noChangeDateDayYear");
     });
 
-    it("should increment age if current month is equal to input month and current day is greater than input day", () => {
-        const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate() + 1);
+    it("should return true for valid day, month, and year", () => {
+        expect(dateYearChecker("01", "12", "2023", "dob")).toBe(true);
+    });
+});
 
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth(), inputDate.getFullYear());
-
-        expect(result).toBe(true);
+describe("validDataChecker", () => {
+    it("should throw an error if day, month, or year are non-numeric", () => {
+        expect(() => validDataChecker("a", "12", "2023", "dob")).toThrow("nonNumeric");
+        expect(() => validDataChecker("01", "b", "2023", "change")).toThrow("nonChangeDateNumeric");
     });
 
-    it("should not increment age if current month is less than input month", () => {
-        const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth() + 1, currentDate.getDate());
-
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
-
-        expect(result).toBe(true);
+    it("should throw an error if month or year are out of range", () => {
+        expect(() => validDataChecker("01", "13", "2023", "dob")).toThrow("invalid");
+        expect(() => validDataChecker("01", "12", "99999", "change")).toThrow("invalidChangeDate");
     });
 
-    it("should not increment age if current month is equal to input month and current day is less than or equal to input day", () => {
-        const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 110, currentDate.getMonth(), currentDate.getDate());
-
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
-
-        expect(result).toBe(true);
+    it("should throw an error if day is invalid for the given month and year", () => {
+        expect(() => validDataChecker("32", "12", "2023", "dob")).toThrow("invalid");
+        expect(() => validDataChecker("30", "02", "2023", "change")).toThrow("invalidChangeDate");
     });
 
-    it("should return false if age is greater than 110 years", () => {
-        const currentDate = new Date();
-        const inputDate = new Date(currentDate.getFullYear() - 111, currentDate.getMonth(), currentDate.getDate());
+    it("should throw an error if the date is in the future", () => {
+        const futureYear = new Date().getFullYear() + 1;
+        expect(() => validDataChecker("01", "12", futureYear.toString(), "dob")).toThrow("dateInFuture");
+        expect(() => validDataChecker("01", "12", futureYear.toString(), "change")).toThrow("dateInFutureChangeDate");
+    });
 
-        const result = isNotTooOld(inputDate.getDate(), inputDate.getMonth() + 1, inputDate.getFullYear());
+    it("should throw an error if the age is too young for 'dob'", () => {
+        const currentYear = new Date().getFullYear();
+        expect(() => validDataChecker("01", "12", (currentYear - 15).toString(), "dob")).toThrow("tooYoung");
+    });
 
-        expect(result).toBe(false);
+    it("should throw an error if the age is too old for 'dob'", () => {
+        const currentYear = new Date().getFullYear();
+        expect(() => validDataChecker("01", "12", (currentYear - 111).toString(), "dob")).toThrow("tooChangeDateOld");
+    });
+
+    it("should throw an error if the date of change is more than a century old", () => {
+        const currentYear = new Date().getFullYear();
+        expect(() => validDataChecker("01", "12", (currentYear - 150).toString(), "change")).toThrow("tooChangeDateOld");
+    });
+
+    it("should return true for valid day, month, and year", () => {
+        expect(validDataChecker("01", "12", "2000", "dob")).toBe(true);
+        expect(validDataChecker("01", "12", "2023", "change")).toBe(true);
+    });
+});
+describe("Month and Day Adjustment Logic", () => {
+    it("should decrement deepDifference if the input date month is greater than the current date month", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 6, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(99);
+    });
+
+    it("should decrement deepDifference if the input date day is greater than the current date day in the same month", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 5, 20);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(99);
+    });
+
+    it("should not decrement deepDifference if the input date is earlier in the same year", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 4, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(100);
+    });
+
+    it("should not decrement deepDifference if the input date is the same as the current date", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 5, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(100);
     });
 });

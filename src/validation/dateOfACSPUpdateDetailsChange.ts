@@ -50,6 +50,8 @@ export const validDataChecker = (day: string, month: string, year: string, type:
         validateDate(day, month, year, type);
         if (type === "dob") {
             validateDobAge(day, month, year);
+        } else if (type === "change") {
+            validateDateOfChangeLimit(day, month, year);
         }
     }
     return true;
@@ -88,6 +90,12 @@ const validateDobAge = (day: string, month: string, year: string): void => {
     }
 };
 
+const validateDateOfChangeLimit = (day: string, month: string, year: string): void => {
+    if (!notMoreThanACentury(+day, +month, +year)) {
+        throw new Error("tooChangeDateOld");
+    }
+};
+
 const isValidDay = (day: number, month: number, year: number): boolean => {
     const numbDays = new Date(year, month, 0).getDate();
     return day >= 1 && day <= numbDays;
@@ -117,6 +125,16 @@ export const isNotTooOld = (day: number, month: number, year: number): boolean =
         age++;
     }
     return age <= 110;
+};
+
+const notMoreThanACentury = (day: number, month: number, year: number): boolean => {
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+    if (currentDate.getMonth() < inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())) {
+        deepDifference--;
+    }
+    return deepDifference <= 100;
 };
 
 const isNumeric = (number: string): boolean => {
