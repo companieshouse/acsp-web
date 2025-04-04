@@ -1,5 +1,5 @@
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails, formatDateIntoReadableString, formatAddressIntoHTMLString } from "../../../src/utils/web";
+import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails, formatDateIntoReadableString, formatAddressIntoHTMLString } from "../../../src/services/common";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 const acspProfileData: AcspData = {
