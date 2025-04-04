@@ -11,9 +11,11 @@ describe("WhereDoYouLiveBodyService", () => {
 
     const testCases = [
         { country: "England", expected: { whereDoYouLiveRadio: "England" } },
+        { country: "ENGLAND", expected: { whereDoYouLiveRadio: "England" } },
         { country: "Scotland", expected: { whereDoYouLiveRadio: "Scotland" } },
         { country: "Wales", expected: { whereDoYouLiveRadio: "Wales" } },
         { country: "Northern Ireland", expected: { whereDoYouLiveRadio: "Northern Ireland" } },
+        { country: "NORTHERN IRELAND", expected: { whereDoYouLiveRadio: "Northern Ireland" } },
         { country: "France", expected: { whereDoYouLiveRadio: "countryOutsideUK", countryInput: "France" } },
         { country: undefined, expected: {} }
     ];
