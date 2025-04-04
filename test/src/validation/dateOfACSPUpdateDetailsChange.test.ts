@@ -114,3 +114,68 @@ describe("validDataChecker", () => {
         expect(validDataChecker("01", "12", "2023", "change")).toBe(true);
     });
 });
+describe("Month and Day Adjustment Logic", () => {
+    it("should decrement deepDifference if the input date month is greater than the current date month", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 6, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(99);
+    });
+
+    it("should decrement deepDifference if the input date day is greater than the current date day in the same month", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 5, 20);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(99);
+    });
+
+    it("should not decrement deepDifference if the input date is earlier in the same year", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 4, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(100);
+    });
+
+    it("should not decrement deepDifference if the input date is the same as the current date", () => {
+        const currentDate = new Date(2025, 5, 15);
+        const inputDate = new Date(1925, 5, 15);
+
+        let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < inputDate.getMonth() ||
+            (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())
+        ) {
+            deepDifference--;
+        }
+
+        expect(deepDifference).toBe(100);
+    });
+});
