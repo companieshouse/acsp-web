@@ -134,6 +134,7 @@ export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, up
             addedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
+                // changedDate: formatDateIntoReadableString(body.dateOfChange)
                 changedDate: formatDateIntoReadableString(new Date())
             });
         }

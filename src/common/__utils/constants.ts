@@ -50,5 +50,6 @@ export const ACSP_UPDATE_CHANGE_DATE = {
     WHERE_DO_YOU_LIVE: "whereDoYouLive",
     NAME_OF_BUSINESS: "nameOfBusiness",
     REGISTERED_OFFICE_ADDRESS: "registeredOfficeAddress",
-    CORRESPONDENCE_ADDRESS: "correspondenceAddress"
+    CORRESPONDENCE_ADDRESS: "correspondenceAddress",
+    ADD_AML_BODY: "addAmlBody"
 };

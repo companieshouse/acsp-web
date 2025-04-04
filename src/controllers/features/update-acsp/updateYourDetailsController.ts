@@ -75,7 +75,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervioryBodiesFormatted,
             changeDates,
             cancelAllUpdatesUrl,
-            authorisedAgentUrl: AUTHORISED_AGENT
+            authorisedAgentUrl: AUTHORISED_AGENT,
+            formatDateIntoReadableString
         });
     } catch (err) {
         next(err);
