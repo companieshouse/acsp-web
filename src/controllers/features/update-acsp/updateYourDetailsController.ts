@@ -28,7 +28,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { formatDateIntoReadableString } from "../../../utils/web";
+import { formatDateIntoReadableString } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
