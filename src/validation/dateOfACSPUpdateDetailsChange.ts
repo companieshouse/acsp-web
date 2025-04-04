@@ -90,7 +90,7 @@ const validateDobAge = (day: string, month: string, year: string): void => {
     }
 };
 
-export const validateDateOfChangeLimit = (day: string, month: string, year: string): void => {
+const validateDateOfChangeLimit = (day: string, month: string, year: string): void => {
     if (!notMoreThanACentury(+day, +month, +year)) {
         throw new Error("tooChangeDateOld");
     }
@@ -127,7 +127,7 @@ export const isNotTooOld = (day: number, month: number, year: number): boolean =
     return age <= 110;
 };
 
-export const notMoreThanACentury = (day: number, month: number, year: number): boolean => {
+const notMoreThanACentury = (day: number, month: number, year: number): boolean => {
     const currentDate = new Date();
     const inputDate = new Date(year, month - 1, day);
     let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
