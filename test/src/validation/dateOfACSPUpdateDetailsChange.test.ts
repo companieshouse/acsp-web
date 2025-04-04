@@ -5,7 +5,8 @@ import {
     validDataChecker,
     isNotTooYoung,
     isNotTooOld,
-    notMoreThanACentury
+    notMoreThanACentury,
+    validateDateOfChangeLimit
 } from "../../../src/validation/dateOfACSPUpdateDetailsChange";
 
 describe("Missing input validation tests", () => {
@@ -315,5 +316,47 @@ describe("notMoreThanACentury", () => {
         const result = notMoreThanACentury(day, month, year);
 
         expect(result).toBe(true);
+    });
+});
+
+describe("validateDateOfChangeLimit", () => {
+    it("should not throw an error if the date is within the last 100 years", () => {
+        const day = "15";
+        const month = "06";
+        const year = `${new Date().getFullYear() - 50}`; // 50 years ago
+
+        expect(() => validateDateOfChangeLimit(day, month, year)).not.toThrow();
+    });
+
+    it("should throw an error if the date is more than 100 years ago", () => {
+        const day = "15";
+        const month = "06";
+        const year = new Date().getFullYear() - 102;
+
+        expect(() => validateDateOfChangeLimit(day, month, year.toString())).toThrow("tooChangeDateOld");
+    });
+
+    it("should not throw an error if the date is exactly 100 years ago", () => {
+        const day = "15";
+        const month = "06";
+        const year = `${new Date().getFullYear() - 100}`; // Exactly 100 years ago
+
+        expect(() => validateDateOfChangeLimit(day, month, year)).not.toThrow();
+    });
+
+    it("should handle edge cases where the date is at the end of the year", () => {
+        const day = "31";
+        const month = "12";
+        const year = `${new Date().getFullYear() - 100}`; // Exactly 100 years ago at the end of the year
+
+        expect(() => validateDateOfChangeLimit(day, month, year)).not.toThrow();
+    });
+
+    it("should handle edge cases where the date is at the beginning of the year", () => {
+        const day = "01";
+        const month = "01";
+        const year = `${new Date().getFullYear() - 100}`; // Exactly 100 years ago at the beginning of the year
+
+        expect(() => validateDateOfChangeLimit(day, month, year)).not.toThrow();
     });
 });
