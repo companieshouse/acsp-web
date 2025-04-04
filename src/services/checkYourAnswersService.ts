@@ -96,7 +96,7 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     answers.correspondenceAddress = formatAddressIntoHTMLString(acspData.applicantDetails?.correspondenceAddress);
 
     if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-        answers = isThisYourCompanyAnswers(req, answers); ;
+        answers = isThisYourCompanyAnswers(req, answers);
     } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
         answers = soleTraderAnswers(answers, acspData);
     } else {
