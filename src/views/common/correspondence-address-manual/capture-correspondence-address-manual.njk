@@ -108,6 +108,20 @@
     }) }}
     </div>
 
-    <button class="govuk-button" id="save-continue-button">{{ i18n.SaveAndContinue }}</button>
+    {% if reqType === "updateAcsp" %}
+        <div class="govuk-button-group">
+        {{ govukButton({
+            text: i18n.Continue,
+            id:"continue-button-id"
+        })}}
+        <a class="govuk-link" id="cancel-update-id" href={{cancelUpdateLink}}>{{i18n.CancelUpdate}}</a>
+        </div>
+    {% else %}
+        {{ govukButton({
+        text: i18n.SaveAndContinue,
+        id:"save-continue-button"
+        }) }}
+    {% endif %}
+
 </form>
 {% endblock main_content %}

@@ -32,9 +32,12 @@
       items: ITEMS
     }) }}
 
-    {{ govukButton ({
-      text: i18n.SaveAndContinue,
-      id: "continue-button"
-    }) }}
+    <div class="govuk-button-group">
+      {{ govukButton({
+         text: i18n.Continue,
+         id:"continue-button-id"
+      }) }}
+      <a class="govuk-link" href={{previousPage}} id="cancel-id">{{i18n.Cancel}}</a>
+    </div>
   </form>
   {% endblock main_content %}

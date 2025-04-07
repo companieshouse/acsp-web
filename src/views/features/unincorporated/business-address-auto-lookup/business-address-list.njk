@@ -39,10 +39,20 @@
             items: ITEMS
         }) }}
         </div>
-         {{ govukButton({
-             text: i18n.SaveAndContinue,
-             id:"save-continue-button"
-           }) }}
+        {% if reqType === "updateAcsp" %}
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: i18n.Continue,
+                id:"continue-button-id"
+            }) }}
+            <a class="govuk-link" href={{cancelUpdateLink}} id="cancel-id">{{i18n.CancelUpdate}}</a>
+        </div>
+        {% else %}
+        {{ govukButton({
+            text: i18n.SaveAndContinue,
+            id:"save-continue-button"
+        }) }}
+        {% endif %}
     </form>
     {# Manual address entry link #}
     <p>

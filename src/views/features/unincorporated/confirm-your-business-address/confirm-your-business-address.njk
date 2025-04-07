@@ -27,9 +27,19 @@
     <p class="govuk-body">
       <a href={{editAddress}} class="govuk-link govuk-link--no-visited-state" id="edit-address-link">{{ i18n.EditAddress }}</a>
     </p>
-    {{ govukButton({
-      text: i18n.ConfirmAndContinue,
-      id:"save-continue-button"
-    }) }}
+    {% if reqType === "updateAcsp" %}
+      <div class="govuk-button-group">
+        {{ govukButton({
+            text: i18n.Continue,
+            id:"continue-button-id"
+        }) }}
+        <a class="govuk-link" href={{cancelUpdateLink}} id="cancel-id">{{i18n.CancelUpdate}}</a>
+      </div>
+    {% else %}
+      {{ govukButton({
+        text: i18n.ConfirmAndContinue,
+        id:"confirm-continue-button"
+      }) }}
+    {% endif %}
   </form>
 {% endblock main_content %}

@@ -20,7 +20,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const reqType = REQ_TYPE_UPDATE_ACSP;
 
         let payload;
         if (updateBodyIndex) {
@@ -34,7 +33,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             payload,
             amlSupervisoryBodies: [newAMLBody],
             AMLSupervisoryBodies,
-            reqType,
             cancelLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang)
         });
     } catch (err) {

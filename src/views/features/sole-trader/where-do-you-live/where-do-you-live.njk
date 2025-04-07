@@ -16,58 +16,57 @@
     </div>
     {% endset -%}
     {{ govukRadios({
-    errorMessage: errors.whereDoYouLiveRadio if errors,
-  name: "whereDoYouLiveRadio",
-  value: payload["whereDoYouLiveRadio"],
-  fieldset: {
-    legend: {
-      text: i18n.whereDoYouLiveTitle,
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend--l"
-    }
-  },
-  items: [
-    {
-      value: "England",
-      text: i18n.whereDoYouLiveText1
-    },
-    {
-      value: "Scotland",
-      text: i18n.whereDoYouLiveText2
-    },
-    {
-      value: "Wales",
-      text: i18n.whereDoYouLiveText3
-    },
-    {
-      value: "Northern Ireland",
-      text: i18n.whereDoYouLiveText4
-    },
-    {
-      divider: i18n.whereDoYouLiveText5
-    },
-    {
-      value: "countryOutsideUK",
-      text: i18n.whereDoYouLiveText6, 
-      conditional:{ html : countryInput }
-    }
-  ]
-}) }}
+      errorMessage: errors.whereDoYouLiveRadio if errors,
+      name: "whereDoYouLiveRadio",
+      value: payload["whereDoYouLiveRadio"],
+      fieldset: {
+        legend: {
+          text: i18n.whereDoYouLiveTitle,
+          isPageHeading: true,
+          classes: "govuk-fieldset__legend--l"
+        }
+      },
+      items: [
+        {
+          value: "England",
+          text: i18n.whereDoYouLiveText1
+        },
+        {
+          value: "Scotland",
+          text: i18n.whereDoYouLiveText2
+        },
+        {
+          value: "Wales",
+          text: i18n.whereDoYouLiveText3
+        },
+        {
+          value: "Northern Ireland",
+          text: i18n.whereDoYouLiveText4
+        },
+        {
+          divider: i18n.whereDoYouLiveText5
+        },
+        {
+          value: "countryOutsideUK",
+          text: i18n.whereDoYouLiveText6, 
+          conditional:{ html : countryInput }
+        }
+      ]
+    }) }}
 
-{% if reqType === "updateAcsp" %}
-          <div class="govuk-button-group">
-             {{ govukButton({
-                text: i18n.Continue,
-                id:"continue-button-id"
-             })}}
-             <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.Cancel}}</a>
-          </div>
-
-        {% else %}
-           {{ govukButton({
-            text: i18n.SaveAndContinue,
-            id:"save-continue-button"
-           }) }}
-        {% endif %}
+    {% if reqType === "updateAcsp" %}
+      <div class="govuk-button-group">
+          {{ govukButton({
+            text: i18n.Continue,
+            id:"continue-button-id"
+          })}}
+          <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
+      </div>
+    {% else %}
+        {{ govukButton({
+        text: i18n.SaveAndContinue,
+        id: "save-continue-button"
+        }) }}
+    {% endif %}
   </form>
 {% endblock main_content %}
