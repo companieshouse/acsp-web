@@ -1,5 +1,5 @@
 {
-    "startPageTitleCloseAcsp": "Close the authorised agent",
+    "startPageTitleCloseAcsp": "Close the authorised agent account",
     "ifYouCloseAcsp":"Close the authorised agent account if {BUSINESS_NAME} no longer needs to be registered as an authorised agent with Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).",
     "beforeYouContinueHeading": "Before you continue",
     "beforeYouContinueText1":"If there are other people who work for the authorised agent, you must ",
