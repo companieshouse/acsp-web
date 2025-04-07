@@ -4,7 +4,7 @@ import { Answers } from "../model/Answers";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { Request } from "express";
 import { Company } from "../model/Company";
-import { getFullName } from "../utils/web";
+import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullName } from "../services/common";
 
 const typeOfBusinessTranslated = (typeOfBusiness: string, i18n: any): string => {
     switch (typeOfBusiness) {
@@ -93,8 +93,10 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     answers.roleType = roleTranslated(acspData.roleType!, i18n);
     answers.correspondenceEmail = acspData.applicantDetails?.correspondenceEmail;
     answers.workSector = sectorTranslated(acspData.workSector!, i18n);
+    answers.correspondenceAddress = formatAddressIntoHTMLString(acspData.applicantDetails?.correspondenceAddress);
+
     if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-        answers = limitedAnswers(req, answers, acspData);
+        answers = isThisYourCompanyAnswers(req, answers);
     } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
         answers = soleTraderAnswers(answers, acspData);
     } else {
@@ -103,17 +105,10 @@ export const getAnswers = (req: Request, acspData: AcspData, i18n: any): Answers
     return answers;
 };
 
-const limitedAnswers = (req: Request, answers: Answers, acspData: AcspData): Answers => {
-    answers = isThisYourCompanyAnswers(req, answers);
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspData);
-    return answers;
-};
-
 const soleTraderAnswers = (answers: Answers, acspData: AcspData): Answers => {
     const applicantDetails = acspData.applicantDetails!;
     answers.name = getFullName(acspData);
-    const dob = applicantDetails.dateOfBirth!;
-    answers.dateOfBirth = new Date(dob).toLocaleDateString("en-UK", { day: "2-digit", month: "long", year: "numeric" });
+    answers.dateOfBirth = formatDateIntoReadableString(new Date(applicantDetails.dateOfBirth!));
     let nationalityString = applicantDetails.nationality?.firstNationality!;
     if (applicantDetails.nationality?.secondNationality !== "") {
         nationalityString += ", " + applicantDetails.nationality?.secondNationality;
@@ -124,7 +119,6 @@ const soleTraderAnswers = (answers: Answers, acspData: AcspData): Answers => {
     answers.nationality = nationalityString;
     answers.countryOfResidence = applicantDetails.countryOfResidence;
     answers.businessName = acspData.businessName;
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspData);
     return answers;
 };
 
@@ -134,8 +128,7 @@ const unincorporatedAnswers = (answers: Answers, acspData: AcspData, i18n: any):
         answers.name = getFullName(acspData);
     }
     answers.businessName = acspData.businessName;
-    answers.businessAddress = businessAddressAnswers(acspData);
-    answers.correspondenceAddress = correspondenceAddressAnswers(acspData);
+    answers.businessAddress = formatAddressIntoHTMLString(acspData.registeredOfficeAddress);
     return answers;
 };
 
@@ -164,65 +157,4 @@ const isThisYourCompanyAnswers = (req: Request, answers: Answers): Answers => {
 
     answers.businessAddress = businessAddressAnswer;
     return answers;
-};
-
-const correspondenceAddressAnswers = (acspData: AcspData): string => {
-    let correspondenceAddressAnswer = "";
-    const applicantDetails = acspData.applicantDetails!;
-    if (applicantDetails.correspondenceAddress?.premises) {
-        correspondenceAddressAnswer += applicantDetails.correspondenceAddress?.premises;
-    }
-    if (applicantDetails.correspondenceAddress?.addressLine1) {
-        correspondenceAddressAnswer += (correspondenceAddressAnswer ? " " : "") + applicantDetails.correspondenceAddress?.addressLine1;
-    }
-
-    if (applicantDetails.correspondenceAddress?.addressLine2) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.addressLine2;
-    }
-    if (applicantDetails.correspondenceAddress?.locality) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.locality;
-    }
-    if (applicantDetails.correspondenceAddress?.region) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.region;
-    }
-    if (applicantDetails.correspondenceAddress?.country) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.country;
-    }
-    if (applicantDetails.correspondenceAddress?.postalCode) {
-        correspondenceAddressAnswer +=
-        "<br>" + applicantDetails.correspondenceAddress.postalCode;
-    }
-
-    return correspondenceAddressAnswer;
-};
-
-const businessAddressAnswers = (acspData: AcspData): string => {
-    let businessAddressAnswer = "";
-    if (acspData.registeredOfficeAddress?.premises) {
-        businessAddressAnswer += acspData.registeredOfficeAddress?.premises;
-    }
-    if (acspData.registeredOfficeAddress?.addressLine1) {
-        businessAddressAnswer += (businessAddressAnswer ? " " : "") + acspData.registeredOfficeAddress?.addressLine1;
-    }
-    if (acspData.registeredOfficeAddress?.addressLine2) {
-        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.addressLine2;
-    }
-    if (acspData.registeredOfficeAddress?.locality) {
-        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.locality;
-    }
-    if (acspData.registeredOfficeAddress?.region) {
-        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.region;
-    }
-    if (acspData.registeredOfficeAddress?.country) {
-        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.country;
-    }
-    if (acspData.registeredOfficeAddress?.postalCode) {
-        businessAddressAnswer += "<br>" + acspData.registeredOfficeAddress.postalCode;
-    }
-
-    return businessAddressAnswer;
 };
