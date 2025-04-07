@@ -25,6 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage,
             editPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang),
+            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
             correspondenceAddress

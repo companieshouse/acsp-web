@@ -5,7 +5,7 @@ import { ACSP_DETAILS_UPDATED, ADDRESS_LIST } from "../../../common/__utils/cons
 import * as config from "../../../config";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST,
-    UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL
+    UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_YOUR_ANSWERS
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
@@ -25,6 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
+            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             addresses: addressList,
             correspondenceAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang)
         });

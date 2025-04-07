@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
@@ -26,6 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             previousPage,
             currentUrl,
+            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             payload,
             typeOfBusiness: acspUpdatedFullProfile.type
         });

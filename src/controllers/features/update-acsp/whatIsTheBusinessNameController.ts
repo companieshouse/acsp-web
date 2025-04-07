@@ -19,15 +19,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const payload = {
             whatIsTheBusinessName: getBusinessName(acspUpdatedFullProfile.name)
         };
-
-        const reqType = REQ_TYPE_UPDATE_ACSP;
-
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
             payload,
-            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
-            reqType
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME
         });
     } catch (err) {
         next(err);
@@ -42,7 +38,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         var acspDataUpdated: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const reqType = REQ_TYPE_UPDATE_ACSP;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
@@ -50,7 +45,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
-                reqType,
                 ...pageProperties
             });
         } else {

@@ -52,10 +52,20 @@
                 }
             }) }}
       </div>
-      {{ govukButton({
-           text: i18n.correspondenceLookUpAddressFindAddressBtn,
-           id:"find-address-id"
-         }) }}
+      {% if reqType === "updateAcsp" %}
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: i18n.correspondenceLookUpAddressFindAddressBtn,
+            id: "find-address-id"
+          })}}
+          <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
+        </div>
+      {% else %}
+        {{ govukButton({
+          text: i18n.correspondenceLookUpAddressFindAddressBtn,
+          id:"find-address-id"
+        }) }}
+      {% endif %}
       <p>
         <a href={{ businessAddressManualLink }} class="govuk-link" id="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
       </p>

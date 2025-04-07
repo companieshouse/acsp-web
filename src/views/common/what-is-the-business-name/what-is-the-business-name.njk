@@ -24,17 +24,18 @@
     
     {% if reqType === "updateAcsp" %}
       <div class="govuk-button-group">
-          {{ govukButton({
-            text: i18n.Continue,
-            id:"continue-button-id"
-          })}}
-          <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.Cancel}}</a>
+        {{ govukButton({
+          text: i18n.Continue,
+          id:"continue-button-id"
+        })}}
+        <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
       </div>
     {% else %}
-        {{ govukButton({
+      {{ govukButton({
         text: i18n.SaveAndContinue,
         id:"save-continue-button"
-        }) }}
+      }) }}
     {% endif %}
+
   </form>
-  {% endblock main_content %}
+{% endblock main_content %}

@@ -5,7 +5,8 @@ import { ACSP_DETAILS_UPDATED, ADDRESS_LIST } from "../../../common/__utils/cons
 import * as config from "../../../config";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST,
-    UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL
+    UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL,
+    UPDATE_YOUR_ANSWERS
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -25,6 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
+            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             addresses: addressList,
             businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
         });

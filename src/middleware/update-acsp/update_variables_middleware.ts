@@ -1,3 +1,4 @@
+import { REQ_TYPE_UPDATE_ACSP } from "../../common/__utils/constants";
 import { Handler } from "express";
 
 /**
@@ -13,6 +14,7 @@ export const updateVariablesMiddleware: Handler = (req, res, next) => {
 
     res.locals.serviceName = "View and update the authorised agent's details";
     res.locals.serviceUrl = "/view-and-update-the-authorised-agents-details";
+    res.locals.reqType = REQ_TYPE_UPDATE_ACSP;
 
     next();
 };
