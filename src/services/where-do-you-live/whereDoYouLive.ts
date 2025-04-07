@@ -12,17 +12,27 @@ export class WhereDoYouLiveBodyService {
         if (!countryOfResidence) {
             return {};
         }
-        switch (countryOfResidence) {
+
+        switch (this.capitalizeFirstLetter(countryOfResidence)) {
         case "England":
         case "Scotland":
         case "Wales":
         case "Northern Ireland":
-            return { whereDoYouLiveRadio: countryOfResidence };
+            return { whereDoYouLiveRadio: this.capitalizeFirstLetter(countryOfResidence) };
         default:
             return {
                 whereDoYouLiveRadio: "countryOutsideUK",
                 countryInput: countryOfResidence
             };
         }
+    }
+
+    private capitalizeFirstLetter (string: string): string {
+        string = string.toLowerCase();
+        const words = string.split(" ");
+        for (let i = 0; i < words.length; i++) {
+            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+        }
+        return words.join(" ");
     }
 }
