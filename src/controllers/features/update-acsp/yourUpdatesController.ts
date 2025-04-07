@@ -8,8 +8,9 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { getFormattedAddedAMLUpdates, getFormattedRemovedAMLUpdates, getFormattedUpdates } from "../../../services/update-acsp/yourUpdatesService";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
+import { closeTransaction } from "../../../services/transactions/transaction_service";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -93,6 +94,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 const acspUpdateService = new AcspUpdateService();
                 await acspUpdateService.createTransaction(session);
                 await acspUpdateService.saveUpdatedDetails(session, acspFullProfile, acspUpdatedFullProfile);
+                await closeTransaction(session, session.getExtraData(UPDATE_SUBMISSION_ID)!);
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
             } else {
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
