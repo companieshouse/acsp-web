@@ -48,6 +48,14 @@ describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
 
     });
 
+    // Test for case insensitive country input
+    it("should return status 302 for valid countryInput", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE)
+            .send({ whereDoYouLiveRadio: "countryOutsideUK", countryInput: "GERMANY" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
+    });
+
     // Test for invalid input
     it("should return status 400 for invalid countryInput", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE)
