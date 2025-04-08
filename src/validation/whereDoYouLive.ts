@@ -6,7 +6,7 @@ export const whereDoYouLiveValidator = [
         .trim()
         .custom((value, { req }) => {
             if (req.body.whereDoYouLiveRadio === "countryOutsideUK") {
-                if (value === "" || !countryList.split(";").includes(value.trim())) {
+                if (value === "" || !countryList.split(";").map((country) => country.toLowerCase()).includes(value.trim().toLowerCase())) {
                     throw new Error("whereDoYouLiveEmptyInput");
                 }
             }
