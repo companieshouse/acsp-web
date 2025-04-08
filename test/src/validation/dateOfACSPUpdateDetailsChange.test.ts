@@ -27,12 +27,12 @@ describe("dateDayChecker", () => {
 
     it("should throw an error if day and month are empty", () => {
         expect(() => dateDayChecker("", "", "2023", "dob")).toThrow("noDayMonth");
-        expect(() => dateDayChecker("", "", "2023", "change")).toThrow("noChangeDateYear");
+        expect(() => dateDayChecker("", "", "2023", "change")).toThrow("noChangeDateDayMonth");
     });
 
     it("should throw an error if day and year are empty", () => {
         expect(() => dateDayChecker("", "12", "", "dob")).toThrow("noDayYear");
-        expect(() => dateDayChecker("", "12", "", "change")).toThrow("noChangeDateMonth");
+        expect(() => dateDayChecker("", "12", "", "change")).toThrow("noChangeDateDayYear");
     });
 
     it("should throw an error if day is empty", () => {
@@ -53,7 +53,7 @@ describe("dateMonthChecker", () => {
 
     it("should throw an error if day is not empty but month is empty", () => {
         expect(() => dateMonthChecker("01", "", "2023", "dob")).toThrow("noMonth");
-        expect(() => dateMonthChecker("01", "", "2023", "change")).toThrow("noChangeDateMonthYear");
+        expect(() => dateMonthChecker("01", "", "2023", "change")).toThrow("noChangeDateMonth");
     });
 
     it("should return true for valid day, month, and year", () => {
@@ -64,7 +64,7 @@ describe("dateMonthChecker", () => {
 describe("dateYearChecker", () => {
     it("should throw an error if day and month are not empty but year is empty", () => {
         expect(() => dateYearChecker("01", "12", "", "dob")).toThrow("noYear");
-        expect(() => dateYearChecker("01", "12", "", "change")).toThrow("noChangeDateDayYear");
+        expect(() => dateYearChecker("01", "12", "", "change")).toThrow("noChangeDateYear");
     });
 
     it("should return true for valid day, month, and year", () => {
