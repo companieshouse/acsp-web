@@ -14,6 +14,7 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { getAnswers } from "../../../services/checkYourAnswersService";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID } from "../../../utils/properties";
+import { CREATE_DESCRIPTION, REFERENCE } from "../../../config";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -48,7 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     try {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
-        const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
+        const paymentUrl: string | undefined = await closeTransaction(session, transactionId, CREATE_DESCRIPTION, REFERENCE);
 
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
