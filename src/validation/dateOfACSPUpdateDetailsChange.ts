@@ -14,9 +14,9 @@ export const dateDayChecker = (day: string, month: string | undefined, year: str
     if (day.trim() === "" && month === "" && year.trim() === "") {
         throw new Error(type === "dob" ? "noData" : "noChangeDateData");
     } else if (day.trim() === "" && month === "") {
-        throw new Error(type === "dob" ? "noDayMonth" : "noChangeDateYear");
+        throw new Error(type === "dob" ? "noDayMonth" : "noChangeDateDayMonth");
     } else if (day.trim() === "" && year.trim() === "") {
-        throw new Error(type === "dob" ? "noDayYear" : "noChangeDateMonth");
+        throw new Error(type === "dob" ? "noDayYear" : "noChangeDateDayYear");
     } else if (day.trim() === "") {
         throw new Error(type === "dob" ? "noDay" : "noChangeDateDay");
     }
@@ -28,7 +28,7 @@ export const dateMonthChecker = (day: string, month: string | undefined, year: s
     if (day.trim() !== "" && month === "" && year.trim() === "") {
         throw new Error(type === "dob" ? "noMonthYear" : "noChangeDateMonthYear");
     } else if (day.trim() !== "" && month === "") {
-        throw new Error(type === "dob" ? "noMonth" : "noChangeDateMonthYear");
+        throw new Error(type === "dob" ? "noMonth" : "noChangeDateMonth");
     }
     return true;
 };
@@ -36,7 +36,7 @@ export const dateMonthChecker = (day: string, month: string | undefined, year: s
 export const dateYearChecker = (day: string, month: string | undefined, year: string, type: ValidationType): boolean => {
 
     if (day.trim() !== "" && month !== "" && year.trim() === "") {
-        throw new Error(type === "dob" ? "noYear" : "noChangeDateDayYear");
+        throw new Error(type === "dob" ? "noYear" : "noChangeDateYear");
     }
     return true;
 };
@@ -131,8 +131,8 @@ const notMoreThanACentury = (day: number, month: number, year: number): boolean 
     const currentDate = new Date();
     const inputDate = new Date(year, month - 1, day);
     let deepDifference = currentDate.getFullYear() - inputDate.getFullYear();
-    if (currentDate.getMonth() < inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())) {
-        deepDifference--;
+    if (currentDate.getMonth() > inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() > inputDate.getDate())) {
+        deepDifference++;
     }
     return deepDifference <= 100;
 };
