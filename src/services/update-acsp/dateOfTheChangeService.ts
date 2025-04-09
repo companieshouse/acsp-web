@@ -54,10 +54,8 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
 export const dateOfChangePreviousPageUrl = (req: Request): string => {
     const session: Session = req.session as any as Session;
-    let previousPageUrl = "";
-    if (session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY) && session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY) !== "") {
-        previousPageUrl = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY)!;
-    } else {
+    let previousPageUrl: string = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY) || "";
+    if (!previousPageUrl) {
         previousPageUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL) || UPDATE_ACSP_DETAILS_BASE_URL;
         session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY, previousPageUrl);
     }
