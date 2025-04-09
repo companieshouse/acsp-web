@@ -5,7 +5,7 @@ import {
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_PROFILE_TYPE_SOLE_TRADER,
     ACSP_UPDATE_CHANGE_DATE,
-    ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR
+    ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY
 } from "../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Request } from "express";
@@ -49,17 +49,17 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
     }
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-    session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR);
+    session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY);
 };
 
-export const determinePreviousPageUrl = (req: Request): string => {
+export const dateOfChangePreviousPageUrl = (req: Request): string => {
     const session: Session = req.session as any as Session;
     let previousPageUrl = "";
-    if (session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR) && session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR) !== "") {
-        previousPageUrl = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR)!;
+    if (session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY) && session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY) !== "") {
+        previousPageUrl = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY)!;
     } else {
         previousPageUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL) || UPDATE_ACSP_DETAILS_BASE_URL;
-        session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR, previousPageUrl);
+        session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_LOCATOR_FROM_DATE_ENTRY, previousPageUrl);
     }
     return previousPageUrl;
 };
