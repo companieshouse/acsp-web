@@ -1,13 +1,17 @@
-import { updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
+import { updateWithTheEffectiveDateAmendment, getPreviousPageUrlDateOfChange } from "../../../../src/services/update-acsp/dateOfTheChangeService";
+
+import { getPreviousPageUrl } from "../../../../src/services/url";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
 import {
     ACSP_DETAILS_UPDATED,
     ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
-    ACSP_UPDATE_CHANGE_DATE
+    ACSP_UPDATE_CHANGE_DATE,
+    ACSP_UPDATE_PREVIOUS_PAGE_URL
 } from "../../../../src/common/__utils/constants";
 import {
+    UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
@@ -17,6 +21,7 @@ import {
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 jest.mock("@companieshouse/node-session-handler");
+jest.mock("../../../../src/services/url");
 
 describe("updateWithTheEffectiveDateAmendment", () => {
     let req: Partial<Request>;
@@ -147,5 +152,65 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange.toISOString());
+    });
+});
+
+describe("getPreviousPageUrlDateOfChange", () => {
+    let req: Partial<Request>;
+    let session: Partial<Session>;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
+        };
+
+        req = {
+            session: session as Session
+        } as Partial<Request>;
+
+        jest.clearAllMocks();
+    });
+
+    it("should return the value from ACSP_UPDATE_PREVIOUS_PAGE_URL if it exists in the session", () => {
+        const previousPageUrl = "/some-previous-page";
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {
+                return previousPageUrl;
+            }
+            return null;
+        });
+
+        const result = getPreviousPageUrlDateOfChange(req as Request);
+
+        expect(result).toBe(previousPageUrl);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+        expect(session.setExtraData).not.toHaveBeenCalled();
+    });
+
+    it("should call getPreviousPageUrl and set the result in the session if ACSP_UPDATE_PREVIOUS_PAGE_URL is not set", () => {
+        const previousPageUrl = "/calculated-previous-page";
+        (session.getExtraData as jest.Mock).mockReturnValue(null);
+        (getPreviousPageUrl as jest.Mock).mockReturnValue(previousPageUrl);
+
+        const result = getPreviousPageUrlDateOfChange(req as Request);
+
+        expect(result).toBe(previousPageUrl);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+        expect(getPreviousPageUrl).toHaveBeenCalledWith(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL, previousPageUrl);
+    });
+
+    it("should return UPDATE_ACSP_DETAILS_BASE_URL if getPreviousPageUrl returns null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValue(null);
+        (getPreviousPageUrl as jest.Mock).mockReturnValue(null);
+
+        const result = getPreviousPageUrlDateOfChange(req as Request);
+
+        expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+        expect(getPreviousPageUrl).toHaveBeenCalledWith(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_ACSP_DETAILS_BASE_URL);
     });
 });
