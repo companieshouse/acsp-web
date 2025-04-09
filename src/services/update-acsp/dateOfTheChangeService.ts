@@ -5,6 +5,7 @@ import {
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_PROFILE_TYPE_SOLE_TRADER,
     ACSP_UPDATE_CHANGE_DATE,
+    ACSP_UPDATE_IN_PROGRESS_AML_DETAILS,
     ACSP_UPDATE_PREVIOUS_PAGE_URL
 } from "../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -12,6 +13,7 @@ import { Request } from "express";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+    UPDATE_ADD_AML_SUPERVISOR,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
@@ -47,7 +49,15 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
             acspUpdatedFullProfile.serviceAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         }
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
+    } else if (currentPage === UPDATE_ADD_AML_SUPERVISOR) {
+        session.setExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE, { dateOfChange: dateOfChange });
+        console.log("RITZxi " + JSON.stringify(session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE)!) +
+    " :: " + JSON.stringify(session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_BODY)!) +
+    " :: " + JSON.stringify(session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER)!));
     }
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE);
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_BODY);
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER);
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
 };
