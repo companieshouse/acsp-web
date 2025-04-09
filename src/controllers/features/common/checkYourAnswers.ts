@@ -48,7 +48,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
     try {
         const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
-        const paymentUrl: string | undefined = await closeTransaction(session, transactionId);
+        const paymentUrl: string | undefined = await closeTransaction(session, transactionId, config.CREATE_DESCRIPTION, config.REFERENCE);
 
         if (!paymentUrl) {
             return res.redirect(addLangToUrl(BASE_URL + CONFIRMATION, lang));
