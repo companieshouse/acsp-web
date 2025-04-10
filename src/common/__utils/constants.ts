@@ -53,3 +53,9 @@ export const ACSP_UPDATE_CHANGE_DATE = {
     REGISTERED_OFFICE_ADDRESS: "registeredOfficeAddress",
     CORRESPONDENCE_ADDRESS: "correspondenceAddress"
 };
+
+export const ACSP_UPDATE_IN_PROGRESS_AML_DETAILS = {
+    MEMBERSHIP_BODY: "membershipBody",
+    MEMBERSHIP_NUMBER: "membershipNumber",
+    DATE_OF_CHANGE: "dateOfChange"
+};
