@@ -70,9 +70,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             } else {
                 newAMLBody.membershipId = req.body.membershipNumber_1;
                 session.setExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER, { membershipNumber: req.body.membershipNumber_1 });
-                AmlMembershipNumberServiceInstance.validateUpdateBodyIndex(updateBodyIndex, acspUpdatedFullProfile, newAMLBody);
-                session.deleteExtraData(NEW_AML_BODY);
-                session.deleteExtraData(ADD_AML_BODY_UPDATE);
                 session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_ADD_AML_SUPERVISOR);
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
             }

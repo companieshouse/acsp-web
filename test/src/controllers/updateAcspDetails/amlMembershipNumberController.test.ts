@@ -202,8 +202,6 @@ describe("amlMembershipNumberController", () => {
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
-        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
     });
 
     it("should return status 400 if the membership number is a duplicate", async () => {
