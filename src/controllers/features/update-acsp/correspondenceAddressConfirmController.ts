@@ -16,16 +16,19 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
 
         let correspondenceAddress;
+        let cancelUpdateLink;
         if (acspUpdatedFullProfile.type === "sole-trader") {
             correspondenceAddress = acspUpdatedFullProfile.registeredOfficeAddress;
+            cancelUpdateLink = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang) + "&cancel=registeredOfficeAddress";
         } else {
             correspondenceAddress = acspUpdatedFullProfile.serviceAddress;
+            cancelUpdateLink = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang) + "&cancel=serviceAddress";
         }
 
         res.render(config.CORRESPONDENCE_ADDRESS_CONFIRM, {
             previousPage,
             editPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, lang),
-            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang) + "&cancel=serviceAddress",
+            cancelUpdateLink,
             ...getLocaleInfo(locales, lang),
             currentUrl,
             correspondenceAddress
