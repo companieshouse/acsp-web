@@ -29,15 +29,12 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
-});
-
-describe("GET " + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
-    it("should redirect to the correct URL when cancelling update as sole trader", async () => {
+    it("should render the page as a sole trader", async () => {
         createMockSessionMiddleware();
-        const response = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE);
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(response.status).toBe(302);
-        expect(response.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Select the correspondence address");
     });
 });
 
