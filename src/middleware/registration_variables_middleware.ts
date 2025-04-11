@@ -15,6 +15,7 @@ export const registrationVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceName = "Apply to register as a Companies House authorised agent";
     res.locals.serviceUrl = "/register-as-companies-house-authorised-agent";
     res.locals.journeyType = AcspType.REGISTER_ACSP;
+    res.locals.tabTitleKey = "CommonTabTitle";
 
     next();
 };

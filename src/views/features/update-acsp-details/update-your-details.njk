@@ -96,7 +96,7 @@
 </h3>
 {% endset %}
 
-{% set title = i18n.updateYourDetailsHeading %}
+{% set title = "" %}
 {% block defaultLayout %}
 <div class="govuk-grid-column-three-quarters" id="main-page-content">
 {% block main_content %}
@@ -106,7 +106,7 @@
 }) }}
     <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
         {% include "partials/csrf_token.njk" %}
-        <h1 class="govuk-heading-xl">{{ i18n.updateYourDetailsHeading }}</h1>
+        <h1 class="govuk-heading-l">{{ i18n.updateYourDetailsHeading }}</h1>
         {% if acspFullProfile.type === "sole-trader" %}
             {% include "partials/update-your-details/sole-trader-answers.njk" %}
         {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
