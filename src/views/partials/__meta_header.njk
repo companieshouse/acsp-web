@@ -4,18 +4,14 @@
     
     {% set tabTitle = "" %}
     {% if errors %}
-        {% set tabTitle = tabTitle + i18n.error + ": " %}
+        {% set tabTitle = i18n.error + ": " %}
     {% endif %}
-    
+
     {% if title %}
         {% set tabTitle = tabTitle + title + " - " %}
     {% endif %}
 
-    {% if serviceUrl == "/view-and-update-the-authorised-agents-details" %}
-        {% set tabTitle = tabTitle + i18n.CommonTabTitleUpdateAcsp %}
-    {% else %}
-        {% set tabTitle = tabTitle + i18n.CommonTabTitle %}
-    {% endif %}
+    {% set tabTitle = tabTitle + i18n[tabTitleKey] %}
 
     <title>{{ tabTitle }}</title>
     <link rel="stylesheet" href="{{cdnHost}}/stylesheets/accessible-autocomplete/autocomplete.min.css" />
