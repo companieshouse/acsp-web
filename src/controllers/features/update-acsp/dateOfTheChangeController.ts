@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS, UPDATE_ADD_AML_SUPERVISOR, AML_MEMBERSHIP_NUMBER } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 
@@ -14,11 +14,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const prevUrl = getPreviousPageUrlDateOfChange(req) || UPDATE_ACSP_DETAILS_BASE_URL;
         const previousPage: string = addLangToUrl(prevUrl, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
+
+        const isAmlSupervisionStart = previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
+
         res.render(config.UPDATE_DATE_OF_THE_CHANGE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
             cancelTheUpdateUrl,
-            currentUrl
+            currentUrl,
+            isAmlSupervisionStart
         });
     } catch (err) {
         next(err);

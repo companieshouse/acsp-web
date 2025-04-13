@@ -24,11 +24,11 @@ import {
     NEW_AML_BODY
 }
     from "../../../common/__utils/constants";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { formatDateIntoReadableString } from "../../../services/common";
+import { AcspFullProfile } from "../../../model/AcspFullProfile";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -49,6 +49,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
+
+        console.log("acspFullProfile: " + JSON.stringify(acspFullProfile));
+        console.log("acspUpdatedFullProfile: " + JSON.stringify(acspUpdatedFullProfile));
         var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
         session.deleteExtraData(NEW_AML_BODY);
@@ -56,6 +59,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
         const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);
         const cancelAllUpdatesUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang);
+
+        // Before passing to view, convert dateOfChange to Date object from ISO string (to allow pre-1960 dates)
+        acspUpdatedFullProfile.amlDetails = acspUpdatedFullProfile.amlDetails.map(amlDetail => ({
+            ...amlDetail,
+            dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
+        }));
 
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
@@ -75,7 +84,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervioryBodiesFormatted,
             changeDates,
             cancelAllUpdatesUrl,
-            authorisedAgentUrl: AUTHORISED_AGENT
+            authorisedAgentUrl: AUTHORISED_AGENT,
+            formatDateIntoReadableString
         });
     } catch (err) {
         next(err);

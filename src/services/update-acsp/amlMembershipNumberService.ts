@@ -6,7 +6,7 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR
 import { AMLSupervisoryBodies } from "../../model/AMLSupervisoryBodies";
 import { ValidationError } from "express-validator";// Adjust the path as needed
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspFullProfile } from "model/AcspFullProfile";
 
 export class AmlMembershipNumberService {
     /**
@@ -49,7 +49,8 @@ export class AmlMembershipNumberService {
         } else {
             acspUpdatedFullProfile.amlDetails.push({
                 supervisoryBody: newAMLBody.amlSupervisoryBody!,
-                membershipDetails: newAMLBody.membershipId!
+                membershipDetails: newAMLBody.membershipId!,
+                dateOfChange: newAMLBody.dateOfChange!
             });
         }
     }
