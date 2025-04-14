@@ -50,8 +50,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
 
-        console.log("acspFullProfile: " + JSON.stringify(acspFullProfile));
-        console.log("acspUpdatedFullProfile: " + JSON.stringify(acspUpdatedFullProfile));
         var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
         session.deleteExtraData(NEW_AML_BODY);
