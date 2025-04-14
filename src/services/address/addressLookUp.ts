@@ -36,41 +36,38 @@ export class AddressLookUpService {
     public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
-            if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                if (ukAddresses.some(address => address.country === "")) {
-                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
-                }
-                if (businessAddress) {
-                    this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
-                } else {
-                    this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
-                }
-
-                return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
+            if (ukAddresses.some(address => address.country === "")) {
+                return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
             } else {
-                if (ukAddresses.some(address => address.country === "")) {
-                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
-                }
-                this.saveAddressListToSession(req, ukAddresses);
+                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
+                    if (businessAddress) {
+                        this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
+                    } else {
+                        this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
+                    }
 
-                if (businessAddress) {
-                    // update ascpData with postcode to save to DB
-                    const address: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspData.registeredOfficeAddress = address;
+                    return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
                 } else {
-                    // update ascpData with postcode to save to DB
-                    const correspondenceAddress: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    const applicantDetails = acspData.applicantDetails || {};
-                    applicantDetails.correspondenceAddress = correspondenceAddress;
-                    acspData.applicantDetails = applicantDetails;
-                }
-                return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
-            }
+                    this.saveAddressListToSession(req, ukAddresses);
 
+                    if (businessAddress) {
+                    // update ascpData with postcode to save to DB
+                        const address: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        acspData.registeredOfficeAddress = address;
+                    } else {
+                    // update ascpData with postcode to save to DB
+                        const correspondenceAddress: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        const applicantDetails = acspData.applicantDetails || {};
+                        applicantDetails.correspondenceAddress = correspondenceAddress;
+                        acspData.applicantDetails = applicantDetails;
+                    }
+                    return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
+                }
+            }
         }).catch((err) => {
             throw err;
         });
