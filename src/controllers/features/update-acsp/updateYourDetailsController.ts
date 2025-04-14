@@ -49,7 +49,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
-
         var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
         session.deleteExtraData(NEW_AML_BODY);
@@ -82,8 +81,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             AMLSupervioryBodiesFormatted,
             changeDates,
             cancelAllUpdatesUrl,
-            authorisedAgentUrl: AUTHORISED_AGENT,
-            formatDateIntoReadableString
+            authorisedAgentUrl: AUTHORISED_AGENT
         });
     } catch (err) {
         next(err);
