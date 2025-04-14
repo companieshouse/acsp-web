@@ -37,42 +37,40 @@ export class AddressLookUpService {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                if (businessAddress) {
-                    this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
+                if (ukAddresses.some(address => address.country === "")) {
+                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
                 } else {
-                    this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
+                    if (businessAddress) {
+                        this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
+                    } else {
+                        this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
+                    }
                 }
 
                 return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
-            } else if (ukAddresses.some(address => address.country === "")) {
-                let nexPageUrl = BASE_URL;
-                if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
-                    nexPageUrl += LIMITED_CORRESPONDENCE_ADDRESS_MANUAL;
-                } else if (acspData.typeOfBusiness === "LP" || acspData.typeOfBusiness === "PARTNERSHIP" || acspData.typeOfBusiness === "UNINCORPORATED") {
-                    nexPageUrl += UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL;
-                } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
-                    nexPageUrl += SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS;
-                }
-                return addLangToUrl(nexPageUrl, lang);
             } else {
-                this.saveAddressListToSession(req, ukAddresses);
-
-                if (businessAddress) {
-                    // update ascpData with postcode to save to DB
-                    const address: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspData.registeredOfficeAddress = address;
+                if (ukAddresses.some(address => address.country === "")) {
+                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
                 } else {
-                    // update ascpData with postcode to save to DB
-                    const correspondenceAddress: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    const applicantDetails = acspData.applicantDetails || {};
-                    applicantDetails.correspondenceAddress = correspondenceAddress;
-                    acspData.applicantDetails = applicantDetails;
+                    this.saveAddressListToSession(req, ukAddresses);
+
+                    if (businessAddress) {
+                        // update ascpData with postcode to save to DB
+                        const address: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        acspData.registeredOfficeAddress = address;
+                    } else {
+                        // update ascpData with postcode to save to DB
+                        const correspondenceAddress: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        const applicantDetails = acspData.applicantDetails || {};
+                        applicantDetails.correspondenceAddress = correspondenceAddress;
+                        acspData.applicantDetails = applicantDetails;
+                    }
+                    return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
                 }
-                return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
             }
 
         }).catch((err) => {
@@ -166,5 +164,17 @@ export class AddressLookUpService {
             country: getCountryFromKey(address?.country!),
             postalCode: address?.postcode
         };
+    }
+
+    private getManualAddressEntryNextPageURL (acspData: AcspData): string {
+        let nexPageUrl = BASE_URL;
+        if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+            nexPageUrl += LIMITED_CORRESPONDENCE_ADDRESS_MANUAL;
+        } else if (acspData.typeOfBusiness === "LP" || acspData.typeOfBusiness === "PARTNERSHIP" || acspData.typeOfBusiness === "UNINCORPORATED") {
+            nexPageUrl += UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL;
+        } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
+            nexPageUrl += SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS;
+        }
+        return nexPageUrl;
     }
 }
