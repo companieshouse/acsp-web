@@ -25,12 +25,11 @@
         {%endif%}
     {% set amlSummaryObject = {
         key: {
-            text:  i18n.checkYourAnswersAMLTab + tmp,
+            text: AMLSupervioryBodiesFormatted[body.supervisoryBody],
             classes: "govuk-!-width-one-third"
         },
         value: {
-            html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[body.supervisoryBody] + "</li><li>" + body.membershipDetails + "</li></ul>"
-            +updateAMLDetailsStatusText,
+            html: body.membershipDetails + updateAMLDetailsStatusText,
             classes: "govuk-!-width-one-third"
         },
         actions: {
