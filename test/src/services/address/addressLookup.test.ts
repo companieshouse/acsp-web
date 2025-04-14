@@ -7,8 +7,11 @@ import { ACSP_DETAILS_UPDATED, USER_DATA } from "../../../../src/common/__utils/
 import { Session } from "@companieshouse/node-session-handler";
 import { getCountryFromKey } from "../../../../src/services/common";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
-import { BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
+import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
+import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { addLangToUrl } from "../../../../src/utils/localise";
 
 const service = new AddressLookUpService();
 
@@ -16,7 +19,10 @@ jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/postcode-lookup-service.ts");
 
 const postalCode: string = "AB12CD";
-
+jest.mock("../../../../src/utils/localise", () => ({
+    addLangToUrl: jest.fn((url: string, lang: string) => `${url}?lang=${lang}`),
+    selectLang: jest.fn(() => "en")
+}));
 describe("addressLookupService tests", () => {
     let req: MockRequest<Request>;
     beforeEach(() => {
@@ -200,5 +206,65 @@ describe("addressLookupService tests", () => {
 
             await expect(service.processAddressFromPostcodeUpdateJourney(req, "postcode", "1", dummyFullProfile, true, "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
         });
+    });
+});
+
+describe("AddressLookUpService - getAddressFromPostcode", () => {
+    let addressLookUpService: AddressLookUpService;
+    let req: Partial<Request>;
+    let acspData: AcspData;
+
+    beforeEach(() => {
+        addressLookUpService = new AddressLookUpService();
+        req = {
+            query: {
+                lang: "en"
+            }
+        } as Partial<Request>;
+
+        acspData = {
+            typeOfBusiness: ""
+        } as AcspData;
+    });
+
+    it("should return LIMITED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is LC and country is empty", async () => {
+        const ukAddresses: UKAddress[] = [
+            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
+        ];
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddresses);
+        acspData.typeOfBusiness = "LC";
+
+        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, "");
+
+        expect(result).toBe(`${BASE_URL}${LIMITED_CORRESPONDENCE_ADDRESS_MANUAL}?lang=en`);
+        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${LIMITED_CORRESPONDENCE_ADDRESS_MANUAL}`, "en");
+    });
+
+    it("should return UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is PARTNERSHIP and country is empty", async () => {
+        const ukAddresses: UKAddress[] = [
+            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
+        ];
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddresses);
+        acspData.typeOfBusiness = "PARTNERSHIP";
+
+        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, "", UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL);
+
+        expect(result).toBe(`${BASE_URL}${UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL}?lang=en`);
+        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL}`, "en");
+    });
+
+    it("should return SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS URL when typeOfBusiness is SOLE_TRADER and country is empty", async () => {
+        const ukAddresses: UKAddress[] = [
+            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
+        ];
+        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce([
+            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
+        ]);
+        acspData.typeOfBusiness = "SOLE_TRADER";
+
+        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, "", SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
+
+        expect(result).toBe(`${BASE_URL}${SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS}?lang=en`);
+        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS}`, "en");
     });
 });
