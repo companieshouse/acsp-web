@@ -7,7 +7,7 @@ import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/ac
 import { getCountryFromKey } from "../../services/common";
 import { getAddressFromPostcode } from "../../services/postcode-lookup-service";
 import { addLangToUrl, selectLang } from "../../utils/localise";
-import { BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../types/pageURL";
+import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../types/pageURL";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export class AddressLookUpService {
@@ -37,6 +37,9 @@ export class AddressLookUpService {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
+                if (ukAddresses.some(address => address.country === "")) {
+                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
+                }
                 if (businessAddress) {
                     this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
                 } else {
@@ -45,6 +48,9 @@ export class AddressLookUpService {
 
                 return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
             } else {
+                if (ukAddresses.some(address => address.country === "")) {
+                    return addLangToUrl(this.getManualAddressEntryNextPageURL(acspData), lang);
+                }
                 this.saveAddressListToSession(req, ukAddresses);
 
                 if (businessAddress) {
@@ -156,5 +162,17 @@ export class AddressLookUpService {
             country: getCountryFromKey(address?.country!),
             postalCode: address?.postcode
         };
+    }
+
+    private getManualAddressEntryNextPageURL (acspData: AcspData): string {
+        let nexPageUrl = BASE_URL;
+        if (acspData.typeOfBusiness === "LC" || acspData.typeOfBusiness === "LLP" || acspData.typeOfBusiness === "CORPORATE_BODY") {
+            nexPageUrl += LIMITED_CORRESPONDENCE_ADDRESS_MANUAL;
+        } else if (acspData.typeOfBusiness === "LP" || acspData.typeOfBusiness === "PARTNERSHIP" || acspData.typeOfBusiness === "UNINCORPORATED") {
+            nexPageUrl += UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL;
+        } else if (acspData.typeOfBusiness === "SOLE_TRADER") {
+            nexPageUrl += SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS;
+        }
+        return nexPageUrl;
     }
 }
