@@ -22,6 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_ACSP_DETAILS_APPLICATION_CONFIRMATION, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
+            authorisedAgentAccountLink: "#",
             surveyLink: "#",
             email,
             transactionId
