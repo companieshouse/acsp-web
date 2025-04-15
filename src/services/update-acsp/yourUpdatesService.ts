@@ -25,7 +25,7 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     if (acspFullProfile.name !== updatedFullProfile.name) {
         updates.businessName = {
             value: updatedFullProfile.name,
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS)!))
         };
     }
     // Email Address Changes
