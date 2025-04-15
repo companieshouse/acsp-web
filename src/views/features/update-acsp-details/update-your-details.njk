@@ -63,11 +63,10 @@
             %}
             {% set amlSummaryObject = {
                 key: {
-                    text:  i18n.checkYourAnswersAMLTab
+                    text: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
                 },
                 value: {
-                    html:  "<ul class='govuk-list govuk-list--bullet'><li>" + AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody] + "</li><li>" + bodyAdded.membershipDetails + "</li></ul>"
-                    + newlyAddedAMLDetailsStatusText
+                    html: bodyAdded.membershipDetails + newlyAddedAMLDetailsStatusText
                 },
                 actions: {
                     items: [
