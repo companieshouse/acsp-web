@@ -2,6 +2,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
 import { ACSP_UPDATE_CHANGE_DATE } from "../../common/__utils/constants";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE } from "../../types/pageURL";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -140,3 +141,20 @@ export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, up
     });
     return addedBodies;
 };
+
+// Flow in session
+export const setUpdateFlowInSession = (session: Session): void => {
+    const flow = [
+        `${UPDATE_ACSP_DETAILS_BASE_URL}${UPDATE_ACSP_WHAT_IS_YOUR_NAME}`,
+        `${UPDATE_ACSP_DETAILS_BASE_URL}${UPDATE_DATE_OF_THE_CHANGE}`,
+        `${UPDATE_ACSP_DETAILS_BASE_URL}${UPDATE_CHECK_YOUR_UPDATES}`
+    ];
+    session.setExtraData("updateFlow", flow);
+};
+
+// Get previous page
+export function getPreviousStepFromSession (currentPath: string, session: Session): string | null {
+    const flow: string[] = session.getExtraData("updateFlow") || [];
+    const index = flow.indexOf(currentPath);
+    return index > 0 ? flow[index - 1] : null;
+}
