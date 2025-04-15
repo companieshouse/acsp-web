@@ -37,7 +37,7 @@ export class AddressLookUpService {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (ukAddresses.some(address => address.country === "")) {
-                throw new Error("correspondenceLookUpAddressUndefinedCountry");
+                throw new Error("correspondenceLookUpAddressWithoutCountry");
             } else {
                 if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                     if (businessAddress) {

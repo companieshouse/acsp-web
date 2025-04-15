@@ -234,6 +234,6 @@ describe("AddressLookUpService - getAddressFromPostcode", () => {
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddresses);
         await expect(
             addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", {}, false, "")
-        ).rejects.toThrow("correspondenceLookUpAddressUndefinedCountry");
+        ).rejects.toThrow("correspondenceLookUpAddressWithoutCountry");
     });
 });
