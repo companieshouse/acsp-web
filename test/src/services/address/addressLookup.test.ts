@@ -232,39 +232,8 @@ describe("AddressLookUpService - getAddressFromPostcode", () => {
             { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
         ];
         (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddresses);
-        acspData.typeOfBusiness = "LC";
-
-        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, "");
-
-        expect(result).toBe(`${BASE_URL}${LIMITED_CORRESPONDENCE_ADDRESS_MANUAL}?lang=en`);
-        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${LIMITED_CORRESPONDENCE_ADDRESS_MANUAL}`, "en");
-    });
-
-    it("should return UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is PARTNERSHIP and country is empty", async () => {
-        const ukAddresses: UKAddress[] = [
-            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
-        ];
-        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddresses);
-        acspData.typeOfBusiness = "PARTNERSHIP";
-
-        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, "", UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL);
-
-        expect(result).toBe(`${BASE_URL}${UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL}?lang=en`);
-        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL}`, "en");
-    });
-
-    it("should return SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS URL when typeOfBusiness is SOLE_TRADER and country is empty", async () => {
-        const ukAddresses: UKAddress[] = [
-            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
-        ];
-        (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce([
-            { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }
-        ]);
-        acspData.typeOfBusiness = "SOLE_TRADER";
-
-        const result = await addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", acspData, false, "", SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS);
-
-        expect(result).toBe(`${BASE_URL}${SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS}?lang=en`);
-        expect(addLangToUrl).toHaveBeenCalledWith(`${BASE_URL}${SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS}`, "en");
+        await expect(
+            addressLookUpService.getAddressFromPostcode(req as Request, "SW1A 1AA", "", {}, false, "")
+        ).rejects.toThrow("correspondenceLookUpAddressUndefinedCountry");
     });
 });
