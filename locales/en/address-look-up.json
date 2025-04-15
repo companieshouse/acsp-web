@@ -2,6 +2,8 @@
     "correspondenceLookUpAddressTitle" : "What is the correspondence address?",
     "businessLookUpAddressTitle": "What is the business address?",
     "registeredOfficeLookUpAddressTitle": "What is the registered office address?",
+    "thisWillOnlyUpdateTheAddressInsetTextUpdateAcsp": "This will only update the address on the authorised agent account. You'll also need to ",
+    "changeTheCompanyRegOfficeInsetTextLinkUpdateAcsp": "change the company's registered office address (opens in a new tab)",
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
     "correspondenceLookUpAddressInputHint1": "Property name or number",
     "correspondenceLookUpAddressInputHint2": "You'll need to enter the address manually if it's not in the UK.",

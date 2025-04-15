@@ -2,6 +2,8 @@
     "correspondenceLookUpAddressTitle" : "Beth yw'r cyfeiriad gohebiaeth?",
     "businessLookUpAddressTitle": "Beth yw'r cyfeiriad busnes?",
     "registeredOfficeLookUpAddressTitle": "What is the registered office address? welsh",
+    "thisWillOnlyUpdateTheAddressInsetTextUpdateAcsp": "This will only update the address on the authorised agent account. You'll also need to Welsh",
+    "changeTheCompanyRegOfficeInsetTextLinkUpdateAcsp": "change the company's registered office address (opens in a new tab) Welsh",
     "correspondenceLookUpAddressPostCodeInput": "Cod post y DU",
     "correspondenceLookUpAddressInputHint1": "Enw neu rif eiddo",
     "correspondenceLookUpAddressInputHint2": "Bydd angen i chi cofnodi'r cyfeiriad â llaw os nad yw yn y Deyrnas Unedig.",
