@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION } from "../../../types/pageURL";
+import { AUTHORISED_AGENT, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
@@ -22,6 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_ACSP_DETAILS_APPLICATION_CONFIRMATION, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
+            authorisedAgentAccountLink: AUTHORISED_AGENT,
             surveyLink: "#",
             email,
             transactionId

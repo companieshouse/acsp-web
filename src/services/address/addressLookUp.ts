@@ -1,7 +1,7 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
-import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getCountryFromKey } from "../../services/common";
@@ -36,35 +36,38 @@ export class AddressLookUpService {
     public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
-            if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                if (businessAddress) {
-                    this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
-                } else {
-                    this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
-                }
-
-                return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
+            if (ukAddresses.some(address => address.country === "")) {
+                throw new Error("correspondenceLookUpAddressWithoutCountry");
             } else {
-                this.saveAddressListToSession(req, ukAddresses);
+                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
+                    if (businessAddress) {
+                        this.saveBusinessAddress(ukAddresses, inputPremise, acspData);
+                    } else {
+                        this.saveCorrespondenceAddress(ukAddresses, inputPremise, acspData);
+                    }
 
-                if (businessAddress) {
-                    // update ascpData with postcode to save to DB
-                    const address: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspData.registeredOfficeAddress = address;
+                    return addLangToUrl(BASE_URL + nexPageUrls[0], lang);
                 } else {
-                    // update ascpData with postcode to save to DB
-                    const correspondenceAddress: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    const applicantDetails = acspData.applicantDetails || {};
-                    applicantDetails.correspondenceAddress = correspondenceAddress;
-                    acspData.applicantDetails = applicantDetails;
-                }
-                return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
-            }
+                    this.saveAddressListToSession(req, ukAddresses);
 
+                    if (businessAddress) {
+                        // update ascpData with postcode to save to DB
+                        const address: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        acspData.registeredOfficeAddress = address;
+                    } else {
+                        // update ascpData with postcode to save to DB
+                        const correspondenceAddress: Address = {
+                            postalCode: req.body.postCode
+                        };
+                        const applicantDetails = acspData.applicantDetails || {};
+                        applicantDetails.correspondenceAddress = correspondenceAddress;
+                        acspData.applicantDetails = applicantDetails;
+                    }
+                    return addLangToUrl(BASE_URL + nexPageUrls[1], lang);
+                }
+            }
         }).catch((err) => {
             throw err;
         });
@@ -75,7 +78,7 @@ export class AddressLookUpService {
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                 if (businessAddress) {
-                    this.saveBusinessAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
+                    this.saveBusinessAddressUpdateJourney(req, ukAddresses, inputPremise);
                 } else {
                     this.saveCorrespondenceAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
                 }
@@ -84,19 +87,12 @@ export class AddressLookUpService {
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
-                if (businessAddress) {
-                    // update acspDetails with postcode to save to DB
-                    const address: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspDetails.registeredOfficeAddress = address;
-                } else {
-                    // update acspDetails with postcode to save to DB
-                    const correspondenceAddress: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspDetails.serviceAddress = correspondenceAddress;
-                }
+                const address: Address = {
+                    postalCode: req.body.postCode
+                };
+                const session: Session = req.session as any as Session;
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, address);
+
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
             }
 
@@ -142,8 +138,9 @@ export class AddressLookUpService {
         acspDetails.serviceAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
-    public async saveBusinessAddressUpdateJourney (ukAddresses: UKAddress[], inputPremise: string, acspDetails: AcspFullProfile): Promise<void> {
-        acspDetails.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
+    public async saveBusinessAddressUpdateJourney (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
+        const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, this.getAddress(ukAddresses, inputPremise));
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string): Address {

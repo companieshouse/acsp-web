@@ -1,13 +1,20 @@
 {% extends "layouts/default.njk" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
 {% set errors = pageProperties.errors %}
 
 {% if typeOfBusiness === "limited-company" or typeOfBusiness === "limited-liability-partnership"  or typeOfBusiness === "corporate-body" %}
   {% set title = i18n.registeredOfficeLookUpAddressTitle %}
+  {% set insetTextForLimitedJourneyUpdateAcsp = 
+    i18n.thisWillOnlyUpdateTheAddressInsetTextUpdateAcsp 
+    + "<a class='govuk-link' id='change-company-address-link' href='https://www.gov.uk/government/publications/change-a-registered-office-address-ad01' target='_blank'>" 
+    + i18n.changeTheCompanyRegOfficeInsetTextLinkUpdateAcsp + "</a>" + "." %}
 {% else %}
   {% set title = i18n.businessLookUpAddressTitle %} 
 {% endif %}
+
 {% block main_content %}
   <div class="govuk-width-container">
     <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
@@ -52,20 +59,25 @@
                 }
             }) }}
       </div>
-      {% if reqType === "updateAcsp" %}
-        <div class="govuk-button-group">
-          {{ govukButton({
-            text: i18n.correspondenceLookUpAddressFindAddressBtn,
-            id: "find-address-id"
-          })}}
-          <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
-        </div>
-      {% else %}
-        {{ govukButton({
-          text: i18n.correspondenceLookUpAddressFindAddressBtn,
-          id:"find-address-id"
+    {% if reqType === "updateAcsp" %}
+      {% if insetTextForLimitedJourneyUpdateAcsp %}
+        {{ govukInsetText({
+          html: insetTextForLimitedJourneyUpdateAcsp
         }) }}
       {% endif %}
+      <div class="govuk-button-group">
+        {{ govukButton({
+          text: i18n.correspondenceLookUpAddressFindAddressBtn,
+          id: "find-address-id"
+        })}}
+        <a class="govuk-link" id="cancel-id" href={{previousPage}}>{{i18n.CancelUpdate}}</a>
+      </div>
+    {% else %}
+      {{ govukButton({
+        text: i18n.correspondenceLookUpAddressFindAddressBtn,
+        id:"find-address-id"
+      }) }}
+    {% endif %}
       <p>
         <a href={{ businessAddressManualLink }} class="govuk-link" id="manual-address-id">{{ i18n.correspondenceLookUpAddressManuallyBtn }}</a>
       </p>

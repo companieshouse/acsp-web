@@ -47,10 +47,11 @@ describe("yourUpdatesService", () => {
 
     it("should format updates when business name changes", () => {
         const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, new Date(2021, 1, 1).toISOString());
         const updates = getFormattedUpdates(session, acspFullProfile, updatedFullProfile);
         expect(updates.businessName).toEqual({
             value: "New Name",
-            changedDate: expect.any(String)
+            changedDate: "01 February 2021"
         });
     });
 
