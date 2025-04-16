@@ -3,15 +3,14 @@ import { createRequest, MockRequest } from "node-mocks-http";
 import { AddressLookUpService } from "../../../../src/services/address/addressLookUp";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { ukAddress1, ukAddressList } from "../../../mocks/address.mock";
-import { ACSP_DETAILS_UPDATED, USER_DATA } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, USER_DATA } from "../../../../src/common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { getCountryFromKey } from "../../../../src/services/common";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
-import { BASE_URL, LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
+import { BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { addLangToUrl } from "../../../../src/utils/localise";
 
 const service = new AddressLookUpService();
 
@@ -139,16 +138,13 @@ describe("addressLookupService tests", () => {
             const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage1?lang=en");
-            expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
-                ...dummyFullProfile,
-                registeredOfficeAddress: {
-                    premises: ukAddress1.premise,
-                    addressLine1: ukAddress1.addressLine1,
-                    addressLine2: ukAddress1.addressLine2,
-                    locality: ukAddress1.postTown,
-                    country: getCountryFromKey(ukAddress1.country!),
-                    postalCode: ukAddress1.postcode
-                }
+            expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
+                premises: ukAddress1.premise,
+                addressLine1: ukAddress1.addressLine1,
+                addressLine2: ukAddress1.addressLine2,
+                locality: ukAddress1.postTown,
+                country: getCountryFromKey(ukAddress1.country!),
+                postalCode: ukAddress1.postcode
             });
         });
         it("should return the first next page URL when a valid premise is found for correspondence address", async () => {
@@ -179,11 +175,8 @@ describe("addressLookupService tests", () => {
             const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
-            expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
-                ...dummyFullProfile,
-                registeredOfficeAddress: {
-                    postalCode: postalCode
-                }
+            expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
+                postalCode: postalCode
             });
         });
         it("should return the second next page URL when premise is not found in list for correspondence address", async () => {
@@ -194,11 +187,8 @@ describe("addressLookupService tests", () => {
             const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
-            expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
-                ...dummyFullProfile,
-                serviceAddress: {
-                    postalCode: postalCode
-                }
+            expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
+                postalCode: postalCode
             });
         });
         it("should throw an error when getAddressFromPostcode fails", async () => {

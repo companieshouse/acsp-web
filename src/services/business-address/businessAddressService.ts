@@ -1,6 +1,8 @@
 import { Request } from "express";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../common/__utils/constants";
+import { Session } from "@companieshouse/node-session-handler";
 
 export class BusinessAddressService {
 
@@ -18,8 +20,7 @@ export class BusinessAddressService {
         acspData.registeredOfficeAddress = businessAddress;
     }
 
-    public saveBusinessAddressUpdate (req: Request, acspFullProfile: AcspFullProfile, acspUpdatedFullProfile: AcspFullProfile): void {
-        const originalCountry = acspFullProfile.registeredOfficeAddress.country;
+    public saveBusinessAddressUpdate (req: Request, originalCountry: string): void {
         // Extract business address details from request body
         const businessAddress: Address = {
             premises: req.body.addressPropertyDetails,
@@ -30,7 +31,8 @@ export class BusinessAddressService {
             country: req.body.addressCountry.toUpperCase() === originalCountry?.toUpperCase() ? originalCountry : req.body.addressCountry,
             postalCode: req.body.addressPostcode
         };
-        acspUpdatedFullProfile.registeredOfficeAddress = businessAddress;
+        const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, businessAddress);
     }
 
     public getBusinessManualAddress (acspData: AcspData | AcspFullProfile) {
