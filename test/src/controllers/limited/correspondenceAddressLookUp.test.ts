@@ -164,6 +164,17 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
             postCode: "AB12CD",
             premise: ""
         };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("correspondenceLookUpAddressWithoutCountry"));
+
+        const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find the full address from the postcode. Enter the address manually");
+    });
+    it("should return status 400 for no postcode found", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: ""
+        };
         (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Postcode not found"));
 
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);

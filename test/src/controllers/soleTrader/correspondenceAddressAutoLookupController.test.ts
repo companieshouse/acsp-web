@@ -198,6 +198,18 @@ describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
     it("should return status 400 for no postcode found", async () => {
         const formData = {
             postCode: "AB12CD",
+            premise: ""
+        };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("correspondenceLookUpAddressWithoutCountry"));
+
+        const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find the full address from the postcode. Enter the address manually");
+    });
+
+    it("should return status 400 for no postcode found", async () => {
+        const formData = {
+            postCode: "AB12CD",
             premise: "",
             applicantDetails: {
                 firstName: "JOHN",

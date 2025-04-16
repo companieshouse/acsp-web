@@ -114,6 +114,18 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
 
+    it("should return status 400 for no postcode found", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: ""
+        };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("correspondenceLookUpAddressWithoutCountry"));
+
+        const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find the full address from the postcode. Enter the address manually");
+    });
+
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
