@@ -7,11 +7,8 @@
 {% endblock %}
 
 {% set html %}
-<h3 class="govuk-notification-banner__heading">
-  {{ i18n.signInBeforeYouUseThisService }}
-</h3>
-<p class="govuk-body">{{i18n.wereWorkingToResolve}}</p>
-<p class="govuk-body">{{i18n.forNowYoullNeedTo}} <a class="govuk-notification-banner__link" href={{ signInLink }}>{{i18n.signInBeforeYouStartNotificationBannerLink}}</a>.</p>
+<h3 class="govuk-notification-banner__heading">{{ i18n.thisIsANewServiceNotificationBanner }} </h3>
+<p class="govuk-body">{{i18n.ifYouHaveAnyIssuesNotificationBanner}} <a class="govuk-notification-banner__link" href={{ feedbackLink }} >{{i18n.feedbackLinkNotificationBanner}}</a>.</p>
 {% endset %}
 
 {% set title = "" %}
@@ -78,11 +75,24 @@
     </p>
     <p class="govuk-body">{{ i18n.saveYourAnswers }}</p>
     <div class="ch-info-panel ch-info-panel-custom">
-      <div class="govuk-panel__body">
-        <p class="govuk-body">{{ i18n.wereWorkingToResolve }}</p>
-        <p class="govuk-body">{{ i18n.forNowYoullNeedTo }} <a class="govuk-notification-banner__link" href={{ signInLink }}>{{ i18n.signInToYourAccount }}</a>{{ i18n.beforeYouStart }}</p>
-        </div>
-      </div>
+     <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
+     <div class="govuk-panel__body">
+       <p class="govuk-body">
+         {{ i18n.identifyBeforeYouCanUse }}
+       </p>
+       <p class="govuk-body home-page-p-tag">
+         <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" class="home-page-img">
+           <strong>
+             <a
+               class="govuk-link govuk-link--no-visited-state home-page-img-link"
+               href="{{verifyIdentityGovOneLoginLink}}"
+               id="verify-id">
+               {{ i18n.verifyIdentityLink }}
+             </a>.
+           </strong>
+         </p>
+       </div>
+     </div>
     <button
       class="govuk-button govuk-button--start"
       id="start-now"
