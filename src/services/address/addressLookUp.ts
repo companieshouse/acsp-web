@@ -1,5 +1,5 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
-import { ValidationError, validationResult } from "express-validator";
+import { ValidationError } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
 import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
