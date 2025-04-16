@@ -74,23 +74,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 next(err);
             }
         }).catch((error) => {
-            let validationError: ValidationError;
-
-            if (error.message === "correspondenceLookUpAddressWithoutCountry") {
-                validationError = {
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressWithoutCountry",
-                    param: "postCode",
-                    location: "body"
-                };
-            } else {
-                validationError = {
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postCode",
-                    location: "body"
-                };
-            }
+            const validationError = addressLookUpService.getErrorMessage(error, postcode);
             const pageProperties = getPageProperties(formatValidationError([validationError], lang));
             buildErrorResponse(req, res, next, locales, lang, acspData, pageProperties);
         });
