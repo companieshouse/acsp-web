@@ -83,14 +83,25 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 logger.error(POST_ACSP_REGISTRATION_DETAILS_ERROR);
                 next(err);
             }
-        }).catch(() => {
-            const validationError: ValidationError[] = [{
-                value: postcode,
-                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                param: "postCode",
-                location: "body"
-            }];
-            const pageProperties = getPageProperties(formatValidationError(validationError, lang));
+        }).catch((error) => {
+            let validationError: ValidationError;
+
+            if (error.message === "correspondenceLookUpAddressWithoutCountry") {
+                validationError = {
+                    value: postcode,
+                    msg: "correspondenceLookUpAddressWithoutCountry",
+                    param: "postCode",
+                    location: "body"
+                };
+            } else {
+                validationError = {
+                    value: postcode,
+                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                    param: "postCode",
+                    location: "body"
+                };
+            }
+            const pageProperties = getPageProperties(formatValidationError([validationError], lang));
             res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
                 previousPage,
                 ...getLocaleInfo(locales, lang),

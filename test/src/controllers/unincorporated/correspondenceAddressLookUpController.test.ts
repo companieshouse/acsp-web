@@ -104,7 +104,7 @@ describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
             premise: ""
         };
 
-        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(null);
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("Postcode not found"));
 
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
