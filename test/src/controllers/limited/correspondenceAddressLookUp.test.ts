@@ -159,7 +159,7 @@ describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("Enter a postcode");
     });
 
-    it("should return status 400 for no postcode found", async () => {
+    it("should return status 400 for no country found", async () => {
         const formData = {
             postCode: "AB12CD",
             premise: ""
