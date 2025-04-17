@@ -60,6 +60,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, soleTraderDetails);
             session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_ACSP_WHAT_IS_YOUR_NAME);
+            console.log("WEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWE'''''''''''''''''''''''''''''''''''''''''''''' WEWEWEWEWEWEW " + ACSP_DETAILS_UPDATE_ELEMENT);
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
         }
     } catch (err) {

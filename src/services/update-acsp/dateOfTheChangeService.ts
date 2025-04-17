@@ -54,10 +54,11 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
 export const getPreviousPageUrlDateOfChange = (req: Request): string => {
     const session: Session = req.session as any as Session;
-    let previousPageUrl: string = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL) || "";
-    if (!previousPageUrl) {
+    const previousPageUrl: string = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT) || "";
+    /* if (!previousPageUrl) {
         previousPageUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL) || UPDATE_ACSP_DETAILS_BASE_URL;
         session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, previousPageUrl);
-    }
-    return previousPageUrl;
+    } */
+    console.log("QWERTYUIOPASDFGHJKLZXCVBNMQWERTYUIOPASDFGHJKLZXCVBNMQWERTYUIOPASDFGHJKLZXCVBNMNGVHGGJGVG " + previousPageUrl);
+    return previousPageUrl || UPDATE_ACSP_DETAILS_BASE_URL;
 };
