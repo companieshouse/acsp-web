@@ -19,16 +19,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         const payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
-        const reqType = REQ_TYPE_UPDATE_ACSP;
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
             countryList: countryList,
-            firstName: acspData?.soleTraderDetails?.forename,
-            lastName: acspData?.soleTraderDetails?.surname,
-            payload,
-            reqType
+            payload
         });
     } catch (error) {
         next(error);
@@ -51,9 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
                 countryList: countryList,
-                ...pageProperties,
-                payload: req.body,
-                reqType
+                ...pageProperties
             });
         } else {
             let countryOfResidence;
