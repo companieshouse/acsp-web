@@ -46,6 +46,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE,
                 countryList: countryList,
+                payload: req.body,
                 ...pageProperties
             });
         } else {
