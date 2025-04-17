@@ -57,6 +57,7 @@
         {% if chkFlagForNewlyAddedAML %}
             {% set newlyAddedAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsStartedOn+" "+bodyAdded.dateOfChange+"</p>
                             <p class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaptionForNewlyAddedAML+"</p>
                             <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
                             </div>"

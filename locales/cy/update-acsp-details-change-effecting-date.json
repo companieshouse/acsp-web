@@ -1,6 +1,10 @@
 {
     "dateOfChangeHint" : "For example, 27 1 2022 Welsh",
     "updateDateThisChanged": "When did this change? Welsh",
+    "updateDateAMLSupervisionStart": "When did the AML supervision start? Welsh",
+    "dateOfChangeAMLSupervisionStartHint" : "For example, 27 3 2025 Welsh",
+    "updateDateAMLSupervisionEnd": "When did the AML supervision end? Welsh",
+    "dateOfChangeAMLSupervisionEndHint" : "For example, 27 4 2025 Welsh",
     "dateOfChangeDay": "Day Welsh",
     "dateOfChangeMonth": "Month Welsh",
     "dateOfChangeYear": "Year Welsh",

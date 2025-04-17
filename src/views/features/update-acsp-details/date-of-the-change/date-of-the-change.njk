@@ -5,7 +5,15 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set title = i18n.updateDateThisChanged %}
+{% if isAmlSupervisionStart %}
+  {% set pageTitle = i18n.updateDateAMLSupervisionStart %}
+  {% set pageHintText = i18n.dateOfChangeAMLSupervisionStartHint %}
+{% else %}
+  {% set pageTitle = i18n.updateDateThisChanged %}
+  {% set pageHintText = i18n.dateOfChangeHint %}
+{% endif %}
+
+{% set title = pageTitle %}
 {% block main_content %}
 
   {% if errors["change-day"] %}
@@ -24,13 +32,13 @@
           namePrefix: "change",
           fieldset: {
             legend: {
-              text: i18n.updateDateThisChanged,
+              text: pageTitle,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
           hint: {
-            text: i18n.dateOfChangeHint
+            text: pageHintText
           },
           errorMessage: {
             text: errorMessageText

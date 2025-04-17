@@ -2,9 +2,9 @@ import { getFormattedUpdates, getFormattedRemovedAMLUpdates, getFormattedAddedAM
 import { createRequest, MockRequest } from "node-mocks-http";
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_UPDATE_CHANGE_DATE } from "../../../../src/common/__utils/constants";
 import { Request } from "express";
+import { AcspFullProfile } from "../../../../src/model/AcspFullProfile";
 
 describe("yourUpdatesService", () => {
     let req: MockRequest<Request>;

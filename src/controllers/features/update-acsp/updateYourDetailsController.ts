@@ -25,11 +25,11 @@ import {
     NEW_AML_BODY
 }
     from "../../../common/__utils/constants";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { formatDateIntoReadableString } from "../../../services/common";
+import { AcspFullProfile } from "../../../model/AcspFullProfile";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -58,6 +58,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
         const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);
         const cancelAllUpdatesUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang);
+
+        // Before passing to view, convert dateOfChange to Date object from ISO string (to allow pre-1960 dates)
+        acspUpdatedFullProfile.amlDetails = acspUpdatedFullProfile.amlDetails.map(amlDetail => ({
+            ...amlDetail,
+            dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
+        }));
 
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
