@@ -94,26 +94,6 @@ export class AddressLookUpService {
         return validationError;
     }
 
-    public getErrorMessage (error:Error, postcode:any) :ValidationError {
-        let validationError: ValidationError;
-        if (error.message === "correspondenceLookUpAddressWithoutCountry") {
-            validationError = {
-                value: postcode,
-                msg: "correspondenceLookUpAddressWithoutCountry",
-                param: "postCode",
-                location: "body"
-            };
-        } else {
-            validationError = {
-                value: postcode,
-                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                param: "postCode",
-                location: "body"
-            };
-        }
-        return validationError;
-    }
-
     public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
