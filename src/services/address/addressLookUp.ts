@@ -1,4 +1,5 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
+import { ValidationError } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
 import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
@@ -71,6 +72,46 @@ export class AddressLookUpService {
         }).catch((err) => {
             throw err;
         });
+    }
+
+    public getErrorMessage (error:Error, postcode:any) :ValidationError {
+        let validationError: ValidationError;
+        if (error.message === "correspondenceLookUpAddressWithoutCountry") {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressWithoutCountry",
+                param: "postCode",
+                location: "body"
+            };
+        } else {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                param: "postCode",
+                location: "body"
+            };
+        }
+        return validationError;
+    }
+
+    public getErrorMessage (error:Error, postcode:any) :ValidationError {
+        let validationError: ValidationError;
+        if (error.message === "correspondenceLookUpAddressWithoutCountry") {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressWithoutCountry",
+                param: "postCode",
+                location: "body"
+            };
+        } else {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                param: "postCode",
+                location: "body"
+            };
+        }
+        return validationError;
     }
 
     public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {

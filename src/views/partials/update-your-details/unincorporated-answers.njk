@@ -48,7 +48,7 @@
   %}
 {%endif%}
 
-<h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+<h2 class="govuk-heading-m">{{ i18n.updateUnincorporatedDetailsTableHeading }}</h2>
   {{ govukSummaryList({
       rows: [
       {
@@ -76,6 +76,56 @@
             classes: "govuk-!-width-one-third"
           }
       }if profileDetails.name,
+      {
+        key: {
+          text: i18n.updateYourDetailsBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetailsUpdated.businessName + updateStatusTextForBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessName
+              },
+              {
+                href: cancelChangeUrl + "&cancel=businessName",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessName
+              }if profileDetailsUpdated.businessName !== profileDetails.businessName
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsBusinessAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForBusinessAddress,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/business-address-lookup?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
+              },
+              {
+                href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
+              }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
+            ],
+          classes: "govuk-!-width-one-third"
+          }
+      },
       {
         key: {
           text: i18n.updateYourDetailsCorrespondenceAddress,
@@ -122,56 +172,6 @@
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               }if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
-            ],
-            classes: "govuk-!-width-one-third"
-          }
-      },
-      {
-        key: {
-          text: i18n.updateYourDetailsBusinessAddress,
-          classes: "govuk-!-width-one-third"
-        },
-        value: {
-          html: profileDetailsUpdated.registeredOfficeAddress + updateStatusTextForBusinessAddress,
-          classes: "govuk-!-width-one-third"
-        },
-        actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/business-address-lookup?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
-              },
-              {
-                href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsBusinessAddress
-              }if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
-            ],
-          classes: "govuk-!-width-one-third"
-          }
-      },
-      {
-        key: {
-          text: i18n.updateYourDetailsNameOfBusiness,
-          classes: "govuk-!-width-one-third"
-        },
-        value: {
-          html: profileDetailsUpdated.businessName + updateStatusTextForBusinessName,
-          classes: "govuk-!-width-one-third"
-        },
-        actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
-              },
-              {
-                href: cancelChangeUrl + "&cancel=businessName",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
-              }if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
             classes: "govuk-!-width-one-third"
           }

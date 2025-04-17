@@ -90,7 +90,7 @@
 
 {% set html %}
 <h3 class="govuk-notification-banner__heading">
-  {{ i18n.updateYourDetailsNote }}
+  {{ i18n.anyUpdatesYouMakeNotifcationBannerText }}
 </h3>
 {% endset %}
 
@@ -104,7 +104,7 @@
 }) }}
     <form action="{{ currentUrl }}?lang={{ lang }}" method="post">
         {% include "partials/csrf_token.njk" %}
-        <h1 class="govuk-heading-l">{{ i18n.updateYourDetailsHeading }}</h1>
+        <h1 class="govuk-heading-l">{{ i18n.viewUpdateAuthorisedAgentDetailsTitle }}</h1>
         {% if acspFullProfile.type === "sole-trader" %}
             {% include "partials/update-your-details/sole-trader-answers.njk" %}
         {% elif acspFullProfile.type === "limited-company" or acspFullProfile.type === "limited-liability-partnership"  or acspFullProfile.type === "corporate-body"%}
