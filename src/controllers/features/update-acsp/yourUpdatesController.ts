@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import * as config from "../../../config";
-import { CANCEL_AN_UPDATE, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { CANCEL_AN_UPDATE, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { Session } from "@companieshouse/node-session-handler";
 import { validationResult } from "express-validator";
@@ -39,7 +39,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removedAMLBodies,
             redirectQuery,
             type: acspFullProfile.type,
-            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
             removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
@@ -80,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 removedAMLBodies,
                 redirectQuery,
                 type: acspFullProfile.type,
-                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
+                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
                 cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
                 addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
                 removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
