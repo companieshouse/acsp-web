@@ -166,9 +166,10 @@ describe("yourUpdatesService", () => {
     });
 
     it("should format removed AML updates", () => {
+        const session: Session = req.session as any as Session;
         acspFullProfile.amlDetails = [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123" }];
         updatedFullProfile.amlDetails = [];
-        const removedAMLUpdates = getFormattedRemovedAMLUpdates(acspFullProfile, updatedFullProfile);
+        const removedAMLUpdates = getFormattedRemovedAMLUpdates(session, acspFullProfile, updatedFullProfile);
         expect(removedAMLUpdates).toEqual([{
             membershipName: "association-of-chartered-certified-accountants-acca",
             membershipNumber: "123",

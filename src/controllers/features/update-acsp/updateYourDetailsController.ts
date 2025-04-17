@@ -10,7 +10,8 @@ import {
     REMOVE_AML_SUPERVISOR,
     UPDATE_CANCEL_ALL_UPDATES,
     UPDATE_CHECK_YOUR_UPDATES,
-    AUTHORISED_AGENT
+    AUTHORISED_AGENT,
+    UPDATE_DATE_OF_THE_CHANGE
 }
     from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
@@ -21,6 +22,7 @@ import {
     ACSP_DETAILS_UPDATED,
     ACSP_UPDATE_CHANGE_DATE,
     ADD_AML_BODY_UPDATE,
+    AML_REMOVED_BODY_DETAILS,
     NEW_AML_BODY
 }
     from "../../../common/__utils/constants";
@@ -29,6 +31,7 @@ import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodie
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { formatDateIntoReadableString } from "../../../services/common";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -47,6 +50,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             correspondenceAddress: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) || ""))
         };
 
+        // Format dateOfChange in removedAMLDetails
+        const removedAMLDetails: AmlSupervisoryBody[] = (session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? []);
+
+        const formattedRemovedAMLDetails = removedAMLDetails.map(amlDetail => ({
+            ...amlDetail,
+            dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
+        }));
+
         const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
         const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
         var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
@@ -56,6 +67,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
         const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);
         const cancelAllUpdatesUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang);
+        const dateOfChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
 
         // Before passing to view, convert dateOfChange to Date object from ISO string (to allow pre-1960 dates)
         acspUpdatedFullProfile.amlDetails = acspUpdatedFullProfile.amlDetails.map(amlDetail => ({
@@ -77,9 +89,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             lang,
             cancelChangeUrl,
             removeAMLUrl,
+            dateOfChangeUrl,
             AMLSupervisoryBodies,
             AMLSupervioryBodiesFormatted,
             changeDates,
+            formattedRemovedAMLDetails,
             cancelAllUpdatesUrl,
             authorisedAgentUrl: AUTHORISED_AGENT
         });
