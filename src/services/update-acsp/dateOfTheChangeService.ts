@@ -1,27 +1,34 @@
 import { Session } from "@companieshouse/node-session-handler";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import {
     ACSP_DETAILS_UPDATED,
     ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_PROFILE_TYPE_SOLE_TRADER,
     ACSP_UPDATE_CHANGE_DATE,
-    ACSP_UPDATE_PREVIOUS_PAGE_URL
+    ACSP_UPDATE_IN_PROGRESS_AML_DETAILS,
+    ACSP_UPDATE_PREVIOUS_PAGE_URL,
+    ADD_AML_BODY_UPDATE,
+    NEW_AML_BODY
 } from "../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { Request } from "express";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+    UPDATE_ADD_AML_SUPERVISOR,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
     UPDATE_WHERE_DO_YOU_LIVE
 } from "../../types/pageURL";
+import { AmlMembershipNumberService } from "../../services/update-acsp/amlMembershipNumberService";
 import { soleTraderNameDetails } from "../../model/SoleTraderNameDetails";
 import { getPreviousPageUrl } from "../../services/url";
 
 export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: string): void => {
     const session: Session = req.session as any as Session;
+    const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
     const currentPage = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT);
 
@@ -47,7 +54,15 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
             acspUpdatedFullProfile.serviceAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         }
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
+    } else if (currentPage === UPDATE_ADD_AML_SUPERVISOR) {
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
+        session.setExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE, { dateOfChange: dateOfChange });
+        AmlMembershipNumberServiceInstance.validateUpdateBodyIndex(req, updateBodyIndex, acspUpdatedFullProfile, newAMLBody);
     }
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE);
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_BODY);
+    session.deleteExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER);
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
 };

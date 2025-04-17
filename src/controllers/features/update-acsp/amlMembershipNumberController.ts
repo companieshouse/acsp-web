@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_DATE_OF_THE_CHANGE, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED, ACSP_UPDATE_IN_PROGRESS_AML_DETAILS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
 import { resolveErrorMessage } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ValidationError, validationResult } from "express-validator";
@@ -69,11 +69,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
             } else {
                 newAMLBody.membershipId = req.body.membershipNumber_1;
-                AmlMembershipNumberServiceInstance.validateUpdateBodyIndex(updateBodyIndex, acspUpdatedFullProfile, newAMLBody);
-                session.deleteExtraData(NEW_AML_BODY);
-                session.deleteExtraData(ADD_AML_BODY_UPDATE);
-                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
-                res.redirect(nextPageUrl);
+                session.setExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER, { membershipNumber: req.body.membershipNumber_1 });
+                session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_ADD_AML_SUPERVISOR);
+                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
             }
         }
     } catch (err) {

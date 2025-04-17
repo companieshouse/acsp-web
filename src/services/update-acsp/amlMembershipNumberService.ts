@@ -1,3 +1,4 @@
+import { Session } from "@companieshouse/node-session-handler";
 import { formatValidationError, getPageProperties } from "../../validation/validation";
 import { addLangToUrl, getLocaleInfo } from "../../utils/localise";
 import { Request, Response } from "express";
@@ -7,6 +8,9 @@ import { AMLSupervisoryBodies } from "../../model/AMLSupervisoryBodies";
 import { ValidationError } from "express-validator";// Adjust the path as needed
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AMLDetailsDate } from "../../model/AMLDetailsDate";
+import { ACSP_UPDATE_IN_PROGRESS_AML_DETAILS } from "../../common/__utils/constants";
+import { formatDateIntoReadableString } from "services/common";
 
 export class AmlMembershipNumberService {
     /**
@@ -42,14 +46,31 @@ export class AmlMembershipNumberService {
         });
     }
 
-    public validateUpdateBodyIndex (updateBodyIndex: number | undefined, acspUpdatedFullProfile: AcspFullProfile, newAMLBody: AmlSupervisoryBody): void {
+    public validateUpdateBodyIndex (req: Request, updateBodyIndex: number | undefined, acspUpdatedFullProfile: AcspFullProfile, newAMLBody: AmlSupervisoryBody): void {
         if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
             acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
             acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
         } else {
+            const amlDetailsWithDate: AMLDetailsDate[] = [];
+            const session: Session = req.session as any as Session;
+            const amlDate:Date = session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.DATE_OF_CHANGE)!;
+            const amlBody:string = session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_BODY)!;
+            const amlNumber:string = session.getExtraData(ACSP_UPDATE_IN_PROGRESS_AML_DETAILS.MEMBERSHIP_NUMBER)!;
+
             acspUpdatedFullProfile.amlDetails.push({
                 supervisoryBody: newAMLBody.amlSupervisoryBody!,
                 membershipDetails: newAMLBody.membershipId!
+            });
+
+            acspUpdatedFullProfile.amlDetails.forEach(aml => {
+                if (amlBody === aml.supervisoryBody &&
+                    amlNumber === aml.membershipDetails) {
+                    amlDetailsWithDate.push({
+                        membershipBody: amlBody,
+                        membershipNumber: amlNumber,
+                        dateOfChange: amlDate
+                    });
+                }
             });
         }
     }
