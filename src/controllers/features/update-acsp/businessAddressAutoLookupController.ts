@@ -67,7 +67,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, true,
+            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise,
                 UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 res.redirect(nextPageUrl);

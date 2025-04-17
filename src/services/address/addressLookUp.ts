@@ -73,16 +73,11 @@ export class AddressLookUpService {
         });
     }
 
-    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, acspDetails: AcspFullProfile, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
+    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                if (businessAddress) {
-                    this.saveBusinessAddressUpdateJourney(req, ukAddresses, inputPremise);
-                } else {
-                    this.saveCorrespondenceAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
-                }
-
+                this.saveAddressUpdateJourney(req, ukAddresses, inputPremise);
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
@@ -134,11 +129,7 @@ export class AddressLookUpService {
         acspData.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
-    public async saveCorrespondenceAddressUpdateJourney (ukAddresses: UKAddress[], inputPremise: string, acspDetails: AcspFullProfile): Promise<void> {
-        acspDetails.serviceAddress = this.getAddress(ukAddresses, inputPremise);
-    }
-
-    public async saveBusinessAddressUpdateJourney (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
+    public async saveAddressUpdateJourney (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
         const session: Session = req.session as any as Session;
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, this.getAddress(ukAddresses, inputPremise));
     }
