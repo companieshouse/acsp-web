@@ -130,12 +130,12 @@ describe("addressLookupService tests", () => {
         });
     });
     describe("processAddressFromPostcodeUpdateJourney tests", () => {
-        it("should return the first next page URL when a valid premise is found for business address", async () => {
+        it("should return the first next page URL when a valid premise is found for address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage1?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
@@ -147,54 +147,37 @@ describe("addressLookupService tests", () => {
                 postalCode: ukAddress1.postcode
             });
         });
-        it("should return the first next page URL when a valid premise is found for correspondence address", async () => {
+
+        it("should return the second next page URL when premise is not found in list for address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "1", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
-
-            expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage1?lang=en");
-            expect(session.getExtraData(ACSP_DETAILS_UPDATED)).toEqual({
-                ...dummyFullProfile,
-                serviceAddress: {
-                    premises: ukAddress1.premise,
-                    addressLine1: ukAddress1.addressLine1,
-                    addressLine2: ukAddress1.addressLine2,
-                    locality: ukAddress1.postTown,
-                    country: getCountryFromKey(ukAddress1.country!),
-                    postalCode: ukAddress1.postcode
-                }
-            });
-        });
-        it("should return the second next page URL when premise is not found in list for business address", async () => {
-            const session: Session = req.session as any as Session;
-            session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
-            (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
-
-            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, true, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
                 postalCode: postalCode
             });
         });
-        it("should return the second next page URL when premise is not found in list for correspondence address", async () => {
+
+        it("should return the second next page URL when premise is not found in list for address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
             (getAddressFromPostcode as jest.Mock).mockResolvedValueOnce(ukAddressList);
 
-            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", session.getExtraData(ACSP_DETAILS_UPDATED)!, false, "/nextPage1", "/nextPage2");
+            const result = await service.processAddressFromPostcodeUpdateJourney(req, postalCode, "5", "/nextPage1", "/nextPage2");
 
             expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL + "/nextPage2?lang=en");
             expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
                 postalCode: postalCode
             });
         });
+
         it("should throw an error when getAddressFromPostcode fails", async () => {
             (getAddressFromPostcode as jest.Mock).mockRejectedValue(new Error("Failed to fetch addresses"));
 
-            await expect(service.processAddressFromPostcodeUpdateJourney(req, "postcode", "1", dummyFullProfile, true, "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
+            await expect(service.processAddressFromPostcodeUpdateJourney(req, "postcode", "1", "/nextPage1", "/nextPage2")).rejects.toThrow("Failed to fetch addresses");
         });
     });
 });
