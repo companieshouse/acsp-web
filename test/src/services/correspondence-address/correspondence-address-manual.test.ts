@@ -3,6 +3,9 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { CorrespondenceAddressManualService } from "../../../../src/services/correspondence-address/correspondence-address-manual";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { Session } from "@companieshouse/node-session-handler";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
 
 describe("CorrespondenceAddressManualService", () => {
     let service: CorrespondenceAddressManualService;
@@ -16,6 +19,8 @@ describe("CorrespondenceAddressManualService", () => {
             method: "POST",
             url: "/"
         });
+        const session = getSessionRequestWithPermission();
+        req.session = session;
         acspData = {
             id: "abc",
             applicantDetails: {
@@ -141,6 +146,7 @@ describe("CorrespondenceAddressManualService", () => {
     });
 
     test("saveCorrespondenceManualAddressUpdate correctly saves address to acspDetails", () => {
+        const session: Session = req.session as any as Session;
         req.body = {
             addressPropertyDetails: "Suite 200",
             addressLine1: "456 Example St",
@@ -151,9 +157,9 @@ describe("CorrespondenceAddressManualService", () => {
             addressPostcode: "EX1 1EX"
         };
 
-        service.saveManualAddressUpdate(req, acspDetails, false);
+        service.saveManualAddressUpdate(req);
 
-        expect(acspDetails.serviceAddress).toEqual({
+        expect(session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)).toEqual({
             premises: "Suite 200",
             addressLine1: "456 Example St",
             addressLine2: "Suite 300",

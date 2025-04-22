@@ -4,9 +4,9 @@ import { validationResult } from "express-validator";
 import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import {
-    CANCEL_AN_UPDATE,
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST,
-    UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL
+    UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL,
+    UPDATE_YOUR_ANSWERS
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -25,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
-            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang) + "&cancel=registeredOfficeAddress",
+            cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             addresses: addressList,
             businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
         });
@@ -52,6 +52,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 previousPage,
                 addresses: addressList,
                 businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
+                cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 pageProperties: pageProperties
             });
         } else {

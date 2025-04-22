@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { Session } from "@companieshouse/node-session-handler";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../common/__utils/constants";
 
 export class CorrespondenceAddressManualService {
     public saveCorrespondenceManualAddress (req: Request, acspData: AcspData): void {
@@ -33,7 +34,7 @@ export class CorrespondenceAddressManualService {
         };
     }
 
-    public saveManualAddressUpdate (req: Request, acspDetails: AcspFullProfile, isSoleTrader: boolean): void {
+    public saveManualAddressUpdate (req: Request): void {
         // Extract correspondence address details from request body
         const correspondenceAddress: Address = {
             premises: req.body.addressPropertyDetails,
@@ -44,11 +45,8 @@ export class CorrespondenceAddressManualService {
             country: req.body.countryInput,
             postalCode: req.body.addressPostcode
         };
-        if (isSoleTrader) {
-            acspDetails.registeredOfficeAddress = correspondenceAddress;
-        } else {
-            acspDetails.serviceAddress = correspondenceAddress;
-        }
+        const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, correspondenceAddress);
     }
 
     public getCorrespondenceManualAddressUpdate (address: Address | undefined) {
