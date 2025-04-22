@@ -13,7 +13,7 @@ export const unicorporatedWhatIsTheBusinessNameValidator = [
         .custom((inputBusinessName, { req }) => {
             // Custom validation used for Update ACSP Details service
             // Check if the business name has changed through comparing the inputted business against the existing business name
-            const session = req.session as any as Session;
+            const session: Session = req.session as Session;
             const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
 
             if (acspDetails) {
