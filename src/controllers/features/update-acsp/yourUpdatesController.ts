@@ -11,6 +11,7 @@ import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENC
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
+import { getPreviousPageUrl } from "../../../services/url";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -24,6 +25,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+        const previousPageUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        const previousPage = previousPageUrl?.includes(UPDATE_DATE_OF_THE_CHANGE)
+            ? addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang)
+            : addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
@@ -39,7 +44,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removedAMLBodies,
             redirectQuery,
             type: acspFullProfile.type,
-            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
+            previousPage,
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
             removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
@@ -61,6 +66,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+        const previousPageUrl = getPreviousPageUrl(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        const previousPage = previousPageUrl?.includes(UPDATE_DATE_OF_THE_CHANGE)
+            ? addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang)
+            : addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
@@ -80,7 +89,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 removedAMLBodies,
                 redirectQuery,
                 type: acspFullProfile.type,
-                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
+                previousPage,
                 cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
                 addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
                 removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
