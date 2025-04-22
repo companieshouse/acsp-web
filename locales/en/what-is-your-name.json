@@ -8,7 +8,10 @@
     "error-invalidFirstNameFormat": "First name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidMiddleNameFormat": "Middle name or names must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidLastNameFormat": "Last name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
-    "error-invalidFirstNameLength": "First name must be 50 characters or fewer",
-    "error-invalidMiddleNameLength": "Middle names must be 50 characters or fewer",
-    "error-invalidLastNameLength": "Last name must be 160 characters or fewer"
+    "error-invalidFirstNameLength": "First name must be 50 characters or less",
+    "error-invalidMiddleNameLength": "Middle names must be 50 characters or less",
+    "error-invalidLastNameLength": "Last name must be 160 characters or less",
+    "error-noChangeFirstname": "Update your first name if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noChangeMiddleNames": "Update your middle names if they’ve changed or cancel the update if you do not need to make any changes",
+    "error-noChangeLastName": "Update your last name if it’s changed or cancel the update if you do not need to make any changes"
 }
