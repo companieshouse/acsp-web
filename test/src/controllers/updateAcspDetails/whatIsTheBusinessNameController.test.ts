@@ -46,6 +46,15 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.status).toBe(400);
     });
 
+    it("should return status 400 and display error message when no change has been made to business name", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: "Test name"
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update the business name if it&#39;s changed or cancel the update");
+    });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
