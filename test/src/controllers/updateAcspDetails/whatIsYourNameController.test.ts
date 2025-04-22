@@ -56,6 +56,20 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.status).toBe(400);
     });
 
+    // Test for the same name entered, will return 400.
+    it("should return status 400 when the same name is entered", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "John",
+                "middle-names": "A",
+                "last-name": "Doe"
+            }); ;
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update your first name if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your middle names if they’ve changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your last name if it’s changed or cancel the update if you do not need to make any changes");
+    });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
