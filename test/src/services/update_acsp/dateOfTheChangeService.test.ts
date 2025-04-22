@@ -7,17 +7,21 @@ import {
     ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_UPDATE_CHANGE_DATE,
-    ACSP_UPDATE_PREVIOUS_PAGE_URL
+    ACSP_UPDATE_PREVIOUS_PAGE_URL,
+    ADD_AML_BODY_UPDATE,
+    NEW_AML_BODY
 } from "../../../../src/common/__utils/constants";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+    UPDATE_ADD_AML_SUPERVISOR,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
     UPDATE_WHERE_DO_YOU_LIVE
 } from "../../../../src/types/pageURL";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AmlDetails } from "../../../../src/model/AcspFullProfile";
 
 jest.mock("@companieshouse/node-session-handler");
 jest.mock("../../../../src/services/url");
@@ -151,6 +155,43 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         expect(acspUpdatedFullProfile.serviceAddress).toEqual(acspinProgressFullProfile);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange.toISOString());
+    });
+
+    it("should add dateOfChange to NEW_AML_BODY and push all properties to acspUpdatedFullProfile", () => {
+        const dateOfChange = "2025-01-01T00:00:00.000Z";
+        const newAMLBody = {
+            amlSupervisoryBody: "association-of-chartered-certified-accountants-acca",
+            membershipId: "123456",
+            dateOfChange: undefined
+        };
+        const acspUpdatedFullProfile: { amlDetails: AmlDetails[] } = {
+            amlDetails: []
+        };
+
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ADD_AML_SUPERVISOR;
+            if (key === NEW_AML_BODY) return newAMLBody;
+            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+        });
+
+        expect(acspUpdatedFullProfile.amlDetails).toEqual([]);
+
+        updateWithTheEffectiveDateAmendment(req as Request, dateOfChange);
+
+        expect(newAMLBody.dateOfChange).toBe(dateOfChange);
+        expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, newAMLBody);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(1);
+        expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
+        expect(acspUpdatedFullProfile.amlDetails[0].dateOfChange).toBe(newAMLBody.dateOfChange);
+
+        expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, newAMLBody);
+        expect(session.deleteExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
+        expect(session.deleteExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
+        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+
     });
 });
 

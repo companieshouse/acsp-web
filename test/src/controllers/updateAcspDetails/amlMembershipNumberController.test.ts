@@ -4,7 +4,7 @@ import mocks from "../../../mocks/all_middleware_mock";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
 import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -110,7 +110,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
     });
 
     it("should return status 400 for invalid input, empty value", async () => {
@@ -200,10 +200,7 @@ describe("amlMembershipNumberController", () => {
         await post(req as Request, res as Response, next);
 
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
         expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
-        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
     });
 
     it("should return status 400 if the membership number is a duplicate", async () => {
