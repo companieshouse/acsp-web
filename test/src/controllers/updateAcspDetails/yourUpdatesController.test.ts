@@ -1,5 +1,5 @@
 import mocks from "../../../mocks/all_middleware_mock";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CHECK_YOUR_UPDATES, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
@@ -37,6 +37,25 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    it("should set previousPage to UPDATE_DATE_OF_THE_CHANGE when user come from the date change page route", async () => {
+        const response = await router
+            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES)
+            .set("Referer", UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
+
+        expect(response.status).toBe(200);
+        expect(response.text).toContain("href=\"" + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
+    });
+
+    it("should set previousPage to UPDATE_YOUR_ANSWERS as default if user did not come from the date change page route", async () => {
+        const response = await router
+            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES)
+            .set("Referer", UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+
+        expect(response.status).toBe(200);
+        expect(response.text).toContain(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+    });
+
 });
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
