@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
 import { ACSP_UPDATE_CHANGE_DATE } from "../../common/__utils/constants";
+import { AcspFullProfile } from "../../model/AcspFullProfile";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -134,7 +134,7 @@ export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, up
             addedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
-                changedDate: formatDateIntoReadableString(new Date())
+                changedDate: formatDateIntoReadableString(new Date(body.dateOfChange || new Date()))
             });
         }
     });
