@@ -6,5 +6,6 @@
     "error-whatIsTheBusinessNameSelectRadio" : "Dewiswch enw busnes",
     "error-whatIsTheBusinessNameNoName" : "Cofnodwch enw'r busnes",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Rhaid i'r enw busnes gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",
-    "error-whatIsTheBusinessNameCharactersLimit" : "Rhaid i'r enw busnes fod yn 155 nod neu lai"
+    "error-whatIsTheBusinessNameCharactersLimit" : "Rhaid i'r enw busnes fod yn 155 nod neu lai",
+    "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update Welsh"
 }
