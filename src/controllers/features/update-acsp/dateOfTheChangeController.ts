@@ -7,7 +7,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
+import { ACSP_UPDATE_PREVIOUS_PAGE_URL, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -51,8 +51,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(prevUrl, lang);
         const amlRemovalIndex = session.getExtraData(AML_REMOVAL_INDEX);
         const amlRemovalBody = session.getExtraData(AML_REMOVAL_BODY);
-        const isAmlSupervisionStart = previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
-        const isAmlSupervisionEnd = previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+        const isAmlSupervisionStart = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
+        const isAmlSupervisionEnd = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UPDATE_DATE_OF_THE_CHANGE, {
@@ -83,7 +83,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 ];
                 session.setExtraData(AML_REMOVED_BODY_DETAILS, updatedRemovedAMLDetails);
-                res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}`, lang));
+                session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+                res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}&return=your-updates`, lang));
             } else {
                 updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
