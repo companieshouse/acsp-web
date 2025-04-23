@@ -48,7 +48,7 @@
   %}
 {%endif%}
 
-<h2 class="govuk-heading-m">{{ i18n.updateDetailsHeading }}</h2>
+<h2 class="govuk-heading-m">{{ i18n.updateSoleTraderDetailsTableHeading }}</h2>
 {{ govukSummaryList({
     rows: [
     {
@@ -77,7 +77,7 @@
       },     
       {
         key: {
-          text: i18n.updateYourDetailsWhereDoYouLive,
+          text: i18n.updateYourDetailsWhereYouLive,
           classes: "govuk-!-width-one-third"
         },
         value: {
@@ -89,13 +89,38 @@
               {
                 href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + "?lang=" + lang,
                 text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
+                visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
               },
               {
                 href: cancelChangeUrl + "&cancel=usualResidentialCountry",
                 text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsWhereDoYouLive
+                visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
               } if profileDetailsUpdated.countryOfResidence !== profileDetails.countryOfResidence
+            ],
+            classes: "govuk-!-width-one-third"
+          }
+      },
+      {
+        key: {
+          text: i18n.updateYourDetailsBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        value: {
+          html: profileDetailsUpdated.businessName+updateStatusTextForBusinessName,
+          classes: "govuk-!-width-one-third"
+        },
+        actions: {
+            items: [
+              {
+                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
+                text: i18n.updateYourDetailsUpdate,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessName
+              },
+              {
+                href: cancelChangeUrl + "&cancel=businessName",
+                text: i18n.updateYourDetailsCancel,
+                visuallyHiddenText: i18n.updateYourDetailsBusinessName
+              } if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
             classes: "govuk-!-width-one-third"
           }
@@ -146,31 +171,6 @@
                 text: i18n.updateYourDetailsCancel,
                 visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
               } if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
-            ],
-            classes: "govuk-!-width-one-third"
-          }
-      },
-      {
-        key: {
-          text: i18n.updateYourDetailsNameOfBusiness,
-          classes: "govuk-!-width-one-third"
-        },
-        value: {
-          html: profileDetailsUpdated.businessName+updateStatusTextForBusinessName,
-          classes: "govuk-!-width-one-third"
-        },
-        actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
-              },
-              {
-                href: cancelChangeUrl + "&cancel=businessName",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsNameOfBusiness
-              } if profileDetailsUpdated.businessName !== profileDetails.businessName
             ],
             classes: "govuk-!-width-one-third"
           }

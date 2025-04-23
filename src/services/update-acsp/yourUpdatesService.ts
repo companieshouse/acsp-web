@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
 import { ACSP_UPDATE_CHANGE_DATE } from "../../common/__utils/constants";
+import { AcspFullProfile } from "../../model/AcspFullProfile";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -36,7 +36,7 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
         };
     }
     if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {
-        updates = limtedChanges(acspFullProfile, updatedFullProfile, updates);
+        updates = limtedChanges(session, acspFullProfile, updatedFullProfile, updates);
     } else if (acspFullProfile.type === "limited-partnership" || acspFullProfile.type === "unincorporated-entity" || acspFullProfile.type === "non-registered-partnership") {
         updates = unincorporatedChanges(session, acspFullProfile, updatedFullProfile, updates);
     } else {
@@ -45,11 +45,11 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     return updates;
 };
 
-const limtedChanges = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
+const limtedChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
     if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
         updates.registeredOfficeAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS)!))
         };
     }
     if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
@@ -65,7 +65,7 @@ const unincorporatedChanges = (session: Session, acspFullProfile: AcspFullProfil
     if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
         updates.businessAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS)!))
         };
     }
     if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
@@ -134,7 +134,7 @@ export const getFormattedAddedAMLUpdates = (acspFullProfile: AcspFullProfile, up
             addedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
-                changedDate: formatDateIntoReadableString(new Date())
+                changedDate: formatDateIntoReadableString(new Date(body.dateOfChange || new Date()))
             });
         }
     });

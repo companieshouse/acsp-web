@@ -52,8 +52,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const session: Session = req.session as any as Session;
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const lang = selectLang(req.query.lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
@@ -73,10 +71,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             const postcode = req.body.postCode;
             const inputPremise = req.body.premise;
             const addressLookUpService = new AddressLookUpService();
-            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, acspUpdatedFullProfile, acspUpdatedFullProfile.type === "sole-trader",
-                UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
+            addressLookUpService.processAddressFromPostcodeUpdateJourney(req, postcode, inputPremise, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
+                UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
-                session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
                 res.redirect(nextPageUrl);
             }).catch(() => {
                 const validationError : ValidationError[] = [{

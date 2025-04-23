@@ -1,7 +1,8 @@
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
+import { ValidationError } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
-import { ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST, USER_DATA } from "../../common/__utils/constants";
 import { saveDataInSession } from "../../common/__utils/sessionHelper";
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { getCountryFromKey } from "../../services/common";
@@ -73,33 +74,41 @@ export class AddressLookUpService {
         });
     }
 
-    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, acspDetails: AcspFullProfile, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
+    public getErrorMessage (error:Error, postcode:any) :ValidationError {
+        let validationError: ValidationError;
+        if (error.message === "correspondenceLookUpAddressWithoutCountry") {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressWithoutCountry",
+                param: "postCode",
+                location: "body"
+            };
+        } else {
+            validationError = {
+                value: postcode,
+                msg: "correspondenceLookUpAddressInvalidAddressPostcode",
+                param: "postCode",
+                location: "body"
+            };
+        }
+        return validationError;
+    }
+
+    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                if (businessAddress) {
-                    this.saveBusinessAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
-                } else {
-                    this.saveCorrespondenceAddressUpdateJourney(ukAddresses, inputPremise, acspDetails);
-                }
-
+                this.saveAddressUpdateJourney(req, ukAddresses, inputPremise);
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
             } else {
                 this.saveAddressListToSession(req, ukAddresses);
 
-                if (businessAddress) {
-                    // update acspDetails with postcode to save to DB
-                    const address: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspDetails.registeredOfficeAddress = address;
-                } else {
-                    // update acspDetails with postcode to save to DB
-                    const correspondenceAddress: Address = {
-                        postalCode: req.body.postCode
-                    };
-                    acspDetails.serviceAddress = correspondenceAddress;
-                }
+                const address: Address = {
+                    postalCode: req.body.postCode
+                };
+                const session: Session = req.session as any as Session;
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, address);
+
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
             }
 
@@ -141,12 +150,9 @@ export class AddressLookUpService {
         acspData.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
     }
 
-    public async saveCorrespondenceAddressUpdateJourney (ukAddresses: UKAddress[], inputPremise: string, acspDetails: AcspFullProfile): Promise<void> {
-        acspDetails.serviceAddress = this.getAddress(ukAddresses, inputPremise);
-    }
-
-    public async saveBusinessAddressUpdateJourney (ukAddresses: UKAddress[], inputPremise: string, acspDetails: AcspFullProfile): Promise<void> {
-        acspDetails.registeredOfficeAddress = this.getAddress(ukAddresses, inputPremise);
+    public async saveAddressUpdateJourney (req: Request, ukAddresses: UKAddress[], inputPremise: string): Promise<void> {
+        const session: Session = req.session as any as Session;
+        session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, this.getAddress(ukAddresses, inputPremise));
     }
 
     private getAddress (ukAddresses: UKAddress[], inputPremise: string): Address {
