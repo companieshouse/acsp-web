@@ -108,7 +108,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export function getPreviousPageWithLang (req: Request, baseUrl: string): string {
+function getPreviousPageWithLang (req: Request, baseUrl: string): string {
     const previousPageUrl = getPreviousPageUrl(req, baseUrl);
     return previousPageUrl?.includes(UPDATE_DATE_OF_THE_CHANGE)
         ? (baseUrl + UPDATE_DATE_OF_THE_CHANGE)
