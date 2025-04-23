@@ -54,25 +54,25 @@ updateRoutes.get(urls.UPDATE_WHERE_DO_YOU_LIVE, updateWhereDoYouLiveController.g
 updateRoutes.post(urls.UPDATE_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, updateWhereDoYouLiveController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, correspondenceAddressManualController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator("service"), correspondenceAddressManualController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupController.get);
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, correspondenceAddressAutoLookupController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, correspondenceAddressListController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator("update"), correspondenceAddressListController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.get);
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualController.get);
-updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, businessAddressManualController.post);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator("registeredOfficeAddress"), businessAddressManualController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, businessAddressAutoLookupController.get);
 updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, businessAddressAutoLookupController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListController.get);
-updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator, businessAddressListController.post);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator("update"), businessAddressListController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.get);
 updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);

@@ -32,5 +32,12 @@
     "error-invalidAddressLine2Length": "Address line 2 must be 50 characters or less",
     "error-invalidAddressTownLength": "City or town must be 50 characters or less",
     "error-invalidAddressCountyLength": "County or region must be 50 characters or less",
-    "error-invalidPostcodeLength": "Postcode must be 15 characters or less"
+    "error-invalidPostcodeLength": "Postcode must be 15 characters or less",
+    "error-noUpdatePremises": "Update the property name or number if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressLine1": "Update the address if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressLine2": "Update the address line 2 if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressTown": "Update the city or town if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressCounty": "Update the county if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressCountry": "Update the country if it’s changed or cancel the update if you do not need to make any changes",
+    "error-noUpdateAddressPostcode": "Update the postcode if it’s changed or cancel the update if you do not need to make any changes"
 }

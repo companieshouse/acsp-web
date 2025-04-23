@@ -192,6 +192,21 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a full UK postcode");
     });
+
+    // Test for submitting the same data.
+    it("should return status 400", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "11", addressLine1: "Test Street", addressLine2: "", addressTown: "Test Town", addressCounty: "", addressCountry: "England", addressPostcode: "AB1 2CD" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address line 2 if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the city or town if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the county if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the country if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the postcode if it’s changed or cancel the update if you do not need to make any changes");
+    });
+
     // Test for showing error screen
     it("should return status 500 and should show the error page if an error occurs", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {

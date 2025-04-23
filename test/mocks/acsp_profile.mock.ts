@@ -17,12 +17,14 @@ export const dummyFullProfile: AcspFullProfile = {
         premises: "11",
         addressLine1: "Test Street",
         postalCode: "AB1 2CD",
-        country: "England"
+        country: "England",
+        locality: "Test Town"
     },
     serviceAddress: {
         premises: "11",
         addressLine1: "Test Street",
         addressLine2: "Test Line 2",
+        locality: "Test Town",
         region: "Region",
         country: "England",
         postalCode: "AB12CD"

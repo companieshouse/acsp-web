@@ -20,6 +20,8 @@
     "error-correspondenceLookUpAddressWithoutCountry" : "We cannot find the full address from the postcode. Enter the address manually",
     "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces",
     "error-invalidAddressPostcode": "Enter a full UK postcode",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address", 
-    "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address"
+    "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address",
+    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Select the correspondence address or cancel the update if you do not need to change it", 
+    "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address",
+    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Select the business address or cancel the update if you do not need to change it"
 }
