@@ -2,9 +2,10 @@ import { getFormattedUpdates, getFormattedRemovedAMLUpdates, getFormattedAddedAM
 import { createRequest, MockRequest } from "node-mocks-http";
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_UPDATE_CHANGE_DATE } from "../../../../src/common/__utils/constants";
+import { ACSP_UPDATE_CHANGE_DATE, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
 import { Request } from "express";
 import { AcspFullProfile } from "../../../../src/model/AcspFullProfile";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 describe("yourUpdatesService", () => {
     let req: MockRequest<Request>;
@@ -166,14 +167,31 @@ describe("yourUpdatesService", () => {
     });
 
     it("should format removed AML updates", () => {
-        const session: Session = req.session as any as Session;
+        // Mock session
+        const session = {
+            getExtraData: jest.fn()
+        } as unknown as Session;
+
+        // Mock AML_REMOVED_BODY_DETAILS in session
+        const mockedRemovedAMLDetails = [
+            {
+                amlSupervisoryBody: "association-of-chartered-certified-accountants-acca",
+                membershipId: "123",
+                dateOfChange: "2025-01-01T00:00:00.000Z"
+            }
+        ];
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === AML_REMOVED_BODY_DETAILS) {
+                return mockedRemovedAMLDetails;
+            }
+        });
         acspFullProfile.amlDetails = [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123" }];
         updatedFullProfile.amlDetails = [];
         const removedAMLUpdates = getFormattedRemovedAMLUpdates(session, acspFullProfile, updatedFullProfile);
         expect(removedAMLUpdates).toEqual([{
             membershipName: "association-of-chartered-certified-accountants-acca",
             membershipNumber: "123",
-            changedDate: expect.any(String)
+            changedDate: "01 January 2025"
         }]);
     });
 
