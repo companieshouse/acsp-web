@@ -5,13 +5,18 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
+import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 
 const router = supertest(app);
+
+let customMockSessionMiddleware : any;
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     const session = getSessionRequestWithPermission();
@@ -36,6 +41,11 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 });
 
 describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
@@ -56,6 +66,20 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.status).toBe(400);
     });
 
+    // Test for the same name entered, will return 400.
+    it("should return status 400 when the same name is entered", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "John",
+                "middle-names": "A",
+                "last-name": "Doe"
+            }); ;
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update your first name if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your middle names if they’ve changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your last name if it’s changed or cancel the update if you do not need to make any changes");
+    });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
@@ -65,4 +89,29 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    // Test for the same name entered, will return 400.
+    it("should return status 400 when the same name is entered with no middlename", async () => {
+        createMockSessionMiddlewareAcspFullProfile();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "John",
+                "middle-names": "",
+                "last-name": "Doe"
+            }); ;
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update your first name if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your middle names if they’ve changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update your last name if it’s changed or cancel the update if you do not need to make any changes");
+    });
 });
+
+function createMockSessionMiddlewareAcspFullProfile () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, soleTraderDetails: { forename: "John", surname: "Doe" } });
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
