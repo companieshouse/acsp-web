@@ -6,9 +6,8 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_Y
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS_UPDATED, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
-import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,7 +49,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
         const prevUrl = getPreviousPageUrlDateOfChange(req) || UPDATE_ACSP_DETAILS_BASE_URL;
         const previousPage: string = addLangToUrl(prevUrl, lang);
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const amlRemovalIndex = session.getExtraData(AML_REMOVAL_INDEX);
         const amlRemovalBody = session.getExtraData(AML_REMOVAL_BODY);
         const isAmlSupervisionStart = previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
@@ -72,21 +70,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 req.body["change-year"],
                 req.body["change-month"] - 1,
                 req.body["change-day"]);
-            updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());
 
             if (amlRemovalIndex && amlRemovalBody) {
-                // Store the dateOfChange in acspUpdatedFullProfile
-                const indexAML = acspUpdatedFullProfile.amlDetails.findIndex(aml => (
-                    aml.membershipDetails === amlRemovalIndex && aml.supervisoryBody === amlRemovalBody
-                ));
-
-                if (indexAML >= 0) {
-                    acspUpdatedFullProfile.amlDetails[indexAML].dateOfChange = dateOfChange;
-                    session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
-                }
-
-                // Store the dateOfChange separately in REMOVED_AML_DETAILS
-                const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? [];
+                // Store the dateOfChange in REMOVED_AML_DETAILS as new array or append to existing array
+                const removedAMLDetails: AmlSupervisoryBody[] = (session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? []);
                 const updatedRemovedAMLDetails = [
                     ...removedAMLDetails,
                     {
@@ -96,9 +83,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 ];
                 session.setExtraData(AML_REMOVED_BODY_DETAILS, updatedRemovedAMLDetails);
-
                 res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}`, lang));
             } else {
+                updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
             }
         }
