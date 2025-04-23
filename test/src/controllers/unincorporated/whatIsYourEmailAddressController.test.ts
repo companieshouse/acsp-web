@@ -57,7 +57,7 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_EMAIL, () => {
         };
         const res = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter an email address");
+        expect(res.text).toMatch(/Enter the correspondence email address/i);
     });
 
     it("should return status 400 after incorrect data entered", async () => {
@@ -67,7 +67,7 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_EMAIL, () => {
         };
         const res = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_EMAIL).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter an email address");
+        expect(res.text).toMatch(/Enter the correspondence email address/i);
     });
 
     it("should return status 400 after incorrect data entered", async () => {

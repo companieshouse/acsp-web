@@ -10,6 +10,8 @@
     "aDifferentEmailAddress": "A different email address",
     "emailAddressTextInput": "Email address",
 
-    "error-noEmail": "Enter an email address",
-    "error-emailFormatIncorrect": "Enter an email address in the correct format, like name@example.com"
+    "error-noEmail": "Enter the correspondence email address or cancel the update if you do not need to change it.",
+    "error-emailFormatIncorrect": "Enter an email address in the correct format, like name@example.com",
+    "error-emailNoChangeUpdateAcsp": "You are already using that email address. Enter a different email address if it’s changed or cancel the update.",
+    "error-emailNoChange": "Select to enter a different email address if it’s changed or cancel the update."
 }

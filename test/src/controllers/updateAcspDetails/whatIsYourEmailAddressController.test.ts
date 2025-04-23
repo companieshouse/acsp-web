@@ -58,7 +58,7 @@ describe("POST " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
         expect(res.status).toBe(400);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Enter an email address");
+        expect(res.text).toMatch(/Enter the correspondence email address/i);
     });
     it("should return status 400 after incorrect data entered", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)
