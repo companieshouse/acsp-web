@@ -15,6 +15,7 @@
 
     "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-correspondenceLookUpAddressNoPostCode" : "Cofnodwch god post",
+    "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the correspondence address Welsh",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "Ni allwn ddod o hyd i'r cod post hwn. Rhowch un gwahanol, neu rhowch y cyfeiriad â llaw",
     "error-correspondenceLookUpAddressWithoutCountry" : "We cannot find the full address from the postcode. Enter the address manually",
