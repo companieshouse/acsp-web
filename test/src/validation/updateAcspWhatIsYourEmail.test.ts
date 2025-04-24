@@ -84,4 +84,46 @@ describe("updateAcspWhatIsYourEmailValidator", () => {
         expect(result.isEmpty()).toBe(false);
         expect(result.array()[0].msg).toBe("emailNoChange");
     });
+
+    it("should fail validation when the email input matches the existing email after normalization", async () => {
+        const req = mockRequest(
+            { whatIsYourEmailInput: "  OldEmail@Example.com  ", whatIsYourEmailRadio: "A Different Email" },
+            { email: "oldemail@example.com" }
+        );
+
+        const result = await runValidation(req);
+        expect(result.isEmpty()).toBe(false);
+        expect(result.array()[0].msg).toBe("emailNoChangeUpdateAcsp");
+    });
+
+    it("should fail validation when the radio input matches the existing email after normalization", async () => {
+        const req = mockRequest(
+            { whatIsYourEmailInput: "newemail@example.com", whatIsYourEmailRadio: "  OldEmail@Example.com  " },
+            { email: "oldemail@example.com" }
+        );
+
+        const result = await runValidation(req);
+        expect(result.isEmpty()).toBe(false);
+        expect(result.array()[0].msg).toBe("emailNoChange");
+    });
+
+    it("should pass validation when the email input is different after normalization", async () => {
+        const req = mockRequest(
+            { whatIsYourEmailInput: "  NewEmail@Example.com  ", whatIsYourEmailRadio: "A Different Email" },
+            { email: "oldemail@example.com" }
+        );
+
+        const result = await runValidation(req);
+        expect(result.isEmpty()).toBe(true);
+    });
+
+    it("should pass validation when the radio input is different after normalization", async () => {
+        const req = mockRequest(
+            { whatIsYourEmailInput: "newemail@example.com", whatIsYourEmailRadio: "  AnotherEmail@Example.com  " },
+            { email: "oldemail@example.com" }
+        );
+
+        const result = await runValidation(req);
+        expect(result.isEmpty()).toBe(true);
+    });
 });
