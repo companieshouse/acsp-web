@@ -4,7 +4,7 @@
 {% set updateStatusTextForRegisteredOfficeAddress = "" %}
 
 {% if profileDetailsUpdated.serviceAddress !== profileDetails.serviceAddress %}
-  {% set updateStatusTextForCorrespondenceAddress =
+  {% set updateStatusTextForCorrespondenceAddress = 
                 "<div class='govuk-!-static-padding-top-3'>
                 <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsModificationChangedOn+" "+changeDates.correspondenceAddress+"</p>
                 <strong class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaption+"</strong>
