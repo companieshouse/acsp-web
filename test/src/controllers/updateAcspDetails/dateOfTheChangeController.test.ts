@@ -7,10 +7,12 @@ import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 
 import { Request, Response, NextFunction } from "express";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
+import { REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
+import { Session } from "@companieshouse/node-session-handler";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 jest.mock("../../../../src/services/update-acsp/dateOfTheChangeService");
 
 const router = supertest(app);
@@ -78,6 +80,31 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    it("should update removedAMLDetails with amlSupervisoryBody, membershipId, and dateOfChange, and save it into the session", async () => {
+        const amlRemovalIndex = "123456";
+        const amlRemovalBody = "supervisory-body";
+        const dateOfChange = new Date("2025-01-01T00:00:00.000Z").toISOString();
+
+        req.body = {
+            "change-day": "01",
+            "change-month": "01",
+            "change-year": "2025"
+        };
+        const session = createMockSessionMiddlewareRemoveAmlDetails();
+        session.setExtraData = jest.fn();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE).send(req.body);
+        const expectedUpdatedRemovedAMLDetails = [
+            {
+                amlSupervisoryBody: amlRemovalBody,
+                membershipId: amlRemovalIndex,
+                dateOfChange: dateOfChange
+            }
+        ];
+        expect(session.setExtraData).toHaveBeenCalledWith(AML_REMOVED_BODY_DETAILS, expectedUpdatedRemovedAMLDetails);
+        expect(res.status).toBe(302); // Ensure the controller redirects
+        expect(res.header.location).toContain(REMOVE_AML_SUPERVISOR); // Ensure redirect URL is correct
+    });
 });
 
 function createMockSessionMiddlewareAcspFullProfile () {
@@ -88,4 +115,23 @@ function createMockSessionMiddlewareAcspFullProfile () {
         req.session = session;
         next();
     });
+}
+
+function createMockSessionMiddlewareRemoveAmlDetails (): Partial<Session> {
+    const amlRemovalIndex = "123456";
+    const amlRemovalBody = "supervisory-body";
+    const existingRemovedAMLDetails: AmlSupervisoryBody[] = [];
+
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(AML_REMOVAL_INDEX, amlRemovalIndex);
+    session.setExtraData(AML_REMOVAL_BODY, amlRemovalBody);
+    session.setExtraData(AML_REMOVED_BODY_DETAILS, existingRemovedAMLDetails);
+
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+
+    return session;
 }
