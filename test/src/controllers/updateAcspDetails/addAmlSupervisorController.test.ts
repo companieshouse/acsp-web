@@ -39,12 +39,39 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
-    it("should return status 200", async () => {
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR + "?update=0");
-        expect(res.status).toBe(200);
+    it("should update the session with the correct AML supervisory body index when amlUpdateIndex and amlUpdateBody are provided", async () => {
+        const mockAmlDetails = [
+            { membershipDetails: "12345", supervisoryBody: "Body A" },
+            { membershipDetails: "67890", supervisoryBody: "Body B" }
+        ];
+        session.getExtraData = jest.fn().mockImplementation(() => {
+            return { amlDetails: mockAmlDetails };
+        });
+
+        const response = await supertest(app)
+            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR)
+            .query({ amlUpdateIndex: "1", amlUpdateBody: "Body B" });
+
+        expect(response.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
+        expect(response.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
+    });
+
+    it("should not update the session if amlUpdateIndex and amlUpdateBody do not match any AML details", async () => {
+        const mockAmlDetails = [
+            { membershipDetails: "12345", supervisoryBody: "Body A" },
+            { membershipDetails: "67890", supervisoryBody: "Body B" }
+        ];
+        session.getExtraData = jest.fn().mockImplementation(() => {
+            return { amlDetails: mockAmlDetails };
+        });
+
+        const response = await supertest(app)
+            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR)
+            .query({ amlUpdateIndex: "1", amlUpdateBody: "Body B" });
+
+        expect(response.status).toBe(200);
     });
     it("should set amlBody if NEW_AML_BODY is present in session", async () => {
         const amlSupervisoryBody = "Some Supervisory Body";
