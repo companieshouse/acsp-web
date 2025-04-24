@@ -1,8 +1,6 @@
-import mocks from "../../mocks/all_middleware_mock";
-import supertest from "supertest";
-import app from "../../../src/app";
 import { correspondenceAddressAutoLookupValidator } from "../../../src/validation/correspondenceAddressAutoLookup";
 import { validationResult } from "express-validator";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 
@@ -30,10 +28,10 @@ describe("Correspondence Address Auto Lookup Validator", () => {
             premise: "10 "
         };
 
-        const req = { body: validAddressData };
+        const req = { body: validAddressData, session: getSessionRequestWithPermission() };
         const res = { locals: {} };
 
-        for (const validationChain of correspondenceAddressAutoLookupValidator) {
+        for (const validationChain of correspondenceAddressAutoLookupValidator("registration")) {
             await validationChain(req, res, () => {});
         }
 
@@ -53,10 +51,10 @@ describe("Correspondence Address Auto Lookup Validator", () => {
             premise: "Invalid Property Details"
         };
 
-        const req = { body: invalidAddressData };
+        const req = { body: invalidAddressData, session: getSessionRequestWithPermission() };
         const res = { locals: {} };
 
-        for (const validationChain of correspondenceAddressAutoLookupValidator) {
+        for (const validationChain of correspondenceAddressAutoLookupValidator("registration")) {
             await validationChain(req, res, () => {});
         }
 
