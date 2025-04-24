@@ -18,10 +18,19 @@
             {{ i18n.goBackToUpdateDetailsLink }}
         </a>
     </div>
-    <div class="govuk-inset-text">
-        {{ i18n.provideAmlDetailsInsetText }}
-        <a href=# class="govuk-link">
-            {{ i18n.closeAuthorisedAgentLink }}
-        </a>.
-    </div>
+    {% if FEATURE_FLAG_ENABLE_CLOSE_ACSP %}
+        <div class="govuk-inset-text">
+            {{ i18n.provideAmlDetailsInsetText }}
+            <a href={{ closeAuthorisedAgentLink }} class="govuk-link">
+                {{ i18n.closeAuthorisedAgentLink }}
+            </a>.
+        </div>
+    {% else %}
+        <div class="govuk-inset-text">
+            {{ i18n.provideAmlDetailsInsetTextAlt }}
+            <a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider#how-to-use-your-authorised-agent-account" class="govuk-link">
+                {{ i18n.provideAmlDetailsInsetTextAltLink }}
+            </a>.
+        </div>
+    {% endif %}
 {% endblock main_content %}
