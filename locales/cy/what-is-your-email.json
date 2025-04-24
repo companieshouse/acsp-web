@@ -10,8 +10,9 @@
     "aDifferentEmailAddress": "Cyfeiriad e-bost gwahanol",
     "emailAddressTextInput": "Cyfeiriad e-bost",
 
-    "error-noEmail": "Enter the correspondence email address or cancel the update if you do not need to change it. Welsh",
+    "error-noEmail": "Cofnodwch gyfeiriad e-bost",
     "error-emailFormatIncorrect": "Cofnodwch gyfeiriad e-bost yn y fformat cywir, fel enw@enghraifft.com",
+    "error-noCorrespondenceEmail": "Enter the correspondence email address or cancel the update if you do not need to change it. Welsh",
     "error-emailNoChangeUpdateAcsp": "You are already using that email address. Enter a different email address if it’s changed or cancel the update. Welsh",
     "error-emailNoChange": "Select to enter a different email address if it’s changed or cancel the update. Welsh"
 }

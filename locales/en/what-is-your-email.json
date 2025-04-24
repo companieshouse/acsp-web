@@ -9,9 +9,9 @@
     "whatEmailForCorrespondence": "What email address should we use for correspondence?",
     "aDifferentEmailAddress": "A different email address",
     "emailAddressTextInput": "Email address",
-
-    "error-noEmail": "Enter the correspondence email address or cancel the update if you do not need to change it.",
+    "error-noEmail": "Enter an email address",
     "error-emailFormatIncorrect": "Enter an email address in the correct format, like name@example.com",
+    "error-noCorrespondenceEmail": "Enter the correspondence email address or cancel the update if you do not need to change it.",
     "error-emailNoChangeUpdateAcsp": "You are already using that email address. Enter a different email address if it’s changed or cancel the update.",
     "error-emailNoChange": "Select to enter a different email address if it’s changed or cancel the update."
 }
