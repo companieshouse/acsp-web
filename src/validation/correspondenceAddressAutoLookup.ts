@@ -9,7 +9,7 @@ const addressDetailsFormat: RegExp = /^[A-Za-z0-9\-',\s]*$/;
 const addressUKPostcodeFormat:RegExp = /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/;
 const addressPostcodevaild:RegExp = /^[A-Za-z0-9\s]*$/;
 
-type AddressLookupValidationType = "service" | "registeredOfficeAddress" | "registration";
+type AddressLookupValidationType = "serviceAddress" | "registeredOfficeAddress" | "registration";
 
 export const correspondenceAddressAutoLookupValidator = (type: AddressLookupValidationType): ValidationChain[] => [
 
@@ -29,7 +29,7 @@ const compareNewAndOldAddressForLookup = (req: Request, type: AddressLookupValid
     if (acspDetails) {
 
         let originalAddress;
-        if (type === "registeredOfficeAddress" || (type === "service" && acspDetails.type === "sole-trader")) {
+        if (type === "registeredOfficeAddress" || (type === "serviceAddress" && acspDetails.type === "sole-trader")) {
             originalAddress = acspDetails.registeredOfficeAddress;
         } else {
             originalAddress = acspDetails.serviceAddress!;

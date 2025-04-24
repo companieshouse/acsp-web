@@ -38,7 +38,7 @@ import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershi
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
-import { REGISTERED_OFFICE_ADDRESS, SERVICE, UPDATE } from "../common/__utils/constants";
+import { REGISTERED_OFFICE_ADDRESS, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
 
 const updateRoutes = Router();
 
@@ -55,10 +55,10 @@ updateRoutes.get(urls.UPDATE_WHERE_DO_YOU_LIVE, updateWhereDoYouLiveController.g
 updateRoutes.post(urls.UPDATE_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, updateWhereDoYouLiveController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(SERVICE), correspondenceAddressManualController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(SERVICE_ADDRESS), correspondenceAddressManualController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(SERVICE), correspondenceAddressAutoLookupController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(SERVICE_ADDRESS), correspondenceAddressAutoLookupController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListController.get);
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(UPDATE), correspondenceAddressListController.post);

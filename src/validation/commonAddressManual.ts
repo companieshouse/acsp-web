@@ -9,7 +9,7 @@ const otherAddressDetailsFormat:RegExp = /^[A-Za-z0-9\-',\s]*$/;
 const addressTownFormat:RegExp = /^[A-Za-z\-',\s!]*$/;
 const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\-'\s]*$/;
 
-export type ManualAddressValidationType = "service" | "registeredOfficeAddress" | "registration";
+export type ManualAddressValidationType = "serviceAddress" | "registeredOfficeAddress" | "registration";
 
 export const manualAddressValidator = (type: ManualAddressValidationType): ValidationChain[] => [
 
@@ -43,7 +43,7 @@ export const compareNewAndOldAddress = (req: Request, type: ManualAddressValidat
     if (acspDetails) {
 
         let originalAddress;
-        if (type === "registeredOfficeAddress" || (type === "service" && acspDetails.type === "sole-trader")) {
+        if (type === "registeredOfficeAddress" || (type === "serviceAddress" && acspDetails.type === "sole-trader")) {
             originalAddress = acspDetails.registeredOfficeAddress;
         } else {
             originalAddress = acspDetails.serviceAddress!;
@@ -64,7 +64,7 @@ export const compareNewAndOldAddress = (req: Request, type: ManualAddressValidat
             addressLine2: trimAndLowercaseString(req.body.addressLine2),
             locality: trimAndLowercaseString(req.body.addressTown),
             region: trimAndLowercaseString(req.body.addressCounty),
-            country: type === "service" ? trimAndLowercaseString(req.body.countryInput) : trimAndLowercaseString(req.body.addressCountry),
+            country: type === "serviceAddress" ? trimAndLowercaseString(req.body.countryInput) : trimAndLowercaseString(req.body.addressCountry),
             postalCode: trimAndLowercaseString(req.body.addressPostcode)
         };
         if (JSON.stringify(trimmedOriginalAddress) === JSON.stringify(newAddress)) {
