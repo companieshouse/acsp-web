@@ -2,12 +2,14 @@
     "whereDoYouLiveTitle" : "Where do you live?",
     "whereDoYouLiveHint" : "Start typing a country, then choose from the list.",
     "whereDoYouLiveDefaultDropdownText" : "Select where you live",
-    "error-whereDoYouLiveNoData" : "Select where you live",
-    "error-whereDoYouLiveEmptyInput" :"Enter a country",
     "whereDoYouLiveText1" : "England",
     "whereDoYouLiveText2" : "Scotland",
     "whereDoYouLiveText3" : "Wales",
     "whereDoYouLiveText4" : "Northern Ireland",
     "whereDoYouLiveText5" : "or",
-    "whereDoYouLiveText6" : "Country or territory outside of the UK"
+    "whereDoYouLiveText6" : "Country or territory outside of the UK",
+
+    "error-whereDoYouLiveNoData" : "Select where you live",
+    "error-whereDoYouLiveEmptyInput" :"Enter a country",
+    "error-whereDoYouLiveNoChangeUpdateAcsp" : "Select to update where you live if it’s changed or cancel the update"
 }

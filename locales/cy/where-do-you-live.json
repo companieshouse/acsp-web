@@ -2,12 +2,14 @@
     "whereDoYouLiveTitle" : "Ble rydych chi'n byw?",
     "whereDoYouLiveHint" : "Dechreuwch deipio gwlad, yna dewiswch o'r rhestr.",
     "whereDoYouLiveDefaultDropdownText" : "Dewiswch lle rydych chi'n byw",
-    "error-whereDoYouLiveNoData" : "Dewiswch lle rydych chi'n byw",
-    "error-whereDoYouLiveEmptyInput" : "Cofnodwch wlad",
     "whereDoYouLiveText1" : "Lloegr",
     "whereDoYouLiveText2" : "Yr Alban",
     "whereDoYouLiveText3" : "Cymru",
     "whereDoYouLiveText4" : "Gogledd Iwerddon",
     "whereDoYouLiveText5" : "Neu",
-    "whereDoYouLiveText6" : "Gwlad neu diriogaeth y tu allan i'r Deyrnas Unedig"
+    "whereDoYouLiveText6" : "Gwlad neu diriogaeth y tu allan i'r Deyrnas Unedig",
+
+    "error-whereDoYouLiveNoData" : "Dewiswch lle rydych chi'n byw",
+    "error-whereDoYouLiveEmptyInput" : "Cofnodwch wlad",
+    "error-whereDoYouLiveNoChangeUpdateAcsp" : "Select to update where you live if it’s changed or cancel the update welsh"
 }
