@@ -22,6 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails = await getAcspFullProfile(getLoggedInAcspNumber(session));
         session.setExtraData(ACSP_DETAILS, acspDetails);
+
         if (!updateFlag) {
             session.setExtraData(ACSP_DETAILS_UPDATED, acspDetails);
         }
