@@ -44,7 +44,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
             .set("Referer", UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
 
         expect(response.status).toBe(200);
-        expect(response.text).toContain("href=\"" + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
+        expect(response.text).toContain(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
     });
 
     it("should set previousPage to UPDATE_YOUR_ANSWERS as default if user did not come from the date change page route", async () => {

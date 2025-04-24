@@ -228,28 +228,4 @@ describe("getPreviousPageUrlDateOfChange", () => {
         expect(session.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_ELEMENT);
         expect(session.setExtraData).not.toHaveBeenCalled();
     });
-
-    it("should return UPDATE_ACSP_DETAILS_BASE_URL if ACSP_DETAILS_UPDATE_ELEMENT is an empty string", () => {
-        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) {
-                return "";
-            }
-            return null;
-        });
-
-        const result = getPreviousPageUrlDateOfChange(req as Request);
-
-        expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL);
-        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_ELEMENT);
-    });
-
-    it("should return UPDATE_ACSP_DETAILS_BASE_URL if ACSP_DETAILS_UPDATE_ELEMENT returns null", () => {
-        (session.getExtraData as jest.Mock).mockReturnValue(null);
-
-        const result = getPreviousPageUrlDateOfChange(req as Request);
-
-        expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL);
-        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_ELEMENT);
-
-    });
 });

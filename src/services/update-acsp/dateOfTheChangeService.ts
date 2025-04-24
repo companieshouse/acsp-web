@@ -71,5 +71,5 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 export const getPreviousPageUrlDateOfChange = (req: Request): string => {
     const session: Session = req.session as any as Session;
     const previousPageUrl: string = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT) || "";
-    return previousPageUrl || UPDATE_ACSP_DETAILS_BASE_URL;
+    return previousPageUrl;
 };
