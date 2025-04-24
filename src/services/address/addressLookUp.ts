@@ -97,6 +97,9 @@ export class AddressLookUpService {
     public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
+            if (ukAddresses.some(address => address.country === "")) {
+                throw new Error("correspondenceLookUpAddressWithoutCountry");
+            } else {
             if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
                 this.saveAddressUpdateJourney(req, ukAddresses, inputPremise);
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
@@ -111,7 +114,7 @@ export class AddressLookUpService {
 
                 return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
             }
-
+        }
         }).catch((err) => {
             throw err;
         });

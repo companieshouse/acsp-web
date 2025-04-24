@@ -71,14 +71,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 res.redirect(nextPageUrl);
-            }).catch(() => {
-                const validationError : ValidationError[] = [{
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postCode",
-                    location: "body"
-                }];
-                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
+            }).catch((error) => {
+                const validationError = addressLookUpService.getErrorMessage(error, postcode);
+                const pageProperties = getPageProperties(formatValidationError([validationError], lang));
                 res.status(400).render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
                     previousPage,
                     ...getLocaleInfo(locales, lang),

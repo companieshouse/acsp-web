@@ -82,7 +82,7 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
-
+UPDATE_ACSP_DETAILS_BASE_URL
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
@@ -114,6 +114,18 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
         expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+    });
+
+    it("should return status 400 for no country found", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: ""
+        };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("correspondenceLookUpAddressWithoutCountry"));
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find the full address from the postcode. Enter the address manually");
     });
 
     it("should return status 400 when data entered has not changed", async () => {
