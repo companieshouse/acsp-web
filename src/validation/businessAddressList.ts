@@ -1,5 +1,6 @@
-import { body } from "express-validator";
+import { body, ValidationChain } from "express-validator";
+import { AddressListValidationType } from "./correspondanceAddressList";
 
-export const businessAddressListValidator = [
-    body("businessAddress", "businessLookUpAddresListNoRadioBtnSelected").notEmpty()
+export const businessAddressListValidator = (type: AddressListValidationType): ValidationChain[] => [
+    body("businessAddress", type === "registration" ? "businessLookUpAddresListNoRadioBtnSelected" : "businessLookUpAddresListNoRadioBtnSelectedUpdate").notEmpty()
 ];

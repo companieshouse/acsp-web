@@ -1,5 +1,7 @@
-import { body } from "express-validator";
+import { body, ValidationChain } from "express-validator";
 
-export const correspondenceAddressListValidator = [
-    body("correspondenceAddress", "correspondenceLookUpAddresListNoRadioBtnSelected").notEmpty()
+export type AddressListValidationType = "registration" | "update";
+
+export const correspondenceAddressListValidator = (type: AddressListValidationType): ValidationChain[] => [
+    body("correspondenceAddress", type === "registration" ? "correspondenceLookUpAddresListNoRadioBtnSelected" : "correspondenceLookUpAddresListNoRadioBtnSelectedUpdate").notEmpty()
 ];

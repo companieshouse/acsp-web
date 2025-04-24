@@ -56,3 +56,7 @@ export const ACSP_UPDATE_CHANGE_DATE = {
 export const AML_REMOVAL_INDEX = "amlRemovalIndex";
 export const AML_REMOVAL_BODY = "amlRemovalBody";
 export const AML_REMOVED_BODY_DETAILS = "amlRemovedBodyDetails";
+export const REGISTRATION = "registration";
+export const UPDATE = "update";
+export const SERVICE_ADDRESS = "serviceAddress";
+export const REGISTERED_OFFICE_ADDRESS = "registeredOfficeAddress";
