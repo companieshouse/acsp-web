@@ -1,6 +1,9 @@
 /* eslint-disable import/first */
 jest.mock("../../../../src/services/acspProfileService");
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
+import { get } from "../../../../src/controllers/features/update-acsp/indexController";
+import { Request, Response, NextFunction } from "express";
+import { Session } from "@companieshouse/node-session-handler";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
@@ -8,11 +11,35 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../../s
 import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import * as localise from "../../../../src/utils/localise";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 const router = supertest(app);
 
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 
-describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
+describe("GET indexController", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
+
     it("should return status 200", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce(dummyFullProfile);
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL);
@@ -21,6 +48,26 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(200);
     });
 
+    it("should not set ACSP_DETAILS_UPDATED in the session when updateFlag is true", async () => {
+        const mockAcspDetails = { name: "Test ACSP", number: "12345" };
+        const mockUpdatedAcspDetails = { name: "Updated ACSP", number: "12345" };
+        sessionMock = {
+            getExtraData: jest.fn((key: string) => {
+                if (key === ACSP_DETAILS) return mockAcspDetails;
+                if (key === ACSP_DETAILS_UPDATED) return mockUpdatedAcspDetails;
+            }),
+            setExtraData: jest.fn()
+        } as Partial<Session>;
+
+        const mockGetAcspFullProfile = jest.fn().mockResolvedValue(mockAcspDetails);
+        jest.mock("../../../../src/services/acspProfileService", () => ({
+            getAcspFullProfile: mockGetAcspFullProfile
+        }));
+
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ACSP_DETAILS_UPDATED, mockAcspDetails);
+        expect(res.render).toHaveBeenCalled();
+    });
     it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
         mockGetAcspFullProfile.mockRejectedValueOnce(new Error("Error getting data"));
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL);
@@ -28,7 +75,6 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
-
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL);
