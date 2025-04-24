@@ -38,6 +38,7 @@ import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershi
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
+import { REGISTERED_OFFICE_ADDRESS, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
 
 const updateRoutes = Router();
 
@@ -54,25 +55,25 @@ updateRoutes.get(urls.UPDATE_WHERE_DO_YOU_LIVE, updateWhereDoYouLiveController.g
 updateRoutes.post(urls.UPDATE_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, updateWhereDoYouLiveController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, correspondenceAddressManualController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(SERVICE_ADDRESS), correspondenceAddressManualController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, correspondenceAddressAutoLookupController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(SERVICE_ADDRESS), correspondenceAddressAutoLookupController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListController.get);
-updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, correspondenceAddressListController.post);
+updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(UPDATE), correspondenceAddressListController.post);
 
 updateRoutes.get(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.get);
 updateRoutes.post(urls.UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, correspondenceAddressConfirmController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualController.get);
-updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, businessAddressManualController.post);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator(REGISTERED_OFFICE_ADDRESS), businessAddressManualController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, businessAddressAutoLookupController.get);
-updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, businessAddressAutoLookupController.post);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTERED_OFFICE_ADDRESS), businessAddressAutoLookupController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListController.get);
-updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator, businessAddressListController.post);
+updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_LIST, businessAddressListValidator(UPDATE), businessAddressListController.post);
 
 updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.get);
 updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);

@@ -3,7 +3,7 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
@@ -207,6 +207,20 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    // Test for submitting the same data.
+    it("should return status 400", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "11", addressLine1: "Test Street", addressLine2: "Test Line 2", addressTown: "Test Town", addressCounty: "Region", countryInput: "England", addressPostcode: "AB12CD" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address line 2 if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the city or town if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the county if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the country if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the postcode if it’s changed or cancel the update if you do not need to make any changes");
+    });
 });
 
 let customMockSessionMiddleware: any;
@@ -228,12 +242,28 @@ describe("POST " + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM + "?lang=en");
     });
+
+    // Test for submitting the same data.
+    it("should return status 400", async () => {
+        createMockSessionMiddleware();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "11", addressLine1: "Test Street", addressLine2: "", addressTown: "Test Town", addressCounty: "", countryInput: "England", addressPostcode: "AB1 2CD" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the address line 2 if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the city or town if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the county if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the country if it’s changed or cancel the update if you do not need to make any changes");
+        expect(res.text).toContain("Update the postcode if it’s changed or cancel the update if you do not need to make any changes");
+    });
 });
 
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;

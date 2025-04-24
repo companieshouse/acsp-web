@@ -6,7 +6,16 @@
 {% for body in acspFullProfile.amlDetails %}
     {% set chkFlagForAMLRemoval = true %}
     {% set updateAMLDetailsStatusText = "" %}
+    {% set dateOfChange = "" %}
     {% set amlActionText = i18n.updateYourDetailsRemove %}
+    {% set amlActionLink = dateOfChangeUrl %}
+
+    {% for removedAml in formattedRemovedAMLDetails %}
+        {% if body.supervisoryBody === removedAml.amlSupervisoryBody and body.membershipDetails === removedAml.membershipId %}
+            {% set dateOfChange = removedAml.dateOfChange %}
+        {% endif %}
+    {% endfor %}
+
     {% if chkFlagForAMLRemoval === true %}
         {% for bodyUpdated in acspUpdatedFullProfile.amlDetails %}
             {% if body.supervisoryBody === bodyUpdated.supervisoryBody and body.membershipDetails === bodyUpdated.membershipDetails%}
@@ -16,8 +25,10 @@
     {%endif%}
         {% if chkFlagForAMLRemoval %}
             {% set amlActionText = i18n.updateYourDetailsCancel %}
+            {% set amlActionLink = removeAMLUrl %}
             {% set updateAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
+                            <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsEndedOn+" "+dateOfChange+"</p>
                             <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
                             <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
                             </div>"
@@ -35,7 +46,7 @@
         actions: {
             items: [
             {
-                href: removeAMLUrl + "&amlindex=" + body.membershipDetails + "&amlbody=" + body.supervisoryBody,
+                href: amlActionLink + "&amlindex=" + body.membershipDetails + "&amlbody=" + body.supervisoryBody,
                 text: amlActionText,
                 visuallyHiddenText: AMLSupervioryBodiesFormatted[body.supervisoryBody]
             }],
@@ -72,7 +83,7 @@
                 actions: {
                     items: [
                         {
-                            href: addAML + "&update=" + loop.index0,
+                            href: addAML + "&amlindex=" + bodyAdded.membershipDetails + "&amlbody=" + bodyAdded.supervisoryBody,
                             text: i18n.updateYourDetailsUpdate,
                             visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
                         },
