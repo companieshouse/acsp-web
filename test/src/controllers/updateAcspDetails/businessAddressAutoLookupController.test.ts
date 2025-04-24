@@ -82,7 +82,7 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
     });
-UPDATE_ACSP_DETAILS_BASE_URL
+    UPDATE_ACSP_DETAILS_BASE_URL;
     it("should return status 400 for invalid postcode entered", async () => {
         const formData = {
             postCode: "S6",
