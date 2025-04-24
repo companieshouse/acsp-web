@@ -87,7 +87,12 @@
 
         //  The block below covers the Matomo analysis for the href clicks.
           $(document).on("click", "a", function() {
-            textOnHrefClick = $(this).text();
+            // Don't track email on click of mobile navbar
+            if ($(this).attr('href') && $(this).attr('href') === "#navigation") {
+              textOnHrefClick = $(this).children().text()
+            } else {
+              textOnHrefClick = $(this).text();
+            }
             if(textOnHrefClick){
               _paq.push(["trackEvent", eventCategory, textOnHrefClick]);
             }

@@ -14,11 +14,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session = req.session as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const update: number | undefined = req.query.update as number | undefined;
+        const amlUpdateIndex = req.query.amlindex;
+        const amlUpdateBody = req.query.amlbody;
+        let indexForTheUpdate = -1;
         let amlBody = "";
-        if (update) {
-            amlBody = acspUpdatedFullProfile.amlDetails[update].supervisoryBody!;
-            session.setExtraData(ADD_AML_BODY_UPDATE, update);
+
+        if (amlUpdateIndex && amlUpdateBody) {
+            indexForTheUpdate = acspUpdatedFullProfile.amlDetails.findIndex(amlToBeUpdated => (
+                amlToBeUpdated.membershipDetails === amlUpdateIndex && amlToBeUpdated.supervisoryBody === amlUpdateBody
+            ));
+            amlBody = acspUpdatedFullProfile.amlDetails[indexForTheUpdate].supervisoryBody!;
+            session.setExtraData(ADD_AML_BODY_UPDATE, indexForTheUpdate);
         }
 
         const newAmlBodyData = session.getExtraData(NEW_AML_BODY);

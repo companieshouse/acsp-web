@@ -8,7 +8,7 @@ import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
-import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -94,7 +94,7 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a postcode");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
     });
 
     it("should return status 400 for no data entered", async () => {
@@ -105,7 +105,7 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a postcode");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
     });
 
     it("should return status 400 for no postcode found", async () => {
@@ -118,6 +118,18 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
         expect(res.text).toContain("We cannot find this postcode. Enter a different one, or enter the address manually");
+    });
+
+    it("should return status 400 when data entered has not changed", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: "11"
+        };
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
     });
 
     it("should show the error page if an error occurs", async () => {
@@ -149,10 +161,26 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     });
 });
 
+describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
+    it("should return status 400 when data entered has not changed", async () => {
+        createMockSessionMiddleware();
+        const formData = {
+            postCode: "AB1 2CD",
+            premise: "11"
+        };
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
+    });
+});
+
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;

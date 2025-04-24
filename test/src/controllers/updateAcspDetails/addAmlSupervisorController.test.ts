@@ -2,11 +2,12 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import { Request, Response, NextFunction } from "express";
 import { Session } from "@companieshouse/node-session-handler";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import app from "../../../../src/app";
 import { UPDATE_ADD_AML_SUPERVISOR, AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 import { get } from "../../../../src/controllers/features/update-acsp/addAmlSupervisorController";
-import { NEW_AML_BODY } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../../../src/common/__utils/constants";
 
 const router = supertest(app);
 
@@ -62,6 +63,55 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
+describe("amlSupervisor", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: jest.Mock;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        acspFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123", supervisoryBody: "body1" },
+                { membershipDetails: "456", supervisoryBody: "body2" }
+            ]
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123", supervisoryBody: "body1" },
+                { membershipDetails: "456", supervisoryBody: "body2" }
+            ]
+        } as AcspFullProfile;
+
+        session = {
+            getExtraData: jest.fn((key: string) => {
+                if (key === ACSP_DETAILS) return acspFullProfile;
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            }),
+            setExtraData: jest.fn()
+        } as Partial<Session>;
+
+        req = {
+            query: {},
+            session: session as Session
+        } as Partial<Request>;
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
+    it("should render the page with the correct AML supervisory body when amlUpdateIndex and amlUpdateBody are provided", () => {
+        req.query = { amlindex: "456", amlbody: "body2" };
+        get(req as Request, res as Response, next as NextFunction);
+        expect(session.setExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, 1);
+
     });
 });
 

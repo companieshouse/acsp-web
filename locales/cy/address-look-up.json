@@ -15,13 +15,16 @@
 
     "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-correspondenceLookUpAddressNoPostCode" : "Cofnodwch god post",
+    "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the correspondence address Welsh",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "Ni allwn ddod o hyd i'r cod post hwn. Rhowch un gwahanol, neu rhowch y cyfeiriad â llaw",
     "error-correspondenceLookUpAddressWithoutCountry" : "We cannot find the full address from the postcode. Enter the address manually",
     "error-invalidPostcodeFormat": "Rhaid i'r cod post gynnwys llythrennau a i z a rhifau a bylchau yn unig",
     "error-invalidAddressPostcode": "Cofnodwch  god post llawn yn y Deyrnas Unedig",
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Dewiswch y cyfeiriad gohebiaeth",
-    "error-businessLookUpAddresListNoRadioBtnSelected": "Dewiswch y cyfeiriad busnes"
+    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Select the correspondence address or cancel the update if you do not need to change it",
+    "error-businessLookUpAddresListNoRadioBtnSelected": "Dewiswch y cyfeiriad busnes",
+    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Select the business address or cancel the update if you do not need to change it Welsh"
 
 
 

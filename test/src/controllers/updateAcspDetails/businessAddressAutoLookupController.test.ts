@@ -102,7 +102,7 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a postcode");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
     });
 
     it("should return status 400 for no data entered", async () => {
@@ -113,7 +113,19 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a postcode");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+    });
+
+    it("should return status 400 when data entered has not changed", async () => {
+        const formData = {
+            postCode: "AB1 2CD",
+            premise: "11"
+        };
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
     });
 
     it("should show the error page if an error occurs", async () => {

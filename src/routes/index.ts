@@ -91,6 +91,7 @@ import { selectSavedApplicationValidator } from "../validation/savedApplication"
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { businessAddressManualValidator } from "../validation/businessAddressManual";
+import { REGISTRATION } from "../common/__utils/constants";
 
 const routes = Router();
 
@@ -150,13 +151,13 @@ routes.get(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, soleTraderWhereDoYouLiveControlle
 routes.post(urls.SOLE_TRADER_WHERE_DO_YOU_LIVE, whereDoYouLiveValidator, soleTraderWhereDoYouLiveController.post);
 
 routes.get(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, soleTraderCorrespondenceAddressManualController.get);
-routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator, soleTraderCorrespondenceAddressManualController.post);
+routes.post(urls.SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, correspondenceAddressManualValidator("registration"), soleTraderCorrespondenceAddressManualController.post);
 
 routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, soleTraderCorrespondenceAddressAutoLookupController.get);
-routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator, soleTraderCorrespondenceAddressAutoLookupController.post);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS, correspondenceAddressAutoLookupValidator("registration"), soleTraderCorrespondenceAddressAutoLookupController.post);
 
 routes.get(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, soleTraderCorrespodanceAddressDetailsController.get);
-routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, correspondenceAddressListValidator, soleTraderCorrespodanceAddressDetailsController.post);
+routes.post(urls.SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, correspondenceAddressListValidator("registration"), soleTraderCorrespodanceAddressDetailsController.post);
 
 routes.get(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.get);
 routes.post(urls.SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, soleTraderCorrespondenceAddressConfirmController.post);
@@ -209,13 +210,13 @@ routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorControl
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, limitedCorrespondenceAddressManualController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, limitedCorrespondenceAddressManualController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(REGISTRATION), limitedCorrespondenceAddressManualController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, limitedCorrespondenceAddressAutoLookupController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, limitedCorrespondenceAddressAutoLookupController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), limitedCorrespondenceAddressAutoLookupController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, limitedCorrespondenceAddressListController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, limitedCorrespondenceAddressListController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(REGISTRATION), limitedCorrespondenceAddressListController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.get);
 routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.post);
@@ -246,13 +247,13 @@ routes.get(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, unincorporatedWhichSectorOthe
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, whichSectorOtherValidator, unincorporatedWhichSectorOtherController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, unincorporatedBusinessAddressAutoLookupController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedBusinessAddressAutoLookupController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), unincorporatedBusinessAddressAutoLookupController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, unincorporatedBusinessAddressListController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator, unincorporatedBusinessAddressListController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator(REGISTRATION), unincorporatedBusinessAddressListController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, unincorporatedBusinessAddressManualEntryController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator, unincorporatedBusinessAddressManualEntryController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator(REGISTRATION), unincorporatedBusinessAddressManualEntryController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
@@ -261,16 +262,16 @@ routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorres
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, addressCorrespondanceSelectorController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator, unincorporatedCorrespondenceAddressManualController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(REGISTRATION), unincorporatedCorrespondenceAddressManualController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.get);
 routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, unincorporatedCorrespondenceAddressAutoLookupController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator, unincorporatedCorrespondenceAddressAutoLookupController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), unincorporatedCorrespondenceAddressAutoLookupController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, unincorporatedCorrespondenceAddressListController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator, unincorporatedCorrespondenceAddressListController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(REGISTRATION), unincorporatedCorrespondenceAddressListController.post);
 
 routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSupervisorController.get);
 routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);

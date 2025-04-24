@@ -84,3 +84,10 @@ export const formatAddressIntoHTMLString = (address: Address | undefined): strin
     }
     return addressString;
 };
+
+export const trimAndLowercaseString = (name: string | undefined): string => {
+    if (!name) {
+        return "";
+    }
+    return name.trim().toLowerCase().replace(/\s+/g, " ");
+};
