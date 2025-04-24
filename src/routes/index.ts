@@ -91,6 +91,7 @@ import { selectSavedApplicationValidator } from "../validation/savedApplication"
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 import { correspondenceAddressManualValidator } from "../validation/correspondenceAddressManual";
 import { businessAddressManualValidator } from "../validation/businessAddressManual";
+import { REGISTRATION } from "../common/__utils/constants";
 
 const routes = Router();
 
@@ -209,13 +210,13 @@ routes.get(urls.LIMITED_SELECT_AML_SUPERVISOR, limitedSelectAmlSupervisorControl
 routes.post(urls.LIMITED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, limitedSelectAmlSupervisorController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, limitedCorrespondenceAddressManualController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator("registration"), limitedCorrespondenceAddressManualController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(REGISTRATION), limitedCorrespondenceAddressManualController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, limitedCorrespondenceAddressAutoLookupController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator("registration"), limitedCorrespondenceAddressAutoLookupController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), limitedCorrespondenceAddressAutoLookupController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, limitedCorrespondenceAddressListController.get);
-routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator("registration"), limitedCorrespondenceAddressListController.post);
+routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(REGISTRATION), limitedCorrespondenceAddressListController.post);
 
 routes.get(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.get);
 routes.post(urls.LIMITED_CORRESPONDENCE_ADDRESS_CONFIRM, limitedCorrespondenceAddressConfirmController.post);
@@ -246,13 +247,13 @@ routes.get(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, unincorporatedWhichSectorOthe
 routes.post(urls.UNINCORPORATED_WHICH_SECTOR_OTHER, whichSectorOtherValidator, unincorporatedWhichSectorOtherController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, unincorporatedBusinessAddressAutoLookupController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator("registration"), unincorporatedBusinessAddressAutoLookupController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), unincorporatedBusinessAddressAutoLookupController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, unincorporatedBusinessAddressListController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator("registration"), unincorporatedBusinessAddressListController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_LIST, businessAddressListValidator(REGISTRATION), unincorporatedBusinessAddressListController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, unincorporatedBusinessAddressManualEntryController.get);
-routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator("registration"), unincorporatedBusinessAddressManualEntryController.post);
+routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, businessAddressManualValidator(REGISTRATION), unincorporatedBusinessAddressManualEntryController.post);
 
 routes.get(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.get);
 routes.post(urls.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, unincorporatedConfirmYourBusinessAddressController.post);
@@ -261,16 +262,16 @@ routes.get(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorres
 routes.post(urls.UNINCORPORATED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, addressCorrespondanceSelectorController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, unincorporatedCorrespondenceAddressManualController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator("registration"), unincorporatedCorrespondenceAddressManualController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, correspondenceAddressManualValidator(REGISTRATION), unincorporatedCorrespondenceAddressManualController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.get);
 routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_CONFIRM, unincorporatedCorrespondenceAddressConfirmController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, unincorporatedCorrespondenceAddressAutoLookupController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator("registration"), unincorporatedCorrespondenceAddressAutoLookupController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, correspondenceAddressAutoLookupValidator(REGISTRATION), unincorporatedCorrespondenceAddressAutoLookupController.post);
 
 routes.get(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, unincorporatedCorrespondenceAddressListController.get);
-routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator("registration"), unincorporatedCorrespondenceAddressListController.post);
+routes.post(urls.UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, correspondenceAddressListValidator(REGISTRATION), unincorporatedCorrespondenceAddressListController.post);
 
 routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSupervisorController.get);
 routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);
