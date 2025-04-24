@@ -2,11 +2,12 @@ import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import { Request, Response, NextFunction } from "express";
 import { Session } from "@companieshouse/node-session-handler";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import app from "../../../../src/app";
 import { UPDATE_ADD_AML_SUPERVISOR, AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 import { get } from "../../../../src/controllers/features/update-acsp/addAmlSupervisorController";
-import { NEW_AML_BODY } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../../../src/common/__utils/constants";
 
 const router = supertest(app);
 
@@ -39,39 +40,12 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
-    it("should update the session with the correct AML supervisory body index when amlUpdateIndex and amlUpdateBody are provided", async () => {
-        const mockAmlDetails = [
-            { membershipDetails: "12345", supervisoryBody: "Body A" },
-            { membershipDetails: "67890", supervisoryBody: "Body B" }
-        ];
-        session.getExtraData = jest.fn().mockImplementation(() => {
-            return { amlDetails: mockAmlDetails };
-        });
-
-        const response = await supertest(app)
-            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR)
-            .query({ amlUpdateIndex: "1", amlUpdateBody: "Body B" });
-
-        expect(response.status).toBe(200);
+    it("should return status 200", async () => {
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR + "?update=0");
+        expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(response.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
-    });
-
-    it("should not update the session if amlUpdateIndex and amlUpdateBody do not match any AML details", async () => {
-        const mockAmlDetails = [
-            { membershipDetails: "12345", supervisoryBody: "Body A" },
-            { membershipDetails: "67890", supervisoryBody: "Body B" }
-        ];
-        session.getExtraData = jest.fn().mockImplementation(() => {
-            return { amlDetails: mockAmlDetails };
-        });
-
-        const response = await supertest(app)
-            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR)
-            .query({ amlUpdateIndex: "1", amlUpdateBody: "Body B" });
-
-        expect(response.status).toBe(200);
+        expect(res.text).toContain("Which Anti-Money Laundering (AML) supervisory bodies are you registered with?");
     });
     it("should set amlBody if NEW_AML_BODY is present in session", async () => {
         const amlSupervisoryBody = "Some Supervisory Body";
@@ -89,6 +63,55 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
+describe("amlSupervisor", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: jest.Mock;
+    let session: Partial<Session>;
+    let acspFullProfile: AcspFullProfile;
+    let acspUpdatedFullProfile: AcspFullProfile;
+
+    beforeEach(() => {
+        acspFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123", supervisoryBody: "body1" },
+                { membershipDetails: "456", supervisoryBody: "body2" }
+            ]
+        } as AcspFullProfile;
+
+        acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123", supervisoryBody: "body1" },
+                { membershipDetails: "456", supervisoryBody: "body2" }
+            ]
+        } as AcspFullProfile;
+
+        session = {
+            getExtraData: jest.fn((key: string) => {
+                if (key === ACSP_DETAILS) return acspFullProfile;
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            }),
+            setExtraData: jest.fn()
+        } as Partial<Session>;
+
+        req = {
+            query: {},
+            session: session as Session
+        } as Partial<Request>;
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
+    it("should render the page with the correct AML supervisory body when amlUpdateIndex and amlUpdateBody are provided", () => {
+        req.query = { amlindex: "456", amlbody: "body2" };
+        get(req as Request, res as Response, next as NextFunction);
+        expect(session.setExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, 1);
+
     });
 });
 
