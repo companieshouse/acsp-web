@@ -5,7 +5,6 @@
     "goBackToUpdateDetailsLink": "Go back to update details",
     "provideAmlDetailsInsetText": "If you're no longer registered with an AML supervisory body, you must ",
     "closeAuthorisedAgentLink": "close the authorised agent",
-
     "provideAmlDetailsInsetTextAlt": "If you're no longer registered with an AML supervisory body, you'll need to close the authorised agent. To find out how to close, read the",
     "provideAmlDetailsInsetTextAltLink": "guidance on using your authorised agent account (opens in a new tab)"
 }
