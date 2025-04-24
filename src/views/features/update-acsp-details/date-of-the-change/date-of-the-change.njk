@@ -8,6 +8,9 @@
 {% if isAmlSupervisionStart %}
   {% set pageTitle = i18n.updateDateAMLSupervisionStart %}
   {% set pageHintText = i18n.dateOfChangeAMLSupervisionStartHint %}
+{% elif isAmlSupervisionEnd %}
+  {% set pageTitle = i18n.updateDateAMLSupervisionEnd %}
+  {% set pageHintText = i18n.dateOfChangeAMLSupervisionEndHint %}
 {% else %}
   {% set pageTitle = i18n.updateDateThisChanged %}
   {% set pageHintText = i18n.dateOfChangeHint %}
