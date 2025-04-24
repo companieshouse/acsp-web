@@ -19,6 +19,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             whatIsTheBusinessName: getBusinessName(acspUpdatedFullProfile.name)
         };
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
+            typeOfBusiness: acspUpdatedFullProfile.type,
+            companiesHouseRegisterLink: "https://find-and-update.company-information.service.gov.uk/",
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
             payload,
@@ -35,11 +37,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 payload: req.body,
+                typeOfBusiness: acspUpdatedFullProfile.type,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
                 ...pageProperties
