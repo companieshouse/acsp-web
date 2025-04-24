@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { getLoggedInUserEmail, getLoggedInUserId, getLoggedInAcspNumber } from "../common/__utils/session";
-import { CHS_MONITOR_GUI_URL } from "../utils/properties";
+import { ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../utils/properties";
 import { APPLICATION_ID } from "../common/__utils/constants";
 import { Handler } from "express";
 import { selectLang } from "../utils/localise";
@@ -31,6 +31,8 @@ export const commonTemplateVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.applicationId = applicationId;
 
     res.locals.chsMonitorGuiUrl = CHS_MONITOR_GUI_URL;
+
+    res.locals.accountUrl = ACCOUNT_URL;
 
     res.locals.lang = selectLang(req.query.lang);
 
