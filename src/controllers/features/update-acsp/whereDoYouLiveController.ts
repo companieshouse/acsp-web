@@ -17,7 +17,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-
         const payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
@@ -36,7 +35,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const errorList = validationResult(req);
-
         const session: Session = req.session as any as Session;
         const previousPage = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         if (!errorList.isEmpty()) {
