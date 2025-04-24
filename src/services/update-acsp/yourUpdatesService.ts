@@ -1,7 +1,8 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
-import { ACSP_UPDATE_CHANGE_DATE } from "../../common/__utils/constants";
+import { ACSP_UPDATE_CHANGE_DATE, AML_REMOVED_BODY_DETAILS } from "../../common/__utils/constants";
 import { AcspFullProfile } from "../../model/AcspFullProfile";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
 interface YourUpdates {
     name?: {value: string, changedDate: string};
@@ -111,18 +112,33 @@ const soleTraderChanges = (session: Session, acspFullProfile: AcspFullProfile, u
     return updates;
 };
 
-export const getFormattedRemovedAMLUpdates = (acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile): YourAMLUpdates[] => {
+export const getFormattedRemovedAMLUpdates = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile): YourAMLUpdates[] => {
     const removedBodies: YourAMLUpdates[] = [];
+    const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? [];
+
     acspFullProfile.amlDetails.forEach(body => {
         if (!updatedFullProfile.amlDetails.find(updatedBody => updatedBody.supervisoryBody === body.supervisoryBody &&
             updatedBody.membershipDetails === body.membershipDetails)) {
+
+            // Find the matching aml body details in removedAMLDetails
+            const matchingRemovedDetail = removedAMLDetails.find(removedAml =>
+                removedAml.amlSupervisoryBody === body.supervisoryBody &&
+                removedAml.membershipId === body.membershipDetails
+            );
+
+            // Use the dateOfChange from removedAMLDetails
+            const changedDate = matchingRemovedDetail?.dateOfChange
+                ? formatDateIntoReadableString(new Date(matchingRemovedDetail.dateOfChange))
+                : formatDateIntoReadableString(new Date());
+
             removedBodies.push({
                 membershipName: body.supervisoryBody,
                 membershipNumber: body.membershipDetails,
-                changedDate: formatDateIntoReadableString(new Date())
+                changedDate: changedDate
             });
         }
     });
+
     return removedBodies;
 };
 

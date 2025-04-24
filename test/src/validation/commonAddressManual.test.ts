@@ -1,7 +1,6 @@
-import supertest from "supertest";
-import app from "../../../src/app";
 import { manualAddressValidator } from "../../../src/validation/commonAddressManual";
 import { validationResult } from "express-validator";
+import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 
 describe("Correspondence Address Manual Validator", () => {
     it("Valid Address Data Should Pass Validation", () => {
@@ -18,7 +17,7 @@ describe("Correspondence Address Manual Validator", () => {
         const req = { body: validAddressData };
         const res = { locals: {} };
 
-        for (const validationChain of manualAddressValidator) {
+        for (const validationChain of manualAddressValidator("registration")) {
 
             if (typeof validationChain === "function") {
                 validationChain(req, res, () => {});
@@ -41,10 +40,10 @@ describe("Correspondence Address Manual Validator", () => {
             addressPostcode: "INVALID_POSTCODE"
         };
 
-        const req = { body: invalidAddressData };
+        const req = { body: invalidAddressData, session: getSessionRequestWithPermission() };
         const res = { locals: {} };
 
-        for (const validationChain of manualAddressValidator) {
+        for (const validationChain of manualAddressValidator("registration")) {
             if (typeof validationChain === "function") {
                 await validationChain(req, res, () => {});
             }
