@@ -23,9 +23,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
-        const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
-        const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const previousPage = getPreviousPageWithLang(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+        const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
@@ -61,9 +61,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const errorList = validationResult(req);
         const yourDetails = getFormattedUpdates(session, acspFullProfile, acspUpdatedFullProfile);
-        const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
-        const removedAMLBodies = getFormattedRemovedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const previousPage = getPreviousPageWithLang(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
+        const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {

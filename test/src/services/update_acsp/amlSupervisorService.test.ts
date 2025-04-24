@@ -1,7 +1,7 @@
 import { amlSupervisor } from "../../../../src/services/update-acsp/amlSupervisorService";
 import { Request } from "express";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 describe("amlSupervisor", () => {
@@ -48,6 +48,24 @@ describe("amlSupervisor", () => {
     });
 
     it("should undo removal of AML detail if not found in updated profile but found in full profile", () => {
+        const initialRemovedAMLDetails = [
+            { membershipId: "123", amlSupervisoryBody: "body1", dateOfChange: "2025-04-01T00:00:00.000Z" },
+            { membershipId: "789", amlSupervisoryBody: "body3", dateOfChange: "2025-05-01T00:00:00.000Z" }
+        ];
+
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            switch (key) {
+            case ACSP_DETAILS:
+                return acspFullProfile;
+            case ACSP_DETAILS_UPDATED:
+                return acspUpdatedFullProfile;
+            case AML_REMOVED_BODY_DETAILS:
+                return initialRemovedAMLDetails;
+            }
+        });
+
+        session.setExtraData = jest.fn();
+
         acspUpdatedFullProfile.amlDetails = [{ membershipDetails: "456", supervisoryBody: "body2" }];
         req.query = { amlindex: "123", amlbody: "body1" };
 
@@ -56,6 +74,11 @@ describe("amlSupervisor", () => {
         expect(acspUpdatedFullProfile.amlDetails).toHaveLength(2);
         expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe("123");
         expect(acspUpdatedFullProfile.amlDetails[1].membershipDetails).toBe("456");
+
+        const expectedUpdatedRemovedAMLDetails = [
+            { membershipId: "789", amlSupervisoryBody: "body3", dateOfChange: "2025-05-01T00:00:00.000Z" }
+        ];
+        expect(session.setExtraData).toHaveBeenCalledWith(AML_REMOVED_BODY_DETAILS, expectedUpdatedRemovedAMLDetails);
     });
 
     it("should do nothing if amlindex or amlbody is not provided", () => {
