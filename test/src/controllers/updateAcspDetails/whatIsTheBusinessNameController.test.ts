@@ -1,8 +1,9 @@
 /* eslint-disable import/first */
 import mocks from "../../../mocks/all_middleware_mock";
+import { mockLimitedAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { UPDATE_YOUR_ANSWERS, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
+import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 
 jest.mock("@companieshouse/api-sdk-node");
@@ -53,6 +54,36 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
             });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Update the business name if it&#39;s changed or cancel the update");
+    });
+
+    it("should return status 400 and display error message when no company name entered as a ltd company", async () => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
+            };
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: ""
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter the company name or cancel the update");
+    });
+
+    it("should return status 400 and display error message when no change has been made to ltd company name", async () => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
+            };
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: "Example ACSP Ltd"
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Update the company name if it&#39;s changed or cancel the update");
     });
 
     it("should return status 500 when an error occurs", async () => {
