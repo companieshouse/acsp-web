@@ -14,7 +14,8 @@ import {
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,8 +25,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
-
         let payload;
+
         if (acspUpdatedFullProfile.type === "sole-trader") {
             payload = {
                 postCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
@@ -37,7 +38,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 premise: acspUpdatedFullProfile.serviceAddress?.premises
             };
         }
-
+        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)){
+            const { postalCode, premises } = setPaylodForUpdateInProgress(req);
+            payload = { 
+                postCode: postalCode, 
+                premise: premises
+            };
+        }
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage,
             ...getLocaleInfo(locales, lang),
