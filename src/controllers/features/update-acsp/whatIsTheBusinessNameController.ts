@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { getBusinessName, isLimitedBusinessType } from "../../../services/common";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../types/pageURL";
-import { getBusinessName } from "../../../services/common";
 import { CHS_URL } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,11 +16,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
         const payload = {
             whatIsTheBusinessName: getBusinessName(acspUpdatedFullProfile.name)
         };
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             typeOfBusiness: acspUpdatedFullProfile.type,
+            isLimitedBusiness,
             companiesHouseRegisterLink: CHS_URL,
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
@@ -39,11 +41,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
                 previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 payload: req.body,
+                isLimitedBusiness,
                 typeOfBusiness: acspUpdatedFullProfile.type,
                 ...getLocaleInfo(locales, lang),
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,

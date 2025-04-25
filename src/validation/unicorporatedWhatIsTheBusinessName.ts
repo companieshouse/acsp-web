@@ -1,11 +1,10 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { body } from "express-validator";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { trimAndLowercaseString } from "../services/common";
+import { trimAndLowercaseString, isLimitedBusinessType, getBusinessName } from "../services/common";
 import { ACSP_DETAILS } from "../common/__utils/constants";
 
 const businessNameFormat: RegExp = /^[A-Za-z0-9\-&'.\s]*$/;
-const limitedBusinessTypes = ["limited-company", "limited-liability-partnership", "corporate-body"];
 
 export const unicorporatedWhatIsTheBusinessNameValidator = [
 
@@ -13,7 +12,7 @@ export const unicorporatedWhatIsTheBusinessNameValidator = [
         const session: Session = req.session as Session;
         const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
 
-        if (acspDetails && limitedBusinessTypes.includes(acspDetails.type)) {
+        if (acspDetails && isLimitedBusinessType(acspDetails.type)) {
             return "whatIsTheCompanyNameNoNameUpdateAcspLtd";
         }
         return "whatIsTheBusinessNameNoName";
@@ -28,9 +27,9 @@ export const unicorporatedWhatIsTheBusinessNameValidator = [
 
             if (acspDetails) {
                 const normalisedBusinessName = trimAndLowercaseString(value);
-                const existingBusinessName = trimAndLowercaseString(acspDetails.name);
+                const existingBusinessName = trimAndLowercaseString(getBusinessName(acspDetails.name));
 
-                if (normalisedBusinessName === existingBusinessName && limitedBusinessTypes.includes(acspDetails.type)) {
+                if (normalisedBusinessName === existingBusinessName && isLimitedBusinessType(acspDetails.type)) {
                     throw new Error("whatIsTheCompanyNameNoChangeUpdateAcspLtd");
                 } else if (normalisedBusinessName === existingBusinessName) {
                     throw new Error("whatIsTheBusinessNameNoChangeUpdateAcsp");

@@ -3,7 +3,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% extends "layouts/default.njk" %}
 
-{% if reqType === "updateAcsp" and (typeOfBusiness === "limited-company" or typeOfBusiness === "limited-liability-partnership" or typeOfBusiness === "corporate-body") %}
+{% if reqType === "updateAcsp" and isLimitedBusiness %}
   {% set insetTextForLimitedJourneyUpdateAcsp = govukInsetText({
     html: "<p class='govuk-body'>" + i18n.whatIsTheCompanyNameInsetText + "</p><ul class='govuk-list govuk-list--bullet'><li>" + i18n.whatIsTheCompanyNameShownOnThe + 
           "<a class='govuk-link' id='companies-house-register-link' href='" + companiesHouseRegisterLink + "' target='_blank'>" + i18n.whatIsTheCompanyNameCompaniesHouseRegLink + "</a></li><li>" + 

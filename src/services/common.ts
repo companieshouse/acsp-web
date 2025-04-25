@@ -1,4 +1,5 @@
 import { AcspData, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { LIMITED_BUSINESS_TYPES } from "../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 /**
@@ -90,4 +91,8 @@ export const trimAndLowercaseString = (name: string | undefined): string => {
         return "";
     }
     return name.trim().toLowerCase().replace(/\s+/g, " ");
+};
+
+export const isLimitedBusinessType = (type: string | undefined, businessTypes: string[] = LIMITED_BUSINESS_TYPES): boolean => {
+    return type ? businessTypes.includes(type) : false;
 };
