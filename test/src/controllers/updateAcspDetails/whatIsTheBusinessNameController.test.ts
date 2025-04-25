@@ -71,7 +71,7 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.text).toContain("Enter the company name or cancel the update");
     });
 
-    it("should return status 400 and display error message when no change has been made to company name as a ltd company", async () => {
+    it("should return status 400 and display error message when no change has been made to ltd company name", async () => {
         mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
             req.session = {
                 getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
