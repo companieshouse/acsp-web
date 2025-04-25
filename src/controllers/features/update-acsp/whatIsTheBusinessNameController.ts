@@ -50,6 +50,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 isLimitedBusiness,
                 typeOfBusiness: acspUpdatedFullProfile.type,
                 ...getLocaleInfo(locales, lang),
+                companiesHouseRegisterLink: CHS_URL,
                 currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
                 ...pageProperties
             });
