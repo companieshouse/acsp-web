@@ -75,14 +75,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 UPDATE_CORRESPONDENCE_ADDRESS_LIST).then(async (nextPageUrl) => {
 
                 res.redirect(nextPageUrl);
-            }).catch(() => {
-                const validationError : ValidationError[] = [{
-                    value: postcode,
-                    msg: "correspondenceLookUpAddressInvalidAddressPostcode",
-                    param: "postCode",
-                    location: "body"
-                }];
-                const pageProperties = getPageProperties(formatValidationError(validationError, lang));
+            }).catch((error) => {
+                const validationError = addressLookUpService.getErrorMessage(error, postcode);
+                const pageProperties = getPageProperties(formatValidationError([validationError], lang));
                 res.status(400).render(config.AUTO_LOOKUP_ADDRESS, {
                     previousPage,
                     ...getLocaleInfo(locales, lang),

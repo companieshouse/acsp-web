@@ -97,21 +97,24 @@ export class AddressLookUpService {
     public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
-            if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
-                this.saveAddressUpdateJourney(req, ukAddresses, inputPremise);
-                return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
+            if (ukAddresses.some(address => address.country === "")) {
+                throw new Error("correspondenceLookUpAddressWithoutCountry");
             } else {
-                this.saveAddressListToSession(req, ukAddresses);
+                if (inputPremise !== "" && ukAddresses.find((address) => address.premise === inputPremise)) {
+                    this.saveAddressUpdateJourney(req, ukAddresses, inputPremise);
+                    return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[0], lang);
+                } else {
+                    this.saveAddressListToSession(req, ukAddresses);
 
-                const address: Address = {
-                    postalCode: req.body.postCode
-                };
-                const session: Session = req.session as any as Session;
-                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, address);
+                    const address: Address = {
+                        postalCode: req.body.postCode
+                    };
+                    const session: Session = req.session as any as Session;
+                    session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, address);
 
-                return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
+                    return addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + nexPageUrls[1], lang);
+                }
             }
-
         }).catch((err) => {
             throw err;
         });

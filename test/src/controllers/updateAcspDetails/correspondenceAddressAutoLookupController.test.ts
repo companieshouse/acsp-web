@@ -131,7 +131,17 @@ describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
         expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
     });
+    it("should return status 400 for no country found", async () => {
+        const formData = {
+            postCode: "AB12CD",
+            premise: ""
+        };
+        (getAddressFromPostcode as jest.Mock).mockRejectedValueOnce(new Error("correspondenceLookUpAddressWithoutCountry"));
 
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("We cannot find the full address from the postcode. Enter the address manually");
+    });
     it("should show the error page if an error occurs", async () => {
         const formData = {
             postCode: "ST63LJ",
