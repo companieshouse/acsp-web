@@ -38,10 +38,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 premise: acspUpdatedFullProfile.serviceAddress?.premises
             };
         }
-        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)){
+        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
             const { postalCode, premises } = setPaylodForUpdateInProgress(req);
-            payload = { 
-                postCode: postalCode, 
+            payload = {
+                postCode: postalCode,
                 premise: premises
             };
         }
