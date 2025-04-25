@@ -60,4 +60,3 @@ export const REGISTRATION = "registration";
 export const UPDATE = "update";
 export const SERVICE_ADDRESS = "serviceAddress";
 export const REGISTERED_OFFICE_ADDRESS = "registeredOfficeAddress";
-export const CH_REGISTER_URL: string = "https://find-and-update.company-information.service.gov.uk/";
