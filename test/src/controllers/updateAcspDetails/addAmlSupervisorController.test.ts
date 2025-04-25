@@ -7,7 +7,10 @@ import app from "../../../../src/app";
 import { UPDATE_ADD_AML_SUPERVISOR, AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 import { get } from "../../../../src/controllers/features/update-acsp/addAmlSupervisorController";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, NEW_AML_BODY, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { create25AmlBodies, dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 
 const router = supertest(app);
 
@@ -115,6 +118,8 @@ describe("amlSupervisor", () => {
     });
 });
 
+let customMockSessionMiddleware: any;
+
 describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
@@ -130,6 +135,14 @@ describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select the AML supervisory body you are registered with");
     });
+
+    // Test for over 25 aml bodies, will return 400.
+    it("should return status 400 after incorrect data entered", async () => {
+        createMockSessionMiddleware();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("You cannot add details for more than 25 AML registrations. Remove details for an existing registration before you add new AML details");
+    });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
@@ -140,3 +153,14 @@ describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+
+function createMockSessionMiddleware () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: create25AmlBodies() });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
