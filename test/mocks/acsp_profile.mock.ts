@@ -1,4 +1,4 @@
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspFullProfile, AmlDetails } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const MOCK_ACSP_NUMBER = "AP123456";
 
@@ -35,4 +35,15 @@ export const dummyFullProfile: AcspFullProfile = {
         otherForenames: "A",
         surname: "Doe"
     }
+};
+
+export const create25AmlBodies = () => {
+    const amlDetails: AmlDetails[] = [];
+    for (let i = 1; i <= 25; i++) {
+        amlDetails.push({
+            supervisoryBody: `aml-supervisory-body-${i}`,
+            membershipDetails: `membership-number-${i}`
+        });
+    }
+    return amlDetails;
 };
