@@ -229,4 +229,29 @@ describe("getPreviousPageUrlDateOfChange", () => {
         expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         expect(session.setExtraData).not.toHaveBeenCalled();
     });
+
+    it("should call getPreviousPageUrl and set the result in the session if ACSP_UPDATE_PREVIOUS_PAGE_URL is not set", () => {
+        const previousPageUrl = "/calculated-previous-page";
+        (session.getExtraData as jest.Mock).mockReturnValue(null);
+        (getPreviousPageUrl as jest.Mock).mockReturnValue(previousPageUrl);
+
+        const result = getPreviousPageUrlDateOfChange(req as Request);
+
+        expect(result).toBe(previousPageUrl);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+        expect(getPreviousPageUrl).toHaveBeenCalledWith(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL, previousPageUrl);
+    });
+
+    it("should return UPDATE_ACSP_DETAILS_BASE_URL if getPreviousPageUrl returns null", () => {
+        (session.getExtraData as jest.Mock).mockReturnValue(null);
+        (getPreviousPageUrl as jest.Mock).mockReturnValue(null);
+
+        const result = getPreviousPageUrlDateOfChange(req as Request);
+
+        expect(result).toBe(UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+        expect(getPreviousPageUrl).toHaveBeenCalledWith(req, UPDATE_ACSP_DETAILS_BASE_URL);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_ACSP_DETAILS_BASE_URL);
+    });
 });
