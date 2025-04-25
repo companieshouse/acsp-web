@@ -8,7 +8,7 @@ const isSameAsExistingCountry = (input: string, req: any): boolean => {
     const session: Session = req.session as Session;
     const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
     const existingResidentialCountry = acspDetails?.soleTraderDetails?.usualResidentialCountry;
-    return input === existingResidentialCountry;
+    return input.trim().toLowerCase() === existingResidentialCountry?.trim().toLowerCase();
 };
 
 export const whereDoYouLiveValidator = [
