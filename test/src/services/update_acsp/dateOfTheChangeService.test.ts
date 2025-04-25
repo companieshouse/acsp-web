@@ -194,6 +194,38 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
 
     });
+
+    it("should update aml details when editing NEW_AML_BODY and push to acspUpdatedFullProfile when index exists", () => {
+        const dateOfChange = "2025-01-01T00:00:00.000Z";
+        const updatedDateOfChange = "2025-02-02T00:00:00.000Z";
+        const updateIndex = 0;
+        const acspUpdatedFullProfile: { amlDetails: AmlDetails[] } = {
+            amlDetails: [{
+                supervisoryBody: "association-of-chartered-certified-accountants-acca",
+                membershipDetails: "123456",
+                dateOfChange: dateOfChange
+            }]
+        };
+        const newAMLBody = {
+            amlSupervisoryBody: "hm-revenue-customs-hmrc",
+            membershipId: "654321",
+            dateOfChange: updatedDateOfChange
+        };
+
+        (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ADD_AML_SUPERVISOR;
+            if (key === ADD_AML_BODY_UPDATE) return updateIndex;
+            if (key === NEW_AML_BODY) return newAMLBody;
+            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+        });
+
+        updateWithTheEffectiveDateAmendment(req as Request, updatedDateOfChange);
+
+        expect(acspUpdatedFullProfile.amlDetails).toHaveLength(1);
+        expect(acspUpdatedFullProfile.amlDetails[0].supervisoryBody).toBe(newAMLBody.amlSupervisoryBody);
+        expect(acspUpdatedFullProfile.amlDetails[0].membershipDetails).toBe(newAMLBody.membershipId);
+        expect(acspUpdatedFullProfile.amlDetails[0].dateOfChange).toBe(newAMLBody.dateOfChange);
+    });
 });
 
 describe("getPreviousPageUrlDateOfChange", () => {

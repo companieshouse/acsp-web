@@ -97,7 +97,7 @@ const soleTraderChanges = (session: Session, acspFullProfile: AcspFullProfile, u
     if (acspFullProfile.soleTraderDetails?.usualResidentialCountry !== updatedFullProfile.soleTraderDetails?.usualResidentialCountry) {
         updates.usualResidentialCountry = {
             value: updatedFullProfile.soleTraderDetails!.usualResidentialCountry!,
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE)!))
         };
     }
     if (acspFullProfile.soleTraderDetails?.forename !== updatedFullProfile.soleTraderDetails?.forename ||

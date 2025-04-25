@@ -39,6 +39,11 @@ export const ACSP_PROFILE_TYPE_LIMITED_COMPANY:string = "limited-company";
 export const ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP:string = "limited-liability-partnership";
 export const ACSP_PROFILE_TYPE_CORPORATE_BODY:string = "corporate-body";
 export const ACSP_PROFILE_TYPE_SOLE_TRADER:string = "sole-trader";
+export const LIMITED_BUSINESS_TYPES = [
+    ACSP_PROFILE_TYPE_LIMITED_COMPANY,
+    ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP,
+    ACSP_PROFILE_TYPE_CORPORATE_BODY
+];
 export const UPDATE_DESCRIPTION: string = "Update the authorised agent's details";
 export const UPDATE_REFERENCE: string = "ACSP update details";
 export const UPDATE_SUBMISSION_ID: string = "updateSubmissionId";

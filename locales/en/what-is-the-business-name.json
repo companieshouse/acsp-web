@@ -3,9 +3,17 @@
     "whatIsTheBusinessNameTitleInput" : "Enter the business name",
     "whatIsTheBusinessNameDifferentName" : "A different name",
 
+    "whatIsTheCompanyNameTitle": "What is the name of the company?",
+    "whatIsTheCompanyNameInsetText": "This must be the same as the name that's:",
+    "whatIsTheCompanyNameShownOnThe": "shown on the ",
+    "whatIsTheCompanyNameCompaniesHouseRegLink": "Companies House register (opens in a new tab)",
+    "whatIsTheCompanyNameHeldByAml": "held by the Anti-Money Laundering (AML) supervisory body",
+
     "error-whatIsTheBusinessNameSelectRadio" : "Select business name",
     "error-whatIsTheBusinessNameNoName" : "Enter the business name",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
     "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 155 characters or less",
-    "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update"
+    "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update",
+    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update",
+    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update"
 }
