@@ -46,6 +46,7 @@ export class AmlMembershipNumberService {
         if (updateBodyIndex !== undefined && updateBodyIndex >= 0) {
             acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody = newAMLBody.amlSupervisoryBody!;
             acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails = newAMLBody.membershipId!;
+            acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange = newAMLBody.dateOfChange!;
         } else {
             acspUpdatedFullProfile.amlDetails.push({
                 supervisoryBody: newAMLBody.amlSupervisoryBody!,
