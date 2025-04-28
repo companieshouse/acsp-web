@@ -21,15 +21,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        let payload = {};
-        payload = {
+        const payload = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)
+        ? setPaylodForUpdateInProgress(req)
+        : {
             "first-name": acspUpdatedFullProfile.soleTraderDetails?.forename,
             "middle-names": acspUpdatedFullProfile.soleTraderDetails?.otherForenames,
             "last-name": acspUpdatedFullProfile.soleTraderDetails?.surname
         };
-        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
-            payload = setPaylodForUpdateInProgress(req);
-        }
         res.render(config.WHAT_IS_YOUR_NAME, {
             ...getLocaleInfo(locales, lang),
             currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,

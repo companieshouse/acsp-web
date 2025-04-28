@@ -22,6 +22,7 @@ import {
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_DETAILS_UPDATED,
     ACSP_UPDATE_CHANGE_DATE,
+    ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ADD_AML_BODY_UPDATE,
     AML_REMOVED_BODY_DETAILS,
     NEW_AML_BODY
@@ -44,6 +45,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         session.deleteExtraData(ACSP_DETAILS_UPDATE_ELEMENT);
         session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         const changeDates = {
             name: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) || "")),
             whereDoYouLive: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) || "")),
