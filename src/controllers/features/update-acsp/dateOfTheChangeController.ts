@@ -15,8 +15,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
-        const prevUrl = getPreviousPageUrlDateOfChange(req) || UPDATE_ACSP_DETAILS_BASE_URL;
-        const previousPage: string = addLangToUrl(prevUrl, lang);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
         // Save the AML removal index and body to the session to send to remove aml url
@@ -47,12 +46,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
-        const prevUrl = getPreviousPageUrlDateOfChange(req) || UPDATE_ACSP_DETAILS_BASE_URL;
-        const previousPage: string = addLangToUrl(prevUrl, lang);
         const amlRemovalIndex = session.getExtraData(AML_REMOVAL_INDEX);
         const amlRemovalBody = session.getExtraData(AML_REMOVAL_BODY);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
         const isAmlSupervisionStart = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         const isAmlSupervisionEnd = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.UPDATE_DATE_OF_THE_CHANGE, {

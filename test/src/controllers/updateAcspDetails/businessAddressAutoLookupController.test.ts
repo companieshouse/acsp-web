@@ -5,6 +5,11 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_B
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import * as localise from "../../../../src/utils/localise";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
+import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/postcode-lookup-service.ts");
@@ -37,6 +42,8 @@ describe("Business address auto look up tests", () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+
+let customMockSessionMiddleware: any;
 
 describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
@@ -102,7 +109,7 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the business address");
     });
 
     it("should return status 400 for no data entered", async () => {
@@ -113,7 +120,7 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the business address");
     });
 
     it("should return status 400 for no country found", async () => {
@@ -136,7 +143,20 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
 
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the correspondence address");
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the business address");
+        expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
+    });
+
+    it("should return status 400 when data entered has not changed", async () => {
+        createMockSessionMiddleware();
+        const formData = {
+            postCode: "AB1 2CD",
+            premise: "11"
+        };
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP).send(formData);
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Enter a UK postcode or cancel the update if you do not need to change the registered office address");
         expect(res.text).toContain("Update the property name or number if it’s changed or cancel the update if you do not need to make any changes");
     });
 
@@ -153,3 +173,14 @@ describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+
+function createMockSessionMiddleware () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, type: "limited-company" });
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "limited-company" });
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
