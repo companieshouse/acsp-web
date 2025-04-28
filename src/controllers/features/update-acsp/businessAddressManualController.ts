@@ -6,8 +6,9 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
+import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,11 +18,22 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-
+        let payload;
         // Get existing business address details and display on the page
         const businessAddressService = new BusinessAddressService();
-        const payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile);
-
+        payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile);
+        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
+            const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = setPaylodForUpdateInProgress(req);
+            payload = {
+                addressPropertyDetails: premises,
+                addressLine1: addressLine1,
+                addressLine2: addressLine2,
+                addressTown: locality,
+                addressCounty: region,
+                countryInput: country,
+                addressPostcode: postalCode
+            };
+        }
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
             ...getLocaleInfo(locales, lang),
             previousPage,

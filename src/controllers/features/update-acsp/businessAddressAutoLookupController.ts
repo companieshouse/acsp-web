@@ -12,9 +12,10 @@ import {
     UPDATE_ACSP_DETAILS_BASE_URL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,10 +25,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP;
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
-
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const { postalCode = "", premises = "" } = updateInProgress ? setPaylodForUpdateInProgress(req) : {};
         const payload = {
-            postCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
-            premise: acspUpdatedFullProfile.registeredOfficeAddress?.premises
+            postCode: updateInProgress ? postalCode : acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
+            premise: updateInProgress ? premises : acspUpdatedFullProfile.registeredOfficeAddress?.premises
         };
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
