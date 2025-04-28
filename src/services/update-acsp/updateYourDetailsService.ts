@@ -41,7 +41,7 @@ export const setPaylodForUpdateInProgress = (req: Request): any => {
         postalCode: "postalCode"
     };
     let payload;
-    
+
     if (typeof updateInProgressDetails === "object" && updateInProgressDetails !== null && !Array.isArray(updateInProgressDetails)) {
         payload = Object.entries(updateInProgressDetails || {}).reduce((acc, [key, value]) => {
             if (keyMapping[key]) {

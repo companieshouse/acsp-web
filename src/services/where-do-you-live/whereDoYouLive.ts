@@ -26,6 +26,7 @@ export class WhereDoYouLiveBodyService {
             };
         }
     }
+
     getCountryPayloadInProgress (countryName: string) {
 
         switch (this.capitalizeFirstLetter(countryName)) {
@@ -41,6 +42,7 @@ export class WhereDoYouLiveBodyService {
             };
         }
     }
+
     private capitalizeFirstLetter (string: string): string {
         string = string.toLowerCase();
         const words = string.split(" ");

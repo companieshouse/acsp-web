@@ -20,8 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let payload;
 
         const payloadFromUpdate = setPaylodForUpdateInProgress(req);
-        if (countryList.includes(payloadFromUpdate)
-            || ["England", "Scotland", "Wales", "Northern Ireland"].includes(payloadFromUpdate)) {
+        if (countryList.includes(payloadFromUpdate) ||
+            ["England", "Scotland", "Wales", "Northern Ireland"].includes(payloadFromUpdate)) {
             payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(payloadFromUpdate);
         } else {
             const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;

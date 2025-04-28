@@ -25,12 +25,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
-        let payload;
-
         const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const { postalCode = "", premises = "" } = updateInProgress ? setPaylodForUpdateInProgress(req) : {};
-        
-        payload = {
+
+        const payload = {
             postCode: updateInProgress ? postalCode : acspUpdatedFullProfile.type === "sole-trader"
                 ? acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
                 : acspUpdatedFullProfile.serviceAddress?.postalCode,
