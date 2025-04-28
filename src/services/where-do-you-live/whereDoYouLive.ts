@@ -26,7 +26,21 @@ export class WhereDoYouLiveBodyService {
             };
         }
     }
+    getCountryPayloadInProgress (countryName: string) {
 
+        switch (this.capitalizeFirstLetter(countryName)) {
+        case "England":
+        case "Scotland":
+        case "Wales":
+        case "Northern Ireland":
+            return { whereDoYouLiveRadio: this.capitalizeFirstLetter(countryName) };
+        default:
+            return {
+                whereDoYouLiveRadio: "countryOutsideUK",
+                countryInput: countryName
+            };
+        }
+    }
     private capitalizeFirstLetter (string: string): string {
         string = string.toLowerCase();
         const words = string.split(" ");

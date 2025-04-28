@@ -10,14 +10,24 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLiveBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        let payload;
+
+        const payloadFromUpdate = setPaylodForUpdateInProgress(req);
+        if (countryList.includes(payloadFromUpdate)
+            || ["England", "Scotland", "Wales", "Northern Ireland"].includes(payloadFromUpdate)) {
+            payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(payloadFromUpdate);
+        } else {
+            const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+            payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        }
+
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),

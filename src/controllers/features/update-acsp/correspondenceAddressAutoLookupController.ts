@@ -27,24 +27,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
         let payload;
 
-        if (acspUpdatedFullProfile.type === "sole-trader") {
-            payload = {
-                postCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
-                premise: acspUpdatedFullProfile.registeredOfficeAddress?.premises
-            };
-        } else {
-            payload = {
-                postCode: acspUpdatedFullProfile.serviceAddress?.postalCode,
-                premise: acspUpdatedFullProfile.serviceAddress?.premises
-            };
-        }
-        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
-            const { postalCode, premises } = setPaylodForUpdateInProgress(req);
-            payload = {
-                postCode: postalCode,
-                premise: premises
-            };
-        }
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const { postalCode = "", premises = "" } = updateInProgress ? setPaylodForUpdateInProgress(req) : {};
+        
+        payload = {
+            postCode: updateInProgress ? postalCode : acspUpdatedFullProfile.type === "sole-trader"
+                ? acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
+                : acspUpdatedFullProfile.serviceAddress?.postalCode,
+            premise: updateInProgress ? premises : acspUpdatedFullProfile.type === "sole-trader"
+                ? acspUpdatedFullProfile.registeredOfficeAddress?.premises
+                : acspUpdatedFullProfile.serviceAddress?.premises
+        };
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage,
             ...getLocaleInfo(locales, lang),

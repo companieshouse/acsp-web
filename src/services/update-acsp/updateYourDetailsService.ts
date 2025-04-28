@@ -28,7 +28,6 @@ const soleTraderValues = (profileDetails: ACSPFullProfileDetails, acspProfileDat
 export const setPaylodForUpdateInProgress = (req: Request): any => {
     const session: Session = req.session as any as Session;
     const updateInProgressDetails = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-
     const keyMapping: Record<string, string> = {
         forename: "first-name",
         otherForenames: "middle-names",
@@ -41,13 +40,19 @@ export const setPaylodForUpdateInProgress = (req: Request): any => {
         country: "country",
         postalCode: "postalCode"
     };
-
-    const payload = Object.entries(updateInProgressDetails || {}).reduce((acc, [key, value]) => {
-        if (keyMapping[key]) {
-            acc[keyMapping[key]] = value;
-        }
-        return acc;
-    }, {} as Record<string, any>);
+    let payload;
+    
+    if (typeof updateInProgressDetails === "object" && updateInProgressDetails !== null && !Array.isArray(updateInProgressDetails)) {
+        payload = Object.entries(updateInProgressDetails || {}).reduce((acc, [key, value]) => {
+            if (keyMapping[key]) {
+                acc[keyMapping[key]] = value;
+            }
+            console.log(`${key}: ${JSON.stringify(value)}`);
+            return acc;
+        }, {} as Record<string, any>);
+    } else {
+        payload = updateInProgressDetails;
+    }
 
     return payload;
 };
