@@ -3,12 +3,13 @@ import { body } from "express-validator";
 import countryList from "../../lib/countryList";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS } from "../common/__utils/constants";
+import { trimAndLowercaseString } from "../services/common";
 
 const isSameAsExistingCountry = (input: string, req: any): boolean => {
     const session: Session = req.session as Session;
     const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
-    const existingResidentialCountry = acspDetails?.soleTraderDetails?.usualResidentialCountry;
-    return input.trim().toLowerCase() === existingResidentialCountry?.trim().toLowerCase();
+    const existingResidentialCountry = trimAndLowercaseString(acspDetails?.soleTraderDetails?.usualResidentialCountry);
+    return trimAndLowercaseString(input) === existingResidentialCountry;
 };
 
 export const whereDoYouLiveValidator = [

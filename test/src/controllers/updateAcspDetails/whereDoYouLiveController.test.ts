@@ -103,6 +103,15 @@ describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
         expect(res.text).toContain("Select to update where you live if it’s changed or cancel the update");
 
     });
+
+    it("should return status 400 when inputted country matches existing country ignoring case and spaces", async () => {
+        createMockSessionMiddlewareAcspFullProfile();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHERE_DO_YOU_LIVE)
+            .send({ whereDoYouLiveRadio: "united kingdom" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Select to update where you live if it’s changed or cancel the update");
+    });
 });
 
 function createMockSessionMiddlewareAcspFullProfile () {
