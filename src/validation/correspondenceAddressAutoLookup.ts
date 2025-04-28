@@ -3,7 +3,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS } from "../common/__utils/constants";
 import { Request } from "express-validator/src/base";
-import { trimAndLowercaseString } from "../services/common";
+import { isLimitedBusinessType, trimAndLowercaseString } from "../services/common";
 
 const addressDetailsFormat: RegExp = /^[A-Za-z0-9\-',\s]*$/;
 const addressUKPostcodeFormat:RegExp = /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/;
@@ -13,11 +13,11 @@ type AddressLookupValidationType = "serviceAddress" | "registeredOfficeAddress" 
 
 export const correspondenceAddressAutoLookupValidator = (type: AddressLookupValidationType): ValidationChain[] => [
 
-    body("postCode").trim().notEmpty().withMessage(type === "registration" ? "correspondenceLookUpAddressNoPostCode" : "correspondenceLookUpAddressNoPostCodeUpdate").toUpperCase().bail()
+    body("postCode").trim().notEmpty().withMessage((value, { req }) => getAddressMessage(type, req)).toUpperCase().bail()
         .matches(addressPostcodevaild).withMessage("invalidPostcodeFormat").bail()
         .matches(addressUKPostcodeFormat).withMessage("invalidAddressPostcode").bail()
         .isLength({ min: 5, max: 50 }).withMessage("invalidAddressPostcode").bail()
-        .custom((value, { req }) => compareNewAndOldAddressForLookup(req, type)).withMessage("correspondenceLookUpAddressNoPostCodeUpdate"),
+        .custom((value, { req }) => compareNewAndOldAddressForLookup(req, type)).withMessage((value, { req }) => getAddressMessage(type, req)),
 
     body("premise").trim().matches(addressDetailsFormat).withMessage("correspondenceLookUpAddressInvalidPropertyDetails").bail()
         .custom((value, { req }) => compareNewAndOldAddressForLookup(req, type)).withMessage("noUpdatePremises")
@@ -48,4 +48,20 @@ const compareNewAndOldAddressForLookup = (req: Request, type: AddressLookupValid
         }
     }
     return true;
+};
+
+const getAddressMessage = (type: AddressLookupValidationType, req: Request) => {
+    if (type === "registration") {
+        return "correspondenceLookUpAddressNoPostCode";
+    } else if (type === "serviceAddress") {
+        return "correspondenceLookUpAddressNoPostCodeUpdate";
+    }
+    const session: Session = req.session as Session;
+    const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
+    if (acspDetails) {
+        if (isLimitedBusinessType(acspDetails.type)) {
+            return "registeredOfficeLookUpAddressNoPostCodeUpdate";
+        }
+        return "businessLookUpAddressNoPostCodeUpdate";
+    }
 };
