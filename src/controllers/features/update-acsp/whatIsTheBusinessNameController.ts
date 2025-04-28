@@ -23,7 +23,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 ? setPaylodForUpdateInProgress(req)
                 : getBusinessName(acspUpdatedFullProfile.name)
         };
-
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             typeOfBusiness: acspUpdatedFullProfile.type,
             isLimitedBusiness,
