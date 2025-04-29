@@ -82,3 +82,65 @@ describe("WhereDoYouLiveBodyService", () => {
         expect(payload).toEqual({});
     });
 });
+
+describe("WhereDoYouLiveBodyService - getCountryPayloadInProgress", () => {
+    let service: WhereDoYouLiveBodyService;
+
+    beforeEach(() => {
+        service = new WhereDoYouLiveBodyService();
+    });
+
+    it("should return the correct payload for a UK country (England)", () => {
+        const result = service.getCountryPayloadInProgress("England");
+        expect(result).toEqual({ whereDoYouLiveRadio: "England" });
+    });
+
+    it("should return the correct payload for a UK country (Scotland)", () => {
+        const result = service.getCountryPayloadInProgress("Scotland");
+        expect(result).toEqual({ whereDoYouLiveRadio: "Scotland" });
+    });
+
+    it("should return the correct payload for a UK country (Wales)", () => {
+        const result = service.getCountryPayloadInProgress("Wales");
+        expect(result).toEqual({ whereDoYouLiveRadio: "Wales" });
+    });
+
+    it("should return the correct payload for a UK country (Northern Ireland)", () => {
+        const result = service.getCountryPayloadInProgress("Northern Ireland");
+        expect(result).toEqual({ whereDoYouLiveRadio: "Northern Ireland" });
+    });
+
+    it("should return the correct payload for a country outside the UK", () => {
+        const result = service.getCountryPayloadInProgress("France");
+        expect(result).toEqual({
+            whereDoYouLiveRadio: "countryOutsideUK",
+            countryInput: "France"
+        });
+    });
+
+    it("should handle case-insensitive input for UK countries", () => {
+        const result = service.getCountryPayloadInProgress("england");
+        expect(result).toEqual({ whereDoYouLiveRadio: "England" });
+    });
+
+    it("should handle case-insensitive input for countries outside the UK", () => {
+        const result = service.getCountryPayloadInProgress("france");
+        expect(result).toEqual({
+            whereDoYouLiveRadio: "countryOutsideUK",
+            countryInput: "France"
+        });
+    });
+
+    it("should handle input with mixed casing for UK countries", () => {
+        const result = service.getCountryPayloadInProgress("eNgLaNd");
+        expect(result).toEqual({ whereDoYouLiveRadio: "England" });
+    });
+
+    it("should handle input with mixed casing for countries outside the UK", () => {
+        const result = service.getCountryPayloadInProgress("fRaNcE");
+        expect(result).toEqual({
+            whereDoYouLiveRadio: "countryOutsideUK",
+            countryInput: "France"
+        });
+    });
+});

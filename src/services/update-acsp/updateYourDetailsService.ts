@@ -47,7 +47,6 @@ export const setPaylodForUpdateInProgress = (req: Request): any => {
             if (keyMapping[key]) {
                 acc[keyMapping[key]] = value;
             }
-            console.log(`${key}: ${JSON.stringify(value)}`);
             return acc;
         }, {} as Record<string, any>);
     } else {

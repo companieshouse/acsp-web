@@ -1,11 +1,14 @@
 /* eslint-disable import/first */
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
+import { Session } from "@companieshouse/node-session-handler";
+import { get } from "../../../../src/controllers/features/update-acsp/whatIsYourNameController";
+import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
@@ -13,12 +16,36 @@ import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 
 const router = supertest(app);
 
 let customMockSessionMiddleware : any;
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        };
+
+        next = jest.fn();
+
+        jest.clearAllMocks();
+    });
     const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
         session.setExtraData(ACSP_DETAILS_UPDATED, mockSoleTraderAcspFullProfile);
@@ -28,7 +55,75 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is your name?");
     });
+    it("should populate payload using setPaylodForUpdateInProgress when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
+        const mockUpdateInProgressDetails = {
+            "first-name": "John",
+            "middle-names": "Michael",
+            "last-name": "Doe"
+        };
 
+        const mockAcspUpdatedFullProfile = {
+            soleTraderDetails: {
+                forename: "Jane",
+                otherForenames: "Elizabeth",
+                surname: "Smith"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock)
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {
+                    return mockUpdateInProgressDetails;
+                }
+                if (key === ACSP_DETAILS_UPDATED) {
+                    return mockAcspUpdatedFullProfile;
+                }
+                return null;
+            });
+
+        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                "first-name": "John",
+                "middle-names": "Michael",
+                "last-name": "Doe"
+            }
+        }));
+    });
+
+    it("should populate payload using acspUpdatedFullProfile when ACSP_DETAILS_UPDATE_IN_PROGRESS does not exist", async () => {
+        const mockAcspUpdatedFullProfile = {
+            soleTraderDetails: {
+                forename: "Jane",
+                otherForenames: "Elizabeth",
+                surname: "Smith"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock)
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {
+                    return null;
+                }
+                if (key === ACSP_DETAILS_UPDATED) {
+                    return mockAcspUpdatedFullProfile;
+                }
+                return null;
+            });
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(setPaylodForUpdateInProgress).not.toHaveBeenCalled();
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                "first-name": "Jane",
+                "middle-names": "Elizabeth",
+                "last-name": "Smith"
+            }
+        }));
+    });
     it("Should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
@@ -110,7 +205,7 @@ function createMockSessionMiddlewareAcspFullProfile () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, soleTraderDetails: { forename: "John", surname: "Doe" } });
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });

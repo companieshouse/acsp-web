@@ -19,26 +19,26 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        setPaylodForUpdateInProgress(req);
-        // Get existing correspondence address details and display on the page
         let payload;
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const addressManualservice = new CorrespondenceAddressManualService();
-        if (acspUpdatedFullProfile.type === "sole-trader") {
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.registeredOfficeAddress);
-        } else {
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.serviceAddress);
-        }
-        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
+        if (updateInProgress) {
             const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = setPaylodForUpdateInProgress(req);
             payload = {
                 addressPropertyDetails: premises,
-                addressLine1: addressLine1,
-                addressLine2: addressLine2,
+                addressLine1,
+                addressLine2,
                 addressTown: locality,
                 addressCounty: region,
                 countryInput: country,
                 addressPostcode: postalCode
             };
+        } else {
+            const address = acspUpdatedFullProfile.type === "sole-trader"
+                ? acspUpdatedFullProfile.registeredOfficeAddress
+                : acspUpdatedFullProfile.serviceAddress;
+
+            payload = addressManualservice.getCorrespondenceManualAddressUpdate(address);
         }
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             ...getLocaleInfo(locales, lang),

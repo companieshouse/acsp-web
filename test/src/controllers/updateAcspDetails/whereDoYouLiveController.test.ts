@@ -2,21 +2,51 @@
 jest.mock("@companieshouse/api-sdk-node");
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
+import { Session } from "@companieshouse/node-session-handler";
+import { get } from "../../../../src/controllers/features/update-acsp/whereDoYouLiveController";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
+import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { WhereDoYouLiveBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 
+jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
+jest.mock("../../../../src/services/where-do-you-live/whereDoYouLive");
+
 const router = supertest(app);
 let customMockSessionMiddleware : any;
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        };
+
+        next = jest.fn();
+
+        jest.clearAllMocks();
+    });
     it("should return status 200", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
@@ -26,7 +56,33 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Where do you live?");
     });
+    it("should populate payload using getCountryPayloadInProgress when payloadFromUpdate matches a country in countryList", async () => {
+        const mockPayloadFromUpdate = "France";
+        const mockPayload = { whereDoYouLiveRadio: "countryOutsideUK", countryInput: "France" };
 
+        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockPayloadFromUpdate);
+        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
+        await get(req as Request, res as Response, next);
+        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockPayloadFromUpdate);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: mockPayload
+        }));
+    });
+
+    it("should populate payload using getCountryPayloadInProgress when payloadFromUpdate matches a UK country", async () => {
+        const mockPayloadFromUpdate = "England";
+        const mockPayload = { whereDoYouLiveRadio: "England" };
+
+        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockPayloadFromUpdate);
+        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
+        await get(req as Request, res as Response, next);
+        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockPayloadFromUpdate);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: mockPayload
+        }));
+    });
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
@@ -118,7 +174,7 @@ function createMockSessionMiddlewareAcspFullProfile () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, soleTraderDetails: { usualResidentialCountry: "United  Kingdom" } });
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });

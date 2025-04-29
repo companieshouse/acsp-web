@@ -38,7 +38,7 @@ export class WhereDoYouLiveBodyService {
         default:
             return {
                 whereDoYouLiveRadio: "countryOutsideUK",
-                countryInput: countryName
+                countryInput: this.capitalizeFirstLetter(countryName)
             };
         }
     }

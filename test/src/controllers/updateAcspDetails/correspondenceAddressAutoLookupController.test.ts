@@ -1,18 +1,22 @@
+import { Session } from "@companieshouse/node-session-handler";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
+import { get } from "../../../../src/controllers/features/update-acsp/correspondenceAddressAutoLookupController";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../src/types/pageURL";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
+import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { Request, Response, NextFunction } from "express";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/postcode-lookup-service.ts");
+jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 
 const router = supertest(app);
 
@@ -25,12 +29,71 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
 }];
 
 describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        };
+
+        next = jest.fn();
+
+        jest.clearAllMocks();
+    });
     it("should return 200 and render the page", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
+    });
+    it("should populate postCode and premise using setPaylodForUpdateInProgress when updateInProgress exists", async () => {
+        const mockUpdateInProgressDetails = {
+            postalCode: "SW1A 1AA",
+            premises: "10"
+        };
+
+        const mockAcspUpdatedFullProfile = {
+            type: "sole-trader",
+            registeredOfficeAddress: {
+                postalCode: "AB1 2CD",
+                premises: "20"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock)
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {
+                    return mockUpdateInProgressDetails;
+                }
+                if (key === ACSP_DETAILS_UPDATED) {
+                    return mockAcspUpdatedFullProfile;
+                }
+                return null;
+            });
+
+        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                postCode: "SW1A 1AA",
+                premise: "10"
+            }
+        }));
     });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
@@ -192,7 +255,7 @@ function createMockSessionMiddleware () {
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });

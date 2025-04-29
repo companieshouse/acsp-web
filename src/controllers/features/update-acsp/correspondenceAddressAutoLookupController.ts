@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { ValidationError, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";
 import {
@@ -27,14 +27,21 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP;
         const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const { postalCode = "", premises = "" } = updateInProgress ? setPaylodForUpdateInProgress(req) : {};
+        let postCode, premise;
+        if (updateInProgress) {
+            postCode = postalCode;
+            premise = premises;
+        } else if (acspUpdatedFullProfile.type === "sole-trader") {
+            postCode = acspUpdatedFullProfile.registeredOfficeAddress?.postalCode;
+            premise = acspUpdatedFullProfile.registeredOfficeAddress?.premises;
+        } else {
+            postCode = acspUpdatedFullProfile.serviceAddress?.postalCode;
+            premise = acspUpdatedFullProfile.serviceAddress?.premises;
+        }
 
         const payload = {
-            postCode: updateInProgress ? postalCode : acspUpdatedFullProfile.type === "sole-trader"
-                ? acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
-                : acspUpdatedFullProfile.serviceAddress?.postalCode,
-            premise: updateInProgress ? premises : acspUpdatedFullProfile.type === "sole-trader"
-                ? acspUpdatedFullProfile.registeredOfficeAddress?.premises
-                : acspUpdatedFullProfile.serviceAddress?.premises
+            postCode,
+            premise
         };
         res.render(config.AUTO_LOOKUP_ADDRESS, {
             previousPage,
