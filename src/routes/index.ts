@@ -181,7 +181,7 @@ routes.get(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, soleTraderSelectAmlSupervisor
 routes.post(urls.SOLE_TRADER_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, soleTraderSelectAmlSupervisorController.post);
 
 routes.get(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, soleTraderWhatIsYourEmailAddressController.get);
-routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, soleTraderWhatIsYourEmailAddressController.post);
+routes.post(urls.SOLE_TRADER_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator(REGISTRATION), soleTraderWhatIsYourEmailAddressController.post);
 
 // LIMITED
 routes.get(urls.LIMITED_NAME_REGISTERED_WITH_AML, limitedNameRegisteredWithAmlController.get);
@@ -225,7 +225,7 @@ routes.get(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, limitedAddressCorres
 routes.post(urls.LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, addressCorrespondanceSelectorValidator, limitedAddressCorrespondanceSelectorController.post);
 
 routes.get(urls.LIMITED_WHAT_IS_YOUR_EMAIL, limitedWhatIsYourEmailController.get);
-routes.post(urls.LIMITED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, limitedWhatIsYourEmailController.post);
+routes.post(urls.LIMITED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator(REGISTRATION), limitedWhatIsYourEmailController.post);
 
 // UNINCORPORATED
 routes.get(urls.UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, whatIsTheBusinessNameController.get);
@@ -277,7 +277,7 @@ routes.get(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, unincorporatedSelectAmlSup
 routes.post(urls.UNINCORPORATED_SELECT_AML_SUPERVISOR, selectAmlSupervisorValidator, unincorporatedSelectAmlSupervisorController.post);
 
 routes.get(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, unincorporatedWhatIsYourEmailController.get);
-routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, unincorporatedWhatIsYourEmailController.post);
+routes.post(urls.UNINCORPORATED_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator(REGISTRATION), unincorporatedWhatIsYourEmailController.post);
 
 routes.get(urls.RESUME_JOURNEY, resumeJourneyController.get);
 

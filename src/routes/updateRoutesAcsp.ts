@@ -85,7 +85,7 @@ updateRoutes.get(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, updateWhatIsTheBusinessNa
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, unicorporatedWhatIsTheBusinessNameValidator("companyName"), updateWhatIsTheBusinessNameController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
-updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
+updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator(UPDATE), updateWhatIsYourEmailAddressController.post);
 
 updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
 updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
