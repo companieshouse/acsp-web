@@ -26,5 +26,6 @@
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Select the correspondence address",
     "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Select the correspondence address or cancel the update if you do not need to change it", 
     "error-businessLookUpAddresListNoRadioBtnSelected": "Select the business address",
-    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Select the business address or cancel the update if you do not need to change it"
+    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Select the business address or cancel the update if you do not need to change it",
+    "error-registeredOfficeLookUpAddresListNoRadioBtnSelectedUpdate": "Select the registered office address or cancel the update if you do not need to change it"
 }
