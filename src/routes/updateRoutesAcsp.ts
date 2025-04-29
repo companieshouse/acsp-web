@@ -81,6 +81,9 @@ updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmCo
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
+updateRoutes.get(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, updateWhatIsTheBusinessNameController.get);
+updateRoutes.post(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+
 updateRoutes.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
 

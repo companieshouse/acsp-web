@@ -9,32 +9,52 @@ const businessNameFormat: RegExp = /^[A-Za-z0-9\-&'.\s]*$/;
 export const unicorporatedWhatIsTheBusinessNameValidator = [
 
     body("whatIsTheBusinessName").trim().notEmpty().withMessage((value, { req }) => {
-        const session: Session = req.session as Session;
-        const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
+        const { acspDetails } = getAcspDetails(req);
 
         if (acspDetails && isLimitedBusinessType(acspDetails.type)) {
             return "whatIsTheCompanyNameNoNameUpdateAcspLtd";
         }
         return "whatIsTheBusinessNameNoName";
     }).bail()
-        .matches(businessNameFormat).withMessage("whatIsTheBusinessNameInvalidCharacters").bail()
-        .isLength({ max: 155 }).withMessage("whatIsTheBusinessNameCharactersLimit").bail()
-        .custom((value, { req }) => {
-            // Custom validation used for Update ACSP Details service
-            // Check if the business name has changed through comparing the inputted business against the existing business name
-            const session: Session = req.session as Session;
-            const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
+        .matches(businessNameFormat).withMessage((value, { req }) => {
+            const { acspDetails } = getAcspDetails(req);
 
-            if (acspDetails) {
-                const normalisedBusinessName = trimAndLowercaseString(value);
-                const existingBusinessName = trimAndLowercaseString(getBusinessName(acspDetails.name));
-
-                if (normalisedBusinessName === existingBusinessName && isLimitedBusinessType(acspDetails.type)) {
-                    throw new Error("whatIsTheCompanyNameNoChangeUpdateAcspLtd");
-                } else if (normalisedBusinessName === existingBusinessName) {
-                    throw new Error("whatIsTheBusinessNameNoChangeUpdateAcsp");
-                }
+            if (acspDetails && isLimitedBusinessType(acspDetails.type)) {
+                return "whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd";
             }
-            return true;
+            return "whatIsTheBusinessNameInvalidCharacters";
+        }).bail()
+        .isLength({ max: 155 }).withMessage((value, { req }) => {
+            const { acspDetails } = getAcspDetails(req);
+
+            if (acspDetails && isLimitedBusinessType(acspDetails.type)) {
+                return "whatIsTheCompanyNameCharactersLimitUpdateAcspLtd";
+            }
+            return "whatIsTheBusinessNameCharactersLimit";
+        }).bail()
+        .custom((value, { req }) => {
+            return businessNameNoChangeValidation(value, req);
         })
 ];
+
+const businessNameNoChangeValidation = (input: string, req: any): boolean => {
+    const { acspDetails } = getAcspDetails(req);
+
+    if (acspDetails) {
+        const inputBusinessName = trimAndLowercaseString(input);
+        const existingBusinessName = trimAndLowercaseString(getBusinessName(acspDetails.name));
+
+        if (inputBusinessName === existingBusinessName && isLimitedBusinessType(acspDetails.type)) {
+            throw new Error("whatIsTheCompanyNameNoChangeUpdateAcspLtd");
+        } else if (inputBusinessName === existingBusinessName) {
+            throw new Error("whatIsTheBusinessNameNoChangeUpdateAcsp");
+        }
+    }
+    return true;
+};
+
+const getAcspDetails = (req: any): { session: Session; acspDetails?: AcspFullProfile } => {
+    const session: Session = req.session as Session;
+    const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
+    return { session, acspDetails };
+}; ;

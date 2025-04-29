@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import * as config from "../../../config";
-import { CANCEL_AN_UPDATE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
+import { CANCEL_AN_UPDATE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_WHAT_IS_THE_COMPANY_NAME, UPDATE_YOUR_ANSWERS, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { Session } from "@companieshouse/node-session-handler";
 import { validationResult } from "express-validator";
@@ -12,6 +12,7 @@ import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodie
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { getPreviousPageUrl } from "../../../services/url";
+import { isLimitedBusinessType } from "../../../services/common";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -26,6 +27,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage = getPreviousPageWithLang(req, UPDATE_ACSP_DETAILS_BASE_URL);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
+        const isLimitedBusiness = isLimitedBusinessType(acspFullProfile.type);
+        const editBusinessNameUrl = isLimitedBusiness
+            ? addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME, lang)
+            : addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME, lang);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
@@ -41,6 +46,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removedAMLBodies,
             redirectQuery,
             type: acspFullProfile.type,
+            editBusinessNameUrl,
             previousPage: addLangToUrl(previousPage, lang),
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),

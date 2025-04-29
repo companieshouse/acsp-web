@@ -86,6 +86,36 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.text).toContain("Update the company name if it&#39;s changed or cancel the update");
     });
 
+    it("should return status 400 and display error message when invalid characters entered as a ltd company", async () => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
+            };
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: "Example ACSP Ltd%^$&"
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
+    });
+
+    it("should return status 400 and display error message when over 155 characters as a ltd company", async () => {
+        mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
+            req.session = {
+                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
+            };
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: "a".repeat(156)
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Company name must be 155 characters or less");
+    });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {

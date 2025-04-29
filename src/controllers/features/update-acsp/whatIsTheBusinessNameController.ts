@@ -7,7 +7,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../types/pageURL";
+import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_WHAT_IS_THE_COMPANY_NAME } from "../../../types/pageURL";
 import { CHS_URL } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,6 +17,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
+        const currentUrl: string = isLimitedBusiness
+            ? UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME
+            : UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME;
+
         const payload = {
             whatIsTheBusinessName: getBusinessName(acspUpdatedFullProfile.name)
         };
@@ -27,7 +31,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             ...getLocaleInfo(locales, lang),
             payload,
-            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME
+            currentUrl
         });
     } catch (err) {
         next(err);
@@ -42,6 +46,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
+        const currentUrl: string = isLimitedBusiness
+            ? UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME
+            : UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME;
+
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.WHAT_IS_THE_BUSINESS_NAME, {
@@ -51,7 +59,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 typeOfBusiness: acspUpdatedFullProfile.type,
                 ...getLocaleInfo(locales, lang),
                 companiesHouseRegisterLink: CHS_URL,
-                currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME,
+                currentUrl,
                 ...pageProperties
             });
         } else {

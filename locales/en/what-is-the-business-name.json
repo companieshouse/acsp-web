@@ -3,7 +3,7 @@
     "whatIsTheBusinessNameTitleInput" : "Enter the business name",
     "whatIsTheBusinessNameDifferentName" : "A different name",
 
-    "whatIsTheCompanyNameTitle": "What is the name of the company?",
+    "whatIsTheCompanyNameTitle": "What is the company name?",
     "whatIsTheCompanyNameInsetText": "This must be the same as the name that's:",
     "whatIsTheCompanyNameShownOnThe": "shown on the ",
     "whatIsTheCompanyNameCompaniesHouseRegLink": "Companies House register (opens in a new tab)",
@@ -14,6 +14,9 @@
     "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
     "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 155 characters or less",
     "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update",
-    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update",
-    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update"
+    
+    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update",
+    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
+    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Company name must be 155 characters or less",
+    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update"
 }
