@@ -3,7 +3,7 @@
     "whatIsTheBusinessNameTitleInput" : "Cofnodwch enw'r busnes",
     "whatIsTheBusinessNameDifferentName" : "Enw gwahanol",
 
-    "whatIsTheCompanyNameTitle": "What is the name of the company? Welsh",
+    "whatIsTheCompanyNameTitle": "What is the company name? Welsh",
     "whatIsTheCompanyNameInsetText": "This must be the same as the name that's: Welsh",
     "whatIsTheCompanyNameShownOnThe": "shown on the Welsh",
     "whatIsTheCompanyNameCompaniesHouseRegLink": "Companies House register (opens in a new tab) Welsh",
@@ -14,6 +14,9 @@
     "error-whatIsTheBusinessNameInvalidCharacters" : "Rhaid i'r enw busnes gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",
     "error-whatIsTheBusinessNameCharactersLimit" : "Rhaid i'r enw busnes fod yn 155 nod neu lai",
     "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update Welsh",
-    "error-whatIsTheBusinessNameNoChangeUpdateAcspLtd" : "Update the company name if it’s changed or cancel the update Welsh",
-    "error-whatIsTheBusinessNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update Welsh"
+    
+    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update Welsh",
+    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes Welsh",
+    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Company name must be 155 characters or less Welsh",
+    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update Welsh"
 }
