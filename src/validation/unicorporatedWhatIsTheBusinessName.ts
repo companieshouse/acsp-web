@@ -57,4 +57,4 @@ const getAcspDetails = (req: any): { session: Session; acspDetails?: AcspFullPro
     const session: Session = req.session as Session;
     const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
     return { session, acspDetails };
-}; ;
+};
