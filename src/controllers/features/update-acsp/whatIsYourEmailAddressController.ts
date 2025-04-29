@@ -59,13 +59,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 payload: req.body
             });
         } else {
-            if (req.body.whatIsYourEmailRadio === "A Different Email") {
-                acspUpdatedFullProfile.email = req.body.whatIsYourEmailInput;
-                session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
-                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
-            } else {
-                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
-            }
+            acspUpdatedFullProfile.email = req.body.whatIsYourEmailInput;
+            session.setExtraData(ACSP_DETAILS_UPDATED, acspUpdatedFullProfile);
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
         }
     } catch (err) {
         next(err);
