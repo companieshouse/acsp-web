@@ -38,7 +38,7 @@ import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershi
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
-import { REGISTERED_OFFICE_ADDRESS, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
+import { REGISTERED_OFFICE_ADDRESS, REGISTRATION, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
 
 const updateRoutes = Router();
 
@@ -79,10 +79,10 @@ updateRoutes.get(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmCon
 updateRoutes.post(urls.UPDATE_BUSINESS_ADDRESS_CONFIRM, businessAddressConfirmController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessNameController.get);
-updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator("businessName"), updateWhatIsTheBusinessNameController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, updateWhatIsTheBusinessNameController.get);
-updateRoutes.post(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
+updateRoutes.post(urls.UPDATE_WHAT_IS_THE_COMPANY_NAME, unicorporatedWhatIsTheBusinessNameValidator("companyName"), updateWhatIsTheBusinessNameController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
 updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
