@@ -5,10 +5,11 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspUpdateService } from "../../../../src/services/update-acsp/acspUpdateService";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
-import { UPDATE_SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, UPDATE_SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { postAcspRegistration } from "../../../../src/services/acspRegistrationService";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/transactions/transaction_service");
@@ -34,6 +35,9 @@ describe("AcspUpdateService tests", () => {
         it("should return start a new transaction and save the transaction ID to session", async () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             const session: Session = req.session as any as Session;
+
+            session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+
             await acspUpdateService.createTransaction(session);
 
             expect(session.getExtraData(UPDATE_SUBMISSION_ID)).toEqual(transactionId);
