@@ -60,7 +60,6 @@ describe("Business address auto look up tests", () => {
         expect(res.text).toContain("What is the business address?");
     });
     it("should populate payload using setPaylodForUpdateInProgress when updateInProgress exists", async () => {
-        // Mock session data
         const mockUpdateInProgressDetails = {
             postalCode: "SW1A 1AA",
             premises: "10"
@@ -87,6 +86,33 @@ describe("Business address auto look up tests", () => {
         (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                postCode: "SW1A 1AA",
+                premise: "10"
+            }
+        }));
+    });
+    it("should handle gracefully when acspUpdatedFullProfile is false", async () => {
+        const mockUpdateInProgressDetails = {
+            postalCode: "SW1A 1AA",
+            premises: "10"
+        };
+
+        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {
+                return mockUpdateInProgressDetails;
+            }
+            if (key === ACSP_DETAILS_UPDATED) {
+                return false;
+            }
+            return null;
+        });
+
+        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
         expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {

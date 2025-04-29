@@ -95,6 +95,76 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
             }
         }));
     });
+    it("should populate postCode and premise for sole-trader type", async () => {
+        const mockAcspUpdatedFullProfile = {
+            type: "sole-trader",
+            registeredOfficeAddress: {
+                postalCode: "SW1A 1AA",
+                premises: "10"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATED) {
+                return mockAcspUpdatedFullProfile;
+            }
+            return null;
+        });
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                postCode: "SW1A 1AA",
+                premise: "10"
+            }
+        }));
+    });
+
+    it("should populate postCode and premise for non-sole-trader type", async () => {
+        const mockAcspUpdatedFullProfile = {
+            type: "limited-company",
+            serviceAddress: {
+                postalCode: "AB1 2CD",
+                premises: "20"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATED) {
+                return mockAcspUpdatedFullProfile;
+            }
+            return null;
+        });
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                postCode: "AB1 2CD",
+                premise: "20"
+            }
+        }));
+    });
+
+    it("should handle missing registeredOfficeAddress and serviceAddress gracefully", async () => {
+        const mockAcspUpdatedFullProfile = {
+            type: "sole-trader"
+        };
+
+        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
+            if (key === ACSP_DETAILS_UPDATED) {
+                return mockAcspUpdatedFullProfile;
+            }
+            return null;
+        });
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                postCode: undefined,
+                premise: undefined
+            }
+        }));
+    });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
