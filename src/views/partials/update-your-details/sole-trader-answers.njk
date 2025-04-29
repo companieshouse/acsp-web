@@ -4,6 +4,42 @@
 {% set updateStatusTextForCorrespondenceEmail = "" %}
 {% set updateStatusTextForBusinessName = "" %}
 
+{% set nameItems = [
+  {
+    href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
+    text: i18n.updateYourDetailsUpdate,
+    visuallyHiddenText: i18n.updateYourDetailsName
+  }
+] %}
+{% set whereYouLiveItems = [
+  {
+    href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + "?lang=" + lang,
+    text: i18n.updateYourDetailsUpdate,
+    visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
+  }
+] %}
+{% set businessNameItems = [
+  {
+    href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
+    text: i18n.updateYourDetailsUpdate,
+    visuallyHiddenText: i18n.updateYourDetailsBusinessName
+  }
+] %}
+{% set correspondenceAddressItems = [
+  {
+    href: "/view-and-update-the-authorised-agents-details/correspondence-address-lookup?lang=" + lang,
+    text: i18n.updateYourDetailsUpdate,
+    visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+  }
+] %}
+{% set correspondenceEmailAddressItems = [
+  {
+    href: "/view-and-update-the-authorised-agents-details/what-email-should-we-use" + "?lang=" + lang,
+    text: i18n.updateYourDetailsUpdate,
+    visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+  }
+] %}
+
 {% if profileDetailsUpdated.name !== profileDetails.name %}
   {% set updateStatusTextForName =
                 "<div class='govuk-!-static-padding-top-3'>
@@ -12,6 +48,11 @@
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
   %}
+  {% set nameItems = nameItems.concat([{
+    href: cancelChangeUrl + "&cancel=personName",
+    text: i18n.updateYourDetailsCancel,
+    visuallyHiddenText: i18n.updateYourDetailsName
+  }]) %}
 {%endif%}
 {% if profileDetailsUpdated.countryOfResidence !== profileDetails.countryOfResidence %}
   {% set updateStatusTextForCountryOfResidence =
@@ -21,6 +62,11 @@
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
   %}
+  {% set whereYouLiveItems = whereYouLiveItems.concat([{
+    href: cancelChangeUrl + "&cancel=usualResidentialCountry",
+    text: i18n.updateYourDetailsCancel,
+    visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
+  }]) %}
 {%endif%}
 {% if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress %}
   {% set updateStatusTextForCorrespondenceAddress =
@@ -30,6 +76,11 @@
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
   %}
+  {% set correspondenceAddressItems = correspondenceAddressItems.concat([{
+    href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
+    text: i18n.updateYourDetailsCancel,
+    visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
+  }]) %}
 {%endif%}
 {% if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail %}
   {% set updateStatusTextForCorrespondenceEmail =
@@ -38,6 +89,11 @@
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
   %}
+  {% set correspondenceEmailAddressItems = correspondenceEmailAddressItems.concat([{
+    href: cancelChangeUrl + "&cancel=email",
+    text: i18n.updateYourDetailsCancel,
+    visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
+  }]) %}
 {%endif%}
 {% if profileDetailsUpdated.businessName !== profileDetails.businessName %}
   {% set updateStatusTextForBusinessName =
@@ -47,6 +103,11 @@
                 <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                 </div>"
   %}
+  {% set businessNameItems = businessNameItems.concat([{
+    href: cancelChangeUrl + "&cancel=businessName",
+    text: i18n.updateYourDetailsCancel,
+    visuallyHiddenText: i18n.updateYourDetailsBusinessName
+  }]) %}
 {%endif%}
 
 <h2 class="govuk-heading-m">{{ i18n.updateSoleTraderDetailsTableHeading }}</h2>
@@ -61,18 +122,7 @@
           html: profileDetailsUpdated.name+updateStatusTextForName
         },
         actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/what-is-your-name" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsName
-              },
-              {
-                href: cancelChangeUrl + "&cancel=personName",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsName
-              } if profileDetailsUpdated.name !== profileDetails.name
-            ],
+            items: nameItems,
             classes: "govuk-!-width-one-third"
           }
       },     
@@ -86,18 +136,7 @@
           classes: "govuk-!-width-one-third"
         },
         actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/where-do-you-live" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
-              },
-              {
-                href: cancelChangeUrl + "&cancel=usualResidentialCountry",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsWhereYouLive
-              } if profileDetailsUpdated.countryOfResidence !== profileDetails.countryOfResidence
-            ],
+            items: whereYouLiveItems,
             classes: "govuk-!-width-one-third"
           }
       },
@@ -111,18 +150,7 @@
           classes: "govuk-!-width-one-third"
         },
         actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/what-is-the-business-name" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsBusinessName
-              },
-              {
-                href: cancelChangeUrl + "&cancel=businessName",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsBusinessName
-              } if profileDetailsUpdated.businessName !== profileDetails.businessName
-            ],
+            items: businessNameItems,
             classes: "govuk-!-width-one-third"
           }
       },
@@ -136,18 +164,7 @@
           classes: "govuk-!-width-one-third"
         },
         actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/correspondence-address-lookup?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              },
-              {
-                href: cancelChangeUrl + "&cancel=registeredOfficeAddress",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateYourDetailsCorrespondenceAddress
-              } if profileDetailsUpdated.registeredOfficeAddress !== profileDetails.registeredOfficeAddress
-            ],
+            items: correspondenceAddressItems,
             classes: "govuk-!-width-one-third"
           }
       },
@@ -161,18 +178,7 @@
           classes: "govuk-!-width-one-third"
         },
         actions: {
-            items: [
-              {
-                href: "/view-and-update-the-authorised-agents-details/what-email-should-we-use" + "?lang=" + lang,
-                text: i18n.updateYourDetailsUpdate,
-                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
-              },
-              {
-                href: cancelChangeUrl + "&cancel=email",
-                text: i18n.updateYourDetailsCancel,
-                visuallyHiddenText: i18n.updateDetailsCorrespondenceEmail
-              } if profileDetailsUpdated.correspondenceEmail !== profileDetails.correspondenceEmail
-            ],
+            items: correspondenceEmailAddressItems,
             classes: "govuk-!-width-one-third"
           }
       }
