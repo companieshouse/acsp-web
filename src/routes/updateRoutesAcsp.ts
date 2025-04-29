@@ -37,7 +37,6 @@ import { addAmlSupervisorValidator } from "../validation/addAmlSupervisor";
 import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershipNumberValidator";
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
-import { updateAcspWhatIsYourEmailValidator } from "../validation/updateAcspWhatIsYourEmail";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
 import { REGISTERED_OFFICE_ADDRESS, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
 
@@ -83,7 +82,7 @@ updateRoutes.get(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, updateWhatIsTheBusinessN
 updateRoutes.post(urls.UPDATE_WHAT_IS_THE_BUSINESS_NAME, unicorporatedWhatIsTheBusinessNameValidator, updateWhatIsTheBusinessNameController.post);
 
 updateRoutes.get(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateWhatIsYourEmailAddressController.get);
-updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, updateAcspWhatIsYourEmailValidator, updateWhatIsYourEmailAddressController.post);
+updateRoutes.post(urls.UPDATE_WHAT_IS_YOUR_EMAIL, whatIsYourEmailValidator(UPDATE), updateWhatIsYourEmailAddressController.post);
 
 updateRoutes.get(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorController.get);
 updateRoutes.post(urls.UPDATE_ADD_AML_SUPERVISOR, addAmlSupervisorValidator, addAmlSupervisorController.post);
