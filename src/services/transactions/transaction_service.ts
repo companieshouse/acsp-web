@@ -6,18 +6,19 @@ import { Session } from "@companieshouse/node-session-handler";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 import { ApiErrorResponse, ApiResponse } from "@companieshouse/api-sdk-node/dist/services/resource";
 import { StatusCodes } from "http-status-codes";
-import { CREATE_DESCRIPTION, REFERENCE, transactionStatuses } from "../../config";
+import { transactionStatuses } from "../../config";
 import { headers } from "../../common/__utils/constants";
 
 /**
  * Post transaction
  */
-export const postTransaction = async (session: Session, description: string, reference: string): Promise<Transaction> => {
+export const postTransaction = async (session: Session, description: string, reference: string, companyName?: string): Promise<Transaction> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     const transaction: Transaction = {
         reference,
-        description
+        description,
+        companyName
     };
 
     const sdkResponse: Resource<Transaction> | ApiErrorResponse = await apiClient.transaction.postTransaction(transaction);

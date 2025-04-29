@@ -7,7 +7,7 @@ import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/a
 interface YourUpdates {
     name?: {value: string, changedDate: string};
     businessName?: {value: string, changedDate: string};
-    correspondenceEmail?: {value: string, changedDate: string};
+    correspondenceEmail?: {value: string};
     registeredOfficeAddress?: {value: string, changedDate: string};
     businessAddress?: {value: string, changedDate: string};
     serviceAddress?: {value: string, changedDate: string};
@@ -32,8 +32,7 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
     // Email Address Changes
     if (acspFullProfile.email !== updatedFullProfile.email) {
         updates.correspondenceEmail = {
-            value: updatedFullProfile.email,
-            changedDate: formatDateIntoReadableString(new Date())
+            value: updatedFullProfile.email
         };
     }
     if (acspFullProfile.type === "limited-company" || acspFullProfile.type === "limited-liability-partnership" || acspFullProfile.type === "corporate-body") {
@@ -56,7 +55,7 @@ const limtedChanges = (session: Session, acspFullProfile: AcspFullProfile, updat
     if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.serviceAddress),
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
         };
     }
     return updates;
@@ -72,7 +71,7 @@ const unincorporatedChanges = (session: Session, acspFullProfile: AcspFullProfil
     if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.serviceAddress),
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
         };
     }
     if (acspFullProfile.soleTraderDetails?.forename !== updatedFullProfile.soleTraderDetails?.forename ||
@@ -91,7 +90,7 @@ const soleTraderChanges = (session: Session, acspFullProfile: AcspFullProfile, u
     if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
-            changedDate: formatDateIntoReadableString(new Date())
+            changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
         };
     }
     if (acspFullProfile.soleTraderDetails?.usualResidentialCountry !== updatedFullProfile.soleTraderDetails?.usualResidentialCountry) {
