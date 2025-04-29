@@ -8,12 +8,6 @@ export type ProcessType = "registration" | "update";
 
 export const whatIsYourEmailValidator = (type: ProcessType): ValidationChain[] => [
 
-    // body("whatIsYourEmailInput").trim().if(body("whatIsYourEmailRadio").equals("A Different Email"))
-    //     .notEmpty().withMessage("noEmail").bail()
-    //     .isEmail().withMessage("emailFormatIncorrect"),
-
-    // body("whatIsYourEmailRadio", "noEmail").notEmpty(),
-
     body("whatIsYourEmailInput").trim().if(body("whatIsYourEmailRadio").equals("A Different Email"))
         .notEmpty().withMessage(type === "registration" ? "noEmail" : "noCorrespondenceEmail").bail()
         .isEmail().withMessage("emailFormatIncorrect").bail().custom((input, { req }) => {
