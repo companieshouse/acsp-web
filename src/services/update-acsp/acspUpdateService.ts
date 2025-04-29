@@ -1,5 +1,5 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID } from "../../common/__utils/constants";
+import { ACSP_DETAILS, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID } from "../../common/__utils/constants";
 import { postTransaction } from "../transactions/transaction_service";
 import logger from "../../utils/logger";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -39,7 +39,8 @@ export class AcspUpdateService {
         const existingTransactionId = session.getExtraData(UPDATE_SUBMISSION_ID);
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             try {
-                const transaction = await postTransaction(session, UPDATE_DESCRIPTION, UPDATE_REFERENCE);
+                const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+                const transaction = await postTransaction(session, UPDATE_DESCRIPTION, UPDATE_REFERENCE, acspDetails.name);
                 session.setExtraData(UPDATE_SUBMISSION_ID, transaction.id);
                 return Promise.resolve();
             } catch (error) {
