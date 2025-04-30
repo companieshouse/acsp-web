@@ -8,8 +8,7 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
 import { WhereDoYouLiveBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
@@ -56,33 +55,34 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Where do you live?");
     });
-    it("should populate payload using getCountryPayloadInProgress when payloadFromUpdate matches a country in countryList", async () => {
-        const mockPayloadFromUpdate = "France";
+    it("should populate payload using getCountryPayloadInProgress when updateInProgress matches a country in countryList", async () => {
+        const mockUpdateInProgress = "France";
         const mockPayload = { whereDoYouLiveRadio: "countryOutsideUK", countryInput: "France" };
 
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockPayloadFromUpdate);
+        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgress);
         (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
         await get(req as Request, res as Response, next);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockPayloadFromUpdate);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockUpdateInProgress);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: mockPayload
         }));
     });
 
-    it("should populate payload using getCountryPayloadInProgress when payloadFromUpdate matches a UK country", async () => {
-        const mockPayloadFromUpdate = "England";
+    it("should populate payload using getCountryPayloadInProgress when updateInProgress matches a UK country", async () => {
+        const mockUpdateInProgress = "England";
         const mockPayload = { whereDoYouLiveRadio: "England" };
 
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockPayloadFromUpdate);
+        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgress);
         (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
         await get(req as Request, res as Response, next);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockPayloadFromUpdate);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockUpdateInProgress);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: mockPayload
         }));
     });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {

@@ -9,7 +9,6 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_WHAT_IS_THE_COMPANY_NAME } from "../../../types/pageURL";
 import { CHS_URL } from "../../../utils/properties";
-import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,15 +16,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
         const currentUrl: string = isLimitedBusiness
             ? UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME
             : UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME;
 
         const payload = {
-            whatIsTheBusinessName: session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)
-                ? setPaylodForUpdateInProgress(req)
-                : getBusinessName(acspUpdatedFullProfile.name)
+            whatIsTheBusinessName: updateInProgress || getBusinessName(acspUpdatedFullProfile.name)
         };
 
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {

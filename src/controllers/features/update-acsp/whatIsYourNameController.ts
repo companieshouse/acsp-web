@@ -13,7 +13,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
-import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -21,8 +20,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const payload = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)
-            ? setPaylodForUpdateInProgress(req)
+        const updateInProgress: soleTraderNameDetails | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const payload = updateInProgress
+            ? {
+                "first-name": updateInProgress.forename,
+                "middle-names": updateInProgress.otherForenames,
+                "last-name": updateInProgress.surname
+            }
             : {
                 "first-name": acspUpdatedFullProfile.soleTraderDetails?.forename,
                 "middle-names": acspUpdatedFullProfile.soleTraderDetails?.otherForenames,

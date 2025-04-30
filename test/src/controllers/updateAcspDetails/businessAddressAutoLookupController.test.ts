@@ -3,7 +3,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { get } from "../../../../src/controllers/features/update-acsp/businessAddressAutoLookupController";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST, UPDATE_BUSINESS_ADDRESS_LOOKUP } from "../../../../src/types/pageURL";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
@@ -59,7 +58,7 @@ describe("Business address auto look up tests", () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the business address?");
     });
-    it("should populate payload using setPaylodForUpdateInProgress when updateInProgress exists", async () => {
+    it("should populate payload using when updateInProgress exists", async () => {
         const mockUpdateInProgressDetails = {
             postalCode: "SW1A 1AA",
             premises: "10"
@@ -83,10 +82,8 @@ describe("Business address auto look up tests", () => {
                 return null;
             });
 
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 postCode: "SW1A 1AA",
@@ -109,11 +106,8 @@ describe("Business address auto look up tests", () => {
             }
             return null;
         });
-
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 postCode: "SW1A 1AA",

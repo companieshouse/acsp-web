@@ -10,7 +10,6 @@ import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLiveBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,11 +17,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         let payload;
-
-        const payloadFromUpdate = setPaylodForUpdateInProgress(req);
-        if (countryList.includes(payloadFromUpdate) ||
-            ["England", "Scotland", "Wales", "Northern Ireland"].includes(payloadFromUpdate)) {
-            payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(payloadFromUpdate);
+        const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        if (countryList.includes(updateInProgress!) ||
+            ["England", "Scotland", "Wales", "Northern Ireland"].includes(updateInProgress!)) {
+            payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(updateInProgress!);
         } else {
             const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
             payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);

@@ -1,10 +1,10 @@
 import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { getProfileDetails, setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
+import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
 
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import {
     mockLimitedAcspFullProfile, mockSoleTraderAcspFullProfile,
     mockUnincorporatedAcspFullProfile, mockAddressWithoutPremisesAcspFullProfile,
@@ -182,74 +182,5 @@ describe("CheckYourAnswersService", () => {
             registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
             serviceAddress: ""
         });
-    });
-});
-
-describe("updateYourDetailsService - setPaylodForUpdateInProgress", () => {
-    let req: Partial<Request>;
-
-    beforeEach(() => {
-        req = {
-            session: {
-                getExtraData: jest.fn()
-            } as unknown as Session
-        };
-
-        jest.clearAllMocks();
-    });
-
-    it("should populate payload correctly when updateInProgressDetails is an object", () => {
-        const mockUpdateInProgressDetails = {
-            forename: "John",
-            otherForenames: "Michael",
-            surname: "Doe",
-            premises: "10",
-            addressLine1: "123 Test Street",
-            addressLine2: "Suite 5",
-            locality: "Test City",
-            region: "Test Region",
-            country: "United Kingdom",
-            postalCode: "SW1A 1AA"
-        };
-
-        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgressDetails);
-        const result = setPaylodForUpdateInProgress(req as Request);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(result).toEqual({
-            "first-name": "John",
-            "middle-names": "Michael",
-            "last-name": "Doe",
-            premises: "10",
-            addressLine1: "123 Test Street",
-            addressLine2: "Suite 5",
-            locality: "Test City",
-            region: "Test Region",
-            country: "United Kingdom",
-            postalCode: "SW1A 1AA"
-        });
-    });
-
-    it("should return updateInProgressDetails as-is when it is not an object", () => {
-        const mockUpdateInProgressDetails = "Invalid data";
-
-        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgressDetails);
-        const result = setPaylodForUpdateInProgress(req as Request);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(result).toBe("Invalid data");
-    });
-
-    it("should return an empty object when updateInProgressDetails is null", () => {
-        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(null);
-        const result = setPaylodForUpdateInProgress(req as Request);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(result).toBeNull();
-    });
-
-    it("should return an empty object when updateInProgressDetails is an array", () => {
-        const mockUpdateInProgressDetails = ["Invalid", "Data"];
-        (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgressDetails);
-        const result = setPaylodForUpdateInProgress(req as Request);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(result).toEqual(["Invalid", "Data"]);
     });
 });

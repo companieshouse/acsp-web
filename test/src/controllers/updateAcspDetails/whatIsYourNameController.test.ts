@@ -3,7 +3,6 @@ process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import { Session } from "@companieshouse/node-session-handler";
 import { get } from "../../../../src/controllers/features/update-acsp/whatIsYourNameController";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../../src/types/pageURL";
@@ -55,11 +54,11 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is your name?");
     });
-    it("should populate payload using setPaylodForUpdateInProgress when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
+    it("should populate payload when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
         const mockUpdateInProgressDetails = {
-            "first-name": "John",
-            "middle-names": "Michael",
-            "last-name": "Doe"
+            forename: "John",
+            otherForenames: "Michael",
+            surname: "Doe"
         };
 
         const mockAcspUpdatedFullProfile = {
@@ -80,11 +79,8 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
                 }
                 return null;
             });
-
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 "first-name": "John",
@@ -115,7 +111,6 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
             });
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).not.toHaveBeenCalled();
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 "first-name": "Jane",

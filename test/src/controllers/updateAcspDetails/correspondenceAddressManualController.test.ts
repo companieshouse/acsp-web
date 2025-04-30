@@ -10,7 +10,6 @@ import { Request, Response, NextFunction } from "express";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { get } from "../../../../src/controllers/features/update-acsp/correspondenceAddressManualController";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 
 jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 jest.mock("../../../../src/services/correspondence-address/correspondence-address-manual");
@@ -75,11 +74,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
                 }
                 return null;
             });
-
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 addressPropertyDetails: "10",

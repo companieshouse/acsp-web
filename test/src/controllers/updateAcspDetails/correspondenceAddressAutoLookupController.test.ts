@@ -5,7 +5,6 @@ import app from "../../../../src/app";
 import { get } from "../../../../src/controllers/features/update-acsp/correspondenceAddressAutoLookupController";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LIST, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP } from "../../../../src/types/pageURL";
 import { getAddressFromPostcode } from "../../../../src/services/postcode-lookup-service";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { UKAddress } from "@companieshouse/api-sdk-node/dist/services/postcode-lookup/types";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
@@ -59,7 +58,7 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("What is the correspondence address?");
     });
-    it("should populate postCode and premise using setPaylodForUpdateInProgress when updateInProgress exists", async () => {
+    it("should populate postCode and premise when updateInProgress exists", async () => {
         const mockUpdateInProgressDetails = {
             postalCode: "SW1A 1AA",
             premises: "10"
@@ -83,11 +82,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
                 }
                 return null;
             });
-
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 postCode: "SW1A 1AA",

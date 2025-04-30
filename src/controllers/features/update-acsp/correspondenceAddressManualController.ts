@@ -6,10 +6,10 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
+import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import countryList from "../../../../lib/countryListWithUKCountries";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
-import { setPaylodForUpdateInProgress } from "../../../services/update-acsp/updateYourDetailsService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -20,18 +20,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         let payload;
-        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const updateInProgress: Address | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const addressManualservice = new CorrespondenceAddressManualService();
         if (updateInProgress) {
-            const { premises, addressLine1, addressLine2, locality, region, country, postalCode } = setPaylodForUpdateInProgress(req);
             payload = {
-                addressPropertyDetails: premises,
-                addressLine1,
-                addressLine2,
-                addressTown: locality,
-                addressCounty: region,
-                countryInput: country,
-                addressPostcode: postalCode
+                addressPropertyDetails: updateInProgress.premises,
+                addressLine1: updateInProgress.addressLine1,
+                addressLine2: updateInProgress.addressLine2,
+                addressTown: updateInProgress.locality,
+                addressCounty: updateInProgress.region,
+                countryInput: updateInProgress.country,
+                addressPostcode: updateInProgress.postalCode
             };
         } else {
             const address = acspUpdatedFullProfile.type === "sole-trader"

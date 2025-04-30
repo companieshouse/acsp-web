@@ -65,15 +65,3 @@ export const REGISTRATION = "registration";
 export const UPDATE = "update";
 export const SERVICE_ADDRESS = "serviceAddress";
 export const REGISTERED_OFFICE_ADDRESS = "registeredOfficeAddress";
-export const ACSP_USER_DETAILS: Record<string, string> = {
-    forename: "first-name",
-    otherForenames: "middle-names",
-    surname: "last-name",
-    premises: "premises",
-    addressLine1: "addressLine1",
-    addressLine2: "addressLine2",
-    locality: "locality",
-    region: "region",
-    country: "country",
-    postalCode: "postalCode"
-};

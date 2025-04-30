@@ -6,7 +6,6 @@ import app from "../../../../src/app";
 import { get } from "../../../../src/controllers/features/update-acsp/businessAddressManualController";
 import * as localise from "../../../../src/utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_MANUAL } from "../../../../src/types/pageURL";
-import { setPaylodForUpdateInProgress } from "../../../../src/services/update-acsp/updateYourDetailsService";
 import { ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../../src/common/__utils/constants";
 jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 const router = supertest(app);
@@ -40,7 +39,7 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
     });
-    it("should populate payload using setPaylodForUpdateInProgress when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
+    it("should populate payload when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
         const mockUpdateInProgressDetails = {
             premises: "10",
             addressLine1: "123 Test Street",
@@ -58,10 +57,8 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
                 }
             });
         (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgressDetails);
-        (setPaylodForUpdateInProgress as jest.Mock).mockReturnValue(mockUpdateInProgressDetails);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(setPaylodForUpdateInProgress).toHaveBeenCalledWith(req);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: {
                 addressPropertyDetails: "10",
