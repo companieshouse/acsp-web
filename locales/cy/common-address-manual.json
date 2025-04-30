@@ -1,6 +1,6 @@
 {
     "correspondenceAddressManualTitle" : "Cofnodwch y cyfeiriad gohebiaeth",
-    "registeredOfficeAddressManualTitle" : "Enter the registered office address welsh",
+    "registeredOfficeAddressManualTitle" : "Cofnodwch gyfeiriad y swyddfa gofrestredig",
     "businessAddressManualTitle" : "Cofnodwch y cyfeiriad busnes",
     "addressPropertyDetails": "Enw neu rif eiddo",
     "addressPropertyDetailsHint": "Er enghraifft, 'Y Felin', '116' neu 'Fflat 37a'",
@@ -33,11 +33,11 @@
     "error-invalidAddressTownLength": "Rhaid i’r ddinas neu’r dref fod yn 50 nod neu lai",
     "error-invalidAddressCountyLength": "Rhaid i’r sir, gwladwriaeth, talaith neu ranbarth fod yn 50 nod neu lai",
     "error-invalidPostcodeLength": "Rhaid i'r cod post fod yn 15 nod neu lai",
-    "error-noUpdatePremises": "Update the property name or number if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressLine1": "Update the address if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressLine2": "Update the address line 2 if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressTown": "Update the city or town if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressCounty": "Update the county if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressCountry": "Update the country if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noUpdateAddressPostcode": "Update the postcode if it’s changed or cancel the update if you do not need to make any changes Welsh"
+    "error-noUpdatePremises": "Diweddarwch enw'r eiddo neu'r rhif os yw wedi newid, neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressLine1": "Diweddarwch y cyfeiriad os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressLine2": "Diweddarwch linell cyfeiriad 2 os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressTown": "Diweddarwch y ddinas neu'r dref os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressCounty": "Diweddarwch y sir os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressCountry": "Diweddarwch y wlad os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noUpdateAddressPostcode": "Diweddarwch y cod post os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau"
 }

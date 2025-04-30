@@ -24,13 +24,13 @@
         {% endfor %}
     {%endif%}
         {% if chkFlagForAMLRemoval %}
-            {% set amlActionText = i18n.updateYourDetailsCancel %}
+            {% set amlActionText = 18n.Cancel %}
             {% set amlActionLink = removeAMLUrl %}
             {% set updateAMLDetailsStatusText =
                             "<div class='govuk-!-static-padding-top-3'>
                             <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsEndedOn+" "+dateOfChange+"</p>
                             <p class='govuk-tag govuk-tag--red govuk-!-static-margin-bottom-1'>"+i18n.updateAMLDetailsRemoved+"</p>
-                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                             </div>"
             %}
         {%endif%}
@@ -70,7 +70,7 @@
                             "<div class='govuk-!-static-padding-top-3'>
                             <p class='govuk-body govuk-!-static-margin-top-2'>"+i18n.updateYourDetailsStartedOn+" "+bodyAdded.dateOfChange+"</p>
                             <p class='govuk-tag govuk-tag--blue govuk-!-static-margin-bottom-1'>"+i18n.updatedWarningCaptionForNewlyAddedAML+"</p>
-                            <p class='govuk-body-s'>"+i18n.updateAMLDetailsStatusLineOne+"<br>"+i18n.updateAMLDetailsStatusLineTwo+"</p>
+                            <p class='govuk-body-s'>"+i18n.updatedWarningNoteLineOne+"<br>"+i18n.updatedWarningNoteLineTwo+"</p>
                             </div>"
             %}
             {% set amlSummaryObject = {
@@ -140,7 +140,7 @@
         {% if updateFlag === true %}
             <div class="govuk-button-group"> 
                 {{ govukButton({
-                    text: i18n.updateYourDetailsContinue,
+                    text: i18n.Continue,
                     id:"update-acsp-details"
                     }) }}
                 <a class="govuk-link" href="{{ cancelAllUpdatesUrl }}" id="cancel-id">{{i18n.Cancel}}</a>

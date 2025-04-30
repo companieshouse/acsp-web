@@ -11,5 +11,5 @@
 
     "error-whereDoYouLiveNoData" : "Dewiswch lle rydych chi'n byw",
     "error-whereDoYouLiveEmptyInput" : "Cofnodwch wlad",
-    "error-whereDoYouLiveNoChangeUpdateAcsp" : "Select to update where you live if it’s changed or cancel the update welsh"
+    "error-whereDoYouLiveNoChangeUpdateAcsp" : "Dewiswch i ddiweddaru lle rydych chi'n byw os yw wedi newid neu ganslo'r diweddariad"
 }

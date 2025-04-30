@@ -2,5 +2,5 @@
     "addAmlSupervisorTitle" : "Pa gyrff goruchwylio Atal Gwyngalchu Arian (AML) rydych chi wedi cofrestru â nhw?",
     "addAmlSupervisorHint": "Select one option Welsh",
     "error-addAmlSupervisor": "Select the AML supervisory body you are registered with Welsh",
-    "error-moreThan25SupervisoryBodies": "You cannot add details for more than 25 AML registrations. Remove details for an existing registration before you add new AML details Welsh"
+    "error-moreThan25SupervisoryBodies": "Ni allwch ychwanegu manylion ar gyfer mwy na 25 o gofrestriadau AML. Dileu manylion am gofrestriad presennol cyn i chi ychwanegu manylion AML newydd"
 }

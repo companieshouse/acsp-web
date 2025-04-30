@@ -1,9 +1,9 @@
 {
     "correspondenceLookUpAddressTitle" : "Beth yw'r cyfeiriad gohebiaeth?",
     "businessLookUpAddressTitle": "Beth yw'r cyfeiriad busnes?",
-    "registeredOfficeLookUpAddressTitle": "What is the registered office address? welsh",
-    "thisWillOnlyUpdateTheAddressInsetTextUpdateAcsp": "This will only update the address on the authorised agent account. You'll also need to Welsh",
-    "changeTheCompanyRegOfficeInsetTextLinkUpdateAcsp": "change the company's registered office address (opens in a new tab) Welsh",
+    "registeredOfficeLookUpAddressTitle": "Beth yw cyfeiriad y swyddfa gofrestredig?",
+    "thisWillOnlyUpdateTheAddressInsetTextUpdateAcsp": "Bydd hyn yn diweddaru'r cyfeiriad ar gyfrif yr asiant awdurdodedig yn unig. Bydd angen i chi hefyd",
+    "changeTheCompanyRegOfficeInsetTextLinkUpdateAcsp": "newid cyfeiriad swyddfa gofrestredig y cwmni (yn agor mewn tab newydd)",
     "correspondenceLookUpAddressPostCodeInput": "Cod post y DU",
     "correspondenceLookUpAddressInputHint1": "Enw neu rif eiddo",
     "correspondenceLookUpAddressInputHint2": "Bydd angen i chi cofnodi'r cyfeiriad â llaw os nad yw yn y Deyrnas Unedig.",
@@ -15,8 +15,8 @@
 
     "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-correspondenceLookUpAddressNoPostCode" : "Cofnodwch god post",
-    "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the correspondence address Welsh",
-    "error-businessLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the business address Welsh",
+    "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid y cyfeiriad gohebiaeth",
+    "error-businessLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid cyfeiriad y busnes",
     "error-registeredOfficeLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the registered office address Welsh",
     "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "Ni allwn ddod o hyd i'r cod post hwn. Rhowch un gwahanol, neu rhowch y cyfeiriad â llaw",
@@ -24,9 +24,9 @@
     "error-invalidPostcodeFormat": "Rhaid i'r cod post gynnwys llythrennau a i z a rhifau a bylchau yn unig",
     "error-invalidAddressPostcode": "Cofnodwch  god post llawn yn y Deyrnas Unedig",
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Dewiswch y cyfeiriad gohebiaeth",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Select the correspondence address or cancel the update if you do not need to change it",
+    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Dewiswch y cyfeiriad gohebiaeth neu ganslo'r diweddariad os nad oes angen i chi ei newids",
     "error-businessLookUpAddresListNoRadioBtnSelected": "Dewiswch y cyfeiriad busnes",
-    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Select the business address or cancel the update if you do not need to change it Welsh",
+    "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Dewiswch y cyfeiriad busnes neu ganslo'r diweddariad os nad oes angen i chi ei newid",
     "error-registeredOfficeLookUpAddresListNoRadioBtnSelectedUpdate": "Select the registered office address or cancel the update if you do not need to change it Welsh"
 
 

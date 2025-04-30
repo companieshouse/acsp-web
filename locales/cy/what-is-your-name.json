@@ -11,7 +11,7 @@
     "error-invalidFirstNameLength": "Rhaid i'r enw cyntaf fod yn 50 nod neu lai",
     "error-invalidMiddleNameLength": "Rhaid i'r enwau canol fod yn 50 nod neu lai",
     "error-invalidLastNameLength": "Rhaid i'r cyfenw fod yn 160 nod neu lai",
-    "error-noChangeFirstname": "Update your first name if it’s changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noChangeMiddleNames": "Update your middle names if they’ve changed or cancel the update if you do not need to make any changes Welsh",
-    "error-noChangeLastName": "Update your last name if it’s changed or cancel the update if you do not need to make any changes Welsh"
+    "error-noChangeFirstname": "Diweddarwch eich enw cyntaf os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noChangeMiddleNames": "Diweddarwch eich enwau canol os ydynt wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau",
+    "error-noChangeLastName": "Diweddarwch eich enw olaf os yw wedi newid neu ganslo'r diweddariad os nad oes angen i chi wneud unrhyw newidiadau"
 }

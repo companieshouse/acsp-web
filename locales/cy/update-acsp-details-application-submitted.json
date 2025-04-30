@@ -1,15 +1,15 @@
 {
-    "authorisedAgentUpdateSubmittedTitle": "Authorised agent update submitted Welsh",
-    "referenceNumber": "Reference number: Welsh",
-    "weHaveSentAConfirmationEmailTo": "We have sent a confirmation email to Welsh",
-    "withYourReferenceNumber": " with your reference number. Welsh",
-    "whatHappensNextHeading": "What happens next Welsh",
-    "wellEmailToLetYouKnow": "We'll email to let you know if your update has been accepted or rejected. Welsh",
-    "wellProcessTheUpdate": "We'll process the update as soon as possible. This is a new service, so we're not able to tell you exactly how long this will take. Welsh",
-    "ifItsAccepted": "If it's accepted, we'll update the authorised agent details. If it's rejected, we'll email you to let you know what to do next. Welsh",
-    "goBackToAuthAgentAccountLink": "Go back to the authorised agent account Welsh",
-    "helpUsToImproveThisServiceHeading": "Help us to improve this service Welsh",
-    "thisIsANewService": "This is a new service. Welsh",
-    "completeOurQuickSurveyLink": "Complete our quick survey (opens in a new tab) Welsh",
-    "toHelpUsImproveIt": " to help us improve it. Welsh"
+    "authorisedAgentUpdateSubmittedTitle": "Cyflwynwyd diweddariad asiant awdurdodedig",
+    "referenceNumber": "Rhif cyfeirnod:",
+    "weHaveSentAConfirmationEmailTo": "Rydym wedi anfon e-bost cadarnhau at",
+    "withYourReferenceNumber": "gyda'ch rhif cyfeirnod",
+    "whatHappensNextHeading": "Beth sy'n digwydd nesaf",
+    "wellEmailToLetYouKnow": "Byddwn yn anfon e-bost i roi gwybod i chi os yw eich diweddariad wedi'i dderbyn neu ei wrthod.",
+    "wellProcessTheUpdate": "Byddwn yn prosesu'r diweddariad cyn gynted â phosibl. Mae hwn yn wasanaeth newydd, felly nid ydym yn gallu dweud wrthych yn union pa mor hir y bydd hyn yn ei gymryd.",
+    "ifItsAccepted": "Os caiff ei dderbyn, byddwn yn diweddaru'r manylion asiant awdurdodedig. Os caiff ei wrthod, byddwn yn anfon e-bost atoch i roi gwybod i chi beth i'w wneud nesaf.",
+    "goBackToAuthAgentAccountLink": "Ewch yn ôl i'r cyfrif asiant awdurdodedig.",
+    "helpUsToImproveThisServiceHeading": "Helpwch ni i wella'r gwasanaeth hwn",
+    "thisIsANewService": "Mae hwn yn wasanaeth newydd.",
+    "completeOurQuickSurveyLink": "Cwblhewch ein harolwg cyflym (yn agor mewn tab newydd)",
+    "toHelpUsImproveIt": " i'n helpu i'w wella."
 }
