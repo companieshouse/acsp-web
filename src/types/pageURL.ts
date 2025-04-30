@@ -60,7 +60,11 @@ export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
 export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
-export const VERIFY_IDENTITY = `${ACCOUNT_URL}/identity-verification/verify-your-identity-for-companies-house`;
+export const IDENTITY_VERIFICATION = "identity-verification";
+
+export const VERIFY_IDENTITY = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/verify-your-identity-for-companies-house`;
+
+export const VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/has-identity-been-verified`;
 
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
