@@ -14,7 +14,7 @@
 {% endif %}
 
 {% block main_content %}
-<h1 class="govuk-heading-xl">{{ i18n.yourUpdatesHeading }}</h1>
+<h1 class="govuk-heading-l">{{ i18n.yourUpdatesHeading }}</h1>
 {{ govukInsetText({
   text: i18n.yourUpdatesPeningText
 }) }}
@@ -128,7 +128,7 @@
       classes: "govuk-!-width-one-third"
     },
     value: {
-      html: yourDetails.correspondenceEmail.value,
+      text: yourDetails.correspondenceEmail.value,
       classes: "govuk-!-width-one-third"
     },
     actions: {

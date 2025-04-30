@@ -25,7 +25,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Your Updates");
+        expect(res.text).toContain("Your updates");
         expect(res.status).toBe(200);
     });
 
