@@ -22,8 +22,8 @@
     "addNewAMLDetails": "Ychwanegu  manylion AML newydd",
     "goBackToAuthorisedAgentServices": "Go back to authorised agent services Welsh",
     "updatedWarningCaption": "Manylion wedi'u diweddaru",
-    "updatedWarningCaptionForNewlyAddedAML": "New Details Welsh",
-    "updatedWarningNoteLineOne": "Pending until submitted Welsh",
-    "updatedWarningNoteLineTwo": " and accepted Welsh",
-    "updateAMLDetailsRemoved": " Removed Welsh"
+    "updatedWarningCaptionForNewlyAddedAML": "Manylion Newydd",
+    "updatedWarningNoteLineOne": "Yn yr arfaeth nes eich bod yn ei gyflwyno",
+    "updatedWarningNoteLineTwo": " a'i dderbyn",
+    "updateAMLDetailsRemoved": " Dileus"
 }

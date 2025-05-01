@@ -16,7 +16,7 @@
     "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Diweddarwch enw'r busnes os yw wedi newid neu ganslo'r diweddariad",
     
     "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Cofnodwch enw'r cwmni neu ganslo'r diweddariad",
-    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes Welsh",
-    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Company name must be 155 characters or less Welsh",
+    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Rhaid i enw'r cwmni gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",
+    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Rhaid i enw'r cwmni fod yn 155 nod neu lai",
     "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Diweddarwch enw'r cwmni os yw wedi newid neu ganslo'r diweddariad"
 }
