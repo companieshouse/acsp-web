@@ -206,6 +206,8 @@ export const CANCEL_AN_UPDATE = "/cancel-an-update";
 
 export const UPDATE_ADD_AML_SUPERVISOR = "/select-aml-supervisor";
 
+export const UPDATE_AML_MEMBERSHIP_NUMBER = "/aml-membership-number";
+
 export const REMOVE_AML_SUPERVISOR = "/remove-an-aml";
 
 export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";

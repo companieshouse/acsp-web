@@ -4,7 +4,6 @@ import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
 import {
     ACSP_DETAILS_UPDATED,
-    ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_UPDATE_CHANGE_DATE,
     ACSP_UPDATE_PREVIOUS_PAGE_URL,
@@ -12,9 +11,8 @@ import {
     NEW_AML_BODY
 } from "../../../../src/common/__utils/constants";
 import {
-    UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
-    UPDATE_ADD_AML_SUPERVISOR,
+    UPDATE_AML_MEMBERSHIP_NUMBER,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
@@ -51,7 +49,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
             .mockImplementation((key: string) => {
                 if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
                 if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_WHAT_IS_THE_BUSINESS_NAME;
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_WHAT_IS_THE_BUSINESS_NAME;
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -87,7 +85,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
             if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
             if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ACSP_WHAT_IS_YOUR_NAME;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_ACSP_WHAT_IS_YOUR_NAME;
         });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -108,7 +106,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
             .mockImplementation((key: string) => {
                 if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
                 if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_WHERE_DO_YOU_LIVE;
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_WHERE_DO_YOU_LIVE;
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -126,7 +124,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
             .mockImplementation((key: string) => {
                 if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
                 if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_BUSINESS_ADDRESS_CONFIRM;
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_BUSINESS_ADDRESS_CONFIRM;
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -148,7 +146,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
             if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
             if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
         });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -169,7 +167,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ADD_AML_SUPERVISOR;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_AML_MEMBERSHIP_NUMBER;
             if (key === NEW_AML_BODY) return newAMLBody;
             if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
         });
@@ -190,8 +188,6 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         expect(session.deleteExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
         expect(session.deleteExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
         expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
-
     });
 
     it("should update aml details when editing NEW_AML_BODY and push to acspUpdatedFullProfile when index exists", () => {
@@ -212,7 +208,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) return UPDATE_ADD_AML_SUPERVISOR;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_AML_MEMBERSHIP_NUMBER;
             if (key === ADD_AML_BODY_UPDATE) return updateIndex;
             if (key === NEW_AML_BODY) return newAMLBody;
             if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
@@ -248,7 +244,7 @@ describe("getPreviousPageUrlDateOfChange", () => {
     it("should return the value from ACSP_UPDATE_PREVIOUS_PAGE_URL if it exists in the session", () => {
         const previousPageUrl = "/some-previous-page";
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_ELEMENT) {
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {
                 return previousPageUrl;
             }
             return null;
@@ -257,7 +253,7 @@ describe("getPreviousPageUrlDateOfChange", () => {
         const result = getPreviousPageUrlDateOfChange(req as Request);
 
         expect(result).toBe(previousPageUrl);
-        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_ELEMENT);
+        expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         expect(session.setExtraData).not.toHaveBeenCalled();
     });
 });

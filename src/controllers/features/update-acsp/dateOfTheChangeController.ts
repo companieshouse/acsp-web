@@ -82,7 +82,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 ];
                 session.setExtraData(AML_REMOVED_BODY_DETAILS, updatedRemovedAMLDetails);
-                session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
                 res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}&return=your-updates`, lang));
             } else {
                 updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());

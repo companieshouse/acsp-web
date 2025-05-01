@@ -10,7 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATE_ELEMENT } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_UPDATE_PREVIOUS_PAGE_URL } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
 
@@ -59,7 +59,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             soleTraderDetails.surname = req.body["last-name"];
 
             session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, soleTraderDetails);
-            session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_ACSP_WHAT_IS_YOUR_NAME);
+            session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_ACSP_WHAT_IS_YOUR_NAME);
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
         }
     } catch (err) {
