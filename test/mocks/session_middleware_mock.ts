@@ -42,8 +42,8 @@ mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: Nex
     session.setExtraData(ADDRESS_LIST, addressList);
     session.setExtraData(ACSP_DETAILS, dummyFullProfile);
     session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
-    session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "ACCA" });
-    session.setExtraData(NEW_AML_BODIES, [{ amlSupervisoryBody: "ACCA", membershipId: "12345" }]);
+    session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "association-of-chartered-certified-accountants-acca" });
+    session.setExtraData(NEW_AML_BODIES, [{ amlSupervisoryBody: "association-of-chartered-certified-accountants-acca", membershipId: "12345" }]);
     req.session = session;
     next();
 });

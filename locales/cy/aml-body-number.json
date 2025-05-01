@@ -5,6 +5,7 @@
   "amlMembershipLisit2": "ID rheoliad",
   "amlMembershipLisit3": "ID AML",
   "amlcontactinfo": "Cysylltwch â'r corff goruchwylio AML os oes angen i chi wirio'ch manylion.",
+  "amlMembershipdescriptionUpdate": "We'll confirm the AML supervisory body holds the same details for your authorised agent. This may take longer if you have only recently registered. Welsh",
 
   "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer ",
   "error-amlIdLength": "Rhaid i'r rhif aelodaeth Gwrth-Gwyngalchu Arian (AML) fod yn 256 nod neu lai ar gyfer ",

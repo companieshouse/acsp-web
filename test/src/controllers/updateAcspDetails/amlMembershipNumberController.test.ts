@@ -8,7 +8,9 @@ import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE
 import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { get, post } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
+import { get } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
+import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("@companieshouse/api-sdk-node");
@@ -104,6 +106,8 @@ describe("amlMembershipNumberController", () => {
     });
 });
 
+let customMockSessionMiddleware: any;
+
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
@@ -129,6 +133,16 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.text).toContain("The Anti-Money Laundering (AML) membership number must be 256 characters or less for Association of Chartered Certified Accountants (ACCA)");
     });
 
+    it("should return status 400 for invalid input, duplicate AML details", async () => {
+        createMockSessionMiddleware();
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER)
+            .send({ membershipNumber_1: "123456789" });
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body. Enter a different membership number.");
+    });
+
     it("should return status 500 after calling POST endpoint and failing", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error("Test error");
@@ -139,95 +153,13 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
     });
 });
 
-describe("amlMembershipNumberController", () => {
-    let req: Partial<Request>;
-    let res: Partial<Response>;
-    let next: jest.Mock;
-    let session: Partial<Session>;
-
-    beforeEach(() => {
-        session = {
-            getExtraData: jest.fn(),
-            setExtraData: jest.fn()
-        };
-
-        req = {
-            session: session as Session,
-            body: {},
-            query: {}
-        } as Partial<Request>;
-
-        res = {
-            redirect: jest.fn(),
-            status: jest.fn().mockReturnThis(),
-            render: jest.fn()
-        } as Partial<Response>;
-
-        next = jest.fn();
+function createMockSessionMiddleware () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile });
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
     });
-
-    it("should handle errors in the post method", async () => {
-        const error = new Error("Test error");
-        (req.session as Session).getExtraData = jest.fn().mockImplementation(() => {
-            throw error;
-        });
-        req.query = { lang: "en" };
-
-        await post(req as Request, res as Response, next);
-
-        expect(next).toHaveBeenCalledWith(error);
-    });
-
-    it("should redirect to the next page after successful post", async () => {
-        const newAMLBody = {
-            amlSupervisoryBody: "New Supervisory Body",
-            membershipId: ""
-        };
-        const acspUpdatedFullProfile: AcspFullProfile = {
-            amlDetails: [
-                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" },
-                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" }
-            ]
-        } as AcspFullProfile;
-
-        (req.session as Session).getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(0)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-        req.body = { membershipNumber_1: "123456" };
-        req.query = { lang: "en" };
-
-        await post(req as Request, res as Response, next);
-
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
-        expect((req.session as Session).getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-    });
-
-    it("should return status 400 if the membership number is a duplicate", async () => {
-        const newAMLBody = {
-            amlSupervisoryBody: "Duplicate Supervisory Body",
-            membershipId: ""
-        };
-        const acspUpdatedFullProfile: AcspFullProfile = {
-            amlDetails: [
-                { supervisoryBody: "Duplicate Supervisory Body", membershipDetails: "123456" }
-            ]
-        } as AcspFullProfile;
-
-        (req.session as Session).getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-        req.body = { membershipNumber_1: "123456" };
-        req.query = { lang: "en" };
-
-        await post(req as Request, res as Response, next);
-
-        expect(res.status).toHaveBeenCalledWith(400);
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            pageProperties: expect.any(Object),
-            payload: req.body
-        }));
-    });
-
-});
+}
