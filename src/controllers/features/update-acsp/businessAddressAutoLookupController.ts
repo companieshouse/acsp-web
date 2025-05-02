@@ -27,8 +27,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const updateInProgress: Address | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const payload = {
-            postCode: updateInProgress ? updateInProgress.postalCode : acspUpdatedFullProfile.registeredOfficeAddress?.postalCode,
-            premise: updateInProgress ? updateInProgress.premises : acspUpdatedFullProfile.registeredOfficeAddress?.premises
+            postCode: updateInProgress ? updateInProgress.postalCode : acspUpdatedFullProfile.registeredOfficeAddress.postalCode,
+            premise: updateInProgress ? updateInProgress.premises : acspUpdatedFullProfile.registeredOfficeAddress.premises
         };
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {

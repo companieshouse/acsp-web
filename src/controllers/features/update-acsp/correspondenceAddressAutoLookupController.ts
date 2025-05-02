@@ -34,8 +34,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             postCode = acspUpdatedFullProfile.registeredOfficeAddress?.postalCode;
             premise = acspUpdatedFullProfile.registeredOfficeAddress?.premises;
         } else {
-            postCode = acspUpdatedFullProfile.serviceAddress?.postalCode;
-            premise = acspUpdatedFullProfile.serviceAddress?.premises;
+            postCode = acspUpdatedFullProfile.serviceAddress!.postalCode;
+            premise = acspUpdatedFullProfile.serviceAddress!.premises;
         }
 
         const payload = {
