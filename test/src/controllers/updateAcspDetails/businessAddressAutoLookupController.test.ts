@@ -18,6 +18,7 @@ jest.mock("../../../../src/services/postcode-lookup-service.ts");
 jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 
 const router = supertest(app);
+
 const mockResponseBodyOfUKAddress: UKAddress[] = [{
     premise: "2",
     addressLine1: "DUNCALF STREET",
