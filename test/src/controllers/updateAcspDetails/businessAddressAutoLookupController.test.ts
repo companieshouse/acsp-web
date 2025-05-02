@@ -91,7 +91,7 @@ describe("Business address auto look up tests", () => {
             }
         }));
     });
-    
+
     it("should handle gracefully when acspUpdatedFullProfile is false", async () => {
         const mockUpdateInProgressDetails = {
             postalCode: "SW1A 1AA",
