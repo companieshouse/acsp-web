@@ -10,7 +10,6 @@ export const USER_DATA = "user";
 export const ACSP_DETAILS = "acspDetails";
 export const ACSP_DETAILS_UPDATED = "updatedAcspDetails";
 export const ACSP_DETAILS_UPDATE_IN_PROGRESS = "inProgressAcspDetails";
-export const ACSP_DETAILS_UPDATE_ELEMENT = "elementOfACSPUpdate";
 export const COMPANY: string = "company";
 export const CORRESPONDENCE_ADDRESS: string = "correspondenceAddress";
 export const UNINCORPORATED_CORRESPONDENCE_ADDRESS: string = "unincorporated correspondenceAddress";

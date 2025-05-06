@@ -18,11 +18,10 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getProfileDetails } from "../../../services/update-acsp/updateYourDetailsService";
 import {
     ACSP_DETAILS,
-    ACSP_DETAILS_UPDATE_ELEMENT,
+    ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_DETAILS_UPDATED,
     ACSP_UPDATE_CHANGE_DATE,
-    ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ADD_AML_BODY_UPDATE,
     AML_REMOVED_BODY_DETAILS,
     NEW_AML_BODY
@@ -43,7 +42,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        session.deleteExtraData(ACSP_DETAILS_UPDATE_ELEMENT);
         session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         const changeDates = {
@@ -78,6 +76,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...amlDetail,
             dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
         }));
+
+        session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_YOUR_ANSWERS);
 
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
