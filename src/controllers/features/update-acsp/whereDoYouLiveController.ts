@@ -8,7 +8,7 @@ import { UPDATE_WHERE_DO_YOU_LIVE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLiveBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
-import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,8 +16,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        let payload;
+        const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        if (updateInProgress) {
+            payload = new WhereDoYouLiveBodyService().getCountryPayloadFromCountryName(updateInProgress);
+        } else {
+            const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+            payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        }
+
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
@@ -55,7 +62,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 countryOfResidence = req.body.whereDoYouLiveRadio;
             }
             saveDataInSession(req, ACSP_DETAILS_UPDATE_IN_PROGRESS, countryOfResidence);
-            session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_WHERE_DO_YOU_LIVE);
+            session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_WHERE_DO_YOU_LIVE);
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
         }
     } catch (error) {

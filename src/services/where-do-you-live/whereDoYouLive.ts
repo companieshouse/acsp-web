@@ -12,17 +12,21 @@ export class WhereDoYouLiveBodyService {
         if (!countryOfResidence) {
             return {};
         }
+        return this.getCountryPayloadFromCountryName(countryOfResidence);
+    }
 
-        switch (this.capitalizeFirstLetter(countryOfResidence)) {
+    getCountryPayloadFromCountryName (countryName: string) {
+
+        switch (this.capitalizeFirstLetter(countryName)) {
         case "England":
         case "Scotland":
         case "Wales":
         case "Northern Ireland":
-            return { whereDoYouLiveRadio: this.capitalizeFirstLetter(countryOfResidence) };
+            return { whereDoYouLiveRadio: this.capitalizeFirstLetter(countryName) };
         default:
             return {
                 whereDoYouLiveRadio: "countryOutsideUK",
-                countryInput: countryOfResidence
+                countryInput: this.capitalizeFirstLetter(countryName)
             };
         }
     }

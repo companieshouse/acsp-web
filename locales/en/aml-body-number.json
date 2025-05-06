@@ -5,7 +5,8 @@
   "amlMembershipLisit2": "a regulation ID",
   "amlMembershipLisit3": "an AML ID",
   "amlcontactinfo": "Contact the AML supervisory body if you need to check your details.",
-
+  "amlMembershipDescriptionUpdate": "We'll confirm the AML supervisory body holds the same details for your authorised agent. This may take longer if you have only recently registered.",
+  
   "error-amlIDNumberInput": "Enter the details for ",
   "error-amlIdLength": "The Anti-Money Laundering (AML) membership number must be 256 characters or less for ",
   "error-duplicatedAmlMembership": "The membership number you entered has already been added for this AML supervisory body. Enter a different membership number."

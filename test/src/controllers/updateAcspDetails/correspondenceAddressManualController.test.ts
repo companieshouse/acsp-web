@@ -1,21 +1,92 @@
+import { Session } from "@companieshouse/node-session-handler";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
+import { get } from "../../../../src/controllers/features/update-acsp/correspondenceAddressManualController";
+
+jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
+jest.mock("../../../../src/services/correspondence-address/correspondence-address-manual");
 
 const router = supertest(app);
 
 describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        };
+
+        next = jest.fn();
+
+        jest.clearAllMocks();
+    });
     it("should return status 200", async () => {
         await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+    });
+    it("should populate payload using setPaylodForUpdateInProgress when ACSP_DETAILS_UPDATE_IN_PROGRESS exists", async () => {
+        const mockUpdateInProgressDetails = {
+            premises: "10",
+            addressLine1: "123 Test Street",
+            addressLine2: "Suite 5",
+            locality: "Test City",
+            region: "Test Region",
+            country: "United Kingdom",
+            postalCode: "SW1A 1AA"
+        };
+
+        const mockAcspUpdatedFullProfile = {
+            type: "sole-trader",
+            registeredOfficeAddress: {
+                postalCode: "AB1 2CD",
+                premises: "20"
+            }
+        };
+
+        (req.session!.getExtraData as jest.Mock)
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {
+                    return mockUpdateInProgressDetails;
+                }
+                if (key === ACSP_DETAILS_UPDATED) {
+                    return mockAcspUpdatedFullProfile;
+                }
+                return null;
+            });
+        await get(req as Request, res as Response, next);
+        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: {
+                addressPropertyDetails: "10",
+                addressLine1: "123 Test Street",
+                addressLine2: "Suite 5",
+                addressTown: "Test City",
+                addressCounty: "Test Region",
+                countryInput: "United Kingdom",
+                addressPostcode: "SW1A 1AA"
+            }
+        }));
     });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
@@ -265,7 +336,7 @@ function createMockSessionMiddleware () {
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(ACSP_DETAILS, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });
