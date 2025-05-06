@@ -20,10 +20,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         let payload;
         const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         if (updateInProgress) {
-            payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(updateInProgress!);
+            payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(updateInProgress);
         } else {
             const acspData: AcspData | AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            let countryOfResidence;
+            let countryOfResidence: string | undefined;
             if ("applicantDetails" in acspData) {
                 countryOfResidence = acspData.applicantDetails?.countryOfResidence;
             } else if ("soleTraderDetails" in acspData) {
@@ -32,7 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             if (!countryOfResidence) {
                 payload = "";
             } else {
-                payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(countryOfResidence!);
+                payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(countryOfResidence);
             }
         }
 
