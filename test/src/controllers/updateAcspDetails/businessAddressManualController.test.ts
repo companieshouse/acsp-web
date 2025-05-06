@@ -66,7 +66,7 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
                 addressLine2: "Suite 5",
                 addressTown: "Test City",
                 addressCounty: "Test Region",
-                countryInput: "United Kingdom",
+                addressCountry: "United Kingdom",
                 addressPostcode: "SW1A 1AA"
             }
         }));
