@@ -55,113 +55,52 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Where do you live?");
     });
-    it("should populate payload using getCountryPayloadInProgress when updateInProgress matches a country in countryList", async () => {
+    it("should populate payload using getCountryPayloadFromCountryName when updateInProgress matches a country in countryList", async () => {
         const mockUpdateInProgress = "France";
         const mockPayload = { whereDoYouLiveRadio: "countryOutsideUK", countryInput: "France" };
 
         (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgress);
-        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
+        (WhereDoYouLiveBodyService.prototype.getCountryPayloadFromCountryName as jest.Mock).mockReturnValue(mockPayload);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockUpdateInProgress);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadFromCountryName).toHaveBeenCalledWith(mockUpdateInProgress);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: mockPayload
         }));
     });
 
-    it("should populate payload using getCountryPayloadInProgress when updateInProgress matches a UK country", async () => {
+    it("should populate payload using getCountryPayloadFromCountryName when updateInProgress matches a UK country", async () => {
         const mockUpdateInProgress = "England";
         const mockPayload = { whereDoYouLiveRadio: "England" };
 
         (req.session!.getExtraData as jest.Mock).mockReturnValueOnce(mockUpdateInProgress);
-        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
+        (WhereDoYouLiveBodyService.prototype.getCountryPayloadFromCountryName as jest.Mock).mockReturnValue(mockPayload);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith(mockUpdateInProgress);
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadFromCountryName).toHaveBeenCalledWith(mockUpdateInProgress);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: mockPayload
         }));
     });
-    it("should set payload using applicantDetails.countryOfResidence when applicantDetails exists", async () => {
+    it("should set payload using getCountryPayload when ACSP_DETAILS_UPDATED exists", async () => {
         const mockAcspData = {
             applicantDetails: {
                 countryOfResidence: "France"
             }
         };
         const mockPayload = { whereDoYouLiveRadio: "France" };
-
         (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
             if (key === ACSP_DETAILS_UPDATED) {
                 return mockAcspData;
             }
             return null;
         });
-
-        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
+        (WhereDoYouLiveBodyService.prototype.getCountryPayload as jest.Mock).mockReturnValue(mockPayload);
         await get(req as Request, res as Response, next);
         expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith("France");
+        expect(WhereDoYouLiveBodyService.prototype.getCountryPayload).toHaveBeenCalledWith(mockAcspData);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: mockPayload
-        }));
-    });
-
-    it("should set payload using soleTraderDetails.usualResidentialCountry when soleTraderDetails exists", async () => {
-        const mockAcspData = {
-            soleTraderDetails: {
-                usualResidentialCountry: "Germany"
-            }
-        };
-        const mockPayload = { whereDoYouLiveRadio: "Germany" };
-
-        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATED) {
-                return mockAcspData;
-            }
-            return null;
-        });
-
-        (WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress as jest.Mock).mockReturnValue(mockPayload);
-        await get(req as Request, res as Response, next);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).toHaveBeenCalledWith("Germany");
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: mockPayload
-        }));
-    });
-
-    it("should set payload to an empty string when countryOfResidence is missing", async () => {
-        const mockAcspData = {
-            applicantDetails: {}
-        };
-
-        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATED) {
-                return mockAcspData;
-            }
-            return null;
-        });
-        await get(req as Request, res as Response, next);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).not.toHaveBeenCalled();
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: ""
-        }));
-    });
-
-    it("should set payload to an empty string when both applicantDetails and soleTraderDetails are missing", async () => {
-        const mockAcspData = {};
-        (req.session!.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATED) {
-                return mockAcspData;
-            }
-            return null;
-        });
-        await get(req as Request, res as Response, next);
-        expect(req.session!.getExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATED);
-        expect(WhereDoYouLiveBodyService.prototype.getCountryPayloadInProgress).not.toHaveBeenCalled();
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: ""
         }));
     });
     it("should return status 500 when an error occurs", async () => {
