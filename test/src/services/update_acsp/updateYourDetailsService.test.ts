@@ -2,6 +2,7 @@ import { Request } from "express";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { getProfileDetails } from "../../../../src/services/update-acsp/updateYourDetailsService";
+
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import {
@@ -17,7 +18,6 @@ describe("CheckYourAnswersService", () => {
     let req: MockRequest<Request>;
 
     beforeEach(() => {
-    // initialize service and mock request object
         req = createRequest({
             method: "POST",
             url: "/",
@@ -31,7 +31,6 @@ describe("CheckYourAnswersService", () => {
 
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
-
         session.setExtraData(ACSP_DETAILS, mockLimitedAcspFullProfile);
         const limitedAnswers = getProfileDetails(mockLimitedAcspFullProfile);
         expect(limitedAnswers).toStrictEqual({

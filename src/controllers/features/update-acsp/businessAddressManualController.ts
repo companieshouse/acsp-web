@@ -5,8 +5,9 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LOOKUP, UPDATE_BUSINESS_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
+import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { BusinessAddressService } from "../../../services/business-address/businessAddressService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,11 +18,23 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-
+        let payload;
         // Get existing business address details and display on the page
-        const businessAddressService = new BusinessAddressService();
-        const payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile);
-
+        const updateInProgress: Address | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        if (updateInProgress) {
+            payload = {
+                addressPropertyDetails: updateInProgress.premises,
+                addressLine1: updateInProgress.addressLine1,
+                addressLine2: updateInProgress.addressLine2,
+                addressTown: updateInProgress.locality,
+                addressCounty: updateInProgress.region,
+                countryInput: updateInProgress.country,
+                addressPostcode: updateInProgress.postalCode
+            };
+        } else {
+            const businessAddressService = new BusinessAddressService();
+            payload = businessAddressService.getBusinessManualAddress(acspUpdatedFullProfile);
+        }
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_MANUAL_ENTRY, {
             ...getLocaleInfo(locales, lang),
             previousPage,

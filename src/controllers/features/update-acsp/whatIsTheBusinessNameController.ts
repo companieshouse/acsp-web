@@ -16,14 +16,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
         const currentUrl: string = isLimitedBusiness
             ? UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME
             : UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME;
 
         const payload = {
-            whatIsTheBusinessName: getBusinessName(acspUpdatedFullProfile.name)
+            whatIsTheBusinessName: updateInProgress || getBusinessName(acspUpdatedFullProfile.name)
         };
+
         res.render(config.WHAT_IS_THE_BUSINESS_NAME, {
             typeOfBusiness: acspUpdatedFullProfile.type,
             isLimitedBusiness,

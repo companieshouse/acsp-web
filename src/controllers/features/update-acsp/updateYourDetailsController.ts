@@ -43,6 +43,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         const changeDates = {
             name: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) || "")),
             whereDoYouLive: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) || "")),

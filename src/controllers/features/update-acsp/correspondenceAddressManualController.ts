@@ -6,9 +6,10 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { CorrespondenceAddressManualService } from "../../../services/correspondence-address/correspondence-address-manual";
 import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_CORRESPONDENCE_ADDRESS_MANUAL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
+import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import countryList from "../../../../lib/countryListWithUKCountries";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,16 +19,26 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_MANUAL;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-
-        // Get existing correspondence address details and display on the page
         let payload;
+        const updateInProgress: Address | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const addressManualservice = new CorrespondenceAddressManualService();
-        if (acspUpdatedFullProfile.type === "sole-trader") {
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.registeredOfficeAddress);
+        if (updateInProgress) {
+            payload = {
+                addressPropertyDetails: updateInProgress.premises,
+                addressLine1: updateInProgress.addressLine1,
+                addressLine2: updateInProgress.addressLine2,
+                addressTown: updateInProgress.locality,
+                addressCounty: updateInProgress.region,
+                countryInput: updateInProgress.country,
+                addressPostcode: updateInProgress.postalCode
+            };
         } else {
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(acspUpdatedFullProfile.serviceAddress);
-        }
+            const address = acspUpdatedFullProfile.type === "sole-trader"
+                ? acspUpdatedFullProfile.registeredOfficeAddress
+                : acspUpdatedFullProfile.serviceAddress;
 
+            payload = addressManualservice.getCorrespondenceManualAddressUpdate(address);
+        }
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             ...getLocaleInfo(locales, lang),
             previousPage,

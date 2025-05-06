@@ -16,8 +16,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        let payload;
+        const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        if (updateInProgress) {
+            payload = new WhereDoYouLiveBodyService().getCountryPayloadFromCountryName(updateInProgress);
+        } else {
+            const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+            payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+        }
+
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
