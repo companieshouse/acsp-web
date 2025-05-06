@@ -5,7 +5,7 @@
     "dateOfChangeAMLSupervisionStartHint" : "Er enghraifft, 27 3 2025",
     "updateDateAMLSupervisionEnd": "Pryd ddaeth yr oruchwyliaeth AML i ben?",
     "dateOfChangeAMLSupervisionEndHint" : "Er enghraifft, 27 4 2025",
-    "error-invalidChangeDate" : "Change start date must be a real date Welsh",
+    "error-invalidChangeDate" : "Rhaid i'r dyddiad dechrau'r newid fod yn ddyddiad go iawn",
     "error-dateInFutureChangeDate" : "Rhaid i'r dyddiad dechrau'r newid fod yn y gorffennol",
     "error-noChangeDateData" : "Cofnodwch y dyddiad pan ddigwyddodd y newid",
     "error-noChangeDateDayMonth" : "Rhaid i'r dyddiad dechrau'r newid gynnwys diwrnod a mis",
