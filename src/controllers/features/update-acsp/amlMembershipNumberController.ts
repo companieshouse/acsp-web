@@ -3,13 +3,14 @@ import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_AML_MEMBERS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, REQ_TYPE_UPDATE_ACSP, ACSP_DETAILS_UPDATED, ACSP_UPDATE_PREVIOUS_PAGE_URL } from "../../../common/__utils/constants";
+import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, ACSP_DETAILS_UPDATED, ACSP_UPDATE_PREVIOUS_PAGE_URL } from "../../../common/__utils/constants";
 import { resolveErrorMessage } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ValidationError, validationResult } from "express-validator";
-import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
+import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
+import { SupervisoryBodyMapping } from "../../../model/SupervisoryBodyMapping";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -32,7 +33,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             payload,
             amlSupervisoryBodies: [newAMLBody],
-            AMLSupervisoryBodies,
+            SupervisoryBodyMapping,
             cancelLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang)
         });
     } catch (err) {
@@ -47,16 +48,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
-        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        const reqType = REQ_TYPE_UPDATE_ACSP;
         const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;
             errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang);
-            AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError: errorList.array() });
+            AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, errorList.array());
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
             if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
@@ -66,7 +65,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     param: "membershipNumber_1",
                     location: "body"
                 }];
-                AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, { lang, locales, currentUrl, newAMLBody, reqType, validationError });
+                AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, validationError);
             } else {
                 // Save new AML membership number to session
                 newAMLBody.membershipId = req.body.membershipNumber_1;
@@ -84,7 +83,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
 const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: string) => {
     return errors.map((element) => {
-        const selectionValue = AMLSupervisoryBodies[amlSupervisoryBody as keyof typeof AMLSupervisoryBodies];
+        const selectionValue = AMLSupervioryBodiesFormatted[amlSupervisoryBody as keyof typeof AMLSupervioryBodiesFormatted];
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selectionValue;
         return element;
