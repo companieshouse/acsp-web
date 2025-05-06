@@ -28,7 +28,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 addressLine2: updateInProgress.addressLine2,
                 addressTown: updateInProgress.locality,
                 addressCounty: updateInProgress.region,
-                countryInput: updateInProgress.country,
+                addressCountry: updateInProgress.country,
                 addressPostcode: updateInProgress.postalCode
             };
         } else {
