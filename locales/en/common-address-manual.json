@@ -15,6 +15,7 @@
     "scotland": "Scotland",
     "northernIreland": "Northern Ireland",
     "wales": "Wales",
+    "unitedKingdom": "United Kingdom",
     "selectCountry": "Choose country",
 
     "error-noPropertyDetails": "Enter a property name or number",
