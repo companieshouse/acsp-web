@@ -4,6 +4,7 @@ import {
     ACSP_DETAILS,
     ACSP_DETAILS_UPDATED,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
+    ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ADDRESS_LIST,
     AML_REMOVED_BODY_DETAILS,
     APPLICATION_ID,
@@ -48,4 +49,5 @@ export const deleteAllSessionData = async (session: Session) => {
     session.deleteExtraData(ACSP_DETAILS_UPDATED);
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     session.deleteExtraData(AML_REMOVED_BODY_DETAILS);
+    session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
 };

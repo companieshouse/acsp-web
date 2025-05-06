@@ -1,7 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import {
     ACSP_DETAILS_UPDATED,
-    ACSP_DETAILS_UPDATE_ELEMENT,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
     ACSP_PROFILE_TYPE_SOLE_TRADER,
     ACSP_UPDATE_CHANGE_DATE,
@@ -11,9 +10,8 @@ import {
 } from "../../common/__utils/constants";
 import { Request } from "express";
 import {
-    UPDATE_ACSP_DETAILS_BASE_URL,
     UPDATE_ACSP_WHAT_IS_YOUR_NAME,
-    UPDATE_ADD_AML_SUPERVISOR,
+    UPDATE_AML_MEMBERSHIP_NUMBER,
     UPDATE_BUSINESS_ADDRESS_CONFIRM,
     UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
     UPDATE_WHAT_IS_THE_BUSINESS_NAME,
@@ -27,7 +25,7 @@ import { AcspFullProfile } from "../../model/AcspFullProfile";
 export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: string): void => {
     const session: Session = req.session as any as Session;
     const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-    const currentPage = session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT);
+    const currentPage = session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
     const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
     const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
     const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
@@ -54,7 +52,7 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
             acspUpdatedFullProfile.serviceAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         }
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS, dateOfChange);
-    } else if (currentPage === UPDATE_ADD_AML_SUPERVISOR) {
+    } else if (currentPage === UPDATE_AML_MEMBERSHIP_NUMBER) {
         // Add the dateOfChange to the NEW_AML_BODY
         newAMLBody.dateOfChange = dateOfChange;
         session.setExtraData(NEW_AML_BODY, newAMLBody);
@@ -65,11 +63,10 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
         session.deleteExtraData(NEW_AML_BODY);
     }
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-    session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
 };
 
 export const getPreviousPageUrlDateOfChange = (req: Request): string => {
     const session: Session = req.session as any as Session;
-    return session.getExtraData(ACSP_DETAILS_UPDATE_ELEMENT) || "";
+    return session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL) || "";
 
 };

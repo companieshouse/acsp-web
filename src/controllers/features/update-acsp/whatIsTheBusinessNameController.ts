@@ -6,7 +6,7 @@ import { getBusinessName, isLimitedBusinessType } from "../../../services/common
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_WHAT_IS_THE_COMPANY_NAME } from "../../../types/pageURL";
 import { CHS_URL } from "../../../utils/properties";
 
@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, req.body.whatIsTheBusinessName);
-            session.setExtraData(ACSP_DETAILS_UPDATE_ELEMENT, UPDATE_WHAT_IS_THE_BUSINESS_NAME);
+            session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_WHAT_IS_THE_BUSINESS_NAME);
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang));
         }
     } catch (err) {
