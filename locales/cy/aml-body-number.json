@@ -9,5 +9,5 @@
 
   "error-amlIDNumberInput": "Cofnodwch y manylion ar gyfer ",
   "error-amlIdLength": "Rhaid i'r rhif aelodaeth Gwrth-Gwyngalchu Arian (AML) fod yn 256 nod neu lai ar gyfer ",
-  "error-duplicatedAmlMembership": "The membership number you entered has already been added for this AML supervisory body. Enter a different membership number. Welsh"
+  "error-duplicatedAmlMembership": "Mae'r rhif aelodaeth a chofnodwyd gennych eisoes wedi'i ychwanegu ar gyfer y corff goruchwylio AML hwn. Cofnodwch rif aelodaeth wahanol"
 }

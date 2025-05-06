@@ -1,5 +1,5 @@
 {
-    "cancelAllUpdatesTitle" : "Are you sure you want to cancel all updates? welsh",
-    "ifYouContinueBodyText": "If you continue, any updates you’ve made to the authorised agent’s details will not be saved. We’ll return you to the authorised agent account. welsh",
-    "cancelAllUpdatesGoBackLink": "Go back to update details welsh"
+    "cancelAllUpdatesTitle" : "Ydych chi'n siŵr eich bod am ganslo pob diweddariad?",
+    "ifYouContinueBodyText": "Os byddwch yn parhau, ni fydd unrhyw ddiweddariadau rydych chi wedi'u gwneud i fanylion yr asiant awdurdodedig yn cael eu cadw. Byddwn yn eich dychwelyd i'r cyfrif asiant awdurdodedig.",
+    "cancelAllUpdatesGoBackLink": "Ewch yn ôl i ddiweddaru manylion"
 }

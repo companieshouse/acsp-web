@@ -4,11 +4,8 @@
     "updateSoleTraderDetailsTableHeading": "Your details",
     "updateLimitedCompanyDetailsTableHeading": "Company details",
     "updateUnincorporatedDetailsTableHeading": "Business details",
-    "updateDetailsCorrespondenceAddress": "Correspondence address",
     "updateYourDetailsUpdate": "Update",
     "updateYourDetailsRemove": "Remove",
-    "updateYourDetailsContinue": "Continue",
-    "updateYourDetailsCancel": "Cancel",
     "updateDetailsCorrespondenceEmail": "Correspondence email address",
     "updateYourDetailsName": "Name",
     "updateYourDetailsWhereYouLive": "Where you live",
@@ -28,7 +25,5 @@
     "updatedWarningCaptionForNewlyAddedAML": "New Details",
     "updatedWarningNoteLineOne": "Pending until submitted",
     "updatedWarningNoteLineTwo": " and accepted",
-    "updateAMLDetailsRemoved": " Removed",
-    "updateAMLDetailsStatusLineOne": "Pending until submitted",
-    "updateAMLDetailsStatusLineTwo": "and accepted"
+    "updateAMLDetailsRemoved": " Removed"
 }

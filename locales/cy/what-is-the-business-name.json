@@ -3,20 +3,20 @@
     "whatIsTheBusinessNameTitleInput" : "Cofnodwch enw'r busnes",
     "whatIsTheBusinessNameDifferentName" : "Enw gwahanol",
 
-    "whatIsTheCompanyNameTitle": "What is the company name? Welsh",
-    "whatIsTheCompanyNameInsetText": "This must be the same as the name that's: Welsh",
-    "whatIsTheCompanyNameShownOnThe": "shown on the Welsh",
-    "whatIsTheCompanyNameCompaniesHouseRegLink": "Companies House register (opens in a new tab) Welsh",
-    "whatIsTheCompanyNameHeldByAml": "held by the Anti-Money Laundering (AML) supervisory body Welsh",
+    "whatIsTheCompanyNameTitle": "Beth yw enw'r cwmni?",
+    "whatIsTheCompanyNameInsetText": "Rhaid i hyn fod yr un fath â'r enw a:",
+    "whatIsTheCompanyNameShownOnThe": "ddangosir ar",
+    "whatIsTheCompanyNameCompaniesHouseRegLink": "gofrestr Tŷ'r Cwmnïau (yn agor mewn tab newydd)",
+    "whatIsTheCompanyNameHeldByAml": "a gedwir gan y corff goruchwylio Atal Gwyngalchu Arian (AML)",
 
     "error-whatIsTheBusinessNameSelectRadio" : "Dewiswch enw busnes",
     "error-whatIsTheBusinessNameNoName" : "Cofnodwch enw'r busnes",
     "error-whatIsTheBusinessNameInvalidCharacters" : "Rhaid i'r enw busnes gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",
     "error-whatIsTheBusinessNameCharactersLimit" : "Rhaid i'r enw busnes fod yn 155 nod neu lai",
-    "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update Welsh",
+    "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Diweddarwch enw'r busnes os yw wedi newid neu ganslo'r diweddariad",
     
-    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update Welsh",
-    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes Welsh",
-    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Company name must be 155 characters or less Welsh",
-    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update Welsh"
+    "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Cofnodwch enw'r cwmni neu ganslo'r diweddariad",
+    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Rhaid i enw'r cwmni gynnwys llythrennau a i z yn unig, a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau",
+    "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Rhaid i enw'r cwmni fod yn 155 nod neu lai",
+    "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Diweddarwch enw'r cwmni os yw wedi newid neu ganslo'r diweddariad"
 }
