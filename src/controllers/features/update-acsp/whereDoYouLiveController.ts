@@ -9,6 +9,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import { WhereDoYouLiveBodyService } from "../../../services/where-do-you-live/whereDoYouLive";
 import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_ELEMENT, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
+import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -18,12 +19,21 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         let payload;
         const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        if (countryList.includes(updateInProgress!) ||
-            ["England", "Scotland", "Wales", "Northern Ireland"].includes(updateInProgress!)) {
+        if (updateInProgress) {
             payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(updateInProgress!);
         } else {
-            const acspData: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            payload = new WhereDoYouLiveBodyService().getCountryPayload(acspData);
+            const acspData: AcspData | AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+            let countryOfResidence;
+            if ("applicantDetails" in acspData) {
+                countryOfResidence = acspData.applicantDetails?.countryOfResidence;
+            } else if ("soleTraderDetails" in acspData) {
+                countryOfResidence = acspData.soleTraderDetails?.usualResidentialCountry;
+            }
+            if (!countryOfResidence) {
+                payload = "";
+            } else {
+                payload = new WhereDoYouLiveBodyService().getCountryPayloadInProgress(countryOfResidence!);
+            }
         }
 
         res.render(config.SOLE_TRADER_WHERE_DO_YOU_LIVE, {
