@@ -3,7 +3,7 @@ import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_AML_MEMBERS
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
-import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, ACSP_DETAILS_UPDATED, ACSP_UPDATE_PREVIOUS_PAGE_URL } from "../../../common/__utils/constants";
+import { ADD_AML_BODY_UPDATE, NEW_AML_BODY, ACSP_DETAILS_UPDATED, ACSP_UPDATE_PREVIOUS_PAGE_URL, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
 import { resolveErrorMessage } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { ValidationError, validationResult } from "express-validator";
@@ -11,6 +11,7 @@ import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/a
 import { AmlMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { SupervisoryBodyMapping } from "../../../model/SupervisoryBodyMapping";
+import { trimAndLowercaseString } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -50,6 +51,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
 
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
@@ -58,8 +60,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, errorList.array());
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
-            if (acspUpdatedFullProfile.amlDetails.find(aml => aml.membershipDetails.toUpperCase() === newAmlNumber.toUpperCase() && aml.supervisoryBody === newAMLBody.amlSupervisoryBody) !== undefined) {
-                const validationError : ValidationError[] = [{
+            const isDuplicate = acspUpdatedFullProfile.amlDetails.some((aml, index) =>
+                trimAndLowercaseString(aml.membershipDetails) === trimAndLowercaseString(newAmlNumber) &&
+                trimAndLowercaseString(aml.supervisoryBody) === trimAndLowercaseString(newAMLBody.amlSupervisoryBody) &&
+                (updateBodyIndex === undefined || index !== updateBodyIndex)
+            );
+
+            if (isDuplicate) {
+                const validationError: ValidationError[] = [{
                     value: newAmlNumber,
                     msg: "duplicatedAmlMembership",
                     param: "membershipNumber_1",
@@ -67,6 +75,24 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 }];
                 AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, validationError);
             } else {
+                const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) || [];
+                const isReaddingRemovedAML = removedAMLDetails.some(
+                    (removedAML) =>
+                        trimAndLowercaseString(removedAML.amlSupervisoryBody) === trimAndLowercaseString(newAMLBody.amlSupervisoryBody) &&
+                        trimAndLowercaseString(removedAML.membershipId) === trimAndLowercaseString(newAmlNumber)
+                );
+
+                if (isReaddingRemovedAML) {
+                    const validationError: ValidationError[] = [{
+                        value: newAmlNumber,
+                        msg: "duplicatedAmlMembership",
+                        param: "membershipNumber_1",
+                        location: "body"
+                    }];
+                    AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, validationError);
+                    return;
+                }
+
                 // Save new AML membership number to session
                 newAMLBody.membershipId = req.body.membershipNumber_1;
                 session.setExtraData(NEW_AML_BODY, newAMLBody);

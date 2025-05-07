@@ -140,7 +140,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(400);
-        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body. Enter a different membership number.");
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body. Enter a different membership number");
     });
 
     it("should return status 500 after calling POST endpoint and failing", async () => {
