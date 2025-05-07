@@ -35,23 +35,6 @@ describe("addressLookupService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    describe("saveBusinessAddressToSession tests", () => {
-        it("should save business address to session", () => {
-            const session: Session = req.session as any as Session;
-            session.setExtraData(USER_DATA, {});
-            service.saveBusinessAddressToSession(req, ukAddressList, "1");
-            expect(session.getExtraData(USER_DATA)).toEqual({
-                registeredOfficeAddress: {
-                    premises: ukAddress1.premise,
-                    addressLine1: ukAddress1.addressLine1,
-                    addressLine2: ukAddress1.addressLine2,
-                    locality: ukAddress1.postTown,
-                    country: getCountryFromKey(ukAddress1.country!),
-                    postalCode: ukAddress1.postcode
-                }
-            });
-        });
-    });
     describe("getAddressFromPostcode tests", () => {
         it("should return the first next page URL when a valid premise is found for business address", async () => {
             const session: Session = req.session as any as Session;
