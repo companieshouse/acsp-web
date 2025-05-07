@@ -66,7 +66,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 (updateBodyIndex === undefined || index !== updateBodyIndex)
             );
 
-            if (isDuplicate) {
+            const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) || [];
+            const isReaddingRemovedAML = removedAMLDetails.some(
+                (removedAML) =>
+                    trimAndLowercaseString(removedAML.amlSupervisoryBody) === trimAndLowercaseString(newAMLBody.amlSupervisoryBody) &&
+                    trimAndLowercaseString(removedAML.membershipId) === trimAndLowercaseString(newAmlNumber)
+            );
+
+            if (isDuplicate || isReaddingRemovedAML) {
                 const validationError: ValidationError[] = [{
                     value: newAmlNumber,
                     msg: "duplicatedAmlMembership",
@@ -74,33 +81,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     location: "body"
                 }];
                 AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, validationError);
-            } else {
-                const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) || [];
-                const isReaddingRemovedAML = removedAMLDetails.some(
-                    (removedAML) =>
-                        trimAndLowercaseString(removedAML.amlSupervisoryBody) === trimAndLowercaseString(newAMLBody.amlSupervisoryBody) &&
-                        trimAndLowercaseString(removedAML.membershipId) === trimAndLowercaseString(newAmlNumber)
-                );
-
-                if (isReaddingRemovedAML) {
-                    const validationError: ValidationError[] = [{
-                        value: newAmlNumber,
-                        msg: "duplicatedAmlMembership",
-                        param: "membershipNumber_1",
-                        location: "body"
-                    }];
-                    AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, validationError);
-                    return;
-                }
-
-                // Save new AML membership number to session
-                newAMLBody.membershipId = req.body.membershipNumber_1;
-                session.setExtraData(NEW_AML_BODY, newAMLBody);
-                session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_AML_MEMBERSHIP_NUMBER);
-
-                const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
-                res.redirect(nextPageUrl);
+                return;
             }
+
+            // Save new AML membership number to session
+            newAMLBody.membershipId = req.body.membershipNumber_1;
+            session.setExtraData(NEW_AML_BODY, newAMLBody);
+            session.setExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL, UPDATE_AML_MEMBERSHIP_NUMBER);
+
+            const nextPageUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
+            res.redirect(nextPageUrl);
         }
     } catch (err) {
         next(err);
