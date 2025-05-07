@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { ValidationError, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";

@@ -1,5 +1,4 @@
 import { Resource } from "@companieshouse/api-sdk-node";
-import { Session } from "@companieshouse/node-session-handler";
 import { createPublicApiKeyClient } from "../../../../src/services/apiService";
 import { getCompanyProfile } from "../../../../src/services/company/company_profile_service";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
@@ -18,13 +17,11 @@ mockCreatePublicApiClient.mockReturnValue({
     }
 });
 
-let session: any;
 const COMPANY_NUMBER = "12345678";
 
 describe("Company profile tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        session = new Session();
     });
 
     it("Should return a company profile", async () => {
@@ -32,14 +29,14 @@ describe("Company profile tests", () => {
             httpStatusCode: 200,
             resource: validCompanyProfile
         } as Resource<CompanyProfile>);
-        const companyProfile = await getCompanyProfile(session, COMPANY_NUMBER);
+        const companyProfile = await getCompanyProfile(COMPANY_NUMBER);
         expect(companyProfile).toStrictEqual(validCompanyProfile);
     });
 
     it("Should throw an error when no company profile api response", async () => {
         mockGetCompanyProfile.mockResolvedValueOnce(undefined);
 
-        await expect(getCompanyProfile(session, COMPANY_NUMBER)).rejects.toBe(undefined);
+        await expect(getCompanyProfile(COMPANY_NUMBER)).rejects.toBe(undefined);
     });
 
     it("Should throw an error when company profile api returns a status is not 200", async () => {
@@ -47,7 +44,7 @@ describe("Company profile tests", () => {
             httpStatusCode: 500
         });
 
-        await expect(getCompanyProfile(session, COMPANY_NUMBER)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
+        await expect(getCompanyProfile(COMPANY_NUMBER)).rejects.toEqual({ httpStatusCode: StatusCodes.INTERNAL_SERVER_ERROR });
     });
 
     it("Should throw an error when company profile api returns no resource", async () => {
@@ -55,6 +52,6 @@ describe("Company profile tests", () => {
             httpStatusCode: 200
         } as Resource<CompanyProfile>);
 
-        await expect(getCompanyProfile(session, COMPANY_NUMBER)).rejects.toEqual({ httpStatusCode: StatusCodes.OK });
+        await expect(getCompanyProfile(COMPANY_NUMBER)).rejects.toEqual({ httpStatusCode: StatusCodes.OK });
     });
 });

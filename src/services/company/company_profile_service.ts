@@ -3,14 +3,13 @@ import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/compa
 import { StatusCodes } from "http-status-codes";
 import logger from "../../utils/logger";
 import { createPublicApiKeyClient } from "../apiService";
-import { Session } from "@companieshouse/node-session-handler";
 
 /**
  * Get the profile for a company.
  *
  * @param companyNumber the company number to look up
  */
-export const getCompanyProfile = async (session: Session, companyNumber: string): Promise<CompanyProfile> => {
+export const getCompanyProfile = async (companyNumber: string): Promise<CompanyProfile> => {
     const apiClient = createPublicApiKeyClient();
 
     const sdkResponse: Resource<CompanyProfile> = await apiClient.companyProfile.getCompanyProfile(companyNumber);

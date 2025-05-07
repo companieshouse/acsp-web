@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import { ValidationError, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import { AddressLookUpService } from "../../../services/address/addressLookUp";

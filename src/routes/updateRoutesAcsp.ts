@@ -38,7 +38,7 @@ import { amlBodyMembershipNumberValidator } from "../validation/amlBodyMembershi
 import { yourUpdatesValidator } from "../validation/yourUpdates";
 import { dateOfACSPUpdateDetailsChange } from "../validation/dateOfACSPUpdateDetailsChange";
 import { whatIsYourEmailValidator } from "../validation/whatIsYourEmail";
-import { REGISTERED_OFFICE_ADDRESS, REGISTRATION, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
+import { REGISTERED_OFFICE_ADDRESS, SERVICE_ADDRESS, UPDATE } from "../common/__utils/constants";
 
 const updateRoutes = Router();
 

@@ -37,7 +37,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 ? acspUpdatedFullProfile.registeredOfficeAddress
                 : acspUpdatedFullProfile.serviceAddress;
 
-            payload = addressManualservice.getCorrespondenceManualAddressUpdate(address);
+            payload = addressManualservice.getCorrespondenceManualAddress(address);
         }
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             ...getLocaleInfo(locales, lang),

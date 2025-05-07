@@ -23,18 +23,16 @@ describe("getCompany tests", () => {
         req.session = session;
     });
     it("should return company profile", async () => {
-        const session: Session = req.session as any as Session;
         mockGetCompanyProfie.mockResolvedValueOnce(validCompanyProfile);
         const companyLookupService = new CompanyLookupService();
-        const res = await companyLookupService.getCompany(session, "12345678");
+        const res = await companyLookupService.getCompany("12345678");
         expect(res).toEqual(validCompanyProfile);
     });
 
     it("should throw an error when getCompanyProfile errors", async () => {
-        const session: Session = req.session as any as Session;
         mockGetCompanyProfie.mockRejectedValueOnce(new Error("Error getting company profile"));
         const companyLookupService = new CompanyLookupService();
-        expect(companyLookupService.getCompany(session, "12345678")).rejects.toThrow();
+        expect(companyLookupService.getCompany("12345678")).rejects.toThrow();
     });
 });
 
@@ -52,7 +50,7 @@ describe("getCompanyDetails tests", () => {
     it("should save company details to session", async () => {
         const session: Session = req.session as any as Session;
         mockGetCompanyProfie.mockResolvedValueOnce(companyProfile);
-        await companyLookupService.getCompanyDetails(session, "12345678", req);
+        await companyLookupService.getCompanyDetails("12345678", req);
         expect(session.getExtraData(COMPANY_DETAILS)).toEqual({
             companyName: validCompanyProfile.companyName,
             companyNumber: validCompanyProfile.companyNumber,
@@ -73,10 +71,9 @@ describe("getCompanyDetails tests", () => {
         });
     });
     it("should throw an eror if getCompany returns a promise reject", async () => {
-        const session: Session = req.session as any as Session;
         jest.spyOn(companyLookupService, "getCompany").mockImplementation(() => {
             return Promise.reject(new Error("Error getting company"));
         });
-        await expect(companyLookupService.getCompanyDetails(session, "12345678", req)).rejects.toThrow("Company Not Found");
+        await expect(companyLookupService.getCompanyDetails("12345678", req)).rejects.toThrow("Company Not Found");
     });
 });
