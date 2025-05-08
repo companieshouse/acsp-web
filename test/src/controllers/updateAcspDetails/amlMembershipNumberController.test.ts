@@ -5,7 +5,7 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { get } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
@@ -140,7 +140,79 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.status).toBe(400);
-        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body. Enter a different membership number.");
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body. Enter a different membership number");
+    });
+
+    it("should return status 400 for duplicate AML when not editing an existing AML (updateBodyIndex is undefined)", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ADD_AML_BODY_UPDATE, undefined);
+        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
+        session.setExtraData(ACSP_DETAILS_UPDATED, {
+            amlDetails: [{
+                supervisoryBody: "hm-revenue-customs-hmrc",
+                membershipDetails: "123456"
+            }]
+        });
+
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
+    });
+
+    it("should return status 400 for duplicate AML when editing a different AML (index !== updateBodyIndex)", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ADD_AML_BODY_UPDATE, 1);
+        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
+        session.setExtraData(ACSP_DETAILS_UPDATED, {
+            amlDetails: [
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "123456"
+                },
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "789012"
+                }
+            ]
+        });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
+    });
+
+    it("should return status 400 if user attempts to re-add a previously removed AML", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ADD_AML_BODY_UPDATE, undefined);
+        session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
+        session.setExtraData(ACSP_DETAILS_UPDATED, {
+            amlDetails: []
+        });
+        session.setExtraData(AML_REMOVED_BODY_DETAILS, [
+            {
+                amlSupervisoryBody: "hm-revenue-customs-hmrc",
+                membershipId: "123456"
+            }
+        ]);
+
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
     });
 
     it("should return status 500 after calling POST endpoint and failing", async () => {

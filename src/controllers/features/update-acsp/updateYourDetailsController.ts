@@ -52,9 +52,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             correspondenceAddress: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) || ""))
         };
 
-        // Format dateOfChange in removedAMLDetails
-        const removedAMLDetails: AmlSupervisoryBody[] = (session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? []);
+        const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? [];
 
+        // Format dateOfChange in removedAMLDetails
         const formattedRemovedAMLDetails = removedAMLDetails.map(amlDetail => ({
             ...amlDetail,
             dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
