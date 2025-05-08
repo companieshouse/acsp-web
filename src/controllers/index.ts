@@ -97,3 +97,4 @@ export * as yourUpdatesController from "./features/update-acsp/yourUpdatesContro
 
 // close acsp
 export * as closeIndexController from "./features/close-acsp/indexController";
+export * as closeWhatWillHappenController from "./features/close-acsp/whatWillHappenController";

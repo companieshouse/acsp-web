@@ -1,4 +1,4 @@
-import { CLOSE_ACSP_BASE_URL } from "../../types/pageURL";
+import { CLOSE_ACSP_BASE_URL, AUTHORISED_AGENT } from "../../types/pageURL";
 import { Handler } from "express";
 
 /**
@@ -15,6 +15,7 @@ export const closeVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceName = "Close an ACSP";
     res.locals.serviceUrl = CLOSE_ACSP_BASE_URL;
     res.locals.tabTitleKey = "CommonTabTitleCloseAcsp";
+    res.locals.authorisedAgentDashboardUrl = AUTHORISED_AGENT;
 
     next();
 };
