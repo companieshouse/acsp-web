@@ -20,20 +20,6 @@ export class CorrespondenceAddressManualService {
         acspData.applicantDetails = applicantDetails;
     }
 
-    public getCorrespondenceManualAddress (acspData: AcspData) {
-        return {
-            addressPropertyDetails: acspData?.applicantDetails?.correspondenceAddress?.premises,
-            addressLine1: acspData?.applicantDetails?.correspondenceAddress?.addressLine1,
-            addressLine2: acspData?.applicantDetails?.correspondenceAddress?.addressLine2,
-            addressTown: acspData?.applicantDetails?.correspondenceAddress?.locality,
-            addressCounty: acspData?.applicantDetails?.correspondenceAddress?.region,
-            countryInput:
-              acspData?.applicantDetails?.correspondenceAddress?.country,
-            addressPostcode:
-              acspData?.applicantDetails?.correspondenceAddress?.postalCode
-        };
-    }
-
     public saveManualAddressUpdate (req: Request): void {
         // Extract correspondence address details from request body
         const correspondenceAddress: Address = {
@@ -49,7 +35,7 @@ export class CorrespondenceAddressManualService {
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, correspondenceAddress);
     }
 
-    public getCorrespondenceManualAddressUpdate (address: Address | undefined) {
+    public getCorrespondenceManualAddress (address: Address | undefined) {
         if (!address) {
             return {};
         }

@@ -27,7 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         saveDataInSession(req, USER_DATA, acspData);
 
         const addressManualservice = new CorrespondenceAddressManualService();
-        const payload = addressManualservice.getCorrespondenceManualAddress(acspData);
+        const payload = addressManualservice.getCorrespondenceManualAddress(acspData?.applicantDetails?.correspondenceAddress);
 
         res.render(config.CORRESPONDENCE_ADDRESS_MANUAL, {
             ...getLocaleInfo(locales, lang),

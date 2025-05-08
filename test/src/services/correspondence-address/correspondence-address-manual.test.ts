@@ -84,7 +84,7 @@ describe("CorrespondenceAddressManualService", () => {
             postalCode: "TE5 5TL"
         };
 
-        const retrievedAddress = service.getCorrespondenceManualAddress(acspData);
+        const retrievedAddress = service.getCorrespondenceManualAddress(acspData.applicantDetails?.correspondenceAddress);
 
         expect(retrievedAddress).toEqual({
             addressPropertyDetails: "Suite 100",
@@ -98,9 +98,8 @@ describe("CorrespondenceAddressManualService", () => {
     });
 
     test("getCorrespondenceManualAddress handles undefined applicantDetails or correspondenceAddress", () => {
-        acspData.applicantDetails = undefined;
 
-        const retrievedAddress = service.getCorrespondenceManualAddress(acspData);
+        const retrievedAddress = service.getCorrespondenceManualAddress(undefined);
 
         expect(retrievedAddress).toEqual({
             propertyDetails: undefined,
@@ -116,7 +115,7 @@ describe("CorrespondenceAddressManualService", () => {
     test("getCorrespondenceManualAddress handles defined applicantDetails but undefined correspondenceAddress", () => {
         acspData.applicantDetails!.correspondenceAddress = undefined;
 
-        const retrievedAddress = service.getCorrespondenceManualAddress(acspData);
+        const retrievedAddress = service.getCorrespondenceManualAddress(acspData.applicantDetails?.correspondenceAddress);
 
         expect(retrievedAddress).toEqual({
             propertyDetails: undefined,
@@ -132,7 +131,7 @@ describe("CorrespondenceAddressManualService", () => {
     test("getCorrespondenceManualAddress handles undefined acspData", () => {
         const acspDataUndefined = undefined;
 
-        const retrievedAddress = service.getCorrespondenceManualAddress(acspDataUndefined!);
+        const retrievedAddress = service.getCorrespondenceManualAddress(acspDataUndefined);
 
         expect(retrievedAddress).toEqual({
             propertyDetails: undefined,
@@ -170,7 +169,7 @@ describe("CorrespondenceAddressManualService", () => {
         });
     });
 
-    test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
+    test("getCorrespondenceManualAddress retrieves the correct address from acspDetails", () => {
         acspDetails.serviceAddress = {
             premises: "Suite 100",
             addressLine1: "123 Test St",
@@ -181,7 +180,7 @@ describe("CorrespondenceAddressManualService", () => {
             postalCode: "TE5 5TL"
         };
 
-        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails.serviceAddress);
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddress(acspDetails.serviceAddress);
 
         expect(retrievedAddressUpdate).toEqual({
             addressPropertyDetails: "Suite 100",
@@ -194,10 +193,10 @@ describe("CorrespondenceAddressManualService", () => {
         });
     });
 
-    test("getCorrespondenceManualAddressUpdate retrieves the correct address from acspDetails", () => {
+    test("getCorrespondenceManualAddress retrieves the correct address from acspDetails", () => {
         acspDetails.serviceAddress = undefined;
 
-        const retrievedAddressUpdate = service.getCorrespondenceManualAddressUpdate(acspDetails.serviceAddress);
+        const retrievedAddressUpdate = service.getCorrespondenceManualAddress(acspDetails.serviceAddress);
 
         expect(retrievedAddressUpdate).toEqual({
             addressPropertyDetails: undefined,

@@ -3,16 +3,15 @@ import logger from "../utils/logger";
 import { Request } from "express";
 import { CompanyProfile } from "@companieshouse/api-sdk-node/dist/services/company-profile/types";
 import { getCompanyProfile } from "./company/company_profile_service";
-import { Session } from "@companieshouse/node-session-handler";
 import { CompanyDetailsService } from "./company-details/companyDetailsService";
 
 export class CompanyLookupService {
 
-    async getCompany (session: Session, companyNumber: string): Promise<CompanyProfile> {
+    async getCompany (companyNumber: string): Promise<CompanyProfile> {
         let companyProfile: CompanyProfile;
         try {
             logger.info("going to get Company Profile ---> ");
-            companyProfile = await getCompanyProfile(session, companyNumber.toUpperCase());
+            companyProfile = await getCompanyProfile(companyNumber.toUpperCase());
             logger.info("Company Profile ---> " + JSON.stringify(companyProfile));
             return Promise.resolve(companyProfile);
         } catch (error) {
@@ -21,8 +20,8 @@ export class CompanyLookupService {
         }
     }
 
-    async getCompanyDetails (session: Session, companyNumber: string, req: Request) {
-        await this.getCompany(session, companyNumber).then(
+    async getCompanyDetails (companyNumber: string, req: Request) {
+        await this.getCompany(companyNumber).then(
             (companyDetails) => {
                 const companyDetailsService = new CompanyDetailsService();
                 companyDetailsService.saveToSession(req, companyDetails);

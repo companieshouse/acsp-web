@@ -64,7 +64,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         } else {
             const { companyNumber } = req.body;
             const companyLookupService = new CompanyLookupService();
-            companyLookupService.getCompanyDetails(session, companyNumber, req).then(
+            companyLookupService.getCompanyDetails(companyNumber, req).then(
                 async () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
