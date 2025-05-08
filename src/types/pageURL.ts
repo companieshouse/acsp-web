@@ -62,7 +62,7 @@ export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
 export const IDENTITY_VERIFICATION = "identity-verification";
 
-export const VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/has-identity-been-verified`;
+export const VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/direct/has-identity-been-verified`;
 
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
