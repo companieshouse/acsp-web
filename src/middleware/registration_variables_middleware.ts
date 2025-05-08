@@ -1,5 +1,6 @@
 import { Handler } from "express";
 import { AcspType } from "../model/AcspType";
+import { BASE_URL } from "../types/pageURL";
 
 /**
  * Populates variables for use in templates that are used on multiple pages.
@@ -13,7 +14,7 @@ import { AcspType } from "../model/AcspType";
 export const registrationVariablesMiddleware: Handler = (req, res, next) => {
 
     res.locals.serviceName = "Apply to register as a Companies House authorised agent";
-    res.locals.serviceUrl = "/register-as-companies-house-authorised-agent";
+    res.locals.serviceUrl = BASE_URL;
     res.locals.journeyType = AcspType.REGISTER_ACSP;
     res.locals.tabTitleKey = "CommonTabTitle";
 
