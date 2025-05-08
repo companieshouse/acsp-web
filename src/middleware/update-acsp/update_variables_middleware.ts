@@ -1,3 +1,4 @@
+import { UPDATE_ACSP_DETAILS_BASE_URL } from "../../types/pageURL";
 import { REQ_TYPE_UPDATE_ACSP } from "../../common/__utils/constants";
 import { Handler } from "express";
 
@@ -13,7 +14,7 @@ import { Handler } from "express";
 export const updateVariablesMiddleware: Handler = (req, res, next) => {
 
     res.locals.serviceName = "View and update the authorised agent's details";
-    res.locals.serviceUrl = "/view-and-update-the-authorised-agents-details";
+    res.locals.serviceUrl = UPDATE_ACSP_DETAILS_BASE_URL;
     res.locals.reqType = REQ_TYPE_UPDATE_ACSP;
     res.locals.tabTitleKey = "CommonTabTitleUpdateAcsp";
 
