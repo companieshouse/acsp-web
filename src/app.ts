@@ -18,7 +18,7 @@ import {
     CHS_MONITOR_GUI_URL,
     FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY
 } from "./utils/properties";
-import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_URL } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_URL, CLOSE_ACSP_BASE_URL } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
 import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
@@ -32,6 +32,7 @@ import errorHandler from "./controllers/errorController";
 import { registrationVariablesMiddleware } from "./middleware/registration_variables_middleware";
 import { updateVariablesMiddleware } from "./middleware/update-acsp/update_variables_middleware";
 import { isActiveFeature } from "./utils/feature.flag";
+import { closeVariablesMiddleware } from "./middleware/close-acsp/close_variables_middleware";
 
 const app = express();
 const nonce: string = uuidv4();
@@ -86,6 +87,7 @@ app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
 app.use(BASE_URL, registrationVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
