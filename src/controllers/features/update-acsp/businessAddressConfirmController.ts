@@ -19,7 +19,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
             businessAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         } else {
-            const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
             businessAddress = acspUpdatedFullProfile.registeredOfficeAddress;
         }
 
