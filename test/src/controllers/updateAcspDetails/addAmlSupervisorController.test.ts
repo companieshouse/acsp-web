@@ -129,6 +129,40 @@ describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
     });
+    it("should set NEW_AML_BODY in session when amlDetails is missing", async () => {
+        const amlSupervisoryBody = "new aml body";
+        createMockSessionMiddleware();
+        const session = getSessionRequestWithPermission();
+        session.getExtraData = jest.fn().mockReturnValue(null);
+        session.setExtraData = jest.fn();
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            if (typeof next === "function") {
+                next();
+            }
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).use(customMockSessionMiddleware).send({ "AML-supervisory-bodies": amlSupervisoryBody });
+        expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, { amlSupervisoryBody });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
+    });
+    it("should update NEW_AML_BODY in session when amlDetails.amlSupervisoryBody is different", async () => {
+        const amlSupervisoryBody = "Updated Supervisory Body";
+        createMockSessionMiddleware();
+        const session = getSessionRequestWithPermission();
+        session.getExtraData = jest.fn().mockReturnValue(null);
+        session.setExtraData = jest.fn();
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            if (typeof next === "function") {
+                next();
+            }
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).send({ "AML-supervisory-bodies": amlSupervisoryBody });
+        expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, { amlSupervisoryBody });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER + "?lang=en");
+    });
     // Test for incorrect form details entered, will return 400.
     it("should return status 400 after incorrect data entered", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "" });
@@ -159,6 +193,7 @@ function createMockSessionMiddleware () {
     const session = getSessionRequestWithPermission();
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: create25AmlBodies() });
     session.setExtraData(SUBMISSION_ID, "transactionID");
+    session.setExtraData(NEW_AML_BODY, "new aml body");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();

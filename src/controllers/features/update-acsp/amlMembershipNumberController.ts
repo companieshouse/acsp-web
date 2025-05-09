@@ -24,7 +24,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
         let payload;
-        if (updateBodyIndex) {
+        if (newAMLBody.membershipId) {
+            payload = { membershipNumber_1: newAMLBody.membershipId };
+        } else if (updateBodyIndex) {
             payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
         }
 
