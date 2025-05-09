@@ -226,4 +226,6 @@ export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
 
 export const CLOSE_ACSP_BASE_URL = "/close-authorised-agent";
 
-export const CLOSE_ACSP_DETAILS = "closing-details";
+export const CLOSE_WHAT_WILL_HAPPEN = "/what-happens-when-you-close";
+
+export const CLOSE_CONFIRM_YOU_WANT_TO_CLOSE = "/confirm-you-want-to-close";

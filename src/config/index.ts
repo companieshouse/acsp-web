@@ -81,3 +81,4 @@ export const UPDATE_CHECK_YOUR_UPDATES = `${BASE_UPDATE_ACSP_DETAILS_URL}/your-u
 const BASE_CLOSE_ACSP_URL = `${BASE_VIEWS_URL}/close-acsp`;
 
 export const CLOSE_ACSP_HOME = `${BASE_CLOSE_ACSP_URL}/index/home`;
+export const CLOSE_WHAT_WILL_HAPPEN = `${BASE_CLOSE_ACSP_URL}/what-will-happen/what-will-happen`;

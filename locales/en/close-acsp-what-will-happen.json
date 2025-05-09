@@ -1,0 +1,17 @@
+{
+    "whatWillHappenTitle": "What will happen when you close the authorised agent account",
+    "whatWillHappenNoLongerBeAnACSP": "{BUSINESS_NAME} will no longer be an authorised agent. This is also known as an Authorised Corporate Service Provider (ACSP).",
+    "whatWillHappenNotBeAbleTo": "You will not be able to use services for authorised agents",
+    "whatWillHappenNoLongerBeAbleTo": "{BUSINESS_NAME} will no longer be able to:",
+    "whatWillHappenVerifyIdentities": "verify people's identities for Companies House",
+    "whatWillHappenFile": "file on behalf of clients",
+    "whatWillHappenPublishToConfirm": "We'll publish information to confirm",
+    "whatWillHappenPublishThe": "We’ll publish the:",
+    "whatWillHappenName": "authorised agent’s name",
+    "whatWillHappenStatus": "status, to show it is no longer an authorised agent",
+    "whatWillHappenDate": "date it stopped being an authorised agent",
+    "whatWillHappenConfirmHeading": "Confirm if you have read and understood what happens when you close",
+    "whatWillHappenConfirmCheckBox": "I understand that closing the authorised agent account means that {BUSINESS_NAME} will no longer be an Authorised Corporate Service Provider (ACSP).",
+
+    "error-whatWillHappenNoSelection": "Select to confirm you have read and understood the statement"
+}

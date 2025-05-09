@@ -1,0 +1,17 @@
+{
+    "whatWillHappenTitle": "Beth fydd yn digwydd pan fyddwch chi'n cau'r cyfrif asiant awdurdodedig",
+    "whatWillHappenNoLongerBeAnACSP": "Ni fydd {BUSINESS_NAME} bellach yn asiant awdurdodedig. Gelwir hwn hefyd yn Ddarparwr Gwasanaeth Corfforaethol Awdurdodedig (DGCA).",
+    "whatWillHappenNotBeAbleTo": "Ni fyddwch yn gallu defnyddio gwasanaethau ar gyfer asiantau awdurdodedig",
+    "whatWillHappenNoLongerBeAbleTo": "Ni fydd {BUSINESS_NAME} bellach yn gallu:",
+    "whatWillHappenVerifyIdentities": "gwirio hunaniaethau pobl ar gyfer Tŷ'r Cwmnïau",
+    "whatWillHappenFile": "ffeilio ar ran cleientiaid",
+    "whatWillHappenPublishToConfirm": "Byddwn yn cyhoeddi gwybodaeth i gadarnhau",
+    "whatWillHappenPublishThe": "Byddwn yn cyhoeddi:",
+    "whatWillHappenName": "enw'r asiant awdurdodedig",
+    "whatWillHappenStatus": "y statws, i ddangos nad yw'n asiant awdurdodedig bellach",
+    "whatWillHappenDate": "y dyddiad yr oedd wedi stopio fod yn asiant awdurdodedig",
+    "whatWillHappenConfirmHeading": "Cadarnhewch os ydych wedi darllen a deall beth sy'n digwydd pan fyddwch chi'n cau",
+    "whatWillHappenConfirmCheckBox": "Rwy'n deall bod cau'r cyfrif asiant awdurdodedig yn golygu na fydd {BUSINESS_NAME} bellach yn Ddarparwr Gwasanaeth Corfforaethol Awdurdodedig (DGCA).",
+
+    "error-whatWillHappenNoSelection": "Dewiswch i gadarnhau eich bod wedi darllen a deall y datganiad"
+}

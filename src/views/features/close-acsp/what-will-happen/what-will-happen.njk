@@ -1,0 +1,51 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% set title = i18n.whatWillHappenTitle%}
+
+{% block main_content %}
+
+    <span class="govuk-caption-xl">{{ businessName }}</span>
+    <h1 class="govuk-heading-l">{{ i18n.whatWillHappenTitle }}</h1>
+    <p>{{ i18n.whatWillHappenNoLongerBeAnACSP | replace('{BUSINESS_NAME}', businessName) }}</p>
+    <h2 class="govuk-heading-m">{{ i18n.whatWillHappenNotBeAbleTo }}</h2>
+    <p class="govuk-body">{{ i18n.whatWillHappenNoLongerBeAbleTo | replace('{BUSINESS_NAME}', businessName) }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.whatWillHappenVerifyIdentities }}</li>
+        <li>{{ i18n.whatWillHappenFile }}</li>
+    </ul>
+    <h2 class="govuk-heading-m">{{ i18n.whatWillHappenPublishToConfirm }}</h2>
+    <p>{{ i18n.whatWillHappenPublishThe }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{ i18n.whatWillHappenName }}</li>
+        <li>{{ i18n.whatWillHappenStatus }}</li>
+        <li>{{ i18n.whatWillHappenDate }}</li>
+    </ul>
+
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
+        {% include "partials/csrf_token.njk" %}
+        {{ govukCheckboxes({
+            name: "whatWillHappenConfirm",
+            errorMessage: errors.whatWillHappenConfirm if errors,
+            fieldset: {
+                legend: {
+                    text: i18n.whatWillHappenConfirmHeading,
+                    classes: "govuk-fieldset__legend--s"
+                }
+            },
+            items: [
+                {
+                value: "confirm",
+                text: i18n.whatWillHappenConfirmCheckBox | replace('{BUSINESS_NAME}', businessName)
+                }
+            ]
+        }) }}
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: i18n.Continue
+            }) }}
+            <a class="govuk-link" href="{{ authorisedAgentDashboardUrl }}">{{ i18n.Cancel}}</a>
+        </div>
+    </form>
+{% endblock %}

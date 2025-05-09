@@ -4,7 +4,7 @@ process.env.FEATURE_FLAG_ENABLE_CLOSE_ACSP = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { CLOSE_ACSP_BASE_URL, CLOSE_ACSP_DETAILS } from "../../../../src/types/pageURL";
+import { CLOSE_ACSP_BASE_URL, CLOSE_WHAT_WILL_HAPPEN } from "../../../../src/types/pageURL";
 import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import * as localise from "../../../../src/utils/localise";
@@ -33,7 +33,7 @@ describe("POST " + CLOSE_ACSP_BASE_URL, () => {
     it("should return status 302 after redirect", async () => {
         const res = await router.post(CLOSE_ACSP_BASE_URL);
         expect(res.status).toBe(302);
-        expect(res.header.location).toBe(CLOSE_ACSP_BASE_URL + CLOSE_ACSP_DETAILS + "?lang=en");
+        expect(res.header.location).toBe(CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
     });
     it("should return status 500 when an error occurs", async () => {
