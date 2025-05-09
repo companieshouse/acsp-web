@@ -15,13 +15,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_CONFIRM;
 
+        let businessAddress;
+        if (session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)) {
+            businessAddress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        } else {
+            businessAddress = acspUpdatedFullProfile.registeredOfficeAddress;
+        }
+
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, {
             previousPage,
             editAddress: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
             ...getLocaleInfo(locales, lang),
             currentUrl,
             cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
-            businessAddress: session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS),
+            businessAddress,
             typeOfBusiness: acspUpdatedFullProfile.type
         });
     } catch (err) {
