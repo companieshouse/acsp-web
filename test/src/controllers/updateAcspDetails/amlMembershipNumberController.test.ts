@@ -83,7 +83,28 @@ describe("amlMembershipNumberController", () => {
 
         expect(payload).toEqual({ membershipNumber_1: "New Membership ID" });
     });
+    it("should set payload with membershipNumber_1 if newAMLBody.membershipId is provided", async () => {
+        const newAMLBody = { membershipId: "123456" };
+        const acspUpdatedFullProfile: AcspFullProfile = {
+            amlDetails: [
+                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" }
+            ]
+        } as AcspFullProfile;
 
+        session.getExtraData = jest.fn()
+            .mockReturnValueOnce(newAMLBody)
+            .mockReturnValueOnce(undefined)
+            .mockReturnValueOnce(acspUpdatedFullProfile);
+
+        let payload;
+        if (newAMLBody.membershipId) {
+            payload = { membershipNumber_1: newAMLBody.membershipId };
+        }
+
+        await get(req, res, next);
+
+        expect(payload).toEqual({ membershipNumber_1: "123456" });
+    });
     it("should not set payload if updateBodyIndex is not provided", async () => {
         const updateBodyIndex = undefined;
         const acspUpdatedFullProfile: AcspFullProfile = {
