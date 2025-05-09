@@ -7,6 +7,7 @@ import { UPDATE_ACSP_DETAILS_BASE_URL, AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWER
 import { Session } from "@companieshouse/node-session-handler";
 import { NEW_AML_BODY, ADD_AML_BODY_UPDATE, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 
@@ -55,6 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR;
         const session: Session = req.session as any as Session;
+        const amlDetails: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
         const errorList = validationResult(req);
 
         if (!errorList.isEmpty()) {
@@ -69,7 +71,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             // Save new AML body into session
-            session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: req.body["AML-supervisory-bodies"] });
+            if (!amlDetails || amlDetails.amlSupervisoryBody !== req.body["AML-supervisory-bodies"]) {
+                session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: req.body["AML-supervisory-bodies"] });
+            }
 
             res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, lang));
         }
