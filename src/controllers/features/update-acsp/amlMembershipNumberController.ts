@@ -17,18 +17,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const session: Session = req.session as any as Session;
-        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
-        const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
-        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const session = req.session as Session;
+        const currentUrl = `${UPDATE_ACSP_DETAILS_BASE_URL}${AML_MEMBERSHIP_NUMBER}`;
 
-        let payload;
-        if (newAMLBody.membershipId) {
-            payload = { membershipNumber_1: newAMLBody.membershipId };
-        } else if (updateBodyIndex) {
-            payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
-        }
+        const newAMLBody = session.getExtraData(NEW_AML_BODY) as AmlSupervisoryBody;
+        const updateBodyIndex = session.getExtraData(ADD_AML_BODY_UPDATE) as number | undefined;
+        const acspUpdatedFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED) as AcspFullProfile;
+
+        const membershipId = newAMLBody.membershipId ||
+            (updateBodyIndex !== undefined ? acspUpdatedFullProfile.amlDetails[updateBodyIndex]?.membershipDetails : undefined);
+
+        const payload = membershipId ? { membershipNumber_1: membershipId } : undefined;
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),

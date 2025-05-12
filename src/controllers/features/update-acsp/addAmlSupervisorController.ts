@@ -71,7 +71,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             });
         } else {
             // Save new AML body into session
-            if (!amlDetails || amlDetails.amlSupervisoryBody !== req.body["AML-supervisory-bodies"]) {
+            if (amlDetails?.amlSupervisoryBody !== req.body["AML-supervisory-bodies"]) {
                 session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: req.body["AML-supervisory-bodies"] });
             }
 

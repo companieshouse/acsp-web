@@ -47,32 +47,23 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
     it("should set payload with membershipNumber_1 if newAMLBody.membershipId is provided", async () => {
-        // Mock session data
         const newAMLBody = { membershipId: "123456" };
         sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody) // Mock newAMLBody
-            .mockReturnValueOnce(undefined); // Mock updateBodyIndex
+            .mockReturnValueOnce(newAMLBody)
+            .mockReturnValueOnce(undefined);
 
-        // Call the controller
         await get(req as Request, res as Response, next);
-
-        // Assertions
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: { membershipNumber_1: "123456" }
         }));
     });
 
     it("should not set payload if newAMLBody.membershipId is not provided", async () => {
-        // Mock session data
         const newAMLBody = {};
         sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody) // Mock newAMLBody
-            .mockReturnValueOnce(undefined); // Mock updateBodyIndex
-
-        // Call the controller
+            .mockReturnValueOnce(newAMLBody)
+            .mockReturnValueOnce(undefined);
         await get(req as Request, res as Response, next);
-
-        // Assertions
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: undefined
         }));
