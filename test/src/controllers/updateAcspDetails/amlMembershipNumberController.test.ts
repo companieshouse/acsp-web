@@ -17,6 +17,27 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        };
+
+        next = jest.fn();
+    });
     it("should render the AML membership number page with status 200", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
@@ -25,7 +46,37 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
+    it("should set payload with membershipNumber_1 if newAMLBody.membershipId is provided", async () => {
+        // Mock session data
+        const newAMLBody = { membershipId: "123456" };
+        sessionMock.getExtraData = jest.fn()
+            .mockReturnValueOnce(newAMLBody) // Mock newAMLBody
+            .mockReturnValueOnce(undefined); // Mock updateBodyIndex
 
+        // Call the controller
+        await get(req as Request, res as Response, next);
+
+        // Assertions
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: { membershipNumber_1: "123456" }
+        }));
+    });
+
+    it("should not set payload if newAMLBody.membershipId is not provided", async () => {
+        // Mock session data
+        const newAMLBody = {};
+        sessionMock.getExtraData = jest.fn()
+            .mockReturnValueOnce(newAMLBody) // Mock newAMLBody
+            .mockReturnValueOnce(undefined); // Mock updateBodyIndex
+
+        // Call the controller
+        await get(req as Request, res as Response, next);
+
+        // Assertions
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: undefined
+        }));
+    });
     it("should render the AML membership number page with pre-filled membership number when updateBodyIndex is set", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
@@ -83,28 +134,7 @@ describe("amlMembershipNumberController", () => {
 
         expect(payload).toEqual({ membershipNumber_1: "New Membership ID" });
     });
-    it("should set payload with membershipNumber_1 if newAMLBody.membershipId is provided", async () => {
-        const newAMLBody = { membershipId: "123456" };
-        const acspUpdatedFullProfile: AcspFullProfile = {
-            amlDetails: [
-                { supervisoryBody: "Old Supervisory Body", membershipDetails: "Old Membership ID" }
-            ]
-        } as AcspFullProfile;
 
-        session.getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-
-        let payload;
-        if (newAMLBody.membershipId) {
-            payload = { membershipNumber_1: newAMLBody.membershipId };
-        }
-
-        await get(req, res, next);
-
-        expect(payload).toEqual({ membershipNumber_1: "123456" });
-    });
     it("should not set payload if updateBodyIndex is not provided", async () => {
         const updateBodyIndex = undefined;
         const acspUpdatedFullProfile: AcspFullProfile = {
