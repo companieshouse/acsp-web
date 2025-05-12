@@ -21,7 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl = `${UPDATE_ACSP_DETAILS_BASE_URL}${AML_MEMBERSHIP_NUMBER}`;
 
         const newAMLBody = session.getExtraData(NEW_AML_BODY) as AmlSupervisoryBody;
-        const updateBodyIndex = session.getExtraData(ADD_AML_BODY_UPDATE) as number | undefined;
+        const updateBodyIndex = session.getExtraData(ADD_AML_BODY_UPDATE) as number;
         const acspUpdatedFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED) as AcspFullProfile;
 
         const membershipId = newAMLBody.membershipId ||
