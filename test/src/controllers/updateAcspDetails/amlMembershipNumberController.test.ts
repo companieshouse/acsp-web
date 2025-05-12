@@ -228,7 +228,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
             }]
         });
 
-        customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
             req.session = session;
             next();
         });

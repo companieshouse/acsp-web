@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session = req.session as Session;
-        const currentUrl = `${UPDATE_ACSP_DETAILS_BASE_URL}${AML_MEMBERSHIP_NUMBER}`;
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
 
         const newAMLBody = session.getExtraData(NEW_AML_BODY) as AmlSupervisoryBody;
         const updateBodyIndex = session.getExtraData(ADD_AML_BODY_UPDATE) as number;
