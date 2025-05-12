@@ -5,7 +5,7 @@ import * as localise from "../../../../src/utils/localise";
 import { UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
 
@@ -61,11 +61,38 @@ describe("GET " + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
     });
+
+    it("should render the confirmation page with status 200", async () => {
+        createMockSessionMiddlewareWithUpdateInProgress();
+        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("Confirm the correspondence address");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+    });
 });
 
 function createMockSessionMiddleware () {
     customMockSessionMiddleware = sessionMiddleware as jest.Mock;
     const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
+    session.setExtraData(SUBMISSION_ID, "transactionID");
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
+
+function createMockSessionMiddlewareWithUpdateInProgress () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+        premises: "11",
+        addressLine1: "Test Street",
+        postalCode: "AB1 2CD",
+        country: "England",
+        locality: "Test Town"
+    });
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, type: "sole-trader" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
