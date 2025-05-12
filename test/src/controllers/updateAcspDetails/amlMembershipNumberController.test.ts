@@ -46,23 +46,55 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
-    it("should set payload with membershipNumber_1 if newAMLBody.membershipId is provided", async () => {
-        const newAMLBody = { membershipId: "123456" };
-        sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined);
+    it("should set payload with membershipNumber_1 from acspUpdatedFullProfile when updateBodyIndex is defined", async () => {
+        const updateBodyIndex = 0;
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Some Body" }
+            ]
+        };
 
+        sessionMock.getExtraData = jest.fn()
+            .mockReturnValueOnce({})
+            .mockReturnValueOnce(updateBodyIndex)
+            .mockReturnValueOnce(acspUpdatedFullProfile);
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: { membershipNumber_1: "123456" }
         }));
     });
 
-    it("should not set payload if newAMLBody.membershipId is not provided", async () => {
-        const newAMLBody = {};
+    it("should not set payload if updateBodyIndex is undefined", async () => {
+        const updateBodyIndex = undefined;
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Some Body" }
+            ]
+        };
+
         sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce(newAMLBody)
-            .mockReturnValueOnce(undefined);
+            .mockReturnValueOnce({})
+            .mockReturnValueOnce(updateBodyIndex)
+            .mockReturnValueOnce(acspUpdatedFullProfile);
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: undefined
+        }));
+    });
+
+    it("should not set payload if updateBodyIndex is out of bounds", async () => {
+        const updateBodyIndex = 5;
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Some Body" }
+            ]
+        };
+
+        sessionMock.getExtraData = jest.fn()
+            .mockReturnValueOnce({})
+            .mockReturnValueOnce(updateBodyIndex)
+            .mockReturnValueOnce(acspUpdatedFullProfile);
+
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: undefined
@@ -196,7 +228,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
             }]
         });
 
-        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
             req.session = session;
             next();
         });
@@ -223,7 +255,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
                 }
             ]
         });
-        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
             req.session = session;
             next();
         });
@@ -247,7 +279,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
             }
         ]);
 
-        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
             req.session = session;
             next();
         });
@@ -272,7 +304,7 @@ function createMockSessionMiddleware () {
     const session = getSessionRequestWithPermission();
     session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
     session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile });
-    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    customMockSessionMiddleware.mockImplementation((req: Request, _res: Response, next: NextFunction) => {
         req.session = session;
         next();
     });
