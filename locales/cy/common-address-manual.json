@@ -15,8 +15,8 @@
     "scotland": "Yr Alban",
     "northernIreland": "Gogledd Iwerddon",
     "wales": "Cymru",
-    "selectCountry": "Dewiswch wlad",
     "unitedKingdom": "Y Deyrnas Unedig",
+    "selectCountry": "Dewiswch wlad",
 
     "error-noPropertyDetails": "Cofnodwch enw neu rif eiddo",
     "error-noAddressLine1": "Cofnodwch gyfeiriad",
