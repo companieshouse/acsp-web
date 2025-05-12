@@ -3,5 +3,6 @@
     "otherTypeOfBusinessUnincorporatedEntity": "Unincorporated entity",
     "otherTypeOfBusinessCorporateBody": "Corporate body (registered with Companies House)",
     "otherTypeOfBusinessCorporateBodyHint": "This does not include limited companies or registrable partnerships.",
+    
     "error-otherTypeOfBusinessSelectRadio" : "Select the type of business you are registering"
 }

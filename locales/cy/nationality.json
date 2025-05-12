@@ -6,6 +6,7 @@
     "thirdNationalityHint": "Trydydd cenedligrwydd (os yn berthnasol)",
     "thirdNationalityHintDetails": "Caniateir dinasyddiaeth luosog (a elwir hefyd yn genedligrwydd lluosog) mewn rhai gwledydd. Mae hyn yn golygu y gallwch fod yn ddinesydd o'ch gwlad eich hun a dwy wlad arall.",
     "whatIsYourNationalityDefaultDropdownText" : "Dewiswch eich cenedligrwydd",
+    
     "error-invalidNationalityNoData": "Cofnodwch eich cenedligrwydd",
     "error-invalidNationalityNoNationality": "Dewiswch genedligrwydd o'r rhestr",
     "error-invalidNationalityDoubleSecondNationality": "Cofnodwch ail genedligrwydd gwahanol",

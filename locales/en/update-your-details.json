@@ -12,18 +12,16 @@
     "updateYourDetailsCorrespondenceAddress": "Correspondence address",
     "updateYourDetailsBusinessAddress": "Business address",
     "updateYourDetailsModificationChangedOn": "Changed on",
-    "updateYourDetailsStartedOn": "Started on ",
-    "updateYourDetailsEndedOn": "Ended on ",
+    "updateYourDetailsStartedOn": "Started on",
+    "updateYourDetailsEndedOn": "Ended on",
     "updateYourDetailsRegisteredOfficeAddress": "Registered office address",
     "updateYourDetailsCompanyName": "Company name",
     "updateYourDetailsBusinessName": "Business name",
-    "updateYourDetailsAMLMembershipDetails": "AML Membership Details",
     "updateYourDetailsYouMustBeRegisteredAML": "You must be registered with one or more AML supervisory body.",
     "addNewAMLDetails": "Add new AML details",
     "goBackToAuthorisedAgentServices": "Go back to authorised agent services",
     "updatedWarningCaption": "Details updated",
     "updatedWarningCaptionForNewlyAddedAML": "New Details",
-    "updatedWarningNoteLineOne": "Pending until submitted",
-    "updatedWarningNoteLineTwo": " and accepted",
-    "updateAMLDetailsRemoved": " Removed"
+    "updatedWarningNotePendingUntilSubmitted": "Pending until submitted and accepted",
+    "updateAMLDetailsRemoved": "Removed"
 }

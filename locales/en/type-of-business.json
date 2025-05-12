@@ -1,6 +1,5 @@
 {
     "typeOfBusinessTitle" : "What type of business are you registering?",
-    
     "typeOfBusinessLimitedCompanyOption": "Limited company",
     "typeOfBusinessLimitedLiabilityPartnershipsOption": "Limited liability partnership (LLP)",
     "typeOfBusinessLimitedPartnershipOption": "Limited partnership (LP)",
