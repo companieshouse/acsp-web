@@ -19,7 +19,7 @@ export const correspondenceAddressAutoLookupValidator = (type: AddressLookupVali
         .isLength({ min: 5, max: 50 }).withMessage("invalidAddressPostcode").bail()
         .custom((value, { req }) => compareNewAndOldAddressForLookup(req, type)).withMessage((value, { req }) => getAddressMessage(type, req)),
 
-    body("premise").trim().matches(addressDetailsFormat).withMessage("correspondenceLookUpAddressInvalidPropertyDetails").bail()
+    body("premise").trim().matches(addressDetailsFormat).withMessage("invalidPropertyDetails").bail()
         .custom((value, { req }) => compareNewAndOldAddressForLookup(req, type)).withMessage("noUpdatePremises")
 ];
 
@@ -52,7 +52,7 @@ const compareNewAndOldAddressForLookup = (req: Request, type: AddressLookupValid
 
 const getAddressMessage = (type: AddressLookupValidationType, req: Request) => {
     if (type === "registration") {
-        return "correspondenceLookUpAddressNoPostCode";
+        return "noPostCode";
     } else if (type === "serviceAddress") {
         return "correspondenceLookUpAddressNoPostCodeUpdate";
     }

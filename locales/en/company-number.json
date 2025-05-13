@@ -8,5 +8,5 @@
     "error-invalidcompanyNumberNoData": "Enter the company number",
     "error-invalidcompanyNumbercharacterLimit": "Company number must be 8 characters",
     "error-invalidcompanyNumberPattern": "Company number must only include letters a to z and numbers",
-    "error-companyNumberDontExsits" : "Enter a valid company number"
+    "error-companyNumberDoesNotExist" : "Enter a valid company number"
 }

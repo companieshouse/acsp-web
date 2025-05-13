@@ -1,9 +1,8 @@
 {
     "startPageTitleCloseAcsp": "Cau cyfrif yr asiant awdurdodedig",
-    "ifYouCloseAcsp":"Caewch y cyfrif asiant awdurdodedig os nad oes angen i {BUSINESS_NAME} gael ei chofrestru fel asiant awdurdodedig gyda Thŷ'r Cwmnïau bellach. Gelwir hwn hefyd yn Ddarparwr Gwasanaeth Corfforaethol Awdurdodedig (DGCA).",
+    "ifYouCloseAcsp": "Caewch y cyfrif asiant awdurdodedig os nad oes angen i {BUSINESS_NAME} gael ei chofrestru fel asiant awdurdodedig gyda Thŷ'r Cwmnïau bellach. Gelwir hwn hefyd yn Ddarparwr Gwasanaeth Corfforaethol Awdurdodedig (DGCA).",
     "beforeYouContinueHeading": "Cyn i chi barhau",
-    "beforeYouContinueText1":"Os oes yna bobl eraill sy'n gweithio i'r asiant awdurdodedig, rhaid i chi ",
+    "beforeYouContinueText1": "Os oes yna bobl eraill sy'n gweithio i'r asiant awdurdodedig, rhaid i chi ",
     "beforeYouContinueLink": "wirio os ydynt wedi'u hychwanegu at y cyfrif",
     "beforeYouContinueText2": "Bydd angen i chi ddweud wrthynt na fyddant yn gallu cael mynediad i'r cyfrif, neu ddefnyddio gwasanaethau ar gyfer yr asiant awdurdodedig pan fyddwch chi'n ei gau."
 }
-

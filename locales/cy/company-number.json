@@ -5,11 +5,8 @@
     "infoToGetCompanyNumer": "Gallwch ddod o hyd i hyn trwy chwilio am y cwmni ar",
     "linkWhereToHowGetCompanyNumer": "gofrestr Tŷ'r Cwmnïau (yn agor mewn tab newydd).",
 
-
     "error-invalidcompanyNumberNoData": "Cofnodwch rif y cwmni",
     "error-invalidcompanyNumbercharacterLimit": "Rhaid i rif y cwmni fod yn 8 nod",
     "error-invalidcompanyNumberPattern": "Rhaid i rif y cwmni gynnwys llythrennau a i z a rhifau yn unig",
-    "error-companyNumberDontExsits" : "Cofnodwch rif cwmni dilys"
-
-
+    "error-companyNumberDoesNotExist": "Cofnodwch rif cwmni dilys"
 }

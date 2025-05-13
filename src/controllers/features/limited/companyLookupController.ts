@@ -82,7 +82,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 if (error.message?.includes("Company Not Found")) {
                     const validationError : ValidationError[] = [{
                         value: companyNumber,
-                        msg: "companyNumberDontExsits",
+                        msg: "companyNumberDoesNotExist",
                         param: "companyNumber",
                         location: "body"
                     }];

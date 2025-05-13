@@ -12,18 +12,16 @@
     "updateYourDetailsCorrespondenceAddress": "Cyfeiriad gohebiaeth",
     "updateYourDetailsBusinessAddress": "Cyfeiriad y busnes",
     "updateYourDetailsModificationChangedOn": "Wedi newid ar ",
-    "updateYourDetailsStartedOn": "Dechreuodd ar ",
-    "updateYourDetailsEndedOn": "Daeth i ben ar ",
+    "updateYourDetailsStartedOn": "Dechreuodd ar",
+    "updateYourDetailsEndedOn": "Daeth i ben ar",
     "updateYourDetailsRegisteredOfficeAddress": "Cyfeiriad y swyddfa gofrestredig",
     "updateYourDetailsCompanyName": "Enw'r cwmni",
     "updateYourDetailsBusinessName": "Enw'r busnes",
-    "updateYourDetailsAMLMembershipDetails": "Manylion Atal Gwyngalchu Arian (AML)",
     "updateYourDetailsYouMustBeRegisteredAML": "Rhaid i chi fod wedi'i gofrestru gydag un neu fwy o gorff goruchwylio AML.",
-    "addNewAMLDetails": "Ychwanegu  manylion AML newydd",
+    "addNewAMLDetails": "Ychwanegu manylion AML newydd",
     "goBackToAuthorisedAgentServices": "Ewch yn ôl i wasanaethau asiant awdurdodedig",
     "updatedWarningCaption": "Manylion wedi'u diweddaru",
     "updatedWarningCaptionForNewlyAddedAML": "Manylion Newydd",
-    "updatedWarningNoteLineOne": "Yn yr arfaeth nes eich bod yn ei gyflwyno",
-    "updatedWarningNoteLineTwo": " a'i dderbyn",
-    "updateAMLDetailsRemoved": " Dileus"
+    "updatedWarningNotePendingUntilSubmitted": "Yn yr arfaeth nes eich bod yn ei gyflwyno a'i dderbyn",
+    "updateAMLDetailsRemoved": "Dileus"
 }

@@ -13,22 +13,14 @@
     "correspondenceLookUpAddressListTitle": "Dewiswch y cyfeiriad gohebiaeth",
     "businessLookUpAddressListTitle": "Dewiswch gyfeiriad",
 
-    "error-correspondenceLookUpAddressNoAddress" : "Dewiswch y cyfeiriad gohebiaeth",
-    "error-correspondenceLookUpAddressNoPostCode" : "Cofnodwch god post",
     "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid y cyfeiriad gohebiaeth",
     "error-businessLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid cyfeiriad y busnes",
     "error-registeredOfficeLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post yn y DU neu ganslo'r diweddariad os nad oes angen i chi newid cyfeiriad y swyddfa gofrestredig",
-    "error-correspondenceLookUpAddressInvalidPropertyDetails" : "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig",
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "Ni allwn ddod o hyd i'r cod post hwn. Rhowch un gwahanol, neu rhowch y cyfeiriad â llaw",
     "error-correspondenceLookUpAddressWithoutCountry" : "Ni allwn ddod o hyd i'r cyfeiriad llawn o'r cod post. Cofnodwch y cyfeiriad â llaw",
-    "error-invalidPostcodeFormat": "Rhaid i'r cod post gynnwys llythrennau a i z a rhifau a bylchau yn unig",
-    "error-invalidAddressPostcode": "Cofnodwch  god post llawn yn y Deyrnas Unedig",
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Dewiswch y cyfeiriad gohebiaeth",
     "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Dewiswch y cyfeiriad gohebiaeth neu ganslo'r diweddariad os nad oes angen i chi ei newids",
     "error-businessLookUpAddresListNoRadioBtnSelected": "Dewiswch y cyfeiriad busnes",
     "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Dewiswch y cyfeiriad busnes neu ganslo'r diweddariad os nad oes angen i chi ei newid",
     "error-registeredOfficeLookUpAddresListNoRadioBtnSelectedUpdate": "Dewiswch gyfeiriad y swyddfa gofrestredig neu ganslo'r diweddariad os nad oes angen i chi ei newid"
-
-
-
 }

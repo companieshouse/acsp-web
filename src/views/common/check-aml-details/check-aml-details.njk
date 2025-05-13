@@ -29,7 +29,7 @@
       {% set row = [
         {text: i18n[body.amlSupervisoryBody]},
         {text: body.membershipId},
-        {html: "<a href=" + changeUrl + "#" + "membershipNumber_" + loop.index + ">" + i18n.checkAmlDetailsChange + "<span class='govuk-visually-hidden'>" + i18n[body.amlSupervisoryBody] + "</span></a>"}
+        {html: "<a href=" + changeUrl + "#" + "membershipNumber_" + loop.index + ">" + i18n.Change + "<span class='govuk-visually-hidden'>" + i18n[body.amlSupervisoryBody] + "</span></a>"}
       ] %}
       {% set ROWS = ROWS.concat([row]) %}
     {% endfor %}

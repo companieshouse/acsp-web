@@ -3,5 +3,6 @@
     "otherTypeOfBusinessUnincorporatedEntity": "Endid anghorfforedig",
     "otherTypeOfBusinessCorporateBody": "Corff corfforedig (wedi'i gofrestru gyda Thŷ'r Cwmnïau)",
     "otherTypeOfBusinessCorporateBodyHint": "Nid yw hyn yn cynnwys cwmnïau cyfyngedig neu bartneriaethau cofrestradwy.",
+    
     "error-otherTypeOfBusinessSelectRadio" : "Dewiswch y math arall o fusnes rydych chi'n ei gofrestru"
 }

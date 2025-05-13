@@ -5,6 +5,7 @@
     "dateOfChangeAMLSupervisionStartHint" : "For example, 27 3 2025",
     "updateDateAMLSupervisionEnd": "When did the AML supervision end?",
     "dateOfChangeAMLSupervisionEndHint" : "For example, 27 4 2025",
+    
     "error-invalidChangeDate" : "Change start date must be a real date",
     "error-dateInFutureChangeDate" : "The change start date must be in the past",
     "error-noChangeDateData" : "Enter the date when change happened",

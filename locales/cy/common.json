@@ -5,10 +5,15 @@
     "Continue": "Pharhau",
     "Back" : "Nôl",
     "SignOut": "Allgofnodi",
+    "Change": "Newid",
     "AcceptAndContinue": "Derbyn a pharhau",
     "CommonTabTitle": "Gwneud cais i gofrestru fel asiant awdurdodedig Tŷ'r Cwmnïau - GOV.UK",
     "CommonTabTitleUpdateAcsp": "Gweld a diweddaru manylion yr asiant awdurdodedig - GOV.UK",
     "CommonTabTitleCloseAcsp": "Close an ACSP Welsh - GOV.UK",
     "Cancel": "Canslo",
-    "openInNewTab": "yn agor mewn tab newydd"
+    "CancelUpdate": "Canslo'r diweddariad",
+    "Edit": "Golygu",
+    "openInNewTab": "yn agor mewn tab newydd",
+    "thereIsAProblemError": "Mae yna broblem",
+    "error": "Gwall"
 }

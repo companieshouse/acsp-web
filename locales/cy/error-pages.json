@@ -9,13 +9,12 @@
     "technicalDifficuliesText1": "Ceisiwch eto mewn ychydig funudau.",
     "technicalDifficuliesText2": "Os yw'r broblem hon yn parhau anfonwch e-bost i enquiries@companieshouse.gov.uk.",
     
-    "tryAgainLater": "Ceisiwch eto yn nes ymlaen.",
-    "sorrySomethingWentWrong":"Mae'n ddrwg gennym, aeth rhywbeth o'i le",
-    "weHaveNotBeenAbleToSave":"Nid ydym wedi gallu cadw'r wybodaeth a gyflwynwyd gennych ar y sgrin flaenorol. Gall hyn fod oherwydd roedd y dudalen yn anweithredol am gyfnod rhy hir, neu oherwydd mater technegol",
-    "tryTheFollowing":"Rhowch gynnig ar y canlynol:",
-    "useTheBackLink":"Defnyddiwch y ddolen nôl i ddychwelyd i'r sgrin flaenorol ac ailgyflwynwch y wybodaeth",
-    "signOutOfTheService":"allgofnodwch o'r gwasanaeth, ac yna mewngofnodwch eto",
-    "ifTheProblemContinues":"Os yw'r broblem yn parhau",
-    "contactUsLink":"cysylltwch â ni",
-    "forHelp":"am help"
+    "sorrySomethingWentWrong": "Mae'n ddrwg gennym, aeth rhywbeth o'i le",
+    "weHaveNotBeenAbleToSave": "Nid ydym wedi gallu cadw'r wybodaeth a gyflwynwyd gennych ar y sgrin flaenorol. Gall hyn fod oherwydd roedd y dudalen yn anweithredol am gyfnod rhy hir, neu oherwydd mater technegol",
+    "tryTheFollowing": "Rhowch gynnig ar y canlynol:",
+    "useTheBackLink": "Defnyddiwch y ddolen nôl i ddychwelyd i'r sgrin flaenorol ac ailgyflwynwch y wybodaeth",
+    "signOutOfTheService": "allgofnodwch o'r gwasanaeth, ac yna mewngofnodwch eto",
+    "ifTheProblemContinues": "Os yw'r broblem yn parhau",
+    "contactUsLink": "cysylltwch â ni",
+    "forHelp": "am help"
 }

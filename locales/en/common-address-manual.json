@@ -22,8 +22,6 @@
     "error-noAddressLine1": "Enter an address",
     "error-noCityOrTown": "Enter a city or town",
     "error-countryIsMissing": "Select a country",
-    "error-noPostCode": "Enter a postcode",
-    "error-invalidPropertyDetails": "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidAddressLine1": "Address line 1 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidAddressLine2": "Address line 2 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes",
     "error-invalidAddressTown": "City or town must only include letters a to z and common special characters such as hyphens, spaces and apostrophes",
