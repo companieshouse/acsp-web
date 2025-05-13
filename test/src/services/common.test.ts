@@ -1,5 +1,5 @@
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails, formatDateIntoReadableString, formatAddressIntoHTMLString } from "../../../src/services/common";
+import { getBusinessName, getFullName, getFullNameACSPFullProfileDetails, formatDateIntoReadableString, formatAddressIntoHTMLString, deepEquals } from "../../../src/services/common";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 const acspProfileData: AcspData = {
@@ -109,5 +109,85 @@ describe("formatAddressIntoHTMLString returns a formatted address string", () =>
 
     it("should return an empty string when address is undefined", () => {
         expect(formatAddressIntoHTMLString(undefined)).toBe("");
+    });
+});
+
+describe("deepEquals", () => {
+    it("should return true for identical primitive values", () => {
+        expect(deepEquals(1, 1)).toBe(true);
+        expect(deepEquals("hello", "hello")).toBe(true);
+        expect(deepEquals(true, true)).toBe(true);
+    });
+
+    it("should return false for different primitive values", () => {
+        expect(deepEquals(1, 2)).toBe(false);
+        expect(deepEquals("hello", "world")).toBe(false);
+        expect(deepEquals(true, false)).toBe(false);
+    });
+
+    it("should handle null and undefined values", () => {
+        expect(deepEquals(null, null)).toBe(true);
+        expect(deepEquals(undefined, undefined)).toBe(true);
+        expect(deepEquals(null, undefined)).toBe(false);
+        expect(deepEquals({}, null)).toBe(false);
+    });
+
+    it("should compare flat objects correctly", () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { a: 1, b: 2 };
+        const obj3 = { a: 1, b: 3 };
+
+        expect(deepEquals(obj1, obj2)).toBe(true);
+        expect(deepEquals(obj1, obj3)).toBe(false);
+    });
+
+    it("should compare nested objects correctly", () => {
+        const obj1 = {
+            a: 1,
+            b: {
+                c: 2,
+                d: { e: 3 }
+            }
+        };
+        const obj2 = {
+            a: 1,
+            b: {
+                c: 2,
+                d: { e: 3 }
+            }
+        };
+        const obj3 = {
+            a: 1,
+            b: {
+                c: 2,
+                d: { e: 4 }
+            }
+        };
+
+        expect(deepEquals(obj1, obj2)).toBe(true);
+        expect(deepEquals(obj1, obj3)).toBe(false);
+    });
+
+    it("should handle objects with different property orders", () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { b: 2, a: 1 };
+
+        expect(deepEquals(obj1, obj2)).toBe(true);
+    });
+
+    it("should handle objects with different number of keys", () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { b: 2 };
+
+        expect(deepEquals(obj1, obj2)).toBe(false);
+    });
+
+    it("should handle arrays correctly", () => {
+        const arr1 = [1, 2, { a: 3 }];
+        const arr2 = [1, 2, { a: 3 }];
+        const arr3 = [1, 2, { a: 4 }];
+
+        expect(deepEquals(arr1, arr2)).toBe(true);
+        expect(deepEquals(arr1, arr3)).toBe(false);
     });
 });

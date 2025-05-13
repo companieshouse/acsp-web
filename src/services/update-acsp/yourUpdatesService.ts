@@ -1,5 +1,5 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
+import { deepEquals, formatAddressIntoHTMLString, formatDateIntoReadableString, getFullNameACSPFullProfileDetails } from "../../services/common";
 import { ACSP_UPDATE_CHANGE_DATE, AML_REMOVED_BODY_DETAILS } from "../../common/__utils/constants";
 import { AcspFullProfile } from "../../model/AcspFullProfile";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
@@ -46,13 +46,13 @@ export const getFormattedUpdates = (session: Session, acspFullProfile: AcspFullP
 };
 
 const limtedChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
-    if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
+    if (!deepEquals(acspFullProfile.registeredOfficeAddress, updatedFullProfile.registeredOfficeAddress)) {
         updates.registeredOfficeAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
             changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS)!))
         };
     }
-    if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
+    if (!deepEquals(acspFullProfile.serviceAddress, updatedFullProfile.serviceAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.serviceAddress),
             changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
@@ -62,13 +62,13 @@ const limtedChanges = (session: Session, acspFullProfile: AcspFullProfile, updat
 };
 
 const unincorporatedChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
-    if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
+    if (!deepEquals(acspFullProfile.registeredOfficeAddress, updatedFullProfile.registeredOfficeAddress)) {
         updates.businessAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
             changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS)!))
         };
     }
-    if (JSON.stringify(acspFullProfile.serviceAddress) !== JSON.stringify(updatedFullProfile.serviceAddress)) {
+    if (!deepEquals(acspFullProfile.serviceAddress, updatedFullProfile.serviceAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.serviceAddress),
             changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
@@ -87,7 +87,7 @@ const unincorporatedChanges = (session: Session, acspFullProfile: AcspFullProfil
 };
 
 const soleTraderChanges = (session: Session, acspFullProfile: AcspFullProfile, updatedFullProfile: AcspFullProfile, updates: YourUpdates): YourUpdates => {
-    if (JSON.stringify(acspFullProfile.registeredOfficeAddress) !== JSON.stringify(updatedFullProfile.registeredOfficeAddress)) {
+    if (!deepEquals(acspFullProfile.registeredOfficeAddress, updatedFullProfile.registeredOfficeAddress)) {
         updates.serviceAddress = {
             value: formatAddressIntoHTMLString(updatedFullProfile.registeredOfficeAddress),
             changedDate: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)!))
