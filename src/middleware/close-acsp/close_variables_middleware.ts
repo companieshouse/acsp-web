@@ -1,5 +1,6 @@
 import { CLOSE_ACSP_BASE_URL, AUTHORISED_AGENT } from "../../types/pageURL";
 import { Handler } from "express";
+import { addLangToUrl } from "../../utils/localise";
 
 /**
  * Populates variables for use in templates that are used on multiple pages.
@@ -15,7 +16,7 @@ export const closeVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceName = "Close the authorised agent account";
     res.locals.serviceUrl = CLOSE_ACSP_BASE_URL;
     res.locals.tabTitleKey = "CommonTabTitleCloseAcsp";
-    res.locals.authorisedAgentDashboardUrl = AUTHORISED_AGENT;
+    res.locals.authorisedAgentDashboardUrl = addLangToUrl(AUTHORISED_AGENT, res.locals.lang);
 
     next();
 };
