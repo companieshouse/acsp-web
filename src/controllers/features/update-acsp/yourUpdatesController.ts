@@ -27,8 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage = getPreviousPageWithLang(req, UPDATE_ACSP_DETAILS_BASE_URL);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
-        const isLimitedBusiness = isLimitedBusinessType(acspFullProfile.type);
-        const editBusinessNameUrl = isLimitedBusiness
+        const editBusinessNameUrl = isLimitedBusinessType(acspFullProfile.type)
             ? addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME, lang)
             : addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME, lang);
 
@@ -39,7 +38,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            lang,
             AMLSupervioryBodiesFormatted,
             yourDetails,
             addedAMLBodies,
@@ -71,6 +69,10 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
 
+        const editBusinessNameUrl = isLimitedBusinessType(acspFullProfile.type)
+            ? addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME, lang)
+            : addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME, lang);
+
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
             redirectQuery = "your-answers";
@@ -82,13 +84,13 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 ...pageProperties,
                 currentUrl,
-                lang,
                 AMLSupervioryBodiesFormatted,
                 yourDetails,
                 addedAMLBodies,
                 removedAMLBodies,
                 redirectQuery,
                 type: acspFullProfile.type,
+                editBusinessNameUrl,
                 previousPage: addLangToUrl(previousPage, lang),
                 cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
                 addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),

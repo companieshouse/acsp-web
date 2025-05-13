@@ -27,10 +27,9 @@ import {
     NEW_AML_BODY
 }
     from "../../../common/__utils/constants";
-import { ACSPFullProfileDetails } from "../../../model/ACSPFullProfileDetails";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
-import { formatDateIntoReadableString } from "../../../services/common";
+import { deepEquals, formatDateIntoReadableString } from "../../../services/common";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 
@@ -39,11 +38,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-        session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-        session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+
         const changeDates = {
             name: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) || "")),
             whereDoYouLive: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) || "")),
@@ -53,23 +50,17 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         };
 
         const removedAMLDetails: AmlSupervisoryBody[] = session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? [];
-
         // Format dateOfChange in removedAMLDetails
         const formattedRemovedAMLDetails = removedAMLDetails.map(amlDetail => ({
             ...amlDetail,
             dateOfChange: amlDetail.dateOfChange ? formatDateIntoReadableString(new Date(amlDetail.dateOfChange)) : undefined
         }));
 
-        const profileDetails: ACSPFullProfileDetails = getProfileDetails(acspFullProfile);
-        const profileDetailsUpdated: ACSPFullProfileDetails = getProfileDetails(acspUpdatedFullProfile);
-        var updateFlag = JSON.stringify(acspFullProfile) !== JSON.stringify(acspUpdatedFullProfile);
+        // Delete the session from updating details
+        session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
         session.deleteExtraData(NEW_AML_BODY);
-
-        const cancelChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang);
-        const removeAMLUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang);
-        const cancelAllUpdatesUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang);
-        const dateOfChangeUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang);
 
         // Before passing to view, convert dateOfChange to Date object from ISO string (to allow pre-1960 dates)
         acspUpdatedFullProfile.amlDetails = acspUpdatedFullProfile.amlDetails.map(amlDetail => ({
@@ -81,24 +72,23 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.UPDATE_YOUR_ANSWERS, {
             ...getLocaleInfo(locales, lang),
-            currentUrl,
+            currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS,
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL, lang),
             editAML: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, lang),
             addAML: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
-            profileDetails,
-            profileDetailsUpdated,
-            updateFlag,
+            profileDetails: getProfileDetails(acspFullProfile),
+            profileDetailsUpdated: getProfileDetails(acspUpdatedFullProfile),
+            updateFlag: deepEquals(acspFullProfile, acspUpdatedFullProfile),
             acspFullProfile,
             acspUpdatedFullProfile,
-            lang,
-            cancelChangeUrl,
-            removeAMLUrl,
-            dateOfChangeUrl,
+            cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang),
+            removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
+            dateOfChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
             AMLSupervisoryBodies,
             AMLSupervioryBodiesFormatted,
             changeDates,
             formattedRemovedAMLDetails,
-            cancelAllUpdatesUrl,
+            cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             authorisedAgentUrl: AUTHORISED_AGENT
         });
     } catch (err) {
