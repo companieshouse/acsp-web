@@ -19,6 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl: CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE,
             businessName: acspDetails.name
         });
+
     } catch (error) {
         next(error);
     }
