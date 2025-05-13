@@ -19,7 +19,7 @@ describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN, () => {
 
     it("should return status 500 if an error occurs", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("Test error");
+            throw new Error("Test Error");
         });
         const res = await router.get(CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN);
         expect(res.status).toBe(500);

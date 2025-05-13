@@ -1,0 +1,5 @@
+{
+    "confirmYouWantToCloseACSPTitle": "Confirm you want to close the authorised agent account",
+    "youShouldOnlyConfirmIf": "You should only confirm if {BUSINESS_NAME} no longer needs to be registered as an authorised agent with Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).",
+    "ifYouConfirmWarningText": "If you confirm, we will immediately close the authorised agent account. {BUSINESS_NAME} will no longer be an ACSP. You will not be able to cancel this."
+}

@@ -1,0 +1,29 @@
+{% extends "layouts/default.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+
+{% set title = i18n.confirmYouWantToCloseACSPTitle%}
+
+{% block main_content %}
+
+    <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
+        {% include "partials/csrf_token.njk" %}
+        <span class="govuk-caption-xl">{{ businessName }}</span>
+        <h1 class="govuk-heading-l">{{ i18n.confirmYouWantToCloseACSPTitle }}</h1>
+        <p class="govuk-body">{{ i18n.youShouldOnlyConfirmIf | replace('{BUSINESS_NAME}', businessName) }}</p>
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                {{ i18n.ifYouConfirmWarningText | replace('{BUSINESS_NAME}', businessName) }}
+            </strong>
+        </div>
+        <div class="govuk-button-group">
+            {{ govukButton({
+                text: i18n.Confirm
+            }) }}
+            <a class="govuk-link" href="{{ authorisedAgentDashboardUrl }}">{{ i18n.Cancel}}</a>
+        </div>
+    </form>
+
+{% endblock %}
