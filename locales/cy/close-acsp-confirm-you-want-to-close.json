@@ -1,0 +1,5 @@
+{
+    "confirmYouWantToCloseACSPTitle": "Cadarnhewch eich bod am gau'r cyfrif asiant awdurdodedig",
+    "youShouldOnlyConfirmIf": "Dylech gadarnhau dim ond os nad oes angen i {BUSINESS_NAME} fod yn asiant awdurdodedig bellach. Gelwir hwn hefyd yn Ddarparwr Gwasanaeth Corfforaethol Awdurdodedig (DGCA).",
+    "ifYouConfirmWarningText": "Os byddwch yn cadarnhau, byddwn yn cau'r cyfrif asiant awdurdodedig ar unwaith. Ni fydd {BUSINESS_NAME} yn DGCA bellach. Ni fyddwch yn gallu canslo hyn."
+}

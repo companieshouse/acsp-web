@@ -1,6 +1,7 @@
 {
     "SaveAndContinue": "Cadw a pharhau",
     "ConfirmAndContinue": "Cadarnhau a pharhau",
+    "Confirm": "Cadarnhewch",
     "EditAddress": "Golygu'r cyfeiriad",
     "Continue": "Pharhau",
     "Back" : "Nôl",
@@ -9,7 +10,7 @@
     "AcceptAndContinue": "Derbyn a pharhau",
     "CommonTabTitle": "Gwneud cais i gofrestru fel asiant awdurdodedig Tŷ'r Cwmnïau - GOV.UK",
     "CommonTabTitleUpdateAcsp": "Gweld a diweddaru manylion yr asiant awdurdodedig - GOV.UK",
-    "CommonTabTitleCloseAcsp": "Close an ACSP Welsh - GOV.UK",
+    "CommonTabTitleCloseAcsp": "Close the authorised agent - Welcome to GOV.UK Welsh",
     "Cancel": "Canslo",
     "CancelUpdate": "Canslo'r diweddariad",
     "Edit": "Golygu",
