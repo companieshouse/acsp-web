@@ -4,7 +4,7 @@ process.env.FEATURE_FLAG_ENABLE_CLOSE_ACSP = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, CLOSE_WHAT_WILL_HAPPEN, CLOSE_CONFIRMATION_ACSP_CLOSED } from "../../../../src/types/pageURL";
+import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, CLOSE_CONFIRMATION_ACSP_CLOSED } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 
 const router = supertest(app);
