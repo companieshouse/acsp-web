@@ -175,6 +175,13 @@ describe("deepEquals", () => {
         expect(deepEquals(obj1, obj2)).toBe(true);
     });
 
+    it("should handle objects with different number of keys", () => {
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { b: 2 };
+
+        expect(deepEquals(obj1, obj2)).toBe(false);
+    });
+
     it("should handle arrays correctly", () => {
         const arr1 = [1, 2, { a: 3 }];
         const arr2 = [1, 2, { a: 3 }];
