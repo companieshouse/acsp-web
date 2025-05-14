@@ -99,3 +99,4 @@ export * as yourUpdatesController from "./features/update-acsp/yourUpdatesContro
 export * as closeIndexController from "./features/close-acsp/indexController";
 export * as closeWhatWillHappenController from "./features/close-acsp/whatWillHappenController";
 export * as closeConfirmYouWantToCloseController from "./features/close-acsp/confirmYouWantToCloseController";
+export * as closeConfirmationAuthorisedAgentClosedController from "./features/close-acsp/confirmationAuthorisedAgentClosedController";
