@@ -37,8 +37,8 @@ describe("CheckYourAnswersService", () => {
             businessName: "Example ACSP Ltd",
             typeOfBusiness: "limited-company",
             correspondenceEmail: "john.doe@example.com",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -53,8 +53,8 @@ describe("CheckYourAnswersService", () => {
             businessName: "John Doe",
             name: "John A. Doe",
             countryOfResidence: "united-kingdom",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -67,8 +67,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -81,8 +81,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -95,8 +95,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -109,8 +109,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -123,8 +123,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Greater Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -137,8 +137,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>united-kingdom<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -151,8 +151,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>M1 2AB"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>"
         });
     });
 
@@ -165,8 +165,8 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom",
-            serviceAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom"
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p>",
+            serviceAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p>"
         });
     });
 
@@ -179,7 +179,7 @@ describe("CheckYourAnswersService", () => {
             typeOfBusiness: "unincorporated-entity",
             correspondenceEmail: "john.doe@example.com",
             businessName: "John Doe",
-            registeredOfficeAddress: "Another Building 456 Another Street<br>Floor 2<br>Manchester<br>Greater Manchester<br>united-kingdom<br>M1 2AB",
+            registeredOfficeAddress: "Another Building 456 Another Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Floor 2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Greater Manchester</p><p class=\"govuk-body govuk-!-margin-bottom-0\">united-kingdom</p><p class=\"govuk-body govuk-!-margin-bottom-0\">M1 2AB</p>",
             serviceAddress: ""
         });
     });

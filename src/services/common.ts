@@ -69,19 +69,19 @@ export const formatAddressIntoHTMLString = (address: Address | undefined): strin
         addressString += (addressString ? " " : "") + address.addressLine1;
     }
     if (address.addressLine2) {
-        addressString += "<br>" + address.addressLine2;
+        addressString += `<p class="govuk-body govuk-!-margin-bottom-0">${address.addressLine2}</p>`;
     }
     if (address.locality) {
-        addressString += "<br>" + address.locality;
+        addressString += `<p class="govuk-body govuk-!-margin-bottom-0">${address.locality}</p>`;
     }
     if (address.region) {
-        addressString += "<br>" + address.region;
+        addressString += `<p class="govuk-body govuk-!-margin-bottom-0">${address.region}</p>`;
     }
     if (address.country) {
-        addressString += "<br>" + address.country;
+        addressString += `<p class="govuk-body govuk-!-margin-bottom-0">${address.country}</p>`;
     }
     if (address.postalCode) {
-        addressString += "<br>" + address.postalCode;
+        addressString += `<p class="govuk-body govuk-!-margin-bottom-0">${address.postalCode}</p>`;
     }
     return addressString;
 };
