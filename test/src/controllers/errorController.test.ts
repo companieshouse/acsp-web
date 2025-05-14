@@ -20,7 +20,7 @@ describe("httpErrorHandler", () => {
         jest.clearAllMocks();
     });
 
-    it("should detect a 401 httpError and redirect to checked save application page", async () => {
+    it("should detect a 401 httpError and redirect to " + BASE_URL + CHECK_SAVED_APPLICATION, () => {
         const url = addLangToUrl(BASE_URL + "/originalUrl", "en");
         // Given
         request.originalUrl = url;
@@ -37,7 +37,7 @@ describe("httpErrorHandler", () => {
         expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${BASE_URL}${CHECK_SAVED_APPLICATION}`);
     });
 
-    it("should detect a 401 httpError and redirect to checked save application page", async () => {
+    it("should detect a 401 httpError and redirect to " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         const url = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + "/originalUrl", "en");
         // Given
         request.originalUrl = url;
@@ -54,7 +54,7 @@ describe("httpErrorHandler", () => {
         expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${UPDATE_ACSP_DETAILS_BASE_URL}`);
     });
 
-    it("should detect a 401 httpError and redirect to checked save application page", async () => {
+    it("should detect a 401 httpError and redirect to " + CLOSE_ACSP_BASE_URL, () => {
         const url = addLangToUrl(CLOSE_ACSP_BASE_URL + "/originalUrl", "en");
         // Given
         request.originalUrl = url;
@@ -71,7 +71,7 @@ describe("httpErrorHandler", () => {
         expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${CLOSE_ACSP_BASE_URL}`);
     });
 
-    it("should ignore errors that are not 401 and pass them to next", async () => {
+    it("should ignore errors that are not 401 and pass them to next", () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
@@ -90,7 +90,7 @@ describe("csrfErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    it("should detect a csrfError and render an error template", async () => {
+    it("should detect a csrfError and render an error template", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
         request.originalUrl = url;
@@ -105,7 +105,7 @@ describe("csrfErrorHandler", () => {
         expect(response.render).toHaveBeenCalled();
         expect(response.status).toHaveBeenCalledWith(403);
     });
-    it("should ignore errors that are not of type CsrfError and pass then to next", async () => {
+    it("should ignore errors that are not of type CsrfError and pass then to next", () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
@@ -125,7 +125,7 @@ describe("unhandledErrorHandler", () => {
         jest.clearAllMocks();
     });
 
-    it("should log the error and render the error page", async () => {
+    it("should log the error and render the error page", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
         request.originalUrl = url;
