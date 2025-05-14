@@ -20,7 +20,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err: any, req: Request, re
 
         logger.errorRequest(
             req,
-            `A ${err.httpStatusCode} error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-directing to ${redirectUrl}`
+            `A 401 error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-directing to ${redirectUrl}`
         );
         res.redirect(`${CHS_URL}/signin?return_to=${redirectUrl}`);
     } else {
