@@ -173,4 +173,36 @@ describe("CheckYourAnswersService", () => {
             correspondenceEmail: undefined
         });
     });
+
+    it("should handle all address fields as undefined with just addressLineOne defined", () => {
+        const mockCompany = {
+            companyName: "Test Ltd",
+            companyNumber: "12345678",
+            registeredOfficeAddress: {
+                addressLineOne: "1 Main St",
+                addressLineTwo: undefined,
+                locality: undefined,
+                region: undefined,
+                postalCode: undefined,
+                country: undefined
+            }
+        };
+
+        const mockSession = {
+            getExtraData: (key: string) => {
+                if (key === COMPANY_DETAILS) return mockCompany;
+                return undefined;
+            }
+        };
+
+        const req: any = { session: mockSession };
+        const acspData = { typeOfBusiness: "LC" };
+        const i18n = {};
+
+        const answers = getAnswers(req, acspData as any, i18n);
+
+        expect(answers.businessName).toBe("Test Ltd");
+        expect(answers.companyNumber).toBe("12345678");
+        expect(answers.businessAddress).toBe("1 Main St");
+    });
 });

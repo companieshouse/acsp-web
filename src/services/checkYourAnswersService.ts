@@ -140,19 +140,19 @@ const isThisYourCompanyAnswers = (req: Request, answers: Answers): Answers => {
     let businessAddressAnswer = company.registeredOfficeAddress?.addressLineOne;
 
     if (company.registeredOfficeAddress?.addressLineTwo) {
-        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress?.addressLineTwo + "</p>";
+        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress.addressLineTwo + "</p>";
     }
     if (company.registeredOfficeAddress?.locality) {
-        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress?.locality + "</p>";
+        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress.locality + "</p>";
     }
     if (company.registeredOfficeAddress?.region) {
-        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress?.region + "</p>";
+        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress.region + "</p>";
     }
     if (company.registeredOfficeAddress?.postalCode) {
-        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress?.postalCode + "</p>";
+        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress.postalCode + "</p>";
     }
     if (company.registeredOfficeAddress?.country) {
-        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress?.country + "</p>";
+        businessAddressAnswer += "<p class='govuk-body govuk-!-margin-bottom-0'>" + company.registeredOfficeAddress.country + "</p>";
     }
 
     answers.businessAddress = businessAddressAnswer;
