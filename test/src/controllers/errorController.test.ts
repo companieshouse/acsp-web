@@ -7,7 +7,7 @@ import { mockResponse } from "../../mocks/response.mock";
 import { NextFunction } from "express";
 import { addLangToUrl } from "../../../src/utils/localise";
 import { CHS_URL } from "../../../src/utils/properties";
-import { BASE_URL, CHECK_SAVED_APPLICATION } from "../../../src/types/pageURL";
+import { BASE_URL, CHECK_SAVED_APPLICATION, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../src/types/pageURL";
 
 logger.error = jest.fn();
 const request = mockRequest();
@@ -20,8 +20,8 @@ describe("httpErrorHandler", () => {
         jest.clearAllMocks();
     });
 
-    it("should detect a 401 httpError and redirect to checked save application page", async () => {
-        const url = addLangToUrl("/originalUrl", "en");
+    it("should detect a 401 httpError and redirect to " + BASE_URL + CHECK_SAVED_APPLICATION, () => {
+        const url = addLangToUrl(BASE_URL + "/originalUrl", "en");
         // Given
         request.originalUrl = url;
         request.method = "GET";
@@ -37,7 +37,41 @@ describe("httpErrorHandler", () => {
         expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${BASE_URL}${CHECK_SAVED_APPLICATION}`);
     });
 
-    it("should ignore errors that are not 401 and pass them to next", async () => {
+    it("should detect a 401 httpError and redirect to " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
+        const url = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + "/originalUrl", "en");
+        // Given
+        request.originalUrl = url;
+        request.method = "GET";
+        request.query = {
+            lang: "en"
+        };
+
+        const err = createHttpError(401);
+        err.httpStatusCode = 401;
+        // When
+        httpErrorHandler(err, request, response, mockNext);
+        // Then
+        expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${UPDATE_ACSP_DETAILS_BASE_URL}`);
+    });
+
+    it("should detect a 401 httpError and redirect to " + CLOSE_ACSP_BASE_URL, () => {
+        const url = addLangToUrl(CLOSE_ACSP_BASE_URL + "/originalUrl", "en");
+        // Given
+        request.originalUrl = url;
+        request.method = "GET";
+        request.query = {
+            lang: "en"
+        };
+
+        const err = createHttpError(401);
+        err.httpStatusCode = 401;
+        // When
+        httpErrorHandler(err, request, response, mockNext);
+        // Then
+        expect(response.redirect).toHaveBeenCalledWith(`${CHS_URL}/signin?return_to=${CLOSE_ACSP_BASE_URL}`);
+    });
+
+    it("should ignore errors that are not 401 and pass them to next", () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
@@ -56,7 +90,7 @@ describe("csrfErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    it("should detect a csrfError and render an error template", async () => {
+    it("should detect a csrfError and render an error template", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
         request.originalUrl = url;
@@ -71,7 +105,7 @@ describe("csrfErrorHandler", () => {
         expect(response.render).toHaveBeenCalled();
         expect(response.status).toHaveBeenCalledWith(403);
     });
-    it("should ignore errors that are not of type CsrfError and pass then to next", async () => {
+    it("should ignore errors that are not of type CsrfError and pass then to next", () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
@@ -91,7 +125,7 @@ describe("unhandledErrorHandler", () => {
         jest.clearAllMocks();
     });
 
-    it("should log the error and render the error page", async () => {
+    it("should log the error and render the error page", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
         request.originalUrl = url;
