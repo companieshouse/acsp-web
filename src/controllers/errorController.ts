@@ -4,15 +4,25 @@ import { ErrorService } from "../services/errorService";
 import { getLocalesService, selectLang } from "../utils/localise";
 import logger from "../utils/logger";
 import { CHS_URL } from "../utils/properties";
-import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
+import { BASE_URL, CHECK_SAVED_APPLICATION, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../types/pageURL";
 
 export const httpErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err.httpStatusCode === 401) {
+
+        let redirectUrl;
+        if (req.originalUrl.includes(UPDATE_ACSP_DETAILS_BASE_URL)) {
+            redirectUrl = UPDATE_ACSP_DETAILS_BASE_URL;
+        } else if (req.originalUrl.includes(CLOSE_ACSP_BASE_URL)) {
+            redirectUrl = CLOSE_ACSP_BASE_URL;
+        } else {
+            redirectUrl = BASE_URL + CHECK_SAVED_APPLICATION;
+        }
+
         logger.errorRequest(
             req,
-            `A ${err.httpStatusCode} error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-directing to ${BASE_URL}${CHECK_SAVED_APPLICATION}`
+            `A ${err.httpStatusCode} error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-directing to ${redirectUrl}`
         );
-        res.redirect(`${CHS_URL}/signin?return_to=${BASE_URL}${CHECK_SAVED_APPLICATION}`);
+        res.redirect(`${CHS_URL}/signin?return_to=${redirectUrl}`);
     } else {
         next(err);
     }
