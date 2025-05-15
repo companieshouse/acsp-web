@@ -1,7 +1,7 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ADDRESS_LIST } from "../../../common/__utils/constants";
 import * as config from "../../../config";
 import {
     UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_BUSINESS_ADDRESS_CONFIRM, UPDATE_BUSINESS_ADDRESS_LIST,
@@ -11,6 +11,8 @@ import {
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import { Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
+import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { isLimitedBusinessType } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -19,12 +21,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
         const addressList = session.getExtraData(ADDRESS_LIST);
+        const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LIST, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             previousPage,
+            isLimited: isLimitedBusinessType(acspDetails.type),
             cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
             addresses: addressList,
             businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang)
@@ -41,6 +45,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
+        const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const errorList = validationResult(req);
         const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
 
@@ -51,6 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 currentUrl,
                 previousPage,
                 addresses: addressList,
+                isLimited: isLimitedBusinessType(acspDetails.type),
                 businessAddressManualLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL, lang),
                 cancelUpdateLink: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),
                 pageProperties: pageProperties

@@ -17,7 +17,7 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_LIST, () => {
         expect(res.status).toBe(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
-        expect(res.text).toContain("Choose an address");
+        expect(res.text).toContain("Select the business address");
     });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
