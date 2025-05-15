@@ -83,3 +83,4 @@ const BASE_CLOSE_ACSP_URL = `${BASE_VIEWS_URL}/close-acsp`;
 export const CLOSE_ACSP_HOME = `${BASE_CLOSE_ACSP_URL}/index/home`;
 export const CLOSE_WHAT_WILL_HAPPEN = `${BASE_CLOSE_ACSP_URL}/what-will-happen/what-will-happen`;
 export const CLOSE_CONFIRM_YOU_WANT_TO_CLOSE = `${BASE_CLOSE_ACSP_URL}/confirm-you-want-to-close/confirm-you-want-to-close`;
+export const CLOSE_CONFIRMATION_ACSP_CLOSED = `${BASE_CLOSE_ACSP_URL}/confirmation-authorised-agent-closed/confirmation-authorised-agent-closed`;

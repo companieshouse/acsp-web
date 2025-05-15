@@ -1,0 +1,15 @@
+{
+    "authorisedAgentAccountClosedTitle": "Authorised agent account closed",
+    "yourReference": "Your reference:",
+    "weHaveSentAConfirmationEmail": "We have sent a confirmation email to ",
+    "and": " and ",
+    "wellPublishTheInformation": "We'll publish the information to show {BUSINESS_NAME} is no longer an authorised agent. We'll publish the:",
+    "authorisedAgentNameLi": "authorised agent's name",
+    "statusLi": "status",
+    "dateItStoppedLi": "date it stopped being an authorised agent",
+    "ifYouAlsoNeedToCloseHeading": "If you also need to close the business",
+    "closingAnAutorisedAgentAccount": "Closing an authorised agent account does not close the business. You still need to follow the necessary steps to do this. For example, you may need to apply to ",
+    "strikeOffYourLimitedCompany": "strike off your limited company ({OPEN_IN_NEW_TAB})",
+    "or": ", or ",
+    "tellHmrcIfYouveStoppedTrading": "tell HMRC if you’ve stopped trading as a sole trader ({OPEN_IN_NEW_TAB})"
+}

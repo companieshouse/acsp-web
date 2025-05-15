@@ -64,6 +64,10 @@ export const IDENTITY_VERIFICATION = "identity-verification";
 
 export const VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/direct/has-identity-been-verified`;
 
+export const STRIKE_OFF_YOUR_COMPANY = "https://www.gov.uk/strike-off-your-company-from-companies-register/close-down-your-company";
+
+export const TELL_HMRC_YOUVE_STOPPED_TRADING = "https://www.gov.uk/stop-being-self-employed";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 

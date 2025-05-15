@@ -1,0 +1,15 @@
+{
+    "authorisedAgentAccountClosedTitle": "Mae cyfrif asiant awdurdodedig wedi cau",
+    "yourReference": "Eich cyfeirnod:",
+    "weHaveSentAConfirmationEmail": "Rydym wedi anfon e-bost cadarnhau at ",
+    "and": " a ",
+    "wellPublishTheInformation": "Byddwn yn cyhoeddi gwybodaeth i ddangos nad yw {BUSINESS_NAME} bellach yn asiant awdurdodedig. Byddwn yn cyhoeddi'r canlynol:",
+    "authorisedAgentNameLi": "enw'r asiant awdurdodedig",
+    "statusLi": "statws",
+    "dateItStoppedLi": "y dyddiad yr oedd wedi stopio fod yn asiant awdurdodedig",
+    "ifYouAlsoNeedToCloseHeading": "Os oes angen i chi gau'r busnes hefyd",
+    "closingAnAutorisedAgentAccount": "Nid yw cau cyfrif asiant awdurdodedig yn cau'r busnes. Mae angen i chi ddilyn y camau angenrheidiol i wneud hyn o hyd. Er enghraifft, efallai y bydd angen i chi wneud cais i ",
+    "strikeOffYourLimitedCompany": "ddileu eich cwmni cyfyngedig ({OPEN_IN_NEW_TAB})",
+    "or": ", neu ",
+    "tellHmrcIfYouveStoppedTrading": "ddweud wrth CThEF os ydych wedi stopio masnachu fel unig fasnachwr ({OPEN_IN_NEW_TAB})"
+}
