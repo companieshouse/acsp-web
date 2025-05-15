@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
-import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRMATION_ACSP_CLOSED } from "../../../types/pageURL";
+import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRMATION_ACSP_CLOSED, STRIKE_OFF_YOUR_COMPANY, TELL_HMRC_YOUVE_STOPPED_TRADING } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
@@ -20,8 +20,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             correspondenceEmail: acspDetails.email,
             businessName: acspDetails.name,
             transactionId: "TRANSACTION_ID",
-            strikeOffYourLtdCompanyLink: "https://www.gov.uk/strike-off-your-company-from-companies-register/close-down-your-company",
-            tellHmrcIfYouveStoppedTradingLink: "https://www.gov.uk/stop-being-self-employed"
+            strikeOffYourLtdCompanyLink: STRIKE_OFF_YOUR_COMPANY,
+            tellHmrcIfYouveStoppedTradingLink: TELL_HMRC_YOUVE_STOPPED_TRADING
         });
     } catch (err) {
         next(err);
