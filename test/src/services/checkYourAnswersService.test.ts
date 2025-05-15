@@ -31,10 +31,10 @@ describe("CheckYourAnswersService", () => {
         const limitedAnswers = getAnswers(req, mockLimitedAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
         expect(limitedAnswers).toStrictEqual({
-            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
+            businessAddress: "Address 1<p class='govuk-body govuk-!-margin-bottom-0'>Address 2</p><p class='govuk-body govuk-!-margin-bottom-0'>locality</p><p class='govuk-body govuk-!-margin-bottom-0'>region</p><p class='govuk-body govuk-!-margin-bottom-0'>AB1 2CD</p><p class='govuk-body govuk-!-margin-bottom-0'>country</p>",
             businessName: "Test Company",
             companyNumber: "12345678",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am a director",
             typeOfBusiness: "Limited company",
             workSector: "Auditors, insolvency practitioners, external accountants and tax advisers",
@@ -48,7 +48,7 @@ describe("CheckYourAnswersService", () => {
         const limitedAnswers = getAnswers(req, mockLLPAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
         expect(limitedAnswers).toStrictEqual({
-            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
+            businessAddress: "Address 1<p class='govuk-body govuk-!-margin-bottom-0'>Address 2</p><p class='govuk-body govuk-!-margin-bottom-0'>locality</p><p class='govuk-body govuk-!-margin-bottom-0'>region</p><p class='govuk-body govuk-!-margin-bottom-0'>AB1 2CD</p><p class='govuk-body govuk-!-margin-bottom-0'>country</p>",
             correspondenceAddress: "",
             businessName: "Test Company",
             companyNumber: "12345678",
@@ -64,7 +64,7 @@ describe("CheckYourAnswersService", () => {
 
         expect(soleTraderAnswers).toStrictEqual({
             businessName: "Test Business 123",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am the sole trader",
             typeOfBusiness: "Sole trader",
             workSector: "Independent legal professionals",
@@ -115,8 +115,8 @@ describe("CheckYourAnswersService", () => {
 
         expect(unincorporatedAnswers).toStrictEqual({
             businessName: "Test Business 123",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
-            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
+            businessAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am a member",
             typeOfBusiness: "Partnership (not registered with Companies House)",
             workSector: "Trust or company service providers",
@@ -130,8 +130,8 @@ describe("CheckYourAnswersService", () => {
 
         expect(unincorporatedAnswers).toStrictEqual({
             businessName: "Test Business 123",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
-            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
+            businessAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am a member",
             typeOfBusiness: "Unincorporated entity",
             workSector: "Credit institutions",
@@ -147,10 +147,10 @@ describe("CheckYourAnswersService", () => {
         const limitedAnswers = getAnswers(req, mockLimitedAcspData, locales.i18nCh.resolveNamespacesKeys(req.query.lang));
 
         expect(limitedAnswers).toStrictEqual({
-            businessAddress: "Address 1<br>Address 2<br>locality<br>region<br>AB1 2CD<br>country",
+            businessAddress: "Address 1<p class='govuk-body govuk-!-margin-bottom-0'>Address 2</p><p class='govuk-body govuk-!-margin-bottom-0'>locality</p><p class='govuk-body govuk-!-margin-bottom-0'>region</p><p class='govuk-body govuk-!-margin-bottom-0'>AB1 2CD</p><p class='govuk-body govuk-!-margin-bottom-0'>country</p>",
             businessName: "Test Company",
             companyNumber: "12345678",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am a director",
             typeOfBusiness: "Limited company",
             workSector: "Auditors, insolvency practitioners, external accountants and tax advisers",
@@ -163,8 +163,8 @@ describe("CheckYourAnswersService", () => {
 
         expect(unincorporatedAnswers).toStrictEqual({
             businessName: "Test Business 123",
-            correspondenceAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
-            businessAddress: "premises addressLine1<br>addressLine2<br>locality<br>region<br>postalcode",
+            correspondenceAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
+            businessAddress: "premises addressLine1<p class=\"govuk-body govuk-!-margin-bottom-0\">addressLine2</p><p class=\"govuk-body govuk-!-margin-bottom-0\">locality</p><p class=\"govuk-body govuk-!-margin-bottom-0\">region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">postalcode</p>",
             roleType: "I am a general partner",
             typeOfBusiness: "Limited partnership (LP)",
             workSector: "High value dealers",
@@ -172,5 +172,37 @@ describe("CheckYourAnswersService", () => {
             name: "Test User",
             correspondenceEmail: undefined
         });
+    });
+
+    it("should handle all address fields as undefined with just addressLineOne defined", () => {
+        const mockCompany = {
+            companyName: "Test Ltd",
+            companyNumber: "12345678",
+            registeredOfficeAddress: {
+                addressLineOne: "1 Main St",
+                addressLineTwo: undefined,
+                locality: undefined,
+                region: undefined,
+                postalCode: undefined,
+                country: undefined
+            }
+        };
+
+        const mockSession = {
+            getExtraData: (key: string) => {
+                if (key === COMPANY_DETAILS) return mockCompany;
+                return undefined;
+            }
+        };
+
+        const req: any = { session: mockSession };
+        const acspData = { typeOfBusiness: "LC" };
+        const i18n = {};
+
+        const answers = getAnswers(req, acspData as any, i18n);
+
+        expect(answers.businessName).toBe("Test Ltd");
+        expect(answers.companyNumber).toBe("12345678");
+        expect(answers.businessAddress).toBe("1 Main St");
     });
 });

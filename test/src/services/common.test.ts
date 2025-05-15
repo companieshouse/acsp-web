@@ -88,7 +88,7 @@ describe("formatAddressIntoHTMLString returns a formatted address string", () =>
             country: "Test Country",
             postalCode: "AB1 2CD"
         };
-        const expectedString = "11 Test Street<br>Test Area<br>Test City<br>Test Region<br>Test Country<br>AB1 2CD";
+        const expectedString = "11 Test Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Test Area</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Test City</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Test Region</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Test Country</p><p class=\"govuk-body govuk-!-margin-bottom-0\">AB1 2CD</p>";
         expect(formatAddressIntoHTMLString(address)).toBe(expectedString);
     });
 
@@ -98,7 +98,7 @@ describe("formatAddressIntoHTMLString returns a formatted address string", () =>
             locality: "Test City",
             country: "Test Country"
         };
-        const expectedString = "Test Street<br>Test City<br>Test Country";
+        const expectedString = "Test Street<p class=\"govuk-body govuk-!-margin-bottom-0\">Test City</p><p class=\"govuk-body govuk-!-margin-bottom-0\">Test Country</p>";
         expect(formatAddressIntoHTMLString(address)).toBe(expectedString);
     });
 
