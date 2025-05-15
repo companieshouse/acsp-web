@@ -17,17 +17,18 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const session = req.session as Session;
+        const session: Session = req.session as any as Session;
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
+        const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
 
-        const newAMLBody = session.getExtraData(NEW_AML_BODY) as AmlSupervisoryBody;
-        const updateBodyIndex = session.getExtraData(ADD_AML_BODY_UPDATE) as number;
-        const acspUpdatedFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED) as AcspFullProfile;
-
-        const membershipId = newAMLBody.membershipId ||
-            (updateBodyIndex !== undefined ? acspUpdatedFullProfile.amlDetails[updateBodyIndex]?.membershipDetails : undefined);
-
-        const payload = membershipId ? { membershipNumber_1: membershipId } : undefined;
+        let payload;
+        if (newAMLBody && newAMLBody.membershipId) {
+            payload = { membershipNumber_1: newAMLBody.membershipId };
+        } else if (updateBodyIndex !== undefined) {
+            payload = { membershipNumber_1: acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails };
+        }
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
@@ -49,11 +50,14 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER;
-        const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
+        const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY) || {};
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
         const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-
+        if (!newAMLBody.amlSupervisoryBody && updateBodyIndex && updateBodyIndex > -1) {
+            newAMLBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
+            newAMLBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
+        }
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;

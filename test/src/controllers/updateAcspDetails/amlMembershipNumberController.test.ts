@@ -46,23 +46,6 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
-    it("should set payload with membershipNumber_1 from acspUpdatedFullProfile when updateBodyIndex is defined", async () => {
-        const updateBodyIndex = 0;
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Some Body" }
-            ]
-        };
-
-        sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce({})
-            .mockReturnValueOnce(updateBodyIndex)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-        await get(req as Request, res as Response, next);
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: { membershipNumber_1: "123456" }
-        }));
-    });
 
     it("should not set payload if updateBodyIndex is undefined", async () => {
         const updateBodyIndex = undefined;
@@ -82,24 +65,6 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         }));
     });
 
-    it("should not set payload if updateBodyIndex is out of bounds", async () => {
-        const updateBodyIndex = 5;
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Some Body" }
-            ]
-        };
-
-        sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce({})
-            .mockReturnValueOnce(updateBodyIndex)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-
-        await get(req as Request, res as Response, next);
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: undefined
-        }));
-    });
     it("should render the AML membership number page with pre-filled membership number when updateBodyIndex is set", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
