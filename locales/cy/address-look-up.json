@@ -12,6 +12,8 @@
     "correspondenceLookUpAddressManuallyBtn": "Cofnodwch y cyfeiriad â llaw",
     "correspondenceLookUpAddressListTitle": "Dewiswch y cyfeiriad gohebiaeth",
     "businessLookUpAddressListTitle": "Dewiswch gyfeiriad",
+    "businessLookUpAddressListTitleUpdate": "Dewiswch y cyfeiriad busnes",
+    "registeredOfficeLookUpAddressListTitle": "Dewiswch gyfeiriad y swyddfa gofrestredig",
 
     "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid y cyfeiriad gohebiaeth",
     "error-businessLookUpAddressNoPostCodeUpdate" : "Cofnodwch god post y DU neu ganslo'r diweddariad os nad oes angen i chi newid cyfeiriad y busnes",
@@ -19,7 +21,7 @@
     "error-correspondenceLookUpAddressInvalidAddressPostcode" : "Ni allwn ddod o hyd i'r cod post hwn. Rhowch un gwahanol, neu rhowch y cyfeiriad â llaw",
     "error-correspondenceLookUpAddressWithoutCountry" : "Ni allwn ddod o hyd i'r cyfeiriad llawn o'r cod post. Cofnodwch y cyfeiriad â llaw",
     "error-correspondenceLookUpAddresListNoRadioBtnSelected" : "Dewiswch y cyfeiriad gohebiaeth",
-    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Dewiswch y cyfeiriad gohebiaeth neu ganslo'r diweddariad os nad oes angen i chi ei newids",
+    "error-correspondenceLookUpAddresListNoRadioBtnSelectedUpdate" : "Dewiswch y cyfeiriad gohebiaeth neu ganslo'r diweddariad os nad oes angen i chi ei newid",
     "error-businessLookUpAddresListNoRadioBtnSelected": "Dewiswch y cyfeiriad busnes",
     "error-businessLookUpAddresListNoRadioBtnSelectedUpdate": "Dewiswch y cyfeiriad busnes neu ganslo'r diweddariad os nad oes angen i chi ei newid",
     "error-registeredOfficeLookUpAddresListNoRadioBtnSelectedUpdate": "Dewiswch gyfeiriad y swyddfa gofrestredig neu ganslo'r diweddariad os nad oes angen i chi ei newid"

@@ -3,7 +3,16 @@
 {% extends "layouts/default.njk" %}
 
 {% set errors = pageProperties.errors %}
-{% set title = i18n.businessLookUpAddressListTitle %}
+
+{% if reqType !== "updateAcsp" %}
+    {% set pageTitle = i18n.businessLookUpAddressListTitle %}
+{% elif isLimited == true %}
+    {% set pageTitle = i18n.registeredOfficeLookUpAddressListTitle %}
+{% else %}
+     {% set pageTitle = i18n.businessLookUpAddressListTitleUpdate %}   
+{% endif %}
+
+{% set title = pageTitle %}
 {% block main_content %}
 {# Prepare address items #}
 {% set ITEMS = [] %}
@@ -31,7 +40,7 @@
             name: "businessAddress",
             fieldset: {
                 legend: {
-                    text: i18n.businessLookUpAddressListTitle,
+                    text: pageTitle,
                     isPageHeading: true,
                     classes: "govuk-fieldset__legend--l"
                 }

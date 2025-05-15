@@ -12,7 +12,9 @@
     "correspondenceLookUpAddressManuallyBtn": "Enter address manually",
     "correspondenceLookUpAddressListTitle": "Select the correspondence address",
     "businessLookUpAddressListTitle": "Choose an address",
-
+    "businessLookUpAddressListTitleUpdate": "Select the business address",
+    "registeredOfficeLookUpAddressListTitle": "Select the registered office address",
+    
     "error-correspondenceLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the correspondence address",
     "error-businessLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the business address",
     "error-registeredOfficeLookUpAddressNoPostCodeUpdate" : "Enter a UK postcode or cancel the update if you do not need to change the registered office address",
