@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Session } from "@companieshouse/node-session-handler";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import mocks from "../../../mocks/all_middleware_mock";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
@@ -8,7 +9,7 @@ import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE
 import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
 import * as localise from "../../../../src/utils/localise";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { get } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
+import { get, post } from "../../../../src/controllers/features/update-acsp/amlMembershipNumberController";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 
@@ -46,24 +47,40 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.status).toBe(200);
         expect(res.text).toContain("What is the Anti-Money Laundering (AML) membership number?");
     });
-    it("should set payload with membershipNumber_1 from acspUpdatedFullProfile when updateBodyIndex is defined", async () => {
-        const updateBodyIndex = 0;
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Some Body" }
-            ]
-        };
-
+    it("should set payload with membershipNumber_1 from newAMLBody.membershipId if newAMLBody is present", async () => {
+        const newAMLBody = { membershipId: "123456" };
         sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce({})
-            .mockReturnValueOnce(updateBodyIndex)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return newAMLBody;
+            });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
             payload: { membershipNumber_1: "123456" }
         }));
     });
 
+    it("should not set payload if newAMLBody is not present", async () => {
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return undefined;
+            });
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: undefined
+        }));
+    });
+
+    it("should not set payload if newAMLBody.membershipId is not present", async () => {
+        const newAMLBody = { amlSupervisoryBody: "Some Body" };
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return newAMLBody;
+            });
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            payload: undefined
+        }));
+    });
     it("should not set payload if updateBodyIndex is undefined", async () => {
         const updateBodyIndex = undefined;
         const acspUpdatedFullProfile = {
@@ -82,24 +99,6 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         }));
     });
 
-    it("should not set payload if updateBodyIndex is out of bounds", async () => {
-        const updateBodyIndex = 5;
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Some Body" }
-            ]
-        };
-
-        sessionMock.getExtraData = jest.fn()
-            .mockReturnValueOnce({})
-            .mockReturnValueOnce(updateBodyIndex)
-            .mockReturnValueOnce(acspUpdatedFullProfile);
-
-        await get(req as Request, res as Response, next);
-        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
-            payload: undefined
-        }));
-    });
     it("should render the AML membership number page with pre-filled membership number when updateBodyIndex is set", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "Some Body" });
@@ -243,6 +242,32 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(ADD_AML_BODY_UPDATE, 1);
         session.setExtraData(NEW_AML_BODY, { amlSupervisoryBody: "hm-revenue-customs-hmrc" });
+        session.setExtraData(ACSP_DETAILS_UPDATED, {
+            amlDetails: [
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "123456"
+                },
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "789012"
+                }
+            ]
+        });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
+    });
+
+    it("should return status 400 for when ADD_AML_BODY_UPDATE is devined and  NEW_AML_BODY is {}", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ADD_AML_BODY_UPDATE, 1);
+        session.setExtraData(NEW_AML_BODY, {});
         session.setExtraData(ACSP_DETAILS_UPDATED, {
             amlDetails: [
                 {

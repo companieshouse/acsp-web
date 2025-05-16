@@ -185,7 +185,6 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         expect(acspUpdatedFullProfile.amlDetails[0].dateOfChange).toBe(newAMLBody.dateOfChange);
 
         expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, newAMLBody);
-        expect(session.deleteExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE);
         expect(session.deleteExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
         expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     });

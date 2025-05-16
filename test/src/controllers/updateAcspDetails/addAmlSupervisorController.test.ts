@@ -68,7 +68,69 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
+describe("addAmlSupervisorController - get", () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
 
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
+
+    it("should set amlBody to the supervisoryBody at updateBodyIndex when updateBodyIndex is defined", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A" },
+                { membershipDetails: "654321", supervisoryBody: "Body B" }
+            ]
+        };
+        const updateBodyIndex = 1;
+
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
+            });
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            amlBody: "Body B"
+        }));
+    });
+
+    it("should not set amlBody if updateBodyIndex is undefined", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A" },
+                { membershipDetails: "654321", supervisoryBody: "Body B" }
+            ]
+        };
+        const updateBodyIndex = undefined;
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
+            });
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
+            amlBody: ""
+        }));
+    });
+});
 describe("amlSupervisor", () => {
     let req: Partial<Request>;
     let res: Partial<Response>;

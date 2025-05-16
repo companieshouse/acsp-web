@@ -59,7 +59,7 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
         // Validate and clean up session data
         AmlMembershipNumberServiceInstance.validateUpdateBodyIndex(updateBodyIndex, acspUpdatedFullProfile, newAMLBody);
-        session.deleteExtraData(ADD_AML_BODY_UPDATE);
+
         session.deleteExtraData(NEW_AML_BODY);
     }
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);

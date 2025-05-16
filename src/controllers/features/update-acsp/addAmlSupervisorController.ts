@@ -15,6 +15,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session = req.session as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        const newAmlBodyData = session.getExtraData(NEW_AML_BODY);
         const amlUpdateIndex = req.query.amlindex;
         const amlUpdateBody = req.query.amlbody;
         let indexForTheUpdate = -1;
@@ -28,9 +30,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(ADD_AML_BODY_UPDATE, indexForTheUpdate);
         }
 
-        const newAmlBodyData = session.getExtraData(NEW_AML_BODY);
         if (newAmlBodyData) {
             amlBody = (newAmlBodyData as { amlSupervisoryBody: string }).amlSupervisoryBody;
+        } else if (updateBodyIndex !== undefined) {
+            amlBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
         }
 
         const lang = selectLang(req.query.lang);
