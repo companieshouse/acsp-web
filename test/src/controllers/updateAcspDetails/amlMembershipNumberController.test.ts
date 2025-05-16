@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { Session } from "@companieshouse/node-session-handler";
+import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import mocks from "../../../mocks/all_middleware_mock";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import supertest from "supertest";
@@ -320,6 +321,30 @@ describe("amlMembershipNumberController - post", () => {
         } as Partial<Response>;
 
         next = jest.fn();
+    });
+
+    it("should set newAMLBody.amlSupervisoryBody and newAMLBody.membershipId when updateBodyIndex is valid", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A" },
+                { membershipDetails: "654321", supervisoryBody: "Body B" }
+            ]
+        };
+        const updateBodyIndex = 1;
+        const newAMLBody: AmlSupervisoryBody = {};
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return newAMLBody;
+                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            });
+        await post(req as Request, res as Response, next);
+        if (updateBodyIndex !== undefined && acspUpdatedFullProfile.amlDetails[updateBodyIndex]) {
+            newAMLBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
+            newAMLBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
+        }
+        expect(newAMLBody.amlSupervisoryBody).toBe("Body B");
+        expect(newAMLBody.membershipId).toBe("654321");
     });
 
     it("should not set newAMLBody.amlSupervisoryBody and newAMLBody.membershipId when updateBodyIndex is undefined", async () => {
