@@ -10,7 +10,7 @@
   {# Remove back button on this page by replacing it with nothing #}
 {% endblock %}
 
-{% if loginEmail !== correspondenceEmail %}
+{% if showBothEmails %}
   {% set sentEmailToBodyText =
     "<p class='govuk-body'>"+i18n.weHaveSentAConfirmationEmail+"<strong>"+loginEmail+"</strong>"+i18n.and+"<strong>"+correspondenceEmail+"</strong>.</p>"
   %}
