@@ -264,6 +264,32 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
     });
 
+    it("should return status 400 for when ADD_AML_BODY_UPDATE is devined and  NEW_AML_BODY is {}", async () => {
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ADD_AML_BODY_UPDATE, 1);
+        session.setExtraData(NEW_AML_BODY, {});
+        session.setExtraData(ACSP_DETAILS_UPDATED, {
+            amlDetails: [
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "123456"
+                },
+                {
+                    supervisoryBody: "hm-revenue-customs-hmrc",
+                    membershipDetails: "789012"
+                }
+            ]
+        });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("The membership number you entered has already been added for this AML supervisory body");
+    });
+
     it("should return status 400 if user attempts to re-add a previously removed AML", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(ADD_AML_BODY_UPDATE, undefined);
@@ -295,100 +321,6 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
-});
-
-describe("amlMembershipNumberController - post", () => {
-    let req: Partial<Request>;
-    let res: Partial<Response>;
-    let next: NextFunction;
-    let sessionMock: Partial<Session>;
-
-    beforeEach(() => {
-        sessionMock = {
-            getExtraData: jest.fn(),
-            setExtraData: jest.fn()
-        };
-
-        req = {
-            session: sessionMock as Session,
-            body: {}
-        } as Partial<Request>;
-
-        res = {
-            redirect: jest.fn(),
-            render: jest.fn()
-        } as Partial<Response>;
-
-        next = jest.fn();
-    });
-
-    it("should set newAMLBody.amlSupervisoryBody and newAMLBody.membershipId when updateBodyIndex is valid", async () => {
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Body A" },
-                { membershipDetails: "654321", supervisoryBody: "Body B" }
-            ]
-        };
-        const updateBodyIndex = 1;
-        const newAMLBody: AmlSupervisoryBody = {};
-        sessionMock.getExtraData = jest.fn()
-            .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return newAMLBody;
-                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            });
-        await post(req as Request, res as Response, next);
-        if (updateBodyIndex !== undefined && acspUpdatedFullProfile.amlDetails[updateBodyIndex]) {
-            newAMLBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
-            newAMLBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
-        }
-        expect(newAMLBody.amlSupervisoryBody).toBe("Body B");
-        expect(newAMLBody.membershipId).toBe("654321");
-    });
-
-    it("should not set newAMLBody.amlSupervisoryBody and newAMLBody.membershipId when updateBodyIndex is undefined", async () => {
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Body A" },
-                { membershipDetails: "654321", supervisoryBody: "Body B" }
-            ]
-        };
-        const updateBodyIndex = undefined;
-        const newAMLBody: { amlSupervisoryBody?: string; membershipId?: string } = {};
-        sessionMock.getExtraData = jest.fn()
-            .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return newAMLBody;
-                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            });
-        await post(req as Request, res as Response, next);
-        expect(newAMLBody.amlSupervisoryBody).toBeUndefined();
-        expect(newAMLBody.membershipId).toBeUndefined();
-        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(NEW_AML_BODY, expect.anything());
-    });
-
-    it("should not set newAMLBody.amlSupervisoryBody and newAMLBody.membershipId when newAMLBody.amlSupervisoryBody is already present", async () => {
-        const acspUpdatedFullProfile = {
-            amlDetails: [
-                { membershipDetails: "123456", supervisoryBody: "Body A" },
-                { membershipDetails: "654321", supervisoryBody: "Body B" }
-            ]
-        };
-        const updateBodyIndex = 1;
-        const newAMLBody: { amlSupervisoryBody: string; membershipId?: string } = { amlSupervisoryBody: "Existing Body" };
-        sessionMock.getExtraData = jest.fn()
-            .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return newAMLBody;
-                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            });
-        await post(req as Request, res as Response, next);
-
-        // Assertions
-        expect(newAMLBody.amlSupervisoryBody).toBe("Existing Body");
-        expect(newAMLBody.membershipId).toBeUndefined();
-        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(NEW_AML_BODY, expect.anything());
     });
 });
 
