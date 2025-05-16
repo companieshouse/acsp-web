@@ -40,6 +40,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateFlag = !deepEquals(acspFullProfile, acspUpdatedFullProfile);
 
         const changeDates = {
             name: formatDateIntoReadableString(new Date(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME) || "")),
@@ -78,7 +79,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             addAML: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
             profileDetails: getProfileDetails(acspFullProfile),
             profileDetailsUpdated: getProfileDetails(acspUpdatedFullProfile),
-            updateFlag: deepEquals(acspFullProfile, acspUpdatedFullProfile),
+            updateFlag,
             acspFullProfile,
             acspUpdatedFullProfile,
             cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang),
