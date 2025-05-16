@@ -17,10 +17,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
+
         if (!session.getExtraData(NEW_AML_BODY) && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
             const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            session.setExtraData(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
+            const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+            if (updateBodyIndex === undefined) {
+                session.setExtraData(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
+            }
         }
+
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
         // Save the AML removal index and body to the session to send to remove aml url

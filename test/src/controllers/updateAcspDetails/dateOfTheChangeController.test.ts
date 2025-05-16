@@ -5,10 +5,10 @@ import app from "../../../../src/app";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
-
+import { get } from "../../../../src/controllers/features/update-acsp/dateOfTheChangeController";
 import { Request, Response, NextFunction } from "express";
-import { REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
-import { ACSP_DETAILS_UPDATE_IN_PROGRESS, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../../src/common/__utils/constants";
+import { AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, NEW_AML_BODY } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
@@ -20,12 +20,81 @@ const router = supertest(app);
 let customMockSessionMiddleware : any;
 
 describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
+    let req: Partial<Request>;
+    let res: Partial<Response>;
+    let next: NextFunction;
+    let sessionMock: Partial<Session>;
+
+    beforeEach(() => {
+        sessionMock = {
+            getExtraData: jest.fn(),
+            setExtraData: jest.fn()
+        };
+
+        req = {
+            session: sessionMock as Session,
+            query: {}
+        } as Partial<Request>;
+
+        res = {
+            render: jest.fn()
+        } as Partial<Response>;
+
+        next = jest.fn();
+    });
+    afterAll(() => {
+        jest.restoreAllMocks();
+    });
+
     it("should respond with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
         expect(res.text).toContain("When did this change?");
         expect(res.text).toContain("For example, 27 1 2022");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(200);
+    });
+    it("should set ADD_AML_BODY_UPDATE to the last index of amlDetails when NEW_AML_BODY is not present and previousPage includes AML_MEMBERSHIP_NUMBER", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A" },
+                { membershipDetails: "654321", supervisoryBody: "Body B" }
+            ]
+        };
+
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return undefined;
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === ADD_AML_BODY_UPDATE) return undefined;
+            });
+        const previousPage = AML_MEMBERSHIP_NUMBER;
+        jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
+        req.query = { lang: "en" };
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
+    });
+
+    it("should not set ADD_AML_BODY_UPDATE if NEW_AML_BODY is present", async () => {
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return { amlSupervisoryBody: "Body A" };
+            });
+        req.query = { lang: "en" };
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, expect.anything());
+    });
+
+    it("should not set ADD_AML_BODY_UPDATE if previousPage does not include AML_MEMBERSHIP_NUMBER", async () => {
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return undefined;
+                if (key === ACSP_DETAILS_UPDATED) return { amlDetails: [] };
+            });
+        const previousPage = "randomPage";
+        jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
+        req.query = { lang: "en" };
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, expect.anything());
     });
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
