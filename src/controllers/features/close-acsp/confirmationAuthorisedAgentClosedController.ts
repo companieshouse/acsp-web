@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
+import { trimAndLowercaseString } from "../../../services/common";
 import * as config from "../../../config";
 import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRMATION_ACSP_CLOSED, STRIKE_OFF_YOUR_COMPANY, TELL_HMRC_YOUVE_STOPPED_TRADING } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
@@ -12,12 +13,16 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+        const loginEmail = trimAndLowercaseString(res.locals.userEmail);
+        const correspondenceEmail = trimAndLowercaseString(acspDetails.email);
+        const showBothEmails = loginEmail !== correspondenceEmail;
 
         res.render(config.CLOSE_CONFIRMATION_ACSP_CLOSED, {
             ...getLocaleInfo(locales, lang),
             currentUrl: CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED,
-            loginEmail: res.locals.userEmail,
-            correspondenceEmail: acspDetails.email,
+            loginEmail,
+            correspondenceEmail,
+            showBothEmails,
             businessName: acspDetails.name,
             transactionId: "TRANSACTION_ID",
             strikeOffYourLtdCompanyLink: STRIKE_OFF_YOUR_COMPANY,
