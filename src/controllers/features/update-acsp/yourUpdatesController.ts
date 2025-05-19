@@ -27,6 +27,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage = getPreviousPageWithLang(req, UPDATE_ACSP_DETAILS_BASE_URL);
         const addedAMLBodies = getFormattedAddedAMLUpdates(acspFullProfile, acspUpdatedFullProfile);
         const removedAMLBodies = getFormattedRemovedAMLUpdates(session, acspFullProfile, acspUpdatedFullProfile);
+        const isLimitedBusiness = isLimitedBusinessType(acspUpdatedFullProfile.type);
 
         let redirectQuery = "your-updates";
         if (Object.keys(yourDetails).length + addedAMLBodies.length + removedAMLBodies.length === 1) {
@@ -40,6 +41,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             addedAMLBodies,
             removedAMLBodies,
             redirectQuery,
+            isLimitedBusiness,
             type: acspFullProfile.type,
             editBusinessNameUrl: getBusinessNameUrl(acspFullProfile.type, lang),
             previousPage: addLangToUrl(previousPage, lang),

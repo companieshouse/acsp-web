@@ -6,11 +6,18 @@
 
 {% set title = i18n.yourUpdatesHeading %}
 
-
+{% if isLimitedBusiness %}
+  {% set businessNameLabel = i18n.yourUpdatesCompanyName %}
+  {% set tableHeading = i18n.updateLimitedCompanyDetailsTableHeading %}
+{% else %}
+  {% set businessNameLabel = i18n.yourUpdatesBusinessName %}
+  {% set tableHeading = i18n.updateUnincorporatedDetailsTableHeading %}
+{% endif %}
 
 {% set cancelServiceAddressChange = "&cancel=serviceAddress&return=" + redirectQuery %}
 {% if type === "sole-trader" %}
   {% set cancelServiceAddressChange = "&cancel=registeredOfficeAddress&return=" + redirectQuery %}
+  {% set tableHeading = i18n.yourUpdatesHeading %}
 {% endif %}
 
 {% block main_content %}
@@ -19,7 +26,7 @@
   text: i18n.yourUpdatesPeningText
 }) }}
 
-<h2 class="govuk-heading-m">{{ i18n.yourUpdatesDetails }}</h2>
+<h2 class="govuk-heading-m">{{ tableHeading }}</h2>
 {{ govukSummaryList({
   rows: [
   {
@@ -74,7 +81,7 @@
   }if yourDetails.usualResidentialCountry,
   {
     key: {
-      text: i18n.yourUpdatesBusinessName,
+      text: businessNameLabel,
       classes: "govuk-!-width-one-third"
     },
     value: {
@@ -86,12 +93,12 @@
           {
             href: editBusinessNameUrl,
             text: i18n.Edit,
-            visuallyHiddenText: i18n.yourUpdatesBusinessName
+            visuallyHiddenText: businessNameLabel
           },
           {
             href: cancelChangeUrl + "&cancel=businessName&return=" + redirectQuery,
             text: i18n.Cancel,
-            visuallyHiddenText: i18n.yourUpdatesBusinessName
+            visuallyHiddenText: businessNameLabel
           }
         ],
         classes: "govuk-!-width-one-third"
