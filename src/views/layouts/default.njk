@@ -18,11 +18,12 @@
     <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
     {% include "partials/__header.njk" %}
     <div class="govuk-width-container">
+      {% include "partials/phase_banner.njk" %}
       {% if journeyType != "register-acsp" %}
         {% include "partials/nav/navbar.njk" %}
       {% endif %}
       {% block backLink %}
-        <a href="{{ previousPage }}" class="govuk-back-link">{{i18n.Back}}</a>
+        {% include "partials/nav/back_link.njk" %}
       {% endblock %}
       {% if journeyType == "register-acsp" %}
         {% block signoutBar %}

@@ -1,10 +1,12 @@
-<div class="govuk-phase-banner govuk-width-container">
+<div class="govuk-phase-banner" role="region" aria-label="This is a new service">
   <p class="govuk-phase-banner__content">
     <strong class="govuk-tag govuk-phase-banner__content__tag">
-      alpha
+      beta
     </strong>
     <span class="govuk-phase-banner__text">
-      This is a new service – your <a class="govuk-link" href="https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/">feedback</a> will help us to improve it.
+      This is a new service – your 
+      <a class="govuk-link" href="{{ feedbackLink | default('https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/') }}" {% if currentUrl !== "/register-as-companies-house-authorised-agent" and currentUrl !== "/register-as-companies-house-authorised-agent/cannot-use-service" %} target="_blank" {% endif %} rel="noopener noreferrer">feedback{% if currentUrl !== "/register-as-companies-house-authorised-agent" and currentUrl !== "/register-as-companies-house-authorised-agent/cannot-use-service" %}(opens in a new tab){% endif %}</a>
+      will help us to improve it.
     </span>
   </p>
 </div>
