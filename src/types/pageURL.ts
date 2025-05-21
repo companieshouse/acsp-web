@@ -180,7 +180,7 @@ export const UPDATE_ACSP_DETAILS_BASE_URL = "/view-and-update-the-authorised-age
 
 export const UPDATE_ACSP_WHAT_IS_YOUR_NAME = "/what-is-your-name";
 
-export const UPDATE_YOUR_ANSWERS = "/update-your-details";
+export const UPDATE_YOUR_ANSWERS = "/view-authorised-agent-details";
 
 export const UPDATE_WHERE_DO_YOU_LIVE = "/where-do-you-live";
 
@@ -206,7 +206,7 @@ export const UPDATE_BUSINESS_ADDRESS_CONFIRM = "/confirm-your-business-address";
 
 export const UPDATE_BUSINESS_ADDRESS_LIST = "/select-your-business-address";
 
-export const UPDATE_APPLICATION_CONFIRMATION = "/application-confirmation";
+export const UPDATE_APPLICATION_CONFIRMATION = "/authorised-agent-update-submitted";
 
 export const CANCEL_AN_UPDATE = "/cancel-an-update";
 
@@ -220,11 +220,11 @@ export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";
 
 export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
-export const UPDATE_DATE_OF_THE_CHANGE = "/date-of-the-change";
+export const UPDATE_DATE_OF_THE_CHANGE = "/when-did-this-change";
 
 export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
 
-export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
+export const UPDATE_CHECK_YOUR_UPDATES = "/your-updates";
 
 // close acsp urls
 
