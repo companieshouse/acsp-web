@@ -17,5 +17,6 @@
     "openInNewTab": "opens in a new tab",
     "whatHappensNextHeading": "What happens next",
     "thereIsAProblemError": "There is a problem",
-    "error": "Error"
+    "error": "Error",
+    "Warning": "Warning"
 }

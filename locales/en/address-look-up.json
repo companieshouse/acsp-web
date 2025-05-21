@@ -7,7 +7,7 @@
     "correspondenceLookUpAddressPostCodeInput": "UK postcode",
     "correspondenceLookUpAddressInputHint1": "Property name or number",
     "correspondenceLookUpAddressInputHint2": "You'll need to enter the address manually if it's not in the UK.",
-    "businessLookUpAddressPostcodeHint": "For example, The Mill', '116' or 'Flat 37a'",
+    "businessLookUpAddressPostcodeHint": "For example, 'The Mill', '116' or 'Flat 37a'",
     "correspondenceLookUpAddressFindAddressBtn": "Find address",
     "correspondenceLookUpAddressManuallyBtn": "Enter address manually",
     "correspondenceLookUpAddressListTitle": "Select the correspondence address",

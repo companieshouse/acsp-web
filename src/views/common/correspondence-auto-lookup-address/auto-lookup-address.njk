@@ -43,7 +43,11 @@
       id: "premise",
       name: "premise",
       autocomplete: "street-address",
-      value: payload.premise
+      value: payload.premise,
+      hint: {
+        text: i18n.addressPropertyDetailsHint,
+        classes: "govuk-hint"
+      }
     }) }}
     {% if reqType === "updateAcsp" %}
       <div class="govuk-button-group">
