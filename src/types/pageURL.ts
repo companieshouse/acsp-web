@@ -68,6 +68,8 @@ export const STRIKE_OFF_YOUR_COMPANY = "https://www.gov.uk/strike-off-your-compa
 
 export const TELL_HMRC_YOUVE_STOPPED_TRADING = "https://www.gov.uk/stop-being-self-employed";
 
+export const REGISTRATION_FEEDBACK_LINK = "https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
@@ -225,6 +227,8 @@ export const UPDATE_DATE_OF_THE_CHANGE = "/date-of-the-change";
 export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
 
 export const UPDATE_CHECK_YOUR_UPDATES = "/check-your-updates";
+
+export const UPDATE_FEEDBACK_LINK = "https://www.smartsurvey.co.uk/s/updateacsp-fdbk/";
 
 // close acsp urls
 

@@ -1,6 +1,6 @@
 import { Handler } from "express";
 import { AcspType } from "../model/AcspType";
-import { BASE_URL } from "../types/pageURL";
+import { BASE_URL, REGISTRATION_FEEDBACK_LINK } from "../types/pageURL";
 
 /**
  * Populates variables for use in templates that are used on multiple pages.
@@ -17,6 +17,7 @@ export const registrationVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceUrl = BASE_URL;
     res.locals.journeyType = AcspType.REGISTER_ACSP;
     res.locals.tabTitleKey = "CommonTabTitle";
+    res.locals.feedbackLink = REGISTRATION_FEEDBACK_LINK;
 
     next();
 };
