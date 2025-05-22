@@ -1,4 +1,4 @@
-import { UPDATE_ACSP_DETAILS_BASE_URL } from "../../types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_FEEDBACK_LINK } from "../../types/pageURL";
 import { REQ_TYPE_UPDATE_ACSP } from "../../common/__utils/constants";
 import { Handler } from "express";
 
@@ -17,6 +17,7 @@ export const updateVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceUrl = UPDATE_ACSP_DETAILS_BASE_URL;
     res.locals.reqType = REQ_TYPE_UPDATE_ACSP;
     res.locals.tabTitleKey = "CommonTabTitleUpdateAcsp";
+    res.locals.feedbackLink = UPDATE_FEEDBACK_LINK;
 
     next();
 };

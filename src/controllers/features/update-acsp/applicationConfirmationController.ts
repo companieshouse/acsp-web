@@ -23,7 +23,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             authorisedAgentAccountLink: AUTHORISED_AGENT,
-            surveyLink: "#",
             email,
             transactionId
         });
