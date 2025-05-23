@@ -3,9 +3,9 @@ import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/loc
 import * as config from "../../../config";
 import { AUTHORISED_AGENT, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
+import { UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { trimAndLowercaseString } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -13,8 +13,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION;
-        const acspFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-        const email: string = acspFullProfile.email;
+        const loginEmail = trimAndLowercaseString(res.locals.userEmail);
         const transactionId: string = session.getExtraData(UPDATE_SUBMISSION_ID)!;
 
         await deleteAllSessionData(session);
@@ -23,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             authorisedAgentAccountLink: AUTHORISED_AGENT,
-            email,
+            loginEmail,
             transactionId
         });
     } catch (err) {
