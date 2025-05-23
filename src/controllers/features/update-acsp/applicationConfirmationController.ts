@@ -13,7 +13,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION;
-        const loginEmail = trimAndLowercaseString(res.locals.userEmail);
         const transactionId: string = session.getExtraData(UPDATE_SUBMISSION_ID)!;
 
         await deleteAllSessionData(session);
@@ -22,7 +21,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             ...getLocaleInfo(locales, lang),
             currentUrl,
             authorisedAgentAccountLink: AUTHORISED_AGENT,
-            loginEmail,
             transactionId
         });
     } catch (err) {
