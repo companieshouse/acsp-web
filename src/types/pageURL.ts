@@ -184,33 +184,33 @@ export const UPDATE_YOUR_ANSWERS = "/view-authorised-agent-details";
 
 export const UPDATE_WHERE_DO_YOU_LIVE = "/where-do-you-live";
 
-export const UPDATE_CORRESPONDENCE_ADDRESS_MANUAL = "/correspondence-address-manual-entry";
+export const UPDATE_CORRESPONDENCE_ADDRESS_MANUAL = "/enter-correspondence-address";
 
-export const UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP = "/correspondence-address-lookup";
+export const UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP = "/what-is-the-correspondence-address";
 
-export const UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM = "/confirm-your-correspondence-address";
+export const UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM = "/confirm-correspondence-address";
 
-export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-your-correspondence-address";
+export const UPDATE_CORRESPONDENCE_ADDRESS_LIST = "/select-correspondence-address";
 
-export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/what-is-the-business-name";
+export const UPDATE_WHAT_IS_THE_BUSINESS_NAME = "/name-of-business";
 
 export const UPDATE_WHAT_IS_THE_COMPANY_NAME = "/what-is-the-company-name";
 
-export const UPDATE_WHAT_IS_YOUR_EMAIL = "/what-email-should-we-use";
+export const UPDATE_WHAT_IS_YOUR_EMAIL = "/correspondence-email-address";
 
-export const UPDATE_BUSINESS_ADDRESS_MANUAL = "/business-address-manual-entry";
+export const UPDATE_BUSINESS_ADDRESS_MANUAL = "/enter-the-registered-office-address";
 
-export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/business-address-lookup";
+export const UPDATE_BUSINESS_ADDRESS_LOOKUP = "/what-is-the-registered-office-address";
 
-export const UPDATE_BUSINESS_ADDRESS_CONFIRM = "/confirm-your-business-address";
+export const UPDATE_BUSINESS_ADDRESS_CONFIRM = "/confirm-registered-office-address";
 
-export const UPDATE_BUSINESS_ADDRESS_LIST = "/select-your-business-address";
+export const UPDATE_BUSINESS_ADDRESS_LIST = "/select-registered-office-address";
 
 export const UPDATE_APPLICATION_CONFIRMATION = "/authorised-agent-update-submitted";
 
 export const CANCEL_AN_UPDATE = "/cancel-an-update";
 
-export const UPDATE_ADD_AML_SUPERVISOR = "/select-aml-supervisor";
+export const UPDATE_ADD_AML_SUPERVISOR = "/which-aml-supervisory-body-are-you-registered-with";
 
 export const UPDATE_AML_MEMBERSHIP_NUMBER = "/aml-membership-number";
 
@@ -222,7 +222,7 @@ export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
 export const UPDATE_DATE_OF_THE_CHANGE = "/when-did-this-change";
 
-export const UPDATE_PROVIDE_AML_DETAILS = "/provide-aml-details";
+export const UPDATE_PROVIDE_AML_DETAILS = "/add-aml-details";
 
 export const UPDATE_CHECK_YOUR_UPDATES = "/your-updates";
 
