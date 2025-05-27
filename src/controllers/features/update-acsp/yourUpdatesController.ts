@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import * as config from "../../../config";
-import { CANCEL_AN_UPDATE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_WHAT_IS_THE_COMPANY_NAME, UPDATE_YOUR_ANSWERS, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
+import { CANCEL_AN_UPDATE, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CANCEL_ALL_UPDATES, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_WHAT_IS_THE_COMPANY_NAME, UPDATE_YOUR_ANSWERS, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_WHERE_DO_YOU_LIVE, UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_BUSINESS_ADDRESS_LOOKUP } from "../../../types/pageURL";
 import { AcspUpdateService } from "../../../services/update-acsp/acspUpdateService";
 import { Session } from "@companieshouse/node-session-handler";
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { getFormattedAddedAMLUpdates, getFormattedRemovedAMLUpdates, getFormattedUpdates } from "../../../services/update-acsp/yourUpdatesService";
-import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID, AML_REMOVAL_INDEX, AML_REMOVAL_BODY } from "../../../common/__utils/constants";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
@@ -42,9 +42,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removedAMLBodies,
             redirectQuery,
             isLimitedBusiness,
+            UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+            UPDATE_WHERE_DO_YOU_LIVE,
+            UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
+            UPDATE_WHAT_IS_YOUR_EMAIL,
+            UPDATE_BUSINESS_ADDRESS_LOOKUP,
             type: acspFullProfile.type,
             editBusinessNameUrl: getBusinessNameUrl(acspFullProfile.type, lang),
-            previousPage: addLangToUrl(previousPage, lang),
+            previousPage: addLangToUrl(previousPage + (previousPage.includes("?") ? "&" : "?") + "return=your-updates", lang),
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
             addAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
             removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
@@ -84,6 +89,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 addedAMLBodies,
                 removedAMLBodies,
                 redirectQuery,
+                UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+                UPDATE_WHERE_DO_YOU_LIVE,
+                UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
+                UPDATE_WHAT_IS_YOUR_EMAIL,
+                UPDATE_BUSINESS_ADDRESS_LOOKUP,
                 type: acspFullProfile.type,
                 editBusinessNameUrl: getBusinessNameUrl(acspFullProfile.type, lang),
                 previousPage: addLangToUrl(previousPage, lang),
@@ -104,6 +114,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
             } else {
                 session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+                session.deleteExtraData(AML_REMOVAL_INDEX);
+                session.deleteExtraData(AML_REMOVAL_BODY);
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
             }
         }

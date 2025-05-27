@@ -48,7 +48,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             cancelTheUpdateUrl,
             currentUrl,
             isAmlSupervisionStart,
-            isAmlSupervisionEnd
+            isAmlSupervisionEnd,
+            return: req.query.return
         });
     } catch (err) {
         next(err);
@@ -89,6 +90,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             if (amlRemovalIndex && amlRemovalBody) {
                 // Store the dateOfChange in REMOVED_AML_DETAILS as new array or append to existing array
+                // When going back and changing date of change, filter out previous entry and add updated one to array
                 const removedAMLDetails: AmlSupervisoryBody[] = (session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? []);
                 if (removedAMLDetails && removedAMLDetails.length > 0) {
                     const existingIndex = removedAMLDetails.findIndex((amlItem) =>
@@ -100,7 +102,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 }
                 const updatedRemovedAMLDetails = [
-                    ...removedAMLDetails,
+                    ...removedAMLDetails.filter(
+                        d => !(d.amlSupervisoryBody === amlRemovalBody && d.membershipId === amlRemovalIndex)
+                    ),
                     {
                         amlSupervisoryBody: amlRemovalBody,
                         membershipId: amlRemovalIndex,
@@ -108,8 +112,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 ];
                 session.setExtraData(AML_REMOVED_BODY_DETAILS, updatedRemovedAMLDetails);
-                console.log("amlRemovalIndex && amlRemovalBody1 " + JSON.stringify(session.getExtraData(AML_REMOVED_BODY_DETAILS)));
-                res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}&return=your-updates`, lang));
+                if (req.query.return === "your-updates") {
+                    res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));
+                } else {
+                    res.redirect(addLangToUrl(`${UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR}?amlindex=${amlRemovalIndex}&amlbody=${amlRemovalBody}&return=your-updates`, lang));
+                }
             } else {
                 updateWithTheEffectiveDateAmendment(req, dateOfChange.toISOString());
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, lang));

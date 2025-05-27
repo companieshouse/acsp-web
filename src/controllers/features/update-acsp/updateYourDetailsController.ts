@@ -11,7 +11,14 @@ import {
     UPDATE_CANCEL_ALL_UPDATES,
     UPDATE_CHECK_YOUR_UPDATES,
     AUTHORISED_AGENT,
-    UPDATE_DATE_OF_THE_CHANGE
+    UPDATE_DATE_OF_THE_CHANGE,
+    UPDATE_WHAT_IS_THE_COMPANY_NAME,
+    UPDATE_BUSINESS_ADDRESS_LOOKUP,
+    UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
+    UPDATE_WHAT_IS_YOUR_EMAIL,
+    UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+    UPDATE_WHERE_DO_YOU_LIVE,
+    UPDATE_WHAT_IS_THE_BUSINESS_NAME
 }
     from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
@@ -90,7 +97,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             changeDates,
             formattedRemovedAMLDetails,
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
-            authorisedAgentUrl: AUTHORISED_AGENT
+            authorisedAgentUrl: AUTHORISED_AGENT,
+            UPDATE_WHAT_IS_THE_COMPANY_NAME,
+            UPDATE_BUSINESS_ADDRESS_LOOKUP,
+            UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
+            UPDATE_WHAT_IS_YOUR_EMAIL,
+            UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+            UPDATE_WHERE_DO_YOU_LIVE,
+            UPDATE_WHAT_IS_THE_BUSINESS_NAME
         });
     } catch (err) {
         next(err);
