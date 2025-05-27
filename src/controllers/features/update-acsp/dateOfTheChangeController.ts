@@ -29,10 +29,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
         // Save the AML removal index and body to the session to send to remove aml url
-        if (req.query.amlindex) {
+        if (req.query.amlindex && req.query.amlbody) {
             session.setExtraData(AML_REMOVAL_INDEX, req.query.amlindex);
-        }
-        if (req.query.amlbody) {
             session.setExtraData(AML_REMOVAL_BODY, req.query.amlbody);
         }
 
