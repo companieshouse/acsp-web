@@ -33,6 +33,9 @@ import { registrationVariablesMiddleware } from "./middleware/registration_varia
 import { updateVariablesMiddleware } from "./middleware/update-acsp/update_variables_middleware";
 import { isActiveFeature } from "./utils/feature.flag";
 import { closeVariablesMiddleware } from "./middleware/close-acsp/close_variables_middleware";
+import { closeAcspBaseAuthenticationMiddleware } from "./middleware/close-acsp/close_acsp_base_authentication_middleware";
+import { closeAcspAuthMiddleware } from "./middleware/close-acsp/close_acsp_authentication_middleware";
+import { closeAcspIsOwnerMiddleware } from "./middleware/close-acsp/close_acsp_is_owner_middleware";
 
 const app = express();
 const nonce: string = uuidv4();
@@ -82,16 +85,24 @@ if (isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)) {
 }
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
-app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL}))*`, authenticationMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL})|(${CLOSE_ACSP_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
+
+// Common Variable middleware for each service
 app.use(commonTemplateVariablesMiddleware);
 app.use(BASE_URL, registrationVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 
+// Update ACSP details middleware
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
+
+// Close ACSP middleware
+app.use(CLOSE_ACSP_BASE_URL, closeAcspBaseAuthenticationMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeAcspAuthMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeAcspIsOwnerMiddleware);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.nonce = nonce;
