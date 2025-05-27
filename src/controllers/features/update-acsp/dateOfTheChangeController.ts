@@ -92,15 +92,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 // Store the dateOfChange in REMOVED_AML_DETAILS as new array or append to existing array
                 // When going back and changing date of change, filter out previous entry and add updated one to array
                 const removedAMLDetails: AmlSupervisoryBody[] = (session.getExtraData(AML_REMOVED_BODY_DETAILS) ?? []);
-                if (removedAMLDetails && removedAMLDetails.length > 0) {
-                    const existingIndex = removedAMLDetails.findIndex((amlItem) =>
-                        amlItem.membershipId === amlRemovalIndex &&
-                                                            amlItem.amlSupervisoryBody === amlRemovalBody);
-                    if (existingIndex !== -1) {
-                        removedAMLDetails[existingIndex].dateOfChange = dateOfChange.toISOString();
-                        console.log("removedAMLDetails1 " + JSON.stringify(removedAMLDetails));
-                    }
-                }
                 const updatedRemovedAMLDetails = [
                     ...removedAMLDetails.filter(
                         d => !(d.amlSupervisoryBody === amlRemovalBody && d.membershipId === amlRemovalIndex)
