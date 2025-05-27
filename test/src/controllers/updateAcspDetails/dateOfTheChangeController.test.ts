@@ -7,7 +7,7 @@ import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { get } from "../../../../src/controllers/features/update-acsp/dateOfTheChangeController";
 import { Request, Response, NextFunction } from "express";
-import { AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE } from "../../../../src/types/pageURL";
 import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, NEW_AML_BODY } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { updateWithTheEffectiveDateAmendment } from "../../../../src/services/update-acsp/dateOfTheChangeService";
@@ -105,6 +105,21 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
+
+    it("should set AML_REMOVAL_INDEX and AML_REMOVAL_BODY if query params are present", async () => {
+        const amlRemovalIndex = "123456";
+        const amlRemovalBody = "supervisory-body";
+
+        req.query = {
+            amlindex: amlRemovalIndex,
+            amlbody: amlRemovalBody
+        };
+
+        await get(req as Request, res as Response, next);
+
+        expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_INDEX, amlRemovalIndex);
+        expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_BODY, amlRemovalBody);
+    });
 });
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
@@ -173,6 +188,20 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         expect(session.setExtraData).toHaveBeenCalledWith(AML_REMOVED_BODY_DETAILS, expectedUpdatedRemovedAMLDetails);
         expect(res.status).toBe(302); // Ensure the controller redirects
         expect(res.header.location).toContain(REMOVE_AML_SUPERVISOR); // Ensure redirect URL is correct
+    });
+
+    it("should redirect to Your Updates page if query param your-updates is present", async () => {
+        req.body = {
+            "change-day": "01",
+            "change-month": "01",
+            "change-year": "2025"
+        };
+        createMockSessionMiddlewareRemoveAmlDetails();
+        req.query = { return: "your-updates" };
+
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?return=your-updates").send(req.body);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toContain(UPDATE_CHECK_YOUR_UPDATES);
     });
 });
 
