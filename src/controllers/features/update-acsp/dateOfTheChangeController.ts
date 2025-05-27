@@ -20,9 +20,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         if (!session.getExtraData(NEW_AML_BODY) && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
             const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-            if (updateBodyIndex === undefined) {
+            if (session.getExtraData(ADD_AML_BODY_UPDATE) === undefined) {
                 session.setExtraData(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
+            }
+            const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+            if (updateBodyIndex !== undefined && session.getExtraData(NEW_AML_BODY) === undefined) {
+                const amlBody: AmlSupervisoryBody = {};
+                amlBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
+                amlBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
+                session.setExtraData(NEW_AML_BODY, amlBody);
             }
         }
 
@@ -33,7 +39,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             session.setExtraData(AML_REMOVAL_INDEX, req.query.amlindex);
             session.setExtraData(AML_REMOVAL_BODY, req.query.amlbody);
         }
-
         const isAmlSupervisionStart = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         const isAmlSupervisionEnd = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
 

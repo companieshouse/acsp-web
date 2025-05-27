@@ -96,6 +96,7 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         await get(req as Request, res as Response, next);
         expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, expect.anything());
     });
+
     it("should return status 500 when an error occurs", async () => {
         const errorMessage = "Test error";
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
@@ -119,6 +120,25 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
 
         expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_INDEX, amlRemovalIndex);
         expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_BODY, amlRemovalBody);
+    });
+
+    it("should set NEW_AML_BODY to the last index of amlDetails", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A" },
+                { membershipDetails: "654321", supervisoryBody: "Body B" }
+            ]
+        };
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === NEW_AML_BODY) return undefined;
+                if (key === ADD_AML_BODY_UPDATE) return acspUpdatedFullProfile.amlDetails.length - 1;
+            });
+        const previousPage = AML_MEMBERSHIP_NUMBER;
+        jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
+        req.query = { lang: "en" };
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, expect.anything());
     });
 });
 
