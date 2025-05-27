@@ -87,8 +87,6 @@ app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL})|(${CLOSE_ACSP_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
-
-// Common Variable middleware for each service
 app.use(commonTemplateVariablesMiddleware);
 app.use(BASE_URL, registrationVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
