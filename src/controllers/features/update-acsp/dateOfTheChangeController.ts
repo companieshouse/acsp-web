@@ -86,7 +86,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 isAmlSupervisionEnd
             });
         } else {
-            session.setExtraData("DATE_OF_CHANGE_PAYLOAD", req.body);
+            session.setExtraData("DATE_OF_CHANGE_PAYLOAD", {
+                "change-year": req.body["change-year"],
+                "change-month": req.body["change-month"] - 1,
+                "change-day": req.body["change-day"]
+            });
+
             const dateOfChange = new Date(
                 req.body["change-year"],
                 req.body["change-month"] - 1,
