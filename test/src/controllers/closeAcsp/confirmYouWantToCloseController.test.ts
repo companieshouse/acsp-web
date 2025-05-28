@@ -7,8 +7,11 @@ import app from "../../../../src/app";
 import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, CLOSE_CONFIRMATION_ACSP_CLOSED } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
 import * as controller from "../../../../src/controllers/features/close-acsp/confirmYouWantToCloseController";
+import { postTransaction } from "../../../../src/services/transactions/transaction_service";
+jest.mock("../../../../src/services/transactions/transaction_service");
 
 const router = supertest(app);
+const mockPostTransaction = postTransaction as jest.Mock;
 let req: any;
 let res: any;
 let next: jest.Mock;
@@ -47,6 +50,7 @@ describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
 
 describe("POST " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
     it("should return status 302 after redirect", async () => {
+        await mockPostTransaction.mockResolvedValueOnce({});
         const res = await router.post(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED + "?lang=en");

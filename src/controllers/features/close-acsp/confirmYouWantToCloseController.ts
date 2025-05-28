@@ -5,6 +5,7 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { ACSP_DETAILS } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspCloseService } from "../../../services/close-acsp/acspCloseService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -28,6 +29,9 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
+        const session: Session = req.session as any as Session;
+        const acspCloseService = new AcspCloseService();
+        await acspCloseService.createTransaction(session);
         res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED, lang));
     } catch (error) {
         next(error);
