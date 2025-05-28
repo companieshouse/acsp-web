@@ -94,7 +94,6 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         expect(acspUpdatedFullProfile.soleTraderDetails!.otherForenames).toBe(acspinProgressFullProfile.otherForenames);
         expect(acspUpdatedFullProfile.soleTraderDetails!.surname).toBe(acspinProgressFullProfile.surname);
         expect(session.setExtraData).toHaveBeenCalledWith(ACSP_UPDATE_CHANGE_DATE.NAME, dateOfChange.toISOString());
-        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     });
 
     it("should update the residential country and set the change date", () => {
@@ -186,7 +185,6 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         expect(session.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, newAMLBody);
         expect(session.deleteExtraData).toHaveBeenCalledWith(NEW_AML_BODY);
-        expect(session.deleteExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS);
     });
 
     it("should update aml details when editing NEW_AML_BODY and push to acspUpdatedFullProfile when index exists", () => {

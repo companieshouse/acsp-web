@@ -5,7 +5,6 @@ import { AUTHORISED_AGENT, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONF
 import { Session } from "@companieshouse/node-session-handler";
 import { UPDATE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
-import { trimAndLowercaseString } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
