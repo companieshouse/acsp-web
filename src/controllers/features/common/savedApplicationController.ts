@@ -48,7 +48,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 await deleteAcspApplication(session, session.getExtraData(SUBMISSION_ID)!, resumeApplicationId);
                 session.deleteExtraData(USER_DATA);
                 session.deleteExtraData(SUBMISSION_ID);
-                res.redirect((BASE_URL + TYPE_OF_BUSINESS));
+                res.redirect(addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang));
             }
         }
     } catch (err) {

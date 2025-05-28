@@ -34,7 +34,7 @@ describe("POST " + SAVED_APPLICATION, () => {
         const response = await router.post(BASE_URL + SAVED_APPLICATION)
             .send({ savedApplication: "yes" });
         expect(response.status).toBe(302);
-        expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS);
+        expect(response.header.location).toBe(BASE_URL + TYPE_OF_BUSINESS + "?lang=en");
     });
 
     it("should return status 400 after incorrect data entered", async () => {
