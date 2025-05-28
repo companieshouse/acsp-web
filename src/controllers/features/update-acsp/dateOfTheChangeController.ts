@@ -42,6 +42,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const isAmlSupervisionStart = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         const isAmlSupervisionEnd = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
 
+        const payload = session.getExtraData("DATE_OF_CHANGE_PAYLOAD") || {};
+
         res.render(config.UPDATE_DATE_OF_THE_CHANGE, {
             ...getLocaleInfo(locales, lang),
             previousPage,
@@ -49,7 +51,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             isAmlSupervisionStart,
             isAmlSupervisionEnd,
-            return: req.query.return
+            return: req.query.return,
+            payload
         });
     } catch (err) {
         next(err);
@@ -83,6 +86,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 isAmlSupervisionEnd
             });
         } else {
+            session.setExtraData("DATE_OF_CHANGE_PAYLOAD", req.body);
             const dateOfChange = new Date(
                 req.body["change-year"],
                 req.body["change-month"] - 1,
