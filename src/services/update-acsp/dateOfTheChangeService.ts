@@ -62,7 +62,6 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
         session.deleteExtraData(NEW_AML_BODY);
     }
-    session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 };
 
 export const getPreviousPageUrlDateOfChange = (req: Request): string => {
