@@ -2,15 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS, AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_WHERE_DO_YOU_LIVE, UPDATE_BUSINESS_ADDRESS_CONFIRM } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS, AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_WHAT_IS_THE_BUSINESS_NAME, UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, UPDATE_WHERE_DO_YOU_LIVE, UPDATE_BUSINESS_ADDRESS_CONFIRM } from "../../../types/pageURL";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, ACSP_UPDATE_CHANGE_DATE, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody, Address } from "@companieshouse/api-sdk-node/dist/services/acsp";
-
+import { getDateOfChangeFromSession, getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
-import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
-import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, ACSP_UPDATE_CHANGE_DATE, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
+import { soleTraderNameDetails } from "../../../model/SoleTraderNameDetails";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,17 +33,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         if (updateInProgress) {
-            if (previousPage.includes(UPDATE_ACSP_WHAT_IS_YOUR_NAME) && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME)) {
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME);
-            } else if (previousPage.includes(UPDATE_WHAT_IS_THE_BUSINESS_NAME) && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS)) {
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS);
-            } else if (previousPage.includes(UPDATE_WHERE_DO_YOU_LIVE) && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE)) {
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
-            } else if (previousPage.includes(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM) && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)) {
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
-            } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM) && session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)) {
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
-            }
+            dateOfChange = getDateOfChangeFromSession(previousPage, session);
         }
 
         if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
@@ -66,12 +55,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             }
         } else if (!updateInProgress) {
             if (previousPage.includes(UPDATE_ACSP_WHAT_IS_YOUR_NAME)) {
-                const updateInProgress: soleTraderNameDetails = {
+                const updateInProgressSoleTraderName: soleTraderNameDetails = {
                     forename: acspUpdatedFullProfile.soleTraderDetails?.forename,
                     otherForenames: acspUpdatedFullProfile.soleTraderDetails?.otherForenames,
                     surname: acspUpdatedFullProfile.soleTraderDetails?.surname
                 };
-                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgress);
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressSoleTraderName);
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME);
             } else if (previousPage.includes(UPDATE_WHAT_IS_THE_BUSINESS_NAME)) {
                 session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspUpdatedFullProfile.name);
@@ -80,7 +69,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspUpdatedFullProfile.soleTraderDetails?.usualResidentialCountry);
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
             } else if (previousPage.includes(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM)) {
-                const updateInProgress: Address = {
+                const updateInProgressCorrespondenceAddress: Address = {
                     premises: acspUpdatedFullProfile.registeredOfficeAddress.premises,
                     addressLine1: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine1,
                     addressLine2: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine2,
@@ -89,10 +78,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                     country: acspUpdatedFullProfile.registeredOfficeAddress?.country,
                     postalCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
                 };
-                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgress);
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressCorrespondenceAddress);
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
             } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
-                const updateInProgress: Address = {
+                const updateInProgressBusinessAddress: Address = {
                     premises: acspUpdatedFullProfile.serviceAddress?.premises,
                     addressLine1: acspUpdatedFullProfile.serviceAddress?.addressLine1,
                     addressLine2: acspUpdatedFullProfile.serviceAddress?.addressLine2,
@@ -101,7 +90,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                     country: acspUpdatedFullProfile.serviceAddress?.country,
                     postalCode: acspUpdatedFullProfile.serviceAddress?.postalCode
                 };
-                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgress);
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressBusinessAddress);
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
             }
         }
