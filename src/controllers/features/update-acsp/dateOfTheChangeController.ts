@@ -8,7 +8,7 @@ import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } f
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, DATE_OF_CHANGE_PAYLOAD, ACSP_UPDATE_CHANGE_DATE } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -42,7 +42,20 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const isAmlSupervisionStart = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER);
         const isAmlSupervisionEnd = !!previousPage.includes(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
 
-        const payload = session.getExtraData("DATE_OF_CHANGE_PAYLOAD") || {};
+        // call few datechange sessions
+        const dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) ||
+                            session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
+
+        let payload = {};
+        if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
+            const date = new Date(dateOfChange);
+            payload = {
+                "change-year": date.getFullYear(),
+                "change-month": date.getMonth() + 1,
+                "change-day": date.getDate()
+            };
+        }
+        console.log("payloadsjkdufkuaegfk_______________________________________________________________", payload);
 
         res.render(config.UPDATE_DATE_OF_THE_CHANGE, {
             ...getLocaleInfo(locales, lang),
@@ -53,6 +66,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             isAmlSupervisionEnd,
             return: req.query.return,
             payload
+
         });
     } catch (err) {
         next(err);
@@ -86,12 +100,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 isAmlSupervisionEnd
             });
         } else {
-            session.setExtraData("DATE_OF_CHANGE_PAYLOAD", {
-                "change-year": req.body["change-year"],
-                "change-month": req.body["change-month"] - 1,
-                "change-day": req.body["change-day"]
-            });
-
             const dateOfChange = new Date(
                 req.body["change-year"],
                 req.body["change-month"] - 1,

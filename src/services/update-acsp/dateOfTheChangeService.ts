@@ -6,6 +6,7 @@ import {
     ACSP_UPDATE_CHANGE_DATE,
     ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ADD_AML_BODY_UPDATE,
+    DATE_OF_CHANGE_PAYLOAD,
     NEW_AML_BODY
 } from "../../common/__utils/constants";
 import { Request } from "express";
@@ -30,9 +31,16 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
     const newAMLBody: AmlSupervisoryBody = session.getExtraData(NEW_AML_BODY)!;
     const AmlMembershipNumberServiceInstance = new AmlMembershipNumberService();
 
+    /*    session.setExtraData(DATE_OF_CHANGE_PAYLOAD, {
+                "change-year": req.body["change-year"],
+                "change-month": req.body["change-month"] - 1,
+                "change-day": req.body["change-day"]
+            }); */
+
     if (currentPage === UPDATE_WHAT_IS_THE_BUSINESS_NAME) {
         acspUpdatedFullProfile.name = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         session.setExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS, dateOfChange);
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA____________________ ", dateOfChange);
     } else if (currentPage === UPDATE_ACSP_WHAT_IS_YOUR_NAME) {
         const soleTraderDetails: soleTraderNameDetails = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS)!;
         acspUpdatedFullProfile.soleTraderDetails!.forename = soleTraderDetails.forename;
@@ -62,6 +70,7 @@ export const updateWithTheEffectiveDateAmendment = (req: Request, dateOfChange: 
 
         session.deleteExtraData(NEW_AML_BODY);
     }
+
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 };
 

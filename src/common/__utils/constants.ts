@@ -54,3 +54,4 @@ export const REGISTRATION = "registration";
 export const UPDATE = "update";
 export const SERVICE_ADDRESS = "serviceAddress";
 export const REGISTERED_OFFICE_ADDRESS = "registeredOfficeAddress";
+export const DATE_OF_CHANGE_PAYLOAD = "DATE_OF_CHANGE_PAYLOAD";
