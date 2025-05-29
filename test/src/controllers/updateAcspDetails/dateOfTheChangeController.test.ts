@@ -121,7 +121,40 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_INDEX, amlRemovalIndex);
         expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_BODY, amlRemovalBody);
     });
+    it("should render the date of the change page with correct payload", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A", dateOfChange: "2024-01-01" }
+            ],
+            soleTraderDetails: { forename: "John", surname: "Doe" },
+            name: "Business Name",
+            registeredOfficeAddress: { premises: "1", country: "UK" },
+            serviceAddress: { premises: "2", country: "UK" }
+        };
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === NEW_AML_BODY) return { membershipId: "123456", amlSupervisoryBody: "Body A" };
+                if (key === ADD_AML_BODY_UPDATE) return 0;
+                return undefined;
+            });
 
+        req.query = { lang: "en" };
+        await get(req as Request, res as Response, next);
+        expect(res.render).toHaveBeenCalledWith(
+            "../views/features/update-acsp-details/date-of-the-change/date-of-the-change",
+            expect.objectContaining({
+                payload: {
+                    "change-year": 2024,
+                    "change-month": 1,
+                    "change-day": 1
+                },
+                previousPage: expect.any(String),
+                currentUrl: expect.any(String),
+                cancelTheUpdateUrl: expect.any(String)
+            })
+        );
+    });
     it("should set NEW_AML_BODY to the last index of amlDetails", async () => {
         const acspUpdatedFullProfile = {
             amlDetails: [
