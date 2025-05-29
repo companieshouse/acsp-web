@@ -23,7 +23,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             loginEmail,
             correspondenceEmail,
             showBothEmails,
-            businessName: acspDetails.name,
             transactionId: "TRANSACTION_ID",
             strikeOffYourLtdCompanyLink: STRIKE_OFF_YOUR_COMPANY,
             tellHmrcIfYouveStoppedTradingLink: TELL_HMRC_YOUVE_STOPPED_TRADING
