@@ -38,10 +38,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 session.setExtraData(NEW_AML_BODY, amlBody);
             }
         }
-        if(session.getExtraData(AML_REMOVAL_INDEX) && session.getExtraData(AML_REMOVAL_BODY) && session.getExtraData(AML_REMOVED_BODY_DETAILS)){
+        if (session.getExtraData(AML_REMOVAL_INDEX) && session.getExtraData(AML_REMOVAL_BODY) && session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
             const removedAMLData = session.getExtraData(AML_REMOVED_BODY_DETAILS) as AmlSupervisoryBody[];
             const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml => (
-                tmpRemovedAml.amlSupervisoryBody === session.getExtraData(AML_REMOVAL_BODY) && 
+                tmpRemovedAml.amlSupervisoryBody === session.getExtraData(AML_REMOVAL_BODY) &&
                 tmpRemovedAml.membershipId === session.getExtraData(AML_REMOVAL_INDEX)
             ));
             dateOfChange = removedAMLData[indexAMLForUndoRemoval]?.dateOfChange;
@@ -141,7 +141,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
-function getAmlDetailPayload(amlDetail: any): AmlSupervisoryBody {
+function getAmlDetailPayload (amlDetail: any): AmlSupervisoryBody {
     return {
         amlSupervisoryBody: amlDetail.supervisoryBody,
         membershipId: amlDetail.membershipDetails,
