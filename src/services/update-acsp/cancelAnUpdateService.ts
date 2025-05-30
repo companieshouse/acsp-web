@@ -24,7 +24,11 @@ export const cancelAnUpdate = (req: Request): void => {
         break;
     case "registeredOfficeAddress":
         acspUpdatedFullProfile.registeredOfficeAddress = acspFullProfile.registeredOfficeAddress;
-        session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
+        if (acspUpdatedFullProfile.type === "sole-trader") {
+            session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
+        } else {
+            session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
+        }
         break;
     case "email":
         acspUpdatedFullProfile.email = acspFullProfile.email;

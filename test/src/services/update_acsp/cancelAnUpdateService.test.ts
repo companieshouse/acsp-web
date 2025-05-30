@@ -109,4 +109,19 @@ describe("cancelAnUpdateService tests", () => {
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.otherForenames).toBe(dummyFullProfile.soleTraderDetails!.otherForenames);
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.surname).toBe(dummyFullProfile.soleTraderDetails!.surname);
     });
+    it("should delete the correspondence address date for sole trader when cancel query is 'registeredOfficeAddress'", () => {
+        const session: Session = req.session as any as Session;
+        req.query.cancel = "registeredOfficeAddress";
+        session.setExtraData(ACSP_DETAILS_UPDATED,
+            {
+                ...dummyFullProfile,
+                type: "sole-trader",
+                registeredOfficeAddress: {
+                    addressLine1: "wrong address"
+                }
+            });
+        cancelAnUpdate(req);
+
+        expect(session.getExtraData(ACSP_DETAILS_UPDATED).registeredOfficeAddress).toBe(dummyFullProfile.registeredOfficeAddress);
+    });
 });
