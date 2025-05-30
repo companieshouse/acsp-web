@@ -104,14 +104,27 @@ export const setUpdateInProgressAndGetDateOfChange = (previousPage: string, acsp
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, acspUpdatedFullProfile.soleTraderDetails?.usualResidentialCountry);
         return session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
     } else if (previousPage.includes(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM)) {
-        const updateInProgressCorrespondenceAddress: Address = {
-            premises: acspUpdatedFullProfile.serviceAddress?.premises,
-            addressLine1: acspUpdatedFullProfile.serviceAddress?.addressLine1,
-            addressLine2: acspUpdatedFullProfile.serviceAddress?.addressLine2,
-            locality: acspUpdatedFullProfile.serviceAddress?.locality,
-            region: acspUpdatedFullProfile.serviceAddress?.region,
-            country: acspUpdatedFullProfile.serviceAddress?.country,
-            postalCode: acspUpdatedFullProfile.serviceAddress?.postalCode
+        let updateInProgressCorrespondenceAddress: Address;
+        if (acspUpdatedFullProfile.type === ACSP_PROFILE_TYPE_SOLE_TRADER) {
+            updateInProgressCorrespondenceAddress = {
+                premises: acspUpdatedFullProfile.registeredOfficeAddress.premises,
+                addressLine1: acspUpdatedFullProfile.registeredOfficeAddress.addressLine1,
+                addressLine2: acspUpdatedFullProfile.registeredOfficeAddress.addressLine2,
+                locality: acspUpdatedFullProfile.registeredOfficeAddress.locality,
+                region: acspUpdatedFullProfile.registeredOfficeAddress.region,
+                country: acspUpdatedFullProfile.registeredOfficeAddress.country,
+                postalCode: acspUpdatedFullProfile.registeredOfficeAddress.postalCode
+            };
+        } else {
+            updateInProgressCorrespondenceAddress = {
+                premises: acspUpdatedFullProfile.serviceAddress?.premises,
+                addressLine1: acspUpdatedFullProfile.serviceAddress?.addressLine1,
+                addressLine2: acspUpdatedFullProfile.serviceAddress?.addressLine2,
+                locality: acspUpdatedFullProfile.serviceAddress?.locality,
+                region: acspUpdatedFullProfile.serviceAddress?.region,
+                country: acspUpdatedFullProfile.serviceAddress?.country,
+                postalCode: acspUpdatedFullProfile.serviceAddress?.postalCode
+            };
         };
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressCorrespondenceAddress);
         return session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
