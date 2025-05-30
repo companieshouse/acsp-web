@@ -58,6 +58,26 @@ const acspUpdatedFullProfileWithUndefinedSoleTraderDetails: AcspFullProfile = {
     }
 };
 
+const acspUpdatedFullProfileSoleTraderRegOfficeAddress: AcspFullProfile = {
+    type: "sole-trader",
+    registeredOfficeAddress: {
+        premises: "A",
+        addressLine1: "line 1",
+        addressLine2: "line 2",
+        locality: "Town",
+        region: "Region",
+        country: "Country",
+        postalCode: "ZZ99 1ZZ"
+    },
+    number: "",
+    name: "",
+    status: "",
+    notifiedFrom: new Date(),
+    email: "",
+    amlDetails: [],
+    serviceAddress: undefined
+};
+
 const acspUpdatedFullProfileWithUndefinedRegisteredOfficeAddress: AcspFullProfile = {
     registeredOfficeAddress: {
         addressLine1: undefined,
@@ -509,6 +529,30 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
         expect(result).toBe("2024-04-04");
     });
 
+    it("handles correspondence address change for sole trader", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            return undefined;
+        });
+
+        const result = setUpdateInProgressAndGetDateOfChange(
+            UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
+            acspUpdatedFullProfileSoleTraderRegOfficeAddress,
+            session
+        );
+
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            premises: "A",
+            addressLine1: "line 1",
+            addressLine2: "line 2",
+            locality: "Town",
+            region: "Region",
+            country: "Country",
+            postalCode: "ZZ99 1ZZ"
+        });
+        expect(result).toBe("2024-04-04");
+    });
+
     it("handles correspondence address change when serviceAddress is undefined", () => {
         session.getExtraData.mockImplementation((key: string) => {
             if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
@@ -569,5 +613,16 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
             postalCode: undefined
         });
         expect(result).toBe("2024-05-05");
+    });
+
+    it("returns undefined if previousPage does not match any known update type", () => {
+        session.getExtraData.mockReturnValue(undefined);
+        const result = setUpdateInProgressAndGetDateOfChange(
+            "/pageurl-does-not-exist",
+            acspUpdatedFullProfile,
+            session
+        );
+        expect(session.setExtraData).not.toHaveBeenCalled();
+        expect(result).toBeUndefined();
     });
 });

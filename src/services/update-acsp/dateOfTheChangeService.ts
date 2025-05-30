@@ -125,7 +125,7 @@ export const setUpdateInProgressAndGetDateOfChange = (previousPage: string, acsp
                 country: acspUpdatedFullProfile.serviceAddress?.country,
                 postalCode: acspUpdatedFullProfile.serviceAddress?.postalCode
             };
-        };
+        }
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressCorrespondenceAddress);
         return session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
     } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
