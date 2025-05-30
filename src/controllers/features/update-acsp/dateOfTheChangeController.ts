@@ -131,7 +131,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-function buildDatePayload (dateOfChange: string) {
+export const buildDatePayload = (dateOfChange: string) => {
     if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
         const date = new Date(dateOfChange);
         return {
@@ -141,4 +141,4 @@ function buildDatePayload (dateOfChange: string) {
         };
     }
     return {};
-}
+};
