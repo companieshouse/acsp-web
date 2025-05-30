@@ -1,7 +1,7 @@
 import { createRequest, MockRequest, Session } from "node-mocks-http";
 import { Request } from "express";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_UPDATE_CHANGE_DATE } from "../../../../src/common/__utils/constants";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { cancelAnUpdate } from "../../../../src/services/update-acsp/cancelAnUpdateService";
 
@@ -31,6 +31,7 @@ describe("cancelAnUpdateService tests", () => {
         cancelAnUpdate(req);
 
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).name).toBe(dummyFullProfile.name);
+        expect(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS)).toBeUndefined();
     });
     it("should reset the 'usualResidentialCountry' field when cancel query is 'usualResidentialCountry'", () => {
         const session: Session = req.session as any as Session;
@@ -44,6 +45,7 @@ describe("cancelAnUpdateService tests", () => {
         cancelAnUpdate(req);
 
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.usualResidentialCountry).toBe(dummyFullProfile.soleTraderDetails!.usualResidentialCountry);
+        expect(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE)).toBeUndefined();
     });
     it("should reset the 'serviceAddress' field when cancel query is 'serviceAddress'", () => {
         const session: Session = req.session as any as Session;
@@ -59,6 +61,7 @@ describe("cancelAnUpdateService tests", () => {
         cancelAnUpdate(req);
 
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).serviceAddress).toBe(dummyFullProfile.serviceAddress);
+        expect(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS)).toBeUndefined();
     });
     it("should reset the 'registeredOfficeAddress' field when cancel query is 'registeredOfficeAddress'", () => {
         const session: Session = req.session as any as Session;
@@ -74,6 +77,7 @@ describe("cancelAnUpdateService tests", () => {
         cancelAnUpdate(req);
 
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).registeredOfficeAddress).toBe(dummyFullProfile.registeredOfficeAddress);
+        expect(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS)).toBeUndefined();
     });
     it("should reset the 'email' field when cancel query is 'email'", () => {
         const session: Session = req.session as any as Session;
@@ -108,5 +112,6 @@ describe("cancelAnUpdateService tests", () => {
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.forename).toBe(dummyFullProfile.soleTraderDetails!.forename);
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.otherForenames).toBe(dummyFullProfile.soleTraderDetails!.otherForenames);
         expect(session.getExtraData(ACSP_DETAILS_UPDATED).soleTraderDetails.surname).toBe(dummyFullProfile.soleTraderDetails!.surname);
+        expect(session.getExtraData(ACSP_UPDATE_CHANGE_DATE.NAME)).toBeUndefined();
     });
 });

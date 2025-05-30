@@ -70,3 +70,20 @@ export const getPreviousPageUrlDateOfChange = (req: Request): string => {
     return session.getExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL) || "";
 
 };
+
+export const getDateOfChangeFromSession = (previousPage: string, session: Session): string | undefined => {
+    const mapping = [
+        { pageUrl: UPDATE_ACSP_WHAT_IS_YOUR_NAME, dateOfChange: ACSP_UPDATE_CHANGE_DATE.NAME },
+        { pageUrl: UPDATE_WHAT_IS_THE_BUSINESS_NAME, dateOfChange: ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS },
+        { pageUrl: UPDATE_WHERE_DO_YOU_LIVE, dateOfChange: ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE },
+        { pageUrl: UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, dateOfChange: ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS },
+        { pageUrl: UPDATE_BUSINESS_ADDRESS_CONFIRM, dateOfChange: ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS }
+    ];
+
+    for (const { pageUrl, dateOfChange } of mapping) {
+        if (previousPage.includes(pageUrl) && session.getExtraData(dateOfChange)) {
+            return session.getExtraData(dateOfChange);
+        }
+    }
+    return undefined;
+};
