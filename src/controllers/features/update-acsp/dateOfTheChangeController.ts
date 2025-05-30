@@ -4,11 +4,11 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS, AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
+import { getDateOfChangeFromSession, getPreviousPageUrlDateOfChange, setUpdateInProgressAndGetDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,6 +17,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        let payload = {};
+        let dateOfChange: any = null;
 
         if (!session.getExtraData(NEW_AML_BODY) && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
             const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
@@ -31,6 +35,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 session.setExtraData(NEW_AML_BODY, amlBody);
             }
         }
+
+        if (updateInProgress) {
+            dateOfChange = getDateOfChangeFromSession(previousPage, session);
+        } else {
+            dateOfChange = setUpdateInProgressAndGetDateOfChange(previousPage, acspUpdatedFullProfile, session);
+        }
+
+        payload = buildDatePayload(dateOfChange);
 
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
@@ -49,6 +61,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             isAmlSupervisionStart,
             isAmlSupervisionEnd,
+            payload,
             return: req.query.return
         });
     } catch (err) {
@@ -116,4 +129,16 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     } catch (err) {
         next(err);
     }
+};
+
+export const buildDatePayload = (dateOfChange: string) => {
+    if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
+        const date = new Date(dateOfChange);
+        return {
+            "change-year": date.getFullYear(),
+            "change-month": date.getMonth() + 1,
+            "change-day": date.getDate()
+        };
+    }
+    return {};
 };
