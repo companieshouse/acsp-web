@@ -28,14 +28,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         if (newAmlBody && updateBodyIndex !== undefined) {
             dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
         } else if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
-            if (!updateBodyIndex) {
-                updateBodyIndex = acspUpdatedFullProfile.amlDetails.length - 1;
-                session.setExtraData(ADD_AML_BODY_UPDATE, updateBodyIndex);
-            }
-            const amlDetail = acspUpdatedFullProfile.amlDetails[updateBodyIndex];
-            amlBody = getAmlDetailPayload(amlDetail);
-            dateOfChange = amlBody.dateOfChange;
-            session.setExtraData(NEW_AML_BODY, amlBody);
+            const amlDetailsToProcess = fetchAMLDetails(acspUpdatedFullProfile, previousPage, updateBodyIndex, session, amlBody);
+            dateOfChange = amlDetailsToProcess.dateOfChange;
+            updateBodyIndex = amlDetailsToProcess.updateBodyIndex;
+            amlBody = amlDetailsToProcess.amlBody;
         } else if (session.getExtraData(AML_REMOVAL_INDEX) &&
                 session.getExtraData(AML_REMOVAL_BODY) &&
                 session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
@@ -138,6 +134,19 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
+function fetchAMLDetails (acspUpdatedFullProfile: AcspFullProfile, previousPage: String, updateBodyIndex: any, session: Session, amlBody:any) {
+    if (!previousPage.includes(AML_MEMBERSHIP_NUMBER)) return { dateOfChange: null, updateBodyIndex, amlBody };
+
+    if (updateBodyIndex === undefined) {
+        updateBodyIndex = acspUpdatedFullProfile.amlDetails.length - 1;
+        session.setExtraData(ADD_AML_BODY_UPDATE, updateBodyIndex);
+    }
+    const amlDetail = acspUpdatedFullProfile.amlDetails[updateBodyIndex];
+    amlBody = getAmlDetailPayload(amlDetail);
+    session.setExtraData(NEW_AML_BODY, amlBody);
+    return { dateOfChange: amlBody.dateOfChange, updateBodyIndex, amlBody };
+}
 
 function changeDateOnAMLRemoval (removalIndex: any, removalBody: any, removedBodyDetails: AmlSupervisoryBody[]) {
     if (removalIndex && removalBody && removedBodyDetails) {
