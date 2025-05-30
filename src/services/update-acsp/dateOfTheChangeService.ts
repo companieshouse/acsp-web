@@ -117,13 +117,13 @@ export const setUpdateInProgressAndGetDateOfChange = (previousPage: string, acsp
         return session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
     } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
         const updateInProgressBusinessAddress: Address = {
-            premises: acspUpdatedFullProfile.registeredOfficeAddress?.premises,
-            addressLine1: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine1,
-            addressLine2: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine2,
-            locality: acspUpdatedFullProfile.registeredOfficeAddress?.locality,
-            region: acspUpdatedFullProfile.registeredOfficeAddress?.region,
-            country: acspUpdatedFullProfile.registeredOfficeAddress?.country,
-            postalCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
+            premises: acspUpdatedFullProfile.registeredOfficeAddress.premises,
+            addressLine1: acspUpdatedFullProfile.registeredOfficeAddress.addressLine1,
+            addressLine2: acspUpdatedFullProfile.registeredOfficeAddress.addressLine2,
+            locality: acspUpdatedFullProfile.registeredOfficeAddress.locality,
+            region: acspUpdatedFullProfile.registeredOfficeAddress.region,
+            country: acspUpdatedFullProfile.registeredOfficeAddress.country,
+            postalCode: acspUpdatedFullProfile.registeredOfficeAddress.postalCode
         };
         session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressBusinessAddress);
         return session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
