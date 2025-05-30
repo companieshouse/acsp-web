@@ -1,4 +1,4 @@
-import { updateWithTheEffectiveDateAmendment, getPreviousPageUrlDateOfChange } from "../../../../src/services/update-acsp/dateOfTheChangeService";
+import { updateWithTheEffectiveDateAmendment, getPreviousPageUrlDateOfChange, getDateOfChangeFromSession, setUpdateInProgressAndGetDateOfChange } from "../../../../src/services/update-acsp/dateOfTheChangeService";
 
 import { Session } from "@companieshouse/node-session-handler";
 import { Request } from "express";
@@ -23,6 +23,57 @@ import { AmlDetails } from "../../../../src/model/AcspFullProfile";
 
 jest.mock("@companieshouse/node-session-handler");
 jest.mock("../../../../src/services/url");
+
+const acspUpdatedFullProfileWithUndefinedServiceAddress: AcspFullProfile = {
+    serviceAddress: undefined,
+    number: "",
+    name: "",
+    status: "",
+    type: "",
+    notifiedFrom: new Date(),
+    email: "",
+    amlDetails: [],
+    registeredOfficeAddress: {
+        addressLine1: "",
+        addressLine2: "",
+        postalCode: "",
+        country: ""
+    }
+};
+
+const acspUpdatedFullProfileWithUndefinedSoleTraderDetails: AcspFullProfile = {
+    soleTraderDetails: undefined,
+    number: "",
+    name: "",
+    status: "",
+    type: "",
+    notifiedFrom: new Date(),
+    email: "",
+    amlDetails: [],
+    registeredOfficeAddress: {
+        addressLine1: "",
+        addressLine2: "",
+        postalCode: "",
+        country: ""
+    }
+};
+
+const acspUpdatedFullProfileWithUndefinedRegisteredOfficeAddress: AcspFullProfile = {
+    registeredOfficeAddress: {
+        addressLine1: undefined,
+        addressLine2: undefined,
+        postalCode: undefined,
+        country: undefined
+    },
+    number: "",
+    name: "",
+    status: "",
+    type: "",
+    notifiedFrom: new Date(),
+    email: "",
+    amlDetails: [],
+    serviceAddress: undefined
+};
 
 describe("updateWithTheEffectiveDateAmendment", () => {
     let req: Partial<Request>;
@@ -254,5 +305,269 @@ describe("getPreviousPageUrlDateOfChange", () => {
         expect(result).toBe(previousPageUrl);
         expect(session.getExtraData).toHaveBeenCalledWith(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         expect(session.setExtraData).not.toHaveBeenCalled();
+    });
+});
+
+describe("getDateOfChangeFromSession", () => {
+    let session: any;
+
+    beforeEach(() => {
+        session = {
+            getExtraData: jest.fn()
+        };
+    });
+
+    it("returns the correct date for sole trader name change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            return undefined;
+        });
+        const result = getDateOfChangeFromSession(UPDATE_ACSP_WHAT_IS_YOUR_NAME, session);
+        expect(result).toBe("2024-01-01");
+    });
+
+    it("returns the correct date for business name change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            return undefined;
+        });
+        const result = getDateOfChangeFromSession(UPDATE_WHAT_IS_THE_BUSINESS_NAME, session);
+        expect(result).toBe("2024-02-02");
+    });
+
+    it("returns the correct date for residential country change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            return undefined;
+        });
+        const result = getDateOfChangeFromSession(UPDATE_WHERE_DO_YOU_LIVE, session);
+        expect(result).toBe("2024-03-03");
+    });
+
+    it("returns the correct date for correspondence address change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            return undefined;
+        });
+        const result = getDateOfChangeFromSession(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, session);
+        expect(result).toBe("2024-04-04");
+    });
+
+    it("returns the correct date for registered office address change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            return undefined;
+        });
+        const result = getDateOfChangeFromSession(UPDATE_BUSINESS_ADDRESS_CONFIRM, session);
+        expect(result).toBe("2024-05-05");
+    });
+
+    it("returns undefined if previousPage does not match any mapping", () => {
+        session.getExtraData.mockReturnValue(undefined);
+        const result = getDateOfChangeFromSession("/some-other-page", session);
+        expect(result).toBeUndefined();
+    });
+
+    it("returns undefined if session does not have the date", () => {
+        session.getExtraData.mockReturnValue(undefined);
+        const result = getDateOfChangeFromSession(UPDATE_ACSP_WHAT_IS_YOUR_NAME, session);
+        expect(result).toBeUndefined();
+    });
+
+    it("returns the first matching date if previousPage contains multiple mapping substrings", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            return undefined;
+        });
+
+        const previousPage = UPDATE_ACSP_WHAT_IS_YOUR_NAME + UPDATE_WHAT_IS_THE_BUSINESS_NAME;
+        const result = getDateOfChangeFromSession(previousPage, session);
+        expect(result).toBe("2024-01-01");
+    });
+});
+
+describe("setUpdateInProgressAndGetDateOfChange", () => {
+    let session: any;
+    let acspUpdatedFullProfile: any;
+
+    beforeEach(() => {
+        session = {
+            setExtraData: jest.fn(),
+            getExtraData: jest.fn()
+        };
+        acspUpdatedFullProfile = {
+            name: "Business Name",
+            soleTraderDetails: {
+                forename: "John",
+                otherForenames: "A",
+                surname: "Doe",
+                usualResidentialCountry: "UK"
+            },
+            serviceAddress: {
+                premises: "1",
+                addressLine1: "address line 1",
+                addressLine2: "address line 2",
+                locality: "Town",
+                region: "Region",
+                country: "Country",
+                postalCode: "AB12 3CD"
+            },
+            registeredOfficeAddress: {
+                premises: "2",
+                addressLine1: "reg office address line 1",
+                addressLine2: "reg office address line 1",
+                locality: "reg office town",
+                region: "reg office region",
+                country: "reg office country",
+                postalCode: "XY98 7ZT"
+            }
+        };
+    });
+
+    it("handles sole trader name change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(UPDATE_ACSP_WHAT_IS_YOUR_NAME, acspUpdatedFullProfile, session);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            forename: "John",
+            otherForenames: "A",
+            surname: "Doe"
+        });
+        expect(result).toBe("2024-01-01");
+    });
+
+    it("handles sole trader name change when soleTraderDetails is undefined", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(
+            UPDATE_ACSP_WHAT_IS_YOUR_NAME,
+            acspUpdatedFullProfileWithUndefinedSoleTraderDetails,
+            session
+        );
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            forename: undefined,
+            otherForenames: undefined,
+            surname: undefined
+        });
+        expect(result).toBe("2024-01-01");
+    });
+
+    it("handles business name change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(UPDATE_WHAT_IS_THE_BUSINESS_NAME, acspUpdatedFullProfile, session);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, "Business Name");
+        expect(result).toBe("2024-02-02");
+    });
+
+    it("handles where do you live change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(UPDATE_WHERE_DO_YOU_LIVE, acspUpdatedFullProfile, session);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, "UK");
+        expect(result).toBe("2024-03-03");
+    });
+
+    it("handles where do you live change when soleTraderDetails is undefined", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(
+            UPDATE_WHERE_DO_YOU_LIVE,
+            acspUpdatedFullProfileWithUndefinedSoleTraderDetails,
+            session
+        );
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, undefined);
+        expect(result).toBe("2024-03-03");
+    });
+
+    it("handles correspondence address change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, acspUpdatedFullProfile, session);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            premises: "1",
+            addressLine1: "address line 1",
+            addressLine2: "address line 2",
+            locality: "Town",
+            region: "Region",
+            country: "Country",
+            postalCode: "AB12 3CD"
+        });
+        expect(result).toBe("2024-04-04");
+    });
+
+    it("handles correspondence address change when serviceAddress is undefined", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(
+            UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM,
+            acspUpdatedFullProfileWithUndefinedServiceAddress,
+            session
+        );
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            premises: undefined,
+            addressLine1: undefined,
+            addressLine2: undefined,
+            locality: undefined,
+            region: undefined,
+            country: undefined,
+            postalCode: undefined
+        });
+        expect(result).toBe("2024-04-04");
+    });
+
+    it("handles registered office address change", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(UPDATE_BUSINESS_ADDRESS_CONFIRM, acspUpdatedFullProfile, session);
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            premises: "2",
+            addressLine1: "reg office address line 1",
+            addressLine2: "reg office address line 1",
+            locality: "reg office town",
+            region: "reg office region",
+            country: "reg office country",
+            postalCode: "XY98 7ZT"
+        });
+        expect(result).toBe("2024-05-05");
+    });
+
+    it("handles registered office address change when registeredOfficeAddress is undefined", () => {
+        session.getExtraData.mockImplementation((key: string) => {
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            return undefined;
+        });
+        const result = setUpdateInProgressAndGetDateOfChange(
+            UPDATE_BUSINESS_ADDRESS_CONFIRM,
+            acspUpdatedFullProfileWithUndefinedRegisteredOfficeAddress,
+            session
+        );
+        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS_UPDATE_IN_PROGRESS, {
+            premises: undefined,
+            addressLine1: undefined,
+            addressLine2: undefined,
+            locality: undefined,
+            region: undefined,
+            country: undefined,
+            postalCode: undefined
+        });
+        expect(result).toBe("2024-05-05");
     });
 });

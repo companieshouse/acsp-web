@@ -4,11 +4,11 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_DATE_OF_THE_CHANGE, UPDATE_CHECK_YOUR_UPDATES, UPDATE_YOUR_ANSWERS, AML_MEMBERSHIP_NUMBER, REMOVE_AML_SUPERVISOR } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
-import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
+import { getDateOfChangeFromSession, getPreviousPageUrlDateOfChange, setUpdateInProgressAndGetDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
-import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -18,11 +18,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const newAmlBody = session.getExtraData(NEW_AML_BODY);
         let updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         let amlBody: AmlSupervisoryBody = {};
-        let dateOfChange: any = null;
         let payload = {};
+        let dateOfChange: any = null;
 
         if (newAmlBody && updateBodyIndex !== undefined) {
             dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
@@ -35,8 +36,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             amlBody = getAmlDetailPayload(amlDetail);
             dateOfChange = amlBody.dateOfChange;
             session.setExtraData(NEW_AML_BODY, amlBody);
-        }
-        if (session.getExtraData(AML_REMOVAL_INDEX) &&
+        } else if (session.getExtraData(AML_REMOVAL_INDEX) &&
                 session.getExtraData(AML_REMOVAL_BODY) &&
                 session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
             const removedAMLData = session.getExtraData(AML_REMOVED_BODY_DETAILS) as AmlSupervisoryBody[];
@@ -45,16 +45,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 tmpRemovedAml.membershipId === session.getExtraData(AML_REMOVAL_INDEX)
             ));
             dateOfChange = removedAMLData[indexAMLForUndoRemoval]?.dateOfChange;
+        } else {
+            if (updateInProgress) {
+                dateOfChange = getDateOfChangeFromSession(previousPage, session);
+            } else {
+                dateOfChange = setUpdateInProgressAndGetDateOfChange(previousPage, acspUpdatedFullProfile, session);
+            }
         }
+        payload = buildDatePayload(dateOfChange);
 
-        if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
-            const date = new Date(dateOfChange);
-            payload = {
-                "change-year": date.getFullYear(),
-                "change-month": date.getMonth() + 1,
-                "change-day": date.getDate()
-            };
-        }
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
         // Save the AML removal index and body to the session to send to remove aml url
@@ -141,6 +140,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
 function getAmlDetailPayload (amlDetails: any): AmlSupervisoryBody {
     return {
         amlSupervisoryBody: amlDetails.supervisoryBody,
@@ -150,3 +150,15 @@ function getAmlDetailPayload (amlDetails: any): AmlSupervisoryBody {
             : amlDetails.dateOfChange
     };
 }
+
+export const buildDatePayload = (dateOfChange: string) => {
+    if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
+        const date = new Date(dateOfChange);
+        return {
+            "change-year": date.getFullYear(),
+            "change-month": date.getMonth() + 1,
+            "change-day": date.getDate()
+        };
+    }
+    return {};
+};
