@@ -7,7 +7,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { getDateOfChangeFromSession, getPreviousPageUrlDateOfChange, setUpdateInProgressAndGetDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,29 +19,30 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const newAmlBody = session.getExtraData(NEW_AML_BODY);
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         let payload = {};
         let dateOfChange: any = null;
 
-        if (!session.getExtraData(NEW_AML_BODY) && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
-            const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            if (session.getExtraData(ADD_AML_BODY_UPDATE) === undefined) {
-                session.setExtraData(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
-            }
-            const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-            if (updateBodyIndex !== undefined && session.getExtraData(NEW_AML_BODY) === undefined) {
-                const amlBody: AmlSupervisoryBody = {};
-                amlBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
-                amlBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
-                session.setExtraData(NEW_AML_BODY, amlBody);
-            }
-        }
-
-        if (updateInProgress) {
-            dateOfChange = getDateOfChangeFromSession(previousPage, session);
+        if (newAmlBody && updateBodyIndex !== undefined) {
+            dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
+        } else if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
+            const amlDetailsToProcess = fetchAMLDetails(acspUpdatedFullProfile, previousPage, updateBodyIndex, session);
+            dateOfChange = amlDetailsToProcess.dateOfChange;
+        } else if (session.getExtraData(AML_REMOVAL_INDEX) &&
+                session.getExtraData(AML_REMOVAL_BODY) &&
+                session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
+            const amlRemovalIndex = session.getExtraData(AML_REMOVAL_INDEX);
+            const amlRemovalBody = session.getExtraData(AML_REMOVAL_BODY);
+            const removedBodyDetails = session.getExtraData(AML_REMOVED_BODY_DETAILS) as AmlSupervisoryBody[];
+            dateOfChange = changeDateOnAMLRemoval(amlRemovalIndex, amlRemovalBody, removedBodyDetails);
         } else {
-            dateOfChange = setUpdateInProgressAndGetDateOfChange(previousPage, acspUpdatedFullProfile, session);
+            if (updateInProgress) {
+                dateOfChange = getDateOfChangeFromSession(previousPage, session);
+            } else {
+                dateOfChange = setUpdateInProgressAndGetDateOfChange(previousPage, acspUpdatedFullProfile, session);
+            }
         }
-
         payload = buildDatePayload(dateOfChange);
 
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
@@ -130,6 +131,36 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
+function fetchAMLDetails (acspUpdatedFullProfile: AcspFullProfile, previousPage: string, updateBodyIndex: any, session: Session) {
+    let amlBody: AmlSupervisoryBody = {};
+
+    if (updateBodyIndex === undefined) {
+        updateBodyIndex = acspUpdatedFullProfile.amlDetails.length - 1;
+        session.setExtraData(ADD_AML_BODY_UPDATE, updateBodyIndex);
+    }
+    const amlDetail = acspUpdatedFullProfile.amlDetails[updateBodyIndex];
+    amlBody = getAmlDetailPayload(amlDetail);
+    session.setExtraData(NEW_AML_BODY, amlBody);
+    return { dateOfChange: amlBody.dateOfChange, updateBodyIndex, amlBody };
+}
+
+function changeDateOnAMLRemoval (removalIndex: any, removalBody: any, removedBodyDetails: AmlSupervisoryBody[]) {
+    const removedAMLData = removedBodyDetails;
+    const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml =>
+        tmpRemovedAml.amlSupervisoryBody === removalBody &&
+            tmpRemovedAml.membershipId === removalIndex
+    );
+    return removedAMLData[indexAMLForUndoRemoval].dateOfChange;
+}
+
+function getAmlDetailPayload (amlDetails: any): AmlSupervisoryBody {
+    return {
+        amlSupervisoryBody: amlDetails.supervisoryBody,
+        membershipId: amlDetails.membershipDetails,
+        dateOfChange: amlDetails.dateOfChange
+    };
+}
 
 export const buildDatePayload = (dateOfChange: string) => {
     if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
