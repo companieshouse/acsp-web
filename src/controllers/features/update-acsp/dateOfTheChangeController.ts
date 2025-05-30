@@ -26,25 +26,27 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         if (newAmlBody && updateBodyIndex !== undefined) {
             dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
-        }
-        if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
+        } else if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
             if (updateBodyIndex === undefined) {
                 updateBodyIndex = acspUpdatedFullProfile.amlDetails.length - 1;
                 session.setExtraData(ADD_AML_BODY_UPDATE, updateBodyIndex);
             }
-            if (updateBodyIndex !== undefined && !newAmlBody) {
+            if (updateBodyIndex !== undefined) {
                 const amlDetail = acspUpdatedFullProfile.amlDetails[updateBodyIndex];
-                amlBody = {
-                    amlSupervisoryBody: amlDetail.supervisoryBody,
-                    membershipId: amlDetail.membershipDetails,
-                    dateOfChange: amlDetail.dateOfChange instanceof Date
-                        ? amlDetail.dateOfChange.toISOString()
-                        : amlDetail.dateOfChange
-                };
+                amlBody = getAmlDetailPayload(amlDetail);
                 dateOfChange = amlBody.dateOfChange;
                 session.setExtraData(NEW_AML_BODY, amlBody);
             }
         }
+        if(session.getExtraData(AML_REMOVAL_INDEX) && session.getExtraData(AML_REMOVAL_BODY) && session.getExtraData(AML_REMOVED_BODY_DETAILS)){
+            const removedAMLData = session.getExtraData(AML_REMOVED_BODY_DETAILS) as AmlSupervisoryBody[];
+            const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml => (
+                tmpRemovedAml.amlSupervisoryBody === session.getExtraData(AML_REMOVAL_BODY) && 
+                tmpRemovedAml.membershipId === session.getExtraData(AML_REMOVAL_INDEX)
+            ));
+            dateOfChange = removedAMLData[indexAMLForUndoRemoval]?.dateOfChange;
+        }
+
         if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
             const date = new Date(dateOfChange);
             payload = {
@@ -139,3 +141,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+function getAmlDetailPayload(amlDetail: any): AmlSupervisoryBody {
+    return {
+        amlSupervisoryBody: amlDetail.supervisoryBody,
+        membershipId: amlDetail.membershipDetails,
+        dateOfChange: amlDetail.dateOfChange instanceof Date
+            ? amlDetail.dateOfChange.toISOString()
+            : amlDetail.dateOfChange
+    };
+}
