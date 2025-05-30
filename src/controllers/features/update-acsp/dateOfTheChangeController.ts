@@ -20,18 +20,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const updateInProgress = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         const newAmlBody = session.getExtraData(NEW_AML_BODY);
-        let updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-        let amlBody: AmlSupervisoryBody = {};
+        const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
         let payload = {};
         let dateOfChange: any = null;
 
         if (newAmlBody && updateBodyIndex !== undefined) {
             dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
         } else if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
-            const amlDetailsToProcess = fetchAMLDetails(acspUpdatedFullProfile, previousPage, updateBodyIndex, session, amlBody);
+            const amlDetailsToProcess = fetchAMLDetails(acspUpdatedFullProfile, previousPage, updateBodyIndex, session);
             dateOfChange = amlDetailsToProcess.dateOfChange;
-            updateBodyIndex = amlDetailsToProcess.updateBodyIndex;
-            amlBody = amlDetailsToProcess.amlBody;
         } else if (session.getExtraData(AML_REMOVAL_INDEX) &&
                 session.getExtraData(AML_REMOVAL_BODY) &&
                 session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
@@ -135,7 +132,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-function fetchAMLDetails (acspUpdatedFullProfile: AcspFullProfile, previousPage: String, updateBodyIndex: any, session: Session, amlBody:any) {
+function fetchAMLDetails (acspUpdatedFullProfile: AcspFullProfile, previousPage: string, updateBodyIndex: any, session: Session) {
+    let amlBody: AmlSupervisoryBody = {};
     if (!previousPage.includes(AML_MEMBERSHIP_NUMBER)) return { dateOfChange: null, updateBodyIndex, amlBody };
 
     if (updateBodyIndex === undefined) {
@@ -150,7 +148,7 @@ function fetchAMLDetails (acspUpdatedFullProfile: AcspFullProfile, previousPage:
 
 function changeDateOnAMLRemoval (removalIndex: any, removalBody: any, removedBodyDetails: AmlSupervisoryBody[]) {
     if (removalIndex && removalBody && removedBodyDetails) {
-        const removedAMLData = removedBodyDetails as AmlSupervisoryBody[];
+        const removedAMLData = removedBodyDetails;
         const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml =>
             tmpRemovedAml.amlSupervisoryBody === removalBody &&
             tmpRemovedAml.membershipId === removalIndex
