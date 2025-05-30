@@ -151,16 +151,14 @@ function changeDateOnAMLRemoval (removalIndex: any, removalBody: any, removedBod
         tmpRemovedAml.amlSupervisoryBody === removalBody &&
             tmpRemovedAml.membershipId === removalIndex
     );
-    return removedAMLData[indexAMLForUndoRemoval]?.dateOfChange;
+    return removedAMLData[indexAMLForUndoRemoval].dateOfChange;
 }
 
 function getAmlDetailPayload (amlDetails: any): AmlSupervisoryBody {
     return {
         amlSupervisoryBody: amlDetails.supervisoryBody,
         membershipId: amlDetails.membershipDetails,
-        dateOfChange: amlDetails.dateOfChange instanceof Date
-            ? amlDetails.dateOfChange.toISOString()
-            : amlDetails.dateOfChange
+        dateOfChange: amlDetails.dateOfChange
     };
 }
 
