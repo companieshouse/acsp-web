@@ -39,12 +39,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         } else if (session.getExtraData(AML_REMOVAL_INDEX) &&
                 session.getExtraData(AML_REMOVAL_BODY) &&
                 session.getExtraData(AML_REMOVED_BODY_DETAILS)) {
-            const removedAMLData = session.getExtraData(AML_REMOVED_BODY_DETAILS) as AmlSupervisoryBody[];
-            const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml => (
-                tmpRemovedAml.amlSupervisoryBody === session.getExtraData(AML_REMOVAL_BODY) &&
-                tmpRemovedAml.membershipId === session.getExtraData(AML_REMOVAL_INDEX)
-            ));
-            dateOfChange = removedAMLData[indexAMLForUndoRemoval]?.dateOfChange;
+            const removalDate = handleAmlRemoval(session);
+            if (removalDate) {
+                dateOfChange = removalDate;
+            }
         } else {
             if (updateInProgress) {
                 dateOfChange = getDateOfChangeFromSession(previousPage, session);
@@ -140,6 +138,21 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         next(err);
     }
 };
+
+function handleAmlRemoval (session: Session) {
+    const removalIndex = session.getExtraData(AML_REMOVAL_INDEX);
+    const removalBody = session.getExtraData(AML_REMOVAL_BODY);
+    const removedBodyDetails = session.getExtraData(AML_REMOVED_BODY_DETAILS);
+    if (removalIndex && removalBody && removedBodyDetails) {
+        const removedAMLData = removedBodyDetails as AmlSupervisoryBody[];
+        const indexAMLForUndoRemoval = removedAMLData.findIndex(tmpRemovedAml =>
+            tmpRemovedAml.amlSupervisoryBody === removalBody &&
+            tmpRemovedAml.membershipId === removalIndex
+        );
+        return removedAMLData[indexAMLForUndoRemoval]?.dateOfChange || null;
+    }
+    return null;
+}
 
 function getAmlDetailPayload (amlDetails: any): AmlSupervisoryBody {
     return {
