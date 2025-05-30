@@ -7,7 +7,7 @@ import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../.
 import { getPreviousPageUrlDateOfChange, updateWithTheEffectiveDateAmendment } from "../../../services/update-acsp/dateOfTheChangeService";
 import { Session } from "@companieshouse/node-session-handler";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { ACSP_DETAILS_UPDATED, NEW_AML_BODY, ADD_AML_BODY_UPDATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX, AML_REMOVED_BODY_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -17,21 +17,42 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const cancelTheUpdateUrl = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang);
         const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + getPreviousPageUrlDateOfChange(req), lang);
+        const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
+        const newAmlBody = session.getExtraData(NEW_AML_BODY);
+        let updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
+        let amlBody: AmlSupervisoryBody = {};
+        let dateOfChange: any = null;
+        let payload = {};
 
-        if (!session.getExtraData(NEW_AML_BODY) && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
-            const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
-            if (session.getExtraData(ADD_AML_BODY_UPDATE) === undefined) {
-                session.setExtraData(ADD_AML_BODY_UPDATE, acspUpdatedFullProfile.amlDetails.length - 1);
+        if (newAmlBody && updateBodyIndex !== undefined) {
+            dateOfChange = acspUpdatedFullProfile.amlDetails[updateBodyIndex].dateOfChange;
+        }
+        if (!newAmlBody && previousPage.includes(AML_MEMBERSHIP_NUMBER)) {
+            if (updateBodyIndex === undefined) {
+                updateBodyIndex = acspUpdatedFullProfile.amlDetails.length - 1;
+                session.setExtraData(ADD_AML_BODY_UPDATE, updateBodyIndex);
             }
-            const updateBodyIndex: number | undefined = session.getExtraData(ADD_AML_BODY_UPDATE);
-            if (updateBodyIndex !== undefined && session.getExtraData(NEW_AML_BODY) === undefined) {
-                const amlBody: AmlSupervisoryBody = {};
-                amlBody.amlSupervisoryBody = acspUpdatedFullProfile.amlDetails[updateBodyIndex].supervisoryBody;
-                amlBody.membershipId = acspUpdatedFullProfile.amlDetails[updateBodyIndex].membershipDetails;
+            if (updateBodyIndex !== undefined && !newAmlBody) {
+                const amlDetail = acspUpdatedFullProfile.amlDetails[updateBodyIndex];
+                amlBody = {
+                    amlSupervisoryBody: amlDetail.supervisoryBody,
+                    membershipId: amlDetail.membershipDetails,
+                    dateOfChange: amlDetail.dateOfChange instanceof Date
+                        ? amlDetail.dateOfChange.toISOString()
+                        : amlDetail.dateOfChange
+                };
+                dateOfChange = amlBody.dateOfChange;
                 session.setExtraData(NEW_AML_BODY, amlBody);
             }
         }
-
+        if (typeof dateOfChange === "string" && dateOfChange.trim() !== "") {
+            const date = new Date(dateOfChange);
+            payload = {
+                "change-year": date.getFullYear(),
+                "change-month": date.getMonth() + 1,
+                "change-day": date.getDate()
+            };
+        }
         const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE;
 
         // Save the AML removal index and body to the session to send to remove aml url
@@ -49,6 +70,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             currentUrl,
             isAmlSupervisionStart,
             isAmlSupervisionEnd,
+            payload,
             return: req.query.return
         });
     } catch (err) {

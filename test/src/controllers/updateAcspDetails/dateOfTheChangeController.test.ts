@@ -122,6 +122,72 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         expect(sessionMock.setExtraData).toHaveBeenCalledWith(AML_REMOVAL_BODY, amlRemovalBody);
     });
 
+    it("should use dateOfChange from amlDetails when newAmlBody and updateBodyIndex are present", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A", dateOfChange: "2024-01-01" }
+            ]
+        };
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === NEW_AML_BODY) return { membershipId: "123456", amlSupervisoryBody: "Body A" };
+                if (key === ADD_AML_BODY_UPDATE) return 0;
+                return undefined;
+            });
+        const previousPage = "/update-acsp-details/aml-membership-number";
+        jest.spyOn(require("../../../../src/utils/localise"), "addLangToUrl").mockReturnValue(previousPage);
+
+        await get(req as Request, res as Response, next);
+
+        expect(res.render).toHaveBeenCalledWith(
+            "../views/features/update-acsp-details/date-of-the-change/date-of-the-change",
+            expect.objectContaining({
+                payload: {
+                    "change-year": 2024,
+                    "change-month": 1,
+                    "change-day": 1
+                }
+            })
+        );
+    });
+
+    it("should set NEW_AML_BODY and payload when newAmlBody is not present and previousPage includes AML_MEMBERSHIP_NUMBER", async () => {
+        const acspUpdatedFullProfile = {
+            amlDetails: [
+                { membershipDetails: "123456", supervisoryBody: "Body A", dateOfChange: "2024-02-02" }
+            ]
+        };
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === NEW_AML_BODY) return undefined;
+                if (key === ADD_AML_BODY_UPDATE) return undefined;
+                return undefined;
+            });
+        const previousPage = "/update-acsp-details/aml-membership-number";
+        jest.spyOn(require("../../../../src/utils/localise"), "addLangToUrl").mockReturnValue(previousPage);
+
+        await get(req as Request, res as Response, next);
+        expect(sessionMock.setExtraData).toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, 0);
+        expect(sessionMock.setExtraData).toHaveBeenCalledWith(NEW_AML_BODY, {
+            amlSupervisoryBody: "Body A",
+            membershipId: "123456",
+            dateOfChange: "2024-02-02"
+        });
+
+        expect(res.render).toHaveBeenCalledWith(
+            "../views/features/update-acsp-details/date-of-the-change/date-of-the-change",
+            expect.objectContaining({
+                payload: {
+                    "change-year": 2024,
+                    "change-month": 2,
+                    "change-day": 2
+                }
+            })
+        );
+    });
+
     it("should set NEW_AML_BODY to the last index of amlDetails", async () => {
         const acspUpdatedFullProfile = {
             amlDetails: [
