@@ -2,7 +2,7 @@ import { formatValidationError, getPageProperties } from "../../validation/valid
 import { addLangToUrl, getLocaleInfo } from "../../utils/localise";
 import { Request, Response } from "express";
 import * as config from "../../config";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../types/pageURL";
 import { ValidationError } from "express-validator";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspFullProfile } from "../../model/AcspFullProfile";
@@ -25,7 +25,7 @@ export class AmlMembershipNumberService {
         return new Promise((resolve) => {
             const pageProperties = getPageProperties(formatValidationError(validationError, lang));
             res.status(400).render(config.AML_MEMBERSHIP_NUMBER, {
-                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_SELECT_AML_SUPERVISOR, lang),
+                previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
                 ...getLocaleInfo(locales, lang),
                 currentUrl,
                 pageProperties: pageProperties,
