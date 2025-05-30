@@ -70,18 +70,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
             } else if (previousPage.includes(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM)) {
                 const updateInProgressCorrespondenceAddress: Address = {
-                    premises: acspUpdatedFullProfile.registeredOfficeAddress.premises,
-                    addressLine1: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine1,
-                    addressLine2: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine2,
-                    locality: acspUpdatedFullProfile.registeredOfficeAddress?.locality,
-                    region: acspUpdatedFullProfile.registeredOfficeAddress?.region,
-                    country: acspUpdatedFullProfile.registeredOfficeAddress?.country,
-                    postalCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
-                };
-                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressCorrespondenceAddress);
-                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
-            } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
-                const updateInProgressBusinessAddress: Address = {
                     premises: acspUpdatedFullProfile.serviceAddress?.premises,
                     addressLine1: acspUpdatedFullProfile.serviceAddress?.addressLine1,
                     addressLine2: acspUpdatedFullProfile.serviceAddress?.addressLine2,
@@ -89,6 +77,18 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                     region: acspUpdatedFullProfile.serviceAddress?.region,
                     country: acspUpdatedFullProfile.serviceAddress?.country,
                     postalCode: acspUpdatedFullProfile.serviceAddress?.postalCode
+                };
+                session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressCorrespondenceAddress);
+                dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
+            } else if (previousPage.includes(UPDATE_BUSINESS_ADDRESS_CONFIRM)) {
+                const updateInProgressBusinessAddress: Address = {
+                    premises: acspUpdatedFullProfile.registeredOfficeAddress?.premises,
+                    addressLine1: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine1,
+                    addressLine2: acspUpdatedFullProfile.registeredOfficeAddress?.addressLine2,
+                    locality: acspUpdatedFullProfile.registeredOfficeAddress?.locality,
+                    region: acspUpdatedFullProfile.registeredOfficeAddress?.region,
+                    country: acspUpdatedFullProfile.registeredOfficeAddress?.country,
+                    postalCode: acspUpdatedFullProfile.registeredOfficeAddress?.postalCode
                 };
                 session.setExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS, updateInProgressBusinessAddress);
                 dateOfChange = session.getExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
