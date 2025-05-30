@@ -4,6 +4,7 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import * as localise from "../../../../src/utils/localise";
+import * as dateOfTheChangeService from "../../../../src/services/update-acsp/dateOfTheChangeService";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { buildDatePayload, get } from "../../../../src/controllers/features/update-acsp/dateOfTheChangeController";
 import { Request, Response, NextFunction } from "express";
@@ -139,6 +140,33 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         req.query = { lang: "en" };
         await get(req as Request, res as Response, next);
         expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ADD_AML_BODY_UPDATE, expect.anything());
+    });
+
+    it("should call getDateOfChangeFromSession when updateInProgress is true", async () => {
+        sessionMock.getExtraData = jest.fn()
+            .mockImplementation((key: string) => {
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return true;
+                if (key === ACSP_DETAILS_UPDATED) return { amlDetails: [] };
+                return undefined;
+            });
+
+        const previousPage = "somePreviousPage";
+        jest.spyOn(dateOfTheChangeService, "getDateOfChangeFromSession").mockReturnValue("2024-01-01");
+        jest.spyOn(dateOfTheChangeService, "setUpdateInProgressAndGetDateOfChange").mockReturnValue(undefined);
+
+        jest.spyOn(require("../../../../src/utils/localise"), "addLangToUrl").mockReturnValue(previousPage);
+
+        req.session = sessionMock as Session;
+
+        await get(req as Request, res as Response, next);
+
+        expect(dateOfTheChangeService.getDateOfChangeFromSession).toHaveBeenCalledWith(previousPage, sessionMock);
+        expect(res.render).toHaveBeenCalledWith(
+            expect.anything(),
+            expect.objectContaining({
+                payload: { "change-year": 2024, "change-month": 1, "change-day": 1 }
+            })
+        );
     });
 });
 
