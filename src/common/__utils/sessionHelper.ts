@@ -4,13 +4,18 @@ import {
     ACSP_DETAILS,
     ACSP_DETAILS_UPDATED,
     ACSP_DETAILS_UPDATE_IN_PROGRESS,
+    ACSP_UPDATE_CHANGE_DATE,
     ACSP_UPDATE_PREVIOUS_PAGE_URL,
     ADDRESS_LIST,
+    ADD_AML_BODY_UPDATE,
+    AML_REMOVAL_BODY,
+    AML_REMOVAL_INDEX,
     AML_REMOVED_BODY_DETAILS,
     APPLICATION_ID,
     COMPANY,
     COMPANY_DETAILS,
     COMPANY_NUMBER,
+    NEW_AML_BODY,
     PREVIOUS_PAGE_URL,
     RESUME_APPLICATION_ID,
     SUBMISSION_ID,
@@ -45,9 +50,18 @@ export const deleteAllSessionData = async (session: Session) => {
     session.deleteExtraData(ADDRESS_LIST);
     session.deleteExtraData(UNINCORPORATED_AML_SELECTED_OPTION);
     session.deleteExtraData(UPDATE_SUBMISSION_ID);
+    session.deleteExtraData(AML_REMOVED_BODY_DETAILS);
+    session.deleteExtraData(AML_REMOVAL_INDEX);
+    session.deleteExtraData(AML_REMOVAL_BODY);
+    session.deleteExtraData(ADD_AML_BODY_UPDATE);
+    session.deleteExtraData(NEW_AML_BODY);
     session.deleteExtraData(ACSP_DETAILS);
     session.deleteExtraData(ACSP_DETAILS_UPDATED);
     session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
-    session.deleteExtraData(AML_REMOVED_BODY_DETAILS);
     session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+    session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.NAME);
+    session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
+    session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS);
+    session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
+    session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
 };
