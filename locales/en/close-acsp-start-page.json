@@ -1,8 +1,8 @@
 {
     "startPageTitleCloseAcsp": "Close the authorised agent account",
-    "ifYouCloseAcsp": "Close the authorised agent account if {BUSINESS_NAME} no longer needs to be registered as an authorised agent with Companies House. This is also known as an Authorised Corporate Service Provider (ACSP).",
+    "ifYouCloseAcsp": "Close the authorised agent account if {BUSINESS_NAME} no longer needs to be registered as an Authorised Corporate Service Provider (ACSP) with Companies House. This is also known as an authorised agent.",
     "beforeYouContinueHeading": "Before you continue",
-    "beforeYouContinueText1": "If there are other people who work for the authorised agent, you must ",
-    "beforeYouContinueLink": "check if they’ve been added to the account",
+    "beforeYouContinueText1": "If there are other people who work for the authorised agent, you must check if they’ve been added to the account. You can view all users who have been added by going to ",
+    "beforeYouContinueManageUsersLink": "manage users",
     "beforeYouContinueText2": "You’ll need to tell them they will not be able to access the account, or use services for the authorised agent when you close it. "
 }
