@@ -60,6 +60,8 @@ export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
 export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
+export const MANAGE_USERS = `${AUTHORISED_AGENT}/manage-users`;
+
 export const IDENTITY_VERIFICATION = "identity-verification";
 
 export const VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN = `${ACCOUNT_URL}/${IDENTITY_VERIFICATION}/direct/has-identity-been-verified`;

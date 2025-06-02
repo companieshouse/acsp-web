@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { CLOSE_ACSP_BASE_URL, CLOSE_WHAT_WILL_HAPPEN } from "../../../types/pageURL";
+import { CLOSE_ACSP_BASE_URL, CLOSE_WHAT_WILL_HAPPEN, MANAGE_USERS } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -25,7 +25,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CLOSE_ACSP_HOME, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            businessName: getBusinessName(acspDetails.name)
+            businessName: getBusinessName(acspDetails.name),
+            manageUsersLink: addLangToUrl(MANAGE_USERS, lang)
         });
     } catch (error) {
         next(error);
