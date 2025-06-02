@@ -114,8 +114,6 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
             } else {
                 session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
-                session.deleteExtraData(AML_REMOVAL_INDEX);
-                session.deleteExtraData(AML_REMOVAL_BODY);
                 res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
             }
         }
