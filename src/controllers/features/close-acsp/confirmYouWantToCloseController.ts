@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import * as config from "../../../config";
 import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRMATION_ACSP_CLOSED, CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, CLOSE_WHAT_WILL_HAPPEN } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
+import { ACSP_DETAILS, CLOSE_DESCRIPTION, CLOSE_REFERENCE, CLOSE_SUBMISSION_ID } from "../../../common/__utils/constants";
+import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspCloseService } from "../../../services/close-acsp/acspCloseService";
-import { ACSP_DETAILS } from "../../../common/__utils/constants";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -28,6 +29,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspCloseService = new AcspCloseService();
         await acspCloseService.createTransaction(session);
+        await closeTransaction(session, session.getExtraData(CLOSE_SUBMISSION_ID)!, CLOSE_DESCRIPTION, CLOSE_REFERENCE);
         await acspCloseService.saveCloseDetails(session, session.getExtraData(ACSP_DETAILS)!);
         res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED, lang));
     } catch (error) {
