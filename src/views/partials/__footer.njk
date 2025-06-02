@@ -27,7 +27,7 @@
 }) }}
 <div id="templateName" data-id="{{title}}" hidden></div>
 <script type="application/javascript" nonce={{ nonce | dump | safe }}>
-  window.SERVICE_NAME = "Register as a companies house authorised agent";
+  window.SERVICE_NAME = '{{ serviceName }}' + ' - '
   window.PIWIK_URL = '{{ PIWIK_URL }}'
   window.PIWIK_SITE_ID = '{{ PIWIK_SITE_ID }}'
 </script>

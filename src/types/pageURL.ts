@@ -218,8 +218,6 @@ export const UPDATE_AML_MEMBERSHIP_NUMBER = "/aml-membership-number";
 
 export const REMOVE_AML_SUPERVISOR = "/remove-an-aml";
 
-export const UPDATE_SELECT_AML_SUPERVISOR = "/select-aml-supervisor";
-
 export const UPDATE_CANCEL_ALL_UPDATES = "/cancel-all-updates";
 
 export const UPDATE_DATE_OF_THE_CHANGE = "/when-did-this-change";

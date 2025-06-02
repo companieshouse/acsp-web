@@ -11,6 +11,7 @@ import { getAcspFullProfile } from "../../../services/acspProfileService";
 import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../common/__utils/constants";
+import { getBusinessName } from "../../../services/common";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -24,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CLOSE_ACSP_HOME, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            businessName: acspDetails.name
+            businessName: getBusinessName(acspDetails.name)
         });
     } catch (error) {
         next(error);

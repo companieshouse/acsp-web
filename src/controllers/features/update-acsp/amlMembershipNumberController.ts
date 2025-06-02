@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_AML_MEMBERSHIP_NUMBER, UPDATE_DATE_OF_THE_CHANGE, UPDATE_SELECT_AML_SUPERVISOR, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { AML_MEMBERSHIP_NUMBER, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_ADD_AML_SUPERVISOR, UPDATE_AML_MEMBERSHIP_NUMBER, UPDATE_DATE_OF_THE_CHANGE, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
@@ -32,7 +32,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
         res.render(config.AML_MEMBERSHIP_NUMBER, {
             ...getLocaleInfo(locales, lang),
-            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_SELECT_AML_SUPERVISOR, lang),
+            previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR, lang),
             currentUrl,
             payload,
             amlSupervisoryBodies: [newAMLBody],

@@ -5,21 +5,17 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import { ACSP_DETAILS, CLOSE_DESCRIPTION, CLOSE_REFERENCE, CLOSE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AcspCloseService } from "../../../services/close-acsp/acspCloseService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const session: Session = req.session as any as Session;
-        const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
         res.render(config.CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, {
             ...getLocaleInfo(locales, lang),
             previousPage: addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN, lang),
-            currentUrl: CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE,
-            businessName: acspDetails.name
+            currentUrl: CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE
         });
 
     } catch (error) {
@@ -34,6 +30,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const acspCloseService = new AcspCloseService();
         await acspCloseService.createTransaction(session);
         await closeTransaction(session, session.getExtraData(CLOSE_SUBMISSION_ID)!, CLOSE_DESCRIPTION, CLOSE_REFERENCE);
+        await acspCloseService.saveCloseDetails(session, session.getExtraData(ACSP_DETAILS)!);
         res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED, lang));
     } catch (error) {
         next(error);

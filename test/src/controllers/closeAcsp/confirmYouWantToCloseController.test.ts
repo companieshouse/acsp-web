@@ -6,21 +6,17 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, CLOSE_CONFIRMATION_ACSP_CLOSED } from "../../../../src/types/pageURL";
 import * as localise from "../../../../src/utils/localise";
-import * as controller from "../../../../src/controllers/features/close-acsp/confirmYouWantToCloseController";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
-jest.mock("../../../../src/services/transactions/transaction_service");
+import { postAcspRegistration } from "../../../../src/services/acspRegistrationService";
 
 const router = supertest(app);
-const mockPostTransaction = postTransaction as jest.Mock;
-let req: any;
-let res: any;
-let next: jest.Mock;
 
-beforeEach(() => {
-    req = { query: {}, session: { getExtraData: jest.fn() } };
-    res = { render: jest.fn() };
-    next = jest.fn();
-});
+jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../../src/services/transactions/transaction_service");
+jest.mock("../../../../src/services/acspRegistrationService");
+
+const mockPostTransaction = postTransaction as jest.Mock;
+const mockPostRegistration = postAcspRegistration as jest.Mock;
 
 describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
     it("should return status 200 and render the page", async () => {
@@ -38,19 +34,12 @@ describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
-
-    it("should call next with error if an exception is caught", async () => {
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("Unit test error");
-        });
-        await controller.get(req, res, next);
-        expect(next).toHaveBeenCalledWith(expect.any(Error));
-    });
 });
 
 describe("POST " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
     it("should return status 302 after redirect", async () => {
         await mockPostTransaction.mockResolvedValueOnce({});
+        await mockPostRegistration.mockResolvedValueOnce({});
         const res = await router.post(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE);
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED + "?lang=en");
@@ -58,19 +47,9 @@ describe("POST " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => 
     });
 
     it("should return status 500 when an error occurs", async () => {
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("Test error");
-        });
-        const res = await router.post(CLOSE_ACSP_BASE_URL);
+        await mockPostRegistration.mockRejectedValueOnce(new Error("Test error"));
+        const res = await router.post(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
-
-    it("should call next with error if an exception is caught", async () => {
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error("test error");
-        });
-        await controller.post(req, res, next);
-        expect(next).toHaveBeenCalledWith(expect.any(Error));
     });
 });
