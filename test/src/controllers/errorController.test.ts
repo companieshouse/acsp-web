@@ -177,4 +177,12 @@ describe("accountOwnerErrorHandler", () => {
         expect(mockNext).toHaveBeenCalledTimes(1);
         expect(mockNext).toHaveBeenCalledWith(error);
     });
+
+    it("should handle AccountOwnerError and return true if error is an instance of AccountOwnerError", () => {
+        const error = new AccountOwnerError("test AccountOwnerError");
+        expect(error instanceof AccountOwnerError).toBe(true);
+        accountOwnerErrorHandler(error, request, response, mockNext);
+        expect(logger.error).toHaveBeenCalled();
+        expect(response.render).toHaveBeenCalled();
+    });
 });

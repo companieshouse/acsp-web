@@ -33,18 +33,20 @@ describe("getAcspProfileMiddleware", () => {
     });
 
     it("should fetch ACSP details when not in session", async () => {
-        // const session = req.session as any as Session;
+        const session = req.session as any as Session;
+        const profile = { status: "active" };
+        (getAcspFullProfile as jest.Mock).mockResolvedValue(profile);
+
         await getAcspProfileMiddleware(req, res, next);
 
         expect(getAcspFullProfile).toHaveBeenCalledWith(acspNumber);
+        expect(session.getExtraData(ACSP_DETAILS)).toEqual(profile);
         expect(next).toHaveBeenCalled();
     });
 
     it("should pass through any caught errors", async () => {
         const error = new Error("Test error");
-        (getAcspFullProfile as jest.Mock).mockImplementation(() => {
-            throw error;
-        });
+        (getAcspFullProfile as jest.Mock).mockRejectedValue(error);
 
         await getAcspProfileMiddleware(req, res, next);
 
