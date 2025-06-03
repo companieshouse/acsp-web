@@ -29,8 +29,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspCloseService = new AcspCloseService();
         await acspCloseService.createTransaction(session);
-        await closeTransaction(session, session.getExtraData(CLOSE_SUBMISSION_ID)!, CLOSE_DESCRIPTION, CLOSE_REFERENCE);
         await acspCloseService.saveCloseDetails(session, session.getExtraData(ACSP_DETAILS)!);
+        await closeTransaction(session, session.getExtraData(CLOSE_SUBMISSION_ID)!, CLOSE_DESCRIPTION, CLOSE_REFERENCE);
         res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED, lang));
     } catch (error) {
         next(error);
