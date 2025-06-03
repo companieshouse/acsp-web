@@ -35,6 +35,7 @@ export const WHAT_IS_YOUR_NAME = `${BASE_COMMON_URL}/name/capture-name`;
 export const NAME_REGISTERED_WITH_AML = `${BASE_COMMON_URL}/name-registered-with-aml/name-registered-with-aml`;
 export const WHAT_IS_YOUR_ROLE = `${BASE_COMMON_URL}/what-is-your-role/what-is-your-role`;
 export const STOP_NOT_RELEVANT_OFFICER_KICK_OUT = `${BASE_COMMON_URL}/stop-not-relevant-officer/stop-not-relevant-officer`;
+export const STOP_NOT_ACCOUNT_OWNER_KICK_OUT = `${BASE_COMMON_URL}/stop-not-account-owner/stop-not-account-owner`;
 export const SECTOR_YOU_WORK_IN = `${BASE_COMMON_URL}/sector-you-work-in/sector-you-work-in`;
 export const WHICH_SECTOR_OTHER = `${BASE_COMMON_URL}/which-sector-other/which-sector-other`;
 export const AUTO_LOOKUP_ADDRESS = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/auto-lookup-address`;

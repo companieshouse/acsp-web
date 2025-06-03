@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { getLocaleInfo, getLocalesService, selectLang } from "../utils/localise";
+import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../utils/localise";
 import { LocalesService } from "@companieshouse/ch-node-utils";
 import * as config from "../config";
+import { MANAGE_USERS } from "../types/pageURL";
 
 export class ErrorService {
     public renderErrorPage = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {
@@ -27,6 +28,14 @@ export class ErrorService {
             title: "Sorry, something went wrong",
             ...getLocaleInfo(locales, lang),
             currentUrl: currentUrl
+        });
+    }
+
+    public renderStopNotAccountOwnerPage = (res: Response, locales: LocalesService, lang: string, currentUrl: string) => {
+        res.status(403).render(config.STOP_NOT_ACCOUNT_OWNER_KICK_OUT, {
+            ...getLocaleInfo(locales, lang),
+            currentUrl: currentUrl,
+            manageUsersLink: addLangToUrl(MANAGE_USERS, lang)
         });
     }
 }

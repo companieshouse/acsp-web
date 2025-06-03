@@ -5,6 +5,7 @@ import { getLocalesService, selectLang } from "../utils/localise";
 import logger from "../utils/logger";
 import { CHS_URL } from "../utils/properties";
 import { BASE_URL, CHECK_SAVED_APPLICATION, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../types/pageURL";
+import { AccountOwnerError } from "../errors/accountOwnerError";
 
 export const httpErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err.httpStatusCode === 401) {
@@ -38,10 +39,20 @@ export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, re
     }
 };
 
+export const accountOwnerErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next:NextFunction) => {
+    if (err instanceof AccountOwnerError) {
+        logger.error(`${err.name} - accountOwnerError: ${err.message} - ${err.stack}`);
+        const errorService = new ErrorService();
+        errorService.renderStopNotAccountOwnerPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
+    } else {
+        next(err);
+    }
+};
+
 export const unhandledErrorHandler: ErrorRequestHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const errorService = new ErrorService();
     errorService.renderErrorPage(res, getLocalesService(), selectLang(req.query.lang), req.url);
 };
 
-export default [httpErrorHandler, csrfErrorHandler, unhandledErrorHandler];
+export default [httpErrorHandler, csrfErrorHandler, accountOwnerErrorHandler, unhandledErrorHandler];
