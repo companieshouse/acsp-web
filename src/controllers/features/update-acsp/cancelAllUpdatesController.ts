@@ -36,7 +36,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
         session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
 
-        res.redirect(AUTHORISED_AGENT);
+        res.redirect(addLangToUrl(AUTHORISED_AGENT, selectLang(req.query.lang)));
     } catch (err) {
         next(err);
     }
