@@ -1,0 +1,11 @@
+{% extends "layouts/default.njk" %}
+
+{% set title = i18n.youMustBeAccountOwnerTitle %}
+{% block main_content %}
+  <h1 class="govuk-heading-l"> {{ i18n.youMustBeAccountOwnerTitle }} </h1>
+  <p class="govuk-body">{{ i18n.onlyAccountOwnersForAuthAgent }}</p>
+  <p class="govuk-body">{{ i18n.youllNeedToContactAccountOwner }}</p>
+  <p class="govuk-body">
+    {{ i18n.goTo }}<a href={{ manageUsersLink }} class="govuk-link" id="manage-users-link">{{ i18n.manageUsers }}</a>{{ i18n.toViewTheAccountOwners | replace('{BUSINESS_NAME}', businessName) }}
+  </p>
+{% endblock main_content %}

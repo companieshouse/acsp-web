@@ -34,6 +34,8 @@ export const OTHER_TYPE_OF_BUSINESS = "/what-other-business-type";
 
 export const STOP_NOT_RELEVANT_OFFICER = "/cannot-use-service";
 
+export const STOP_NOT_ACCOUNT_OWNER = "/stop-screen-not-owner";
+
 export const ACCESSIBILITY_STATEMENT = "/accessibility-statement";
 
 export const AML_MEMBERSHIP_NUMBER = "/aml-membership-number";

@@ -36,6 +36,7 @@ import { closeVariablesMiddleware } from "./middleware/close-acsp/close_variable
 import { closeAcspBaseAuthenticationMiddleware } from "./middleware/close-acsp/close_acsp_base_authentication_middleware";
 import { closeAcspAuthMiddleware } from "./middleware/close-acsp/close_acsp_authentication_middleware";
 import { closeAcspIsOwnerMiddleware } from "./middleware/close-acsp/close_acsp_is_owner_middleware";
+import { getAcspProfileMiddleware } from "./middleware/close-acsp/close_acsp_get_acsp_profile_middleware";
 
 const app = express();
 const nonce: string = uuidv4();
@@ -90,7 +91,6 @@ app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
 app.use(commonTemplateVariablesMiddleware);
 app.use(BASE_URL, registrationVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
-app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 
 // Update ACSP details middleware
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
@@ -100,6 +100,8 @@ app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
 // Close ACSP middleware
 app.use(CLOSE_ACSP_BASE_URL, closeAcspBaseAuthenticationMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeAcspAuthMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, getAcspProfileMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeAcspIsOwnerMiddleware);
 
 app.use((req: Request, res: Response, next: NextFunction) => {

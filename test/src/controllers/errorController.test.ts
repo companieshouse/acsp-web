@@ -1,13 +1,14 @@
 import { CsrfError } from "@companieshouse/web-security-node";
 import logger from "../../../src/utils/logger";
 import createHttpError from "http-errors";
-import { csrfErrorHandler, httpErrorHandler, unhandledErrorHandler } from "../../../src/controllers/errorController";
+import { csrfErrorHandler, httpErrorHandler, unhandledErrorHandler, accountOwnerErrorHandler } from "../../../src/controllers/errorController";
 import { mockRequest } from "../../mocks/request.mock";
 import { mockResponse } from "../../mocks/response.mock";
 import { NextFunction } from "express";
 import { addLangToUrl } from "../../../src/utils/localise";
 import { CHS_URL } from "../../../src/utils/properties";
 import { BASE_URL, CHECK_SAVED_APPLICATION, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../src/types/pageURL";
+import { AccountOwnerError } from "../../../src/errors/accountOwnerError";
 
 logger.error = jest.fn();
 const request = mockRequest();
@@ -138,6 +139,50 @@ describe("unhandledErrorHandler", () => {
         unhandledErrorHandler(error, request, response, mockNext);
         // Then
         expect(logger.error).toHaveBeenCalledWith(`${error.name} - appError: ${error.message} - ${error.stack}`);
+        expect(response.render).toHaveBeenCalled();
+    });
+});
+
+describe("accountOwnerErrorHandler", () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should log the account owner error and render the error page", () => {
+        const url = addLangToUrl("/originalUrl", "en");
+        // Given
+        request.originalUrl = url;
+        request.method = "GET";
+        request.query = {
+            lang: "en"
+        };
+        const error = new AccountOwnerError();
+        // When
+        accountOwnerErrorHandler(error, request, response, mockNext);
+        // Then
+        expect(logger.error).toHaveBeenCalledWith(`${error.name} - accountOwnerError: ${error.message} - ${error.stack}`);
+        expect(response.render).toHaveBeenCalled();
+    });
+
+    it("should ignore errors that are not 403 and pass them to next", () => {
+        // Given
+        request.originalUrl = "/originalUrl";
+        request.method = "GET";
+        const error = createHttpError(500);
+        // When
+        accountOwnerErrorHandler(error, request, response, mockNext);
+        // Then
+        expect(response.redirect).not.toHaveBeenCalled();
+        expect(mockNext).toHaveBeenCalledTimes(1);
+        expect(mockNext).toHaveBeenCalledWith(error);
+    });
+
+    it("should handle AccountOwnerError and return true if error is an instance of AccountOwnerError", () => {
+        const error = new AccountOwnerError("test AccountOwnerError");
+        expect(error instanceof AccountOwnerError).toBe(true);
+        accountOwnerErrorHandler(error, request, response, mockNext);
+        expect(logger.error).toHaveBeenCalled();
         expect(response.render).toHaveBeenCalled();
     });
 });
