@@ -9,7 +9,7 @@ export const addAmlSupervisorValidator = [
             const session: Session = req.session as Session;
             const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS_UPDATED);
             if (acspDetails && acspDetails.amlDetails.length >= 25) {
-                throw new Error("moreThan25SupervisoryBodies");
+                throw new Error("moreThan26SupervisoryBodies");
             }
             return true;
         })

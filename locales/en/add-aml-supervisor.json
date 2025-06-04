@@ -3,5 +3,5 @@
     "addAmlSupervisorHint": "Select one option",
     
     "error-addAmlSupervisor": "Select the AML supervisory body you are registered with",
-    "error-moreThan25SupervisoryBodies": "You cannot add details for more than 26 AML registrations. Remove details for an existing registration before you add new AML details"
+    "error-moreThan26SupervisoryBodies": "You cannot add details for more than 26 AML registrations. Remove details for an existing registration before you add new AML details"
 }

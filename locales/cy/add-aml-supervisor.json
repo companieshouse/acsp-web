@@ -3,5 +3,5 @@
     "addAmlSupervisorHint": "Dewiswch un opsiwn",
 
     "error-addAmlSupervisor": "Dewiswch y corff goruchwylio AML rydych chi wedi'i gofrestru ag ef",
-    "error-moreThan25SupervisoryBodies": "Ni allwch ychwanegu manylion ar gyfer mwy na 25 o gofrestriadau AML. Dileu manylion am gofrestriad presennol cyn i chi ychwanegu manylion AML newydd"
+    "error-moreThan26SupervisoryBodies": "Ni allwch ychwanegu manylion ar gyfer mwy na 26 o gofrestriadau AML. Dileu manylion am gofrestriad presennol cyn i chi ychwanegu manylion AML newydd"
 }
