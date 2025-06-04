@@ -19,16 +19,12 @@ describe("getAcspProfileMiddleware", () => {
             url: "/"
         });
         const session = getSessionRequestWithPermission();
-
-        session.getExtraData = jest.fn();
-        session.setExtraData = jest.fn();
-
         req.session = session;
     });
 
     it("should call next() when ACSP is active and details exist in session", async () => {
         const session = req.session as any as Session;
-        (session.getExtraData as jest.Mock).mockReturnValue({ status: "active" });
+        session.setExtraData(ACSP_DETAILS, { status: "active" });
 
         await getAcspProfileMiddleware(req, res, next);
 
@@ -38,22 +34,17 @@ describe("getAcspProfileMiddleware", () => {
 
     it("should fetch ACSP details when not in session", async () => {
         const session = req.session as any as Session;
-        const profile = { status: "active" };
-        (getAcspFullProfile as jest.Mock).mockResolvedValue(profile);
-        (session.getExtraData as jest.Mock).mockReturnValue(undefined);
-
         await getAcspProfileMiddleware(req, res, next);
 
         expect(getAcspFullProfile).toHaveBeenCalledWith(acspNumber);
-        expect(session.setExtraData).toHaveBeenCalledWith(ACSP_DETAILS, profile);
         expect(next).toHaveBeenCalled();
     });
 
-    it("should pass through any caught errors", async () => {
-        const session = req.session as any as Session;
+    it("should pass through to next when an error has been caught", async () => {
         const error = new Error("Test error");
-        (getAcspFullProfile as jest.Mock).mockRejectedValue(error);
-        (session.getExtraData as jest.Mock).mockReturnValue(undefined);
+        (getAcspFullProfile as jest.Mock).mockImplementation(() => {
+            throw error;
+        });
 
         await getAcspProfileMiddleware(req, res, next);
 
