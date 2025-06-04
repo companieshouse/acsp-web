@@ -19,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_ACSP_DETAILS_APPLICATION_CONFIRMATION, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            authorisedAgentAccountLink: AUTHORISED_AGENT,
+            authorisedAgentAccountLink: AUTHORISED_AGENT + selectLang(req.query.lang),
             transactionId
         });
     } catch (err) {
