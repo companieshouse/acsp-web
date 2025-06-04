@@ -31,7 +31,9 @@ import {
     ACSP_UPDATE_CHANGE_DATE,
     ADD_AML_BODY_UPDATE,
     AML_REMOVED_BODY_DETAILS,
-    NEW_AML_BODY
+    NEW_AML_BODY,
+    AML_REMOVAL_INDEX,
+    AML_REMOVAL_BODY
 }
     from "../../../common/__utils/constants";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
@@ -69,6 +71,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
         session.deleteExtraData(ADD_AML_BODY_UPDATE);
         session.deleteExtraData(NEW_AML_BODY);
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
 
         // Before passing to view, convert dateOfChange to Date object from ISO string (to allow pre-1960 dates)
         acspUpdatedFullProfile.amlDetails = acspUpdatedFullProfile.amlDetails.map(amlDetail => ({
