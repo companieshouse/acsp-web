@@ -88,6 +88,10 @@ export const PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID = getEnvironmentValue("PIW
 
 export const PIWIK_UPDATE_ACSP_START_GOAL_ID = getEnvironmentValue("PIWIK_UPDATE_ACSP_START_GOAL_ID", "10");
 
+// Matomo event goals - Close ACSP service
+
+export const PIWIK_CLOSE_ACSP_START_GOAL_ID = getEnvironmentValue("PIWIK_CLOSE_ACSP_START_GOAL_ID", "11");
+
 // Feature Flags
 
 export const FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = getEnvironmentValue("FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY", "false");

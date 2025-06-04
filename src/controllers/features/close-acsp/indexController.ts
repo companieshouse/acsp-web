@@ -12,6 +12,7 @@ import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS } from "../../../common/__utils/constants";
 import { getBusinessName } from "../../../services/common";
+import { PIWIK_CLOSE_ACSP_START_GOAL_ID } from "../../../utils/properties";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -25,6 +26,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.CLOSE_ACSP_HOME, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
+            PIWIK_CLOSE_ACSP_START_GOAL_ID,
             businessName: getBusinessName(acspDetails.name),
             manageUsersLink: addLangToUrl(MANAGE_USERS, lang)
         });
