@@ -237,7 +237,7 @@ describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
         createMockSessionMiddleware();
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("You cannot add details for more than 25 AML registrations. Remove details for an existing registration before you add new AML details");
+        expect(res.text).toContain("You cannot add details for more than 26 AML registrations. Remove details for an existing registration before you add new AML details");
     });
     it("should show the error page if an error occurs", async () => {
         const errorMessage = "Test error";
