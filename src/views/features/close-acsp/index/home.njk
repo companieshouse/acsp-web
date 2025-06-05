@@ -13,20 +13,37 @@
       <h1 class="govuk-heading-l">
         {{ i18n.startPageTitleCloseAcsp }}
       </h1>
-      <p> {{i18n.ifYouCloseAcsp  | replace("{BUSINESS_NAME}", businessName) }}
-      </p>
+      <p class="govuk-body">{{i18n.ifYouCloseAcsp  | replace("{BUSINESS_NAME}", businessName) }}</p>
       <h2 class="govuk-heading-m">{{ i18n.beforeYouContinueHeading}}</h2>
-      <p>{{ i18n.beforeYouContinueText1 }}
-        <a href="{{ manageUsersLink }}">{{ i18n.beforeYouContinueManageUsersLink }}</a>.
+      <p class="govuk-body">{{ i18n.beforeYouContinueText1 }}
+        <a class="govuk-link" href="{{ manageUsersLink }}">{{ i18n.beforeYouContinueManageUsersLink }}</a>.
       </p>
-      <p>{{ i18n.beforeYouContinueText2}} </p>
+      <p class="govuk-body">{{ i18n.beforeYouContinueText2}}</p>
 
       <div class="govuk-button-group">
         {{ govukButton({
-          text: i18n.Continue
+          text: i18n.Continue,
+          id: "continue-button",
+          isStartButton: true
         }) }}
-
         <a class="govuk-link" href="{{ authorisedAgentDashboardUrl }}">{{ i18n.Cancel}}</a>
-</div>
+      </div>
   </form>
+
+  <script nonce={{ nonce | dump | safe }}>
+    function closeAcspStartGoalEventListener () {
+      document.getElementById("continue-button").addEventListener("click", () => {
+      _paq.push(['trackGoal', "{{ PIWIK_CLOSE_ACSP_START_GOAL_ID }}"]);
+    });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", function (e) {
+       closeAcspStartGoalEventListener()
+      });
+    } else {
+      closeAcspStartGoalEventListener()
+    }
+  </script>
+
 {% endblock %}
