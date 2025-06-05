@@ -1,5 +1,5 @@
 import mocks from "../../../mocks/all_middleware_mock";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
+import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_APPLICATION_CONFIRMATION, UPDATE_CHECK_YOUR_UPDATES, UPDATE_DATE_OF_THE_CHANGE, UPDATE_PROVIDE_AML_DETAILS, UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_YOUR_ANSWERS } from "../../../../src/types/pageURL";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as localise from "../../../../src/utils/localise";
@@ -46,6 +46,15 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
 
         expect(response.status).toBe(200);
         expect(response.text).toContain(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE);
+    });
+
+    it("should set previousPage to UPDATE_WHAT_IS_YOUR_EMAIL when user come from the correspondence-email-address page route", async () => {
+        const response = await router
+            .get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES)
+            .set("Referer", UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL);
+
+        expect(response.status).toBe(200);
+        expect(response.text).toContain(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL);
     });
 
     it("should set previousPage to UPDATE_YOUR_ANSWERS as default if user did not come from the date change page route", async () => {
