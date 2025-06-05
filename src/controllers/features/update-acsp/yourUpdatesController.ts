@@ -124,9 +124,18 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
 function getPreviousPageWithLang (req: Request, baseUrl: string): string {
     const previousPageUrl = getPreviousPageUrl(req, baseUrl);
-    return previousPageUrl?.includes(UPDATE_DATE_OF_THE_CHANGE)
-        ? (baseUrl + UPDATE_DATE_OF_THE_CHANGE)
-        : (baseUrl + UPDATE_YOUR_ANSWERS);
+
+    if (!previousPageUrl) return baseUrl;
+
+    if (previousPageUrl?.includes(UPDATE_DATE_OF_THE_CHANGE)) {
+        return baseUrl + UPDATE_DATE_OF_THE_CHANGE;
+    }
+
+    if (previousPageUrl?.includes(UPDATE_WHAT_IS_YOUR_EMAIL)) {
+        return baseUrl + UPDATE_WHAT_IS_YOUR_EMAIL;
+    }
+    return baseUrl + UPDATE_YOUR_ANSWERS;
+
 }
 
 const getBusinessNameUrl = (type: string, lang: string): string => {
