@@ -36,14 +36,13 @@ describe("logger.ts", () => {
     });
 
     describe("createAndLogError", () => {
-        it("should create an error and log its stack trace", () => {
-            const description = "Test error description";
-            const error = createAndLogError(description);
-
-            expect(error).toBeInstanceOf(Error);
-            expect(error.message).toBe(description);
+        it("Should log and return an error", () => {
+            const ERROR_MESSAGE = "Error: Something went wrong";
+            const err: Error = createAndLogError(ERROR_MESSAGE);
+            expect(err).toBeInstanceOf(Error);
+            expect(err.message).toEqual(ERROR_MESSAGE);
             expect(mockErrorFn).toHaveBeenCalledTimes(1);
-            expect(mockErrorFn).toHaveBeenCalledWith(expect.stringContaining("Error: " + description));
+            expect(mockErrorFn).toHaveBeenCalledWith(expect.stringContaining(ERROR_MESSAGE));
         });
     });
 });
