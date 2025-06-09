@@ -1,58 +1,49 @@
-import ApplicationLogger from "@companieshouse/structured-logging-node/lib/ApplicationLogger";
-import { createAndLogError } from "../../../src/utils/logger";
-import { warn } from "console";
-
-const ERROR_MESSAGE = "Error: Something went wrong";
+import { createLogger } from "@companieshouse/structured-logging-node";
+import { initLogger as initLoggerFn, createAndLogError } from "../../../src/utils/logger";
 
 jest.mock("@companieshouse/structured-logging-node", () => {
     return {
-        createLogger: jest.fn(() => ({
-            error: jest.fn(),
-            info: jest.fn(),
-            warn: jest.fn()
-        }))
+        createLogger: jest.fn()
     };
 });
 
-describe("logger tests", () => {
-    const ORIGINAL_ENV = process.env;
+describe("logger.ts", () => {
+    const mockErrorFn = jest.fn();
+    const mockLogger = {
+        error: mockErrorFn
+    };
 
     beforeEach(() => {
         jest.clearAllMocks();
-        process.env = { ...ORIGINAL_ENV };
+        (createLogger as jest.Mock).mockReturnValue(mockLogger);
     });
 
-    afterAll(() => {
-        process.env = ORIGINAL_ENV;
+    describe("initLogger", () => {
+        it("should create a logger with APP_NAME env var", () => {
+            process.env.APP_NAME = "TestApp";
+            const logger = initLoggerFn();
+            expect(createLogger).toHaveBeenCalledWith("TestApp");
+            expect(logger).toBe(mockLogger);
+        });
+
+        it("should create a logger with APPLICATION_NAME if APP_NAME not set", () => {
+            delete process.env.APP_NAME;
+            const logger = initLoggerFn();
+            expect(createLogger).toHaveBeenCalled();
+            expect(typeof (createLogger as jest.Mock).mock.calls[0][0]).toBe("string");
+            expect(logger).toBe(mockLogger);
+        });
     });
 
-    test("Should log and return an error", () => {
-        const mockLogger = require("../../../src/utils/logger").default;
-        const err: Error = createAndLogError(ERROR_MESSAGE);
-        expect(err.message).toEqual(ERROR_MESSAGE);
-        expect(mockLogger.error).toHaveBeenCalledTimes(1);
-    });
+    describe("createAndLogError", () => {
+        it("should create an error and log its stack trace", () => {
+            const description = "Test error description";
+            const error = createAndLogError(description);
 
-    test("Should test the logger object is defined of type ApplicationLogger", () => {
-        process.env.APP_NAME = "test-app";
-
-        jest.resetModules();
-        const loggerModule = require("../../../src/utils/logger");
-        const reloadedLogger = loggerModule.default;
-
-        expect(reloadedLogger).toBeDefined();
-        expect(typeof reloadedLogger.error).toBe("function");
-    });
-
-    test("Should create logger using process.env.APP_NAME", () => {
-        process.env.APP_NAME = "test-app";
-
-        jest.resetModules();
-
-        const loggerModule = require("../../../src/utils/logger");
-        const reloadedLogger = loggerModule.default;
-
-        expect(reloadedLogger).toBeDefined();
-        expect(typeof reloadedLogger.error).toBe("function");
+            expect(error).toBeInstanceOf(Error);
+            expect(error.message).toBe(description);
+            expect(mockErrorFn).toHaveBeenCalledTimes(1);
+            expect(mockErrorFn).toHaveBeenCalledWith(expect.stringContaining("Error: " + description));
+        });
     });
 });
