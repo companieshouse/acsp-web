@@ -105,18 +105,40 @@ $govuk-global-styles: true;
   border-bottom: 10px solid #005ea5;
 }
 
+@media (min-width: 640px) {
+  #global-nav nav #navigation {
+      border-bottom: 1px solid #b1b4b6;
+      padding: 10px 0px !important;
+  }
+  #global-nav nav li {
+      display: inline-block;
+  }
+  ul#navigation li {
+  display: contents !important;
+  font-size: 16px;
+  overflow-wrap: break-word;
+}
+}
+
+@media (max-width: 640px) {
+  ul#navigation {
+    font-size: 0.9em;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: left !important;
+    float: left;
+    display: contents;
+  }
+  ul#navigation[hidden] {
+    display: none !important;
+  }
+}
+
 ul#navigation {
   font-size: 0.9em;
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: right;
-  display: inline-block;
-  float: right;
-}
-ul#navigation li {
-  display: inline;
-  font-size: 16px;
-  overflow-wrap: break-word;
 }
 ul#navigation li a {
   margin-left: 0.9em;

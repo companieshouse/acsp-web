@@ -1,5 +1,5 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { CLOSE_DESCRIPTION, CLOSE_REFERENCE, CLOSE_SUBMISSION_ID } from "../../common/__utils/constants";
+import { ACSP_DETAILS, CLOSE_DESCRIPTION, CLOSE_REFERENCE, CLOSE_SUBMISSION_ID } from "../../common/__utils/constants";
 import { postTransaction } from "../transactions/transaction_service";
 import logger from "../../utils/logger";
 import { postAcspRegistration } from "../../services/acspRegistrationService";
@@ -11,7 +11,8 @@ export class AcspCloseService {
         const existingTransactionId = session.getExtraData(CLOSE_SUBMISSION_ID);
         if (existingTransactionId === undefined || JSON.stringify(existingTransactionId) === "{}") {
             try {
-                const transaction = await postTransaction(session, CLOSE_DESCRIPTION, CLOSE_REFERENCE);
+                const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+                const transaction = await postTransaction(session, CLOSE_DESCRIPTION, CLOSE_REFERENCE, acspDetails.name);
                 session.setExtraData(CLOSE_SUBMISSION_ID, transaction.id);
                 return Promise.resolve();
             } catch (error) {

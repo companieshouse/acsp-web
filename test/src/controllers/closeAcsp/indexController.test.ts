@@ -20,13 +20,6 @@ describe("GET " + CLOSE_ACSP_BASE_URL, () => {
         expect(res.text).toContain("close-authorised-agent");
         expect(200);
     });
-
-    it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
-        mockGetAcspFullProfile.mockRejectedValueOnce(new Error("Error getting data"));
-        const res = await router.get(CLOSE_ACSP_BASE_URL);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
 });
 
 describe("POST " + CLOSE_ACSP_BASE_URL, () => {

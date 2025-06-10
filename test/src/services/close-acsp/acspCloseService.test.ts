@@ -5,10 +5,11 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspCloseService } from "../../../../src/services/close-acsp/acspCloseService";
 import { postTransaction } from "../../../../src/services/transactions/transaction_service";
-import { CLOSE_SUBMISSION_ID } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, CLOSE_SUBMISSION_ID } from "../../../../src/common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { postAcspRegistration } from "../../../../src/services/acspRegistrationService";
+import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/transactions/transaction_service");
@@ -34,6 +35,8 @@ describe("AcspCloseService tests", () => {
         it("should return start a new transaction and save the transaction ID to session", async () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             const session: Session = req.session as any as Session;
+            session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+
             await acspCloseService.createTransaction(session);
 
             expect(session.getExtraData(CLOSE_SUBMISSION_ID)).toEqual(transactionId);

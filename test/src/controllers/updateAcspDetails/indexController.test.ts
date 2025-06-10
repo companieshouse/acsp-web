@@ -68,12 +68,6 @@ describe("GET indexController", () => {
         expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ACSP_DETAILS_UPDATED, mockAcspDetails);
         expect(res.render).toHaveBeenCalled();
     });
-    it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
-        mockGetAcspFullProfile.mockRejectedValueOnce(new Error("Error getting data"));
-        const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
 });
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     it("should return status 302 after redirect", async () => {
