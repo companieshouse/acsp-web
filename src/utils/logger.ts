@@ -5,7 +5,7 @@ import { APPLICATION_NAME } from "./properties";
 let logger: ApplicationLogger;
 
 export const initLogger = (): ApplicationLogger => {
-    const applicationName = process.env.APP_NAME || APPLICATION_NAME;
+    const applicationName = APPLICATION_NAME;
     logger = createLogger(applicationName);
 
     return logger;

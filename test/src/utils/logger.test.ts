@@ -1,11 +1,13 @@
 import { createLogger } from "@companieshouse/structured-logging-node";
 import { initLogger as initLoggerFn, createAndLogError } from "../../../src/utils/logger";
 
-jest.mock("@companieshouse/structured-logging-node", () => {
-    return {
-        createLogger: jest.fn()
-    };
-});
+jest.mock("@companieshouse/structured-logging-node", () => ({
+    createLogger: jest.fn()
+}));
+
+jest.mock("../../../src/utils/properties", () => ({
+    APPLICATION_NAME: "test-application-name"
+}));
 
 describe("logger.ts", () => {
     const mockErrorFn = jest.fn();
@@ -19,18 +21,9 @@ describe("logger.ts", () => {
     });
 
     describe("initLogger", () => {
-        it("should create a logger with APP_NAME env var", () => {
-            process.env.APP_NAME = "TestApp";
+        it("should create a logger with APP_NAME ", () => {
             const logger = initLoggerFn();
-            expect(createLogger).toHaveBeenCalledWith("TestApp");
-            expect(logger).toBe(mockLogger);
-        });
-
-        it("should create a logger with APPLICATION_NAME if APP_NAME not set", () => {
-            delete process.env.APP_NAME;
-            const logger = initLoggerFn();
-            expect(createLogger).toHaveBeenCalled();
-            expect(typeof (createLogger as jest.Mock).mock.calls[0][0]).toBe("string");
+            expect(createLogger).toHaveBeenCalledWith("test-application-name");
             expect(logger).toBe(mockLogger);
         });
     });
