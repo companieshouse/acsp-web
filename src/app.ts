@@ -68,6 +68,11 @@ nunjucksEnv.addGlobal("PIWIK_EMBED", PIWIK_SITE_ID);
 
 app.enable("trust proxy");
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.nonce = nonce;
+    next();
+});
+
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -105,11 +110,6 @@ app.use(CLOSE_ACSP_BASE_URL, closeAcspAuthMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, getAcspProfileMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeAcspIsOwnerMiddleware);
-
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals.nonce = nonce;
-    next();
-});
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
