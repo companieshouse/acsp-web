@@ -241,3 +241,7 @@ export const CLOSE_WHAT_WILL_HAPPEN = "/what-happens-when-you-close";
 export const CLOSE_CONFIRM_YOU_WANT_TO_CLOSE = "/confirm-you-want-to-close";
 
 export const CLOSE_CONFIRMATION_ACSP_CLOSED = "/confirmation-authorised-agent-closed";
+
+export const CLOSE_FEEDBACK_LINK = "https://www.smartsurvey.co.uk/s/closeauthagentacct-fdbk/";
+
+export const CLOSE_FEEDBACK_LINK_CONFIRMATION = "https://www.smartsurvey.co.uk/s/closeauthagentacct-conf/";

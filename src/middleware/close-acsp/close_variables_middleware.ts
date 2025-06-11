@@ -1,4 +1,4 @@
-import { CLOSE_ACSP_BASE_URL, AUTHORISED_AGENT } from "../../types/pageURL";
+import { CLOSE_ACSP_BASE_URL, AUTHORISED_AGENT, CLOSE_FEEDBACK_LINK } from "../../types/pageURL";
 import { Handler } from "express";
 import { addLangToUrl } from "../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
@@ -24,6 +24,7 @@ export const closeVariablesMiddleware: Handler = (req, res, next) => {
     res.locals.serviceUrl = CLOSE_ACSP_BASE_URL;
     res.locals.tabTitleKey = "CommonTabTitleCloseAcsp";
     res.locals.authorisedAgentDashboardUrl = addLangToUrl(AUTHORISED_AGENT, res.locals.lang);
+    res.locals.feedbackLink = CLOSE_FEEDBACK_LINK;
 
     if (acspDetails) {
         res.locals.businessName = getBusinessName(acspDetails.name);
