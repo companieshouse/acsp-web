@@ -63,7 +63,15 @@
           //  The block below covers the Matomo analysis for the selected checkbox elements.
           if ($("input[type='checkbox']:checked").length > 0) {
             $("input[type='checkbox']:checked").each(function() {
-              boxDetailsForAnalytics.set($(this).val(),$(this).siblings("label").text().trim());
+              // Custom message to be recorded for the checkbox selection on what-will-happen.njk view (close acsp)
+              if($(this).attr("id") === "whatWillHappenConfirm"){
+                // If the whatWillHappenConfirm checkbox is selected and the user continues to the next page, then the text to be recorded is the heading of the checkbox
+                var customCheckboxTextCloseAcsp = "{{ i18n.whatWillHappenConfirmHeading }}";
+                boxDetailsForAnalytics.set($(this).val(), customCheckboxTextCloseAcsp);
+              } else {
+                // Else we record the text from the label of the checkbox
+                boxDetailsForAnalytics.set($(this).val(),$(this).siblings("label").text().trim());
+              }
             });
           }
 
@@ -75,7 +83,7 @@
 
           if(boxDetailsForAnalytics.size > 0){
             boxDetailsForAnalytics.forEach((values, keys) => {
-              _paq.push(["trackEvent", eventCategory,values, keys]);
+              _paq.push(["trackEvent", eventCategory, values, keys]);
             });
           }
 
