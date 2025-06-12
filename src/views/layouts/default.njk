@@ -22,6 +22,8 @@
       {% if journeyType != "register-acsp" %}
         {% include "partials/nav/navbar.njk" %}
       {% endif %}
+      
+      <nav role="navigation" class="content" aria-label="Menu">
       {% block backLink %}
         {% include "partials/nav/back_link.njk" %}
       {% endblock %}
@@ -33,6 +35,7 @@
       {% block localesBanner %}
         {% include "locales-banner.njk" %}
       {% endblock %}
+      </nav>
       <main class="govuk-main-wrapper " id="main-content">
         <div class="govuk-grid-row">
           {% include "partials/error_summary.njk" %}
