@@ -54,7 +54,8 @@
 
         {{ govukButton({
             text: i18n.continueToPayment,
-            id: "continue-to-payment-button"
+            id: "continue-to-payment-button",
+            preventDoubleClick: true
         }) }}
     </form>
     <script type="text/javascript" nonce={{ nonce | dump | safe }}>
