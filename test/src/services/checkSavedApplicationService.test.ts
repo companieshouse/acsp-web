@@ -31,6 +31,18 @@ const hasOpenApplication: Resource<TransactionList> = {
     }
 };
 
+const hasApprovedApplication: Resource<TransactionList> = {
+    httpStatusCode: 200,
+    resource: {
+        items: [{
+            id: "123",
+            status: "closed",
+            filings: { "123-1": { status: ACCEPTED } },
+            resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
+        }]
+    }
+};
+
 const hasApplicationInProgress: Resource<TransactionList> = {
     httpStatusCode: 200,
     resource: {
