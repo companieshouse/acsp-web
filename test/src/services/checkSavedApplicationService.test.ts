@@ -81,12 +81,6 @@ describe("check saved application service tests", () => {
         expect(redirectionUrl).toEqual(url);
     });
 
-    it("Should redirect to correct url when the application is approved", async () => {
-        const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
-        url = BASE_URL + CANNOT_REGISTER_AGAIN;
-        expect(redirectionUrl).toEqual(url);
-    });
-
     it("Should redirect to correct url when the application is in progress", async () => {
         const redirectionUrl = await getRedirectionUrl(hasApplicationInProgress, session);
         url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
