@@ -8,13 +8,10 @@ import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAV
 import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 import { createResponse, MockResponse } from "node-mocks-http";
-import { getAcspFullProfile } from "../../../src/services/acspProfileService";
 
-jest.mock("../../../src/services/acspProfileService");
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../src/services/acspRegistrationService");
 
-const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 const mockDeleteSavedApplication = deleteAcspApplication as jest.Mock;
 let res: MockResponse<Response>;
 
