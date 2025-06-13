@@ -15,28 +15,16 @@ import logger from "../utils/logger";
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     try {
         const transactions = filterRejectedApplications(savedApplications.resource!.items);
-        let isTransactionOpen = false;
-        let isTransactionFiliingAccepted = false;
-        let eligibleForRegistration = false;
-        for (const transaction of transactions) {
-            isTransactionOpen = transaction.status !== CLOSED;
-            isTransactionFiliingAccepted = transaction.filings![transaction.id + "-1"]?.status === ACCEPTED;
-            if (isTransactionOpen && isTransactionFiliingAccepted) {
-                const acspNumber = transaction.filings![transaction.id + "-1"]?.companyNumber;
-                eligibleForRegistration = await getAcspStatus(acspNumber!);
-            }
-        }
-        console.log("RITZtransactions " + JSON.stringify(transactions));
         let url = "";
         if (!transactions.length) {
             logger.debug("application is rejected");
             url = BASE_URL + TYPE_OF_BUSINESS;
-        } else if (isTransactionOpen) {
+        } else if (transactions[0].status !== CLOSED) {
             logger.debug("application is open");
             session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
-        } else if (isTransactionFiliingAccepted) {
+        } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
             const acspNumber = transactions[0].filings![transactions[0].id + "-1"]?.companyNumber;
             const acspDetails = await getAcspFullProfile(acspNumber!);
             if (acspDetails.status === CEASED) {
@@ -55,11 +43,6 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
         logger.error("Error creating redirect URL " + JSON.stringify(error));
         return Promise.reject(error);
     }
-};
-
-const getAcspStatus = async (acspNumber: string): Promise<boolean> => {
-    const acspDetails = await getAcspFullProfile(acspNumber!);
-    return acspDetails.status === CEASED;
 };
 
 const getApplicationId = (transaction:TransactionData): string => {
