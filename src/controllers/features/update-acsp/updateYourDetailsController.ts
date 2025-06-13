@@ -101,7 +101,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             changeDates,
             formattedRemovedAMLDetails,
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
-            authorisedAgentUrl: AUTHORISED_AGENT,
+            authorisedAgentUrl: addLangToUrl(AUTHORISED_AGENT, lang),
             UPDATE_WHAT_IS_THE_COMPANY_NAME,
             UPDATE_BUSINESS_ADDRESS_LOOKUP,
             UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP,
