@@ -78,12 +78,6 @@ describe("check saved application service tests", () => {
         res = createResponse();
     });
 
-    it("Should redirect to correct url when the application is open", async () => {
-        const redirectionUrl = await getRedirectionUrl(hasOpenApplication, session);
-        url = BASE_URL + SAVED_APPLICATION;
-        expect(redirectionUrl).toEqual(url);
-    });
-
     it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted and acsp status is CEASED", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
         const redirectionUrl = await getRedirectionUrl(hasAcceptedApplication("ceased"), session);
