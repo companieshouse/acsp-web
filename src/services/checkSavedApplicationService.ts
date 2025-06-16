@@ -1,7 +1,6 @@
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { TransactionData, TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Session } from "@companieshouse/node-session-handler";
-import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { getAcspFullProfile } from "../services/acspProfileService";
 import { ACCEPTED, CEASED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../types/pageURL";
@@ -26,8 +25,15 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
         } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
-            logger.debug("application is accepted");
-            url = BASE_URL + CANNOT_REGISTER_AGAIN;
+            const acspNumber = transactions[0].filings![transactions[0].id + "-1"]?.companyNumber;
+            const acspDetails = await getAcspFullProfile(acspNumber!);
+            if (acspDetails.status === CEASED) {
+                logger.debug("application is ceased and can register again");
+                url = BASE_URL + TYPE_OF_BUSINESS;
+            } else {
+                logger.debug("application is accepted");
+                url = BASE_URL + CANNOT_REGISTER_AGAIN;
+            }
         } else {
             logger.debug("application is in progress");
             url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;

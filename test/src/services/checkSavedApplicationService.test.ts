@@ -84,6 +84,22 @@ describe("check saved application service tests", () => {
         expect(redirectionUrl).toEqual(url);
     });
 
+    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted and acsp status is CEASED", async () => {
+        mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
+        const redirectionUrl = await getRedirectionUrl(hasAcceptedApplication("ceased"), session);
+        url = BASE_URL + TYPE_OF_BUSINESS;
+        expect(redirectionUrl).toEqual(url);
+        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
+    });
+
+    it("Should redirect to CANNOT_REGISTER_AGAIN  when application filing is accepted and acsp status is not CEASED", async () => {
+        mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        const redirectionUrl = await getRedirectionUrl(hasAcceptedApplication("active"), session);
+        url = BASE_URL + CANNOT_REGISTER_AGAIN;
+        expect(redirectionUrl).toEqual(url);
+        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
+    });
+
     it("Should redirect to correct url when the application is in progress", async () => {
         const redirectionUrl = await getRedirectionUrl(hasApplicationInProgress, session);
         url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
