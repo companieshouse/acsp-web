@@ -10,15 +10,18 @@ import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
 import { Request, Response, NextFunction } from "express";
 import { postAcspRegistration } from "../../../../src/services/acspRegistrationService";
+import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 
 const router = supertest(app);
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/transactions/transaction_service");
 jest.mock("../../../../src/services/acspRegistrationService");
+jest.mock("../../../../src/services/acspProfileService");
 
 const mockPostTransaction = postTransaction as jest.Mock;
 const mockPostRegistration = postAcspRegistration as jest.Mock;
+const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     it("should return status 200 and render the your details page if updates have been made", async () => {
@@ -81,11 +84,21 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     it("should return status 302 after redirect to confirmation page", async () => {
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION + "?lang=en");
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
+        await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
     it("should return status 302 after redirect to update details page", async () => {

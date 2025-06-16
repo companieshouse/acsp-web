@@ -17,6 +17,7 @@ export const PAYEMNT_REFERENCE: string = "Register_ACSP_";
 export const CLOSED:string = "closed";
 export const REJECTED:string = "rejected";
 export const ACCEPTED:string = "accepted";
+export const CEASED:string = "ceased";
 export const IN_PROGRESS:string = "in progress";
 export const APPLICATION_ID:string = "application id";
 export const RESUME_APPLICATION_ID:string = "resume application id";
