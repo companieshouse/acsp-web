@@ -16,7 +16,6 @@ import logger from "../utils/logger";
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     try {
         const transactions = filterRejectedApplications(savedApplications.resource!.items);
-        console.log("RITZtransactions", JSON.stringify(transactions));
         let url = "";
         if (!transactions.length) {
             logger.debug("application is rejected");
@@ -27,18 +26,8 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
         } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
-            const acspNumber = transactions[0].filings![transactions[0].id + "-1"]?.companyNumber;
-            let acspDetails: AcspFullProfile | undefined;
-            if (acspNumber) {
-                acspDetails = await getAcspFullProfile(acspNumber);
-            }
-            if (acspDetails && acspDetails.status === CEASED) {
-                logger.debug("application is ceased and can register again");
-                url = BASE_URL + TYPE_OF_BUSINESS;
-            } else {
-                logger.debug("application is accepted");
-                url = BASE_URL + CANNOT_REGISTER_AGAIN;
-            }
+            logger.debug("application is accepted");
+            url = BASE_URL + CANNOT_REGISTER_AGAIN;
         } else {
             logger.debug("application is in progress");
             url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
