@@ -13,7 +13,7 @@ import logger from "../utils/logger";
 
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     const transactions = filterRejectedApplications(savedApplications.resource!.items);
-
+    // TO TEST
     let url = "";
     if (!transactions.length) {
         logger.debug("application is rejected");
