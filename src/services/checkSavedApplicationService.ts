@@ -14,6 +14,7 @@ import logger from "../utils/logger";
 
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     try {
+
         const transactions = filterRejectedApplications(savedApplications.resource!.items);
         let url = "";
         if (!transactions.length) {
