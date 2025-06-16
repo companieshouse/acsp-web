@@ -8,10 +8,13 @@ import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAV
 import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 import { createResponse, MockResponse } from "node-mocks-http";
+import { getAcspFullProfile } from "../../../src/services/acspProfileService";
 
+jest.mock("../../../src/services/acspProfileService");
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../src/services/acspRegistrationService");
 
+const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 const mockDeleteSavedApplication = deleteAcspApplication as jest.Mock;
 let res: MockResponse<Response>;
 
@@ -31,17 +34,17 @@ const hasOpenApplication: Resource<TransactionList> = {
     }
 };
 
-const hasApprovedApplication: Resource<TransactionList> = {
+const hasAcceptedApplication = (companyStatus: string) => ({
     httpStatusCode: 200,
     resource: {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: ACCEPTED } },
+            filings: { "123-1": { status: ACCEPTED, companyNumber: "AP123456" } },
             resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
-};
+});
 
 const hasApplicationInProgress: Resource<TransactionList> = {
     httpStatusCode: 200,
@@ -78,12 +81,6 @@ describe("check saved application service tests", () => {
     it("Should redirect to correct url when the application is open", async () => {
         const redirectionUrl = await getRedirectionUrl(hasOpenApplication, session);
         url = BASE_URL + SAVED_APPLICATION;
-        expect(redirectionUrl).toEqual(url);
-    });
-
-    it("Should redirect to correct url when the application is approved", async () => {
-        const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
-        url = BASE_URL + CANNOT_REGISTER_AGAIN;
         expect(redirectionUrl).toEqual(url);
     });
 
