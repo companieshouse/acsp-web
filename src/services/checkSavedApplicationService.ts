@@ -12,25 +12,29 @@ import logger from "../utils/logger";
 */
 
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
-    const transactions = filterRejectedApplications(savedApplications.resource!.items);
-
-    let url = "";
-    if (!transactions.length) {
-        logger.debug("application is rejected");
-        url = BASE_URL + TYPE_OF_BUSINESS;
-    } else if (transactions[0].status !== CLOSED) {
-        logger.debug("application is open");
-        session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
-        session.setExtraData(SUBMISSION_ID, transactions[0].id);
-        url = BASE_URL + SAVED_APPLICATION;
-    } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
-        logger.debug("application is accepted");
-        url = BASE_URL + CANNOT_REGISTER_AGAIN;
-    } else {
-        logger.debug("application is in progress");
-        url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
+    try {
+        const transactions = filterRejectedApplications(savedApplications.resource!.items);
+        let url = "";
+        if (!transactions.length) {
+            logger.debug("application is rejected");
+            url = BASE_URL + TYPE_OF_BUSINESS;
+        } else if (transactions[0].status !== CLOSED) {
+            logger.debug("application is open");
+            session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
+            session.setExtraData(SUBMISSION_ID, transactions[0].id);
+            url = BASE_URL + SAVED_APPLICATION;
+        } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
+            logger.debug("application is accepted");
+            url = BASE_URL + CANNOT_REGISTER_AGAIN;
+        } else {
+            logger.debug("application is in progress");
+            url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
+        }
+        return url;
+    } catch (error) {
+        logger.error("Error creating redirect URL " + JSON.stringify(error));
+        return Promise.reject(error);
     }
-    return url;
 };
 
 const getApplicationId = (transaction:TransactionData): string => {
