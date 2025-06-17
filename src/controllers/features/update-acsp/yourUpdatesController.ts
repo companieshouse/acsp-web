@@ -7,12 +7,15 @@ import { Session } from "@companieshouse/node-session-handler";
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { getFormattedAddedAMLUpdates, getFormattedRemovedAMLUpdates, getFormattedUpdates } from "../../../services/update-acsp/yourUpdatesService";
-import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID, AML_REMOVAL_INDEX, AML_REMOVAL_BODY } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID, CEASED } from "../../../common/__utils/constants";
 import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { getPreviousPageUrl } from "../../../services/url";
 import { isLimitedBusinessType } from "../../../services/common";
+import { getLoggedInAcspNumber } from "../../../common/__utils/session";
+import { getAcspFullProfile } from "../../../services/acspProfileService";
+import { AcspCeasedError } from "../../../errors/acspCeasedError";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -102,20 +105,28 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
                 cancelChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE, lang)
             });
-        } else {
+        } else if (req.body.moreUpdates === "no" && acspUpdatedFullProfile.amlDetails.length === 0) {
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_PROVIDE_AML_DETAILS, lang));
+        } else if (req.body.moreUpdates === "no") {
 
-            if (req.body.moreUpdates === "no" && acspUpdatedFullProfile.amlDetails.length === 0) {
-                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_PROVIDE_AML_DETAILS, lang));
-            } else if (req.body.moreUpdates === "no") {
-                const acspUpdateService = new AcspUpdateService();
-                await acspUpdateService.createTransaction(session);
-                await acspUpdateService.saveUpdatedDetails(session, acspFullProfile, acspUpdatedFullProfile);
-                await closeTransaction(session, session.getExtraData(UPDATE_SUBMISSION_ID)!, UPDATE_DESCRIPTION, UPDATE_REFERENCE);
-                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
-            } else {
-                session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
-                res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
+            // Check the ACSP's status and if they are ceased throw an error
+            const acspNumber: string = getLoggedInAcspNumber(req.session);
+            const acspDetails = await getAcspFullProfile(acspNumber);
+            session.setExtraData(ACSP_DETAILS, acspDetails);
+
+            if (acspDetails.status === CEASED) {
+                throw new AcspCeasedError("ACSP is ceased. Cannot proceed with updates.");
             }
+
+            // If the user has no more updates, we save the updated details and create a transaction
+            const acspUpdateService = new AcspUpdateService();
+            await acspUpdateService.createTransaction(session);
+            await acspUpdateService.saveUpdatedDetails(session, acspFullProfile, acspUpdatedFullProfile);
+            await closeTransaction(session, session.getExtraData(UPDATE_SUBMISSION_ID)!, UPDATE_DESCRIPTION, UPDATE_REFERENCE);
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION, lang));
+        } else {
+            session.deleteExtraData(ACSP_UPDATE_PREVIOUS_PAGE_URL);
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang));
         }
     } catch (err) {
         next(err);

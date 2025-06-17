@@ -5,6 +5,7 @@ import { ACSP_DETAILS } from "../../../../src/common/__utils/constants";
 import { getAcspFullProfile } from "../../../../src/services/acspProfileService";
 import { createRequest, MockRequest } from "node-mocks-http";
 import { Session } from "@companieshouse/node-session-handler";
+import { AcspCeasedError } from "../../../../src/errors/acspCeasedError";
 
 jest.mock("../../../../src/services/acspProfileService");
 
@@ -33,11 +34,20 @@ describe("getAcspProfileMiddleware", () => {
     });
 
     it("should fetch ACSP details when not in session", async () => {
-        const session = req.session as any as Session;
         await getAcspProfileMiddleware(req, res, next);
 
         expect(getAcspFullProfile).toHaveBeenCalledWith(acspNumber);
         expect(next).toHaveBeenCalled();
+    });
+
+    it("should fetch ACSP details when not in session and throw an error if status is ceased", async () => {
+
+        (getAcspFullProfile as jest.Mock).mockResolvedValue({ status: "ceased" });
+
+        await getAcspProfileMiddleware(req, res, next);
+
+        expect(getAcspFullProfile).toHaveBeenCalledWith(acspNumber);
+        expect(next).toHaveBeenCalledWith(expect.any(AcspCeasedError));
     });
 
     it("should pass through to next when an error has been caught", async () => {
