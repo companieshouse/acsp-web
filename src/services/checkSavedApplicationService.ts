@@ -25,7 +25,7 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
         } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
-            const acspNumber = transactions[0].filings![transactions[0].id + "-1"]?.companyNumber;
+            const acspNumber = transactions[0].filings![transactions[0].id + "-1"].companyNumber;
             const acspDetails = await getAcspFullProfile(acspNumber!);
             if (acspDetails.status === CEASED) {
                 logger.debug("application is ceased and can register again");

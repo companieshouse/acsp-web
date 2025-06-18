@@ -8,6 +8,7 @@ import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAV
 import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
 import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 import { createResponse, MockResponse } from "node-mocks-http";
+import logger from "../../../src/utils/logger";
 import { getAcspFullProfile } from "../../../src/services/acspProfileService";
 
 jest.mock("../../../src/services/acspProfileService");
@@ -111,5 +112,15 @@ describe("check saved application service tests", () => {
         const redirectionUrl = await getRedirectionUrl(hasRejectedApplication, session);
         url = BASE_URL + TYPE_OF_BUSINESS;
         expect(redirectionUrl).toEqual(url);
+    });
+
+    it("should log error and reject promise when an exception is thrown", async () => {
+        const errorSavedApplications = {} as any;
+        const session = {} as any;
+        jest.spyOn(console, "error").mockImplementation(() => {});
+        const loggerErrorSpy = jest.spyOn(logger, "error").mockImplementation(() => {});
+        await expect(getRedirectionUrl(errorSavedApplications, session)).rejects.toBeDefined();
+        expect(loggerErrorSpy).toHaveBeenCalledWith(expect.stringContaining("Error creating redirect URL"));
+        loggerErrorSpy.mockRestore();
     });
 });
