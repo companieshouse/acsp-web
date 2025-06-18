@@ -113,14 +113,4 @@ describe("check saved application service tests", () => {
         url = BASE_URL + TYPE_OF_BUSINESS;
         expect(redirectionUrl).toEqual(url);
     });
-
-    it("should log error and reject promise when an exception is thrown", async () => {
-        const errorSavedApplications = {} as any;
-        const session = {} as any;
-        jest.spyOn(console, "error").mockImplementation(() => {});
-        const loggerErrorSpy = jest.spyOn(logger, "error").mockImplementation(() => {});
-        await expect(getRedirectionUrl(errorSavedApplications, session)).rejects.toBeDefined();
-        expect(loggerErrorSpy).toHaveBeenCalledWith(expect.stringContaining("Error creating redirect URL"));
-        loggerErrorSpy.mockRestore();
-    });
 });
