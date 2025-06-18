@@ -6,8 +6,7 @@
   {% if value is string %}
     {% set radioItem = {
       value: key,
-      text: value,
-      id: "aml" + loop.index
+      text: value
     } %}
     {% set ITEMS = ITEMS.concat(radioItem) %}
   {% endif %}

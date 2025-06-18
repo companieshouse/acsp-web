@@ -7,8 +7,7 @@
   {% set amlText = i18n[key] %}
     {% set checkboxItem = {
       value: key,
-      text: amlText,
-      id: "aml" + loop.index
+      text: amlText
     } %}
     {% set ITEMS = ITEMS.concat(checkboxItem) %}
   {% endif %}
