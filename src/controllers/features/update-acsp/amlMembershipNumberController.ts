@@ -9,7 +9,6 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ValidationError, validationResult } from "express-validator";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AmlMembershipNumberService } from "../../../services/update-acsp/amlMembershipNumberService";
-import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { SupervisoryBodyMapping } from "../../../model/SupervisoryBodyMapping";
 import { trimAndLowercaseString } from "../../../services/common";
 
@@ -61,7 +60,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {
             const amlSupervisoryBodyString = newAMLBody.amlSupervisoryBody!;
-            errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang);
+            errorListDisplay(errorList.array(), amlSupervisoryBodyString, lang, locales);
             AmlMembershipNumberServiceInstance.buildErrorResponse(req, res, lang, locales, currentUrl, newAMLBody, errorList.array());
         } else {
             const newAmlNumber = req.body.membershipNumber_1;
@@ -102,9 +101,11 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: string) => {
+const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: string, locales: any) => {
+    const i18n = getLocaleInfo(locales, lang).i18n;
+    const amlBodyNameAcronym = SupervisoryBodyMapping[amlSupervisoryBody as keyof typeof SupervisoryBodyMapping];
+    const selectionValue = i18n[amlBodyNameAcronym];
     return errors.map((element) => {
-        const selectionValue = AMLSupervioryBodiesFormatted[amlSupervisoryBody as keyof typeof AMLSupervioryBodiesFormatted];
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selectionValue;
         return element;

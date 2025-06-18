@@ -36,7 +36,7 @@
         {%endif%}
     {% set amlSummaryObject = {
         key: {
-            text: AMLSupervioryBodiesFormatted[body.supervisoryBody],
+            text: i18n[SupervisoryBodyMapping[body.supervisoryBody]],
             classes: "govuk-!-width-one-third"
         },
         value: {
@@ -48,7 +48,7 @@
             {
                 href: amlActionLink + "&amlindex=" + body.membershipDetails + "&amlbody=" + body.supervisoryBody,
                 text: amlActionText,
-                visuallyHiddenText: AMLSupervioryBodiesFormatted[body.supervisoryBody]
+                visuallyHiddenText: i18n[SupervisoryBodyMapping[body.supervisoryBody]]
             }],
             classes: "govuk-!-width-one-third"
         }
@@ -75,7 +75,7 @@
             %}
             {% set amlSummaryObject = {
                 key: {
-                    text: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
+                    text: i18n[SupervisoryBodyMapping[bodyAdded.supervisoryBody]]
                 },
                 value: {
                     html: bodyAdded.membershipDetails + newlyAddedAMLDetailsStatusText
@@ -85,12 +85,12 @@
                         {
                             href: addAML + "&amlindex=" + bodyAdded.membershipDetails + "&amlbody=" + bodyAdded.supervisoryBody,
                             text: i18n.updateYourDetailsUpdate,
-                            visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
+                            visuallyHiddenText: i18n[SupervisoryBodyMapping[bodyAdded.supervisoryBody]]
                         },
                         {
                             href: removeAMLUrl + "&amlindex=" + bodyAdded.membershipDetails + "&amlbody=" + bodyAdded.supervisoryBody,
                             text: i18n.updateYourDetailsRemove,
-                            visuallyHiddenText: AMLSupervioryBodiesFormatted[bodyAdded.supervisoryBody]
+                            visuallyHiddenText: i18n[SupervisoryBodyMapping[bodyAdded.supervisoryBody]]
                         }
                     ],
                     classes: "govuk-!-width-one-third"
