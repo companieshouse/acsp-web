@@ -6,8 +6,7 @@
   {% if value is string %}
     {% set radioItem = {
       value: key,
-      text: i18n[SupervisoryBodyMapping[key]],
-      id: "aml" + loop.index
+      text: i18n[SupervisoryBodyMapping[key]]
     } %}
     {% set ITEMS = ITEMS.concat(radioItem) %}
   {% endif %}
