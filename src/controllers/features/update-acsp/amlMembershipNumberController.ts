@@ -104,7 +104,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 const errorListDisplay = (errors: any[], amlSupervisoryBody: string, lang: string, locales: any) => {
     const i18n = getLocaleInfo(locales, lang).i18n;
     const amlBodyNameAcronym = SupervisoryBodyMapping[amlSupervisoryBody as keyof typeof SupervisoryBodyMapping];
-    const selectionValue = i18n[amlBodyNameAcronym] || amlBodyNameAcronym;
+    const selectionValue = i18n[amlBodyNameAcronym];
     return errors.map((element) => {
         element.msg = resolveErrorMessage(element.msg, lang);
         element.msg = element.msg + selectionValue;
