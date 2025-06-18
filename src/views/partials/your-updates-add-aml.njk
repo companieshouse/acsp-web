@@ -2,7 +2,7 @@
   {% for body in addedAMLBodies %}
     {% set row = {
       key: {
-        text:  AMLSupervioryBodiesFormatted[body.membershipName]
+        text:  i18n[SupervisoryBodyMapping[body.membershipName]]
       },
       value: {
         html:  body.membershipNumber + "<p class='govuk-body govuk-!-static-margin-top-5'> " +  i18n.yourUpdatesStarted + " " + body.changedDate + "</p>"
@@ -12,12 +12,12 @@
           {
             href: addAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName,
             text: i18n.Edit,
-            visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
+            visuallyHiddenText: i18n[SupervisoryBodyMapping[body.membershipName]]
           },
           {
             href: removeAMLUrl + "&amlindex=" + body.membershipNumber + "&amlbody=" + body.membershipName + "&return=" + redirectQuery,
             text: i18n.Cancel,
-            visuallyHiddenText: AMLSupervioryBodiesFormatted[body.membershipName]
+            visuallyHiddenText: i18n[SupervisoryBodyMapping[body.membershipName]]
           }
         ]
       }

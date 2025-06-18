@@ -8,7 +8,6 @@ import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { getFormattedAddedAMLUpdates, getFormattedRemovedAMLUpdates, getFormattedUpdates } from "../../../services/update-acsp/yourUpdatesService";
 import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDATE_DESCRIPTION, UPDATE_REFERENCE, UPDATE_SUBMISSION_ID, CEASED } from "../../../common/__utils/constants";
-import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { getPreviousPageUrl } from "../../../services/url";
@@ -16,6 +15,7 @@ import { isLimitedBusinessType } from "../../../services/common";
 import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { getAcspFullProfile } from "../../../services/acspProfileService";
 import { AcspCeasedError } from "../../../errors/acspCeasedError";
+import { SupervisoryBodyMapping } from "../../../model/SupervisoryBodyMapping";
 
 const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES;
 const locales = getLocalesService();
@@ -39,7 +39,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         res.render(config.UPDATE_CHECK_YOUR_UPDATES, {
             ...getLocaleInfo(locales, lang),
             currentUrl,
-            AMLSupervioryBodiesFormatted,
+            SupervisoryBodyMapping,
             yourDetails,
             addedAMLBodies,
             removedAMLBodies,
@@ -87,7 +87,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 ...getLocaleInfo(locales, lang),
                 ...pageProperties,
                 currentUrl,
-                AMLSupervioryBodiesFormatted,
+                SupervisoryBodyMapping,
                 yourDetails,
                 addedAMLBodies,
                 removedAMLBodies,
