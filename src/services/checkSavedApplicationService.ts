@@ -15,7 +15,6 @@ import logger from "../utils/logger";
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     try {
         const transactions = filterRejectedApplications(savedApplications.resource!.items);
-        console.log("RITZtransactions", JSON.stringify(transactions));
         let url = "";
         if (!transactions.length) {
             logger.debug("application is rejected");
