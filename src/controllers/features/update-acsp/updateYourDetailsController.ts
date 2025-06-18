@@ -36,11 +36,11 @@ import {
     AML_REMOVAL_BODY
 }
     from "../../../common/__utils/constants";
-import { AMLSupervioryBodiesFormatted } from "../../../model/AMLSupervisoryBodiesFormatted";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
 import { deepEquals, formatDateIntoReadableString } from "../../../services/common";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
+import { SupervisoryBodyMapping } from "../../../model/SupervisoryBodyMapping";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -97,7 +97,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             removeAMLUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR, lang),
             dateOfChangeUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE, lang),
             AMLSupervisoryBodies,
-            AMLSupervioryBodiesFormatted,
+            SupervisoryBodyMapping,
             changeDates,
             formattedRemovedAMLDetails,
             cancelAllUpdatesUrl: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES, lang),
