@@ -1,0 +1,7 @@
+{
+    "cannotUseServiceWhileSuspendedHeading": "You cannot use this service while the authorised agent is suspended",
+    "cannotTellUs": "You cannot tell us you have verified someone's identity as <ACSP NAME> is currently suspended",
+    "moreInformation": "For more information about the suspension and what to do next, check the email we sent to <ACSP NAME>'s correspondence email address.",
+    "contactUs": "You can contact us using the details on the email if you need more information, or if you think there has been a mistake.",
+    "linkAuthorisedAgentAccount": "Go to the authorised agent account."
+}
