@@ -2,7 +2,7 @@
 
 This is a web frontend for the Authorized Corporate Service Providers (ACSP). It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts).
 
-The documentation of the project is available on [Confluence](https://companieshouse.atlassian.net/wiki/spaces/IDV/pages/4213178415/Workstream+5+ACSPs). 
+The documentation of the project is available on [Confluence](https://companieshouse.atlassian.net/wiki/spaces/IDV/pages/4213178415/Workstream+5+ACSPs).
 
 ## Frontend technologies and utils
 
