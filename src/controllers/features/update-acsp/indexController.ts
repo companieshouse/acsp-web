@@ -22,7 +22,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
-
         // this should be "suspended" but there is an issue with suspended users in the service
         // if (acspDetails.status === "active") {
         //     logger.debug("ACSP details status is suspended, redirecting to cannot use service page");
