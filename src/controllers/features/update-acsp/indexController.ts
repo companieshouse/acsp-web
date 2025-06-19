@@ -25,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         // this should be "suspended" but there is an issue with suspended users in the service
         // if (acspDetails.status === "active") {
         //     logger.debug("ACSP details status is suspended, redirecting to cannot use service page");
-        //     res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
+        //     res.redirect(addLangToUrl(CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
         //     return;
         // }
 
