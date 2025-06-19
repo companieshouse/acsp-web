@@ -16,6 +16,7 @@ export * as resumeJourneyController from "./features/common/resumeJourneyControl
 export * as cannotSubmitAnotherApplicationController from "./features/common/cannotSubmitAnotherApplicationController";
 export * as cannotRegisterAgainController from "./features/common/cannotRegisterAgainController";
 export * as paymentFailedController from "./features/common/paymentFailedController";
+export * as cannotUseServiceWhileSuspendedController from "./features/common/cannotUseServiceWhileSuspendedController";
 
 // Sole trader
 export * as soleTraderCorrespodanceAddressDetailsController from "./features/sole-trader/correspodanceAddressDetailsController";

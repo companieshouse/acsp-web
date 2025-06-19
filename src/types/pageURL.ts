@@ -60,6 +60,8 @@ export const CANNOT_SUBMIT_ANOTHER_APPLICATION = "/cannot-submit-another-applica
 
 export const CANNOT_REGISTER_AGAIN = "/cannot-register-again";
 
+export const CANNOT_USE_SERVICE_WHILE_SUSPENDED = "/cannot-use-service-while-suspended";
+
 export const AUTHORISED_AGENT = `${CHS_URL}/authorised-agent`;
 
 export const MANAGE_USERS = `${AUTHORISED_AGENT}/manage-users`;

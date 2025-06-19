@@ -64,6 +64,7 @@ export const CANNOT_SUBMIT_ANOTHER_APPLICATION = `${BASE_COMMON_URL}/cannot-subm
 export const WHAT_IS_YOUR_EMAIL = `${BASE_COMMON_URL}/what-is-your-email/what-is-your-email`;
 export const CANNOT_REGISTER_AGAIN = `${BASE_COMMON_URL}/cannot-register-again/cannot-register-again`;
 export const PAYMENT_FAILED = `${BASE_COMMON_URL}/payment-failed/payment-failed`;
+export const CANNOT_USE_SERVICE_WHILE_SUSPENDED = `${BASE_COMMON_URL}/cannot-use-service-while-suspended/cannot-use-service-while-suspended`;
 
 // update acsp details configs
 const BASE_UPDATE_ACSP_DETAILS_URL = `${BASE_VIEWS_URL}/update-acsp-details`;
