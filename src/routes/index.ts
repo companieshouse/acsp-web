@@ -58,7 +58,6 @@ import {
     checkSavedApplicationController,
     resumeJourneyController,
     cannotSubmitAnotherApplicationController,
-    cannotUseServiceWhileSuspendedController,
     limitedWhatIsYourEmailController,
     soleTraderWhatIsYourEmailAddressController,
     unincorporatedWhatIsYourEmailController,
@@ -130,8 +129,6 @@ routes.get(urls.PAYMENT_CALLBACK_URL, paymentCallbackController.get);
 routes.get(urls.CHECK_SAVED_APPLICATION, checkSavedApplicationController.get);
 
 routes.get(urls.CANNOT_SUBMIT_ANOTHER_APPLICATION, cannotSubmitAnotherApplicationController.get);
-
-routes.get(urls.CANNOT_USE_SERVICE_WHILE_SUSPENDED, cannotUseServiceWhileSuspendedController.get);
 
 routes.get(urls.CANNOT_REGISTER_AGAIN, cannotRegisterAgainController.get);
 

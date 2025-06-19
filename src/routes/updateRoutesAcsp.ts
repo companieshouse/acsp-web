@@ -23,7 +23,8 @@ import {
     updateAmlMembershipNumberController,
     cancelAllUpdatesController,
     updateProvideAmlDetailsController,
-    yourUpdatesController
+    yourUpdatesController,
+    cannotUseServiceWhileSuspendedController
 } from "../controllers";
 import { nameValidator } from "../validation/whatIsYourName";
 import { whereDoYouLiveValidator } from "../validation/whereDoYouLive";
@@ -109,5 +110,7 @@ updateRoutes.get(urls.UPDATE_PROVIDE_AML_DETAILS, updateProvideAmlDetailsControl
 
 updateRoutes.get(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesController.get);
 updateRoutes.post(urls.UPDATE_CHECK_YOUR_UPDATES, yourUpdatesValidator, yourUpdatesController.post);
+
+updateRoutes.get(urls.CANNOT_USE_SERVICE_WHILE_SUSPENDED, cannotUseServiceWhileSuspendedController.get);
 
 export default updateRoutes;
