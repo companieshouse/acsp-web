@@ -21,11 +21,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
-        // this should be "suspended" but there is an issue with suspended users in the service
-        // if (acspDetails.status === "active") {
-        //     res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
-        //     return;
-        // }
+        if (acspDetails.status === "suspended") {
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
+            return;
+        }
 
         if (!updateFlag) {
             session.setExtraData(ACSP_DETAILS_UPDATED, acspDetails);
