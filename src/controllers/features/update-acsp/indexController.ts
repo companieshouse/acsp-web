@@ -22,12 +22,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
-        // logger.debug("TEST - acsp details status: " + acspDetails.status);
 
         // this should be "suspended" but there is an issue with suspended users in the service
         // if (acspDetails.status === "active") {
         //     logger.debug("ACSP details status is suspended, redirecting to cannot use service page");
-        //     res.redirect(addLangToUrl(CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
+        //     res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
         //     return;
         // }
 
