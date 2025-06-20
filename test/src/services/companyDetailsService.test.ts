@@ -35,7 +35,6 @@ describe("CompanyDetailsService", () => {
             hasBeenLiquidated: false,
             hasSuperSecurePscs: false,
             type: "Private Limited Company",
-            subtype: "", // Added subtype property to match the api sdk node interface change
             hasCharges: false,
             hasInsolvencyHistory: false,
             registeredOfficeAddress: {
@@ -97,7 +96,6 @@ describe("CompanyDetailsService", () => {
             hasBeenLiquidated: false,
             hasSuperSecurePscs: false,
             type: "Private Limited Company",
-            subtype: "", // Added subtype property to match the api sdk node interface change
             hasCharges: false,
             hasInsolvencyHistory: false,
             registeredOfficeAddress: {
