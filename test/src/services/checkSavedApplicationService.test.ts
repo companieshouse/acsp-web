@@ -6,20 +6,19 @@ import { getRedirectionUrl } from "../../../src/services/checkSavedApplicationSe
 import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../../../src/types/pageURL";
 import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
-import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
 import { createResponse, MockResponse } from "node-mocks-http";
+import { getAcspFullProfile } from "../../../src/services/acspProfileService";
 
 jest.mock("@companieshouse/api-sdk-node");
+jest.mock("../../../src/services/acspProfileService");
 jest.mock("../../../src/services/acspRegistrationService");
 
+const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 const mockDeleteSavedApplication = deleteAcspApplication as jest.Mock;
 let res: MockResponse<Response>;
 
 let session: any;
-var url = "";
-const httpResponse: HttpResponse = {
-    status: 500
-};
+let url = "";
 const hasOpenApplication: Resource<TransactionList> = {
     httpStatusCode: 200,
     resource: {
@@ -37,7 +36,7 @@ const hasApprovedApplication: Resource<TransactionList> = {
         items: [{
             id: "123",
             status: "closed",
-            filings: { "123-1": { status: ACCEPTED } },
+            filings: { "123-1": { status: ACCEPTED, companyNumber: "AP123456" } },
             resumeJourneyUri: "/register-as-companies-house-authorised-agent/resume?transactionId=123&acspId=abc"
         }]
     }
@@ -81,10 +80,20 @@ describe("check saved application service tests", () => {
         expect(redirectionUrl).toEqual(url);
     });
 
-    it("Should redirect to correct url when the application is approved", async () => {
+    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted and acsp status is CEASED", async () => {
+        mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
+        const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
+        url = BASE_URL + TYPE_OF_BUSINESS;
+        expect(redirectionUrl).toEqual(url);
+        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
+    });
+
+    it("Should redirect to CANNOT_REGISTER_AGAIN  when application filing is accepted and acsp status is not CEASED", async () => {
+        mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
         const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
         url = BASE_URL + CANNOT_REGISTER_AGAIN;
         expect(redirectionUrl).toEqual(url);
+        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
     });
 
     it("Should redirect to correct url when the application is in progress", async () => {
