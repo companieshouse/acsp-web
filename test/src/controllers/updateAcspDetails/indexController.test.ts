@@ -34,7 +34,8 @@ describe("GET indexController", () => {
         } as Partial<Request>;
 
         res = {
-            render: jest.fn()
+            render: jest.fn(),
+            redirect: jest.fn()
         } as Partial<Response>;
 
         next = jest.fn();
@@ -49,7 +50,7 @@ describe("GET indexController", () => {
     });
 
     it("should not set ACSP_DETAILS_UPDATED in the session when updateFlag is true", async () => {
-        const mockAcspDetails = { name: "Test ACSP", number: "12345" };
+        const mockAcspDetails = { name: "Test ACSP", number: "12345", status: "active" };
         const mockUpdatedAcspDetails = { name: "Updated ACSP", number: "12345" };
         sessionMock = {
             getExtraData: jest.fn((key: string) => {
@@ -59,6 +60,8 @@ describe("GET indexController", () => {
             setExtraData: jest.fn()
         } as Partial<Session>;
 
+        req.session = sessionMock as Session;
+
         const mockGetAcspFullProfile = jest.fn().mockResolvedValue(mockAcspDetails);
         jest.mock("../../../../src/services/acspProfileService", () => ({
             getAcspFullProfile: mockGetAcspFullProfile
@@ -67,6 +70,28 @@ describe("GET indexController", () => {
         await get(req as Request, res as Response, next);
         expect(sessionMock.setExtraData).not.toHaveBeenCalledWith(ACSP_DETAILS_UPDATED, mockAcspDetails);
         expect(res.render).toHaveBeenCalled();
+    });
+    it("should redirect to cannot-use-service-while-suspended when acspDetails status equal to 'suspended'", async () => {
+        const mockAcspDetails = { name: "Test ACSP", number: "12345", status: "suspended" };
+        const mockUpdatedAcspDetails = { name: "Updated ACSP", number: "12345" };
+        sessionMock = {
+            getExtraData: jest.fn((key: string) => {
+                if (key === ACSP_DETAILS) return mockAcspDetails;
+                if (key === ACSP_DETAILS_UPDATED) return mockUpdatedAcspDetails;
+            }),
+            setExtraData: jest.fn()
+        } as Partial<Session>;
+
+        req.session = sessionMock as Session;
+
+        const mockGetAcspFullProfile = jest.fn().mockResolvedValue(mockAcspDetails);
+        jest.mock("../../../../src/services/acspProfileService", () => ({
+            getAcspFullProfile: mockGetAcspFullProfile
+        }));
+
+        await get(req as Request, res as Response, next);
+        expect(res.redirect).toHaveBeenCalled();
+        expect(res.render).not.toHaveBeenCalled();
     });
 });
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {

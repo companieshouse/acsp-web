@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../../../config";
-import { UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
+import { CANNOT_USE_SERVICE_WHILE_SUSPENDED, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_ANSWERS } from "../../../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -20,6 +20,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL;
         var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
+
+        if (acspDetails.status === "suspended") {
+            res.redirect(addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + CANNOT_USE_SERVICE_WHILE_SUSPENDED, lang));
+            return;
+        }
 
         if (!updateFlag) {
             session.setExtraData(ACSP_DETAILS_UPDATED, acspDetails);
