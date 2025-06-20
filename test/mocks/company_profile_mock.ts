@@ -24,7 +24,6 @@ export const companyProfile: CompanyProfile = {
     companyNumber: "123456",
     companyStatus: "active",
     type: "ltd",
-    subtype: "", // Added subtype property to match the api sdk node interface change
     companyStatusDetail: "",
     dateOfCreation: "2022-03-03",
     jurisdiction: "",
