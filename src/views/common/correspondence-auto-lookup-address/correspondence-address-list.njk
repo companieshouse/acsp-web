@@ -9,7 +9,6 @@
     {% set ITEMS = [] %}
     {% for addressOption in addresses %}
         {% set addressObject = {
-            id: addressOption.premises,
             value: addressOption.premises,
             text: addressOption.premises + ", " + addressOption.addressLine1 + ", " + addressOption.locality + ", " + addressOption.postalCode,
             checked: addressOption.premises == currentPremises
