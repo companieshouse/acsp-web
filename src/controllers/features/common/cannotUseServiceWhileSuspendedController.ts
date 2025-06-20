@@ -17,8 +17,6 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         baseUrl = UPDATE_ACSP_DETAILS_BASE_URL;
     } else if (req.originalUrl.includes(CLOSE_ACSP_BASE_URL)) {
         baseUrl = CLOSE_ACSP_BASE_URL;
-    } else {
-        baseUrl = BASE_URL;
     }
 
     res.render(config.CANNOT_USE_SERVICE_WHILE_SUSPENDED, {
