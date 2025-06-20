@@ -8,6 +8,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
+    const locales = getLocalesService();
     const session: Session = req.session as any as Session;
     const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
@@ -21,7 +22,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     res.render(config.CANNOT_USE_SERVICE_WHILE_SUSPENDED, {
-        ...getLocaleInfo(getLocalesService(), lang),
+        ...getLocaleInfo(locales, lang),
         currentUrl: baseUrl + CANNOT_USE_SERVICE_WHILE_SUSPENDED,
         businessName: acspDetails.name
     });
