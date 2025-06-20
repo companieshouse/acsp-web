@@ -50,5 +50,6 @@ export const companyProfile: CompanyProfile = {
         nextDue: "",
         overdue: false
     },
-    links: {}
+    links: {},
+    subtype: ""
 };

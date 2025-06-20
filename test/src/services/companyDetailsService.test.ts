@@ -67,7 +67,8 @@ describe("CompanyDetailsService", () => {
                 nextDue: "",
                 overdue: false
             },
-            links: {}
+            links: {},
+            subtype: ""
         };
 
         // call the method to save company details into session
@@ -128,7 +129,8 @@ describe("CompanyDetailsService", () => {
                 nextDue: "",
                 overdue: false
             },
-            links: {}
+            links: {},
+            subtype: ""
         };
         // req.session = mockCompanyDetails;
         // fetch company details
