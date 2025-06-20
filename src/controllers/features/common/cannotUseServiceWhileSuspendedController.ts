@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { AUTHORISED_AGENT, BASE_URL, CANNOT_USE_SERVICE_WHILE_SUSPENDED, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
+import { AUTHORISED_AGENT, CANNOT_USE_SERVICE_WHILE_SUSPENDED, CLOSE_ACSP_BASE_URL, UPDATE_ACSP_DETAILS_BASE_URL } from "../../../types/pageURL";
 import { selectLang, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import * as config from "../../../config";
 import { Session } from "@companieshouse/node-session-handler";
