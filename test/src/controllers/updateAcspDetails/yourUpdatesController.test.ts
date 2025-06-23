@@ -82,6 +82,14 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     it("should return status 302 after redirect to confirmation page", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: [{ body: "HRMC" }] });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         await mockPostRegistration.mockResolvedValueOnce({});
         await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
@@ -102,6 +110,14 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     });
 
     it("should return status 302 after redirect to update details page", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: [{ body: "HRMC" }] });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "yes" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");

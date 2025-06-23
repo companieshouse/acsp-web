@@ -11,7 +11,7 @@ import { ACSP_DETAILS, ACSP_UPDATE_PREVIOUS_PAGE_URL, ACSP_DETAILS_UPDATED, UPDA
 import { closeTransaction } from "../../../services/transactions/transaction_service";
 import { AcspFullProfile } from "../../../model/AcspFullProfile";
 import { getPreviousPageUrl } from "../../../services/url";
-import { isLimitedBusinessType } from "../../../services/common";
+import { deepEquals, isLimitedBusinessType } from "../../../services/common";
 import { getLoggedInAcspNumber } from "../../../common/__utils/session";
 import { getAcspFullProfile } from "../../../services/acspProfileService";
 import { AcspCeasedError } from "../../../errors/acspCeasedError";
@@ -116,6 +116,9 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
 
             if (acspDetails.status === CEASED) {
                 throw new AcspCeasedError("ACSP is ceased. Cannot proceed with updates.");
+            } else if (deepEquals(acspFullProfile, acspUpdatedFullProfile)) {
+                // If the ACSP has not made any updates, throw an error and render the technical difficulties screen
+                throw new Error("No updates have been made to the ACSP profile.");
             }
 
             // If the user has no more updates, we save the updated details and create a transaction
