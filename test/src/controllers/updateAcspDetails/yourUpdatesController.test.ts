@@ -142,6 +142,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
             req.session = session;
             next();
         });
+
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         await mockPostRegistration.mockResolvedValueOnce({});
         await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
