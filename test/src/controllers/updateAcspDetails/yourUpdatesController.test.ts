@@ -81,11 +81,14 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
 });
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
     it("should return status 302 after redirect to confirmation page", async () => {
         customMockSessionMiddleware = sessionMiddleware as jest.Mock;
         const session = getSessionRequestWithPermission();
         session.setExtraData(ACSP_DETAILS, dummyFullProfile);
-        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: [{ body: "HRMC" }] });
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, name: "New business name" });
         customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
             req.session = session;
             next();
@@ -142,7 +145,25 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
             req.session = session;
             next();
         });
+        await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
 
+    it("should return status 500 and show technical difficulties if no updates have been made", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        const acspDetails = JSON.parse(JSON.stringify(dummyFullProfile));
+        const acspDetailsUpdated = JSON.parse(JSON.stringify(dummyFullProfile));
+        session.setExtraData(ACSP_DETAILS, acspDetails);
+        session.setExtraData(ACSP_DETAILS_UPDATED, acspDetailsUpdated);
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         await mockPostRegistration.mockResolvedValueOnce({});
         await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
