@@ -137,7 +137,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
         customMockSessionMiddleware = sessionMiddleware as jest.Mock;
         const session = getSessionRequestWithPermission();
         session.setExtraData(ACSP_DETAILS, dummyFullProfile);
-        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: dummyFullProfile.amlDetails });
+        session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
         customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
             req.session = session;
             next();
