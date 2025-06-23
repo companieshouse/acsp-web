@@ -133,6 +133,23 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
         expect(res.text).toContain("Select yes if you need to tell us about other updates");
     });
 
+    it("should return status 500 and show technical difficulties if no updates have been made", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: dummyFullProfile.amlDetails });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
     it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error("Test error");
