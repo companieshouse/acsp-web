@@ -12,6 +12,7 @@ import {
     AML_REMOVAL_INDEX,
     AML_REMOVED_BODY_DETAILS,
     APPLICATION_ID,
+    CLOSE_SUBMISSION_ID,
     COMPANY,
     COMPANY_DETAILS,
     COMPANY_NUMBER,
@@ -64,4 +65,5 @@ export const deleteAllSessionData = async (session: Session) => {
     session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS);
     session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
     session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE);
+    session.deleteExtraData(CLOSE_SUBMISSION_ID);
 };

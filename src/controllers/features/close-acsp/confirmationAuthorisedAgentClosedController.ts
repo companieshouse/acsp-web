@@ -6,6 +6,7 @@ import { CLOSE_ACSP_BASE_URL, CLOSE_CONFIRMATION_ACSP_CLOSED, CLOSE_FEEDBACK_LIN
 import { Session } from "@companieshouse/node-session-handler";
 import { ACSP_DETAILS, CLOSE_SUBMISSION_ID } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
+import { deleteAllSessionData } from "../../../common/__utils/sessionHelper";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -28,6 +29,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             tellHmrcIfYouveStoppedTradingLink: TELL_HMRC_YOUVE_STOPPED_TRADING,
             feedbackLink: CLOSE_FEEDBACK_LINK_CONFIRMATION
         });
+        deleteAllSessionData(session);
     } catch (err) {
         next(err);
     }
