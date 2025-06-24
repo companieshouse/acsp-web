@@ -81,7 +81,18 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () =
 });
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
     it("should return status 302 after redirect to confirmation page", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, name: "New business name" });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
         await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
         await mockPostRegistration.mockResolvedValueOnce({});
         await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
@@ -102,6 +113,14 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     });
 
     it("should return status 302 after redirect to update details page", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, { ...dummyFullProfile, amlDetails: [{ body: "HRMC" }] });
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "yes" });
         expect(res.status).toBe(302);
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS + "?lang=en");
@@ -115,6 +134,42 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
         expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
         expect(res.text).toContain("Select yes if you need to tell us about other updates");
+    });
+
+    it("should return status 500 and show technical difficulties if no updates have been made", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        session.setExtraData(ACSP_DETAILS, dummyFullProfile);
+        session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    it("should return status 500 and show technical difficulties if no updates have been made", async () => {
+        customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+        const session = getSessionRequestWithPermission();
+        const acspDetails = JSON.parse(JSON.stringify(dummyFullProfile));
+        const acspDetailsUpdated = JSON.parse(JSON.stringify(dummyFullProfile));
+        session.setExtraData(ACSP_DETAILS, acspDetails);
+        session.setExtraData(ACSP_DETAILS_UPDATED, acspDetailsUpdated);
+        customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+            req.session = session;
+            next();
+        });
+        await mockPostTransaction.mockResolvedValueOnce({ id: "12345" });
+        await mockPostRegistration.mockResolvedValueOnce({});
+        await mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 
     it("should return status 500 after calling getAcspFullProfile endpoint and failing", async () => {
