@@ -109,6 +109,7 @@ $govuk-global-styles: true;
   #global-nav nav #navigation {
       border-bottom: 1px solid #b1b4b6;
       padding: 10px 0px !important;
+      width: 100%;
   }
   #global-nav nav li {
       display: inline-block;
@@ -117,7 +118,10 @@ $govuk-global-styles: true;
   display: contents !important;
   font-size: 16px;
   overflow-wrap: break-word;
-}
+  }
+  ul#navigation {
+  display: inline-block;
+  }
 }
 
 @media (max-width: 640px) {
@@ -139,6 +143,7 @@ ul#navigation {
   margin-top: 15px;
   margin-bottom: 15px;
   text-align: right;
+  float: right;
 }
 ul#navigation li a {
   margin-left: 0.9em;
