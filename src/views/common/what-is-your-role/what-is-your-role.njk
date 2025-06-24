@@ -28,17 +28,20 @@
 
                     {
                       value: "SOLE_TRADER",
-                      text: i18n.soleTrader
+                      text: i18n.soleTrader,
+                      id: "WhatIsYourRole"
                     } if acspType == "SOLE_TRADER",
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
-                      html: "<span id='partial_obliteration'>" + i18n.memberOfGoverningBody + "</span>" + unincorporatedBusinessName
+                      html: "<span id='partial_obliteration'>" + i18n.memberOfGoverningBody + "</span>" + unincorporatedBusinessName,
+                      id: "WhatIsYourRole"
                     } if acspType == "UNINCORPORATED",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
-                      html: "<span id='partial_obliteration'>" + i18n.equivalentToDirector + "</span>" + unincorporatedBusinessName + "</span>"
+                      html: "<span id='partial_obliteration'>" + i18n.equivalentToDirector + "</span>" + unincorporatedBusinessName + "</span>",
+                      id: "WhatIsYourRole"
                     } if acspType == "CORPORATE_BODY",
 
                     {
@@ -48,17 +51,20 @@
 
                     {
                       value: "DIRECTOR",
-                      html: "<span id='partial_obliteration'>" + i18n.director + "</span>" + company.companyName + " (" + company.companyNumber + ")"
+                      html: "<span id='partial_obliteration'>" + i18n.director + "</span>" + company.companyName + " (" + company.companyNumber + ")",
+                      id: "WhatIsYourRole"
                     } if acspType == "LC",
 
                     {
                       value: "MEMBER_OF_LLP",
-                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + company.companyName + " (" + company.companyNumber + ")"
+                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + company.companyName + " (" + company.companyNumber + ")",
+                      id: "WhatIsYourRole"
                     } if acspType == "LLP",
 
                     {
                       value: "GENERAL_PARTNER",
-                      html: "<span id='partial_obliteration'>" + i18n.generalPartner + "</span>" + unincorporatedBusinessName
+                      html: "<span id='partial_obliteration'>" + i18n.generalPartner + "</span>" + unincorporatedBusinessName,
+                      id: "WhatIsYourRole"
                     } if acspType == "LP",
 
                     {
