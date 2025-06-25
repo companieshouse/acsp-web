@@ -74,6 +74,8 @@ export const TELL_HMRC_YOUVE_STOPPED_TRADING = "https://www.gov.uk/stop-being-se
 
 export const REGISTRATION_FEEDBACK_LINK = "https://www.smartsurvey.co.uk/s/reg-as-acsp-fdbk/";
 
+export const MUST_BE_AUTHORISED_AGENT = "/must-be-authorised-agent";
+
 // sole trader journey urls
 export const SOLE_TRADER_WHAT_IS_YOUR_ROLE = SOLE_TRADER + "/what-is-your-role";
 
