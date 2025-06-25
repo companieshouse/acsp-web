@@ -15,9 +15,10 @@ export const getAcspProfileMiddleware = async (req: Request, res: Response, next
         if (!acspDetails) {
             acspDetails = await getAcspFullProfile(acspNumber);
             session.setExtraData(ACSP_DETAILS, acspDetails);
-            if (acspDetails.status === CEASED) {
-                throw new AcspCeasedError("ACSP is ceased. Cannot proceed with account closure.");
-            }
+        }
+
+        if (acspDetails.status === CEASED) {
+            throw new AcspCeasedError("ACSP is ceased. Cannot proceed with account closure.");
         }
         next();
     } catch (error) {
