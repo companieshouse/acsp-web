@@ -4,7 +4,7 @@ import { UPDATE_WHAT_IS_YOUR_EMAIL, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_YOUR_AN
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { validationResult } from "express-validator";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, AML_REMOVAL_BODY, AML_REMOVAL_INDEX } from "../../../common/__utils/constants";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
@@ -27,6 +27,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 whatIsYourEmailInput: acspUpdatedFullProfile.email
             };
         }
+
+        // Delete the temporary AML removal index and body from the session
+        // Prevents the removed AML details from clearing on Your Updates view
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
 
         res.render(config.UPDATE_WHAT_IS_YOUR_EMAIL, {
             ...getLocaleInfo(locales, lang),

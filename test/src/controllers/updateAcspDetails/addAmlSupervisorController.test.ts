@@ -22,7 +22,8 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
 
     beforeEach(() => {
         session = {
-            getExtraData: jest.fn()
+            getExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {
@@ -77,7 +78,8 @@ describe("addAmlSupervisorController - get", () => {
     beforeEach(() => {
         sessionMock = {
             getExtraData: jest.fn(),
-            setExtraData: jest.fn()
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {

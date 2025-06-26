@@ -89,7 +89,8 @@ describe("GET" + UPDATE_WHAT_IS_THE_COMPANY_NAME, () => {
     it("should return status 200 and render page as a limited company", async () => {
         mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
             req.session = {
-                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile)
+                getExtraData: jest.fn().mockReturnValue(mockLimitedAcspFullProfile),
+                deleteExtraData: jest.fn()
             };
             next();
         });
