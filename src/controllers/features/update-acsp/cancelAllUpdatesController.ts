@@ -3,7 +3,7 @@ import * as config from "../../../config";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_UPDATE_CHANGE_DATE } from "../../../common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_UPDATE_CHANGE_DATE, AML_REMOVAL_BODY, AML_REMOVAL_INDEX } from "../../../common/__utils/constants";
 import { UPDATE_YOUR_ANSWERS, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_CANCEL_ALL_UPDATES, AUTHORISED_AGENT } from "../../../types/pageURL";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,6 +35,8 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS);
         session.deleteExtraData(ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS);
         session.deleteExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
 
         res.redirect(addLangToUrl(AUTHORISED_AGENT, selectLang(req.query.lang)));
     } catch (err) {

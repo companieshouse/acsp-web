@@ -10,7 +10,7 @@ import {
 import { validationResult } from "express-validator";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_UPDATE_PREVIOUS_PAGE_URL } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATED, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_UPDATE_PREVIOUS_PAGE_URL, AML_REMOVAL_BODY, AML_REMOVAL_INDEX } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { soleTraderNameDetails } from "model/SoleTraderNameDetails";
 
@@ -21,6 +21,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const acspUpdatedFullProfile: AcspFullProfile = session.getExtraData(ACSP_DETAILS_UPDATED)!;
         const updateInProgress: soleTraderNameDetails | undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+
         const payload = updateInProgress
             ? {
                 "first-name": updateInProgress.forename,
@@ -32,6 +33,12 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 "middle-names": acspUpdatedFullProfile.soleTraderDetails?.otherForenames,
                 "last-name": acspUpdatedFullProfile.soleTraderDetails?.surname
             };
+
+        // Delete the temporary AML removal index and body from the session
+        // Prevents the removed AML details from clearing on Your Updates view
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
+
         res.render(config.WHAT_IS_YOUR_NAME, {
             ...getLocaleInfo(locales, lang),
             currentUrl: UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME,

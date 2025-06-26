@@ -5,7 +5,7 @@ import { formatValidationError, getPageProperties } from "../../../validation/va
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { UPDATE_ACSP_DETAILS_BASE_URL, AML_MEMBERSHIP_NUMBER, UPDATE_YOUR_ANSWERS, UPDATE_ADD_AML_SUPERVISOR } from "../../../types/pageURL";
 import { Session } from "@companieshouse/node-session-handler";
-import { NEW_AML_BODY, ADD_AML_BODY_UPDATE, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { NEW_AML_BODY, ADD_AML_BODY_UPDATE, ACSP_DETAILS_UPDATED, AML_REMOVAL_BODY, AML_REMOVAL_INDEX } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AMLSupervisoryBodies } from "../../../model/AMLSupervisoryBodies";
@@ -40,6 +40,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR;
+
+        // Delete the temporary AML removal index and body from the session
+        // Prevents the removed AML details from clearing on Your Updates view
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
 
         res.render(config.UPDATE_ADD_AML_SUPERVISORY_BODY, {
             previousPage: addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS, lang),

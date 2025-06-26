@@ -29,7 +29,8 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     beforeEach(() => {
         sessionMock = {
             getExtraData: jest.fn(),
-            setExtraData: jest.fn()
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {

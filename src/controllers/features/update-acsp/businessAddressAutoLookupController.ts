@@ -13,7 +13,7 @@ import {
     UPDATE_ACSP_DETAILS_BASE_URL
 } from "../../../types/pageURL";
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
-import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../common/__utils/constants";
+import { ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, AML_REMOVAL_BODY, AML_REMOVAL_INDEX } from "../../../common/__utils/constants";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 
@@ -30,6 +30,11 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             postCode: updateInProgress ? updateInProgress.postalCode : acspUpdatedFullProfile.registeredOfficeAddress.postalCode,
             premise: updateInProgress ? updateInProgress.premises : acspUpdatedFullProfile.registeredOfficeAddress.premises
         };
+
+        // Delete the temporary AML removal index and body from the session
+        // Prevents the removed AML details from clearing on Your Updates view
+        session.deleteExtraData(AML_REMOVAL_INDEX);
+        session.deleteExtraData(AML_REMOVAL_BODY);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, {
             previousPage,
