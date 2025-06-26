@@ -99,15 +99,15 @@ app.use(BASE_URL, registrationVariablesMiddleware);
 
 // Update ACSP details middleware
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
-//app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspUserIsPartOfAcspMiddleware);
+// app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspUserIsPartOfAcspMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
-//app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspAuthMiddleware);
+// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspAuthMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, getUpdateAcspProfileMiddleware);
-//app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getUpdateAcspProfileMiddleware);
+// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getUpdateAcspProfileMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
 // app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateVariablesMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
-//app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspIsOwnerMiddleware);
+// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspIsOwnerMiddleware);
 
 // Close ACSP middleware
 app.use(CLOSE_ACSP_BASE_URL, closeAcspBaseAuthenticationMiddleware);
