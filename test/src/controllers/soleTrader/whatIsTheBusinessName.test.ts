@@ -74,6 +74,20 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
+    it("should redirect with status 302 on successful form submission with the company name including char +", async () => {
+        const formData = {
+            whatIsTheBusinessNameInput: "Company+Name",
+            whatsTheBusinessNameRadio: "A Different Name"
+        };
+
+        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN + "?lang=en");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
+    });
+
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
