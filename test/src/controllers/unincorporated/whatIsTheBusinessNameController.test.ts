@@ -83,11 +83,7 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
         const formData = {
             id: "abc",
             typeOfBusiness: "UNINCORPORATED",
-            whatIsTheBusinessName: "Company+Name",
-            applicantDetails: {
-                firstName: "John",
-                lastName: "Doe"
-            }
+            whatIsTheBusinessName: "Company+Name"
         };
 
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);

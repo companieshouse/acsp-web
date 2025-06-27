@@ -77,12 +77,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should redirect with status 302 on successful form submission with the company name including char +", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "Company+Name",
-            whatsTheBusinessNameRadio: "A Different Name",
-            applicantDetails: {
-                firstName: "John",
-                middleName: "",
-                lastName: "Doe"
-            }
+            whatsTheBusinessNameRadio: "A Different Name"
         };
 
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
