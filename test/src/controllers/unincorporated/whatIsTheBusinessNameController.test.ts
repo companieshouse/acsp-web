@@ -79,6 +79,22 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE + "?lang=en");
     });
 
+    it("should redirect with status 302 on successful form submission", async () => {
+        const formData = {
+            id: "abc",
+            typeOfBusiness: "UNINCORPORATED",
+            whatIsTheBusinessName: "Company+Name",
+            applicantDetails: {
+                firstName: "John",
+                lastName: "Doe"
+            }
+        };
+
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE + "?lang=en");
+    });
+
     it("should return status 400 for no data entered", async () => {
         const formData = {
             whatIsTheBusinessName: ""

@@ -4,7 +4,7 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { trimAndLowercaseString, getBusinessName } from "../services/common";
 import { ACSP_DETAILS } from "../common/__utils/constants";
 
-const businessNameFormat: RegExp = /^[A-Za-z0-9\-&'.\s]*$/;
+const businessNameFormat: RegExp = /^[A-Za-z0-9\-&'.+\s]*$/;
 type BusinessNameType = "businessName" | "companyName";
 
 export const unicorporatedWhatIsTheBusinessNameValidator = (type: BusinessNameType): ValidationChain[] => [
