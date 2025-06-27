@@ -36,6 +36,13 @@
     var ignoreRadioButtonForThisPage = false;
     
     $(function() {
+
+        if (eventCategory.startsWith("Error: ")){
+          eventCategory = eventCategory.replace("Error: ", "")
+        }
+        if (eventCategory.startsWith("Gwall: ")){
+          eventCategory = eventCategory.replace("Gwall: ", "")
+        }
           //  On the button click the button details are recorded.
           $("button").click(function() {
             eventNameBtn = $(this).text().toUpperCase();
