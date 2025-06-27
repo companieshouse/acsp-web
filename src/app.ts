@@ -18,7 +18,7 @@ import {
     CHS_MONITOR_GUI_URL,
     FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY
 } from "./utils/properties";
-import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_URL, CLOSE_ACSP_BASE_URL } from "./types/pageURL";
+import { BASE_URL, SOLE_TRADER, HEALTHCHECK, ACCESSIBILITY_STATEMENT, UPDATE_ACSP_DETAILS_BASE_URL, TYPE_OF_BUSINESS, SIGN_OUT_URL, CLOSE_ACSP_BASE_URL, MUST_BE_AUTHORISED_AGENT } from "./types/pageURL";
 import { commonTemplateVariablesMiddleware } from "./middleware/common_variables_middleware";
 import { updateAcspAuthMiddleware } from "./middleware/update-acsp/update_acsp_authentication_middleware";
 import { updateAcspBaseAuthenticationMiddleware } from "./middleware/update-acsp/update_acsp_base_authentication_middleware";
@@ -38,6 +38,8 @@ import { closeAcspAuthMiddleware } from "./middleware/close-acsp/close_acsp_auth
 import { closeAcspIsOwnerMiddleware } from "./middleware/close-acsp/close_acsp_is_owner_middleware";
 import { getAcspProfileMiddleware } from "./middleware/close-acsp/close_acsp_get_acsp_profile_middleware";
 import { getUpdateAcspProfileMiddleware } from "./middleware/update-acsp/update_acsp_get_acsp_profile_middleware";
+import { updateAcspUserIsPartOfAcspMiddleware } from "./middleware/update-acsp/update_acsp_user_is_part_of_acsp_middleware";
+import { closeAcspUserIsPartOfAcspMiddleware } from "./middleware/close-acsp/close_acsp_user_is_part_of_acsp_middleware";
 
 const app = express();
 const nonce: string = uuidv4();
@@ -99,27 +101,19 @@ app.use(BASE_URL, registrationVariablesMiddleware);
 
 // Update ACSP details middleware
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
-// app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspUserIsPartOfAcspMiddleware);
-app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspAuthMiddleware);
-// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspAuthMiddleware);
-app.use(UPDATE_ACSP_DETAILS_BASE_URL, getUpdateAcspProfileMiddleware);
-// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getUpdateAcspProfileMiddleware);
-app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
-// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateVariablesMiddleware);
-app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspIsOwnerMiddleware);
-// app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspIsOwnerMiddleware);
+app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspUserIsPartOfAcspMiddleware);
+app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspAuthMiddleware);
+app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getUpdateAcspProfileMiddleware);
+app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateVariablesMiddleware);
+app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspIsOwnerMiddleware);
 
 // Close ACSP middleware
 app.use(CLOSE_ACSP_BASE_URL, closeAcspBaseAuthenticationMiddleware);
-// app.use(CLOSE_ACSP_BASE_URL, closeAcspUserIsPartOfAcspMiddleware);
-app.use(CLOSE_ACSP_BASE_URL, closeAcspAuthMiddleware);
-// app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspAuthMiddleware);
-app.use(CLOSE_ACSP_BASE_URL, getAcspProfileMiddleware);
-// app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getAcspProfileMiddleware);
-app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
-// app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeVariablesMiddleware);
-app.use(CLOSE_ACSP_BASE_URL, closeAcspIsOwnerMiddleware);
-// app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspIsOwnerMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeAcspUserIsPartOfAcspMiddleware);
+app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspAuthMiddleware);
+app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getAcspProfileMiddleware);
+app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeVariablesMiddleware);
+app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspIsOwnerMiddleware);
 
 // Company Auth redirect
 // const companyAuthRegex = new RegExp(`^${HOME_URL}/.+`);
