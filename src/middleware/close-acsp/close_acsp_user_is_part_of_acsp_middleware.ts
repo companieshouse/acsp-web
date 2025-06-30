@@ -7,11 +7,9 @@ export const closeAcspUserIsPartOfAcspMiddleware = async (req: Request, res: Res
     try {
         const lang = selectLang(req.query.lang);
         const acspNumber: string = getLoggedInAcspNumber(req.session);
-        if (!acspNumber) {
-            if (!req.originalUrl.includes(MUST_BE_AUTHORISED_AGENT)) {
-                res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + MUST_BE_AUTHORISED_AGENT, lang));
-                return;
-            }
+        if (!acspNumber && !req.originalUrl.includes(MUST_BE_AUTHORISED_AGENT)) {
+            res.redirect(addLangToUrl(CLOSE_ACSP_BASE_URL + MUST_BE_AUTHORISED_AGENT, lang));
+            return;
         }
 
         next();
