@@ -35,7 +35,8 @@ describe("Business address auto look up tests", () => {
     beforeEach(() => {
         sessionMock = {
             getExtraData: jest.fn(),
-            setExtraData: jest.fn()
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {

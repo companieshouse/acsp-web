@@ -35,7 +35,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     beforeEach(() => {
         sessionMock = {
             getExtraData: jest.fn(),
-            setExtraData: jest.fn()
+            setExtraData: jest.fn(),
+            deleteExtraData: jest.fn()
         };
 
         req = {

@@ -5,6 +5,8 @@
 
 <!-- Matomo -->
 <script nonce={{ nonce | dump | safe }}>
+// Setting the page title and removing "Error: " and "Gwall: " from the title for Matomo analytics.
+  _paq.push(["setDocumentTitle", "{{ title | replace('Error: ', '') | replace('Gwall: ', '') }}" + " - " + "{{ i18n[tabTitleKey]}}"]);
 //  Matomo automation -- this is to remove all the Matomo calls with the hardcoded analytics texts from the njk pages.
 //  In a situation where Matomo analytics needs a non generic customization, the existing hardcoded Matomo calls are still possible.
 
@@ -34,6 +36,13 @@
     var ignoreRadioButtonForThisPage = false;
     
     $(function() {
+
+        if (eventCategory.startsWith("Error: ")){
+          eventCategory = eventCategory.replace("Error: ", "")
+        }
+        if (eventCategory.startsWith("Gwall: ")){
+          eventCategory = eventCategory.replace("Gwall: ", "")
+        }
           //  On the button click the button details are recorded.
           $("button").click(function() {
             eventNameBtn = $(this).text().toUpperCase();
