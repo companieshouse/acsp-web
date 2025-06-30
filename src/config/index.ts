@@ -42,6 +42,7 @@ export const AUTO_LOOKUP_ADDRESS = `${BASE_COMMON_URL}/correspondence-auto-looku
 export const CORRESPONDENCE_ADDRESS_LIST = `${BASE_COMMON_URL}/correspondence-auto-lookup-address/correspondence-address-list`;
 export const SIGN_OUT_PAGE = `${BASE_COMMON_URL}/sign-out-page/sign-out`;
 export const SAVED_APPLICATION = `${BASE_COMMON_URL}/saved-application/saved-application`;
+export const MUST_BE_AUTHORISED_AGENT = `${BASE_COMMON_URL}/must-be-authorised-agent/must-be-authorised-agent`;
 
 export const ERROR_400 = `${BASE_PARTIALS_URL}/error_400`;
 export const ERROR_404 = `${BASE_PARTIALS_URL}/error_404`;
