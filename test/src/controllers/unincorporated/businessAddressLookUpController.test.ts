@@ -32,6 +32,9 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
 }];
 
 describe("Business address auto look up tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("GET" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP);
@@ -70,7 +73,9 @@ describe("Business address auto look up tests", () => {
 });
 
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LOOKUP, () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",

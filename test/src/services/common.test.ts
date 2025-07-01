@@ -50,6 +50,9 @@ const acspFullProfileData: AcspFullProfile = {
 };
 
 describe("CheckedDocumentsService tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return full name as undefined when the fore name is undefined", () => {
 
         expect(getFullName(acspProfileData)).toBe(undefined);
@@ -60,6 +63,9 @@ describe("CheckedDocumentsService tests", () => {
 });
 
 describe("getBusinessName should return correct business name", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it.each([
         ["John Doe ACSP", "John Doe"],
         ["John Doe acsp", "John Doe"],
@@ -72,12 +78,18 @@ describe("getBusinessName should return correct business name", () => {
 });
 
 describe("formatDateIntoReadableString returns a formatted date string", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return a formatted date string", () => {
         expect(formatDateIntoReadableString(new Date(2021, 2, 1))).toBe("01 March 2021");
     });
 });
 
 describe("formatAddressIntoHTMLString returns a formatted address string", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return formatted address string with all fields", () => {
         const address = {
             premises: "11",
@@ -113,6 +125,9 @@ describe("formatAddressIntoHTMLString returns a formatted address string", () =>
 });
 
 describe("deepEquals", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return true for identical primitive values", () => {
         expect(deepEquals(1, 1)).toBe(true);
         expect(deepEquals("hello", "hello")).toBe(true);

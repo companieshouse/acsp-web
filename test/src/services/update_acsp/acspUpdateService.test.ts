@@ -30,8 +30,13 @@ describe("AcspUpdateService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("createTransaction tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should return start a new transaction and save the transaction ID to session", async () => {
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
             const session: Session = req.session as any as Session;
@@ -102,7 +107,9 @@ describe("AcspUpdateService tests", () => {
                 amlDetails: [{ supervisoryBody: "association-of-chartered-certified-accountants-acca", membershipDetails: "123456" }]
             } as AcspFullProfile;
         });
-
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should save updated details and call postAcspRegistration", async () => {
             session.setExtraData(UPDATE_SUBMISSION_ID, transactionId);
 

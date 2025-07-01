@@ -6,6 +6,9 @@ import * as localise from "../../../../src/utils/localise";
 const router = supertest(app);
 
 describe("GET " + CANCEL_AN_UPDATE, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to the correct URL", async () => {
         const response = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + CANCEL_AN_UPDATE);
         expect(response.status).toBe(302);

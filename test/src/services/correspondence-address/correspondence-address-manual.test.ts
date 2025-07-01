@@ -48,7 +48,9 @@ describe("CorrespondenceAddressManualService", () => {
             registeredOfficeAddress: {}
         };
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     test("saveCorrespondenceManualAddress correctly saves address to applicantDetails in acspData", () => {
         req.body = {
             addressPropertyDetails: "Suite 200",

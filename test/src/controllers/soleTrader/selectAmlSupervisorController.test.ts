@@ -22,6 +22,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR);
@@ -54,6 +57,9 @@ describe("GET" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
 });
 
 describe("POST" + SOLE_TRADER_SELECT_AML_SUPERVISOR, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });

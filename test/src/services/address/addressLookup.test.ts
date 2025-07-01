@@ -35,7 +35,13 @@ describe("addressLookupService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("getAddressFromPostcode tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should return the first next page URL when a valid premise is found for business address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(USER_DATA, {});
@@ -113,6 +119,9 @@ describe("addressLookupService tests", () => {
         });
     });
     describe("processAddressFromPostcodeUpdateJourney tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should return the first next page URL when a valid premise is found for address", async () => {
             const session: Session = req.session as any as Session;
             session.setExtraData(ACSP_DETAILS_UPDATED, dummyFullProfile);
@@ -182,7 +191,9 @@ describe("AddressLookUpService - getAddressFromPostcode", () => {
             typeOfBusiness: ""
         } as AcspData;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return LIMITED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is LC and country is empty", async () => {
         const ukAddresses: UKAddress[] = [
             { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }

@@ -47,6 +47,9 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 
         jest.clearAllMocks();
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(ACSP_DETAILS, mockSoleTraderAcspFullProfile);
@@ -116,6 +119,9 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 });
 
 describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const session = getSessionRequestWithPermission();
         session.setExtraData(ACSP_DETAILS, {});

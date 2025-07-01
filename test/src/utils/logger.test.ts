@@ -19,8 +19,13 @@ describe("logger.ts", () => {
         jest.clearAllMocks();
         (createLogger as jest.Mock).mockReturnValue(mockLogger);
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("initLogger", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should create a logger with APP_NAME ", () => {
             const logger = initLoggerFn();
             expect(createLogger).toHaveBeenCalledWith("test-application-name");
@@ -29,6 +34,9 @@ describe("logger.ts", () => {
     });
 
     describe("createAndLogError", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should log and return an error", () => {
             const ERROR_MESSAGE = "Error: Something went wrong";
             const err: Error = createAndLogError(ERROR_MESSAGE);

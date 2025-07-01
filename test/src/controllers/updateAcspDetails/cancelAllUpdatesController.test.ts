@@ -16,6 +16,9 @@ const router = supertest(app);
 let customMockSessionMiddleware : any;
 
 describe("GET " + UPDATE_CANCEL_ALL_UPDATES, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should respond with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CANCEL_ALL_UPDATES);
         expect(res.text).toContain("Are you sure you want to cancel all updates?");
@@ -46,7 +49,9 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 500 if deleteExtraData throws an error", async () => {
         mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
             req.session = {

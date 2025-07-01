@@ -21,6 +21,9 @@ describe("typeOfBusinessService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return transaction ID", () => {
         mockPostTransaction.mockResolvedValueOnce(validTransaction);
         const session: Session = req.session as any as Session;

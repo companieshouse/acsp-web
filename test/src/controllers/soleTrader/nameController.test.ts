@@ -18,6 +18,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME);
@@ -55,6 +58,9 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
 });
 
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);

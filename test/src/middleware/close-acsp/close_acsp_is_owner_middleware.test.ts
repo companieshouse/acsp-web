@@ -9,6 +9,9 @@ const res: Response = {} as Response;
 const next: NextFunction = jest.fn();
 
 describe("acsp is owner middleware tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error when role is not 'owner'", () => {
         getLoggedInAcspRoleSpy.mockReturnValue("admin");
 

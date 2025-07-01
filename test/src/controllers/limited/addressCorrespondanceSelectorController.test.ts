@@ -27,6 +27,9 @@ const acspData: AcspData = {
 };
 
 describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the correspondence address selector page with status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS);
@@ -132,6 +135,9 @@ describe("GET " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
 });
 
 describe("POST " + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the correspondence address selector page with validation errors", async () => {
         const res = await router
             .post(BASE_URL + LIMITED_WHAT_IS_THE_CORRESPONDENCE_ADDRESS)

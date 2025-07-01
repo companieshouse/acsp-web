@@ -17,6 +17,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER);
@@ -36,6 +39,9 @@ describe("GET" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "EA" });
         expect(res.status).toBe(302);

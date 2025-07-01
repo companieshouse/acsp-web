@@ -72,9 +72,13 @@ describe("Payment Service tests", () => {
         jest.clearAllMocks();
         session = new Session();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("startPaymentsSession tests", () => {
-
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should return a successful response", async () => {
             dummyApiResponse.httpStatusCode = 200;
             mockCreatePaymentWithFullUrl.mockResolvedValueOnce(dummyPaymentResult);

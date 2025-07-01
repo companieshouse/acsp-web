@@ -41,6 +41,9 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
 }];
 
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return 200 and render the page", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP);
@@ -70,7 +73,9 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
 });
 
 describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
             postCode: "ST63LJ",

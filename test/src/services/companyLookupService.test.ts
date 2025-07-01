@@ -22,6 +22,9 @@ describe("getCompany tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return company profile", async () => {
         mockGetCompanyProfie.mockResolvedValueOnce(validCompanyProfile);
         const companyLookupService = new CompanyLookupService();
@@ -46,6 +49,9 @@ describe("getCompanyDetails tests", () => {
         });
         const session = getSessionRequestWithPermission();
         req.session = session;
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
     });
     it("should save company details to session", async () => {
         const session: Session = req.session as any as Session;

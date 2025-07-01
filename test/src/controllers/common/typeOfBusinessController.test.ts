@@ -40,7 +40,9 @@ const acspDataCorporateBody: AcspData = {
 };
 
 describe("GET " + TYPE_OF_BUSINESS, () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status for the 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + TYPE_OF_BUSINESS)
@@ -98,6 +100,9 @@ describe("POST for acsp != null " + TYPE_OF_BUSINESS, () => {
     beforeEach(() => {
         createMockSessionMiddlewareNotNullUserData();
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for calling PUT endpoint if acspData is not null and type of business does not change.
     it("should return status 302 after calling PUT endpoint", async () => {
         mockPutAcspRegistration.mockResolvedValueOnce(acspData);
@@ -142,6 +147,9 @@ describe("POST for acspData = null & SUBMISSION_ID = null" + TYPE_OF_BUSINESS, (
     beforeEach(() => {
         createMockSessionMiddlewareNullUserData();
         mockPostTransaction.mockResolvedValueOnce(validTransaction);
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
     });
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {

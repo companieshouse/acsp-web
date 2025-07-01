@@ -43,7 +43,9 @@ describe("getUKAddressesFromPostcode", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error for an invalid postcode", async () => {
         const invalidPostcode = "INVALID"; // Example invalid postcode
         await expect(getUKAddressesFromPostcode(invalidPostcode)).rejects.toThrow();
@@ -62,6 +64,9 @@ describe("getUKAddressesFromPostcode", () => {
 describe("getAddressFromPostcode", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
     });
     it("Should throw an error for an invalid postcode", async () => {
         const invalidPostcode = "AB12AB"; // Example Invalid postcode

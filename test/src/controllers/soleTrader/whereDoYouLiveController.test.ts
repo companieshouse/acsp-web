@@ -27,7 +27,9 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     beforeEach(() => {
         mockGetAcspRegistration.mockClear();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE);
@@ -60,6 +62,9 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
 
 // Test for correct form with valid inputs, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.post(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE)

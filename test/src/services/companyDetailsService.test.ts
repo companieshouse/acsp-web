@@ -21,7 +21,9 @@ describe("CompanyDetailsService", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     test("saveToSession correctly saves company details to session", () => {
         // mock company details
         const mockCompanyDetails : CompanyProfile = {

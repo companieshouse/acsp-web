@@ -20,6 +20,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST);
@@ -63,6 +66,9 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
 });
 
 describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for correct form details entered, will return 302.
     it("should return status 302 and redirect to correspondence address confirm screen", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST).send({ correspondenceAddress: "1" });

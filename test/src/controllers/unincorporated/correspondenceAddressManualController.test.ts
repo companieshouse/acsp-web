@@ -22,6 +22,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL);
@@ -60,7 +63,9 @@ describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL, () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });

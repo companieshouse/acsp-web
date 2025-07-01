@@ -21,6 +21,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         await router.get(BASE_URL + SOLE_TRADER_WHICH_SECTOR_OTHER).expect(200);
@@ -53,6 +56,9 @@ describe("GET" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
 });
 
 describe("POST" + SOLE_TRADER_WHICH_SECTOR_OTHER, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     const formData = {
         whichSectorOther: "EA",
         sectorYouWorkIn: "AIP",

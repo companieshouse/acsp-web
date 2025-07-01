@@ -24,6 +24,9 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should call CH authentication library", () => {
         authenticationMiddlewareForSoleTrader(req, res, next);
         expect(mockAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);

@@ -19,6 +19,9 @@ describe("cancelAnUpdateService tests", () => {
         req.session = session;
         session.setExtraData(ACSP_DETAILS, dummyFullProfile);
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should reset the 'name' field when cancel query is 'businessName'", () => {
         const session: Session = req.session as any as Session;
         req.query.cancel = "businessName";

@@ -10,6 +10,9 @@ import * as localise from "../../../../src/utils/localise";
 const router = supertest(app);
 
 describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200 and render the page", async () => {
         const res = await router.get(CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -28,6 +31,9 @@ describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN, () => {
 });
 
 describe("POST " + CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(CLOSE_ACSP_BASE_URL + CLOSE_WHAT_WILL_HAPPEN)
             .send({ whatWillHappenConfirm: "confirm" });

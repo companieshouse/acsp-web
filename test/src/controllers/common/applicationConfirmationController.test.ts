@@ -21,6 +21,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + CONFIRMATION, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + CONFIRMATION);

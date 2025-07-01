@@ -10,7 +10,9 @@ describe("Payment callback controller tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to confirmation page for successful payment", async () => {
         const response = await router.get(BASE_URL + PAYMENT_CALLBACK_URL +
             "?ref=Register_ACSP&state=123456&status=paid");

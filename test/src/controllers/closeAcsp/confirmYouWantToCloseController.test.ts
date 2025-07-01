@@ -22,6 +22,9 @@ const mockPostRegistration = postAcspRegistration as jest.Mock;
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 
 describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200 and render the page", async () => {
         const res = await router.get(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -40,6 +43,9 @@ describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
 });
 
 describe("POST " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRM_YOU_WANT_TO_CLOSE, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         await mockPostTransaction.mockResolvedValueOnce({});
         await mockPostRegistration.mockResolvedValueOnce({});

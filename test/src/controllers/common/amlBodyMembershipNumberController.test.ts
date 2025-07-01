@@ -25,6 +25,9 @@ const acspData: AcspData = {
 };
 
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the AML membership number page with status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + AML_MEMBERSHIP_NUMBER);
@@ -77,6 +80,9 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
             };
             next();
         });
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
     });
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);

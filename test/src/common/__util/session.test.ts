@@ -2,7 +2,9 @@ import { getSessionRequestWithPermission, userId, userMail, acspNumber, acspRole
 import { getLoggedInAcspNumber, getLoggedInAcspRole, getLoggedInUserEmail, getLoggedInUserId } from "../../../../src/common/__utils/session";
 
 describe("Session util tests", () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return users email address", () => {
         const session = getSessionRequestWithPermission();
         const res = getLoggedInUserEmail(session);

@@ -27,6 +27,9 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 };
 
 describe("authentication middleware tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
         authenticationMiddleware(req, res, next);

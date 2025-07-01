@@ -16,6 +16,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + AML_BODY_DETAILS_CONFIRM, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + AML_BODY_DETAILS_CONFIRM);
@@ -37,6 +40,9 @@ describe("GET" + AML_BODY_DETAILS_CONFIRM, () => {
 
 // Test for correct details, will return 302 after redirecting to the next page.
 describe("POST" + AML_BODY_DETAILS_CONFIRM, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + AML_BODY_DETAILS_CONFIRM);
         expect(res.status).toBe(302);

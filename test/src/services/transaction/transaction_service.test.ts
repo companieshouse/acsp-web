@@ -48,9 +48,13 @@ describe("transaction service tests", () => {
         jest.clearAllMocks();
         session = new Session();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("postTransaction tests", () => {
-
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should successfully post a transaction", async () => {
             mockPostTransaction.mockResolvedValueOnce({
                 httpStatusCode: StatusCodes.CREATED,
@@ -102,6 +106,9 @@ describe("transaction service tests", () => {
     });
 
     describe("putTransaction tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should successfully PUT a transaction", async () => {
             mockPutTransaction.mockResolvedValueOnce({
                 headers: {},
@@ -151,6 +158,9 @@ describe("transaction service tests", () => {
     });
 
     describe("closeTransaction tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should extract payment url from headers", async () => {
             const paymentUrl = "http://payment";
             mockPutTransaction.mockResolvedValueOnce({
@@ -181,6 +191,9 @@ describe("transaction service tests", () => {
     });
 
     describe("getSavedApplication tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should return resolved responce for 200 status code", async () => {
             const mockSuccessResponce = {
                 httpStatusCode: 200,
@@ -229,6 +242,9 @@ describe("transaction service tests", () => {
     });
 
     describe("getTransaction tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should return resolved transaction for 200 status code", async () => {
             const mockSuccessResponce = {
                 httpStatusCode: 200,

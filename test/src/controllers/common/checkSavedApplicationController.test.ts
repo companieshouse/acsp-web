@@ -27,7 +27,9 @@ const errorSavedApplication = {
 };
 
 describe("GET " + CHECK_SAVED_APPLICATION, () => {
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should show the error screen if getSavedApplication fails", async () => {
         mockGetSavedApplication.mockRejectedValueOnce(errorSavedApplication);
         const response = await router.get(BASE_URL + CHECK_SAVED_APPLICATION);

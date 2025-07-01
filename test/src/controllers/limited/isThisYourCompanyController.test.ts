@@ -23,6 +23,9 @@ const acspData: AcspData = {
 };
 
 describe("Limited Company Controller Tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the view with company details", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
@@ -53,6 +56,9 @@ describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
     beforeEach(() => {
         createMockSessionMiddleware("valid");
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to authentication code page for active company", async () => {
         const res = await router.post(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);
         expect(customMockSessionMiddleware).toHaveBeenCalled();
@@ -82,6 +88,9 @@ describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
 describe("POST " + LIMITED_IS_THIS_YOUR_COMPANY, () => {
     beforeEach(() => {
         createMockSessionMiddleware("invalid");
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
     });
     it("should redirect to inactive company page", async () => {
         const res = await router.post(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY);

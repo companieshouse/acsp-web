@@ -9,6 +9,9 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the what email address should we use for correspondence page with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL);
         expect(res.status).toBe(200);
@@ -28,6 +31,9 @@ describe("GET " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
 });
 
 describe("POST " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to UPDATE_CHECK_YOUR_UPDATES with status 302 for valid email input", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)
             .send({

@@ -17,7 +17,9 @@ describe("CorrespondenceAddressManualService", () => {
             url: "/"
         });
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     test("getBusinessManualAddress retrieves the correct address from acspData", () => {
         acspData = {
             id: "abc",

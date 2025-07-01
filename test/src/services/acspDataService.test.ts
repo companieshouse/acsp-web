@@ -49,8 +49,13 @@ describe("AcspDataService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("saveAcspData tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should call POST registration if acspData is undefined", async () => {
             const session: Session = req.session as any as Session;
             mockPostTransaction.mockResolvedValueOnce(validTransaction);
@@ -97,6 +102,9 @@ describe("AcspDataService tests", () => {
     });
 
     describe("createNewApplication tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("should delete the old application and create a new one", async () => {
             // given
             const session: Session = req.session as any as Session;

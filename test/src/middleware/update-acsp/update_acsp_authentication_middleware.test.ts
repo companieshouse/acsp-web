@@ -28,6 +28,9 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 };
 
 describe("acsp authentication middleware tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should call CH authentication library", () => {
         getLoggedInAcspNumberSpy.mockReturnValue("ABC123");
         updateAcspAuthMiddleware(req, res, next);

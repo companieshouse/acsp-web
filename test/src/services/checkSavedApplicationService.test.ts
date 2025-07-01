@@ -73,7 +73,9 @@ describe("check saved application service tests", () => {
         session = new Session();
         res = createResponse();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("Should redirect to correct url when the application is open", async () => {
         const redirectionUrl = await getRedirectionUrl(hasOpenApplication, session);
         url = BASE_URL + SAVED_APPLICATION;

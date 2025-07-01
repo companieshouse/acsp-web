@@ -39,6 +39,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should render the confirmation page with status 200 ans display the information on the screen", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
@@ -78,6 +81,9 @@ describe("GET" + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM, () => {
 });
 
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect to /select-aml-supervisor with status 302", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

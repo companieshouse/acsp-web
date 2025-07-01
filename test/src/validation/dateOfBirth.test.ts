@@ -1,6 +1,9 @@
 import { dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } from "../../../src/validation/dateOfBirth";
 
 describe("Missing input validation tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     test("Error if date field is completely empty", async () => {
         expect(() => dateDayChecker("", "", "")).toThrow(new Error("noData"));
     });
@@ -29,6 +32,9 @@ describe("Missing input validation tests", () => {
 });
 
 describe("Valid data input tests", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     test("Error if month is greater than 12", async () => {
         expect(() => validDataChecker("11", "13", "1999")).toThrow(new Error("invalid"));
     });

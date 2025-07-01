@@ -8,7 +8,9 @@ describe("WhereDoYouLiveBodyService", () => {
     beforeEach(() => {
         whereDoYouLiveBodyService = new WhereDoYouLiveBodyService();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     const testCases = [
         { country: "England", expected: { whereDoYouLiveRadio: "England" } },
         { country: "ENGLAND", expected: { whereDoYouLiveRadio: "England" } },
@@ -89,7 +91,9 @@ describe("WhereDoYouLiveBodyService - getCountryPayloadFromCountryName", () => {
     beforeEach(() => {
         service = new WhereDoYouLiveBodyService();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return the correct payload for a UK country (England)", () => {
         const result = service.getCountryPayloadFromCountryName("England");
         expect(result).toEqual({ whereDoYouLiveRadio: "England" });

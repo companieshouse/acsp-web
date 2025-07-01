@@ -30,6 +30,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY);
@@ -62,6 +65,9 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for correct form with valid inputs, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -73,6 +79,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for correct form with valid input only first input populated, will return 302 after redirecting to the next page.
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: "", nationality_input_2: "" });
@@ -83,6 +92,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "fewrfw", nationality_input_1: "rwerf", nationality_input_2: "pqfrgr" });
@@ -93,6 +105,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "rgwaet", nationality_input_1: "British", nationality_input_2: "erjfg" });
@@ -103,6 +118,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for  invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "ergverb", nationality_input_1: "erbetb", nationality_input_2: "British" });
@@ -113,6 +131,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: "erbetb", nationality_input_2: "gjscjqechk" });
@@ -123,6 +144,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for empty input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should fail validation with empty first nationality", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: " ", nationality_input_1: " ", nationality_input_2: " " });
@@ -143,6 +167,12 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for same inputs
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should fail validation with same inputs", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: "American", nationality_input_2: "British" });
@@ -153,6 +183,9 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 
 // Test for invalid input
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should fail validation with invalid nationality", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
             .send({ nationality_input_0: "British", nationality_input_1: " ", nationality_input_2: "Italian" });

@@ -6,6 +6,9 @@ import { BASE_URL, PAYMENT_FAILED } from "../../../../src/types/pageURL";
 const router = supertest(app);
 
 describe("GET" + PAYMENT_FAILED, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200 and render the payment failed page", async () => {
         const response = await router.get(BASE_URL + PAYMENT_FAILED);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

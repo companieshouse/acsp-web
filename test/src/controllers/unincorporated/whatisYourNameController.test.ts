@@ -17,6 +17,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME);
@@ -35,6 +38,9 @@ describe("GET" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
 });
 
 describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             "first-name": "John",

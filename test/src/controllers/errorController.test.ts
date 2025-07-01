@@ -20,7 +20,9 @@ describe("httpErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should detect a 401 httpError and redirect to " + BASE_URL + CHECK_SAVED_APPLICATION, () => {
         const url = addLangToUrl(BASE_URL + "/originalUrl", "en");
         // Given
@@ -91,6 +93,9 @@ describe("csrfErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should detect a csrfError and render an error template", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
@@ -125,7 +130,9 @@ describe("unhandledErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should log the error and render the error page", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given
@@ -148,7 +155,9 @@ describe("accountOwnerErrorHandler", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should log the account owner error and render the error page", () => {
         const url = addLangToUrl("/originalUrl", "en");
         // Given

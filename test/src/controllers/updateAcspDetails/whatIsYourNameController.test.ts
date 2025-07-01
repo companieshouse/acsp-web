@@ -46,6 +46,9 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 
         jest.clearAllMocks();
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
         session.setExtraData(ACSP_DETAILS_UPDATED, mockSoleTraderAcspFullProfile);
@@ -136,7 +139,9 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)

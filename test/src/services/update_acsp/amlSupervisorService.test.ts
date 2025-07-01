@@ -37,7 +37,9 @@ describe("amlSupervisor", () => {
             session: session as Session
         } as Partial<Request>;
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should remove AML detail if found in updated profile", () => {
         req.query = { amlindex: "123", amlbody: "body1" };
 

@@ -2,6 +2,9 @@ import { dateOfACSPUpdateDetailsChange, dateDayChecker, dateMonthChecker, dateYe
 import { body } from "express-validator";
 
 describe("dateOfACSPUpdateDetailsChange", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return an array of validation chains for 'dob'", () => {
         const result = dateOfACSPUpdateDetailsChange("dob");
         expect(result).toHaveLength(4);
@@ -20,6 +23,9 @@ describe("dateOfACSPUpdateDetailsChange", () => {
 });
 
 describe("dateDayChecker", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error if day, month, and year are empty", () => {
         expect(() => dateDayChecker("", "", "", "dob")).toThrow("noData");
         expect(() => dateDayChecker("", "", "", "change")).toThrow("noChangeDateData");
@@ -46,6 +52,9 @@ describe("dateDayChecker", () => {
 });
 
 describe("dateMonthChecker", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error if day is not empty but month and year are empty", () => {
         expect(() => dateMonthChecker("01", "", "", "dob")).toThrow("noMonthYear");
         expect(() => dateMonthChecker("01", "", "", "change")).toThrow("noChangeDateMonthYear");
@@ -62,6 +71,9 @@ describe("dateMonthChecker", () => {
 });
 
 describe("dateYearChecker", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error if day and month are not empty but year is empty", () => {
         expect(() => dateYearChecker("01", "12", "", "dob")).toThrow("noYear");
         expect(() => dateYearChecker("01", "12", "", "change")).toThrow("noChangeDateYear");
@@ -73,6 +85,9 @@ describe("dateYearChecker", () => {
 });
 
 describe("validDataChecker", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should throw an error if day, month, or year are non-numeric", () => {
         expect(() => validDataChecker("a", "12", "2023", "dob")).toThrow("nonNumeric");
         expect(() => validDataChecker("01", "b", "2023", "change")).toThrow("nonChangeDateNumeric");
@@ -115,6 +130,9 @@ describe("validDataChecker", () => {
     });
 });
 describe("Month and Day Adjustment Logic", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should decrement deepDifference if the input date month is greater than the current date month", () => {
         const currentDate = new Date(2025, 5, 15);
         const inputDate = new Date(1925, 6, 15);

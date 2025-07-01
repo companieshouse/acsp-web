@@ -39,7 +39,9 @@ describe("authentication middleware tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);
         expect(mockAcspProfileCreateAuthMiddleware).toHaveBeenCalledWith(expectedAuthMiddlewareConfig);

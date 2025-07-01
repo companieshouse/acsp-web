@@ -34,6 +34,9 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
 
         jest.clearAllMocks();
     });
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -84,6 +87,9 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });

@@ -5,6 +5,9 @@ import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 jest.mock("@companieshouse/api-sdk-node");
 
 describe("Correspondence Address Auto Lookup Validator", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("Valid Address Data Should Pass Validation", async () => {
         jest.mock("../../../src/services/postcode-lookup-service", () => ({
             getUKAddressesFromPostcode: jest.fn(async (url, postcode) => {

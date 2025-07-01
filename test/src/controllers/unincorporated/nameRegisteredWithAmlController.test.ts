@@ -19,6 +19,9 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_NAME_REGISTERED_WITH_AML, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML);
@@ -44,6 +47,9 @@ describe("GET" + UNINCORPORATED_NAME_REGISTERED_WITH_AML, () => {
 });
 
 describe("POST" + UNINCORPORATED_NAME_REGISTERED_WITH_AML, () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     // Test for "Your name" selected will return 302 and redirect to "What is your name?" page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML).send({ nameRegisteredWithAml: "YOUR_NAME" });

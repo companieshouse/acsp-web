@@ -17,6 +17,9 @@ const mockGetTransaction = getTransactionById as jest.Mock;
 const mockStartPaymentsSession = startPaymentsSession as jest.Mock;
 
 describe("GET resume journey", () => {
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     it("should return status 302 and redirect to type of business screen if transaction is open", async () => {
         mockGetTransaction.mockResolvedValueOnce(mockOpenTransaction);
         const res = await router.get(BASE_URL + "/resume?transactionId=119709-207817-181835&acspId=Y2VkZWVlMzhlZWFjY2M4MzQ3MT");

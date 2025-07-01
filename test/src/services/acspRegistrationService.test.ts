@@ -45,9 +45,13 @@ describe("acsp service tests", () => {
         jest.clearAllMocks();
         session = new Session();
     });
-
+    afterEach(() => {
+        process.removeAllListeners("uncaughtException");
+    });
     describe("postAcspRegistration tests", () => {
-
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should successfully post a Acsp Registration", async () => {
             mockPostAcspRegistration.mockResolvedValueOnce({
                 httpStatusCode: 200,
@@ -111,7 +115,9 @@ describe("acsp service tests", () => {
     });
 
     describe("putAcspRegistration tests", () => {
-
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should successfully put an Acsp Registration", async () => {
             mockPutAcspRegistration.mockResolvedValueOnce({
                 httpStatusCode: 200,
@@ -166,6 +172,9 @@ describe("acsp service tests", () => {
     });
 
     describe("getAcspRegistration tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should return a acspRegistration", async () => {
             const dummyAcspData: AcspData = {
                 id: EMAIL_ID,
@@ -206,6 +215,9 @@ describe("acsp service tests", () => {
     });
 
     describe("deleteAcspRegistration tests", () => {
+        afterEach(() => {
+            process.removeAllListeners("uncaughtException");
+        });
         it("Should return a HttpResponse", async () => {
             const dummySuccessResponce: HttpResponse = {
                 status: 204
