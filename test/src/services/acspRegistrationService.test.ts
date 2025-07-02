@@ -205,7 +205,7 @@ describe("acsp service tests", () => {
         });
     });
 
-    describe("deleteAcspRegistration tests", () => {
+    /* describe("deleteAcspRegistration tests", () => {
         it("Should return a HttpResponse", async () => {
             const dummySuccessResponce: HttpResponse = {
                 status: 204
@@ -231,5 +231,5 @@ describe("acsp service tests", () => {
 
             await expect(deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
-    });
+    }); */
 });

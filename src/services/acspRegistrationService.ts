@@ -15,7 +15,7 @@ import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
  * @returns The acsp registration details
  */
 
-export const getAcspRegistration = async (session: Session, transactionId:string, acspApplicationId: string): Promise<AcspData> => {
+export const getAcspRegistration = async (session: Session, transactionId: string, acspApplicationId: string): Promise<AcspData> => {
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Retrieving acsp registration details for application ID: ${acspApplicationId}`);
@@ -114,21 +114,40 @@ export const putAcspRegistration = async (session: Session, transactionId: strin
  * @param userId The user ID of for the document of be delete.
  * @returns The AcspResponse contains the submission ID for the updated registration
  */
-export const deleteAcspApplication = async (session: Session, transactionId: string, acspApplicationId: string): Promise<HttpResponse> => {
+export const deleteAcspApplication = async (session: Session, transactionId: string, acspApplicationId: string): Promise<HttpResponse | void> => {
+    if (!transactionId) {
+        logger.error(`ACSP registration DELETE API not called: transaction ID is missing.`);
+        return;
+    }
+    if (!acspApplicationId) {
+        logger.error(`ACSP registration DELETE API not called: application ID is missing.`);
+        return;
+    }
+
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`Deleting acsp registration for application ID: ${acspApplicationId}`);
-    const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(transactionId, acspApplicationId);
+    try {
+        const sdkResponse: HttpResponse = await apiClient.acsp.deleteSavedApplication(transactionId, acspApplicationId);
 
-    if (!sdkResponse) {
-        logger.error(`acsp registration DELETE request returned no response for application ID: ${acspApplicationId}`);
-        return Promise.reject(sdkResponse);
-    }
-    if (!sdkResponse.status || sdkResponse.status >= 400) {
-        logger.error(`Http status code ${sdkResponse.status} - Failed to DELETE acsp registration for application ID: ${acspApplicationId}`);
-        return Promise.reject(sdkResponse);
-    }
+        if (!sdkResponse) {
+            logger.error(`acsp registration DELETE request returned no response for application ID: ${acspApplicationId}`);
+            return Promise.reject(new Error("No response from API"));
+        }
+        if (!sdkResponse.status || sdkResponse.status >= 400) {
+            logger.error(
+                `Http status code ${sdkResponse.status} - Failed to DELETE acsp registration for application ID: ${acspApplicationId}. Response: ${JSON.stringify(sdkResponse)}`
+            );
+            return Promise.reject(sdkResponse);
+        }
 
-    logger.debug(`acsp registration for application ID: ${acspApplicationId} has been deleted`);
-    return Promise.resolve(sdkResponse);
+        logger.debug(`acsp registration for application ID: ${acspApplicationId} has been deleted`);
+        return Promise.resolve(sdkResponse);
+    } catch (error) {
+        logger.error(
+            `Exception while deleting acsp registration for application ID: ${acspApplicationId}: ${error instanceof Error ? error.message : JSON.stringify(error)
+            }`
+        );
+        return Promise.reject(error);
+    }
 };
