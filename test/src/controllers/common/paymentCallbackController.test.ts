@@ -12,6 +12,8 @@ describe("Payment callback controller tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to confirmation page for successful payment", async () => {
         const response = await router.get(BASE_URL + PAYMENT_CALLBACK_URL +

@@ -33,6 +33,8 @@ const acspData: AcspData = {
 describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -62,6 +64,8 @@ describe("POST for acspData != null" + OTHER_TYPE_OF_BUSINESS, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for calling PUT endpoint if acspData is not null.
     it("should return status 302 after calling PUT endpoint", async () => {
@@ -101,6 +105,8 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {

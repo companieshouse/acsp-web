@@ -20,6 +20,8 @@ const acspData: AcspData = {
 describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render the confirmation page with status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -61,6 +63,8 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM, () => {
 describe("POST SOLE_TRADER_CORRESPONDENCE_ADDRESS_CONFIRM", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to /what-is-the-correspondence-address with status 302", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM).expect(302);

@@ -23,6 +23,8 @@ const acspData: AcspData = {
 describe("GET" + CONFIRMATION, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);

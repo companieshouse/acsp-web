@@ -51,6 +51,8 @@ describe("AcspDataService tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("saveAcspData tests", () => {
         afterEach(() => {

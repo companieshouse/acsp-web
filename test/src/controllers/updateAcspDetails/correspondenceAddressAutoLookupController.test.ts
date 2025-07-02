@@ -54,6 +54,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return 200 and render the page", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP);
@@ -179,6 +181,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
 describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
@@ -298,6 +302,8 @@ let customMockSessionMiddleware: any;
 describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return 200 and render the page with sole-trader type", async () => {
         createMockSessionMiddleware();
@@ -312,6 +318,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
 describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 when data entered has not changed", async () => {
         createMockSessionMiddleware();

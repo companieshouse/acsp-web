@@ -29,6 +29,8 @@ const acspData: AcspData = {
 describe("Statement Relevant Officer Router", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render what is your role page", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -60,6 +62,8 @@ describe("POST " + SOLE_TRADER_WHAT_IS_YOUR_ROLE, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 302 on form submission with someone-else role", async () => {
         const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE).send({

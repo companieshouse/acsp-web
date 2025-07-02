@@ -4,6 +4,8 @@ import { body } from "express-validator";
 describe("dateOfACSPUpdateDetailsChange", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return an array of validation chains for 'dob'", () => {
         const result = dateOfACSPUpdateDetailsChange("dob");
@@ -25,6 +27,8 @@ describe("dateOfACSPUpdateDetailsChange", () => {
 describe("dateDayChecker", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should throw an error if day, month, and year are empty", () => {
         expect(() => dateDayChecker("", "", "", "dob")).toThrow("noData");
@@ -54,6 +58,8 @@ describe("dateDayChecker", () => {
 describe("dateMonthChecker", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should throw an error if day is not empty but month and year are empty", () => {
         expect(() => dateMonthChecker("01", "", "", "dob")).toThrow("noMonthYear");
@@ -73,6 +79,8 @@ describe("dateMonthChecker", () => {
 describe("dateYearChecker", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should throw an error if day and month are not empty but year is empty", () => {
         expect(() => dateYearChecker("01", "12", "", "dob")).toThrow("noYear");
@@ -87,6 +95,8 @@ describe("dateYearChecker", () => {
 describe("validDataChecker", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should throw an error if day, month, or year are non-numeric", () => {
         expect(() => validDataChecker("a", "12", "2023", "dob")).toThrow("nonNumeric");
@@ -132,6 +142,8 @@ describe("validDataChecker", () => {
 describe("Month and Day Adjustment Logic", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should decrement deepDifference if the input date month is greater than the current date month", () => {
         const currentDate = new Date(2025, 5, 15);

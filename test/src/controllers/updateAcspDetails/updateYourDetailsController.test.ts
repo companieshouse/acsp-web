@@ -11,6 +11,8 @@ const router = supertest(app);
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
@@ -33,6 +35,8 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should show the error page if an error occurs", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {

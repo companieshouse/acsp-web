@@ -29,6 +29,8 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -64,6 +66,8 @@ describe("GET" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
 describe("POST" + SOLE_TRADER_WHERE_DO_YOU_LIVE, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);

@@ -37,6 +37,8 @@ describe("addressLookupService tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("getAddressFromPostcode tests", () => {
         afterEach(() => {
@@ -193,6 +195,8 @@ describe("AddressLookUpService - getAddressFromPostcode", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return LIMITED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is LC and country is empty", async () => {
         const ukAddresses: UKAddress[] = [

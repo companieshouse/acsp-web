@@ -30,6 +30,8 @@ const acspData: AcspData = {
 describe("GET " + LIMITED_WHAT_IS_YOUR_ROLE, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render what is your role page", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -55,6 +57,8 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LC", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 302 on form submission with someone-else role", async () => {
         const response = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({
@@ -115,6 +119,8 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LP", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 302 on form submission with someone-else role", async () => {
         const response = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({
@@ -140,6 +146,8 @@ describe("POST " + LIMITED_WHAT_IS_YOUR_ROLE + "LLP", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 302 on form submission with someone-else role", async () => {
         const response = await router.post(BASE_URL + LIMITED_WHAT_IS_YOUR_ROLE).send({

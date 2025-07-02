@@ -41,6 +41,8 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render the AML membership number page with status 200", async () => {
         const session = getSessionRequestWithPermission();
@@ -139,6 +141,8 @@ describe("amlMembershipNumberController", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should set payload with membershipNumber_1 if updateBodyIndex is provided", async () => {
         const updateBodyIndex = 1;
@@ -189,6 +193,8 @@ let customMockSessionMiddleware: any;
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + AML_MEMBERSHIP_NUMBER).send({ membershipNumber_1: "123456" });

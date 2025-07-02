@@ -15,6 +15,8 @@ const router = supertest(app);
 describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST);
@@ -44,6 +46,8 @@ describe("GET" + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
 describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to next page with status 302", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CORRESPONDENCE_ADDRESS_LIST).send({ correspondenceAddress: "1" });
@@ -72,6 +76,8 @@ let customMockSessionMiddleware: any;
 describe("POST" + UPDATE_CORRESPONDENCE_ADDRESS_LIST, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to next page with status 302 with sole-trader type", async () => {
         createMockSessionMiddleware();

@@ -23,6 +23,8 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -54,6 +56,8 @@ describe("GET" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
 describe("POST" + SOLE_TRADER_SECTOR_YOU_WORK_IN, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {

@@ -21,6 +21,8 @@ describe("cancelAnUpdateService tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should reset the 'name' field when cancel query is 'businessName'", () => {
         const session: Session = req.session as any as Session;

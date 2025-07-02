@@ -19,6 +19,8 @@ const acspData: AcspData = {
 describe("get" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     mockGetAcspRegistration.mockResolvedValueOnce(acspData);
     it("should return status 200", async () => {
@@ -32,6 +34,8 @@ describe("get" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
@@ -44,6 +48,8 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
@@ -56,6 +62,8 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
@@ -68,6 +76,8 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)

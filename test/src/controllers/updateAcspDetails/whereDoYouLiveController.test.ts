@@ -49,6 +49,8 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         const session = getSessionRequestWithPermission();
@@ -121,6 +123,8 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
 describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const session = getSessionRequestWithPermission();

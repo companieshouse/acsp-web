@@ -27,6 +27,8 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -60,6 +62,8 @@ describe("GET" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {

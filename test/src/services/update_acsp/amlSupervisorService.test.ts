@@ -39,6 +39,8 @@ describe("amlSupervisor", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should remove AML detail if found in updated profile", () => {
         req.query = { amlindex: "123", amlbody: "body1" };

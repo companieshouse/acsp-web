@@ -41,6 +41,8 @@ describe("GET indexController", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce(dummyFullProfile);
@@ -74,6 +76,8 @@ describe("GET indexController", () => {
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL);

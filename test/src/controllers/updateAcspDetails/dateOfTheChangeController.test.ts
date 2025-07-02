@@ -276,6 +276,8 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400 after no date address entered", async () => {
         req.body = {
@@ -353,6 +355,8 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
 describe("buildDatePayload", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return correct payload for a valid date", () => {
         const result = buildDatePayload("2024-12-05");

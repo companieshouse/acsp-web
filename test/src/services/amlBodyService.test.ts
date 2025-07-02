@@ -6,6 +6,8 @@ import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/
 describe("AmlSupervisoryBodyService", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should save selected AML supervisory bodies to session when more then one selection is selected", () => {
         const sessionMock: Partial<Session> = {

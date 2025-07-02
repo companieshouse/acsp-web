@@ -20,6 +20,8 @@ const acspData: AcspData = {
 describe("GET" + UNINCORPORATED_WHICH_SECTOR, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -41,6 +43,8 @@ describe("GET" + UNINCORPORATED_WHICH_SECTOR, () => {
 describe("POST" + UNINCORPORATED_WHICH_SECTOR, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for not "Other" radio button will return 302 after redirect to business address lookup page .
     it("should return status 302 after redirect", async () => {

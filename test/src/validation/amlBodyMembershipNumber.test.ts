@@ -4,6 +4,8 @@ import { amlBodyMembershipNumberValidator } from "../../../src/validation/amlBod
 describe("amlBodyMembershipNumbeValidator", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return an array of ValidationChain objects", () => {
         const validationChains: ValidationChain[] = amlBodyMembershipNumberValidator();

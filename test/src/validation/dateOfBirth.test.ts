@@ -3,6 +3,8 @@ import { dateDayChecker, dateMonthChecker, dateYearChecker, validDataChecker } f
 describe("Missing input validation tests", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     test("Error if date field is completely empty", async () => {
         expect(() => dateDayChecker("", "", "")).toThrow(new Error("noData"));
@@ -34,6 +36,8 @@ describe("Missing input validation tests", () => {
 describe("Valid data input tests", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     test("Error if month is greater than 12", async () => {
         expect(() => validDataChecker("11", "13", "1999")).toThrow(new Error("invalid"));

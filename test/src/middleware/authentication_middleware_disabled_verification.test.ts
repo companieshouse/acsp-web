@@ -29,6 +29,8 @@ const expectedAuthMiddlewareConfig: AuthOptions = {
 describe("authentication middleware tests", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should call CH authentication library", async () => {
         authenticationMiddleware(req, res, next);

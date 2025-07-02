@@ -15,6 +15,8 @@ const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 describe("GET " + CLOSE_ACSP_BASE_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce(dummyFullProfile);
@@ -28,6 +30,8 @@ describe("GET " + CLOSE_ACSP_BASE_URL, () => {
 describe("POST " + CLOSE_ACSP_BASE_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(CLOSE_ACSP_BASE_URL);

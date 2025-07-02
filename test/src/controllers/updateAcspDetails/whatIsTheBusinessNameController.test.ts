@@ -13,6 +13,8 @@ const router = supertest(app);
 describe("GET" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME);
@@ -34,6 +36,8 @@ describe("GET" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
 describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
@@ -94,6 +98,8 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
 describe("GET" + UPDATE_WHAT_IS_THE_COMPANY_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200 and render page as a limited company", async () => {
         mocks.mockSessionMiddleware.mockImplementation((req, res, next) => {
@@ -114,6 +120,8 @@ describe("GET" + UPDATE_WHAT_IS_THE_COMPANY_NAME, () => {
 describe("POST" + UPDATE_WHAT_IS_THE_COMPANY_NAME, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for incorrect form details entered, will return 400.
     it("should return status 400 after incorrect data entered", async () => {

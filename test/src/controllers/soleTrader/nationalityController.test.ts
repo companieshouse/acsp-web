@@ -32,6 +32,8 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -67,6 +69,8 @@ describe("GET" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -81,6 +85,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -94,6 +100,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -107,6 +115,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -120,6 +130,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -133,6 +145,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -146,6 +160,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should fail validation with empty first nationality", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -169,9 +185,13 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should fail validation with same inputs", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)
@@ -185,6 +205,8 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
 describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should fail validation with invalid nationality", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NATIONALITY)

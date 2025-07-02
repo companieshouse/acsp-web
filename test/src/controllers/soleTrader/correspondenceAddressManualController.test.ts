@@ -22,6 +22,8 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -65,6 +67,8 @@ describe("GET" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
 describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)

@@ -24,6 +24,8 @@ describe("getCompany tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return company profile", async () => {
         mockGetCompanyProfie.mockResolvedValueOnce(validCompanyProfile);
@@ -52,6 +54,8 @@ describe("getCompanyDetails tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should save company details to session", async () => {
         const session: Session = req.session as any as Session;

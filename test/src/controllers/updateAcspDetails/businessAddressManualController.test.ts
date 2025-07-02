@@ -36,6 +36,8 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL).expect(200);
@@ -89,6 +91,8 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
 describe("POST" + UPDATE_BUSINESS_ADDRESS_MANUAL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_MANUAL)

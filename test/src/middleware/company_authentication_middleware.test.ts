@@ -26,6 +26,8 @@ describe("company authentication middleware tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should ask for auth code ", () => {
         req = {

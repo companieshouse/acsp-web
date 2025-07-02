@@ -75,6 +75,8 @@ describe("check saved application service tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("Should redirect to correct url when the application is open", async () => {
         const redirectionUrl = await getRedirectionUrl(hasOpenApplication, session);

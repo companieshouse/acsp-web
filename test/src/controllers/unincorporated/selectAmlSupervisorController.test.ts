@@ -24,6 +24,8 @@ const acspData: AcspData = {
 describe("GET" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -58,6 +60,8 @@ describe("GET" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
 describe("POST" + UNINCORPORATED_SELECT_AML_SUPERVISOR, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {

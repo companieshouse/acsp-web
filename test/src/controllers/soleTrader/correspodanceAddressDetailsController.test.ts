@@ -22,6 +22,8 @@ const acspData: AcspData = {
 describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -68,6 +70,8 @@ describe("GET" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
 describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for correct form details entered, will return 302.
     it("should return status 302 and redirect to correspondence address confirm screen", async () => {

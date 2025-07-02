@@ -26,6 +26,8 @@ const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200 and render the your details page if updates have been made", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES);
@@ -89,6 +91,8 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect to confirmation page", async () => {
         customMockSessionMiddleware = sessionMiddleware as jest.Mock;
@@ -193,6 +197,8 @@ let customMockSessionMiddleware : any;
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect to Provide AML page", async () => {
         createMockSessionMiddlewareAcspFullProfile();

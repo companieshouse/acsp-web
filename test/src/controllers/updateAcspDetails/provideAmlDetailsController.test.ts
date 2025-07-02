@@ -11,6 +11,8 @@ const router = supertest(app);
 describe("GET " + UPDATE_PROVIDE_AML_DETAILS, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_PROVIDE_AML_DETAILS);

@@ -48,6 +48,8 @@ describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     const session = getSessionRequestWithPermission();
     it("should return status 200", async () => {
@@ -141,6 +143,8 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {

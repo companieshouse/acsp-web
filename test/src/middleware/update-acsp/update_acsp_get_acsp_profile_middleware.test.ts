@@ -24,6 +24,8 @@ describe("getUpdateAcspProfileMiddleware", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should call next() when ACSP is active and details exist in session", async () => {
         const session = req.session as any as Session;

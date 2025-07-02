@@ -7,6 +7,8 @@ const router = supertest(app);
 describe("GET " + HOME_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         await router.get(BASE_URL);
@@ -18,6 +20,8 @@ describe("GET " + HOME_URL, () => {
 describe("POST " + HOME_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL);

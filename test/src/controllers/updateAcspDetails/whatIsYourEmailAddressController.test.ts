@@ -11,6 +11,8 @@ const router = supertest(app);
 describe("GET " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render the what email address should we use for correspondence page with status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL);
@@ -33,6 +35,8 @@ describe("GET " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
 describe("POST " + UPDATE_WHAT_IS_YOUR_EMAIL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to UPDATE_CHECK_YOUR_UPDATES with status 302 for valid email input", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_YOUR_EMAIL)

@@ -74,6 +74,8 @@ describe("Payment Service tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("startPaymentsSession tests", () => {
         afterEach(() => {

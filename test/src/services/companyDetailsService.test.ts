@@ -23,6 +23,8 @@ describe("CompanyDetailsService", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     test("saveToSession correctly saves company details to session", () => {
         // mock company details

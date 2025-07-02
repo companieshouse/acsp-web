@@ -25,6 +25,8 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 describe("GET" + LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);

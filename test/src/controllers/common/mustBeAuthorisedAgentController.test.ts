@@ -12,6 +12,8 @@ const router = supertest(app);
 describe("GET " + MUST_BE_AUTHORISED_AGENT, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200 and display the information on the screen for update acsp", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + MUST_BE_AUTHORISED_AGENT);

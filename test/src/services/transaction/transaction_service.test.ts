@@ -50,6 +50,8 @@ describe("transaction service tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("postTransaction tests", () => {
         afterEach(() => {

@@ -21,6 +21,8 @@ describe("logger.ts", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("initLogger", () => {
         afterEach(() => {

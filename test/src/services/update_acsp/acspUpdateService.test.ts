@@ -32,6 +32,8 @@ describe("AcspUpdateService tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("createTransaction tests", () => {
         afterEach(() => {

@@ -7,6 +7,8 @@ jest.mock("@companieshouse/api-sdk-node");
 describe("Correspondence Address Auto Lookup Validator", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("Valid Address Data Should Pass Validation", async () => {
         jest.mock("../../../src/services/postcode-lookup-service", () => ({

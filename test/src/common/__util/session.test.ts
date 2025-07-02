@@ -4,6 +4,8 @@ import { getLoggedInAcspNumber, getLoggedInAcspRole, getLoggedInUserEmail, getLo
 describe("Session util tests", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return users email address", () => {
         const session = getSessionRequestWithPermission();

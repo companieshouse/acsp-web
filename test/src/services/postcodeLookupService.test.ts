@@ -45,6 +45,8 @@ describe("getUKAddressesFromPostcode", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should throw an error for an invalid postcode", async () => {
         const invalidPostcode = "INVALID"; // Example invalid postcode
@@ -67,6 +69,8 @@ describe("getAddressFromPostcode", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("Should throw an error for an invalid postcode", async () => {
         const invalidPostcode = "AB12AB"; // Example Invalid postcode

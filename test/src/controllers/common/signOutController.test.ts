@@ -9,6 +9,8 @@ const router = supertest(app);
 describe("GET" + SIGN_OUT_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         const response = await router.get(BASE_URL + SIGN_OUT_URL).expect(200);
@@ -21,6 +23,8 @@ describe("GET" + SIGN_OUT_URL, () => {
 describe("POST " + SIGN_OUT_URL, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection

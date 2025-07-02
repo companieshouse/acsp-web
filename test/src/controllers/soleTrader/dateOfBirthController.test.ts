@@ -28,6 +28,8 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -72,6 +74,8 @@ describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);

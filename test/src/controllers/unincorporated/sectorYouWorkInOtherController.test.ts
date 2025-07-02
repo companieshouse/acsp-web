@@ -19,6 +19,8 @@ const acspData: AcspData = {
 describe("GET" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -41,6 +43,8 @@ describe("GET" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
 describe("POST" + UNINCORPORATED_WHICH_SECTOR_OTHER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_WHICH_SECTOR_OTHER).send({ whichSectorOther: "EA" });

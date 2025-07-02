@@ -8,6 +8,8 @@ const router = supertest(app);
 describe("GET " + REMOVE_AML_SUPERVISOR, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to the correct URL", async () => {
         const response = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + REMOVE_AML_SUPERVISOR);

@@ -25,6 +25,8 @@ const acspData: AcspData = {
 describe("GET" + YOUR_RESPONSIBILITIES, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -59,6 +61,8 @@ describe("GET" + YOUR_RESPONSIBILITIES, () => {
 describe("POST" + YOUR_RESPONSIBILITIES, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + YOUR_RESPONSIBILITIES);

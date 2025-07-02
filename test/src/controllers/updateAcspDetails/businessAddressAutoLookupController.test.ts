@@ -54,6 +54,8 @@ describe("Business address auto look up tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return 200 and render the page", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP);
@@ -136,6 +138,8 @@ let customMockSessionMiddleware: any;
 describe("POST" + UPDATE_BUSINESS_ADDRESS_LOOKUP, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {

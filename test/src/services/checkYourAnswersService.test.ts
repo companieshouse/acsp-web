@@ -26,6 +26,8 @@ describe("CheckYourAnswersService", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;

@@ -23,6 +23,8 @@ describe("typeOfBusinessService tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return transaction ID", () => {
         mockPostTransaction.mockResolvedValueOnce(validTransaction);

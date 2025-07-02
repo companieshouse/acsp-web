@@ -5,6 +5,8 @@ import { getSessionRequestWithPermission } from "../../mocks/session.mock";
 describe("Correspondence Address Manual Validator", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("Valid Address Data Should Pass Validation", () => {
         const validAddressData = {

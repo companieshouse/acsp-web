@@ -7,6 +7,8 @@ const router = supertest(app);
 describe("GET" + HEALTHCHECK, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200", async () => {
         await router.get(BASE_URL + HEALTHCHECK).expect(200);

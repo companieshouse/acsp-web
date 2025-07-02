@@ -112,6 +112,8 @@ describe("updateWithTheEffectiveDateAmendment", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should update the business name and set the change date", () => {
         const dateOfChange = new Date("2025-04-03T14:24:38.901Z");
@@ -314,6 +316,8 @@ describe("getPreviousPageUrlDateOfChange", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return the value from ACSP_UPDATE_PREVIOUS_PAGE_URL if it exists in the session", () => {
         const previousPageUrl = "/some-previous-page";
@@ -342,6 +346,8 @@ describe("getDateOfChangeFromSession", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("returns the correct date for sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
@@ -452,6 +458,8 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("handles sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {

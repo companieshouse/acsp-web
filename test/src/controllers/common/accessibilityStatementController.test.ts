@@ -8,6 +8,8 @@ const router = supertest(app);
 describe("GET" + ACCESSIBILITY_STATEMENT, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 200 and render the accessibility statement page", async () => {
         const response = await router.get(BASE_URL + ACCESSIBILITY_STATEMENT);

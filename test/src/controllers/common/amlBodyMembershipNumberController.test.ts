@@ -27,6 +27,8 @@ const acspData: AcspData = {
 describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should render the AML membership number page with status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -83,6 +85,8 @@ describe("POST" + AML_MEMBERSHIP_NUMBER, () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 after redirect for valid input, ", async () => {
         const res = await router.post(BASE_URL + AML_MEMBERSHIP_NUMBER).send(formData);

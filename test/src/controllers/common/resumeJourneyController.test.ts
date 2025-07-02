@@ -19,6 +19,8 @@ const mockStartPaymentsSession = startPaymentsSession as jest.Mock;
 describe("GET resume journey", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should return status 302 and redirect to type of business screen if transaction is open", async () => {
         mockGetTransaction.mockResolvedValueOnce(mockOpenTransaction);

@@ -8,6 +8,8 @@ const router = supertest(app);
 describe("GET " + CANNOT_REGISTER_AGAIN, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should respond with status 200", async () => {
         const res = await router.get(BASE_URL + CANNOT_REGISTER_AGAIN);

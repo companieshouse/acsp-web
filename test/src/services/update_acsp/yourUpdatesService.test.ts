@@ -46,6 +46,8 @@ describe("yourUpdatesService", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should format updates when business name changes", () => {
         const session: Session = req.session as any as Session;

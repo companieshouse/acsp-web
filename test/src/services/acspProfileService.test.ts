@@ -21,6 +21,8 @@ describe("acsp profile api service tests", () => {
     });
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     describe("getAcspFullProfile tests", () => {
         afterEach(() => {

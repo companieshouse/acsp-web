@@ -30,6 +30,8 @@ const mockResponseBodyOfUKAddress: UKAddress[] = [{
 describe("Correspondence address auto look up tests", () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
@@ -72,6 +74,8 @@ describe("Correspondence address auto look up tests", () => {
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LOOKUP, () => {
     afterEach(() => {
         process.removeAllListeners("uncaughtException");
+        jest.clearAllMocks();
+        jest.resetModules();
     });
     it("should redirect to address list with status 302 on successful form submission", async () => {
         const formData = {
