@@ -13,3 +13,4 @@ process.env.CACHE_SERVER = "test";
 process.env.CDN_URL_CSS = "//d7blrfb1p86zg.cloudfront.net/stylesheets/services/bankrupt-officers";
 
 jest.setTimeout(10000); // Set a timeout of 10 seconds for each test
+process.setMaxListeners(50);
