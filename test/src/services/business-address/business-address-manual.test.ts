@@ -17,11 +17,7 @@ describe("CorrespondenceAddressManualService", () => {
             url: "/"
         });
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     test("getBusinessManualAddress retrieves the correct address from acspData", () => {
         acspData = {
             id: "abc",

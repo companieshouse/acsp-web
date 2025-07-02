@@ -17,11 +17,7 @@ const acspData: AcspData = {
 };
 
 describe("get" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     mockGetAcspRegistration.mockResolvedValueOnce(acspData);
     it("should return status 200", async () => {
         await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).expect(200);
@@ -32,11 +28,7 @@ describe("get" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 });
 
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
             .send({ companyNumber: " " }).expect(400);
@@ -46,11 +38,7 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 });
 
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
             .send({ companyNumber: "@&£29864" }).expect(400);
@@ -60,11 +48,7 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 });
 
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
             .send({ companyNumber: "@&£29864" }).expect(400);
@@ -74,11 +58,7 @@ describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
 });
 
 describe("POST" + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 400 after redirect", async () => {
         await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER)
             .send({ companyNumber: "NI5981260987654321" }).expect(400);

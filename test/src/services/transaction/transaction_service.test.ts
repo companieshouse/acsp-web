@@ -48,11 +48,7 @@ describe("transaction service tests", () => {
         jest.clearAllMocks();
         session = new Session();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     describe("postTransaction tests", () => {
         afterEach(() => {
             process.removeAllListeners("uncaughtException");

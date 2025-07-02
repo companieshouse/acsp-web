@@ -24,11 +24,7 @@ describe("CheckYourAnswersService", () => {
         req.session = session;
         locales = getLocalesService();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
         session.setExtraData(COMPANY_DETAILS, mockCompany);

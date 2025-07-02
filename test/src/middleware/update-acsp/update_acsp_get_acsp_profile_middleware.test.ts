@@ -22,11 +22,7 @@ describe("getUpdateAcspProfileMiddleware", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should call next() when ACSP is active and details exist in session", async () => {
         const session = req.session as any as Session;
         session.setExtraData(ACSP_DETAILS, { status: "active" });

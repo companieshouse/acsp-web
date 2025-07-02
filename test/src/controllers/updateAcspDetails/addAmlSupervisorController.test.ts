@@ -37,11 +37,7 @@ describe("GET" + UPDATE_ADD_AML_SUPERVISOR, () => {
 
         next = jest.fn();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR);
         expect(res.status).toBe(200);
@@ -98,11 +94,7 @@ describe("addAmlSupervisorController - get", () => {
 
         next = jest.fn();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should set amlBody to the supervisoryBody at updateBodyIndex when updateBodyIndex is defined", async () => {
         const acspUpdatedFullProfile = {
             amlDetails: [
@@ -183,11 +175,7 @@ describe("amlSupervisor", () => {
 
         next = jest.fn();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should render the page with the correct AML supervisory body when amlUpdateIndex and amlUpdateBody are provided", () => {
         req.query = { amlindex: "456", amlbody: "body2" };
         get(req as Request, res as Response, next as NextFunction);
@@ -199,11 +187,7 @@ describe("amlSupervisor", () => {
 let customMockSessionMiddleware: any;
 
 describe("POST" + UPDATE_ADD_AML_SUPERVISOR, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ADD_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });

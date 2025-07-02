@@ -28,11 +28,7 @@ describe("CheckYourAnswersService", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return answers for limited company journey", () => {
         const session: Session = req.session as any as Session;
         session.setExtraData(ACSP_DETAILS, mockLimitedAcspFullProfile);

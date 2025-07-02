@@ -22,11 +22,7 @@ const acspData: AcspData = {
 };
 
 describe("GET" + LIMITED_SELECT_AML_SUPERVISOR, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR);
@@ -59,11 +55,7 @@ describe("GET" + LIMITED_SELECT_AML_SUPERVISOR, () => {
 });
 
 describe("POST" + LIMITED_SELECT_AML_SUPERVISOR, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     // Test for correct form details entered, will return 302 after redirecting to the next page.
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + LIMITED_SELECT_AML_SUPERVISOR).send({ "AML-supervisory-bodies": "ACCA" });

@@ -8,11 +8,7 @@ describe("WhereDoYouLiveBodyService", () => {
     beforeEach(() => {
         whereDoYouLiveBodyService = new WhereDoYouLiveBodyService();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     const testCases = [
         { country: "England", expected: { whereDoYouLiveRadio: "England" } },
         { country: "ENGLAND", expected: { whereDoYouLiveRadio: "England" } },
@@ -93,11 +89,7 @@ describe("WhereDoYouLiveBodyService - getCountryPayloadFromCountryName", () => {
     beforeEach(() => {
         service = new WhereDoYouLiveBodyService();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return the correct payload for a UK country (England)", () => {
         const result = service.getCountryPayloadFromCountryName("England");
         expect(result).toEqual({ whereDoYouLiveRadio: "England" });

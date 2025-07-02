@@ -22,11 +22,7 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST);
@@ -64,11 +60,7 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_LIST, () => {
 });
 
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 and redirect to confirm correspondence address screen", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_LIST).send({ businessAddress: "1" });
         expect(res.status).toBe(302);

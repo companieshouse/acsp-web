@@ -9,11 +9,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("Stop Not Relevant Officer Router", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should respond with status 200", async () => {
         const response = await supertest(app).get(BASE_URL + STOP_NOT_RELEVANT_OFFICER);
         assert.strictEqual(response.status, 200);

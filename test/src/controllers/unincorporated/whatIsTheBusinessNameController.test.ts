@@ -22,11 +22,7 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     mockGetAcspRegistration.mockResolvedValueOnce(acspData);
     it("should return status 200", async () => {
         const res = await router.get(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME);
@@ -58,11 +54,7 @@ describe("GET" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
 });
 
 describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should redirect with status 302 on successful form submission", async () => {
         const formData = {
             whatIsTheBusinessName: "Company"

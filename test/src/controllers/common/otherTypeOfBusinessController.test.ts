@@ -31,11 +31,7 @@ const acspData: AcspData = {
 };
 
 describe("GET " + OTHER_TYPE_OF_BUSINESS, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + OTHER_TYPE_OF_BUSINESS);
@@ -62,11 +58,7 @@ describe("POST for acspData != null" + OTHER_TYPE_OF_BUSINESS, () => {
     beforeEach(() => {
         createMockSessionMiddlewareNotNullUserData();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     // Test for calling PUT endpoint if acspData is not null.
     it("should return status 302 after calling PUT endpoint", async () => {
         mockPutAcspRegistration.mockResolvedValueOnce(acspData);
@@ -103,11 +95,7 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
         createMockSessionMiddlewareNullUserData();
         mockPostTransaction.mockResolvedValueOnce(validTransaction);
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     // Test for calling POST endpoint if acspData is null.
     it("should return status 302 after calling POST endpoint", async () => {
         mockPostAcspRegistration.mockResolvedValueOnce(acspData);

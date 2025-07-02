@@ -2,11 +2,7 @@ import { resolveErrorMessage } from "../../../src/validation/validation";
 import { getLocalesService } from "../../../src/utils/localise";
 
 describe("resolveErrorMessage", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return the original error message if it cannot be resolved", () => {
         const errorMessage = "error_message";
         const lang = "en";

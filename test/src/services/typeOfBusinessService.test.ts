@@ -21,11 +21,7 @@ describe("typeOfBusinessService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return transaction ID", () => {
         mockPostTransaction.mockResolvedValueOnce(validTransaction);
         const session: Session = req.session as any as Session;

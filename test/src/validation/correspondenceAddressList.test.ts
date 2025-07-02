@@ -7,11 +7,6 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
 
     describe("POST" + SOLE_TRADER_AUTO_LOOKUP_ADDRESS_LIST, () => {
         afterEach(() => {

@@ -8,11 +8,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET" + LIMITED_COMPANY_INACTIVE, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         await router.get(BASE_URL + LIMITED_COMPANY_INACTIVE).expect(200);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

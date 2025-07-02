@@ -12,11 +12,7 @@ import { Request, Response, NextFunction } from "express";
 const router = supertest(app);
 
 describe("GET" + UPDATE_BUSINESS_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST);
         expect(res.status).toBe(200);
@@ -38,11 +34,7 @@ describe("GET" + UPDATE_BUSINESS_ADDRESS_LIST, () => {
 let customMockSessionMiddleware: any;
 
 describe("POST" + UPDATE_BUSINESS_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should redirect to next page with status 302", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST).send({ businessAddress: "1" });
         expect(res.status).toBe(302);

@@ -1,11 +1,7 @@
 import { addLangToUrl, selectLang } from "../../../src/utils/localise";
 
 describe("selectLang", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return 'cy' for 'cy'", () => {
         expect(selectLang("cy")).toBe("cy");
     });
@@ -31,11 +27,7 @@ describe("selectLang", () => {
 });
 
 describe("addLangToUrl", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should add lang parameter to URL without query string", () => {
         expect(addLangToUrl("http://example.com", "cy")).toBe("http://example.com?lang=cy");
     });

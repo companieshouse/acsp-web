@@ -23,11 +23,7 @@ const acspData: AcspData = {
     }
 };
 describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL);
@@ -65,11 +61,7 @@ describe("GET" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
 
 // Test for correct form details entered, will return 302 after redirecting to the next page.
 describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });

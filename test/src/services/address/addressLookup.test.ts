@@ -35,11 +35,7 @@ describe("addressLookupService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     describe("getAddressFromPostcode tests", () => {
         afterEach(() => {
             process.removeAllListeners("uncaughtException");
@@ -193,11 +189,7 @@ describe("AddressLookUpService - getAddressFromPostcode", () => {
             typeOfBusiness: ""
         } as AcspData;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return LIMITED_CORRESPONDENCE_ADDRESS_MANUAL URL when typeOfBusiness is LC and country is empty", async () => {
         const ukAddresses: UKAddress[] = [
             { premise: "1", addressLine1: "High Street", postTown: "London", country: "", postcode: "SW1A 1AA" }

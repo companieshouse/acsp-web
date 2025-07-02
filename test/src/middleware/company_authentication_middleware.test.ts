@@ -24,11 +24,7 @@ describe("company authentication middleware tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should ask for auth code ", () => {
         req = {
             session: getSessionRequestWithExtraData(),

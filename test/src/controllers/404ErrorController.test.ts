@@ -8,11 +8,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET url that does not exist", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should render the 404 page with status 404", async () => {
         const res = await router.get(BASE_URL + "unusedURL");
         expect(res.status).toBe(404);

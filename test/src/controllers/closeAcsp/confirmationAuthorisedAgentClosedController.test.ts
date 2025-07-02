@@ -20,11 +20,7 @@ beforeEach(() => {
 });
 
 describe("GET " + CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200 and render the page", async () => {
         const res = await router.get(CLOSE_ACSP_BASE_URL + CLOSE_CONFIRMATION_ACSP_CLOSED);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);

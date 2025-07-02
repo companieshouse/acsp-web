@@ -23,11 +23,7 @@ describe("userIsPartOfAcspMiddleware", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should call res.redirect() if no acspNumber in session", async () => {
         getLoggedInAcspNumberSpy.mockReturnValue(undefined);
         closeAcspUserIsPartOfAcspMiddleware(req, res as Response, next);

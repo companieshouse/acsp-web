@@ -26,11 +26,7 @@ describe("GET" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     beforeEach(() => {
         mockGetAcspRegistration.mockClear();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + SOLE_TRADER_DATE_OF_BIRTH);
@@ -72,11 +68,7 @@ describe("POST" + SOLE_TRADER_DATE_OF_BIRTH, () => {
     beforeEach(() => {
         mockPutAcspRegistration.mockClear();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const sendData = {

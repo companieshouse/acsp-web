@@ -9,11 +9,7 @@ import * as localise from "../../../../src/utils/localise";
 const router = supertest(app);
 
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_YOUR_ANSWERS);
         expect(res.text).toContain("View and update the authorised agent&#39;s details");
@@ -33,11 +29,7 @@ describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
 });
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should show the error page if an error occurs", async () => {
         jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
             throw new Error("Test error");

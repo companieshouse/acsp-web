@@ -10,11 +10,7 @@ jest.mock("../../../../src/services/transactions/transaction_service");
 const router = supertest(app);
 
 describe("GET" + UPDATE_APPLICATION_CONFIRMATION, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_APPLICATION_CONFIRMATION);
         expect(res.status).toBe(200);

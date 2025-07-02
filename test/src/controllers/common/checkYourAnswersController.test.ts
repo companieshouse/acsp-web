@@ -44,11 +44,7 @@ const dummyPaymentResponseNoResource: ApiResponse<Payment> = {
 };
 
 describe("GET" + CHECK_YOUR_ANSWERS, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + CHECK_YOUR_ANSWERS);
@@ -71,11 +67,7 @@ describe("POST" + CHECK_YOUR_ANSWERS, () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect to confirmation page", async () => {
         mockCloseTransaction.mockResolvedValueOnce(undefined);
         const res = await router.post(BASE_URL + CHECK_YOUR_ANSWERS);

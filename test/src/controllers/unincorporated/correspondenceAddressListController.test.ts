@@ -18,11 +18,7 @@ const acspData: AcspData = {
 };
 
 describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST);
@@ -61,11 +57,7 @@ describe("GET" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, () => {
 });
 
 describe("POST" + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     // Test for correct form details entered, will return 302.
     it("should return status 302 and redirect to correspondence address confirm screen", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_LIST).send({ correspondenceAddress: "1" });

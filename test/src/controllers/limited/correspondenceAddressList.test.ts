@@ -23,11 +23,7 @@ const acspData: AcspData = {
 };
 
 describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST);
@@ -56,11 +52,7 @@ describe("GET" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
 });
 
 describe("POST" + LIMITED_CORRESPONDENCE_ADDRESS_LIST, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should redirect to next page with status 302", async () => {
         const res = await router.post(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST).send({ correspondenceAddress: "1" });
         expect(res.status).toBe(302);

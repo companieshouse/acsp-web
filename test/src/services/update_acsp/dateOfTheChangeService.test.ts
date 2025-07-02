@@ -110,11 +110,7 @@ describe("updateWithTheEffectiveDateAmendment", () => {
             session: session as Session
         } as Partial<Request>;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should update the business name and set the change date", () => {
         const dateOfChange = new Date("2025-04-03T14:24:38.901Z");
         const acspInProgress = { name: "New Business Name" };
@@ -314,11 +310,7 @@ describe("getPreviousPageUrlDateOfChange", () => {
 
         jest.clearAllMocks();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return the value from ACSP_UPDATE_PREVIOUS_PAGE_URL if it exists in the session", () => {
         const previousPageUrl = "/some-previous-page";
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
@@ -344,11 +336,7 @@ describe("getDateOfChangeFromSession", () => {
             getExtraData: jest.fn()
         };
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("returns the correct date for sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
             if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
@@ -456,11 +444,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
             }
         };
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("handles sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
             if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";

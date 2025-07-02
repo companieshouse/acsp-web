@@ -48,11 +48,7 @@ describe("CorrespondenceAddressManualService", () => {
             registeredOfficeAddress: {}
         };
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     test("saveCorrespondenceManualAddress correctly saves address to applicantDetails in acspData", () => {
         req.body = {
             addressPropertyDetails: "Suite 200",

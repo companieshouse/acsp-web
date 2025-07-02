@@ -45,11 +45,7 @@ describe("acsp service tests", () => {
         jest.clearAllMocks();
         session = new Session();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     describe("postAcspRegistration tests", () => {
         afterEach(() => {
             process.removeAllListeners("uncaughtException");

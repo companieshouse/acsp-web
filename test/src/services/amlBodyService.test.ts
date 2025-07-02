@@ -4,11 +4,7 @@ import { AmlSupervisoryBodyService } from "../../../src/services/amlSupervisoryB
 import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/services/acsp/types";
 
 describe("AmlSupervisoryBodyService", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should save selected AML supervisory bodies to session when more then one selection is selected", () => {
         const sessionMock: Partial<Session> = {
             setExtraData: jest.fn()

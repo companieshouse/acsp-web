@@ -30,11 +30,7 @@ const acspData: AcspData = {
 };
 
 describe("CompanyLookupController", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("GET" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, async () => {
         mockGetAcspRegistration.mockResolvedValueOnce(acspData);
         const res = await router.get(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER);
@@ -61,11 +57,7 @@ describe("CompanyLookupController", () => {
 });
 
 describe("POST" + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect", async () => {
         mockGetCompanyDetails.mockResolvedValueOnce(companyDetails);
         const res = await router.post(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER).send({ companyNumber: "12345678" });

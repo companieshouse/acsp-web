@@ -6,11 +6,7 @@ const session = getSessionRequestWithPermission();
 const nullSession = new Session();
 
 describe("API Service tests", () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return a new API Client, to use api key for authentication", () => {
         const apiClientResponse = createPublicOAuthApiClient(session);
         expect(apiClientResponse).not.toBeNull();

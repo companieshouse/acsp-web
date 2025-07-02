@@ -6,11 +6,7 @@ import { BASE_URL, CANNOT_SUBMIT_ANOTHER_APPLICATION } from "../../../../src/typ
 const router = supertest(app);
 
 describe("GET " + CANNOT_SUBMIT_ANOTHER_APPLICATION, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should respond with status 200", async () => {
         const res = await router.get(BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();

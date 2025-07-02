@@ -11,11 +11,7 @@ const router = supertest(app);
 const mockDeleteAcspApplication = deleteAcspApplication as jest.Mock;
 
 describe("GET" + SAVED_APPLICATION, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const response = await router.get(BASE_URL + SAVED_APPLICATION).expect(200);
         expect(response.text).toContain("Do you want to start a new application?");
@@ -25,11 +21,7 @@ describe("GET" + SAVED_APPLICATION, () => {
 });
 
 describe("POST " + SAVED_APPLICATION, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect", async () => {
         // Make a POST request with "no" to trigger redirection to filings
         const response = await router.post(BASE_URL + SAVED_APPLICATION)

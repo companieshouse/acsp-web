@@ -14,3 +14,7 @@ process.env.CDN_URL_CSS = "//d7blrfb1p86zg.cloudfront.net/stylesheets/services/b
 
 jest.setTimeout(10000); // Set a timeout of 10 seconds for each test
 process.setMaxListeners(50);
+afterEach(() => {
+    process.removeAllListeners("uncaughtException");
+    jest.clearAllMocks();
+});

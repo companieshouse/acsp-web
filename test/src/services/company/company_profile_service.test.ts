@@ -23,11 +23,7 @@ describe("Company profile tests", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("Should return a company profile", async () => {
         mockGetCompanyProfile.mockResolvedValueOnce({
             httpStatusCode: 200,

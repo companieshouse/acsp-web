@@ -7,11 +7,7 @@ jest.mock("@companieshouse/api-sdk-node");
 const router = supertest(app);
 
 describe("GET" + SIGN_OUT_URL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200", async () => {
         const response = await router.get(BASE_URL + SIGN_OUT_URL).expect(200);
         expect(response.text).toContain("Are you sure you want to sign out?");
@@ -21,11 +17,7 @@ describe("GET" + SIGN_OUT_URL, () => {
 });
 
 describe("POST " + SIGN_OUT_URL, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect", async () => {
         // Make a POST request with signout: "yes" to trigger redirection
         const response = await router.post(BASE_URL + SIGN_OUT_URL)

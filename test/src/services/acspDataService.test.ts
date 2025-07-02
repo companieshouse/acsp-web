@@ -49,11 +49,7 @@ describe("AcspDataService tests", () => {
         const session = getSessionRequestWithPermission();
         req.session = session;
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     describe("saveAcspData tests", () => {
         afterEach(() => {
             process.removeAllListeners("uncaughtException");

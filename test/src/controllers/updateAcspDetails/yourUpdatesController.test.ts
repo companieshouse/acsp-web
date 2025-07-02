@@ -24,11 +24,7 @@ const mockPostRegistration = postAcspRegistration as jest.Mock;
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 
 describe("GET " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 200 and render the your details page if updates have been made", async () => {
         const res = await router.get(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalledTimes(1);
@@ -89,11 +85,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect to confirmation page", async () => {
         customMockSessionMiddleware = sessionMiddleware as jest.Mock;
         const session = getSessionRequestWithPermission();
@@ -195,11 +187,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
 let customMockSessionMiddleware : any;
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
-    afterEach(() => {
-        process.removeAllListeners("uncaughtException");
-        jest.clearAllMocks();
-        jest.resetModules();
-    });
+
     it("should return status 302 after redirect to Provide AML page", async () => {
         createMockSessionMiddlewareAcspFullProfile();
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES).send({ moreUpdates: "no" });
