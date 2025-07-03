@@ -104,7 +104,7 @@ app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspBaseAuthenticationMiddleware);
 app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateAcspUserIsPartOfAcspMiddleware);
 app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspAuthMiddleware);
 app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getUpdateAcspProfileMiddleware);
-app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateVariablesMiddleware);
+app.use(UPDATE_ACSP_DETAILS_BASE_URL, updateVariablesMiddleware);
 app.use(`^${UPDATE_ACSP_DETAILS_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, updateAcspIsOwnerMiddleware);
 
 // Close ACSP middleware
@@ -112,7 +112,7 @@ app.use(CLOSE_ACSP_BASE_URL, closeAcspBaseAuthenticationMiddleware);
 app.use(CLOSE_ACSP_BASE_URL, closeAcspUserIsPartOfAcspMiddleware);
 app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspAuthMiddleware);
 app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, getAcspProfileMiddleware);
-app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeVariablesMiddleware);
+app.use(CLOSE_ACSP_BASE_URL, closeVariablesMiddleware);
 app.use(`^${CLOSE_ACSP_BASE_URL}(?!${MUST_BE_AUTHORISED_AGENT})`, closeAcspIsOwnerMiddleware);
 
 // Company Auth redirect
