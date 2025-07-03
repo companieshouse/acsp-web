@@ -15,7 +15,7 @@
     "lint": "eslint 'src/**/*.ts' 'test/src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' 'test/src/**/*.ts' --fix",
     "test:coverage": "jest --coverage --forceExit --passWithNoTests",
-    "test": "jest",
+    "test": "node --expose-gc ./node_modules/.bin/jest --logHeapUsage",
     "start": "npm run build && node dist/src/server.js",
     "start:watch": "nodemon",
     "sonarqube-base-branch": "sonar-scanner",
