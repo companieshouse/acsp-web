@@ -14,7 +14,7 @@
     "build": "npm run build:assets && npm run build:server",
     "lint": "eslint 'src/**/*.ts' 'test/src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' 'test/src/**/*.ts' --fix",
-    "test:coverage": "node --expose-gc ./node_modules/.bin/jest --coverage --passWithNoTests",
+    "test:coverage": "node --expose-gc ./node_modules/.bin/jest --coverage --forceExit --passWithNoTests",
     "test": "node --expose-gc ./node_modules/.bin/jest",
     "start": "npm run build && node dist/src/server.js",
     "start:watch": "nodemon",
