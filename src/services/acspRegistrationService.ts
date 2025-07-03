@@ -56,16 +56,21 @@ export const getAcspRegistration = async (session: Session, transactionId:string
  * @param transactionId The filings associated transaction ID
  * @returns The AcspResponse contains the submission ID for the newly created registration
  */
-export const postAcspRegistration = async (session: Session, transactionId: string, acsp: AcspData): Promise<AcspResponse> => {
-    logger.info(`POST - Updating acsp registration for transaction ID: ${transactionId} and application ID: ${acsp.id}`);
-    if (!transactionId) {
-        logger.error(`acsp registration POST request failed - no transaction ID provided for transaction ID: ${transactionId}`);
-        return Promise.reject(new Error("No application ID provided"));
+export const postAcspRegistration = async (session: Session, transactionId: string, acsp: AcspData, firstTime: boolean): Promise<AcspResponse> => {
+
+    if (firstTime === false) {
+
+        logger.info(`POST - Updating acsp registration for transaction ID: ${transactionId} and application ID: ${acsp.id}`);
+        if (!transactionId) {
+            logger.error(`acsp registration POST request failed - no transaction ID provided for transaction ID: ${transactionId}`);
+            return Promise.reject(new Error("No transaction ID provided"));
+        }
+        if (!acsp.id) {
+            logger.error(`acsp registration POST request failed - no application ID provided for application ID: ${acsp.id}`);
+            return Promise.reject(new Error("No application ID provided"));
+        }
     }
-    if (!acsp.id) {
-        logger.error(`acsp registration POST request failed - no application ID provided for application ID: ${acsp.id}`);
-        return Promise.reject(new Error("No transaction ID provided"));
-    }
+
     const apiClient: ApiClient = createPublicOAuthApiClient(session);
 
     logger.debug(`POSTing acsp registration for transaction ${transactionId}`);

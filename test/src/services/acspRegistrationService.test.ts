@@ -59,7 +59,7 @@ describe("acsp service tests", () => {
                 }
             });
 
-            const acspResponse: AcspResponse = await postAcspRegistration(session, TRANSACTION_ID, acsp);
+            const acspResponse: AcspResponse = await postAcspRegistration(session, TRANSACTION_ID, acsp, false);
 
             expect(acspResponse.data.id).toEqual(EMAIL_ID);
             expect(acspResponse.data.type_of_business).toEqual("LIMITED");
@@ -68,7 +68,7 @@ describe("acsp service tests", () => {
         it("Should throw an error when no acsp api response", async () => {
             mockPostAcspRegistration.mockResolvedValueOnce(undefined);
 
-            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp, false))
                 .rejects.toBe(undefined);
         });
 
@@ -77,7 +77,7 @@ describe("acsp service tests", () => {
                 httpStatusCode: StatusCodes.NOT_FOUND
             });
 
-            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp, false))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
 
@@ -86,7 +86,7 @@ describe("acsp service tests", () => {
                 httpStatusCode: StatusCodes.CONFLICT
             });
 
-            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp, false))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.CONFLICT });
         });
 
@@ -96,7 +96,7 @@ describe("acsp service tests", () => {
                 httpStatusCode: HTTP_STATUS_CODE
             } as Resource<CompanyProfile>);
 
-            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp, false))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.SERVICE_UNAVAILABLE });
         });
 
@@ -105,7 +105,7 @@ describe("acsp service tests", () => {
                 httpStatusCode: StatusCodes.NO_CONTENT
             } as Resource<AcspResponse>);
 
-            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp))
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acsp, false))
                 .rejects.toEqual({ httpStatusCode: StatusCodes.NO_CONTENT });
         });
     });
@@ -130,7 +130,7 @@ describe("acsp service tests", () => {
         });
 
         it("Should throw an error when no acsp api response", async () => {
-            mockPostAcspRegistration.mockResolvedValueOnce(undefined);
+            mockPutAcspRegistration.mockResolvedValueOnce(undefined);
 
             await expect(putAcspRegistration(session, TRANSACTION_ID, acsp))
                 .rejects.toBe(undefined);
@@ -230,6 +230,36 @@ describe("acsp service tests", () => {
             });
 
             await expect(deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
+        });
+    });
+    describe("postAcspRegistration additional validation tests", () => {
+        it("Should throw an error when no transaction ID is provided and firstTime is false", async () => {
+            const acspData: AcspData = { id: "test@example.com", typeOfBusiness: "LIMITED" };
+            await expect(postAcspRegistration(session, "", acspData, false))
+                .rejects.toThrow("No transaction ID provided");
+        });
+
+        it("Should throw an error when no application ID is provided and firstTime is false", async () => {
+            const acspData: AcspData = { id: "", typeOfBusiness: "LIMITED" };
+            await expect(postAcspRegistration(session, TRANSACTION_ID, acspData, false))
+                .rejects.toThrow("No application ID provided");
+        });
+
+        it("Should not validate transactionId or acsp.id when firstTime is true", async () => {
+            mockPostAcspRegistration.mockResolvedValueOnce({
+                httpStatusCode: 200,
+                resource: {
+                    data: {
+                        id: "",
+                        type_of_business: "LIMITED"
+                    }
+                }
+            });
+
+            const acspData: AcspData = { id: "", typeOfBusiness: "LIMITED" };
+            const acspResponse: AcspResponse = await postAcspRegistration(session, "", acspData, true);
+
+            expect(acspResponse.data.type_of_business).toEqual("LIMITED");
         });
     });
 });

@@ -123,7 +123,7 @@ describe("AcspUpdateService tests", () => {
                 businessName: acspDetailsUpdated.name
             };
 
-            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData);
+            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData, true);
         });
 
         it("should save updated details and call postAcspRegistration with undefined soleTraderDetails", async () => {
@@ -144,7 +144,7 @@ describe("AcspUpdateService tests", () => {
                 registeredOfficeAddress: acspDetailsUpdated.registeredOfficeAddress,
                 businessName: acspDetailsUpdated.name
             };
-            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData);
+            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData, true);
         });
 
         it("should save updated AML bodies and call postAcspRegistration", async () => {
@@ -161,7 +161,7 @@ describe("AcspUpdateService tests", () => {
                 amlSupervisoryBodies: [{ amlSupervisoryBody: "ICAEW", membershipId: "654321" }],
                 removedAmlSupervisoryBodies: [{ amlSupervisoryBody: "ACCA", membershipId: "123456" }]
             };
-            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData);
+            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData, true);
         });
 
         it("should handle errors and reject the promise", async () => {

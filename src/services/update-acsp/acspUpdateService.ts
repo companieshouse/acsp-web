@@ -63,7 +63,7 @@ export class AcspUpdateService {
                 acspData.removedAmlSupervisoryBodies = this.getRemovedAmlBodies(acspDetails, acspUpdatedDetails);
             }
 
-            await postAcspRegistration(session, transactionId, acspData);
+            await postAcspRegistration(session, transactionId, acspData, true);
 
         } catch (error) {
             logger.error(`Error while saving updated details for update ACSP`);

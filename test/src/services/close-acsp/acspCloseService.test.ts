@@ -23,6 +23,7 @@ const acspCloseService = new AcspCloseService();
 describe("AcspCloseService tests", () => {
 
     beforeEach(() => {
+        jest.clearAllMocks();
         req = createRequest({
             method: "POST",
             url: "/"
@@ -87,7 +88,7 @@ describe("AcspCloseService tests", () => {
                 acspId: acspDetails.number
             };
 
-            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData);
+            expect(mockPostAcspRegistration).toHaveBeenCalledWith(session, transactionId, expectedAcspData, true);
         });
 
         it("should handle errors and reject the promise", async () => {
