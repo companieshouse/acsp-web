@@ -18,3 +18,8 @@ afterEach(() => {
     process.removeAllListeners("uncaughtException");
     jest.clearAllMocks();
 });
+afterAll(() => {
+    if (global.gc) {
+        global.gc();
+    }
+});
