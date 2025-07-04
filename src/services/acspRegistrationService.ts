@@ -19,11 +19,11 @@ export const getAcspRegistration = async (session: Session, transactionId:string
     logger.info(`GET - Retrieving acsp registration for transaction ID: ${transactionId} and application ID: ${acspApplicationId}`);
     if (!transactionId) {
         logger.error(`acsp registration GET request failed - no transaction ID provided for transaction ID: ${transactionId}`);
-        return Promise.reject(new Error("No application ID provided"));
+        return Promise.reject(new Error("No transaction ID provided"));
     }
     if (!acspApplicationId) {
         logger.error(`acsp registration GET request failed - no application ID provided for application ID: ${acspApplicationId}`);
-        return Promise.reject(new Error("No transaction ID provided"));
+        return Promise.reject(new Error("No application  ID provided"));
     }
 
     const apiClient: ApiClient = createPublicOAuthApiClient(session);

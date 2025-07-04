@@ -262,4 +262,16 @@ describe("acsp service tests", () => {
             expect(acspResponse.data.type_of_business).toEqual("LIMITED");
         });
     });
+    describe("getAcspRegistration additional validation tests", () => {
+        it("Should throw an error when no transaction ID is provided", async () => {
+            const acspApplicationId = "app-123";
+            await expect(getAcspRegistration(session, "", acspApplicationId))
+                .rejects.toThrow("No transaction ID provided");
+        });
+
+        it("Should throw an error when no application ID is provided", async () => {
+            await expect(getAcspRegistration(session, TRANSACTION_ID, ""))
+                .rejects.toThrow("No application  ID provided");
+        });
+    });
 });
