@@ -1,8 +1,8 @@
 {
-    "youMustBeAccountOwnerTitle": "You must be an account owner to use this service",
-    "onlyAccountOwnersForAuthAgent": "Only account owners for the authorised agent can update the agent's details or close the account.",
-    "youllNeedToContactAccountOwner": "You'll need to contact an account owner and ask them to use the service. Or, you can ask them to change your role to make you an account owner.",
-    "goTo": "Go to ",
-    "manageUsers": "Manage users",
-    "toViewTheAccountOwners": " to view the account owners for {BUSINESS_NAME}."
+    "youMustBeAccountOwnerTitle": "Rhaid i chi fod yn berchennog cyfrif er mwyn defnyddio'r gwasanaeth hwn",
+    "onlyAccountOwnersForAuthAgent": "Perchnogion cyfrif ar gyfer yr asiant awdurdodedig yn unig all ddiweddaru manylion yr asiant neu gau'r cyfrif.",
+    "youllNeedToContactAccountOwner": "Bydd angen i chi gysylltu â pherchennog cyfrif a gofyn iddynt ddefnyddio'r gwasanaeth. Neu, gallwch ofyn iddynt newid eich rôl i'ch gwneud chi’n berchennog cyfrif.",
+    "goTo": "Ewch i ",
+    "manageUsers": "Reoli defnyddwyr",
+    "toViewTheAccountOwners": " i weld perchnogion y cyfrif ar gyfer {BUSINESS_NAME}."
 }

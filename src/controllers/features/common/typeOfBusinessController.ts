@@ -13,6 +13,8 @@ import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
 import { getPreviousPageUrl } from "../../../services/url";
+import { getSavedApplication } from "../../../services/transactions/transaction_service";
+import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -37,6 +39,14 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
                 } else {
                     typeOfBusiness = acspData.typeOfBusiness!;
                 }
+            }
+        } else {
+            // Fix to check for existing applications and redirect accordingly
+            // when resume_application is not set to prevent redirect loop
+            const savedApplication = await getSavedApplication(session, res.locals.userId);
+            const redirectionUrl = await getRedirectionUrl(savedApplication, session);
+            if (redirectionUrl && redirectionUrl !== BASE_URL + TYPE_OF_BUSINESS) {
+                return res.redirect(addLangToUrl(redirectionUrl, lang));
             }
         }
 
