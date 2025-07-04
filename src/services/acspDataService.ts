@@ -24,7 +24,7 @@ export class AcspDataService {
                     acspType: "REGISTER_ACSP"
                 };
                 // save data to mongo for the first time
-                const resp = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData) as unknown;
+                const resp = await postAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, acspData, true) as unknown;
                 const response = resp as AcspDataDto;
                 session.setExtraData(APPLICATION_ID, response.id);
             } else {

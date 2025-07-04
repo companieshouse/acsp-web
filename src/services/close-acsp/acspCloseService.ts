@@ -31,7 +31,7 @@ export class AcspCloseService {
                 acspId: acspDetails.number
             };
 
-            await postAcspRegistration(session, transactionId, acspData);
+            await postAcspRegistration(session, transactionId, acspData, true);
         } catch (error) {
             logger.error("Error while saving close details for ACSP");
             return Promise.reject(error);
