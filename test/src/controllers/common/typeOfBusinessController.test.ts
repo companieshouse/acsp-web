@@ -8,12 +8,17 @@ import { sessionMiddleware } from "../../../../src/middleware/session_middleware
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
 import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
-import { postTransaction } from "../../../../src/services/transactions/transaction_service";
+import { getSavedApplication, postTransaction } from "../../../../src/services/transactions/transaction_service";
 import { validTransaction } from "../../../mocks/transaction_mock";
+import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { getRedirectionUrl } from "../../../../src/services/checkSavedApplicationService";
+import { SAVED_APPLICATION } from "../../../../src/config";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("../../../../src/services/transactions/transaction_service");
+jest.mock("../../../../src/services/checkSavedApplicationService");
 const router = supertest(app);
 
 let customMockSessionMiddleware : any;
@@ -23,6 +28,12 @@ const mockPutAcspRegistration = putAcspRegistration as jest.Mock;
 const mockPostAcspRegistration = postAcspRegistration as jest.Mock;
 const mockDeleteAcspApplication = deleteAcspApplication as jest.Mock;
 const mockPostTransaction = postTransaction as jest.Mock;
+const mockGetSavedApplication = getSavedApplication as jest.Mock;
+const mockGetRedirectionUrl = getRedirectionUrl as jest.Mock;
+
+const hasSavedApplication: Resource<TransactionList> = {
+    httpStatusCode: 200
+};
 
 const acspData: AcspData = {
     id: "abc",
@@ -90,6 +101,44 @@ describe("GET " + TYPE_OF_BUSINESS, () => {
         expect(mockGetAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+
+    it("should redirect to the URL returned by getRedirectionUrl if it is not the business type page", async () => {
+        createMockSessionMiddlewareResumeApplicationUndefined();
+        mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
+        const mockRedirectionUrl = BASE_URL + SAVED_APPLICATION;
+        mockGetRedirectionUrl.mockResolvedValueOnce(mockRedirectionUrl);
+
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(res.status).toBe(302);
+        expect(res.header.location).toContain(mockRedirectionUrl);
+    });
+
+    it("should render the business type page if getRedirectionUrl returns undefined", async () => {
+        mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
+        mockGetRedirectionUrl.mockResolvedValueOnce(undefined);
+
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should render the business type page if getRedirectionUrl returns the business type page URL", async () => {
+        mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
+        mockGetRedirectionUrl.mockResolvedValueOnce(BASE_URL + TYPE_OF_BUSINESS);
+
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
+    });
+
+    it("should render the business type page if getSavedApplication returns undefined", async () => {
+        mockGetSavedApplication.mockResolvedValueOnce(undefined);
+        mockGetRedirectionUrl.mockResolvedValueOnce(undefined);
+
+        const res = await router.get(BASE_URL + TYPE_OF_BUSINESS);
+        expect(res.status).toBe(200);
+        expect(res.text).toContain("What type of business are you registering?");
     });
 });
 
@@ -206,6 +255,16 @@ function createMockSessionMiddlewareNotNullUserData () {
     const session = getSessionRequestWithPermission();
     session.setExtraData(USER_DATA, { typeOfBusiness: "LC" });
     session.setExtraData(SUBMISSION_ID, "transactionID");
+    customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+        req.session = session;
+        next();
+    });
+}
+
+function createMockSessionMiddlewareResumeApplicationUndefined () {
+    customMockSessionMiddleware = sessionMiddleware as jest.Mock;
+    const session = getSessionRequestWithPermission();
+    session.setExtraData("resume_application", undefined);
     customMockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
         req.session = session;
         next();
