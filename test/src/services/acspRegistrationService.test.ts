@@ -232,4 +232,13 @@ describe("acsp service tests", () => {
             await expect(deleteAcspApplication(session, TRANSACTION_ID, EMAIL_ID)).rejects.toEqual({ httpStatusCode: StatusCodes.NOT_FOUND });
         });
     });
+    describe("getAcspRegistration additional validation tests", () => {
+        it("Should throw an error when no transaction ID is provided", async () => {
+            await expect(getAcspRegistration(session, "", EMAIL_ID)).rejects.toThrow("No transaction ID provided");
+        });
+
+        it("Should throw an error when no application ID is provided", async () => {
+            await expect(getAcspRegistration(session, TRANSACTION_ID, "")).rejects.toThrow("No application  ID provided");
+        });
+    });
 });
