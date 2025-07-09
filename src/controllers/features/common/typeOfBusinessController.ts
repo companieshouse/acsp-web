@@ -4,7 +4,7 @@ import * as config from "../../../config";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { selectLang, addLangToUrl, getLocalesService, getLocaleInfo } from "../../../utils/localise";
 import { TYPE_OF_BUSINESS, OTHER_TYPE_OF_BUSINESS, LIMITED_BUSINESS_MUSTBE_AML_REGISTERED_KICKOUT, SOLE_TRADER_WHAT_IS_YOUR_ROLE, BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, UNINCORPORATED_NAME_REGISTERED_WITH_AML } from "../../../types/pageURL";
-import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA } from "../../../common/__utils/constants";
+import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRATION_DETAILS_ERROR, USER_DATA, TYPE_OF_BUSINESS_SELECTED } from "../../../common/__utils/constants";
 import logger from "../../../utils/logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
@@ -115,6 +115,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 break;
             }
         } else {
+            session.setExtraData(TYPE_OF_BUSINESS_SELECTED, true);
             res.redirect(addLangToUrl(BASE_URL + OTHER_TYPE_OF_BUSINESS, lang));
         }
     } catch (err) {
