@@ -58,3 +58,4 @@ export const REGISTRATION = "registration";
 export const UPDATE = "update";
 export const SERVICE_ADDRESS = "serviceAddress";
 export const REGISTERED_OFFICE_ADDRESS = "registeredOfficeAddress";
+export const TYPE_OF_BUSINESS_SELECTED = "typeOfBusinessSelected";

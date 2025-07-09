@@ -2,7 +2,7 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
-import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, USER_DATA } from "../../../common/__utils/constants";
+import { GET_ACSP_REGISTRATION_DETAILS_ERROR, POST_ACSP_REGISTRATION_DETAILS_ERROR, SUBMISSION_ID, TYPE_OF_BUSINESS_SELECTED, USER_DATA } from "../../../common/__utils/constants";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
 import * as config from "../../../config";
 import { AcspDataService } from "../../../services/acspDataService";
@@ -12,6 +12,8 @@ import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../.
 import logger from "../../../utils/logger";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
 import { PIWIK_REGISTRATION_CORPORATE_BODY_ID, PIWIK_REGISTRATION_UNINCORPORATED_ID } from "../../../utils/properties";
+import { getSavedApplication } from "../../../services/transactions/transaction_service";
+import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -26,6 +28,15 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
             acspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
             if (acspData !== undefined) {
                 saveDataInSession(req, USER_DATA, acspData);
+            }
+        } else {
+            // Fix to check for existing applications and redirect accordingly
+            // when resume_application is not set to prevent redirect loop
+            const savedApplication = await getSavedApplication(session, res.locals.userId);
+            const redirectionUrl = await getRedirectionUrl(savedApplication, session);
+            const typeOfBusinessFlag = session.getExtraData(TYPE_OF_BUSINESS_SELECTED);
+            if (redirectionUrl && !typeOfBusinessFlag) {
+                return res.redirect(addLangToUrl(redirectionUrl, lang));
             }
         }
 
@@ -76,6 +87,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             }
 
             saveDataInSession(req, "resume_application", true);
+            session.deleteExtraData(TYPE_OF_BUSINESS_SELECTED);
 
             if (selectedOption === "CORPORATE_BODY") {
                 res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
