@@ -74,39 +74,37 @@ describe("check saved application service tests", () => {
         res = createResponse();
     });
 
+    it("Should redirect to correct url when the application is in rejected", async () => {
+        mockDeleteSavedApplication.mockResolvedValueOnce("200");
+        const redirectionUrl = await getRedirectionUrl(hasRejectedApplication, session);
+        url = BASE_URL + TYPE_OF_BUSINESS;
+        expect(redirectionUrl).toEqual(url);
+    });
+
     it("Should redirect to correct url when the application is open", async () => {
         const redirectionUrl = await getRedirectionUrl(hasOpenApplication, session);
         url = BASE_URL + SAVED_APPLICATION;
         expect(redirectionUrl).toEqual(url);
     });
 
-    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted, acsp status is CEASED, and loggedInAcspNumber is falsy", async () => {
-        mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
+    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted loggedInAcspNumber is falsy", async () => {
         jest.spyOn(require("../../../src/common/__utils/session"), "getLoggedInAcspNumber").mockReturnValue(undefined);
         const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
         url = BASE_URL + TYPE_OF_BUSINESS;
         expect(redirectionUrl).toEqual(url);
-        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
     });
 
-    it("Should redirect to CANNOT_REGISTER_AGAIN  when application filing is accepted and acsp status is not CEASED", async () => {
+    it("Should redirect to CANNOT_REGISTER_AGAIN  when application filing is accepted and has a defined loggedInAcspNumber", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce({ status: "active" });
+        jest.spyOn(require("../../../src/common/__utils/session"), "getLoggedInAcspNumber").mockReturnValue("AP123456");
         const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
         url = BASE_URL + CANNOT_REGISTER_AGAIN;
         expect(redirectionUrl).toEqual(url);
-        expect(mockGetAcspFullProfile).toHaveBeenCalledWith("AP123456");
     });
 
     it("Should redirect to correct url when the application is in progress", async () => {
         const redirectionUrl = await getRedirectionUrl(hasApplicationInProgress, session);
         url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
-        expect(redirectionUrl).toEqual(url);
-    });
-
-    it("Should redirect to correct url when the application is in rejected", async () => {
-        mockDeleteSavedApplication.mockResolvedValueOnce("200");
-        const redirectionUrl = await getRedirectionUrl(hasRejectedApplication, session);
-        url = BASE_URL + TYPE_OF_BUSINESS;
         expect(redirectionUrl).toEqual(url);
     });
 });
