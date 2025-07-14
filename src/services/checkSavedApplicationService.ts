@@ -1,4 +1,5 @@
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
+import { getLoggedInAcspNumber } from "../common/__utils/session";
 import { TransactionData, TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Session } from "@companieshouse/node-session-handler";
 import { ACCEPTED, CEASED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
@@ -15,8 +16,10 @@ import { getAcspFullProfile } from "./acspProfileService";
 export const getRedirectionUrl = async (savedApplications: Resource<TransactionList>, session: Session): Promise<string> => {
     try {
         const transactions = filterRejectedApplications(savedApplications.resource!.items);
+        const loggedInAcspNumber: string = getLoggedInAcspNumber(session);
+
         let url = "";
-        if (!transactions.length) {
+        if (!transactions.length && !loggedInAcspNumber) {
             logger.debug("application is rejected");
             url = BASE_URL + TYPE_OF_BUSINESS;
         } else if (transactions[0].status !== CLOSED) {
@@ -27,7 +30,7 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
         } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
             const acspNumber = transactions[0].filings![transactions[0].id + "-1"].companyNumber;
             const acspDetails = await getAcspFullProfile(acspNumber!);
-            if (acspDetails.status === CEASED) {
+            if (acspDetails.status === CEASED && !loggedInAcspNumber) {
                 logger.debug("application is ceased and can register again");
                 url = BASE_URL + TYPE_OF_BUSINESS;
             } else {

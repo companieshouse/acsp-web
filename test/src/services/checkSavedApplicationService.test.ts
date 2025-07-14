@@ -80,8 +80,9 @@ describe("check saved application service tests", () => {
         expect(redirectionUrl).toEqual(url);
     });
 
-    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted and acsp status is CEASED", async () => {
+    it("Should redirect to TYPE_OF_BUSINESS when application filing is accepted, acsp status is CEASED, and loggedInAcspNumber is falsy", async () => {
         mockGetAcspFullProfile.mockResolvedValueOnce({ status: "ceased" });
+        jest.spyOn(require("../../../src/common/__utils/session"), "getLoggedInAcspNumber").mockReturnValue(undefined);
         const redirectionUrl = await getRedirectionUrl(hasApprovedApplication, session);
         url = BASE_URL + TYPE_OF_BUSINESS;
         expect(redirectionUrl).toEqual(url);
