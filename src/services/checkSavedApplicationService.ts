@@ -19,7 +19,7 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
         const loggedInAcspNumber: string = getLoggedInAcspNumber(session);
 
         let url = "";
-        if (!transactions.length && !loggedInAcspNumber) {
+        if (!transactions.length) {
             logger.debug("application is rejected");
             url = BASE_URL + TYPE_OF_BUSINESS;
         } else if (transactions[0].status !== CLOSED) {
