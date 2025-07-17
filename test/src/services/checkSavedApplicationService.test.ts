@@ -109,7 +109,7 @@ describe("check saved application service tests", () => {
         expect(redirectionUrl).toEqual(url);
     });
 
-    it("should throw an error when getRedirectionUrl errors", async () => {
+    it("should throw an error when getRedirectionUrl encounters errors", async () => {
         jest.spyOn(require("../../../src/services/checkSavedApplicationService"), "getRedirectionUrl")
             .mockRejectedValueOnce(new Error("Error getting redirection URL"));
         await expect(getRedirectionUrl(hasOpenApplication, session)).rejects.toThrow();
