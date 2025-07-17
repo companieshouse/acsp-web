@@ -15,6 +15,7 @@ jest.mock("../../../src/services/acspRegistrationService");
 
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 const mockDeleteSavedApplication = deleteAcspApplication as jest.Mock;
+const mockGetRedirectionUrl = getRedirectionUrl as jest.Mock;
 let res: MockResponse<Response>;
 
 let session: any;
@@ -106,5 +107,11 @@ describe("check saved application service tests", () => {
         const redirectionUrl = await getRedirectionUrl(hasApplicationInProgress, session);
         url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
         expect(redirectionUrl).toEqual(url);
+    });
+
+    it("should throw an error when getRedirectionUrl errors", async () => {
+        jest.spyOn(require("../../../src/services/checkSavedApplicationService"), "getRedirectionUrl")
+            .mockRejectedValueOnce(new Error("Error getting redirection URL"));
+        await expect(getRedirectionUrl(hasOpenApplication, session)).rejects.toThrow();
     });
 });
