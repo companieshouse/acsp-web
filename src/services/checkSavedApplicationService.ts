@@ -2,10 +2,9 @@ import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { getLoggedInAcspNumber } from "../common/__utils/session";
 import { TransactionData, TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { Session } from "@companieshouse/node-session-handler";
-import { ACCEPTED, CEASED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
+import { ACCEPTED, CLOSED, REJECTED, RESUME_APPLICATION_ID, SUBMISSION_ID } from "../common/__utils/constants";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../types/pageURL";
 import logger from "../utils/logger";
-import { getAcspFullProfile } from "./acspProfileService";
 
 /*
 * We are not deleting the old rejected application on the acsp Mongo collection.
@@ -22,12 +21,12 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
         if (!transactions.length && !loggedInAcspNumber) {
             logger.debug("application is rejected");
             url = BASE_URL + TYPE_OF_BUSINESS;
-        } else if (transactions[0].status !== CLOSED) {
+        } else if (transactions.length && transactions[0].status !== CLOSED) {
             logger.debug("application is open");
             session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
-        } else if (transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
+        } else if (transactions.length && transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
             if (!loggedInAcspNumber) {
                 logger.debug("application is ceased and can register again");
                 url = BASE_URL + TYPE_OF_BUSINESS;
