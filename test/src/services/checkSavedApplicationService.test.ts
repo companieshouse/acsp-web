@@ -15,6 +15,7 @@ jest.mock("../../../src/services/acspRegistrationService");
 
 const mockGetAcspFullProfile = getAcspFullProfile as jest.Mock;
 const mockDeleteSavedApplication = deleteAcspApplication as jest.Mock;
+
 let res: MockResponse<Response>;
 
 let session: any;
@@ -66,6 +67,13 @@ const hasRejectedApplication: Resource<TransactionList> = {
     }
 };
 
+const emptyTransactions: Resource<TransactionList> = {
+    httpStatusCode: 200,
+    resource: {
+        items: []
+    }
+};
+
 describe("check saved application service tests", () => {
 
     beforeEach(() => {
@@ -106,5 +114,18 @@ describe("check saved application service tests", () => {
         const redirectionUrl = await getRedirectionUrl(hasApplicationInProgress, session);
         url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
         expect(redirectionUrl).toEqual(url);
+    });
+
+    it("Should not redirect to TYPE_OF_BUSINESS or CANNOT_REGISTER_AGAIN when transactions is empty", async () => {
+        jest.spyOn(require("../../../src/common/__utils/session"), "getLoggedInAcspNumber").mockReturnValue("ABCD1234");
+        const redirectionUrl = await getRedirectionUrl(emptyTransactions, session);
+        url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
+        expect(redirectionUrl).toEqual(url);
+    });
+
+    it("should throw an error when getRedirectionUrl errors", async () => {
+        jest.spyOn(require("../../../src/services/checkSavedApplicationService"), "getRedirectionUrl")
+            .mockRejectedValueOnce(new Error("Error getting redirection URL"));
+        await expect(getRedirectionUrl(hasOpenApplication, session)).rejects.toThrow();
     });
 });
