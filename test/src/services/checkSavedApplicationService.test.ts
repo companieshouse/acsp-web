@@ -3,7 +3,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { Session } from "@companieshouse/node-session-handler";
 import { deleteAcspApplication } from "../../../src/services/acspRegistrationService";
 import { getRedirectionUrl } from "../../../src/services/checkSavedApplicationService";
-import { TransactionList, TransactionData } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
+import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { BASE_URL, CANNOT_REGISTER_AGAIN, CANNOT_SUBMIT_ANOTHER_APPLICATION, SAVED_APPLICATION, TYPE_OF_BUSINESS } from "../../../src/types/pageURL";
 import { ACCEPTED, IN_PROGRESS, REJECTED } from "../../../src/common/__utils/constants";
 import { createResponse, MockResponse } from "node-mocks-http";
