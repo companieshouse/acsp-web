@@ -26,6 +26,9 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
             session.setExtraData(RESUME_APPLICATION_ID, getApplicationId(transactions[0]));
             session.setExtraData(SUBMISSION_ID, transactions[0].id);
             url = BASE_URL + SAVED_APPLICATION;
+        } else if (!transactions.length && loggedInAcspNumber) {
+            logger.debug("original application is in progress");
+            url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
         } else if (transactions.length && transactions[0].filings![transactions[0].id + "-1"]?.status === ACCEPTED) {
             if (!loggedInAcspNumber) {
                 logger.debug("application is ceased and can register again");
