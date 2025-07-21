@@ -119,7 +119,7 @@ describe("check saved application service tests", () => {
     it("Should not redirect to TYPE_OF_BUSINESS or CANNOT_REGISTER_AGAIN when transactions is empty", async () => {
         jest.spyOn(require("../../../src/common/__utils/session"), "getLoggedInAcspNumber").mockReturnValue("ABCD1234");
         const redirectionUrl = await getRedirectionUrl(emptyTransactions, session);
-        url = BASE_URL + CANNOT_SUBMIT_ANOTHER_APPLICATION;
+        url = BASE_URL + CANNOT_REGISTER_AGAIN;
         expect(redirectionUrl).toEqual(url);
     });
 
