@@ -90,6 +90,17 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE + "?lang=en");
     });
 
+    it("should redirect with status 302 on successful form submission with allowed special characters in business name", async () => {
+
+        const formData = {
+            whatIsTheBusinessName: "Company !<>()"
+        };
+
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_ROLE + "?lang=en");
+    });
+
     it("should return status 400 for no data entered", async () => {
         const formData = {
             whatIsTheBusinessName: ""
@@ -103,12 +114,12 @@ describe("POST" + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME, () => {
 
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
-            whatIsTheBusinessName: "Company@@$%^"
+            whatIsTheBusinessName: "Company ƒ"
         };
 
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME).send(formData);
         expect(response.status).toBe(400);
-        expect(response.text).toContain("Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
+        expect(response.text).toContain("Business name must only include letters a to z, and common special characters");
     });
 
     it("should return status 400 for business name length more 155 characters", async () => {

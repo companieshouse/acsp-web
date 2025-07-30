@@ -1,6 +1,8 @@
 import { body } from "express-validator";
+import { BUSINESS_NAME_EXCLUDED_CHARS, LETTERS, NUMBERS, PUNCTUATION, SYMBOLS, WHITESPACE } from "./regexParts";
 
-const businessNameFormat:RegExp = /^[A-Za-z0-9\-&'.+\s]*$/;
+const businessNamePattern = `^(?!.*[${BUSINESS_NAME_EXCLUDED_CHARS}])[${LETTERS}${NUMBERS}${PUNCTUATION}${SYMBOLS}${WHITESPACE}]*$`;
+const businessNameFormat: RegExp = new RegExp(businessNamePattern, "u");
 
 export const soleTraderWhatIsTheBusinessNameValidator = [
 

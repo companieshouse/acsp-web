@@ -11,12 +11,12 @@
 
     "error-whatIsTheBusinessNameSelectRadio" : "Select business name",
     "error-whatIsTheBusinessNameNoName" : "Enter the business name",
-    "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
+    "error-whatIsTheBusinessNameInvalidCharacters" : "Business name must only include letters a to z, and common special characters",
     "error-whatIsTheBusinessNameCharactersLimit" : "Business name must be 155 characters or less",
     "error-whatIsTheBusinessNameNoChangeUpdateAcsp" : "Update the business name if it's changed or cancel the update",
     
     "error-whatIsTheCompanyNameNoNameUpdateAcspLtd" : "Enter the company name or cancel the update",
-    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes",
+    "error-whatIsTheCompanyNameInvalidCharactersUpdateAcspLtd" : "Company name must only include letters a to z, and common special characters",
     "error-whatIsTheCompanyNameCharactersLimitUpdateAcspLtd" : "Company name must be 155 characters or less",
     "error-whatIsTheCompanyNameNoChangeUpdateAcspLtd" : "Update the company name if it's changed or cancel the update"
 }
