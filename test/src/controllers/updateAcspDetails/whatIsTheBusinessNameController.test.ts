@@ -41,6 +41,17 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
     });
 
+    it("should return status 302 after redirect with allowed special characters in business name", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
+            .send({
+                whatIsTheBusinessName: "abc ltd %&\""
+            });
+        expect(res.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
+    });
+
     // Test for incorrect form details entered, will return 400.
     it("should return status 400 after incorrect data entered", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME);
@@ -68,10 +79,10 @@ describe("POST" + UPDATE_WHAT_IS_THE_BUSINESS_NAME, () => {
     it("should return status 400 and display error message when invalid characters entered", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_BUSINESS_NAME)
             .send({
-                whatIsTheBusinessName: "%$^£"
+                whatIsTheBusinessName: "^"
             });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("Business name must only include letters a to z, and common special characters");
     });
 
     it("should return status 500 when an error occurs", async () => {
@@ -148,10 +159,10 @@ describe("POST" + UPDATE_WHAT_IS_THE_COMPANY_NAME, () => {
         });
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_WHAT_IS_THE_COMPANY_NAME)
             .send({
-                whatIsTheBusinessName: "Example ACSP Ltd%^$&"
+                whatIsTheBusinessName: "Example ACSP Ltd^"
             });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Company name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("Company name must only include letters a to z, and common special characters");
     });
 
     it("should return status 400 and display error message when over 155 characters as a ltd company", async () => {

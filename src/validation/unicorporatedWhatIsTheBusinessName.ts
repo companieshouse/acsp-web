@@ -3,8 +3,10 @@ import { body, ValidationChain } from "express-validator";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { trimAndLowercaseString, getBusinessName } from "../services/common";
 import { ACSP_DETAILS } from "../common/__utils/constants";
+import { BUSINESS_NAME_EXCLUDED_CHARS, LETTERS, NUMBERS, PUNCTUATION, SYMBOLS, WHITESPACE } from "./regexParts";
 
-const businessNameFormat: RegExp = /^[A-Za-z0-9\-&'.+\s]*$/;
+const businessNamePattern = `^(?!.*[${BUSINESS_NAME_EXCLUDED_CHARS}])[${LETTERS}${NUMBERS}${PUNCTUATION}${SYMBOLS}${WHITESPACE}]*$`;
+const businessNameFormat: RegExp = new RegExp(businessNamePattern, "u");
 type BusinessNameType = "businessName" | "companyName";
 
 export const unicorporatedWhatIsTheBusinessNameValidator = (type: BusinessNameType): ValidationChain[] => [

@@ -121,6 +121,20 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
     });
 
+    it("should redirect with status 302 on successful form submission with allowed special characters in business name", async () => {
+        const formData = {
+            whatIsTheBusinessNameInput: "@£%&*",
+            whatsTheBusinessNameRadio: "USERNAME"
+        };
+
+        const response = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME).send(formData);
+
+        expect(response.status).toBe(302); // Expect a redirect status code
+        expect(response.header.location).toBe(BASE_URL + SOLE_TRADER_SECTOR_YOU_WORK_IN + "?lang=en");
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
+    });
+
     it("should return status 400 for incorrect data entered", async () => {
         const formData = {
             whatIsTheBusinessNameInput: "",
@@ -161,7 +175,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
 
     it("should return status 400 for invalid characters in business name", async () => {
         const formData = {
-            whatIsTheBusinessNameInput: "Camp<<<<,,,,,",
+            whatIsTheBusinessNameInput: "Camp|",
             whatsTheBusinessNameRadio: "A Different Name",
             applicantDetails: {
                 firstName: "John",
@@ -175,7 +189,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME, () => {
         expect(response.status).toBe(400);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddlewareForSoleTrader).toHaveBeenCalled();
-        expect(response.text).toContain("Business name must only include letters a to z, and common special characters such as hyphens, spaces and apostrophes");
+        expect(response.text).toContain("Business name must only include letters a to z, and common special characters");
     });
 
     it("should return status 400 for business name length more 155 characters", async () => {
