@@ -4,8 +4,11 @@ import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile
 import { ACSP_DETAILS } from "../common/__utils/constants";
 import { Request } from "express-validator/src/base";
 import { isLimitedBusinessType, trimAndLowercaseString } from "../services/common";
+import { BUSINESS_ADDRESS_ALLOWED_CHARS_STRING } from "./regexParts";
 
-const addressDetailsFormat: RegExp = /^[A-Za-z0-9\-',\s]*$/;
+const businessAddressPattern = `^[${BUSINESS_ADDRESS_ALLOWED_CHARS_STRING}*$`;
+const addressDetailsFormat: RegExp = new RegExp(businessAddressPattern, "u");
+
 const addressUKPostcodeFormat:RegExp = /^(([A-Z]{1,2}[0-9][A-Z0-9]?|ASCN|STHL|TDCU|BBND|[BFS]IQQ|PCRN|TKCA) ?[0-9][A-Z]{2}|BFPO ?[0-9]{1,4}|(KY[0-9]|MSR|VG|AI)[ -]?[0-9]{4}|[A-Z]{2} ?[0-9]{2}|GE ?CX|GIR ?0A{2}|SAN ?TA1)$/;
 const addressPostcodevaild:RegExp = /^[A-Za-z0-9\s]*$/;
 
