@@ -6,11 +6,12 @@ export const SYMBOLS = "\\p{S}";
 export const WHITESPACE = "\\s";
 export const BUSINESS_NAME_EXCLUDED_CHARS = "\\^|~Ǻǻƒ";
 
-const ALLOWED_NAME_CHARS = [
+// Commmon allowed characters for name and business address/correspondence address
+const ALLOWED_TEXT_CHARS = [
     ..."ABCDEFGHIJKLMNOŒPQRSTUVWXYZ",
     ..."Ææ",
     ..."ÀàÈèÌìÒòÙùẀẁỲỳ",
-    ..."ÁáćǼǽÉģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹź",
+    ..."ÁáćǼǽÉéģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹź",
     ..."ÂâĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷ",
     ..."ÃãĨĩÑñÕõŨũ",
     ..."ÄäËëÏïÖöÜüẄẅŸÿ",
@@ -20,7 +21,8 @@ const ALLOWED_NAME_CHARS = [
     ..."ĐĦħŦŧ",
     ..."Ǿǿ"
 ];
+export const ALLOWED_TEXT_CHARS_STRING = `[${ALLOWED_TEXT_CHARS}'\\s–-]`;
 
-const BUSINESS_ADDRESS_ALLOWED_CHARS = [...ALLOWED_NAME_CHARS, "0123456789Ǻǻƒ"];
-
-export const BUSINESS_ADDRESS_ALLOWED_CHARS_STRING = `[${BUSINESS_ADDRESS_ALLOWED_CHARS}–\\-\\s'']`;
+// Allowed characters for ONLY business address/correspondence address
+const BUSINESS_ADDRESS_ALLOWED_CHARS = [...ALLOWED_TEXT_CHARS, "0123456789Ǻǻƒ"];
+export const BUSINESS_ADDRESS_ALLOWED_CHARS_STRING = `[${BUSINESS_ADDRESS_ALLOWED_CHARS}'\\s–-]`;

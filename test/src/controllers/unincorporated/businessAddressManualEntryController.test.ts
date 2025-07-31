@@ -67,6 +67,14 @@ describe("POST" + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL, () => {
         expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM + "?lang=en");
     });
 
+    // Test for correct form details entered with numeric addressLine1, will return 302 after redirecting to the next page.
+    it("should return status 302 after redirect", async () => {
+        const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL)
+            .send({ addressPropertyDetails: "abc", addressLine1: "123", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", addressCountry: "lmnop", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_CONFIRM + "?lang=en");
+    });
+
     // Test for no addressPropertyDetails, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + UNINCORPORATED_BUSINESS_ADDRESS_MANUAL)
