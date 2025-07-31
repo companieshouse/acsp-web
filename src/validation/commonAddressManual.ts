@@ -6,7 +6,7 @@ import { trimAndLowercaseString } from "../services/common";
 import { Request } from "express-validator/src/base";
 import { BUSINESS_ADDRESS_ALLOWED_CHARS } from "./regexParts";
 
-const otherAddressDetailsFormat: RegExp = new RegExp(`^[${BUSINESS_ADDRESS_ALLOWED_CHARS}]*$`);
+const otherAddressDetailsFormat:RegExp = new RegExp(`^[${BUSINESS_ADDRESS_ALLOWED_CHARS}]*$`);
 const addressTownFormat:RegExp = /^[A-Za-z\-',\s!]*$/;
 const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\-'\s]*$/;
 
