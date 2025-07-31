@@ -3,8 +3,9 @@ import { ACSP_DETAILS } from "../common/__utils/constants";
 import { body } from "express-validator";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { trimAndLowercaseString } from "../services/common";
+import { ALLOWED_TEXT_CHARS } from "./regexParts";
 
-const nameFormat: RegExp = /^[a-zA-Z \-']*$/ig;
+const nameFormat = new RegExp(`^[${ALLOWED_TEXT_CHARS}]*$`);
 
 export const nameValidator = [
     body("first-name").trim().notEmpty().withMessage("enterFirstName").bail().matches(nameFormat).withMessage("invalidFirstNameFormat").bail().isLength({ max: 50 })
