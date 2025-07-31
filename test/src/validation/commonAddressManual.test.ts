@@ -32,7 +32,7 @@ describe("Correspondence Address Manual Validator", () => {
     it("Invalid Address Data Should Fail Validation", async () => {
         const invalidAddressData = {
             addressPropertyDetails: "",
-            addressLine1: "Invalid!@#",
+            addressLine1: "Invalid^",
             addressLine2: "Invalid Address Line 2",
             addressTown: "",
             addressCounty: "Invalid County Name!@#",
@@ -53,7 +53,7 @@ describe("Correspondence Address Manual Validator", () => {
 
         const expectedErrors = [
             { location: "body", msg: "noPropertyDetails", param: "addressPropertyDetails", value: "" },
-            { location: "body", msg: "invalidAddressLine1", param: "addressLine1", value: "Invalid!@#" },
+            { location: "body", msg: "invalidAddressLine1", param: "addressLine1", value: "Invalid^" },
             { location: "body", msg: "noCityOrTown", param: "addressTown", value: "" },
             { location: "body", msg: "invalidAddressCounty", param: "addressCounty", value: "Invalid County Name!@#" }
         ];

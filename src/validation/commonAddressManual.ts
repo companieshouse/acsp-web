@@ -4,8 +4,9 @@ import { body, ValidationChain } from "express-validator";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 import { trimAndLowercaseString } from "../services/common";
 import { Request } from "express-validator/src/base";
+import { BUSINESS_ADDRESS_ALLOWED_CHARS } from "./regexParts";
 
-const otherAddressDetailsFormat:RegExp = /^[A-Za-z0-9\-',\s]*$/;
+const otherAddressDetailsFormat:RegExp = new RegExp(`^[${BUSINESS_ADDRESS_ALLOWED_CHARS}]*$`);
 const addressTownFormat:RegExp = /^[A-Za-z\-',\s!]*$/;
 const addressCountyAndCountryFormat:RegExp = /^[A-Za-z\-'\s]*$/;
 

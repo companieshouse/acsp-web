@@ -2,5 +2,5 @@
     "error-invalidPostcodeFormat": "Postcode must only include letters a to z, numbers and spaces",
     "error-noPostCode": "Enter a postcode",
     "error-invalidAddressPostcode": "Enter a full UK postcode",
-    "error-invalidPropertyDetails": "Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes"
+    "error-invalidPropertyDetails": "Property name or number must only include letters a to z, numbers and common special characters"
 }

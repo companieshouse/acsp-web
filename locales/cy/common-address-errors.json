@@ -2,5 +2,5 @@
     "error-invalidPostcodeFormat": "Rhaid i'r cod post gynnwys llythrennau a i z a rhifau a bylchau yn unig",
     "error-noPostCode": "Cofnodwch god post",
     "error-invalidAddressPostcode": "Cofnodwch god post llawn yn y Deyrnas Unedig",
-    "error-invalidPropertyDetails": "Rhaid i enw neu rif eiddo gynnwys llythrennau a i z a nodau arbennig cyffredin fel cysylltnodau, bylchau a chollnodau yn unig"
+    "error-invalidPropertyDetails": "[CY] Property name or number must only include letters a to z, numbers and common special characters"
 }

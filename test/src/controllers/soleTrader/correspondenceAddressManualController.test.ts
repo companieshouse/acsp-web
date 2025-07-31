@@ -81,7 +81,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc@", addressLine1: "pqr", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmn", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Property name or number must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("Property name or number must only include letters a to z, numbers and common special characters");
     });
 
     // Test for incorrect addressPropertyDetails Length entered, will return 400.
@@ -105,7 +105,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr@", addressLine2: "pqr", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Address line 1 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("Address line 1 must only include letters a to z, numbers and common special characters");
     });
 
     // Test for incorrect addressLine1 Length entered, will return 400.
@@ -129,7 +129,7 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
             .send({ addressPropertyDetails: "abc", addressLine1: "pqr", addressLine2: "@", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
         expect(res.status).toBe(400);
-        expect(res.text).toContain("Address line 2 must only include letters a to z, numbers and common special characters such as hyphens, spaces and apostrophes");
+        expect(res.text).toContain("Address line 2 must only include letters a to z, numbers and common special characters");
     });
 
     // Test for incorrect addressLine2 Length entered, will return 400.
