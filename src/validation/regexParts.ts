@@ -5,3 +5,6 @@ export const PUNCTUATION = "\\p{P}";
 export const SYMBOLS = "\\p{S}";
 export const WHITESPACE = "\\s";
 export const BUSINESS_NAME_EXCLUDED_CHARS = "\\^|~Ǻǻƒ";
+
+// Allowed characters for name and address fields
+export const ALLOWED_TEXT_CHARS = "A-ZŒÆæÀàÈèÌìÒòÙùẀẁỲỳÁáćǼǽÉéģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹźÂâĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷÃãĨĩÑñÕõŨũÄäËëÏïÖöÜüẄẅŸÿÅåŮůa-zœçŊŋŞşŢţĢĶķĻļŅņŖŗĐĦħŦŧǾǿ'\\s–-";

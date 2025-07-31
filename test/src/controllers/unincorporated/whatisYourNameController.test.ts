@@ -47,6 +47,17 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
         expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME + "?lang=en");
     });
 
+    it("should accept name with various allowed characters", async () => {
+        const formData = {
+            "first-name": "Jõsé-María",
+            "middle-names": "Œd'ïpǿs",
+            "last-name": "Sņîţǽh"
+        };
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME).send(formData);
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(BASE_URL + UNINCORPORATED_WHAT_IS_THE_BUSINESS_NAME + "?lang=en");
+    });
+
     it("should return status 400 for no data entered", async () => {
         const formData = {
             "first-name": "",
@@ -82,6 +93,20 @@ describe("POST" + UNINCORPORATED_WHAT_IS_YOUR_NAME, () => {
         const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME).send(formData);
         expect(response.status).toBe(400);
         expect(response.text).toContain("Enter your last name");
+    });
+
+    it("should return status 400 for names containing invalid characters", async () => {
+        const formData = {
+            "first-name": "John£123",
+            "middle-names": "Test,Middle",
+            "last-name": "Őzols"
+        };
+
+        const response = await router.post(BASE_URL + UNINCORPORATED_WHAT_IS_YOUR_NAME).send(formData);
+        expect(response.status).toBe(400);
+        expect(response.text).toContain("First name must only include letters a to z, and common special characters");
+        expect(response.text).toContain("Middle name or names must only include letters a to z, and common special characters");
+        expect(response.text).toContain("Last name must only include letters a to z, and common special characters");
     });
 
     it("should show the error page if an error occurs during PUT request", async () => {

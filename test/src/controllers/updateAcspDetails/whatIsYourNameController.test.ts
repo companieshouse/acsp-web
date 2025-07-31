@@ -151,6 +151,20 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
     });
 
+    it("should accept name with various allowed characters", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "Jõsé-María",
+                "middle-names": "Œdïpǿs",
+                "last-name": "Sņîţǽh"
+            });
+
+        expect(res.status).toBe(302);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockUpdateAcspAuthenticationMiddleware).toHaveBeenCalled();
+        expect(res.header.location).toBe(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_DATE_OF_THE_CHANGE + "?lang=en");
+    });
+
     // Test for incorrect form details entered, will return 400.
     it("should return status 400 after incorrect data entered", async () => {
         const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
@@ -171,16 +185,6 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
         expect(res.text).toContain("Update your last name if it’s changed or cancel the update if you do not need to make any changes");
     });
 
-    it("should return status 500 when an error occurs", async () => {
-        const errorMessage = "Test error";
-        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
-            throw new Error(errorMessage);
-        });
-        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
-        expect(res.status).toBe(500);
-        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
-    });
-
     // Test for the same name entered, will return 400.
     it("should return status 400 when the same name is entered with no middlename", async () => {
         createMockSessionMiddlewareAcspFullProfile();
@@ -189,11 +193,35 @@ describe("POST" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
                 "first-name": "John",
                 "middle-names": "",
                 "last-name": "Doe"
-            }); ;
+            });
         expect(res.status).toBe(400);
         expect(res.text).toContain("Update your first name if it’s changed or cancel the update if you do not need to make any changes");
         expect(res.text).toContain("Update your middle names if they’ve changed or cancel the update if you do not need to make any changes");
         expect(res.text).toContain("Update your last name if it’s changed or cancel the update if you do not need to make any changes");
+    });
+
+    it("should return status 400 for names containing invalid characters", async () => {
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "Jāniš",
+                "middle-names": "Test$456",
+                "last-name": "Doe;Smith"
+            });
+
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("First name must only include letters a to z, and common special characters");
+        expect(res.text).toContain("Middle name or names must only include letters a to z, and common special characters");
+        expect(res.text).toContain("Last name must only include letters a to z, and common special characters");
+    });
+
+    it("should return status 500 when an error occurs", async () => {
+        const errorMessage = "Test error";
+        jest.spyOn(localise, "selectLang").mockImplementationOnce(() => {
+            throw new Error(errorMessage);
+        });
+        const res = await router.post(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_ACSP_WHAT_IS_YOUR_NAME);
+        expect(res.status).toBe(500);
+        expect(res.text).toContain("Sorry we are experiencing technical difficulties");
     });
 });
 
