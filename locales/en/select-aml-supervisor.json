@@ -53,6 +53,6 @@
     "IFA_hint": "You can find this on correspondence from the IFA. It is 6 numbers long.",
     "LSNI_hint": "You can find this on the Practising Certificate. If you have a Roll Number it will be 5 digits long. If you have a Firm Reference it will be 4 digits long.",
     "LSS_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is.",
-    "SRA_hint": "You can find this on the annual practising certificate, or by signing in to your <a href='https://sraukprodb2c.b2clogin.com/sraukprodb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=b2c_1_signin_mfa' target='_blank'>mySRA account (opens in a new tab)</a>. It is usually around 6 digits long, but can be longer or shorter. ",
+    "SRA_hint": "You can find this on the annual practising certificate, or by signing in to your <a href='https://sraukprodb2c.b2clogin.com/sraukprodb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=b2c_1_signin_mfa' target='_blank'>mySRA account (opens in a new tab)</a>. It is usually around 6 digits long, but can be longer or shorter.",
     "error-selectAmlSupervisor": "Select all AML supervisory bodies you are registered with"
 }
