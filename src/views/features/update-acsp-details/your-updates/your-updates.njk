@@ -85,7 +85,7 @@
       classes: "govuk-!-width-one-third"
     },
     value: {
-      html: yourDetails.businessName.value + "<p class='govuk-body govuk-!-static-margin-top-5'> Changed on " + yourDetails.businessName.changedDate + "</p>",
+      html: (yourDetails.businessName.value | escape) + "<p class='govuk-body govuk-!-static-margin-top-5'> Changed on " + yourDetails.businessName.changedDate + "</p>",
       classes: "govuk-!-width-one-third"
     },
     actions: {

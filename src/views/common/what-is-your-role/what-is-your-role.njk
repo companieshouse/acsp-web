@@ -23,7 +23,7 @@
                 items: [
                     {
                       value: "MEMBER_OF_PARTNERSHIP",
-                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + unincorporatedBusinessName
+                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + (unincorporatedBusinessName | escape)
                     } if acspType == "PARTNERSHIP",
 
                     {
@@ -34,36 +34,36 @@
 
                     {
                       value: "MEMBER_OF_GOVERNING_BODY",
-                      html: "<span id='partial_obliteration'>" + i18n.memberOfGoverningBody + "</span>" + unincorporatedBusinessName,
+                      html: "<span id='partial_obliteration'>" + i18n.memberOfGoverningBody + "</span>" + (unincorporatedBusinessName | escape),
                       id: "WhatIsYourRole"
                     } if acspType == "UNINCORPORATED",
 
                     {
                       value: "EQUIVALENT_OF_DIRECTOR",
-                      html: "<span id='partial_obliteration'>" + i18n.equivalentToDirector + "</span>" + unincorporatedBusinessName + "</span>",
+                      html: "<span id='partial_obliteration'>" + i18n.equivalentToDirector + "</span>" + (unincorporatedBusinessName | escape) + "</span>",
                       id: "WhatIsYourRole"
                     } if acspType == "CORPORATE_BODY",
 
                     {
                       value: "MEMBER_OF_ENTITY",
-                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + unincorporatedBusinessName + "</span>"
+                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + (unincorporatedBusinessName | escape) + "</span>"
                     } if acspType == "UNINCORPORATED" or acspType == "CORPORATE_BODY",
 
                     {
                       value: "DIRECTOR",
-                      html: "<span id='partial_obliteration'>" + i18n.director + "</span>" + company.companyName + " (" + company.companyNumber + ")",
+                      html: "<span id='partial_obliteration'>" + i18n.director + "</span>" + (company.companyName | escape) + " (" + company.companyNumber + ")",
                       id: "WhatIsYourRole"
                     } if acspType == "LC",
 
                     {
                       value: "MEMBER_OF_LLP",
-                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + company.companyName + " (" + company.companyNumber + ")",
+                      html: "<span id='partial_obliteration'>" + i18n.member + "</span>" + (company.companyName | escape) + " (" + company.companyNumber + ")",
                       id: "WhatIsYourRole"
                     } if acspType == "LLP",
 
                     {
                       value: "GENERAL_PARTNER",
-                      html: "<span id='partial_obliteration'>" + i18n.generalPartner + "</span>" + unincorporatedBusinessName,
+                      html: "<span id='partial_obliteration'>" + i18n.generalPartner + "</span>" + (unincorporatedBusinessName | escape),
                       id: "WhatIsYourRole"
                     } if acspType == "LP",
 

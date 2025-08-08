@@ -133,7 +133,7 @@
           classes: "govuk-!-width-one-third"
         },
         value: {
-          html: profileDetailsUpdated.businessName + updateStatusTextForBusinessName,
+          html: (profileDetailsUpdated.businessName | escape) + updateStatusTextForBusinessName,
           classes: "govuk-!-width-one-third"
         },
         actions: {
