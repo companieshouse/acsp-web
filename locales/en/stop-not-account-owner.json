@@ -2,7 +2,6 @@
     "youMustBeAccountOwnerTitle": "You must be an account owner to use this service",
     "onlyAccountOwnersForAuthAgent": "Only account owners for the authorised agent can update the agent's details or close the account.",
     "youllNeedToContactAccountOwner": "You'll need to contact an account owner and ask them to use the service. Or, you can ask them to change your role to make you an account owner.",
-    "goTo": "Go to ",
     "manageUsers": "Manage users",
     "toViewTheAccountOwners": " to view the account owners for {BUSINESS_NAME}."
 }
