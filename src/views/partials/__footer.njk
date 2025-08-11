@@ -26,3 +26,14 @@
     }
 }) }}
 <div id="templateName" data-id="{{title}}" hidden></div>
+<script type="application/javascript" nonce={{ nonce | dump | safe }}>
+  window.SERVICE_NAME = '{{ serviceName }}' + ' - '
+  window.PIWIK_URL = '{{ PIWIK_URL }}'
+  window.PIWIK_SITE_ID = '{{ PIWIK_SITE_ID }}'
+</script>
+<script src="{{ cdnHost }}/javascripts/govuk-frontend/v4.6.0/govuk-frontend-4.6.0.min.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
+<script src="{{ cdnHost }}/javascripts/vendor/jquery-3.5.1.min.js"></script>
+<script src="{{ cdnHost }}/javascripts/lib/navbar.js"></script>
+<script nonce={{ nonce | dump | safe }}>window.GOVUKFrontend.initAll()</script>
