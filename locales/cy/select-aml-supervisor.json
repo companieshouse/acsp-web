@@ -41,7 +41,7 @@
     "FO_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is -Welsh. ",
     "FCA_hint": "This starts with the letters ‘FCA_MLR’ and is followed by 6 or 7 numbers. For example, FCA_MLR_123456. Contact the FCA if you need to check what this is -Welsh. ",
     "GC_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is -Welsh. ",
-    "BSB_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is.",
+    "BSB_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is. -Welsh",
     "BONI_hint": "The supervisory body may have a different name for this, for example a ‘firm number’ or ‘regulation ID’. Contact them if you need to check what this is -Welsh. ",
     "HMRC_hint": "You can find this on the <a href='https://www.gov.uk/guidance/money-laundering-regulations-supervised-business-register#check-if-a-business-is-registered' target='_blank'>HMRC Supervised Business Register (opens in a new tab)</a>. It is 4 letters followed by 11 numbers. For example, XAML00000123456 -Welsh. ",
     "IAB_hint": "This will be between 6 and 9 numbers long -Welsh. ",
