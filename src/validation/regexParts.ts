@@ -8,7 +8,7 @@ export const BUSINESS_NAME_EXCLUDED_CHARS = "\\^|~Ǻǻƒ";
 
 // Commmon allowed characters for name and business address/correspondence address
 export const ALLOWED_TEXT_CHARS_SUFFIX = "'\\s-";
-const ALLOWED_TEXT_CHARS_BASE = "A-ZŒÆæÀàÈèÌìÒòÙùẀẁỲỳÁáćǼǽÉéģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹźÂâĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷÃãĨĩÑñÕõŨũÄäËëÏïÖöÜüẄẅŸÿÅåŮůa-zœçŊŋŞşŢţĢĶķĻļŅņŖŗĐĦħŦŧǾǿ";
+const ALLOWED_TEXT_CHARS_BASE = "A-ZŒÆæÀàÈèÌìÒòÙùẀẁỲỳÁáĆćǼǽÉéģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹźÂâĈĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷÃãĨĩÑñÕõŨũÄäËëÏïÖöÜüẄẅŸÿÅåŮůa-zœçŊŋŞşŢţĢĶķĻļŅņŖŗĐĦħŦŧǾǿ";
 export const ALLOWED_TEXT_CHARS = `${ALLOWED_TEXT_CHARS_BASE}${ALLOWED_TEXT_CHARS_SUFFIX}`;
 
 // Allowed characters for ONLY business address/correspondence address
