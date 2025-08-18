@@ -4,20 +4,14 @@
         {% set signoutURL = signoutURL ~ "?lang=" ~ lang %}
     {% endif %}
     {% set email = userEmail | default("Not signed in") %}
-    <div class="govuk-!-padding-top-2">
-        <div class="js-toggle-nav" id="global-nav">
-            <nav role="navigation" class="content" aria-label="Menu">
-                <ul id="navigation">
-                    <li id="signed-in-user">{{email}}</li>
-                    <li>
-                        <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">
-                            {{ i18n.SignOut }}
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-    <hr class="govuk-section-break">
+    <ul id="navigation">
+        <li id="signed-in-user">{{email}}</li>
+        <li>
+            <a href="{{signoutURL}}" data-event-id="signout" id="user-signout">
+                {{ i18n.SignOut }}
+            </a>
+        </li>
+    </ul>
+    <hr class="govuk-section-break govuk-body govuk-!-margin-top-1">
     <script src="{{cdnHost}}/javascripts/app/session-timeout.js"></script>
 {% endif %}
