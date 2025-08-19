@@ -61,7 +61,8 @@ const formActionDirectiveHomePage = () => {
         ENV_SUBDOMAIN,
         SELF,
         PIWIK_CHS_DOMAIN,
-        CHS_URL
+        CHS_URL,
+        "https://*.gov.uk"
     ];
 };
 
