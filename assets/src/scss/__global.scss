@@ -175,3 +175,7 @@ ul#navigation li a {
   display: inline;
   padding-right: 20px;
 }
+
+.govuk-footer__copyright-logo {
+    background-image: url("{{ cdnHost }}/images/govuk-frontend/v5.11.0/govuk-crest.svg");
+}
