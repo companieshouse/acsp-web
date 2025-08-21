@@ -1,6 +1,4 @@
-$govuk-global-styles: true;
-
-@import "node_modules/govuk-frontend/govuk/all";
+@import "node_modules/govuk-frontend/dist/govuk/base";
 
 * {
   font-family: "GDS Transport", Arial, sans-serif;
@@ -174,4 +172,8 @@ ul#navigation li a {
 .content-email {
   display: inline;
   padding-right: 20px;
+}
+
+.govuk-footer__copyright-logo {
+    background-image: url("{{ cdnHost }}/images/govuk-frontend/v5.11.0/govuk-crest.svg");
 }
