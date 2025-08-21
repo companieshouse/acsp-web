@@ -61,11 +61,10 @@ const formActionDirectiveHomePage = () => {
         ENV_SUBDOMAIN,
         SELF,
         PIWIK_CHS_DOMAIN,
-        CHS_URL,
-        "https://*.company-information.service.gov.uk"
+        CHS_URL
     ];
 };
 
 const formActionDirectiveDefault = () => {
-    return [SELF, "https://*.cidev.aws.chdev.org", CHS_URL, "https://*.company-information.service.gov.uk"];
+    return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
 };
