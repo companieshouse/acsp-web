@@ -34,11 +34,15 @@
                 {% if reqType === "updateAcsp" %}
                     {% set labelText = i18n[SupervisoryBodyMapping[body.amlSupervisoryBody]] %}
                 {% else %}
-                    {% set labelText = i18n[body.amlSupervisoryBody] %}
+                    {% set hintText = "" %}
+                    {% if i18n[body.amlSupervisoryBody+'_hint'] %}
+                        {% set hintText = "<p class='govuk-body govuk-!-padding-top-1'>"+i18n[body.amlSupervisoryBody+'_hint']+"</p>" %}
+                    {% endif %}
+                    {% set labelText = "<div class='govuk-form-group'><label class='govuk-label govuk-label--m'>"+i18n[body.amlSupervisoryBody]+"</label>"+hintText+"</div>" %}
                 {% endif %}
                 {{ govukInput({
                     label: {
-                        text: labelText,
+                        html: labelText,
                         classes: "govuk-label--m"
                     },
                     id: "membershipNumber_" + loop.index,

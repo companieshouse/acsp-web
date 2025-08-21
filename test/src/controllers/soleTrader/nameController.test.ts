@@ -75,7 +75,7 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
             .send({
                 "first-name": "John-Paul",
                 "middle-names": "O'Connor",
-                "last-name": "Smith–Jones"
+                "last-name": "Smith-Jones"
             });
         expect(res.status).toBe(302);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
@@ -108,6 +108,20 @@ describe("POST" + SOLE_TRADER_WHAT_IS_YOUR_NAME, () => {
                 "first-name": "John123",
                 "middle-names": "Test%Middle",
                 "last-name": "$Doe"
+            });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("First name must only include letters a to z, and common special characters");
+        expect(res.text).toContain("Middle name or names must only include letters a to z, and common special characters");
+        expect(res.text).toContain("Last name must only include letters a to z, and common special characters");
+    });
+
+    it("should return status 400 for names containing invalid character endash (–)", async () => {
+        mockGetAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME)
+            .send({
+                "first-name": "–",
+                "middle-names": "–",
+                "last-name": "–"
             });
         expect(res.status).toBe(400);
         expect(res.text).toContain("First name must only include letters a to z, and common special characters");

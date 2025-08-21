@@ -32,6 +32,8 @@ export const ANY_PROTOCOL_CDN_HOST = getEnvironmentValue("ANY_PROTOCOL_CDN_HOST"
 
 export const CHS_MONITOR_GUI_URL = getEnvironmentValue("CHS_MONITOR_GUI_URL");
 
+export const ENV_SUBDOMAIN = getEnvironmentVariable("ENV_SUBDOMAIN", "false");
+
 // API Keys and Secrets
 
 export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");

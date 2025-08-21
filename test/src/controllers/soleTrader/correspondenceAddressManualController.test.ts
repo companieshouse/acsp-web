@@ -132,6 +132,16 @@ describe("POST" + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS, () => {
         expect(res.text).toContain("Address line 2 must only include letters a to z, numbers and common special characters");
     });
 
+    // Test for incorrect addressPropertyDetails, addressLine1 and addressLine2 Format entered endash (–), will return 400.
+    it("should return status 400", async () => {
+        const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)
+            .send({ addressPropertyDetails: "–", addressLine1: "–", addressLine2: "–", addressTown: "lmn", addressCounty: "lmnop", countryInput: "England", addressPostcode: "MK9 3GB" });
+        expect(res.status).toBe(400);
+        expect(res.text).toContain("Address line 1 must only include letters a to z, numbers and common special characters");
+        expect(res.text).toContain("Property name or number must only include letters a to z, numbers and common special characters");
+        expect(res.text).toContain("Address line 2 must only include letters a to z, numbers and common special characters");
+    });
+
     // Test for incorrect addressLine2 Length entered, will return 400.
     it("should return status 400", async () => {
         const res = await router.post(BASE_URL + SOLE_TRADER_MANUAL_CORRESPONDENCE_ADDRESS)

@@ -1,5 +1,5 @@
 import { HelmetOptions } from "helmet";
-import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL } from "../utils/properties";
+import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL, ENV_SUBDOMAIN } from "../utils/properties";
 
 const SELF = `'self'`;
 const ONE_YEAR_SECONDS = 31536000;
@@ -15,7 +15,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirective(false),
+                formAction: formActionDirectiveDefault(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
@@ -41,7 +41,7 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirective(true),
+                formAction: formActionDirectiveHomePage(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
                 objectSrc: [`'none'`]
             }
@@ -56,11 +56,16 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
     };
 };
 
-const formActionDirective = (ishomepage: boolean) => {
-    const ALL_CHS_URLS = "*";
-    if (ishomepage) {
-        return [ALL_CHS_URLS];
-    } else {
-        return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
-    }
+const formActionDirectiveHomePage = () => {
+    return [
+        ENV_SUBDOMAIN,
+        SELF,
+        PIWIK_CHS_DOMAIN,
+        CHS_URL,
+        "https://*.company-information.service.gov.uk"
+    ];
+};
+
+const formActionDirectiveDefault = () => {
+    return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
 };
