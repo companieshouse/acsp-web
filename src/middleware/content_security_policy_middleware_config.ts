@@ -62,7 +62,7 @@ const formActionDirectiveHomePage = () => {
         SELF,
         PIWIK_CHS_DOMAIN,
         CHS_URL,
-        "https://*.gov.uk"
+        "https://*.company-information.service.gov.uk"
     ];
 };
 
