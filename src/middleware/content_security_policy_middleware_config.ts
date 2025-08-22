@@ -57,15 +57,10 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 };
 
 const formActionDirectiveHomePage = () => {
-    return [
-        ENV_SUBDOMAIN,
-        SELF,
-        PIWIK_CHS_DOMAIN,
-        CHS_URL,
-        "https://*.company-information.service.gov.uk"
-    ];
+    const ALL_CHS_URLS = "*";
+    return [ALL_CHS_URLS];
 };
 
 const formActionDirectiveDefault = () => {
-    return [SELF, "https://*.cidev.aws.chdev.org", CHS_URL, "https://*.company-information.service.gov.uk"];
+    return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
 };
