@@ -33,9 +33,6 @@
       }) }}
     {% endblock %}
     {% include "partials/phase_banner.njk" %}
-    {% block localesBanner %}
-      {% include "locales-banner.njk" %}
-    {% endblock %}
     {% if journeyType != "register-acsp" %}
       {% include "partials/nav/navbar.njk" %}
     {% endif %}
@@ -47,6 +44,9 @@
         {% include "partials/nav/signout-bar.njk" %}
       {% endblock %}
     {% endif %}
+    {% block localesBanner %}
+      {% include "locales-banner.njk" %}
+    {% endblock %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
     </div>
