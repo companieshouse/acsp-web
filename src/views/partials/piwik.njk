@@ -22,13 +22,8 @@
 //  Generic replacement text for personal identifiable data.
     var genericEradicationReplacementText = "<obliterated>";
 
-//  Use the page title of the current screen as the Event action page title on Matomo event actions
-    var eventCategory = "{{ title | replace('Error: ', '') | replace('Gwall: ', '') }}";
-    
-    // Fallback to DOM extraction if title is empty, but clean it properly
-    if (!eventCategory || eventCategory.trim() === "") {
-        eventCategory = $(document).find("title").text().split(' -')[0];
-    }
+//  Title of the page for the analytics.
+    var eventCategory = $(document).find("title").text().split(' -')[0];
 
 //  Additional text for the submit button for the the action delineation.
     var suffixForSubmitButtonOnRadioSelection = "";

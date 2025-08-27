@@ -1,5 +1,4 @@
 import express, { NextFunction, Request, Response } from "express";
-import { getGOVUKFrontendVersion } from "@companieshouse/ch-node-utils";
 import * as nunjucks from "nunjucks";
 import path from "path";
 import logger from "./utils/logger";
@@ -46,8 +45,8 @@ const app = express();
 const nonce: string = uuidv4();
 
 const nunjucksEnv = nunjucks.configure([path.join(__dirname, "views"),
-    path.join(__dirname, "/../node_modules/govuk-frontend/dist"),
-    path.join(__dirname, "/../../node_modules/govuk-frontend/dist"),
+    path.join(__dirname, "/../node_modules/govuk-frontend"),
+    path.join(__dirname, "/../../node_modules/govuk-frontend"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
     path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/templates"),
     path.join(__dirname, "/../node_modules/@companieshouse"),
@@ -61,8 +60,6 @@ app.set("view engine", "njk");
 nunjucksEnv.addGlobal("cdnUrlCss", CDN_URL_CSS);
 nunjucksEnv.addGlobal("cdnUrlJs", CDN_URL_JS);
 nunjucksEnv.addGlobal("cdnHost", ANY_PROTOCOL_CDN_HOST);
-nunjucksEnv.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
-nunjucksEnv.addGlobal("govukRebrand", true);
 nunjucksEnv.addGlobal("chsUrl", CHS_URL);
 nunjucksEnv.addGlobal("chsMonitorGuiUrl", CHS_MONITOR_GUI_URL);
 nunjucksEnv.addGlobal("SERVICE_NAME", APPLICATION_NAME);
