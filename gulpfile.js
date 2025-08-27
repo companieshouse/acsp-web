@@ -47,13 +47,6 @@ gulp.task("js", () => {
         .pipe(gulp.dest(dstDirJs));
 });
 
-// Copy the fonts and images from the govuk-frontend package to the public directory
-gulp.task("govuk-assets", () => {
-    return gulp
-        .src(["./node_modules/govuk-frontend/dist/govuk/assets/**/*"])
-        .pipe(gulp.dest(dstDirAssets));
-});
-
 // Binding all tasks together...
 gulp.task("build", gulp.series(["clean", "sass", "js"]));
 
