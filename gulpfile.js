@@ -20,11 +20,11 @@ gulp.task("clean", () => {
         .pipe(clean());
 });
 
-// Build and minify all .scss files into app.min.v5.11.css
+// Build and minify all .scss files into acsp-web.min.css
 gulp.task("sass", () => {
     return gulp
         .src([`${srcDirCss}/**/*.scss`])
-        .pipe(concat("app.min.v5.11.css"))
+        .pipe(concat("acsp-web.min.css"))
         .pipe(sass({
             errLogToConsole: true,
             outputStyle: "compressed",
