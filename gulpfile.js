@@ -20,11 +20,11 @@ gulp.task("clean", () => {
         .pipe(clean());
 });
 
-// Build and minify all .scss files into app.min.v5.11.css
+// Build and minify all .scss files into acsp-web.min.css
 gulp.task("sass", () => {
     return gulp
         .src([`${srcDirCss}/**/*.scss`])
-        .pipe(concat("app.min.v5.11.css"))
+        .pipe(concat("acsp-web.min.css"))
         .pipe(sass({
             errLogToConsole: true,
             outputStyle: "compressed",
@@ -45,13 +45,6 @@ gulp.task("js", () => {
         .pipe(concat("app.min.js"))
         .pipe(uglify())
         .pipe(gulp.dest(dstDirJs));
-});
-
-// Copy the fonts and images from the govuk-frontend package to the public directory
-gulp.task("govuk-assets", () => {
-    return gulp
-        .src(["./node_modules/govuk-frontend/dist/govuk/assets/**/*"])
-        .pipe(gulp.dest(dstDirAssets));
 });
 
 // Binding all tasks together...
