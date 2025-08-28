@@ -1,8 +1,10 @@
 {% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/service-navigation/macro.njk" import govukServiceNavigation %}
 
 {{ govukHeader({
-    homepageUrl: "https://www.gov.uk/",
-    serviceName: serviceName,
-    serviceUrl: serviceUrl,
-    useTudorCrown: true
+  classes: "govuk-header--full-width-border"
+}) }}
+{{ govukServiceNavigation({
+  serviceName: serviceName,
+  serviceUrl: serviceUrl
 }) }}
