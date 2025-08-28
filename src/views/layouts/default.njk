@@ -29,12 +29,6 @@
     {% include "partials/__header.njk" %}
   </div>
 {% endblock %}
-    <script nonce={{ nonce | dump | safe }}>
-      document.body.className = (
-        (document.body.className)
-        ? document.body.className + ' js-enabled'
-        : 'js-enabled');
-    </script>
 {% block content %}
     {% include "partials/cookie_consent_banner.njk" %}
     {% block skipLink %}
