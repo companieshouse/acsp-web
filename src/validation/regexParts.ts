@@ -4,11 +4,11 @@ export const NUMBERS = "\\p{N}"; // Any kind of digit
 export const PUNCTUATION = "\\p{P}";
 export const SYMBOLS = "\\p{S}";
 export const WHITESPACE = "\\s";
-export const BUSINESS_NAME_EXCLUDED_CHARS = "\\^|~Ǻǻƒ";
+export const BUSINESS_NAME_EXCLUDED_CHARS = "\\^|~ǺǻƒǴ";
 
 // Commmon allowed characters for name and business address/correspondence address
 export const ALLOWED_TEXT_CHARS_SUFFIX = "'\\s-";
-const ALLOWED_TEXT_CHARS_BASE = "A-ZŒÆæÀàÈèÌìÒòÙùẀẁỲỳÁáĆćǼǽÉéǴģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹźÂâĈĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷÃãĨĩÑñÕõŨũÄäËëÏïÖöÜüẄẅŸÿÅåŮůa-zœÇçŊŋŞşŢţĢĶķĻļŅņŖŗĐĦħŦŧǾǿ";
+const ALLOWED_TEXT_CHARS_BASE = "A-ZŒÆæÀàÈèÌìÒòÙùẀẁỲỳÁáĆćǼǽÉéģÍíĹĺŃńÓóŔŕŚśÚúẂẃÝýŹźÂâĈĉÊêĜĝĤĥÎîĴĵÔôŜŝÛûŴŵŶŷÃãĨĩÑñÕõŨũÄäËëÏïÖöÜüẄẅŸÿÅåŮůa-zœÇçŊŋŞşŢţĢĶķĻļŅņŖŗĐĦħŦŧǾǿ";
 export const ALLOWED_TEXT_CHARS = `${ALLOWED_TEXT_CHARS_BASE}${ALLOWED_TEXT_CHARS_SUFFIX}`;
 
 // Allowed characters for ONLY business address/correspondence address
