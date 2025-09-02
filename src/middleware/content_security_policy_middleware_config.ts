@@ -62,8 +62,9 @@ const formActionDirectiveHomePage = () => {
         SELF,
         PIWIK_CHS_DOMAIN,
         CHS_URL,
-        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent",
-        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent?lang=en"
+        "https://identity.company-information.service.gov.uk",
+        "https://account.companieshouse.gov.uk",
+        "https://account.cidev.aws.chdev.org"
     ];
 };
 
