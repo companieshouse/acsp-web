@@ -17,6 +17,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
                 formAction: formActionDirectiveDefault(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
+                manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
             }
         },
@@ -43,6 +44,7 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
                 formAction: formActionDirectiveHomePage(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL],
+                manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
             }
         },

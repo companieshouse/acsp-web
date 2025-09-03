@@ -2,9 +2,11 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 {% import "add-lang-to-url.njk" as lang2url %}
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
-{% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set mainContentId = "main-page-content" %}
+
+{% set mainClasses = 'govuk-!-padding-top-0' %}
 
 {% set tabTitle = "" %}
 {% if errors %}
@@ -29,8 +31,12 @@
     {% include "partials/__header.njk" %}
   </div>
 {% endblock %}
+
+{% block bodyStart %}
+  {% include "partials/cookie_consent_banner.njk" %}
+{% endblock %}
+
 {% block content %}
-    {% include "partials/cookie_consent_banner.njk" %}
     {% block skipLink %}
       {{ govukSkipLink({
         text: "Skip to main content",
@@ -52,22 +58,21 @@
     {% block localesBanner %}
       {% include "locales-banner.njk" %}
     {% endblock %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-third"></div>
+      <div class="govuk-grid-column-two-thirds" id="{{ mainContentId }}">
+        {% include "partials/error_summary.njk" %}
+        {% block main_content %}{% endblock %}
+      </div>
     </div>
-    <div class="govuk-grid-column-two-thirds" id="{{ mainContentId }}">
-      {% include "partials/error_summary.njk" %}
-      {% block main_content %}{% endblock %}
-    </div>
-  </div>
 {% endblock %}
 
 {% block footer %}
-    {% include "partials/__footer.njk" %}
-
+  {% include "partials/__footer.njk" %}
 {% endblock %}
 
 {% block bodyEnd %}
   {{ super() }}
-  <script src="path/to/app.js"></script>
+  <script type="module" src="{{ cdnHost }}/javascripts/govuk-frontend/v5.11.0/govuk-frontend-5.11.0.min.js"></script>
+  {% include "partials/__meta_footer.njk" %}
 {% endblock %}
