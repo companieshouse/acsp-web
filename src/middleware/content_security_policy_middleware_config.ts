@@ -58,13 +58,15 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 
 const formActionDirectiveHomePage = () => {
     return [
-        ENV_SUBDOMAIN,
         SELF,
-        PIWIK_CHS_DOMAIN,
-        CHS_URL,
-        "https://identity.company-information.service.gov.uk",
-        "https://account.companieshouse.gov.uk",
-        "https://account.cidev.aws.chdev.org"
+        "https://*.chdev.org",
+        "https://*.cidev.aws.chdev.org",
+        "https://cidev.aws.chdev.org",
+        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent",
+        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent/check-saved-application",
+        "https://cidev.aws.chdev.org/signin",
+        "https://account.cidev.aws.chdev.org",
+        "https://identity.company-information.service.gov.uk"
     ];
 };
 
