@@ -43,7 +43,7 @@
     "GC_hint": "Efallai y bydd gan y corff goruchwylio enw gwahanol ar gyfer hyn, er enghraifft 'rhif cwmni' neu 'ID rheoleiddio'. Cysylltwch â nhw os oes angen i chi wirio beth yw hyn.",
     "BSB_hint": "Efallai y bydd gan y corff goruchwylio enw gwahanol ar gyfer hyn, er enghraifft 'rhif cwmni' neu 'ID rheoleiddio'. Cysylltwch â nhw os oes angen i chi wirio beth yw hyn.",
     "BONI_hint": "Efallai y bydd gan y corff goruchwylio enw gwahanol ar gyfer hyn, er enghraifft 'rhif cwmni' neu 'ID rheoleiddio'. Cysylltwch â nhw os oes angen i chi wirio beth yw hyn.",
-    "HMRC_hint": "Gallwch ddod o hyd i hyn ar  <a href='https://www.gov.uk/guidance/money-laundering-regulations-supervised-business-register#check-if-a-business-is-registered' target='_blank'>Cofrestr Busnes dan Oruchwyliaeth CThEF (yn agor mewn tab newydd)</a>. It is 4 letters followed by 11 numbers. Mae'n 4 llythyren ac yna 11 rhif. Er enghraifft, XAML00000123456.",
+    "HMRC_hint": "Gallwch ddod o hyd i hyn ar  <a href='https://www.gov.uk/guidance/money-laundering-regulations-supervised-business-register#check-if-a-business-is-registered' target='_blank'>Cofrestr Busnes dan Oruchwyliaeth CThEF (yn agor mewn tab newydd)</a>. Mae'n 4 llythyren ac yna 11 rhif. Er enghraifft, XAML00000123456.",
     "IAB_hint": "Bydd hyn rhwng 6 a 9 rhif o hyd.",
     "IPA_hint": "Mae hwn yn 4 neu 5 rhif o hyd. Os ydych wedi cytuno i'ch manylion gael eu cynnwys, gallwch ddod o hyd i hyn gan ddefnyddio'r gwasanaeth i <a href='https://www.insolvencydirect.bis.gov.uk/fip1/' target='_blank'>Dod o hyd i ymarferwr ansolfedd (yn agor mewn tab newydd)</a>.",
     "ICB_hint": "Bydd hyn rhwng 4 a 6 digid o hyd. Gallwch ddod o hyd iddo ar ohebiaeth gan yr ICB.",
