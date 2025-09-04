@@ -109,6 +109,10 @@
 
         //  The block below covers the Matomo analysis for the href clicks.
           $(document).on("click", "a", function() {
+            // Don't track language toggle links as this is tracked through a script within ch-node-utils locales-banner.njk
+            if ($(this).hasClass('language-link')) {
+              return;
+            }
             // Don't track email on click of mobile navbar
             if ($(this).attr('href') && $(this).attr('href') === "#navigation") {
               textOnHrefClick = $(this).children().text()
