@@ -17,7 +17,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirectiveDefault(),
+                formAction: formActionDirective(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL, DS_SCRIPT_HASH],
                 manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
@@ -44,9 +44,8 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirectiveHomePage(),
+                formAction: formActionDirective(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL, DS_SCRIPT_HASH],
-                manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
             }
         },
@@ -60,7 +59,7 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
     };
 };
 
-const formActionDirectiveHomePage = () => {
+const formActionDirective = () => {
     return [
         SELF,
         "https://*.chdev.org",
