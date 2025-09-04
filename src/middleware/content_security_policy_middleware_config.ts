@@ -60,13 +60,10 @@ const formActionDirectiveHomePage = () => {
     return [
         SELF,
         "https://*.chdev.org",
-        "https://*.cidev.aws.chdev.org",
-        "https://cidev.aws.chdev.org",
-        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent",
-        "https://cidev.aws.chdev.org/register-as-companies-house-authorised-agent/check-saved-application",
-        "https://cidev.aws.chdev.org/signin",
-        "https://account.cidev.aws.chdev.org",
-        "https://identity.company-information.service.gov.uk"
+        "https://*.cidev.aws.chdev.org/",
+        "https://cidev.aws.chdev.org/",
+        "https://account.cidev.aws.chdev.org/",
+        "https://identity.company-information.service.gov.uk/"
     ];
 };
 
