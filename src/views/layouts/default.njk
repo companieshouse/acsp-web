@@ -8,6 +8,8 @@
 
 {% set mainClasses = 'govuk-!-padding-top-0' %}
 
+{% set bodyClasses = 'govuk-frontend-supported js-enabled' %}
+
 {% set tabTitle = "" %}
 {% if errors %}
     {% set tabTitle = i18n.error + ": " %}
@@ -73,6 +75,5 @@
 
 {% block bodyEnd %}
   {{ super() }}
-  <script type="module" src="{{ cdnHost }}/javascripts/govuk-frontend/v5.11.0/govuk-frontend-5.11.0.min.js"></script>
   {% include "partials/__meta_footer.njk" %}
 {% endblock %}
