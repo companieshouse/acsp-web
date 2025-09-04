@@ -2,7 +2,7 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 {% import "add-lang-to-url.njk" as lang2url %}
 {% from "govuk/components/skip-link/macro.njk" import govukSkipLink %}
-{% from "govuk/components/error-summary/macro.njk"       import govukErrorSummary %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set mainContentId = "main-page-content" %}
 
@@ -24,37 +24,43 @@
   {% include "partials/__meta_header.njk" %}
 {% endblock %}
 
-{% block header %}
-  <div class="govuk-header">
-    {% include "partials/__header.njk" %}
-  </div>
+{% block skipLink %}
+  {{ govukSkipLink({
+    text: "Skip to main content",
+    href: "#" + mainContentId
+  }) }}
 {% endblock %}
-{% block content %}
-    {% include "partials/cookie_consent_banner.njk" %}
-    {% block skipLink %}
-      {{ govukSkipLink({
-        text: "Skip to main content",
-        href: "#" + mainContentId
-      }) }}
-    {% endblock %}
+
+{% block header %}
+  {% include "partials/__header.njk" %}
+  <div class="govuk-width-container">
     {% include "partials/phase_banner.njk" %}
+    {% if journeyType == "register-acsp" %}
+      {% block signoutBar %}
+        {% include "partials/nav/signout-bar.njk" %}
+      {% endblock %}
+    {% endif %}
     {% if journeyType != "register-acsp" %}
       {% include "partials/nav/navbar.njk" %}
     {% endif %}
     {% block backLink %}
       {% include "partials/nav/back_link.njk" %}
     {% endblock %}
-    {% if journeyType == "register-acsp" %}
-      {% block signoutBar %}
-        {% include "partials/nav/signout-bar.njk" %}
-      {% endblock %}
-    {% endif %}
-    {% block localesBanner %}
-      {% include "locales-banner.njk" %}
-    {% endblock %}
+  </div>
+  {% block localesBanner %}
+    {% include "locales-banner.njk" %}
+  {% endblock %}
+{% endblock %}
+
+
+
+{% block bodyStart %}
+  {% include "partials/cookie_consent_banner.njk" %}
+{% endblock %}
+
+{% block content %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-    </div>
+    <div class="govuk-grid-column-one-third"></div>
     <div class="govuk-grid-column-two-thirds" id="{{ mainContentId }}">
       {% include "partials/error_summary.njk" %}
       {% block main_content %}{% endblock %}
@@ -63,11 +69,10 @@
 {% endblock %}
 
 {% block footer %}
-    {% include "partials/__footer.njk" %}
-
+  {% include "partials/__footer.njk" %}
 {% endblock %}
 
 {% block bodyEnd %}
   {{ super() }}
-  <script src="path/to/app.js"></script>
+  {% include "partials/__meta_footer.njk" %}
 {% endblock %}
