@@ -1,5 +1,5 @@
 import { HelmetOptions } from "helmet";
-import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL, ENV_SUBDOMAIN } from "../utils/properties";
+import { CDN_HOST, PIWIK_URL, PIWIK_CHS_DOMAIN, CHS_URL } from "../utils/properties";
 
 const SELF = `'self'`;
 const ONE_YEAR_SECONDS = 31536000;
