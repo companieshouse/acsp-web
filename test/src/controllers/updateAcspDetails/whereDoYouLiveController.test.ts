@@ -8,13 +8,14 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import { UPDATE_DATE_OF_THE_CHANGE, UPDATE_ACSP_WHAT_IS_YOUR_NAME, UPDATE_ACSP_DETAILS_BASE_URL, UPDATE_WHERE_DO_YOU_LIVE } from "../../../../src/types/pageURL";
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
-import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED } from "../../../../src/common/__utils/constants";
+import { ACSP_DETAILS, ACSP_DETAILS_UPDATE_IN_PROGRESS, ACSP_DETAILS_UPDATED, REQ_TYPE_UPDATE_ACSP } from "../../../../src/common/__utils/constants";
 import { WhereDoYouLiveBodyService } from "../../../../src/services/where-do-you-live/whereDoYouLive";
 import { mockSoleTraderAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import * as localise from "../../../../src/utils/localise";
 import { sessionMiddleware } from "../../../../src/middleware/session_middleware";
 import { dummyFullProfile } from "../../../mocks/acsp_profile.mock";
 import { Request, Response, NextFunction } from "express";
+import { isUpdateAcspRequest } from "../../../../src/validation/whereDoYouLive";
 
 jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 jest.mock("../../../../src/services/where-do-you-live/whereDoYouLive");
@@ -188,6 +189,45 @@ describe("POST" + UPDATE_WHERE_DO_YOU_LIVE, () => {
 
         expect(res.status).toBe(400);
         expect(res.text).toContain("Select to update where you live if it’s changed or cancel the update");
+    });
+});
+
+describe("isUpdateAcspRequest", () => {
+    it("should return true when reqType is REQ_TYPE_UPDATE_ACSP", () => {
+        const mockReq = {
+            res: {
+                locals: {
+                    reqType: REQ_TYPE_UPDATE_ACSP
+                }
+            }
+        };
+
+        const result = isUpdateAcspRequest(mockReq);
+        expect(result).toBe(true);
+    });
+
+    it("should return false when reqType is not REQ_TYPE_UPDATE_ACSP", () => {
+        const mockReq = {
+            res: {
+                locals: {
+                    reqType: "OTHER_REQ_TYPE"
+                }
+            }
+        };
+
+        const result = isUpdateAcspRequest(mockReq);
+        expect(result).toBe(false);
+    });
+
+    it("should return false when reqType is undefined)", () => {
+        const mockReq = {
+            res: {
+                locals: {}
+            }
+        };
+
+        const result = isUpdateAcspRequest(mockReq);
+        expect(result).toBe(false);
     });
 });
 

@@ -12,8 +12,8 @@ const isSameAsExistingCountry = (input: string, req: any): boolean => {
     return trimAndLowercaseString(input) === existingResidentialCountry;
 };
 
-const isUpdateAcspRequest = (req: any): boolean => {
-    return req.res?.locals?.reqType === REQ_TYPE_UPDATE_ACSP;
+export const isUpdateAcspRequest = (req: any): boolean => {
+    return req.res.locals.reqType === REQ_TYPE_UPDATE_ACSP;
 };
 
 export const whereDoYouLiveValidator = [
