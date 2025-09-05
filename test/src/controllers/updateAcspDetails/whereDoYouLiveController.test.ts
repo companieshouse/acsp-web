@@ -219,7 +219,7 @@ describe("isUpdateAcspRequest", () => {
         expect(result).toBe(false);
     });
 
-    it("should return false when reqType is undefined)", () => {
+    it("should return false when reqType is undefined", () => {
         const mockReq = {
             res: {
                 locals: {}
