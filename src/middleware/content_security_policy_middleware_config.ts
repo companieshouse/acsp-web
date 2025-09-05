@@ -17,7 +17,7 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirective(),
+                formAction: formActionDirectiveDefault(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL, DS_SCRIPT_HASH],
                 manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
@@ -44,8 +44,9 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
                 imgSrc: [CDN_HOST],
                 styleSrc: [NONCE, CDN_HOST],
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
-                formAction: formActionDirective(),
+                formAction: formActionDirectiveHomePage(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL, DS_SCRIPT_HASH],
+                manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
             }
         },
@@ -59,13 +60,14 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
     };
 };
 
-const formActionDirective = () => {
+const formActionDirectiveHomePage = () => {
     return [
         SELF,
         "https://*.chdev.org",
         "https://*.cidev.aws.chdev.org/",
         "https://cidev.aws.chdev.org/",
         "https://account.cidev.aws.chdev.org/",
+        "http://account.cidev.aws.chdev.org/",
         "https://identity.company-information.service.gov.uk/"
     ];
 };
