@@ -65,15 +65,14 @@ const formActionDirectiveHomePage = () => {
     const HTTP_ACCOUNT_URL = ACCOUNT_URL.replace(/^https:\/\//, "http://");
     return [
         SELF,
-        "https://*.chdev.org",
-        "https://*.cidev.aws.chdev.org/",
-        "https://cidev.aws.chdev.org/",
+        PIWIK_CHS_DOMAIN,
+        CHS_URL,
         ACCOUNT_URL,
-        HTTP_ACCOUNT_URL,
-        "https://identity.company-information.service.gov.uk/"
+        HTTP_ACCOUNT_URL
     ];
 };
 
 const formActionDirectiveDefault = () => {
-    return [SELF, PIWIK_CHS_DOMAIN, CHS_URL];
+    const GOV_UK = "https://*.gov.uk";
+    return [SELF, PIWIK_CHS_DOMAIN, CHS_URL, GOV_UK];
 };
