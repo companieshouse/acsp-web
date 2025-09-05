@@ -46,6 +46,7 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
                 connectSrc: [SELF, PIWIK_URL, CHS_URL],
                 formAction: formActionDirective(),
                 scriptSrc: [NONCE, CDN_HOST, PIWIK_URL, DS_SCRIPT_HASH],
+                manifestSrc: [CDN_HOST],
                 objectSrc: [`'none'`]
             }
         },
