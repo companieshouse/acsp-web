@@ -61,13 +61,15 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 };
 
 const formActionDirectiveHomePage = () => {
+    const ACCOUNT_URL = "https://account.cidev.aws.chdev.org/";
+    const HTTP_ACCOUNT_URL = ACCOUNT_URL.replace(/^https:\/\//, "http://");
     return [
         SELF,
         "https://*.chdev.org",
         "https://*.cidev.aws.chdev.org/",
         "https://cidev.aws.chdev.org/",
-        "https://account.cidev.aws.chdev.org/",
-        "http://account.cidev.aws.chdev.org/",
+        ACCOUNT_URL,
+        HTTP_ACCOUNT_URL,
         "https://identity.company-information.service.gov.uk/"
     ];
 };
