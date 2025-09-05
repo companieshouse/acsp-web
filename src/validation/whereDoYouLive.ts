@@ -2,7 +2,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { body } from "express-validator";
 import countryList from "../../lib/countryList";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
-import { ACSP_DETAILS } from "../common/__utils/constants";
+import { ACSP_DETAILS, REQ_TYPE_UPDATE_ACSP } from "../common/__utils/constants";
 import { trimAndLowercaseString } from "../services/common";
 
 const isSameAsExistingCountry = (input: string, req: any): boolean => {
@@ -12,12 +12,16 @@ const isSameAsExistingCountry = (input: string, req: any): boolean => {
     return trimAndLowercaseString(input) === existingResidentialCountry;
 };
 
+export const isUpdateAcspRequest = (req: any): boolean => {
+    return req.res.locals.reqType === REQ_TYPE_UPDATE_ACSP;
+};
+
 export const whereDoYouLiveValidator = [
     body("countryInput", "whereDoYouLiveEmptyInput")
         .trim()
         .custom((value, { req }) => {
             if (req.body.whereDoYouLiveRadio === "countryOutsideUK") {
-                if (isSameAsExistingCountry(value, req)) {
+                if (isUpdateAcspRequest(req) && isSameAsExistingCountry(value, req)) {
                     throw new Error("whereDoYouLiveNoChangeUpdateAcsp");
                 }
 
@@ -32,7 +36,7 @@ export const whereDoYouLiveValidator = [
     body("whereDoYouLiveRadio", "whereDoYouLiveNoData")
         .notEmpty().bail()
         .custom((value, { req }) => {
-            if (isSameAsExistingCountry(value, req)) {
+            if (isUpdateAcspRequest(req) && isSameAsExistingCountry(value, req)) {
                 throw new Error("whereDoYouLiveNoChangeUpdateAcsp");
             }
             return true;
