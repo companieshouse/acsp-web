@@ -61,18 +61,22 @@ export const prepareCSPConfigHomePage = (nonce: string) : HelmetOptions => {
 };
 
 const formActionDirectiveHomePage = () => {
-    const ACCOUNT_URL = "https://account.cidev.aws.chdev.org/";
-    const HTTP_ACCOUNT_URL = ACCOUNT_URL.replace(/^https:\/\//, "http://");
+    const HTTP = "http://";
+    const HTTPS = "https://";
+
+    // Allows redirect to both https:// and http:// CHS urls
     const CHS_URL = process.env.CHS_URL as string;
     const HTTP_CHS_URL: string = CHS_URL.replace(/^https:\/\//, "http://");
+
+    // Allows redirect to  https://oidc.integration.account.gov.uk/logout when signing out
     const GOV_UK = "https://*.gov.uk";
+
     return [
         SELF,
-        PIWIK_CHS_DOMAIN,
+        HTTP + PIWIK_CHS_DOMAIN,
+        HTTPS + PIWIK_CHS_DOMAIN,
         CHS_URL,
         HTTP_CHS_URL,
-        ACCOUNT_URL,
-        HTTP_ACCOUNT_URL,
         GOV_UK
     ];
 };
