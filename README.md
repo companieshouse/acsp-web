@@ -1,7 +1,7 @@
 # acsp-web
 
-This is a web frontend for the Authorized Corporate Service Providers (ACSP). It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts). 
-For the corresponding API component, see [acsp-api]([(https://github.com/companieshouse/acsp-api)).
+This is a web frontend for the Authorised Corporate Service Providers (ACSP). It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts). 
+For the corresponding API component, see [acsp-api](https://github.com/companieshouse/acsp-api).
 
 The documentation of the project is available on [Confluence](https://companieshouse.atlassian.net/wiki/spaces/IDV/pages/4213178415/Workstream+5+ACSPs).
 
@@ -14,7 +14,7 @@ This repository contains the following web applications:
 ### View and update the authorised agent's details 
 (Must be a registered ACSP to access this service):
 
-[http://chs.local/register-as-companies-house-authorised-agent](http://chs.local/view-and-update-the-authorised-agents-details)
+[http://chs.local/view-and-update-the-authorised-agents-details](http://chs.local/view-and-update-the-authorised-agents-details)
 
 
 ### Close the authorised agent account 
@@ -109,8 +109,9 @@ System properties for the `acsp-web`. These are normally configured per environm
 Variable| Description                                                                           |
 -------------------|---------------------------------------------------------------------------------------|
 ACCOUNT_URL| URL for CHS account |
+ACSP01_COST| Payment value for Registering as an ACSP |
 API_URL| API base URL for service interaction |
-TRANSACTIONS_API_URL| API base URL for the Registration transaction |
+APPLICATION_NAME| Name of the application |
 CACHE_SERVER| Name of the cache |
 CDN_HOST| URL for the CDN |
 CDN_URL_CSS| CDN URL for the CSS |
@@ -127,6 +128,7 @@ LOG_LEVEL| Logging Level |
 NODE_SSL_ENABLED| Flag to enable SSL for the server|
 NUNJUCKS_LOADER_NO_CACHE| Flag to control the caching of templates in the Nunjucks loader|
 NUNJUCKS_LOADER_WATCH| Flag to enable or disable watching for file changes in the Nunjucks loader |
+PAYMENTS_API_URL| Host URL for Payments API |
 PIWIK_URL| Link to the matomo dashboard |
 PIWIK_SITE_ID| Matomo Site Id represents the environment |
 PIWIK_CHS_DOMAIN| Domain URL for Matomo tracking used within the CSP |
@@ -141,3 +143,5 @@ PIWIK_REGISTRATION_CORPORATE_BODY_ID| Goal Id for the Corporate Body journey typ
 PIWIK_REGISTRATION_CHECK_YOUR_ANSWERS_ID| Goal Id for the Check your answers continue to payment button used by matomo |
 PIWIK_UPDATE_ACSP_START_GOAL_ID| Goal Id for the Update ACSP Details start button used by matomo |
 PIWIK_CLOSE_ACSP_START_GOAL_ID| Goal Id for the Close ACSP Account start button used by matomo |
+POSTCODE_ADDRESSES_LOOKUP_URL| Host URL for Postcode Lookup service |
+TRANSACTIONS_API_URL| API base URL for the Registration transaction service |
