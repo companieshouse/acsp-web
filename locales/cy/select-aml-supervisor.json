@@ -53,6 +53,6 @@
     "IFA_hint": "Gallwch ddod o hyd i hyn ar ohebiaeth gan yr IFA. Mae'n 6 rhif o hyd.",
     "LSNI_hint": "Gallwch ddod o hyd i hyn ar y Dystysgrif Ymarfer. Os oes gennych Gofrestrif bydd yn 5 digid o hyd. Os oes gennych Gyfeirnod Cwmni bydd yn 4 digid o hyd.",
     "LSS_hint": "Efallai y bydd gan y corff goruchwylio enw gwahanol ar gyfer hyn, er enghraifft 'rhif cwmni' neu 'ID rheoleiddio'. Cysylltwch â nhw os oes angen i chi wirio beth yw hyn.",
-    "SRA_hint": "Gallwch ddod o hyd i hyn ar y dystysgrif ymarfer flynyddol, neu drwy fewngofnodi i'ch <a href='https://sraukprodb2c.b2clogin.com/sraukprodb2c.onmicrosoft.com/oauth2/v2.0/authorize?p=b2c_1_signin_mfa' target='_blank'>cyfrif mySRA (yn agor mewn tab newydd)</a>. Fel arfer mae tua 6 digid o hyd, ond gall fod yn hirach neu'n fyrrach.",
+    "SRA_hint": "Gallwch ddod o hyd i hyn ar y dystysgrif ymarfer flynyddol, neu drwy fewngofnodi i'ch <a href='https://my.sra.org.uk/' target='_blank'>cyfrif mySRA (yn agor mewn tab newydd)</a>. Fel arfer mae tua 6 digid o hyd, ond gall fod yn hirach neu'n fyrrach.",
     "error-selectAmlSupervisor": "Dewiswch yr holl gyrff goruchwylio AML rydych chi wedi'u cofrestru â nhw"
 }
