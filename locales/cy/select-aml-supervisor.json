@@ -30,7 +30,7 @@
     "SRA": "Awdurdod Rheoleiddio Cyfreithwyr (SRA) Cyfreithwyr yng Nghymru a Lloegr",
     "ACCA_hint": "Gallwch ddod o hyd i hyn ar Dystysgrif Ymarfer ACCA (PC). Bydd rhwng 7 a 10 rhif o hyd.",
     "AAT_hint": "Gallwch ddod o hyd i hyn ar y dystysgrif AAT a'r llythyr cymeradwyo. Bydd rhwng 1 a 9 rhif o hyd.",
-    "AIA_hint": "Gallwch ddod o hyd i hyn ar dystysgrif ymarfer AIA, neu drwy fewngofnodi i MyAIA (yn agor mewn tab newydd). Bydd rhwng 4 a 6 rhif o hyd.",
+    "AIA_hint": "Gallwch ddod o hyd i hyn ar dystysgrif ymarfer AIA, neu drwy fewngofnodi i <a href='https://www.aiaworldwide.com/system/login/' target='_blank'>MyAIA (yn agor mewn tab newydd)</a>. Bydd rhwng 4 a 6 rhif o hyd.",
     "ATT_hint": "Gallwch ddod o hyd i hyn ar y dystysgrif ymarfer ATT a'r llythyr cymeradwyaeth. Bydd yn dechrau gyda'r llythrennau 'AML', ac yna 2 set o rifau. Er enghraifft, 'AML-1-9999999' neu 'AML-1234-999999'.",
     "CILEX_hint": "Dyma'r rhif a ddarparodd CILEx pan wnaethoch chi gofrestru.",
     "CIMA_hint": "Darparodd CIMA hyn pan wnaethoch chi gofrestru. Mae'n cynnwys llythrennau a rhifau. Fel arfer mae'n 5 i 8 nod o hyd.",

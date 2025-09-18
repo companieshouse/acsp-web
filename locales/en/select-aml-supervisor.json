@@ -30,7 +30,7 @@
     "SRA": "Solicitors Regulation Authority (SRA) Solicitors in England and Wales",
     "ACCA_hint": "You can find this on the ACCA Practicing Certificate (PC). It will be between 7 and 10 numbers long.",
     "AAT_hint": "You can find this on the AAT certificate and approval letter. It will be between 1 and 9 numbers long.",
-    "AIA_hint": "You can find this on the AIA practicing certificate, or by signing in to MyAIA (opens in a new tab). It will be between 4 and 6 numbers long.",
+    "AIA_hint": "You can find this on the AIA practicing certificate, or by signing in to <a href='https://www.aiaworldwide.com/system/login/' target='_blank'>MyAIA (opens in a new tab)</a>. It will be between 4 and 6 numbers long.",
     "ATT_hint": "You can find this on the ATT practicing certificate and approval letter. It will start with the letters ‘AML’, followed by 2 sets of numbers. For example, ‘AML-1-999999’ or ‘AML-1234-999999’.",
     "CILEX_hint": "This is the number that CILEx provided when you registered.",
     "CIMA_hint": "CIMA provided this when you registered. It contains letters and numbers. It is usually 5 to 8 characters long.",
