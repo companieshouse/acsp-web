@@ -11,16 +11,16 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": ["Association of Chartered Certified Accountants (ACCA)", "Association of Accounting Technicians (AAT)"]
+                "AML-supervisory-bodies": ["association of chartered certified accountants (acca)", "association of accounting technicians (aat)"]
             }
         };
 
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodies.push({
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+            amlSupervisoryBody: "association of chartered certified accountants (acca)"
         },
         {
-            amlSupervisoryBody: "Association of Accounting Technicians (AAT)"
+            amlSupervisoryBody: "association of accounting technicians (aat)"
         });
 
         const acspData: AcspData = {
@@ -40,13 +40,13 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": "Association of Chartered Certified Accountants (ACCA)"
+                "AML-supervisory-bodies": "association of chartered certified accountants (acca)"
             }
         };
 
         const amlSupervisoryBodiesExpected: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodiesExpected.push({
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+            amlSupervisoryBody: "association of chartered certified accountants (acca)"
         });
 
         const acspData: AcspData = {
@@ -66,13 +66,13 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": "Association of Chartered Certified Accountants (ACCA)"
+                "AML-supervisory-bodies": "association of chartered certified accountants (acca)"
             }
         };
 
         const amlSupervisoryBodiesExpected: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodiesExpected.push({
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+            amlSupervisoryBody: "association of chartered certified accountants (acca)"
         });
 
         const amlBody1: AmlSupervisoryBody = {
@@ -102,19 +102,19 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": "Association of Chartered Certified Accountants (ACCA)",
+                "AML-supervisory-bodies": "association of chartered certified accountants (acca)",
                 id: "12345678"
             }
         };
 
         const amlSupervisoryBodiesExpected: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodiesExpected.push({
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+            amlSupervisoryBody: "association of chartered certified accountants (acca)",
             membershipId: "12345678"
         });
 
         const amlBody1: AmlSupervisoryBody = {
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+            amlSupervisoryBody: "association of chartered certified accountants (acca)",
             membershipId: "12345678"
         };
         const amlBody2: AmlSupervisoryBody = {
@@ -137,7 +137,7 @@ describe("AmlSupervisoryBodyService", () => {
         const amlSupervisoryBodiesExpected: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodiesExpected.push(
             {
-                amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+                amlSupervisoryBody: "association of chartered certified accountants (acca)",
                 membershipId: "12345678"
             },
             {
@@ -147,7 +147,7 @@ describe("AmlSupervisoryBodyService", () => {
         );
 
         const amlBody1: AmlSupervisoryBody = {
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)",
+            amlSupervisoryBody: "association of chartered certified accountants (acca)",
             membershipId: "12345678"
         };
         const amlBody2: AmlSupervisoryBody = {
@@ -172,17 +172,17 @@ describe("AmlSupervisoryBodyService", () => {
 
         const requestMock: Partial<Request> = {
             body: {
-                "AML-supervisory-bodies": "Association of Chartered Certified Accountants (ACCA)"
+                "AML-supervisory-bodies": "association of chartered certified accountants (acca)"
             }
         };
 
         const amlSupervisoryBodiesExpected: Array<AmlSupervisoryBody> = [];
         amlSupervisoryBodiesExpected.push({
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+            amlSupervisoryBody: "association of chartered certified accountants (acca)"
         });
 
         const amlBody1: AmlSupervisoryBody = {
-            amlSupervisoryBody: "Association of Chartered Certified Accountants (ACCA)"
+            amlSupervisoryBody: "association of chartered certified accountants (acca)"
         };
 
         const acspData: AcspData = {
