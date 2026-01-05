@@ -11,7 +11,7 @@ export class ErrorService {
             ...getLocaleInfo(locales, lang),
             currentUrl: currentUrl
         });
-    }
+    };
 
     public render404Page = (req: Request, res: Response) => {
         const locales = getLocalesService();
@@ -21,7 +21,7 @@ export class ErrorService {
             ...getLocaleInfo(locales, lang),
             currentUrl: req.originalUrl
         });
-    }
+    };
 
     public render403Page = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {
         res.status(403).render(config.ERROR_403, {
@@ -29,7 +29,7 @@ export class ErrorService {
             ...getLocaleInfo(locales, lang),
             currentUrl: currentUrl
         });
-    }
+    };
 
     public renderStopNotAccountOwnerPage = (res: Response, locales: LocalesService, lang: string, currentUrl: string) => {
         res.status(403).render(config.STOP_NOT_ACCOUNT_OWNER_KICK_OUT, {
@@ -37,5 +37,5 @@ export class ErrorService {
             currentUrl: currentUrl,
             manageUsersLink: addLangToUrl(MANAGE_USERS, lang)
         });
-    }
+    };
 }

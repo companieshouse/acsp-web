@@ -29,7 +29,7 @@ export class AmlSupervisoryBodyService {
         if (acspData) {
             acspData.amlSupervisoryBodies = amlSupervisoryBodies;
         }
-    }
+    };
 
     public saveAmlSupervisoryBodies = (req: Request, acspData: AcspData) => {
         const amlSupervisoryBodiesNew: Array<AmlSupervisoryBody> = [];
@@ -45,7 +45,7 @@ export class AmlSupervisoryBodyService {
         if (acspData) {
             acspData.amlSupervisoryBodies = amlSupervisoryBodiesNew;
         }
-    }
+    };
 
     public getSelectedAML = (acspData: AcspData, selectedAMLSupervisoryBodies: Array<string>) => {
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = acspData.amlSupervisoryBodies!;
@@ -55,7 +55,7 @@ export class AmlSupervisoryBodyService {
             }
         }
 
-    }
+    };
 
     getAMLBodiesNotInCurrentSelection = (selectedAMLSupervisoryBodies: string[], previouslySelectedAmlBodiesName: string[], amlSupervisoryBodies: AmlSupervisoryBody[]) => {
         var amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
@@ -80,6 +80,6 @@ export class AmlSupervisoryBodyService {
             }
         }
         return amlSupervisoryBodies;
-    }
+    };
 
 }

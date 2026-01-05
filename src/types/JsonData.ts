@@ -1,9 +1,10 @@
+
 type JSONValue =
     | string
     | number
     | boolean
-    | JSONObject
-    | JSONArray;
+    | JSONObject // eslint-disable-line no-use-before-define
+    | JSONArray; // eslint-disable-line no-use-before-define
 
 interface JSONArray extends Array<JSONValue> { }
 
