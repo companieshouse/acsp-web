@@ -4,8 +4,7 @@
   "description": "A web application for the Authorized Corporate Service Providers (ACSP)",
   "main": "dist/src/server.js",
   "engines": {
-    "node": ">=20.0.0",
-    "npm": "^10"
+        "node": "24.11.1"
   },
   "scripts": {
     "prebuild": "rm -rf ./dist",
