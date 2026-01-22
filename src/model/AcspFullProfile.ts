@@ -3,7 +3,6 @@ export interface AmlDetails {
     membershipDetails: string;
     dateOfChange?: Date | string;
 }
-
 export interface Address {
     careOf?: string;
     addressLine1?: string;
