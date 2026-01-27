@@ -1,18 +1,3 @@
-export type AcspFullProfileResponse = AcspFullProfile | Errors;
-export interface AcspFullProfile {
-    number: string;
-    name: string;
-    status: string;
-    type: string;
-    businessSector?: string;
-    notifiedFrom: Date;
-    deauthorisedFrom?: Date;
-    email: string;
-    amlDetails: AmlDetails[];
-    registeredOfficeAddress: Address;
-    serviceAddress?: Address;
-    soleTraderDetails?: SoleTraderDetails;
-}
 export interface AmlDetails {
     supervisoryBody: string;
     membershipDetails: string;
@@ -37,6 +22,24 @@ export interface SoleTraderDetails {
     usualResidentialCountry?: string;
     dateOfBirth?: Date;
 }
+
+export interface AcspFullProfile {
+    number: string;
+    name: string;
+    status: string;
+    type: string;
+    businessSector?: string;
+    notifiedFrom: Date;
+    deauthorisedFrom?: Date;
+    email: string;
+    amlDetails: AmlDetails[];
+    registeredOfficeAddress: Address;
+    serviceAddress?: Address;
+    soleTraderDetails?: SoleTraderDetails;
+}
+
 export interface Errors {
     errors: Error[];
 }
+
+export type AcspFullProfileResponse = AcspFullProfile | Errors;
