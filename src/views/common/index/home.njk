@@ -15,11 +15,6 @@
 {% set matomoPageTitle = i18n.startPageTitle %}
 {% block main_content %}
   <form action="{{ currentUrl }}?lang={{ lang }}" method="POST">
-    {% include "partials/csrf_token.njk" %}
-    {{ govukNotificationBanner({
-      html: html,
-      titleText: i18n.important
-    }) }}
     <h1 class="govuk-heading-l">
       {{ i18n.startPageTitle }}
     </h1>
@@ -39,23 +34,8 @@
       <li>{{ i18n.partnerBullet }}</li>
       <li>{{ i18n.memberBullet }}</li>
       <li>{{ i18n.soleTraderBullet }}</li>
+      <li>{{ i18n.memberOfTheBodyBullet}}</li>
     </ul>
-    <details class="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          {{ i18n.ifYouAreRegisteringUnincorporatedCorporate }}
-        </span>
-      </summary>
-      <div class="govuk-details__text">
-        <h3 class="govuk-heading-s">{{ i18n.corporateBodyHeading }}</h3>
-      <p>
-        {{ i18n.corporateBodyEquivalentDirector }}
-      </p>
-      <h3 class="govuk-heading-s">{{ i18n.UnincorporatedEntityHeading }}</h3>
-      <p>
-        {{ i18n.UnincorporatedGoverningBody }}
-      </p>
-    </details>
     <p class="govuk-body">
       {{ i18n.YouWillBeAble }}
     </p>
@@ -63,36 +43,26 @@
     <p class="govuk-body">
       {{ i18n.youllNeedTo }}
     </p>
+    <p class="govuk-body"> 
+      {{ i18n.ifYouHaventAlready }} <a href={{i18n.verifyIdentityGuidanceLink}}>{{ i18n.verifyIdentityGuidanceText}}</a>
+      {{ i18n.toCheckWhatYouNeed}}
+    </p>
+    <p class="govuk-body">{{ i18n.toApply  }}</p>
     <ul class="govuk-list govuk-list--bullet">
-      <li>{{ i18n.signInOrCreateBullet }}</li>
-      <li>{{ i18n.giveDetailsBullet }}</li>
+      <li>{{ i18n.aboutBuissnessBullet }}</li>
       <li>{{ i18n.amlBodiesBullet }}</li>
       <li>{{ i18n.amlMembershipNumberBullet }}</li>
       <li>{{ i18n.registrationFeeBullet | replace('XX', ACSP01_COST) }}</li>
     </ul>
+    {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+    {{ govukWarningText({
+      text: i18n.warningText,
+      iconFallbackText: "Warning"
+    }) }}
     <p class="govuk-body">
-      {{ i18n.readThe }}<a href="https://www.gov.uk/guidance/applying-to-register-as-a-companies-house-authorised-agent" id="Read the guidance-id">{{ i18n.guidanceOnApplyingLink }}</a>{{ i18n.toCheckYouHave }}
+      {{ i18n.readThe }}<a href="https://www.gov.uk/guidance/applying-to-register-as-a-companies-house-authorised-agent" id="Read the guidance-id">{{ i18n.guidanceOnApplyingLink }}</a> {{ i18n.toCheckYouHave }}
     </p>
-    <p class="govuk-body">{{ i18n.saveYourAnswers }}</p>
-    <div class="ch-info-panel ch-info-panel-custom">
-      <h2 class="govuk-heading-m">{{ i18n.verifyYourIdentity }}</h2>
-     <div class="govuk-panel__body">
-       <p class="govuk-body">
-         {{ i18n.identifyBeforeYouCanUse }}
-       </p>
-       <p class="govuk-body home-page-p-tag govuk-!-static-margin-bottom-0">
-         <img src="{{ cdnHost }}/images/icon/govuk-ons-icon-arrow-circle-medium.png" alt="" height="40" width="40" class="home-page-img">
-           <strong>
-             <a
-               class="govuk-link govuk-link--no-visited-state home-page-img-link"
-               href="{{verifyIdentityGovOneLoginLink}}"
-               id="verify-id">
-               {{ i18n.verifyIdentityLink }}
-             </a>
-           </strong>
-         </p>
-       </div>
-     </div>
+    <p class="govuk-body">{{ i18n.saveYourAnswers }} </p>
     <button
       class="govuk-button govuk-button--start"
       id="start-now"
@@ -116,10 +86,12 @@
     </p>
     <h2 class="govuk-heading-m">{{ i18n.adaptYourDeviceHeading }}</h2>
     <p class="govuk-body">
-      <a href={{ abilityNetAccessibilityLink }} id="read-the-advice-from-abilitynet-id">{{ i18n.readAdviceFromAbilityNetLink }}</a>{{ i18n.forExampleLearnHowTo }}
+      <a href={{ abilityNetAccessibilityLink }} id="read-the-advice-from-abilitynet-id">{{ i18n.readAdviceFromAbilityNetLink }}</a>. {{ i18n.forExampleLearnHowTo }}
     </p>
     <h2 class="govuk-heading-m">{{ i18n.afterYouRegisterHeading }}</h2>
-    <p class="govuk-body">{{ i18n.wellCreateAnAuthorisedAgentAccount }}</p>
+    <p class="govuk-body">{{ i18n.youllBeAble }} 
+      <a href={{i18n.signInToACSPLink}}>{{ i18n.signInToACSPText }}</a> {{ i18n.toAccessACSP }}
+      </p>
     <p class="govuk-body">
       {{ i18n.readThe }}
       <a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" id="guidance-for-authorised-agents-id">{{ i18n.guidanceForAuthorisedAgentsLink }}</a>
