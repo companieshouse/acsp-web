@@ -16,7 +16,6 @@
     "youllNeedTo": "You’ll need to sign in to or create a GOV.UK One Login to use this service.",
     "ifYouHaventAlready": "If you haven't already verified your identity, we'll ask you to do this when you start.",
     "verifyIdentityGuidanceText": "Read the guidance on verifying your identity for Companies House",
-    "verifyIdentityGuidanceURL": "https://www.gov.uk/guidance/applying-to-register-as-a-companies-house-authorised-agent",
     "toCheckWhatYouNeed": "to check what you'll need to do this.",
     "toApply": "To apply, you'll need to:",
     "aboutBuissnessBullet": "tell us about the buisness, or yourself if you're a sole trader",
@@ -37,7 +36,6 @@
     "afterYouRegisterHeading": "After you are registered",
     "youllBeAble": "You'll be able to",
     "signInToACSPText": "sign in to the authorised agent account",
-    "signInToACSPLink": "https://www.gov.uk/guidance/sign-in-to-your-authorised-agent-account",
     "toAccessACSP": "to access ACSP services. You'll be able to add other people who work for the business, if they need to access services for the ACSP.",
     "guidanceForAuthorisedAgentsLink": "Read the guidance on being an ACSP",
     "toFindOutHowToUse": " to find out more about what happens after you register, including your legal responsibilities."
