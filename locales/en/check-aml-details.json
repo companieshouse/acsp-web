@@ -1,8 +1,8 @@
 {
     "checkAmlDetailsTitle": "Check the Anti-Money Laundering (AML) details",
     "checkAmlDetailsText1": "We'll confirm the AML supervisory body holds the same details for",
-    "checkAmlDetailsText2": "If the details do not match, we will reject your application.",
-    "checkAmlDetailsText3": "Check the details are correct and change them if you need to.",
+    "checkAmlDetailsText2": "This may take longer if you only recently registered.",
+    "checkAmlDetailsWarningText": "If the details do not match, we will reject your application.",
     "checkAmlDetailsAntiMoney": "AML registration details",
     "checkAmlDetailsSupervisoryBody": "AML supervisory body",
     "checkAmlDetailsMemberShip": "AML membership number"

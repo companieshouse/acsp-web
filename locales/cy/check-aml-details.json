@@ -1,9 +1,9 @@
 {
     "checkAmlDetailsTitle": "Gwiriwch y manylion Atal Gwyngalchu Arian (AML)",
     "checkAmlDetailsText1": "Byddwn yn cadarnhau bod corff goruchwylio AML yn dal yr un manylion ar gyfer",
-    "checkAmlDetailsText2": "Os nad yw'r manylion yn cyd-fynd, byddwn yn gwrthod eich cais.",
-    "checkAmlDetailsText3": "Gwiriwch fod y manylion yn gywir a'u newid os oes angen.",
-    "checkAmlDetailsAntiMoney": "Manylion Atal Gwyngalchu Arian (AML)",
+    "checkAmlDetailsText2": "Gall hyn gymryd mwy o amser os ydych wedi cofrestru yn ddiweddar.",
+    "checkAmlDetailsWarningText": "Os nad yw'r manylion yn cyd-fynd, byddwn yn gwrthod eich cais.",
+    "checkAmlDetailsAntiMoney": "Manylion cofrestru AML",
     "checkAmlDetailsSupervisoryBody": "Corff goruchwylio AML",
     "checkAmlDetailsMemberShip": "Rhif aelodaeth AML"  
 }
