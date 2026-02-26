@@ -51,7 +51,7 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         const newAMLBody = { membershipId: "123456" };
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return newAMLBody;
+                if (key === NEW_AML_BODY) {return newAMLBody;}
             });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
@@ -62,7 +62,7 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
     it("should not set payload if newAMLBody is not present", async () => {
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return undefined;
+                if (key === NEW_AML_BODY) {return undefined;}
             });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
@@ -74,7 +74,7 @@ describe("GET " + AML_MEMBERSHIP_NUMBER, () => {
         const newAMLBody = { amlSupervisoryBody: "Some Body" };
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return newAMLBody;
+                if (key === NEW_AML_BODY) {return newAMLBody;}
             });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({

@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+
 import { getLoggedInUserEmail, getLoggedInUserId, getLoggedInAcspNumber } from "../common/__utils/session";
 import { ACCOUNT_URL, CHS_MONITOR_GUI_URL } from "../utils/properties";
 import { APPLICATION_ID } from "../common/__utils/constants";

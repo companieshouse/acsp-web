@@ -27,8 +27,8 @@ describe("amlSupervisor", () => {
 
         session = {
             getExtraData: jest.fn((key: string) => {
-                if (key === ACSP_DETAILS) return acspFullProfile;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === ACSP_DETAILS) {return acspFullProfile;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
             })
         } as Partial<Session>;
 

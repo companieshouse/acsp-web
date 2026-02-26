@@ -18,7 +18,7 @@ jest.mock("../../../../src/services/update-acsp/dateOfTheChangeService");
 
 const router = supertest(app);
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
     let req: Partial<Request>;
@@ -61,10 +61,10 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         ];
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATED) return { amlDetails: [] };
-                if (key === AML_REMOVAL_INDEX) return "654321";
-                if (key === AML_REMOVAL_BODY) return "Body B";
-                if (key === AML_REMOVED_BODY_DETAILS) return removedAMLData;
+                if (key === ACSP_DETAILS_UPDATED) {return { amlDetails: [] };}
+                if (key === AML_REMOVAL_INDEX) {return "654321";}
+                if (key === AML_REMOVAL_BODY) {return "Body B";}
+                if (key === AML_REMOVED_BODY_DETAILS) {return removedAMLData;}
                 return undefined;
             });
 
@@ -91,9 +91,9 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
 
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return undefined;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-                if (key === ADD_AML_BODY_UPDATE) return undefined;
+                if (key === NEW_AML_BODY) {return undefined;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+                if (key === ADD_AML_BODY_UPDATE) {return undefined;}
             });
         const previousPage = AML_MEMBERSHIP_NUMBER;
         jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
@@ -105,7 +105,7 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
     it("should not set ADD_AML_BODY_UPDATE if NEW_AML_BODY is present", async () => {
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return { amlSupervisoryBody: "Body A" };
+                if (key === NEW_AML_BODY) {return { amlSupervisoryBody: "Body A" };}
             });
         req.query = { lang: "en" };
         await get(req as Request, res as Response, next);
@@ -115,8 +115,8 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
     it("should not set ADD_AML_BODY_UPDATE if previousPage does not include AML_MEMBERSHIP_NUMBER", async () => {
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return undefined;
-                if (key === ACSP_DETAILS_UPDATED) return { amlDetails: [] };
+                if (key === NEW_AML_BODY) {return undefined;}
+                if (key === ACSP_DETAILS_UPDATED) {return { amlDetails: [] };}
             });
         const previousPage = "randomPage";
         jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
@@ -157,9 +157,9 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         };
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-                if (key === NEW_AML_BODY) return { membershipId: "123456", amlSupervisoryBody: "Body A" };
-                if (key === ADD_AML_BODY_UPDATE) return 0;
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+                if (key === NEW_AML_BODY) {return { membershipId: "123456", amlSupervisoryBody: "Body A" };}
+                if (key === ADD_AML_BODY_UPDATE) {return 0;}
                 return undefined;
             });
         const previousPage = "/update-acsp-details/aml-membership-number";
@@ -187,9 +187,9 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         };
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-                if (key === NEW_AML_BODY) return undefined;
-                if (key === ADD_AML_BODY_UPDATE) return undefined;
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+                if (key === NEW_AML_BODY) {return undefined;}
+                if (key === ADD_AML_BODY_UPDATE) {return undefined;}
                 return undefined;
             });
         const previousPage = "/update-acsp-details/aml-membership-number";
@@ -223,8 +223,8 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
         };
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === NEW_AML_BODY) return undefined;
-                if (key === ADD_AML_BODY_UPDATE) return acspUpdatedFullProfile.amlDetails.length - 1;
+                if (key === NEW_AML_BODY) {return undefined;}
+                if (key === ADD_AML_BODY_UPDATE) {return acspUpdatedFullProfile.amlDetails.length - 1;}
             });
         const previousPage = AML_MEMBERSHIP_NUMBER;
         jest.spyOn(localise, "addLangToUrl").mockReturnValue(previousPage);
@@ -236,8 +236,8 @@ describe("GET " + UPDATE_DATE_OF_THE_CHANGE, () => {
     it("should call getDateOfChangeFromSession when updateInProgress is true", async () => {
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return true;
-                if (key === ACSP_DETAILS_UPDATED) return { amlDetails: [] };
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return true;}
+                if (key === ACSP_DETAILS_UPDATED) {return { amlDetails: [] };}
                 return undefined;
             });
 

@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 import mocks from "../../../mocks/all_middleware_mock";
 import { mockLimitedAcspFullProfile } from "../../../mocks/update_your_details.mock";
 import supertest from "supertest";

@@ -53,7 +53,7 @@ export const validDataChecker = (day: string, month: string, year: string) => {
     return true;
 };
 
-const isValidDay = (day: number, month: number, year: number):boolean => {
+const isValidDay = (day: number, month: number, year: number): boolean => {
     const numbDays = new Date(year, month, 0).getDate();
     if (day >= 1 && day <= numbDays) {
         return true;
@@ -62,8 +62,8 @@ const isValidDay = (day: number, month: number, year: number):boolean => {
 };
 
 const isNotInFuture = (day: number, month: number, year: number): boolean => {
-    var currentDate = new Date();
-    var inputDate = new Date(year, month - 1, day);
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
 
     if (inputDate > currentDate) {
         return false;
@@ -72,9 +72,9 @@ const isNotInFuture = (day: number, month: number, year: number): boolean => {
 };
 
 const isNotTooYoung = (day: number, month: number, year: number): boolean => {
-    var currentDate = new Date();
-    var inputDate = new Date(year, month - 1, day);
-    var age = currentDate.getFullYear() - inputDate.getFullYear();
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let age = currentDate.getFullYear() - inputDate.getFullYear();
 
     if (currentDate.getMonth() < inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() < inputDate.getDate())) {
         age--;
@@ -83,9 +83,9 @@ const isNotTooYoung = (day: number, month: number, year: number): boolean => {
 };
 
 const isNotTooOld = (day: number, month: number, year: number): boolean => {
-    var currentDate = new Date();
-    var inputDate = new Date(year, month - 1, day);
-    var age = currentDate.getFullYear() - inputDate.getFullYear();
+    const currentDate = new Date();
+    const inputDate = new Date(year, month - 1, day);
+    let age = currentDate.getFullYear() - inputDate.getFullYear();
 
     if (currentDate.getMonth() > inputDate.getMonth() || (currentDate.getMonth() === inputDate.getMonth() && currentDate.getDate() > inputDate.getDate())) {
         age++;

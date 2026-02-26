@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 jest.mock("../../../../src/services/acspProfileService");
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import { get } from "../../../../src/controllers/features/update-acsp/indexController";
@@ -53,8 +52,8 @@ describe("GET indexController", () => {
         const mockUpdatedAcspDetails = { name: "Updated ACSP", number: "12345" };
         sessionMock = {
             getExtraData: jest.fn((key: string) => {
-                if (key === ACSP_DETAILS) return mockAcspDetails;
-                if (key === ACSP_DETAILS_UPDATED) return mockUpdatedAcspDetails;
+                if (key === ACSP_DETAILS) {return mockAcspDetails;}
+                if (key === ACSP_DETAILS_UPDATED) {return mockUpdatedAcspDetails;}
             }),
             setExtraData: jest.fn()
         } as Partial<Session>;

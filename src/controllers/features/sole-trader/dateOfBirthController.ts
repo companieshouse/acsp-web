@@ -52,7 +52,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const currentUrl: string = BASE_URL + SOLE_TRADER_DATE_OF_BIRTH;
     try {
         const session: Session = req.session as any as Session;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME, lang);
         const errorList = validationResult(req);
         if (!errorList.isEmpty()) {

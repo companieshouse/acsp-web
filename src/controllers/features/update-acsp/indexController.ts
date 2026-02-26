@@ -18,7 +18,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
         const currentUrl = UPDATE_ACSP_DETAILS_BASE_URL;
-        var updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
+        const updateFlag = JSON.stringify(session.getExtraData(ACSP_DETAILS)) !== JSON.stringify(session.getExtraData(ACSP_DETAILS_UPDATED));
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
 
         if (!updateFlag) {

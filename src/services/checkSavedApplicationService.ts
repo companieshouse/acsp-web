@@ -46,7 +46,7 @@ export const getRedirectionUrl = async (savedApplications: Resource<TransactionL
     }
 };
 
-const getApplicationId = (transaction:TransactionData): string => {
+const getApplicationId = (transaction: TransactionData): string => {
     const acspId = transaction.resumeJourneyUri!.match(/acspId=([^\s]+)/);
     return acspId![1];
 };

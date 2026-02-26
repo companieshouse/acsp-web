@@ -68,7 +68,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 async () => {
                     if (!res.headersSent) {
                         const nextPageUrl = addLangToUrl(BASE_URL + LIMITED_IS_THIS_YOUR_COMPANY, lang);
-                        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+                        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
                         const companyDetails: Company = { companyNumber: companyNumber };
                         if (acspData) {
                             acspData.companyDetails = companyDetails;
@@ -80,7 +80,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                     }
                 }).catch((error) => {
                 if (error.message?.includes("Company Not Found")) {
-                    const validationError : ValidationError[] = [{
+                    const validationError: ValidationError[] = [{
                         value: companyNumber,
                         msg: "companyNumberDoesNotExist",
                         param: "companyNumber",

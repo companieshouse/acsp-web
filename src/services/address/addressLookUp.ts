@@ -22,7 +22,7 @@ export class AddressLookUpService {
         acspData.applicantDetails = applicantDetails;
     }
 
-    public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]) : Promise<string> {
+    public getAddressFromPostcode (req: Request, postcode: string, inputPremise: string, acspData: AcspData, businessAddress: boolean, ...nexPageUrls: string[]): Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (ukAddresses.some(address => address.country === "")) {
@@ -59,7 +59,7 @@ export class AddressLookUpService {
         });
     }
 
-    public getErrorMessage (error:Error, postcode:any) :ValidationError {
+    public getErrorMessage (error: Error, postcode: any): ValidationError {
         let validationError: ValidationError;
         if (error.message === "correspondenceLookUpAddressWithoutCountry") {
             validationError = {
@@ -79,7 +79,7 @@ export class AddressLookUpService {
         return validationError;
     }
 
-    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]) : Promise<string> {
+    public processAddressFromPostcodeUpdateJourney (req: Request, postcode: string, inputPremise: string, ...nexPageUrls: string[]): Promise<string> {
         const lang = selectLang(req.query.lang);
         return getAddressFromPostcode(postcode).then((ukAddresses) => {
             if (ukAddresses.some(address => address.country === "")) {
@@ -107,7 +107,7 @@ export class AddressLookUpService {
 
     private saveAddressListToSession (req: Request, ukAddresses: UKAddress[]): void {
 
-        const addressList : Array<Address> = [];
+        const addressList: Array<Address> = [];
         for (const ukAddress of ukAddresses) {
             const address = {
                 premises: ukAddress.premise,

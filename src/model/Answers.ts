@@ -1,10 +1,10 @@
 export interface Answers {
-    typeOfBusiness? : string;
-    roleType? : string;
+    typeOfBusiness?: string;
+    roleType?: string;
     name?: string;
-    dateOfBirth? : string;
-    nationality? : string;
-    countryOfResidence? : string;
+    dateOfBirth?: string;
+    nationality?: string;
+    countryOfResidence?: string;
     businessName?: string;
     workSector?: string;
     correspondenceAddress?: string;

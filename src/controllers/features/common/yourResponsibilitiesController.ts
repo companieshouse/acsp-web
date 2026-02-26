@@ -10,7 +10,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const session: Session = req.session as any as Session;
-    const acspData : ACSPData = session?.getExtraData(USER_DATA)!;
+    const acspData: ACSPData = session?.getExtraData(USER_DATA)!;
     res.render(config.YOUR_RESPONSIBILITIES, {
         previousPage: addLangToUrl(BASE_URL + AML_BODY_DETAILS_CONFIRM, lang),
         ...getLocaleInfo(locales, lang),

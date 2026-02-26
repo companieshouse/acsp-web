@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 jest.mock("@companieshouse/web-security-node");
 process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "true";
 import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";

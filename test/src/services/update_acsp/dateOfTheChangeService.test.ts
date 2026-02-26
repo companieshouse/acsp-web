@@ -118,9 +118,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         (session.getExtraData as jest.Mock)
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_WHAT_IS_THE_BUSINESS_NAME;
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return acspInProgress;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdated;}
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_WHAT_IS_THE_BUSINESS_NAME;}
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -154,9 +154,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
-            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_ACSP_WHAT_IS_YOUR_NAME;
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return acspinProgressFullProfile;}
+            if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_ACSP_WHAT_IS_YOUR_NAME;}
         });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -175,9 +175,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         (session.getExtraData as jest.Mock)
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_WHERE_DO_YOU_LIVE;
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return acspInProgress;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdated;}
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_WHERE_DO_YOU_LIVE;}
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -193,9 +193,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
 
         (session.getExtraData as jest.Mock)
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspInProgress;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdated;
-                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_BUSINESS_ADDRESS_CONFIRM;
+                if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return acspInProgress;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdated;}
+                if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_BUSINESS_ADDRESS_CONFIRM;}
             });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -215,9 +215,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) return acspinProgressFullProfile;
-            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;
+            if (key === ACSP_DETAILS_UPDATE_IN_PROGRESS) {return acspinProgressFullProfile;}
+            if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM;}
         });
 
         updateWithTheEffectiveDateAmendment(req as Request, dateOfChange.toISOString());
@@ -238,9 +238,9 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_AML_MEMBERSHIP_NUMBER;
-            if (key === NEW_AML_BODY) return newAMLBody;
-            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_AML_MEMBERSHIP_NUMBER;}
+            if (key === NEW_AML_BODY) {return newAMLBody;}
+            if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
         });
 
         expect(acspUpdatedFullProfile.amlDetails).toEqual([]);
@@ -278,10 +278,10 @@ describe("updateWithTheEffectiveDateAmendment", () => {
         };
 
         (session.getExtraData as jest.Mock).mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) return UPDATE_AML_MEMBERSHIP_NUMBER;
-            if (key === ADD_AML_BODY_UPDATE) return updateIndex;
-            if (key === NEW_AML_BODY) return newAMLBody;
-            if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+            if (key === ACSP_UPDATE_PREVIOUS_PAGE_URL) {return UPDATE_AML_MEMBERSHIP_NUMBER;}
+            if (key === ADD_AML_BODY_UPDATE) {return updateIndex;}
+            if (key === NEW_AML_BODY) {return newAMLBody;}
+            if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
         });
 
         updateWithTheEffectiveDateAmendment(req as Request, updatedDateOfChange);
@@ -339,7 +339,7 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the correct date for sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) {return "2024-01-01";}
             return undefined;
         });
         const result = getDateOfChangeFromSession(UPDATE_ACSP_WHAT_IS_YOUR_NAME, session);
@@ -348,7 +348,7 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the correct date for business name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) {return "2024-02-02";}
             return undefined;
         });
         const result = getDateOfChangeFromSession(UPDATE_WHAT_IS_THE_BUSINESS_NAME, session);
@@ -357,7 +357,7 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the correct date for residential country change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) {return "2024-03-03";}
             return undefined;
         });
         const result = getDateOfChangeFromSession(UPDATE_WHERE_DO_YOU_LIVE, session);
@@ -366,7 +366,7 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the correct date for correspondence address change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) {return "2024-04-04";}
             return undefined;
         });
         const result = getDateOfChangeFromSession(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, session);
@@ -375,7 +375,7 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the correct date for registered office address change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) {return "2024-05-05";}
             return undefined;
         });
         const result = getDateOfChangeFromSession(UPDATE_BUSINESS_ADDRESS_CONFIRM, session);
@@ -396,8 +396,8 @@ describe("getDateOfChangeFromSession", () => {
 
     it("returns the first matching date if previousPage contains multiple mapping substrings", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) {return "2024-01-01";}
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) {return "2024-02-02";}
             return undefined;
         });
 
@@ -447,7 +447,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles sole trader name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) {return "2024-01-01";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(UPDATE_ACSP_WHAT_IS_YOUR_NAME, acspUpdatedFullProfile, session);
@@ -461,7 +461,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles sole trader name change when soleTraderDetails is undefined", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) return "2024-01-01";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME) {return "2024-01-01";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(
@@ -479,7 +479,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles business name change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) return "2024-02-02";
+            if (key === ACSP_UPDATE_CHANGE_DATE.NAME_OF_BUSINESS) {return "2024-02-02";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(UPDATE_WHAT_IS_THE_BUSINESS_NAME, acspUpdatedFullProfile, session);
@@ -489,7 +489,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles where do you live change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) {return "2024-03-03";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(UPDATE_WHERE_DO_YOU_LIVE, acspUpdatedFullProfile, session);
@@ -499,7 +499,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles where do you live change when soleTraderDetails is undefined", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) return "2024-03-03";
+            if (key === ACSP_UPDATE_CHANGE_DATE.WHERE_DO_YOU_LIVE) {return "2024-03-03";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(
@@ -513,7 +513,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles correspondence address change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) {return "2024-04-04";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(UPDATE_CORRESPONDENCE_ADDRESS_CONFIRM, acspUpdatedFullProfile, session);
@@ -531,7 +531,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles correspondence address change for sole trader", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) {return "2024-04-04";}
             return undefined;
         });
 
@@ -555,7 +555,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles correspondence address change when serviceAddress is undefined", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) return "2024-04-04";
+            if (key === ACSP_UPDATE_CHANGE_DATE.CORRESPONDENCE_ADDRESS) {return "2024-04-04";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(
@@ -577,7 +577,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles registered office address change", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) {return "2024-05-05";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(UPDATE_BUSINESS_ADDRESS_CONFIRM, acspUpdatedFullProfile, session);
@@ -595,7 +595,7 @@ describe("setUpdateInProgressAndGetDateOfChange", () => {
 
     it("handles registered office address change when registeredOfficeAddress is undefined", () => {
         session.getExtraData.mockImplementation((key: string) => {
-            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) return "2024-05-05";
+            if (key === ACSP_UPDATE_CHANGE_DATE.REGISTERED_OFFICE_ADDRESS) {return "2024-05-05";}
             return undefined;
         });
         const result = setUpdateInProgressAndGetDateOfChange(

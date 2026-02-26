@@ -56,7 +56,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_AUTO_LOOKUP_ADDRESS, lang);
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

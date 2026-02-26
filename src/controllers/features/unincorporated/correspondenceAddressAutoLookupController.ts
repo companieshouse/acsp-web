@@ -25,7 +25,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     try {
         // get data from mongo
-        const acspData:AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
+        const acspData: AcspData = await getAcspRegistration(session, session.getExtraData(SUBMISSION_ID)!, res.locals.applicationId);
         saveDataInSession(req, USER_DATA, acspData);
 
         const payload = {

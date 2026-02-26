@@ -47,7 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errorList = validationResult(req);
         const session: Session = req.session as any as Session;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
             res.status(400).render(config.SECTOR_YOU_WORK_IN, {

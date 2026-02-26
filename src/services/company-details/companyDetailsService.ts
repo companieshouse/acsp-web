@@ -25,7 +25,7 @@ export class CompanyDetailsService {
     }
 
     public determineCompanyType (type: string): string {
-        if (!type) return "";
+        if (!type) {return "";}
 
         const companyTypeFormat = /[^\w\s]/gi;
         const cleanedCompanyType = type.replace(companyTypeFormat, "");

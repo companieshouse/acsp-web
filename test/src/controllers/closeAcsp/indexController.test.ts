@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 jest.mock("../../../../src/services/acspProfileService");
 process.env.FEATURE_FLAG_ENABLE_CLOSE_ACSP = "true";
 import mocks from "../../../mocks/all_middleware_mock";

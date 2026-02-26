@@ -5,7 +5,7 @@ import * as config from "../config";
 import { MANAGE_USERS } from "../types/pageURL";
 
 export class ErrorService {
-    public renderErrorPage = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {
+    public renderErrorPage = (res: Response, locales: LocalesService, lang: string, currentUrl: string) => {
         res.status(500).render(config.ERROR_500, {
             title: "Sorry we are experiencing technical difficulties",
             ...getLocaleInfo(locales, lang),
@@ -23,7 +23,7 @@ export class ErrorService {
         });
     };
 
-    public render403Page = (res:Response, locales:LocalesService, lang:string, currentUrl: string) => {
+    public render403Page = (res: Response, locales: LocalesService, lang: string, currentUrl: string) => {
         res.status(403).render(config.ERROR_403, {
             title: "Sorry, something went wrong",
             ...getLocaleInfo(locales, lang),

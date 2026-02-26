@@ -182,7 +182,7 @@ describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () 
     });
 });
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 describe("POST " + UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_CHECK_YOUR_UPDATES, () => {
     it("should return status 302 after redirect to Provide AML page", async () => {

@@ -9,7 +9,7 @@ import { Company } from "../../../model/Company";
 export const get = async (req: Request, res: Response, next: NextFunction) => {
 
     const session: Session = req.session as any as Session;
-    const company : Company = session?.getExtraData(COMPANY_DETAILS)!;
+    const company: Company = session?.getExtraData(COMPANY_DETAILS)!;
 
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();

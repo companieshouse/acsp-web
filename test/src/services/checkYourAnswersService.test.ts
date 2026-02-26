@@ -190,7 +190,7 @@ describe("CheckYourAnswersService", () => {
 
         const mockSession = {
             getExtraData: (key: string) => {
-                if (key === COMPANY_DETAILS) return mockCompany;
+                if (key === COMPANY_DETAILS) {return mockCompany;}
                 return undefined;
             }
         };
