@@ -49,7 +49,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const errorList = validationResult(req);
         const selectedOption = req.body.nameRegisteredWithAml;
         const session: Session = req.session as any as Session;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

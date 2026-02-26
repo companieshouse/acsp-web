@@ -47,7 +47,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const errorList = validationResult(req);
 
         if (!errorList.isEmpty()) {

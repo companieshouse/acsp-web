@@ -19,10 +19,10 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const session: Session = req.session as any as Session;
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
         const addressList = session.getExtraData(ADDRESS_LIST);
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
-        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
 
         res.render(config.UNINCORPORATED_BUSINESS_ADDRESS_LIST, {
             ...getLocaleInfo(locales, lang),
@@ -42,12 +42,12 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
-        const currentUrl:string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
+        const currentUrl: string = UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LIST;
         const session: Session = req.session as any as Session;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const acspDetails: AcspFullProfile = session.getExtraData(ACSP_DETAILS)!;
         const errorList = validationResult(req);
-        const previousPage:string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
+        const previousPage: string = addLangToUrl(UPDATE_ACSP_DETAILS_BASE_URL + UPDATE_BUSINESS_ADDRESS_LOOKUP, lang);
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

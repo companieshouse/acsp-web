@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import supertest from "supertest";

@@ -24,7 +24,7 @@ describe("CompanyDetailsService", () => {
 
     test("saveToSession correctly saves company details to session", () => {
         // mock company details
-        const mockCompanyDetails : CompanyProfile = {
+        const mockCompanyDetails: CompanyProfile = {
             companyName: "Company",
             companyNumber: "12345678",
             companyStatus: "Active",
@@ -86,7 +86,7 @@ describe("CompanyDetailsService", () => {
     });
 
     test("getFromSession retrieves company details from session", async () => {
-        const mockCompanyDetails : CompanyProfile = {
+        const mockCompanyDetails: CompanyProfile = {
             companyName: "Company",
             companyNumber: "12345678",
             companyStatus: "Active",

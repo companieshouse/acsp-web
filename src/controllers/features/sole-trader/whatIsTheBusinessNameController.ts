@@ -57,7 +57,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHERE_DO_YOU_LIVE, lang);
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_THE_BUSINESS_NAME;
     const session: Session = req.session as any as Session;
-    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
     try {
         const errorList = validationResult(req);

@@ -16,7 +16,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
         const lang = selectLang(req.query.lang);
         const locales = getLocalesService();
         const session: Session = req.session as any as Session;
-        const updateInProgress:string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
+        const updateInProgress: string| undefined = session.getExtraData(ACSP_DETAILS_UPDATE_IN_PROGRESS);
         let payload;
 
         if (updateInProgress) {

@@ -13,7 +13,7 @@ import * as localise from "../../../../src/utils/localise";
 
 const router = supertest(app);
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 describe("GET " + UPDATE_CANCEL_ALL_UPDATES, () => {
     it("should respond with status 200", async () => {

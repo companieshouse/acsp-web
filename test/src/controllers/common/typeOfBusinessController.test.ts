@@ -21,7 +21,7 @@ jest.mock("../../../../src/services/transactions/transaction_service");
 jest.mock("../../../../src/services/checkSavedApplicationService");
 const router = supertest(app);
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;

@@ -44,7 +44,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const session: Session = req.session as any as Session;
-    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
     const currentUrl = BASE_URL + UNINCORPORATED_CORRESPONDENCE_ADDRESS_MANUAL;

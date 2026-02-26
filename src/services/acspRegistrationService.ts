@@ -15,7 +15,7 @@ import { HttpResponse } from "@companieshouse/api-sdk-node/dist/http";
  * @returns The acsp registration details
  */
 
-export const getAcspRegistration = async (session: Session, transactionId:string, acspApplicationId: string): Promise<AcspData> => {
+export const getAcspRegistration = async (session: Session, transactionId: string, acspApplicationId: string): Promise<AcspData> => {
     logger.info(`GET - Retrieving acsp registration for transaction ID: ${transactionId} and application ID: ${acspApplicationId}`);
     if (!transactionId) {
         logger.error(`acsp registration GET request failed - no transaction ID provided for transaction ID: ${transactionId}`);
