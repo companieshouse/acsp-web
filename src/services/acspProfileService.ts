@@ -4,7 +4,7 @@ import logger from "../utils/logger";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { AcspFullProfile } from "private-api-sdk-node/dist/services/acsp-profile/types";
 
-export const getAcspFullProfile = async (acspNumber: string):Promise<AcspFullProfile> => {
+export const getAcspFullProfile = async (acspNumber: string): Promise<AcspFullProfile> => {
     const apiClient: PrivateApiClient = createLocalApiKeyClient();
 
     logger.debug(`Recieved request to get acsp full profile for acsp number: ${acspNumber}`);

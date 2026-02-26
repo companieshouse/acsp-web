@@ -29,7 +29,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err: any, req: Request, re
     }
 };
 
-export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next:NextFunction) => {
+export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof CsrfError) {
         logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
         const errorService = new ErrorService();
@@ -39,7 +39,7 @@ export const csrfErrorHandler: ErrorRequestHandler = (err: any, req: Request, re
     }
 };
 
-export const accountOwnerErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next:NextFunction) => {
+export const accountOwnerErrorHandler: ErrorRequestHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof AccountOwnerError) {
         logger.error(`${err.name} - accountOwnerError: ${err.message} - ${err.stack}`);
         const errorService = new ErrorService();

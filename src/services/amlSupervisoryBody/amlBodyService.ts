@@ -4,7 +4,7 @@ import { AcspData, AmlSupervisoryBody } from "@companieshouse/api-sdk-node/dist/
 export class AmlSupervisoryBodyService {
     public saveSelectedAML = (req: Request, acspData: AcspData) => {
         const selectedAMLSupervisoryBodiesFromForm = req.body["AML-supervisory-bodies"];
-        var selectedAMLSupervisoryBodies: Array<string>;
+        let selectedAMLSupervisoryBodies: Array<string>;
         selectedAMLSupervisoryBodies = [];
 
         if (!(selectedAMLSupervisoryBodiesFromForm instanceof Array)) {
@@ -12,12 +12,11 @@ export class AmlSupervisoryBodyService {
         } else {
             selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm;
         }
-        var amlSupervisoryBodies: Array<AmlSupervisoryBody>;
-        amlSupervisoryBodies = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
+
+        const amlSupervisoryBodies: Array<AmlSupervisoryBody> = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
             ? [] : acspData.amlSupervisoryBodies;
 
-        var previouslySelectedAmlBodiesName: Array<string>;
-        previouslySelectedAmlBodiesName = [];
+        const previouslySelectedAmlBodiesName: Array<string> = [];
         if (amlSupervisoryBodies.length > 0) {
             amlSupervisoryBodies.forEach((amlSupervisoryBody) => {
                 previouslySelectedAmlBodiesName.push(amlSupervisoryBody.amlSupervisoryBody!);
@@ -58,7 +57,7 @@ export class AmlSupervisoryBodyService {
     };
 
     getAMLBodiesNotInCurrentSelection = (selectedAMLSupervisoryBodies: string[], previouslySelectedAmlBodiesName: string[], amlSupervisoryBodies: AmlSupervisoryBody[]) => {
-        var amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
+        let amlSupervisoryBodiesNotInCurrentSelection: Array<AmlSupervisoryBody>;
         if (selectedAMLSupervisoryBodies instanceof Array) {
             selectedAMLSupervisoryBodies.forEach(selectedAMLSupervisoryBody => {
                 if (previouslySelectedAmlBodiesName.length === 0 || (previouslySelectedAmlBodiesName.length > 0 && !previouslySelectedAmlBodiesName.includes(selectedAMLSupervisoryBody))) {
@@ -74,7 +73,7 @@ export class AmlSupervisoryBodyService {
 
             if (amlSupervisoryBodiesNotInCurrentSelection.length > 0) {
                 amlSupervisoryBodiesNotInCurrentSelection.forEach(amlSupervisoryBodyToBeRemoved => {
-                    var index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
+                    const index = amlSupervisoryBodies.indexOf(amlSupervisoryBodyToBeRemoved);
                     amlSupervisoryBodies.splice(index, 1);
                 });
             }

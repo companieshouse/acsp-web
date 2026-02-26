@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 jest.mock("@companieshouse/web-security-node");
 process.env.FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = "false";
 import { acspProfileCreateAuthMiddleware, authMiddleware, AuthOptions } from "@companieshouse/web-security-node";
@@ -59,7 +58,7 @@ describe("authentication middleware tests", () => {
 
 });
 
-function getSessionRequestWithExtraData (value: Boolean): Session {
+function getSessionRequestWithExtraData (value: boolean): Session {
     const session = getSessionRequestWithPermission();
 
     session.setExtraData(USER_DATA, {

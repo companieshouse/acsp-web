@@ -105,8 +105,8 @@ describe("addAmlSupervisorController - get", () => {
 
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+                if (key === ADD_AML_BODY_UPDATE) {return updateBodyIndex;}
             });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
@@ -124,8 +124,8 @@ describe("addAmlSupervisorController - get", () => {
         const updateBodyIndex = undefined;
         sessionMock.getExtraData = jest.fn()
             .mockImplementation((key: string) => {
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
-                if (key === ADD_AML_BODY_UPDATE) return updateBodyIndex;
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
+                if (key === ADD_AML_BODY_UPDATE) {return updateBodyIndex;}
             });
         await get(req as Request, res as Response, next);
         expect(res.render).toHaveBeenCalledWith(expect.any(String), expect.objectContaining({
@@ -158,8 +158,8 @@ describe("amlSupervisor", () => {
 
         session = {
             getExtraData: jest.fn((key: string) => {
-                if (key === ACSP_DETAILS) return acspFullProfile;
-                if (key === ACSP_DETAILS_UPDATED) return acspUpdatedFullProfile;
+                if (key === ACSP_DETAILS) {return acspFullProfile;}
+                if (key === ACSP_DETAILS_UPDATED) {return acspUpdatedFullProfile;}
             }),
             setExtraData: jest.fn()
         } as Partial<Session>;

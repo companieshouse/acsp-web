@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 process.env.FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = "true";
 import mocks from "../../../mocks/all_middleware_mock";
 import { Session } from "@companieshouse/node-session-handler";
@@ -19,7 +18,7 @@ jest.mock("../../../../src/services/update-acsp/updateYourDetailsService");
 
 const router = supertest(app);
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 describe("GET" + UPDATE_ACSP_WHAT_IS_YOUR_NAME, () => {
     let req: Partial<Request>;

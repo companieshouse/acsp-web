@@ -14,21 +14,21 @@ export const POST_ACSP_REGISTRATION_DETAILS_ERROR: string = "Unable to post regi
 export const PREVIOUS_PAGE_URL: string = "previouspageurl";
 export const NO_PAYMENT_RESOURCE_ERROR: string = "No resource in payment response";
 export const PAYEMNT_REFERENCE: string = "Register_ACSP_";
-export const CLOSED:string = "closed";
-export const REJECTED:string = "rejected";
-export const ACCEPTED:string = "accepted";
-export const CEASED:string = "ceased";
-export const IN_PROGRESS:string = "in progress";
-export const APPLICATION_ID:string = "application id";
-export const RESUME_APPLICATION_ID:string = "resume application id";
+export const CLOSED: string = "closed";
+export const REJECTED: string = "rejected";
+export const ACCEPTED: string = "accepted";
+export const CEASED: string = "ceased";
+export const IN_PROGRESS: string = "in progress";
+export const APPLICATION_ID: string = "application id";
+export const RESUME_APPLICATION_ID: string = "resume application id";
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };
-export const REQ_TYPE_UPDATE_ACSP:string = "updateAcsp";
-export const ACSP_PROFILE_TYPE_LIMITED_COMPANY:string = "limited-company";
-export const ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP:string = "limited-liability-partnership";
-export const ACSP_PROFILE_TYPE_CORPORATE_BODY:string = "corporate-body";
-export const ACSP_PROFILE_TYPE_SOLE_TRADER:string = "sole-trader";
+export const REQ_TYPE_UPDATE_ACSP: string = "updateAcsp";
+export const ACSP_PROFILE_TYPE_LIMITED_COMPANY: string = "limited-company";
+export const ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP: string = "limited-liability-partnership";
+export const ACSP_PROFILE_TYPE_CORPORATE_BODY: string = "corporate-body";
+export const ACSP_PROFILE_TYPE_SOLE_TRADER: string = "sole-trader";
 export const LIMITED_BUSINESS_TYPES = [
     ACSP_PROFILE_TYPE_LIMITED_COMPANY,
     ACSP_PROFILE_TYPE_LIMITED_LIABILITY_PARTNERSHIP,

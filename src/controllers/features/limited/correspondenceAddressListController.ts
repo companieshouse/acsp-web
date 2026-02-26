@@ -21,8 +21,8 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     const addressList = session.getExtraData(ADDRESS_LIST);
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const previousPage:string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
-    const currentUrl:string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
+    const previousPage: string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+    const currentUrl: string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
 
     try {
         // get data from mongo and save to session
@@ -46,13 +46,13 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
-    const currentUrl:string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
+    const currentUrl: string = BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LIST;
     try {
         const session: Session = req.session as any as Session;
         const acspData: AcspData = session?.getExtraData(USER_DATA)!;
         const addressList: Address[] = session.getExtraData(ADDRESS_LIST)!;
         const errorList = validationResult(req);
-        const previousPage:string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
+        const previousPage: string = addLangToUrl(BASE_URL + LIMITED_CORRESPONDENCE_ADDRESS_LOOKUP, lang);
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));

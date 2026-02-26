@@ -21,7 +21,7 @@ export const whatIsYourEmailValidator = (type: EmailValidationType): ValidationC
 const compareNewOldEmailChecker = (req: Request, value: string) => {
     // Custom validation used for Update ACSP Details service,
     // Check if the email has changed through comparing the inputted email against the existing email
-    const session : Session = req.session as Session;
+    const session: Session = req.session as Session;
     const acspDetails: AcspFullProfile | undefined = session.getExtraData(ACSP_DETAILS);
 
     if (acspDetails) {

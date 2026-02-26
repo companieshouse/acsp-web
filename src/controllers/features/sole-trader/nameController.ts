@@ -46,7 +46,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
     const locales = getLocalesService();
     const currentUrl: string = BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_NAME;
     const session: Session = req.session as any as Session;
-    const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+    const acspData: AcspData = session?.getExtraData(USER_DATA)!;
     try {
         const errorList = validationResult(req);
         const previousPage: string = addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang);

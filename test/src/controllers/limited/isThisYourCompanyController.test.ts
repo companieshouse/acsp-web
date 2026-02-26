@@ -13,7 +13,7 @@ import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp/types"
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 const router = supertest(app);
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const mockPutAcspRegistration = putAcspRegistration as jest.Mock;

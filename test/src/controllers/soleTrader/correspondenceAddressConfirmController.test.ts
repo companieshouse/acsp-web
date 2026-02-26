@@ -14,7 +14,7 @@ jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 const router = supertest(app);
 
-let customMockSessionMiddleware : any;
+let customMockSessionMiddleware: any;
 
 const mockGetAcspRegistration = getAcspRegistration as jest.Mock;
 const acspData: AcspData = {

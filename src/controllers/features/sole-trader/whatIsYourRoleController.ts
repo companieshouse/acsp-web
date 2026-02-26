@@ -44,7 +44,7 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
         const selectedRole = req.body.WhatIsYourRole;
         const previousPage: string = addLangToUrl(BASE_URL + TYPE_OF_BUSINESS, lang);
         const session: Session = req.session as any as Session;
-        const acspData : AcspData = session?.getExtraData(USER_DATA)!;
+        const acspData: AcspData = session?.getExtraData(USER_DATA)!;
 
         if (!errorList.isEmpty()) {
             const pageProperties = getPageProperties(formatValidationError(errorList.array(), lang));
