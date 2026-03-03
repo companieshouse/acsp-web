@@ -34,9 +34,9 @@
     "readAdviceFromAbilityNetLink": "Darllenwch gyngor gan AbilityNet ar sut i wneud eich dyfais yn haws i'w defnyddio",
     "forExampleLearnHowTo": "Er enghraifft, dysgwch sut i newid lliw'r cefndir neu faint y testun.",
     "afterYouRegisterHeading": "Ar ôl i chi gofrestru",
-    "youllBeAble": "Byddwn yn creu cyfrif asiant awdurdodedig, y byddwch chi'n gallu cael mynediad iddo pan fyddwch yn mewngofnodi i'ch cyfrif Tŷ'r Cwmnïau.",
-    "signInToACSPText": "Darllenwch y canllawiau ar fod yn ACSP",
-    "toAccessACSP": " i ddarganfod mwy am beth sy'n digwydd ar ôl i chi gofrestru, gan gynnwys eich cyfrifoldebau cyfreithiol.",
-    "guidanceForAuthorisedAgentsLink": "cyfarwyddyd ar gyfer asiantau awdurdodedig",
-    "toFindOutHowToUse": " i ddarganfod sut i ddefnyddio'r cyfrif asiant awdurdodedig."
+    "youllBeAble": "Byddwch yn gallu",
+    "signInToACSPText": "mewngofnodi i’r cyfrif asiant awdurdodedig",
+    "toAccessACSP": " i gael mynediad at wasanaethau ACSP. Byddwch hefyd yn gallu ychwanegu unigolion eraill sy’n gweithio i’r busnes, os oes angen iddynt gael mynediad at wasanaethau ar gyfer yr ACSP.",
+    "acspGuidanceText": "Darllenwch y canllawiau ar fod yn ACSP",
+    "toFindOutHowToUse": " i ddarganfod mwy am beth sy’n digwydd ar ôl i chi gofrestru, gan gynnwys eich cyfrifoldebau cyfreithiol."
 }
