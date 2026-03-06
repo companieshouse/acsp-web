@@ -2,9 +2,9 @@ import { ACCOUNT_URL, CHS_URL } from "../utils/properties";
 
 const SEPARATOR = "/";
 
-export const START = "/"; // Domain name will go here
-
 export const HOME_URL = "";
+
+export const START_URL = "/start";
 
 export const SIGN_OUT_PAGE = `signout`;
 

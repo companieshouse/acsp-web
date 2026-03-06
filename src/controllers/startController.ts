@@ -1,0 +1,11 @@
+import { NextFunction, Request, Response } from "express";
+import { BASE_URL, CHECK_SAVED_APPLICATION } from "../types/pageURL";
+import {
+    addLangToUrl,
+    selectLang
+} from "../utils/localise";
+
+export const get = async (req: Request, res: Response, next: NextFunction) => {
+    const lang = selectLang(req.query.lang);
+    res.redirect(addLangToUrl(BASE_URL + CHECK_SAVED_APPLICATION, lang));
+};
