@@ -5,7 +5,7 @@ import {
     selectLang
 } from "../utils/localise";
 
-export const get = async (req: Request, res: Response, next: NextFunction) => {
+export const get = async (req: Request, res: Response, _next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     res.redirect(addLangToUrl(BASE_URL + CHECK_SAVED_APPLICATION, lang));
 };
