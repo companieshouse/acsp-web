@@ -9,7 +9,6 @@ import {
 } from "../utils/localise";
 import { ACSP01_COST, PIWIK_REGISTRATION_START_GOAL_ID } from "../utils/properties";
 
-// TODO: Remove this controller and associated routes/views when the Whitehall page goes live
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
     const locales = getLocalesService();
@@ -20,7 +19,7 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
     res.render(config.HOME, {
         ...getLocaleInfo(locales, lang),
         currentUrl: BASE_URL,
-        PIWIK_REGISTRATION_START_GOAL_ID, // FIXME: Ask Matomo team to make this an implicit goal
+        PIWIK_REGISTRATION_START_GOAL_ID,
         abilityNetAccessibilityLink,
         ACSP01_COST,
         verifyIdentityGovOneLoginLink
