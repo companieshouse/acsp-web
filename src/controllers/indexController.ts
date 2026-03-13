@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../config";
-import { BASE_URL, CHECK_SAVED_APPLICATION, START_URL, VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN } from "../types/pageURL";
+import { BASE_URL, START_URL, VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN } from "../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
