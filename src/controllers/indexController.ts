@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import * as config from "../config";
-import { BASE_URL, CHECK_SAVED_APPLICATION, VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN } from "../types/pageURL";
+import { BASE_URL, START_URL, VERIFY_IDENTITY_WITH_GOV_UK_ONE_LOGIN } from "../types/pageURL";
 import {
     addLangToUrl,
     getLocaleInfo,
@@ -28,5 +28,5 @@ export const get = async (req: Request, res: Response, next: NextFunction) => {
 
 export const post = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
-    res.redirect(addLangToUrl(BASE_URL + CHECK_SAVED_APPLICATION, lang));
+    res.redirect(addLangToUrl(BASE_URL + START_URL, lang));
 };
