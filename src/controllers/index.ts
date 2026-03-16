@@ -1,6 +1,7 @@
 export * as accessibilityStatementController from "./accessibilityStatementController";
 export * as healthCheckController from "./healthCheckController";
 export * as indexController from "./indexController";
+export * as startController from "./startController";
 export * as checkYourAnswersController from "./features/common/checkYourAnswers";
 export * as applicationConfirmationController from "./features/common/applicationConfirmationController";
 export * as yourResponsibilitiesController from "./features/common/yourResponsibilitiesController";
