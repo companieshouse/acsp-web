@@ -8,9 +8,9 @@ export class AmlSupervisoryBodyService {
         selectedAMLSupervisoryBodies = [];
 
         if (!(selectedAMLSupervisoryBodiesFromForm instanceof Array)) {
-            selectedAMLSupervisoryBodies.push(selectedAMLSupervisoryBodiesFromForm);
+            selectedAMLSupervisoryBodies.push(selectedAMLSupervisoryBodiesFromForm.toLowerCase());
         } else {
-            selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm;
+            selectedAMLSupervisoryBodies = selectedAMLSupervisoryBodiesFromForm.map(body => body.toLowerCase());
         }
 
         const amlSupervisoryBodies: Array<AmlSupervisoryBody> = (!acspData.amlSupervisoryBodies || acspData.amlSupervisoryBodies?.length === 0)
