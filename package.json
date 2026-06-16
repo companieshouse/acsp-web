@@ -4,7 +4,7 @@
   "description": "A web application for the Authorized Corporate Service Providers (ACSP)",
   "main": "dist/src/server.js",
   "engines": {
-    "node": "24.4.0"
+    "node": "24.11.0"
   },
   "scripts": {
     "prebuild": "rm -rf ./dist",
@@ -20,7 +20,8 @@
     "sonarqube-base-branch": "sonar-scanner",
     "sonarqube-pull-request": "sonar-scanner -D sonar.pullrequest.base=main",
     "sonarqube": "branch=$(git rev-parse --symbolic-full-name --abbrev-ref HEAD); if [[ $branch == \"HEAD\" ]]; then echo $branch && npm run sonarqube-base-branch; else echo $branch && npm run sonarqube-pull-request; fi;",
-    "chs-dev": "nodemon --legacy-watch"
+    "chs-dev": "nodemon --legacy-watch",
+    "prepare": "husky install"
   },
   "license": "MIT",
   "dependencies": {
