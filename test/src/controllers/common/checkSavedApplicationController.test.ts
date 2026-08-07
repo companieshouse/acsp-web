@@ -6,6 +6,7 @@ import { getSavedApplication } from "../../../../src/services/transactions/trans
 import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { getRedirectionUrl } from "../../../../src/services/checkSavedApplicationService";
+import { session } from "../../../mocks/session_middleware_mock";
 
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
@@ -69,6 +70,11 @@ describe("GET " + CHECK_SAVED_APPLICATION, () => {
     });
 
     it("should handle missing language parameter and default to 'en'", async () => {
+        // reset the shared mock session's persisted language: this test
+        // asserts the "no language previously chosen" default, but the
+        // preceding test legitimately persists "cy" to the same session
+        // (mirroring real session-based language persistence).
+        session.setLanguage("en");
         mockGetSavedApplication.mockResolvedValueOnce(hasSavedApplication);
         mockGetRedirectionUrl.mockResolvedValueOnce(BASE_URL + TYPE_OF_BUSINESS);
 
