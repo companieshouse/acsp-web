@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import { authenticationMiddleware } from "./middleware/authentication_middleware";
 import { authenticationMiddlewareForSoleTrader } from "./middleware/authentication_middleware_sole_trader";
 import { sessionMiddleware } from "./middleware/session_middleware";
+import { languageMiddleware } from "./middleware/language_middleware";
 import {
     APPLICATION_NAME,
     CDN_URL_CSS,
@@ -97,6 +98,7 @@ if (isActiveFeature(FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY)) {
     app.use(`^(?!(${BASE_URL}$|${BASE_URL}${SIGN_OUT_URL}))*`, helmet(prepareCSPConfig(nonce)));
 }
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, sessionMiddleware);
+app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, languageMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT}))*`, csrfProtectionMiddleware);
 app.use(`^(?!(${BASE_URL}${HEALTHCHECK}|${BASE_URL}$|${BASE_URL}${ACCESSIBILITY_STATEMENT})|(${BASE_URL}${SOLE_TRADER})|(${UPDATE_ACSP_DETAILS_BASE_URL})|(${CLOSE_ACSP_BASE_URL}))*`, authenticationMiddleware);
 app.use(`^(${BASE_URL}${SOLE_TRADER})*`, authenticationMiddlewareForSoleTrader);
