@@ -28,9 +28,9 @@
     "@companieshouse/api-sdk-node": "2.0.351",
     "@companieshouse/ch-node-utils": "3.0.7",
     "@companieshouse/node-session-handler": "5.2.15",
-    "@companieshouse/structured-logging-node": "2.0.14",
+    "@companieshouse/structured-logging-node": "2.0.15",
     "@companieshouse/web-security-node": "4.4.21",
-    "axios": "1.16.1",
+    "axios": "1.19.0",
     "cookie-parser": "1.4.7",
     "express": "4.22.1",
     "express-validator": "6.14.0",
@@ -40,7 +40,7 @@
     "helmet": "8.0.0",
     "http-errors": "1.7.3",
     "ioredis": "4.28.5",
-    "js-yaml": "4.2.0",
+    "js-yaml": "4.3.1",
     "nocache": "4.0.0",
     "node-mocks-http": "1.12.2",
     "nunjucks": "3.2.4",
@@ -78,7 +78,7 @@
     "nock": "12.0.3",
     "nodemon": "3.1.14",
     "sass": "1.97.3",
-    "sonarqube-scanner": "3.3.0",
+    "sonarqube-scanner": "5.0.0",
     "supertest": "7.2.2",
     "ts-jest": "29.4.6",
     "ts-node": "10.9.2",
@@ -93,13 +93,13 @@
   "overrides": {
     "chokidar": "3.5.3",
     "glob-parent": "6.0.2",
-    "js-yaml": "4.2.0",
+    "js-yaml": "4.3.1",
     "@babel/core": "8.0.0",
     "shell-quote": "1.8.4",
     "qs": "6.15.2",
     "i18next-fs-backend": "2.6.6",
     "form-data": "4.0.6",
-    "brace-expansion": "5.0.6"
+    "brace-expansion": "5.0.9"
   },
   "nodemonConfig": {
     "watch": [
