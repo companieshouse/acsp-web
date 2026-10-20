@@ -117,13 +117,16 @@ CDN_HOST| URL for the CDN |
 CDN_URL_CSS| CDN URL for the CSS |
 CDN_URL_JS| CDN URL for the JavaScript |
 CHS_INTERNAL_API_KEY| API key for CHS service |
+CHS_JWT_SECRET| Shared secret used to sign (HS256) the JWT passed to transactions web for the presenter journey. Required when `FEATURE_FLAG_PRESENTERS_230926` is enabled |
 CHS_URL| Host URL for CHS |
 COOKIE_DOMAIN| Domain for cookies |
 COOKIE_NAME| Name for the cookie |
 COOKIE_SECRET| Used for cookie encryption |
 FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS| Feature flag for enabling Update ACSP details web service |
 FEATURE_FLAG_ENABLE_CLOSE_ACSP| Feature flag for enabling Close ACSP account web service |
+FEATURE_FLAG_PRESENTERS_230926| Feature flag for redirecting to transactions web for presenter details after a new application is created (default `false`) |
 HUMAN_LOG| Whether to produce a human-readable "pretty" log (1 or 0) |
+JWT_TOKEN_EXPIRY| Expiry of the presenter redirect JWT, as seconds (e.g. `300`) or a timespan (e.g. `5m`). Defaults to `5m` |
 LOG_LEVEL| Logging Level |
 NODE_SSL_ENABLED| Flag to enable SSL for the server|
 NUNJUCKS_LOADER_NO_CACHE| Flag to control the caching of templates in the Nunjucks loader|

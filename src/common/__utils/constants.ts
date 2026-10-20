@@ -21,6 +21,7 @@ export const CEASED: string = "ceased";
 export const IN_PROGRESS: string = "in progress";
 export const APPLICATION_ID: string = "application id";
 export const RESUME_APPLICATION_ID: string = "resume application id";
+export const ACSP_FORM_TYPE: string = "ACSP01";
 export const headers = {
     PAYMENT_REQUIRED: "x-payment-required"
 };

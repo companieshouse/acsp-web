@@ -8,13 +8,30 @@ import { SUBMISSION_ID, POST_ACSP_REGISTRATION_DETAILS_ERROR, GET_ACSP_REGISTRAT
 import logger from "../../../utils/logger";
 import { Session } from "@companieshouse/node-session-handler";
 import { saveDataInSession } from "../../../common/__utils/sessionHelper";
-import { PIWIK_REGISTRATION_LC_ID, PIWIK_REGISTRATION_LLP_ID, PIWIK_REGISTRATION_LP_ID, PIWIK_REGISTRATION_PARTNERSHIP_ID, PIWIK_REGISTRATION_SOLE_TRADER_ID } from "../../../utils/properties";
+import { PIWIK_REGISTRATION_LC_ID, PIWIK_REGISTRATION_LLP_ID, PIWIK_REGISTRATION_LP_ID, PIWIK_REGISTRATION_PARTNERSHIP_ID, PIWIK_REGISTRATION_SOLE_TRADER_ID, FEATURE_FLAG_PRESENTERS_230926 } from "../../../utils/properties";
 import { getAcspRegistration } from "../../../services/acspRegistrationService";
 import { AcspData } from "@companieshouse/api-sdk-node/dist/services/acsp";
 import { AcspDataService } from "../../../services/acspDataService";
 import { getPreviousPageUrl } from "../../../services/url";
 import { getSavedApplication } from "../../../services/transactions/transaction_service";
 import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
+import { isActiveFeature } from "../../../utils/feature.flag";
+import { getPresenterRedirectUrl } from "../../../services/presenterRedirectService";
+
+const getNextPageUrl = (selectedOption: string): string | undefined => {
+    switch (selectedOption) {
+    case "LC":
+    case "LLP":
+        return BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER;
+    case "PARTNERSHIP":
+    case "LP":
+        return BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML;
+    case "SOLE_TRADER":
+        return BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE;
+    default:
+        return undefined;
+    }
+};
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -101,18 +118,15 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
                 await acspDataService.saveAcspData(session, acspData, selectedOption);
             }
             saveDataInSession(req, "resume_application", true);
-            switch (selectedOption) {
-            case "LC":
-            case "LLP":
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
-                break;
-            case "PARTNERSHIP":
-            case "LP":
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
-                break;
-            case "SOLE_TRADER":
-                res.redirect(addLangToUrl(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE, lang));
-                break;
+            const nextPageUrl = getNextPageUrl(selectedOption);
+            if (nextPageUrl !== undefined) {
+                if (isActiveFeature(FEATURE_FLAG_PRESENTERS_230926)) {
+                    const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
+                    logger.info("Redirecting to transactions web for presenter details, transaction ID: " + transactionId);
+                    res.redirect(getPresenterRedirectUrl(transactionId, nextPageUrl, currentUrl, lang));
+                } else {
+                    res.redirect(addLangToUrl(nextPageUrl, lang));
+                }
             }
         } else {
             session.setExtraData(TYPE_OF_BUSINESS_SELECTED, true);
