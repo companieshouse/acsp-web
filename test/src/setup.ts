@@ -11,6 +11,7 @@ process.env.COOKIE_SECRET = "Xy6onkjQWF0TkRn0hfdqUw==";
 process.env.COOKIE_DOMAIN = "cookie domain";
 process.env.CACHE_SERVER = "test";
 process.env.CDN_URL_CSS = "//d7blrfb1p86zg.cloudfront.net/stylesheets/services/bankrupt-officers";
+process.env.CHS_JWT_SECRET = "test-chs-jwt-secret";
 jest.setTimeout(10000); // Set a timeout of 10 seconds for each test
 process.setMaxListeners(50);
 afterEach(() => {

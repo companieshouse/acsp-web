@@ -10,12 +10,20 @@ import { SUBMISSION_ID, TYPE_OF_BUSINESS_SELECTED, USER_DATA } from "../../../..
 import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
 import { getSavedApplication, postTransaction } from "../../../../src/services/transactions/transaction_service";
-import { validTransaction } from "../../../mocks/transaction_mock";
+import { validTransaction, transactionId } from "../../../mocks/transaction_mock";
 import { getRedirectionUrl } from "../../../../src/services/checkSavedApplicationService";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { TYPE_OF_BUSINESS } from "../../../../src/config";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
+let mockPresentersFeatureFlag = "false";
+jest.mock("../../../../src/utils/properties", () => ({
+    ...jest.requireActual("../../../../src/utils/properties"),
+    get FEATURE_FLAG_PRESENTERS_230926 () {
+        return mockPresentersFeatureFlag;
+    }
+}));
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("../../../../src/services/transactions/transaction_service");
@@ -174,6 +182,87 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
+describe("POST " + OTHER_TYPE_OF_BUSINESS + " with FEATURE_FLAG_PRESENTERS_230926 enabled", () => {
+    const CHS_URL = "http://chs.local";
+    const presenterUrlPrefix = (id: string): string => `${CHS_URL}/transaction/${id}/presenter?token=`;
+    const decodeTokenFromLocation = (location: string): JwtPayload =>
+        jwt.verify(new URL(location).searchParams.get("token")!, process.env.CHS_JWT_SECRET!) as JwtPayload;
+
+    beforeEach(() => {
+        mockPresentersFeatureFlag = "true";
+    });
+
+    afterEach(() => {
+        mockPresentersFeatureFlag = "false";
+    });
+
+    it.each([
+        ["CORPORATE_BODY", LIMITED_WHAT_IS_THE_COMPANY_NUMBER],
+        ["UNINCORPORATED", UNINCORPORATED_NAME_REGISTERED_WITH_AML]
+    ])("should redirect to transactions web with a signed token when a new %s application is created", async (selectedOption, nextPage) => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: selectedOption });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix(transactionId))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            form_type: "ACSP01",
+            transaction_id: transactionId,
+            return_url: CHS_URL + BASE_URL + nextPage + "?lang=en",
+            back_url: CHS_URL + BASE_URL + OTHER_TYPE_OF_BUSINESS + "?lang=en",
+            lang: "en"
+        }));
+    });
+
+    it("should pass the welsh language to transactions web when lang is cy", async () => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS + "?lang=cy").send({ otherTypeOfBusinessRadio: "CORPORATE_BODY" });
+        expect(res.status).toBe(302);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            return_url: CHS_URL + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=cy",
+            back_url: CHS_URL + BASE_URL + OTHER_TYPE_OF_BUSINESS + "?lang=cy",
+            lang: "cy"
+        }));
+    });
+
+    it("should redirect to transactions web when the business type changes and a new application is created", async () => {
+        createMockSessionMiddlewareNotNullUserData();
+        mockDeleteAcspApplication.mockResolvedValueOnce({ status: 204 });
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "CORPORATE_BODY" });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix(transactionId))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location).transaction_id).toBe(transactionId);
+    });
+
+    it("should redirect to transactions web when an existing application is updated", async () => {
+        createMockSessionMiddlewareNotNullUserData();
+        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "UNINCORPORATED_ENTITY" });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix("transactionID"))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            transaction_id: "transactionID",
+            return_url: CHS_URL + BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML + "?lang=en"
+        }));
+    });
+});
+
+describe("POST " + OTHER_TYPE_OF_BUSINESS + " with FEATURE_FLAG_PRESENTERS_230926 disabled", () => {
+    it("should redirect to the next page when a new application is created", async () => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + OTHER_TYPE_OF_BUSINESS).send({ otherTypeOfBusinessRadio: "CORPORATE_BODY" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en");
     });
 });
 

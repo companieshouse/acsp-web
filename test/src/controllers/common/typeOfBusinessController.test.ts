@@ -9,12 +9,20 @@ import { getSessionRequestWithPermission } from "../../../mocks/session.mock";
 import { Request, Response, NextFunction } from "express";
 import { SUBMISSION_ID, USER_DATA } from "../../../../src/common/__utils/constants";
 import { getSavedApplication, postTransaction } from "../../../../src/services/transactions/transaction_service";
-import { validTransaction } from "../../../mocks/transaction_mock";
+import { validTransaction, transactionId } from "../../../mocks/transaction_mock";
 import Resource from "@companieshouse/api-sdk-node/dist/services/resource";
 import { TransactionList } from "@companieshouse/api-sdk-node/dist/services/transaction/types";
 import { getRedirectionUrl } from "../../../../src/services/checkSavedApplicationService";
 import { SAVED_APPLICATION } from "../../../../src/config";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
+let mockPresentersFeatureFlag = "false";
+jest.mock("../../../../src/utils/properties", () => ({
+    ...jest.requireActual("../../../../src/utils/properties"),
+    get FEATURE_FLAG_PRESENTERS_230926 () {
+        return mockPresentersFeatureFlag;
+    }
+}));
 jest.mock("@companieshouse/api-sdk-node");
 jest.mock("../../../../src/services/acspRegistrationService");
 jest.mock("../../../../src/services/transactions/transaction_service");
@@ -236,6 +244,97 @@ describe("POST for acspData = null & SUBMISSION_ID = null" + TYPE_OF_BUSINESS, (
         expect(mockPostAcspRegistration).toHaveBeenCalledTimes(1);
         expect(res.status).toBe(500);
         expect(res.text).toContain("Sorry we are experiencing technical difficulties");
+    });
+});
+
+describe("POST " + TYPE_OF_BUSINESS + " with FEATURE_FLAG_PRESENTERS_230926 enabled", () => {
+    const CHS_URL = "http://chs.local";
+    const presenterUrlPrefix = (id: string): string => `${CHS_URL}/transaction/${id}/presenter?token=`;
+    const decodeTokenFromLocation = (location: string): JwtPayload =>
+        jwt.verify(new URL(location).searchParams.get("token")!, process.env.CHS_JWT_SECRET!) as JwtPayload;
+
+    beforeEach(() => {
+        mockPresentersFeatureFlag = "true";
+    });
+
+    afterEach(() => {
+        mockPresentersFeatureFlag = "false";
+    });
+
+    it.each([
+        ["LC", LIMITED_WHAT_IS_THE_COMPANY_NUMBER],
+        ["LLP", LIMITED_WHAT_IS_THE_COMPANY_NUMBER],
+        ["PARTNERSHIP", UNINCORPORATED_NAME_REGISTERED_WITH_AML],
+        ["LP", UNINCORPORATED_NAME_REGISTERED_WITH_AML],
+        ["SOLE_TRADER", SOLE_TRADER_WHAT_IS_YOUR_ROLE]
+    ])("should redirect to transactions web with a signed token when a new %s application is created", async (selectedOption, nextPage) => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: selectedOption });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix(transactionId))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            form_type: "ACSP01",
+            transaction_id: transactionId,
+            return_url: CHS_URL + BASE_URL + nextPage + "?lang=en",
+            back_url: CHS_URL + BASE_URL + TYPE_OF_BUSINESS + "?lang=en",
+            lang: "en"
+        }));
+    });
+
+    it("should pass the welsh language to transactions web when lang is cy", async () => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS + "?lang=cy").send({ typeOfBusinessRadio: "SOLE_TRADER" });
+        expect(res.status).toBe(302);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            return_url: CHS_URL + BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE + "?lang=cy",
+            back_url: CHS_URL + BASE_URL + TYPE_OF_BUSINESS + "?lang=cy",
+            lang: "cy"
+        }));
+    });
+
+    it("should redirect to transactions web when the business type changes and a new application is created", async () => {
+        createMockSessionMiddlewareNotNullUserData();
+        mockDeleteAcspApplication.mockResolvedValueOnce({ status: 204 });
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LP" });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix(transactionId))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location).transaction_id).toBe(transactionId);
+    });
+
+    it("should redirect to transactions web when an existing application is updated", async () => {
+        createMockSessionMiddlewareNotNullUserData();
+        mockPutAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "LC" });
+        expect(res.status).toBe(302);
+        expect(res.header.location.startsWith(presenterUrlPrefix("transactionID"))).toBe(true);
+        expect(decodeTokenFromLocation(res.header.location)).toEqual(expect.objectContaining({
+            transaction_id: "transactionID",
+            return_url: CHS_URL + BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER + "?lang=en"
+        }));
+    });
+
+    it("should redirect to the other type of business page when OTHER is selected", async () => {
+        createMockSessionMiddlewareNullUserData();
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "OTHER" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + OTHER_TYPE_OF_BUSINESS + "?lang=en");
+    });
+});
+
+describe("POST " + TYPE_OF_BUSINESS + " with FEATURE_FLAG_PRESENTERS_230926 disabled", () => {
+    it("should redirect to the next page when a new application is created", async () => {
+        createMockSessionMiddlewareNullUserData();
+        mockPostTransaction.mockResolvedValueOnce(validTransaction);
+        mockPostAcspRegistration.mockResolvedValueOnce(acspData);
+        const res = await router.post(BASE_URL + TYPE_OF_BUSINESS).send({ typeOfBusinessRadio: "SOLE_TRADER" });
+        expect(res.status).toBe(302);
+        expect(res.header.location).toBe(BASE_URL + SOLE_TRADER_WHAT_IS_YOUR_ROLE + "?lang=en");
     });
 });
 
