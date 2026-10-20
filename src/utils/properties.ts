@@ -44,6 +44,10 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET", "ChGovUk-XQrbf
 
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME", "__SID");
 
+// Shared secret used to sign the JWT passed to transactions web for the presenter journey
+export const CHS_JWT_SECRET = getEnvironmentValue("CHS_JWT_SECRET");
+export const JWT_TOKEN_EXPIRY = getEnvironmentValue("JWT_TOKEN_EXPIRY");
+
 // Misc Config
 
 export const LOCALES_ENABLED = getEnvironmentVariable("LOCALES_ENABLED", "true");
@@ -101,3 +105,5 @@ export const FEATURE_FLAG_VERIFY_SOLE_TRADER_ONLY = getEnvironmentValue("FEATURE
 export const FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS = getEnvironmentValue("FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS", "true");
 
 export const FEATURE_FLAG_ENABLE_CLOSE_ACSP = getEnvironmentValue("FEATURE_FLAG_ENABLE_CLOSE_ACSP", "false");
+
+export const FEATURE_FLAG_PRESENTERS_230926 = getEnvironmentValue("FEATURE_FLAG_PRESENTERS_230926", "false");
