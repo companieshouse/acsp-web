@@ -45,7 +45,9 @@ const buildCss = () => {
             process.cwd(),
             "node_modules/govuk_frontend_toolkit/stylesheets",
             "node_modules/govuk-elements-sass/public/sass"
-        ]
+        ],
+        // Suppress deprecation warnings raised inside govuk-frontend's own Sass; warnings from our code still show
+        quietDeps: true
     });
     fs.mkdirSync(dstDirCss, { recursive: true });
     fs.writeFileSync(path.join(dstDirCss, "acsp-web.min.css"), result.css);
