@@ -40,7 +40,7 @@ const configArray = [
             "require-await": "off",
 
             semi: ["error", "always"],
-            "@stylistic/ts/type-annotation-spacing": "error",
+            "@stylistic/ts/type-annotation-spacing": "off",
             "arrow-spacing": "error",
 
             "brace-style": [

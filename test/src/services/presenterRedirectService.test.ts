@@ -4,7 +4,7 @@ import { getPresenterRedirectUrl } from "../../../src/services/presenterRedirect
 // Matches CHS_JWT_SECRET and CHS_URL in test/src/setup.ts
 const SECRET = "test-chs-jwt-secret";
 const CHS_URL = "http://chs.local";
-const PRESENTER_URL_PREFIX = CHS_URL + "/transaction/11111/presenter?token=";
+const PRESENTER_URL_PREFIX = CHS_URL + "/transaction/11111/presenter/what-is-your-role?token=";
 
 const getTokenFromUrl = (url: string): string => new URL(url).searchParams.get("token")!;
 

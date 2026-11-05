@@ -187,7 +187,7 @@ describe("POST for acspData = null" + OTHER_TYPE_OF_BUSINESS, () => {
 
 describe("POST " + OTHER_TYPE_OF_BUSINESS + " with FEATURE_FLAG_PRESENTERS_230926 enabled", () => {
     const CHS_URL = "http://chs.local";
-    const presenterUrlPrefix = (id: string): string => `${CHS_URL}/transaction/${id}/presenter?token=`;
+    const presenterUrlPrefix = (id: string): string => `${CHS_URL}/transaction/${id}/presenter/what-is-your-role?token=`;
     const decodeTokenFromLocation = (location: string): JwtPayload =>
         jwt.verify(new URL(location).searchParams.get("token")!, process.env.CHS_JWT_SECRET!) as JwtPayload;
 
