@@ -4,7 +4,7 @@
   "description": "A web application for the Authorized Corporate Service Providers (ACSP)",
   "main": "dist/src/server.js",
   "engines": {
-    "node": "27.0.0-alpha.0.0.0"
+    "node": "24.11.00"
   },
   "scripts": {
     "prebuild": "rm -rf ./dist",
@@ -73,7 +73,7 @@
     "husky": "9.1.7",
     "jest": "^30.5.2",
     "nock": "12.0.3",
-    "nodemon": "^1.0.2",
+    "nodemon": "3.1.14",
     "sass": "1.97.3",
     "supertest": "7.2.2",
     "ts-jest": "^29.4.15",
