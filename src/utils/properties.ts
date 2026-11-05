@@ -36,7 +36,7 @@ export const ENV_SUBDOMAIN = getEnvironmentVariable("ENV_SUBDOMAIN", "false");
 
 // API Keys and Secrets
 
-export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY", "chs.api.key");
+export const CHS_API_KEY = getEnvironmentValue("CHS_API_KEY");
 
 export const CHS_INTERNAL_API_KEY = getEnvironmentValue("CHS_INTERNAL_API_KEY");
 
