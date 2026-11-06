@@ -126,7 +126,7 @@ FEATURE_FLAG_ENABLE_UPDATE_ACSP_DETAILS| Feature flag for enabling Update ACSP d
 FEATURE_FLAG_ENABLE_CLOSE_ACSP| Feature flag for enabling Close ACSP account web service |
 FEATURE_FLAG_PRESENTERS_230926| Feature flag for redirecting to transactions web for presenter details after a new application is created (default `false`) |
 HUMAN_LOG| Whether to produce a human-readable "pretty" log (1 or 0) |
-JWT_TOKEN_EXPIRY| Expiry of the presenter redirect JWT, as seconds (e.g. `300`) or a timespan (e.g. `5m`). Defaults to `5m` |
+DEFAULT_TOKEN_EXPIRY| Expiry of the presenter redirect JWT, as seconds (e.g. `300`) or a timespan (e.g. `5m`). Defaults to `5m` |
 LOG_LEVEL| Logging Level |
 NODE_SSL_ENABLED| Flag to enable SSL for the server|
 NUNJUCKS_LOADER_NO_CACHE| Flag to control the caching of templates in the Nunjucks loader|
