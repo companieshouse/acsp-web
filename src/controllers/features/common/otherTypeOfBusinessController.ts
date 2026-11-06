@@ -11,9 +11,11 @@ import { BASE_URL, LIMITED_WHAT_IS_THE_COMPANY_NUMBER, OTHER_TYPE_OF_BUSINESS, T
 import { addLangToUrl, getLocaleInfo, getLocalesService, selectLang } from "../../../utils/localise";
 import logger from "../../../utils/logger";
 import { formatValidationError, getPageProperties } from "../../../validation/validation";
-import { PIWIK_REGISTRATION_CORPORATE_BODY_ID, PIWIK_REGISTRATION_UNINCORPORATED_ID } from "../../../utils/properties";
+import { PIWIK_REGISTRATION_CORPORATE_BODY_ID, PIWIK_REGISTRATION_UNINCORPORATED_ID, FEATURE_FLAG_PRESENTERS_230926 } from "../../../utils/properties";
 import { getSavedApplication } from "../../../services/transactions/transaction_service";
 import { getRedirectionUrl } from "../../../services/checkSavedApplicationService";
+import { isActiveFeature } from "../../../utils/feature.flag";
+import { getPresenterRedirectUrl } from "../../../services/presenterRedirectService";
 
 export const get = async (req: Request, res: Response, next: NextFunction) => {
     const lang = selectLang(req.query.lang);
@@ -89,11 +91,17 @@ export const post = async (req: Request, res: Response, next: NextFunction) => {
             saveDataInSession(req, "resume_application", true);
             session.deleteExtraData(TYPE_OF_BUSINESS_SELECTED);
 
-            if (selectedOption === "CORPORATE_BODY") {
-                res.redirect(addLangToUrl(BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER, lang));
+            // CORPORATE_BODY continues to the limited journey, everything else to the unincorporated journey
+            const nextPageUrl = selectedOption === "CORPORATE_BODY"
+                ? BASE_URL + LIMITED_WHAT_IS_THE_COMPANY_NUMBER
+                : BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML;
+
+            if (isActiveFeature(FEATURE_FLAG_PRESENTERS_230926)) {
+                const transactionId: string = session.getExtraData(SUBMISSION_ID)!;
+                logger.info("Redirecting to transactions web for presenter details, transaction ID: " + transactionId);
+                res.redirect(getPresenterRedirectUrl(transactionId, nextPageUrl, currentUrl, lang));
             } else {
-                // Redirect to Unincorporated journey Which name is registered with your Anti-Money Laundering (AML) supervisory body?
-                res.redirect(addLangToUrl(BASE_URL + UNINCORPORATED_NAME_REGISTERED_WITH_AML, lang));
+                res.redirect(addLangToUrl(nextPageUrl, lang));
             }
         }
     } catch (err) {
